@@ -1,5 +1,6 @@
 :- module(conf_accurator, []).
 
-/** <module> Accurator annotatoin system.
+/** <module> Accurator annotation system.
 */
 
+:- use_module(api(accurator)).
