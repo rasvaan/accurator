@@ -1,0 +1,6 @@
+#temp files
+*.pl~
+
+# OS generated
+.DS_Store
+.DS_Store?
