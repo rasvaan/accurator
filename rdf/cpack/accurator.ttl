@@ -1,0 +1,30 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix cpack:   <http://cliopatria.swi-prolog.org/schema/cpack#> .
+
+# This file is a Turtle-format RDF file that describes the package.  It
+# *must* be located in rdf/cpack/accurator.ttl
+#
+# Author is a FOAF Person. If you have a FOAF profile, you can link to
+# this.  Otherwise you can specify the information inline as done below.
+# See http://xmlns.com/foaf/spec/ for defines fields.
+
+<> a cpack:Package ;
+	cpack:packageName "accurator" ;
+	dcterms:title "Accurator annotatoin system." ;
+	cpack:author [ a foaf:Person ;
+		       foaf:name "Chris Dijkshoorn" ;
+		       foaf:mbox <literal(c.r.dijkshoorn@vu.nl)> ;
+		     ] ;
+	cpack:primaryRepository
+	    [ a cpack:GitRepository ;
+	      cpack:gitURL <https://github.com//rasvaan/accurator.git>
+	    ] ;
+	cpack:description
+
+"""Package description goes here.  You can use markdown.
+""" .
+
+
