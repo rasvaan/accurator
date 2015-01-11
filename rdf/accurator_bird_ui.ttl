@@ -1,0 +1,16 @@
+@prefix aui:    <http://semanticweb.cs.vu.nl/accurator/ui/> .
+@prefix abui:   <http://semanticweb.cs.vu.nl/accurator/ui/bird#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+abui:intro a aui:AccuratorUI ;
+	dcterms:title "Accurator intro UI"@en ;
+	aui:sloganLabel "Accurate Art Annotations"@en ;
+	aui:registerLabel "Register"@en ;
+	aui:loginLabel "or Log in"@en ;
+	aui:mdlTitleLabel "Log in"@en ;
+	aui:mdlBtnLogin "Log in"@en ;
+	aui:mdlUsernameLabel "Username"@en ;
+	aui:mdlPasswordLabel "Password"@en .

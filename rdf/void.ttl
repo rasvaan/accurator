@@ -1,0 +1,25 @@
+@prefix      void: <http://rdfs.org/ns/void#> .
+@prefix      vann: <http://purl.org/vocab/vann/> .
+@prefix       lib: <http://www.swi-prolog.org/rdf/library/> .
+@prefix       owl: <http://www.w3.org/2002/07/owl#> .
+@prefix   dcterms: <http://purl.org/dc/terms/> .
+
+[ vann:preferredNamespacePrefix "aui" ;
+  vann:preferredNamespaceUri "http://semanticweb.cs.vu.nl/accurator/ui/"
+] .
+
+[ vann:preferredNamespacePrefix "abui" ;
+  vann:preferredNamespaceUri "http://semanticweb.cs.vu.nl/accurator/ui/bird#"
+] .
+
+<accurator-ui-schema>
+	a void:Dataset ;
+	dcterms:title "Accurator UI configuration file";
+	void:dataDump <accurator_ui_schema.ttl> .
+
+<accurator-bird-ui>
+	a void:Dataset ;
+	void:subset <accurator-ui-schema> ;
+	dcterms:title "Accurator UI configuration ui instance for Bird prints";
+	void:dataDump <accurator_bird_ui.ttl> .
+
