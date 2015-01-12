@@ -1,11 +1,10 @@
 /* Accurator Additional Info
 */
-
-function additionalInfoInit() {
-	var locale = "en";
-	var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#additional_info";
+var locale = "en";
+var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#additional_info";
 	
-	$.getJSON("ui_text", {locale:locale, ui:ui})
+function additionalInfoInit() {
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
 		addButtonEvents();
 		initLabels(data);})
@@ -22,6 +21,7 @@ function initLabels(data) {
 	$("#btnSkip").append(data.btnSkip);
 	initRadioButtons(data);
 	initCheckboxes(data);
+	initCountriesSelector();
 	initEducationSelector(data.educationOptions);
 	initIncomeSelector(data.incomeOptions);
 	initInternetSelector(data.internetOptions);
@@ -56,6 +56,15 @@ function initCheckboxes(data) {
 	$("#chkSocialNone").after(data.chkSocialNone);
 }
 
+function initCountriesSelector() {
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"countries"})
+	.done(function(data){
+		console.log(data);
+	})
+	.fail(function(data, textStatus){
+//		setRegisterFailureText("Problem connecting to server, please contact the system administrator.");
+	});
+}
 function initEducationSelector(optionList) {
 	$("#sltEducation").append($.el.option(""));
 	$("#sltEducation").append($.el.option(optionList.optionPrimarySchool));
