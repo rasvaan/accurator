@@ -1,10 +1,6 @@
 /* Accurator Register
 */
 
-var txtHeader, 
-	frmRealName, frmUsername, frmPassword, 
-	btnRegister;
-
 function registerInit() {
 	var locale = "en";
 	var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#register";
@@ -12,34 +8,17 @@ function registerInit() {
 	$.getJSON("ui_text", {locale:locale, ui:ui})
 	.done(function(data){
 		registerButtonEvent();
-		initVariables(data);
-		addTextHeader();
-		addTextForm();
-		addTextButtons();})
+		initLabels(data);})
 	.fail(function(data, textStatus){
 		setRegisterFailureText("Problem connecting to server, please contact the system administrator.");});
 }
 
-function initVariables(data) {
-	txtHeader = data.txtHeader;
-	frmRealName = data.frmRealName;
-	frmUsername = data.frmUsername;
-	frmPassword = data.frmPassword;
-	btnRegister = data.btnRegister;
-}
-
-function addTextHeader() {
-	$("#txtHeader").append(txtHeader);
-}
-
-function addTextForm() {
-	$("#frmRealName").append(frmRealName);
-	$("#frmUsername").append(frmUsername);
-	$("#frmPassword").append(frmPassword);
-}
-
-function addTextButtons() {
-	$("#btnRegister").append(btnRegister);
+function initLabels(data) {
+	$("#txtHeader").append(data.txtHeader);
+	$("#frmRealName").append(data.frmRealName);
+	$("#frmUsername").append(data.frmUsername);
+	$("#frmPassword").append(data.frmPassword);
+	$("#btnRegister").append(data.btnRegister);
 }
 
 function registerButtonEvent() {
