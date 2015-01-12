@@ -16,21 +16,23 @@ user:file_search_path(img, web(img)).
 
 :- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
-:- http_handler(cliopatria(ui_text), ui_text_api,  []).
+:- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
 
 :- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
+:- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 
-%%	ui_text_api(+Request)
+%%	ui_elements_api(+Request)
 %
-%	Retrieves ui text elements, according to the given locale and ui
+%	Retrieves ui elements, according to the given locale, type and ui
 %	screen. First it gets the url parameters, second it queries for the
 %	results, after which the data is outputted
 %	as json.
-ui_text_api(Request) :-
+ui_elements_api(Request) :-
     get_parameters(Request, Options),
-	get_text_elements(TextDic, Options),
-	reply_json_dict(TextDic).
+	option(type(Type), Options),
+	get_elements(Type, Dic, Options),
+	reply_json_dict(Dic).
 
 %%	get_parameters(+Request, -Options)
 %
@@ -42,10 +44,28 @@ get_parameters(Request, Options) :-
 			 optional(false)]),
 		 locale(Locale,
 				[description('Locale of language elements to retrieve'),
-				 optional(false)])
+				 optional(false)]),
+		 type(Type,
+				[description('Type of elements to retrieve'),
+				 optional(type)])
 	]),
-    Options = [ui(UI), locale(Locale)].
+    Options = [ui(UI), locale(Locale), type(Type)].
 
+get_elements(labels, Dic, Options) :-
+	get_text_elements(Dic, Options).
+
+get_elements(countries, Dic, Options) :-
+	get_countries(Dic, Options).
+
+get_countries(Dic, _Options) :-
+	findall(GeonamesID-CountryName,
+			(	rdf(GeonamesCountry, gn:featureClass, gn:'A'),
+				%only english for now
+				rdf(GeonamesCountry, gn:name, literal(lang(en, CountryName))),
+				rdf(GeonamesCountry, gn:geonamesID, literal(GeonamesIDInt)),
+				atomic_list_concat(['id-',GeonamesIDInt], GeonamesID)),
+			CountryNames),
+	dict_pairs(Dic, elements, CountryNames).
 
 %%	get_text_elements(-TextDic, +Options)
 %
