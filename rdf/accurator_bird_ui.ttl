@@ -7,18 +7,20 @@
 
 abui:intro a aui:AccuratorUI ;
 	dcterms:title "Accurator intro UI"@en ;
-	aui:sloganLabel "Accurate Art Annotations"@en ;
-	aui:registerLabel "Register"@en ;
-	aui:loginLabel "or Log in"@en ;
-	aui:mdlTitleLabel "Log in"@en ;
-	aui:mdlBtnLogin "Log in"@en ;
-	aui:mdlUsernameLabel "Username"@en ;
-	aui:mdlPasswordLabel "Password"@en .
+	aui:txtSlogan "Accurate Art Annotations"@en ;
+	aui:txtSubSlogan "Help us add information to the artworks depicting birds"@en ;
+	aui:btnRegister "Register"@en ;
+	aui:btnLogin "or Log in"@en ;
+	aui:mdlTxtTitle "Log in"@en ;
+	aui:mdlFrmUsername "Username"@en ;
+	aui:mdlFrmPassword "Password"@en ;
+	aui:mdlBtnLogin "Log in"@en .
 
-aui:sloganLabel a aui:uiLabel .
-aui:registerLabel a aui:uiLabel .
-aui:loginLabel a aui:uiLabel .
-aui:mdlTitleLabel a aui:uiLabel .
+aui:txtSlogan a aui:uiLabel .
+aui:txtSubSlogan a aui:uiLabel .
+aui:btnRegister a aui:uiLabel .
+aui:btnLogin a aui:uiLabel .
+aui:mdlTxtTitle a aui:uiLabel .
+aui:mdlFrmUsername a aui:uiLabel .
+aui:mdlFrmPassword a aui:uiLabel .
 aui:mdlBtnLogin a aui:uiLabel .
-aui:mdlUsernameLabel a aui:uiLabel .
-aui:mdlPasswordLabel a aui:uiLabel .
