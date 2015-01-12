@@ -37,3 +37,25 @@ aui:txtHeader a aui:uiLabel .
 aui:frmRealNamen a aui:uiLabel .
 aui:frmUsername a aui:uiLabel .
 aui:frmPassword a aui:uiLabel .
+
+abui:additional_info a aui:AccuratorUI ;
+	aui:txtHeader "Additional Info"@en ;
+	aui:txtHeaderSub "it would help us a lot if you would provide us with the following information"@en ;
+	aui:btnAddInfo "Add Additional Info"@en ;
+	aui:btnSkip "or skip this step"@en ;
+	aui:frmAge "Age"@en ;
+	aui:frmGender "Gender"@en ;
+	aui:radioGenderMale "Male"@en ;
+	aui:radioGenderFemale "Female"@en ;
+	aui:frmCountry "What is your counrty of residence?"@en ;
+	dcterms:title "Accurator additional info UI"@en  .
+
+aui:txtHeader a aui:uiLabel .
+aui:txtHeaderSub a aui:uiLabel .
+aui:btnAddInfo a aui:uiLabel .
+aui:btnSkip a aui:uiLabel .
+aui:frmAge a aui:uiLabel .
+aui:frmGender a aui:uiLabel .
+aui:frmCountry a aui:uiLabel .
+aui:radioGenderMale a aui:uiLabel .
+aui:radioGenderFemale a aui:uiLabel .

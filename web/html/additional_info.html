@@ -9,6 +9,7 @@
 </head>
 
 <body>
+	<!-- Navbar -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -20,12 +21,250 @@
 	</nav>
 	
 	<div class="content">
-		<p>Additional info</p>
+		<!-- Header -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<h2 id="txtHeader">
+					<small id="txtHeaderSub">
+					</small>
+				</h2>
+			</div>
+		</div>
+		
+		<!-- Form -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">			
+				<form class="form-horizontal">
+					<!-- Age -->
+					<div class="form-group">
+						<label for="addAge" id="frmAge" class="col-sm-4 control-label">
+						</label>
+						<div class="col-sm-2">
+							<input type="number" id="addAge" class="form-control">
+						</div>
+					</div>
+					<!-- Gender -->
+					<div class="form-group">
+						<label for="addGender" id="frmGender" class="col-sm-4 control-label">
+						</label>
+						<div class="col-sm-6">
+							<label class="radio-inline">
+								<input type="radio" name="genderRadio" id="radioGenderMale" value="male">
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="genderRadio" id="radioGenderFemale" value="female">
+							</label>
+						</div>
+					</div>
+					<!-- Country -->
+					<div class="form-group">
+						<label for="addCountry" id="frmCountry" class="col-sm-4 control-label">
+							<ui:msg description="qstCountry"></ui:msg>
+						</label>
+						<div class="col-sm-6">
+							<select class="form-control" id="sltCountry">
+							</select>
+						</div>
+					</div>
+					<!-- Community -->
+<!-- 					<div class="form-group">
+						<label for="community" class="col-sm-4 control-label">
+							<ui:msg description="qstCommunity">What resembles most closely the community you reside in?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkUrban" name="communityRadio"/>
+								<ui:msg description="Urban">Urban</ui:msg>
+							</label>
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkSubUrban" name="communityRadio"/>
+								<ui:msg description="SubUrban">Sub-urban</ui:msg>
+							</label>
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkRural" name="communityRadio"/>
+								<ui:msg description="Rural">Rural</ui:msg>
+							</label>
+						</div>
+					</div> -->
+					<!-- Language -->
+<!-- 					<div class="form-group">
+						<label for="language"  class="col-sm-4 control-label">
+							<ui:msg description="qstLanguage">What is your primary language?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+						<g:ListBox ui:field="lbxLanguage" stylePrimaryName="form-control">
+						</g:ListBox>
+						</div>
+					</div> -->
+					<!-- Level of education -->
+<!-- 					<div class="form-group">
+						<label for="education"  class="col-sm-4 control-label">
+							<ui:msg description="qstEducation">What is the highest level of education you have recieved?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+						<g:ListBox ui:field="lbxEducation" stylePrimaryName="form-control">
+						</g:ListBox>
+						</div>
+					</div> -->
+					<!-- Household income -->
+<!-- 					<div class="form-group">
+						<label for="income"  class="col-sm-4 control-label">
+							<ui:msg description="qstIncome">What is your household income?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+						<g:ListBox ui:field="lbxIncome" stylePrimaryName="form-control">
+						</g:ListBox>
+						</div>
+					</div> -->
+					<!-- Email -->
+<!-- 					<div class="form-group">
+						<label for="mailAddress" class="col-sm-4 control-label">
+							<ui:msg description="qstMailAddress">Email</ui:msg>
+						</label>
+						<div class="col-sm-6">
+							<g:TextBox ui:field="txtEMail" stylePrimaryName="form-control">
+							</g:TextBox>
+						</div>
+					</div> -->
+					<!-- Activity on social networking sites -->
+<!-- 					<div class="form-group">
+						<label for="socialNetwork" class="col-sm-4 control-label">
+							<ui:msg description="qstSocialNetwork">On which social network sites are you active?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+							<label class="checkbox-inline">
+								<g:CheckBox ui:field="chkSocialFacebook" name="socialNetworkCheckbox"/>
+								<ui:msg description="Facebook">Facebook</ui:msg>
+							</label>
+							<label class="checkbox-inline">
+								<g:CheckBox ui:field="chkSocialLinkedIn" name="socialNetworkCheckbox"/>
+								<ui:msg description="LinkedIn">LinkedIn</ui:msg>
+							</label>
+							<label class="checkbox-inline">
+								<g:CheckBox ui:field="chkSocialTwitter" name="socialNetworkCheckbox"/>
+								<ui:msg description="Twitter">Twitter</ui:msg>
+							</label>
+							<label class="checkbox-inline">
+								<g:CheckBox ui:field="chkSocialNone" name="socialNetworkCheckbox"/>
+								<ui:msg description="None">None of these</ui:msg>
+							</label>
+						</div>
+					</div> -->
+					<!-- Internet usage -->
+<!-- 					<div class="form-group">
+						<label for="internetUsage"  class="col-sm-4 control-label">
+							<ui:msg description="qstInternetUsage">How often do you make use of the internet?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+						<g:ListBox ui:field="lbxInternetUsage" stylePrimaryName="form-control">
+						</g:ListBox>
+						</div>
+					</div> -->
+					<!-- Museum visits -->
+<!-- 					<div class="form-group">
+						<label for="museumVisits" class="col-sm-4 control-label">
+							<ui:msg description="qstMuseumVisit">How many times a year do you visit a museum on average?</ui:msg>
+						</label>
+						<div class="col-sm-2">
+							<g:IntegerBox ui:field="intMuseumVisits" stylePrimaryName="form-control">
+							</g:IntegerBox>
+						</div>
+					</div> -->
+					<!-- Employee museum -->
+<!-- 					<div class="form-group">
+						<label for="employee" class="col-sm-4 control-label">
+							<ui:msg description="qstEmployeeMuseum">Are you employed by a museum?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkYesEmployee" name="employeeRadio"/>
+								<ui:msg description="Yes">Yes</ui:msg>
+							</label>
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkNoEmployee" name="employeeRadio"/>
+								<ui:msg description="No">No</ui:msg>
+							</label>
+						</div>
+					</div> -->
+					<!-- Tagging experience -->
+<!-- 					<div class="form-group">
+						<label for="taggingExperience" class="col-sm-4 control-label">
+							<ui:msg description="qstTaggingExperience">Do you have any tagging experience?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkYesTagging" name="TaggingYesNoRadio"/>
+								<ui:msg description="Yes">Yes</ui:msg>
+							</label>
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkNoTagging" name="TaggingYesNoRadio"/>
+								<ui:msg description="No">No</ui:msg>
+							</label>
+						</div>
+					</div> -->
+					<!-- Level of tagging experience -->
+<!-- 					<div class="form-group">
+						<label for="taggingExperienceLevel" class="col-sm-4 control-label">
+							<ui:msg description="TaggingExperienceLevel">How would you describe your level of tagging experience?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkTaggingNovice" name="TaggingLevelRadio"/>
+								<ui:msg description="Novice">Novice</ui:msg>
+							</label>
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkTaggingIntermediate" name="TaggingLevelRadio"/>
+								<ui:msg description="Intermediate">Intermediate</ui:msg>
+							</label>
+							<label class="radio-inline">
+								<g:RadioButton ui:field="chkTaggingExpert" name="TaggingLevelRadio"/>
+								<ui:msg description="Expert">Expert</ui:msg>
+							</label>
+						</div>
+					</div> -->
+					<!-- Tagging sites -->
+<!-- 					<div class="form-group">
+						<label for="tagSites" class="col-sm-4 control-label">
+							<ui:msg description="qstTagSites">Did you tag on one of these websites?</ui:msg>
+						</label>
+						<div class="col-sm-6">
+							<label class="checkbox-inline">
+								<g:CheckBox ui:field="chkTagSiteWaIsDa" name="tagSiteCheckbox"/>
+								<ui:msg description="WaIsDa">WaIsDa?</ui:msg>
+							</label>
+							<label class="checkbox-inline">
+								<g:CheckBox ui:field="chkTagSiteSpotvogel" name="tagSiteCheckbox"/>
+								<ui:msg description="Spotvogel">Spotvogel</ui:msg>
+							</label>
+							<label class="checkbox-inline">
+								<g:CheckBox ui:field="chkTagSiteSteve" name="tagSiteCheckbox"/>
+								<ui:msg description="SteveMuseum">Steve.Museum</ui:msg>
+							</label>
+							<label class="checkbox-inline">
+								<g:CheckBox ui:field="chkTagNone" name="tagSiteCheckbox"/>
+								<ui:msg description="None">None of these</ui:msg>
+							</label>
+						</div>
+					</div>-->
+				</form>
+			</div>
+		</div>
+		
+		<!-- Buttons -->
+		<div class="row">
+			<div class="col-md-4 col-md-offset-1">
+				<button class="btn btn-primary" id="btnAddInfo">
+				</button>
+				<button class="btn btn-link" id="btnSkip">
+				</button>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/laconic.js"></script>
 	<script type="text/javascript" src="js/accurator_additional_info.js"></script>
+	<script>additionalInfoInit();</script>
 </body>
 </html>
