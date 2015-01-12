@@ -24,3 +24,16 @@ aui:mdlTxtTitle a aui:uiLabel .
 aui:mdlFrmUsername a aui:uiLabel .
 aui:mdlFrmPassword a aui:uiLabel .
 aui:mdlBtnLogin a aui:uiLabel .
+
+abui:register a aui:AccuratorUI ;
+	dcterms:title "Accurator register UI"@en ;
+	aui:txtHeader "Create your Accurator Account"@en ;
+	aui:frmRealNamen "Full name"@en ;
+	aui:frmUsername "Username"@en ;
+	aui:frmPassword "Password"@en ;
+	aui:btnRegister "Register"@en .
+
+aui:txtHeader a aui:uiLabel .
+aui:frmRealNamen a aui:uiLabel .
+aui:frmUsername a aui:uiLabel .
+aui:frmPassword a aui:uiLabel .

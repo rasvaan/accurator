@@ -1,7 +1,9 @@
 /* Accurator Register
 */
 
-var header, frmRealName, frmUsername, frmPassword, btnRegister;
+var txtHeader, 
+	frmRealName, frmUsername, frmPassword, 
+	btnRegister;
 
 function registerInit() {
 	var locale = "en";
@@ -19,15 +21,15 @@ function registerInit() {
 }
 
 function initVariables(data) {
-	header = "Create your Accurator Account";
-	frmRealName = "Full name";
-	frmUsername = "Username";
-	frmPassword = "Password";
-	btnRegister = "Register";
+	txtHeader = data.txtHeader;
+	frmRealName = data.frmRealName;
+	frmUsername = data.frmUsername;
+	frmPassword = data.frmPassword;
+	btnRegister = data.btnRegister;
 }
 
 function addTextHeader() {
-	$("#txtHeader").append(header);
+	$("#txtHeader").append(txtHeader);
 }
 
 function addTextForm() {
@@ -36,13 +38,13 @@ function addTextForm() {
 	$("#frmPassword").append(frmPassword);
 }
 
-function addTextButtons(register, login) {
+function addTextButtons() {
 	$("#btnRegister").append(btnRegister);
 }
 
 function registerButtonEvent() {
 	$("#btnRegister").click(function() {
-		document.location.href="/add_info.html";
+		document.location.href="/additional_info.html";
 	});	
 }
 
