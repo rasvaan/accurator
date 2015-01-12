@@ -16,27 +16,27 @@ abui:intro a aui:AccuratorUI ;
 	aui:mdlFrmPassword "Password"@en ;
 	aui:mdlBtnLogin "Log in"@en .
 
-aui:txtSlogan a aui:uiLabel .
-aui:txtSubSlogan a aui:uiLabel .
-aui:btnRegister a aui:uiLabel .
-aui:btnLogin a aui:uiLabel .
-aui:mdlTxtTitle a aui:uiLabel .
-aui:mdlFrmUsername a aui:uiLabel .
-aui:mdlFrmPassword a aui:uiLabel .
-aui:mdlBtnLogin a aui:uiLabel .
+aui:txtSlogan a aui:UILabel .
+aui:txtSubSlogan a aui:UILabel .
+aui:btnRegister a aui:UILabel .
+aui:btnLogin a aui:UILabel .
+aui:mdlTxtTitle a aui:UILabel .
+aui:mdlFrmUsername a aui:UILabel .
+aui:mdlFrmPassword a aui:UILabel .
+aui:mdlBtnLogin a aui:UILabel .
 
 abui:register a aui:AccuratorUI ;
 	dcterms:title "Accurator register UI"@en ;
 	aui:txtHeader "Create your Accurator Account"@en ;
-	aui:frmRealNamen "Full name"@en ;
+	aui:frmRealName "Full name"@en ;
 	aui:frmUsername "Username"@en ;
 	aui:frmPassword "Password"@en ;
 	aui:btnRegister "Register"@en .
 
-aui:txtHeader a aui:uiLabel .
-aui:frmRealNamen a aui:uiLabel .
-aui:frmUsername a aui:uiLabel .
-aui:frmPassword a aui:uiLabel .
+aui:txtHeader a aui:UILabel .
+aui:frmRealName a aui:UILabel .
+aui:frmUsername a aui:UILabel .
+aui:frmPassword a aui:UILabel .
 
 abui:additional_info a aui:AccuratorUI ;
 	aui:txtHeader "Additional Info"@en ;
@@ -48,14 +48,102 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:radioGenderMale "Male"@en ;
 	aui:radioGenderFemale "Female"@en ;
 	aui:frmCountry "What is your counrty of residence?"@en ;
+	aui:frmCommunity "What resembles most closely the community you reside in?"@en ;
+	aui:radioCommunityUrban "Urban"@en ;
+	aui:radioCommunitySubUrban "Sub-urban"@en ;
+	aui:radioCommunityRural "Rural"@en ;
+	aui:frmLanguage "What is your primary language?"@en ;
+	aui:frmEducation "What is the highest level of education you have recieved?"@en ;
+	aui:hasSelector aui:educationOptions ;
+	aui:frmIncome "What is your household income?"@en ;
+	aui:hasSelector aui:incomeOptions ;
+	aui:frmMail "Email"@en ;
+	aui:frmSocialNetwork "On which social network sites are you active?"@en  ;
+	aui:chkSocialFacebook "Facebook"@en ;
+	aui:chkSocialLinkedIn "LinkedIn"@en ;
+	aui:chkSocialTwitter "Twitter"@en ;
+	aui:chkSocialNone "None of these"@en ;
+	aui:frmInternetUsage "How often do you make use of the internet?"@en ;
+	aui:hasSelector aui:internetOptions ;
+	aui:frmMuseumVisits "How many times a year do you visit a museum on average?"@en ;
 	dcterms:title "Accurator additional info UI"@en  .
 
-aui:txtHeader a aui:uiLabel .
-aui:txtHeaderSub a aui:uiLabel .
-aui:btnAddInfo a aui:uiLabel .
-aui:btnSkip a aui:uiLabel .
-aui:frmAge a aui:uiLabel .
-aui:frmGender a aui:uiLabel .
-aui:frmCountry a aui:uiLabel .
-aui:radioGenderMale a aui:uiLabel .
-aui:radioGenderFemale a aui:uiLabel .
+aui:txtHeader a aui:UILabel .
+aui:txtHeaderSub a aui:UILabel .
+aui:btnAddInfo a aui:UILabel .
+aui:btnSkip a aui:UILabel .
+aui:frmAge a aui:UILabel .
+aui:frmGender a aui:UILabel .
+aui:frmCountry a aui:UILabel .
+aui:frmCommunity a aui:UILabel .
+aui:radioGenderMale a aui:UILabel .
+aui:radioGenderFemale a aui:UILabel .
+aui:radioCommunityUrban a aui:UILabel .
+aui:radioCommunitySubUrban a aui:UILabel .
+aui:radioCommunityRural a aui:UILabel .
+aui:frmLanguage a aui:UILabel .
+aui:frmEducation a aui:UILabel .
+aui:frmIncome a aui:UILabel .
+aui:frmMail a aui:UILabel .
+aui:frmSocialNetwork a aui:UILabel .
+aui:chkSocialFacebook a aui:UILabel .
+aui:chkSocialLinkedIn a aui:UILabel .
+aui:chkSocialTwitter a aui:UILabel .
+aui:chkSocialNone a aui:UILabel .
+aui:frmInternetUsage a aui:UILabel .
+aui:frmMuseumVisits a aui:UILabel .
+
+aui:educationOptions a aui:SelectorField ;
+	aui:optionPrimarySchool "Primary school"@en ;
+	aui:optionHighSchool "High school"@en ;
+	aui:optionCollege "College"@en ;
+	aui:optionBachelor "Bachelor"@en ;
+	aui:optionMaster "Master"@en ;
+	aui:optionDoctorate "Doctorate"@en ;
+	aui:optionUknown "Unknown"@en .
+
+aui:optionPrimarySchool a aui:UILabel .
+aui:optionHighSchool a aui:UILabel .
+aui:optionCollege a aui:UILabel .
+aui:optionBachelor a aui:UILabel .
+aui:optionMaster a aui:UILabel .
+aui:optionDoctorate a aui:UILabel .
+aui:optionUknown a aui:UILabel .
+
+aui:incomeOptions a aui:SelectorField ;
+	aui:income20 "Less than $20,000"@en ;
+	aui:income20to35 "$20,000 to $34,999"@en ;
+	aui:income35to50 "$35,000 to $49,999"@en ;
+	aui:income50to75 "$50,000 to $74,999"@en ;
+	aui:income75to100 "$75,000 to $99,999"@en ;
+	aui:income100to150 "$100,000 to $149,999"@en ;
+	aui:income150to200 "$150,000 to $199,999"@en ;
+	aui:income200 "$200,000 or more"@en .
+
+aui:income20 a aui:UILabel .
+aui:income20to35 a aui:UILabel .
+aui:income35to50 a aui:UILabel .
+aui:income50to75 a aui:UILabel .
+aui:income75to100 a aui:UILabel .
+aui:income100to150 a aui:UILabel .
+aui:income150to200 a aui:UILabel .
+aui:income200 a aui:UILabel .
+
+aui:internetOptions a aui:SelectorField ;
+	aui:internetAlways "Always online"@en ;
+	aui:internetOnceADay "Once a day"@en ;
+	aui:internet3to5 "3-5 days per week"@en ;
+	aui:internet1to2 "1-2 days per week"@en ;
+	aui:internetLessThan1 "Less than 1 day per week"@en .
+
+aui:internetAlways a aui:UILabel .
+aui:internetOnceADay a aui:UILabel .
+aui:internet3to5 a aui:UILabel .
+aui:internet1to2 a aui:UILabel .
+aui:internetLessThan1 a aui:UILabel .
+
+
+
+
+
+

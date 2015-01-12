@@ -39,7 +39,7 @@
 					<div class="form-group">
 						<label for="addAge" id="frmAge" class="col-sm-4 control-label">
 						</label>
-						<div class="col-sm-2">
+						<div class="col-sm-1">
 							<input type="number" id="addAge" class="form-control">
 						</div>
 					</div>
@@ -58,8 +58,7 @@
 					</div>
 					<!-- Country -->
 					<div class="form-group">
-						<label for="addCountry" id="frmCountry" class="col-sm-4 control-label">
-							<ui:msg description="qstCountry"></ui:msg>
+						<label for="sltCountry" id="frmCountry" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
 							<select class="form-control" id="sltCountry">
@@ -67,109 +66,93 @@
 						</div>
 					</div>
 					<!-- Community -->
-<!-- 					<div class="form-group">
-						<label for="community" class="col-sm-4 control-label">
-							<ui:msg description="qstCommunity">What resembles most closely the community you reside in?</ui:msg>
+					<div class="form-group">
+						<label for="addCommunity" id="frmCommunity" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkUrban" name="communityRadio"/>
-								<ui:msg description="Urban">Urban</ui:msg>
+								<input type="radio" name="communityRadio" id="radioCommunityUrban" value="urban">
 							</label>
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkSubUrban" name="communityRadio"/>
-								<ui:msg description="SubUrban">Sub-urban</ui:msg>
+								<input type="radio" name="communityRadio" id="radioCommunitySubUrban" value="sub urban">
 							</label>
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkRural" name="communityRadio"/>
-								<ui:msg description="Rural">Rural</ui:msg>
+								<input type="radio" name="communityRadio" id="radioCommunityRural" value="rural">
 							</label>
 						</div>
-					</div> -->
+					</div>
 					<!-- Language -->
-<!-- 					<div class="form-group">
-						<label for="language"  class="col-sm-4 control-label">
-							<ui:msg description="qstLanguage">What is your primary language?</ui:msg>
+ 					<div class="form-group">
+						<label for="sltLanguage"  id="frmLanguage" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
-						<g:ListBox ui:field="lbxLanguage" stylePrimaryName="form-control">
-						</g:ListBox>
+							<select class="form-control" id="sltLanguage">
+							</select>
 						</div>
-					</div> -->
+					</div>
 					<!-- Level of education -->
-<!-- 					<div class="form-group">
-						<label for="education"  class="col-sm-4 control-label">
-							<ui:msg description="qstEducation">What is the highest level of education you have recieved?</ui:msg>
+ 					<div class="form-group">
+						<label for="sltEducation"  id="frmEducation" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
-						<g:ListBox ui:field="lbxEducation" stylePrimaryName="form-control">
-						</g:ListBox>
+							<select class="form-control" id="sltEducation">
+							</select>
 						</div>
-					</div> -->
+					</div>
 					<!-- Household income -->
-<!-- 					<div class="form-group">
-						<label for="income"  class="col-sm-4 control-label">
-							<ui:msg description="qstIncome">What is your household income?</ui:msg>
+ 					<div class="form-group">
+						<label for="sltIncome"  id="frmIncome" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
-						<g:ListBox ui:field="lbxIncome" stylePrimaryName="form-control">
-						</g:ListBox>
+							<select class="form-control" id="sltIncome">
+							</select>
 						</div>
-					</div> -->
+					</div>
 					<!-- Email -->
-<!-- 					<div class="form-group">
-						<label for="mailAddress" class="col-sm-4 control-label">
-							<ui:msg description="qstMailAddress">Email</ui:msg>
+ 					<div class="form-group">
+						<label for="addMail" id="frmMail" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
-							<g:TextBox ui:field="txtEMail" stylePrimaryName="form-control">
-							</g:TextBox>
+							<input type="email" id="addMail" class="form-control">
 						</div>
-					</div> -->
+					</div>
 					<!-- Activity on social networking sites -->
-<!-- 					<div class="form-group">
-						<label for="socialNetwork" class="col-sm-4 control-label">
-							<ui:msg description="qstSocialNetwork">On which social network sites are you active?</ui:msg>
+					<div class="form-group">
+						<label for="addSocialNetwork" id="frmSocialNetwork" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
 							<label class="checkbox-inline">
-								<g:CheckBox ui:field="chkSocialFacebook" name="socialNetworkCheckbox"/>
-								<ui:msg description="Facebook">Facebook</ui:msg>
+								<input type="checkbox" id="chkSocialFacebook" value="facebook">
 							</label>
 							<label class="checkbox-inline">
-								<g:CheckBox ui:field="chkSocialLinkedIn" name="socialNetworkCheckbox"/>
-								<ui:msg description="LinkedIn">LinkedIn</ui:msg>
+								<input type="checkbox" id="chkSocialLinkedIn" value="linked in">
 							</label>
 							<label class="checkbox-inline">
-								<g:CheckBox ui:field="chkSocialTwitter" name="socialNetworkCheckbox"/>
-								<ui:msg description="Twitter">Twitter</ui:msg>
+								<input type="checkbox" id="chkSocialTwitter" value="twitter">
 							</label>
 							<label class="checkbox-inline">
-								<g:CheckBox ui:field="chkSocialNone" name="socialNetworkCheckbox"/>
-								<ui:msg description="None">None of these</ui:msg>
+								<input type="checkbox" id="chkSocialNone" value="none">
 							</label>
 						</div>
-					</div> -->
+					</div>
 					<!-- Internet usage -->
-<!-- 					<div class="form-group">
-						<label for="internetUsage"  class="col-sm-4 control-label">
-							<ui:msg description="qstInternetUsage">How often do you make use of the internet?</ui:msg>
+ 					<div class="form-group">
+						<label for="addInternetUsage" id="frmInternetUsage" class="col-sm-4 control-label">							
 						</label>
 						<div class="col-sm-6">
-						<g:ListBox ui:field="lbxInternetUsage" stylePrimaryName="form-control">
-						</g:ListBox>
+							<select class="form-control" id="sltInternet">
+							</select>
 						</div>
-					</div> -->
+					</div>
 					<!-- Museum visits -->
-<!-- 					<div class="form-group">
-						<label for="museumVisits" class="col-sm-4 control-label">
+ 					<div class="form-group">
+						<label for="addMuseumVisits" id="frmMuseumVisits" class="col-sm-4 control-label">
 							<ui:msg description="qstMuseumVisit">How many times a year do you visit a museum on average?</ui:msg>
 						</label>
-						<div class="col-sm-2">
-							<g:IntegerBox ui:field="intMuseumVisits" stylePrimaryName="form-control">
-							</g:IntegerBox>
+						<div class="col-sm-1">
+							<input type="number" id="addMuseumVisits" class="form-control">
 						</div>
-					</div> -->
+					</div>
 					<!-- Employee museum -->
 <!-- 					<div class="form-group">
 						<label for="employee" class="col-sm-4 control-label">
