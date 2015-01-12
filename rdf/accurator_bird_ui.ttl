@@ -14,3 +14,11 @@ abui:intro a aui:AccuratorUI ;
 	aui:mdlBtnLogin "Log in"@en ;
 	aui:mdlUsernameLabel "Username"@en ;
 	aui:mdlPasswordLabel "Password"@en .
+
+aui:sloganLabel a aui:uiLabel .
+aui:registerLabel a aui:uiLabel .
+aui:loginLabel a aui:uiLabel .
+aui:mdlTitleLabel a aui:uiLabel .
+aui:mdlBtnLogin a aui:uiLabel .
+aui:mdlUsernameLabel a aui:uiLabel .
+aui:mdlPasswordLabel a aui:uiLabel .
