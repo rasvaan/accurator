@@ -56,7 +56,26 @@ get_text_elements(TextDic, Options) :-
 	option(ui(UI), Options),
 	findall(Label-Literal,
 			(	rdf(UI, Predicate, literal(lang(Locale, Literal))),
-				rdf(Predicate, rdf:type, aui:uiLabel),
+				rdf(Predicate, rdf:type, aui:'UILabel'),
 				iri_xml_namespace(Predicate, _, Label)),
-			LabelList),
+			LabelList0),
+	get_selector_options(UI, Locale, SelectorFields),
+	append(LabelList0, SelectorFields, LabelList),
 	dict_pairs(TextDic, elements, LabelList).
+
+get_selector_options(UI, Locale, SelectorFields) :-
+	findall(SelectorLabel-LiteralArray,
+			(	rdf(UI, aui:hasSelector, Selector),
+				rdf(Selector, rdf:type, aui:'SelectorField'),
+				 iri_xml_namespace(Selector, _, SelectorLabel),
+				get_selector_labels(Selector, Locale, LiteralArray)
+				),
+			SelectorFields).
+
+get_selector_labels(Selector, Locale, LiteralDict) :-
+	findall(OptionLabel-Literal,
+			(	rdf(Selector, Predicate, literal(lang(Locale, Literal))),
+				rdf(Predicate, rdf:type, aui:'UILabel'),
+				iri_xml_namespace(Predicate, _, OptionLabel)),
+			LiteralArray),
+	dict_pairs(LiteralDict, elements, LiteralArray).
