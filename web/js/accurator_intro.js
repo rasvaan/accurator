@@ -4,7 +4,7 @@
 function introInit() {
 	locale = "en";
 	ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#intro";
-	$.getJSON("ui_text", {locale:locale, ui:ui})
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			registerButtonEvent();
 			initLabels(data);})
