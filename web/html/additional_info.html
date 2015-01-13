@@ -147,88 +147,73 @@
 					<!-- Museum visits -->
  					<div class="form-group">
 						<label for="addMuseumVisits" id="frmMuseumVisits" class="col-sm-4 control-label">
-							<ui:msg description="qstMuseumVisit">How many times a year do you visit a museum on average?</ui:msg>
 						</label>
 						<div class="col-sm-1">
 							<input type="number" id="addMuseumVisits" class="form-control">
 						</div>
 					</div>
 					<!-- Employee museum -->
-<!-- 					<div class="form-group">
-						<label for="employee" class="col-sm-4 control-label">
+ 					<div class="form-group">
+						<label for="addEmployee" id="frmEmployee" class="col-sm-4 control-label">
 							<ui:msg description="qstEmployeeMuseum">Are you employed by a museum?</ui:msg>
 						</label>
 						<div class="col-sm-6">
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkYesEmployee" name="employeeRadio"/>
-								<ui:msg description="Yes">Yes</ui:msg>
+								<input type="radio" name="employeeRadio" id="radioEmployeeYes" value="yes">
 							</label>
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkNoEmployee" name="employeeRadio"/>
-								<ui:msg description="No">No</ui:msg>
+								<input type="radio" name="employeeRadio" id="radioEmployeeNo" value="no">
 							</label>
 						</div>
-					</div> -->
+					</div>
 					<!-- Tagging experience -->
-<!-- 					<div class="form-group">
-						<label for="taggingExperience" class="col-sm-4 control-label">
-							<ui:msg description="qstTaggingExperience">Do you have any tagging experience?</ui:msg>
+					<div class="form-group">
+						<label for="addTaggingExperience" id="frmTaggingExperience" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkYesTagging" name="TaggingYesNoRadio"/>
-								<ui:msg description="Yes">Yes</ui:msg>
+								<input type="radio" name="taggingExperienceRadio" id="radioTaggingYes" value="yes">
 							</label>
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkNoTagging" name="TaggingYesNoRadio"/>
-								<ui:msg description="No">No</ui:msg>
+								<input type="radio" name="taggingExperienceRadio" id="radioTaggingNo" value="no">
 							</label>
 						</div>
-					</div> -->
+					</div>
 					<!-- Level of tagging experience -->
-<!-- 					<div class="form-group">
-						<label for="taggingExperienceLevel" class="col-sm-4 control-label">
-							<ui:msg description="TaggingExperienceLevel">How would you describe your level of tagging experience?</ui:msg>
+ 					<div class="form-group">
+						<label for="addTaggingExperienceLevel" id="frmTaggingExperienceLevel" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkTaggingNovice" name="TaggingLevelRadio"/>
-								<ui:msg description="Novice">Novice</ui:msg>
+								<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingNovice" value="novice">
 							</label>
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkTaggingIntermediate" name="TaggingLevelRadio"/>
-								<ui:msg description="Intermediate">Intermediate</ui:msg>
+								<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingIntermediate" value="intermediate">
 							</label>
 							<label class="radio-inline">
-								<g:RadioButton ui:field="chkTaggingExpert" name="TaggingLevelRadio"/>
-								<ui:msg description="Expert">Expert</ui:msg>
+								<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingExpert" value="expert">
 							</label>
 						</div>
-					</div> -->
+					</div>
 					<!-- Tagging sites -->
-<!-- 					<div class="form-group">
-						<label for="tagSites" class="col-sm-4 control-label">
-							<ui:msg description="qstTagSites">Did you tag on one of these websites?</ui:msg>
+ 					<div class="form-group">
+						<label for="addTagSites" id="frmTagSite" class="col-sm-4 control-label">
 						</label>
 						<div class="col-sm-6">
 							<label class="checkbox-inline">
-								<g:CheckBox ui:field="chkTagSiteWaIsDa" name="tagSiteCheckbox"/>
-								<ui:msg description="WaIsDa">WaIsDa?</ui:msg>
+								<input type="checkbox" id="chkTagSiteWaIsDa" value="waisda">
 							</label>
 							<label class="checkbox-inline">
-								<g:CheckBox ui:field="chkTagSiteSpotvogel" name="tagSiteCheckbox"/>
-								<ui:msg description="Spotvogel">Spotvogel</ui:msg>
+								<input type="checkbox" id="chkTagSiteSpotvogel" value="spotvogel">
 							</label>
 							<label class="checkbox-inline">
-								<g:CheckBox ui:field="chkTagSiteSteve" name="tagSiteCheckbox"/>
-								<ui:msg description="SteveMuseum">Steve.Museum</ui:msg>
+								<input type="checkbox" id="chkTagSiteSteve" value="steve.museum">
 							</label>
 							<label class="checkbox-inline">
-								<g:CheckBox ui:field="chkTagNone" name="tagSiteCheckbox"/>
-								<ui:msg description="None">None of these</ui:msg>
+								<input type="checkbox" id="chkTagNone" value="none">
 							</label>
 						</div>
-					</div>-->
+					</div>
 				</form>
 			</div>
 		</div>

@@ -40,6 +40,9 @@ function initFormQuestions(data) {
 	$("#frmSocialNetwork").append(data.frmSocialNetwork);
 	$("#frmInternetUsage").append(data.frmInternetUsage);
 	$("#frmMuseumVisits").append(data.frmMuseumVisits);
+	$("#frmTaggingExperience").append(data.frmTaggingExperience);
+	$("#frmTaggingExperienceLevel").append(data.frmTaggingExperienceLevel);
+	$("#frmTagSite").append(data.frmTagSite);
 }
 
 function initRadioButtons(data) {
@@ -48,6 +51,13 @@ function initRadioButtons(data) {
 	$("#radioCommunityUrban").after(data.radioCommunityUrban);
 	$("#radioCommunitySubUrban").after(data.radioCommunitySubUrban);
 	$("#radioCommunityRural").after(data.radioCommunityRural);
+	$("#radioEmployeeYes").after(data.radioEmployeeYes);
+	$("#radioEmployeeNo").after(data.radioEmployeeNo);
+	$("#radioTaggingYes").after(data.radioTaggingYes);
+	$("#radioTaggingNo").after(data.radioTaggingNo);
+	$("#radioTaggingNovice").after(data.radioTaggingNovice);
+	$("#radioTaggingIntermediate").after(data.radioTaggingIntermediate);
+	$("#radioTaggingExpert").after(data.radioTaggingExpert);
 }
 
 function initCheckboxes(data) {
@@ -55,6 +65,10 @@ function initCheckboxes(data) {
 	$("#chkSocialLinkedIn").after(data.chkSocialLinkedIn);
 	$("#chkSocialTwitter").after(data.chkSocialTwitter);
 	$("#chkSocialNone").after(data.chkSocialNone);
+	$("#chkTagSiteWaIsDa").after(data.chkTagSiteWaIsDa);
+	$("#chkTagSiteSpotvogel").after(data.chkTagSiteSpotvogel);
+	$("#chkTagSiteSteve").after(data.chkTagSiteSteve);
+	$("#chkTagNone").after(data.chkTagNone);
 }
 
 function initCountriesSelector() {

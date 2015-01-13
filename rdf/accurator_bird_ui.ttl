@@ -39,6 +39,7 @@ aui:frmUsername a aui:UILabel .
 aui:frmPassword a aui:UILabel .
 
 abui:additional_info a aui:AccuratorUI ;
+	dcterms:title "Accurator additional info UI"@en  ;
 	aui:txtHeader "Additional Info"@en ;
 	aui:txtHeaderSub "it would help us a lot if you would provide us with the following information"@en ;
 	aui:btnAddInfo "Add Additional Info"@en ;
@@ -66,7 +67,21 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:frmInternetUsage "How often do you make use of the internet?"@en ;
 	aui:hasSelector aui:internetOptions ;
 	aui:frmMuseumVisits "How many times a year do you visit a museum on average?"@en ;
-	dcterms:title "Accurator additional info UI"@en  .
+	aui:frmEmployee "Are you employed by a museum?"@en ;
+	aui:radioEmployeeYes "Yes"@en ;
+	aui:radioEmployeeNo "No"@en ;
+	aui:frmTaggingExperience "Do you have any tagging experience?"@en ;
+	aui:radioTaggingYes "Yes"@en ;
+	aui:radioTaggingNo "No"@en ;
+	aui:frmTaggingExperienceLevel "How would you describe your level of tagging experience?"@en ;
+	aui:radioTaggingNovice "Novice"@en ;
+	aui:radioTaggingIntermediate "Intermediate"@en ;
+	aui:radioTaggingExpert "Expert"@en ;
+	aui:frmTagSite "Did you tag on one of these websites?"@en ;
+	aui:chkTagSiteWaIsDa "WaIsDa?"@en ;
+	aui:chkTagSiteSpotvogel "Spotvogel"@en ;
+	aui:chkTagSiteSteve "Steve.Museum"@en ;
+	aui:chkTagNone "None of these"@en .
 
 aui:txtHeader a aui:UILabel .
 aui:txtHeaderSub a aui:UILabel .
@@ -92,6 +107,21 @@ aui:chkSocialTwitter a aui:UILabel .
 aui:chkSocialNone a aui:UILabel .
 aui:frmInternetUsage a aui:UILabel .
 aui:frmMuseumVisits a aui:UILabel .
+aui:frmEmployee a aui:UILabel .
+aui:radioEmployeeYes a aui:UILabel .
+aui:radioEmployeeNo a aui:UILabel .
+aui:frmTaggingExperience a aui:UILabel .
+aui:radioTaggingYes a aui:UILabel .
+aui:radioTaggingNo a aui:UILabel .
+aui:radioTaggingNovice a aui:UILabel .
+aui:radioTaggingIntermediate a aui:UILabel .
+aui:radioTaggingExpert a aui:UILabel .
+aui:frmTaggingExperienceLevel a aui:UILabel .
+aui:frmTagSite a aui:UILabel .
+aui:chkTagSiteWaIsDa a aui:UILabel .
+aui:chkTagSiteSpotvogel a aui:UILabel .
+aui:chkTagSiteSteve a aui:UILabel .
+aui:chkTagNone a aui:UILabel .
 
 aui:educationOptions a aui:SelectorField ;
 	aui:optionPrimarySchool "Primary school"@en ;
