@@ -57,15 +57,30 @@ get_elements(labels, Dic, Options) :-
 get_elements(countries, Dic, Options) :-
 	get_countries(Dic, Options).
 
-get_countries(Dic, _Options) :-
-	findall(GeonamesID-CountryName,
+get_elements(languages, Dic, Options) :-
+	get_languages(Dic, Options).
+
+
+get_countries(DictArray, _Options) :-
+	findall(CountryDict,
 			(	rdf(GeonamesCountry, gn:featureClass, gn:'A'),
 				%only english for now
 				rdf(GeonamesCountry, gn:name, literal(lang(en, CountryName))),
+				CountryDict0 = country{},
+				CountryDict1 = CountryDict0.put(name, CountryName),
 				rdf(GeonamesCountry, gn:geonamesID, literal(GeonamesIDInt)),
-				atomic_list_concat(['id-',GeonamesIDInt], GeonamesID)),
-			CountryNames),
-	dict_pairs(Dic, elements, CountryNames).
+				CountryDict = CountryDict1.put(geo_id, GeonamesIDInt)),
+			DictArray).
+
+get_languages(DictArray, _Options) :-
+	findall(LanguageDict,
+			(	rdf(GeonamesCountry, acl:isoCode, literal(IsoCode)),
+				LanguageDict0 = language{},
+				LanguageDict1 = LanguageDict0.put(iso_code, IsoCode),
+				%only english for now
+				rdf(GeonamesCountry, rdfs:label, literal(lang(en, LanguageName))),
+				LanguageDict = LanguageDict1.put(name, LanguageName)),
+			DictArray).
 
 %%	get_text_elements(-TextDic, +Options)
 %

@@ -22,6 +22,7 @@ function initLabels(data) {
 	initRadioButtons(data);
 	initCheckboxes(data);
 	initCountriesSelector();
+	initLanguagesSelector();
 	initEducationSelector(data.educationOptions);
 	initIncomeSelector(data.incomeOptions);
 	initInternetSelector(data.internetOptions);
@@ -59,12 +60,41 @@ function initCheckboxes(data) {
 function initCountriesSelector() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"countries"})
 	.done(function(data){
-		console.log(data);
+		var countries = [];
+		for (var key in data) {
+			countries[key] = {"name":data[key].name, "geo_id":data[key].geo_id};
+		}
+		countries.sort(function(a,b) { return a.name.localeCompare(b.name) });
+		
+		$("#sltCountry").append($.el.option(""));
+		for (var i=0; i<countries.length; i++) {
+			$("#sltCountry").append($.el.option(countries[i].name));
+		}  
 	})
 	.fail(function(data, textStatus){
-//		setRegisterFailureText("Problem connecting to server, please contact the system administrator.");
+		$("#sltLanguage").append($.el.option("No countries found on server"));
 	});
 }
+
+function initLanguagesSelector() {
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"languages"})
+	.done(function(data){
+		var languages = [];
+		for (var key in data) {
+			languages[key] = {"iso_code":data[key].iso_code, "name":data[key].name};
+		}
+		languages.sort(function(a,b) { return a.name.localeCompare(b.name) });
+		
+		$("#sltLanguage").append($.el.option(""));
+		for (var i=0; i<languages.length; i++) {
+			$("#sltLanguage").append($.el.option(languages[i].name));
+		}  
+	})
+	.fail(function(data, textStatus){
+		$("#sltLanguage").append($.el.option("No languages found on server"));
+	});
+}
+
 function initEducationSelector(optionList) {
 	$("#sltEducation").append($.el.option(""));
 	$("#sltEducation").append($.el.option(optionList.optionPrimarySchool));
