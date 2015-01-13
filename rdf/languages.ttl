@@ -1,0 +1,914 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix  acl: <http://semanticweb.cs.vu.nl/accurator/languages/> .
+
+# Named toplevel resources (182)
+
+<http://semanticweb.cs.vu.nl/accurator/languages/aa/>
+	acl:isoCode "aa" ;
+	rdfs:label "Afaraf" ,
+		   "Afar"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ab/>
+	acl:isoCode "ab" ;
+	rdfs:label "аҧсуа" ,
+		   "Abkhaz"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ae/>
+	acl:isoCode "ae" ;
+	rdfs:label "avesta" ,
+		   "Avestan"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/af/>
+	acl:isoCode "af" ;
+	rdfs:label "Afrikaans" ,
+		   "Afrikaans"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ak/>
+	acl:isoCode "ak" ;
+	rdfs:label "Akan" ,
+		   "Akan"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/am/>
+	acl:isoCode "am" ;
+	rdfs:label "አማርኛ" ,
+		   "Amharic"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/an/>
+	acl:isoCode "an" ;
+	rdfs:label "Aragonés" ,
+		   "Aragonese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ar/>
+	acl:isoCode "ar" ;
+	rdfs:label "العربية" ,
+		   "Arabic"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/as/>
+	acl:isoCode "as" ;
+	rdfs:label "অসমীয়া" ,
+		   "Assamese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/av/>
+	acl:isoCode "av" ;
+	rdfs:label "авар мацӀ, магӀарул мацӀ" ,
+		   "Avaric"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ay/>
+	acl:isoCode "ay" ;
+	rdfs:label "aymar aru" ,
+		   "Aymara"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/az/>
+	acl:isoCode "az" ;
+	rdfs:label "azərbaycan dili" ,
+		   "Azerbaijani"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ba/>
+	acl:isoCode "ba" ;
+	rdfs:label "башҡорт теле" ,
+		   "Bashkir"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/be/>
+	acl:isoCode "be" ;
+	rdfs:label "Беларуская" ,
+		   "Belarusian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/bg/>
+	acl:isoCode "bg" ;
+	rdfs:label "български език" ,
+		   "Bulgarian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/bh/>
+	acl:isoCode "bh" ;
+	rdfs:label "भोजपुरी" ,
+		   "Bihari"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/bi/>
+	acl:isoCode "bi" ;
+	rdfs:label "Bislama" ,
+		   "Bislama"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/bm/>
+	acl:isoCode "bm" ;
+	rdfs:label "bamanankan" ,
+		   "Bambara"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/bn/>
+	acl:isoCode "bn" ;
+	rdfs:label "বাংলা" ,
+		   "Bengali"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/bo/>
+	acl:isoCode "bo" ;
+	rdfs:label "བོད་ཡིག" ,
+		   "Tibetan Standard, Tibetan, Central"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/br/>
+	acl:isoCode "br" ;
+	rdfs:label "brezhoneg" ,
+		   "Breton"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/bs/>
+	acl:isoCode "bs" ;
+	rdfs:label "bosanski jezik" ,
+		   "Bosnian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ca/>
+	acl:isoCode "ca" ;
+	rdfs:label "Català" ,
+		   "Catalan; Valencian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ce/>
+	acl:isoCode "ce" ;
+	rdfs:label "нохчийн мотт" ,
+		   "Chechen"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ch/>
+	acl:isoCode "ch" ;
+	rdfs:label "Chamoru" ,
+		   "Chamorro"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/co/>
+	acl:isoCode "co" ;
+	rdfs:label "corsu, lingua corsa" ,
+		   "Corsican"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/cr/>
+	acl:isoCode "cr" ;
+	rdfs:label "ᓀᐦᐃᔭᐍᐏᐣ" ,
+		   "Cree"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/cs/>
+	acl:isoCode "cs" ;
+	rdfs:label "česky, čeština" ,
+		   "Czech"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/cu/>
+	acl:isoCode "cu" ;
+	rdfs:label "ѩзыкъ словѣньскъ" ,
+		   "Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/cv/>
+	acl:isoCode "cv" ;
+	rdfs:label "чӑваш чӗлхи" ,
+		   "Chuvash"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/cy/>
+	acl:isoCode "cy" ;
+	rdfs:label "Cymraeg" ,
+		   "Welsh"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/da/>
+	acl:isoCode "da" ;
+	rdfs:label "dansk" ,
+		   "Danish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/de/>
+	acl:isoCode "de" ;
+	rdfs:label "Deutsch" ,
+		   "German"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/dv/>
+	acl:isoCode "dv" ;
+	rdfs:label "ދިވެހި" ,
+		   "Divehi; Dhivehi; Maldivian;"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ee/>
+	acl:isoCode "ee" ;
+	rdfs:label "Eʋegbe" ,
+		   "Ewe"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/el/>
+	acl:isoCode "el" ;
+	rdfs:label "Ελληνικά" ,
+		   "Greek, Modern"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/en/>
+	acl:isoCode "en" ;
+	rdfs:label "English" ,
+		   "English"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/eo/>
+	acl:isoCode "eo" ;
+	rdfs:label "Esperanto" ,
+		   "Esperanto"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/es/>
+	acl:isoCode "es" ;
+	rdfs:label "español, castellano" ,
+		   "Spanish; Castilian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/et/>
+	acl:isoCode "et" ;
+	rdfs:label "eesti, eesti keel" ,
+		   "Estonian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/eu/>
+	acl:isoCode "eu" ;
+	rdfs:label "euskara, euskera" ,
+		   "Basque"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/fa/>
+	acl:isoCode "fa" ;
+	rdfs:label "فارسی" ,
+		   "Persian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ff/>
+	acl:isoCode "ff" ;
+	rdfs:label "Fulfulde, Pulaar, Pular" ,
+		   "Fula; Fulah; Pulaar; Pular"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/fi/>
+	acl:isoCode "fi" ;
+	rdfs:label "suomi, suomen kieli" ,
+		   "Finnish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/fj/>
+	acl:isoCode "fj" ;
+	rdfs:label "vosa Vakaviti" ,
+		   "Fijian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/fo/>
+	acl:isoCode "fo" ;
+	rdfs:label "føroyskt" ,
+		   "Faroese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/fr/>
+	acl:isoCode "fr" ;
+	rdfs:label "français, langue française" ,
+		   "French"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/fy/>
+	acl:isoCode "fy" ;
+	rdfs:label "Frysk" ,
+		   "Western Frisian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ga/>
+	acl:isoCode "ga" ;
+	rdfs:label "Gaeilge" ,
+		   "Irish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/gd/>
+	acl:isoCode "gd" ;
+	rdfs:label "Gàidhlig" ,
+		   "Scottish Gaelic; Gaelic"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/gl/>
+	acl:isoCode "gl" ;
+	rdfs:label "Galego" ,
+		   "Galician"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/gn/>
+	acl:isoCode "gn" ;
+	rdfs:label "Avañeẽ" ,
+		   "Guaraní"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/gu/>
+	acl:isoCode "gu" ;
+	rdfs:label "ગુજરાતી" ,
+		   "Gujarati"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/gv/>
+	acl:isoCode "gv" ;
+	rdfs:label "Gaelg, Gailck" ,
+		   "Manx"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ha/>
+	acl:isoCode "ha" ;
+	rdfs:label "Hausa, هَوُسَ" ,
+		   "Hausa"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/he/>
+	acl:isoCode "he" ;
+	rdfs:label "עברית" ,
+		   "Hebrew (modern)"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/hi/>
+	acl:isoCode "hi" ;
+	rdfs:label "हिन्दी, हिंदी" ,
+		   "Hindi"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ho/>
+	acl:isoCode "ho" ;
+	rdfs:label "Hiri Motu" ,
+		   "Hiri Motu"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/hr/>
+	acl:isoCode "hr" ;
+	rdfs:label "hrvatski" ,
+		   "Croatian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ht/>
+	acl:isoCode "ht" ;
+	rdfs:label "Kreyòl ayisyen" ,
+		   "Haitian; Haitian Creole"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/hu/>
+	acl:isoCode "hu" ;
+	rdfs:label "Magyar" ,
+		   "Hungarian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/hy/>
+	acl:isoCode "hy" ;
+	rdfs:label "Հայերեն" ,
+		   "Armenian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/hz/>
+	acl:isoCode "hz" ;
+	rdfs:label "Otjiherero" ,
+		   "Herero"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ia/>
+	acl:isoCode "ia" ;
+	rdfs:label "Interlingua" ,
+		   "Interlingua"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/id/>
+	acl:isoCode "id" ;
+	rdfs:label "Bahasa Indonesia" ,
+		   "Indonesian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ie/>
+	acl:isoCode "ie" ;
+	rdfs:label "Originally called Occidental; then Interlingue after WWII" ,
+		   "Interlingue"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ig/>
+	acl:isoCode "ig" ;
+	rdfs:label "Asụsụ Igbo" ,
+		   "Igbo"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ii/>
+	acl:isoCode "ii" ;
+	rdfs:label "ꆈꌠ꒿ Nuosuhxop" ,
+		   "Nuosu"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ik/>
+	acl:isoCode "ik" ;
+	rdfs:label "Iñupiaq, Iñupiatun" ,
+		   "Inupiaq"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/io/>
+	acl:isoCode "io" ;
+	rdfs:label "Ido" ,
+		   "Ido"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/is/>
+	acl:isoCode "is" ;
+	rdfs:label "Íslenska" ,
+		   "Icelandic"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/it/>
+	acl:isoCode "it" ;
+	rdfs:label "Italiano" ,
+		   "Italian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/iu/>
+	acl:isoCode "iu" ;
+	rdfs:label "ᐃᓄᒃᑎᑐᑦ" ,
+		   "Inuktitut"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ja/>
+	acl:isoCode "ja" ;
+	rdfs:label "日本語 (にほんご／にっぽんご)" ,
+		   "Japanese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/jv/>
+	acl:isoCode "jv" ;
+	rdfs:label "basa Jawa" ,
+		   "Javanese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ka/>
+	acl:isoCode "ka" ;
+	rdfs:label "ქართული" ,
+		   "Georgian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/kg/>
+	acl:isoCode "kg" ;
+	rdfs:label "KiKongo" ,
+		   "Kongo"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ki/>
+	acl:isoCode "ki" ;
+	rdfs:label "Gĩkũyũ" ,
+		   "Kikuyu, Gikuyu"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/kj/>
+	acl:isoCode "kj" ;
+	rdfs:label "Kuanyama" ,
+		   "Kwanyama, Kuanyama"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/kk/>
+	acl:isoCode "kk" ;
+	rdfs:label "Қазақ тілі" ,
+		   "Kazakh"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/kl/>
+	acl:isoCode "kl" ;
+	rdfs:label "kalaallisut, kalaallit oqaasii" ,
+		   "Kalaallisut, Greenlandic"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/km/>
+	acl:isoCode "km" ;
+	rdfs:label "ភាសាខ្មែរ" ,
+		   "Khmer"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/kn/>
+	acl:isoCode "kn" ;
+	rdfs:label "ಕನ್ನಡ" ,
+		   "Kannada"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ko/>
+	acl:isoCode "ko" ;
+	rdfs:label "한국어 (韓國語), 조선말 (朝鮮語)" ,
+		   "Korean"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/kr/>
+	acl:isoCode "kr" ;
+	rdfs:label "Kanuri" ,
+		   "Kanuri"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ks/>
+	acl:isoCode "ks" ;
+	rdfs:label "कश्मीरी, كشميري‎" ,
+		   "Kashmiri"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ku/>
+	acl:isoCode "ku" ;
+	rdfs:label "Kurdî, كوردی‎" ,
+		   "Kurdish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/kv/>
+	acl:isoCode "kv" ;
+	rdfs:label "коми кыв" ,
+		   "Komi"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/kw/>
+	acl:isoCode "kw" ;
+	rdfs:label "Kernewek" ,
+		   "Cornish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ky/>
+	acl:isoCode "ky" ;
+	rdfs:label "кыргыз тили" ,
+		   "Kirghiz, Kyrgyz"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/la/>
+	acl:isoCode "la" ;
+	rdfs:label "latine, lingua latina" ,
+		   "Latin"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/lb/>
+	acl:isoCode "lb" ;
+	rdfs:label "Lëtzebuergesch" ,
+		   "Luxembourgish, Letzeburgesch"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/lg/>
+	acl:isoCode "lg" ;
+	rdfs:label "Luganda" ,
+		   "Luganda"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/li/>
+	acl:isoCode "li" ;
+	rdfs:label "Limburgs" ,
+		   "Limburgish, Limburgan, Limburger"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ln/>
+	acl:isoCode "ln" ;
+	rdfs:label "Lingála" ,
+		   "Lingala"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/lo/>
+	acl:isoCode "lo" ;
+	rdfs:label "ພາສາລາວ" ,
+		   "Lao"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/lt/>
+	acl:isoCode "lt" ;
+	rdfs:label "lietuvių kalba" ,
+		   "Lithuanian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/lu/>
+	acl:isoCode "lu" ;
+	rdfs:label "" ,
+		   "Luba-Katanga"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/lv/>
+	acl:isoCode "lv" ;
+	rdfs:label "latviešu valoda" ,
+		   "Latvian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/mg/>
+	acl:isoCode "mg" ;
+	rdfs:label "Malagasy fiteny" ,
+		   "Malagasy"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/mh/>
+	acl:isoCode "mh" ;
+	rdfs:label "Kajin M̧ajeļ" ,
+		   "Marshallese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/mi/>
+	acl:isoCode "mi" ;
+	rdfs:label "te reo Māori" ,
+		   "Māori"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/mk/>
+	acl:isoCode "mk" ;
+	rdfs:label "македонски јазик" ,
+		   "Macedonian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ml/>
+	acl:isoCode "ml" ;
+	rdfs:label "മലയാളം" ,
+		   "Malayalam"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/mn/>
+	acl:isoCode "mn" ;
+	rdfs:label "монгол" ,
+		   "Mongolian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/mr/>
+	acl:isoCode "mr" ;
+	rdfs:label "मराठी" ,
+		   "Marathi (Marāṭhī)"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ms/>
+	acl:isoCode "ms" ;
+	rdfs:label "bahasa Melayu, بهاس ملايو‎" ,
+		   "Malay"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/mt/>
+	acl:isoCode "mt" ;
+	rdfs:label "Malti" ,
+		   "Maltese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/my/>
+	acl:isoCode "my" ;
+	rdfs:label "ဗမာစာ" ,
+		   "Burmese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/na/>
+	acl:isoCode "na" ;
+	rdfs:label "Ekakairũ Naoero" ,
+		   "Nauru"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/nb/>
+	acl:isoCode "nb" ;
+	rdfs:label "Norsk bokmål" ,
+		   "Norwegian Bokmål"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/nd/>
+	acl:isoCode "nd" ;
+	rdfs:label "isiNdebele" ,
+		   "North Ndebele"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ne/>
+	acl:isoCode "ne" ;
+	rdfs:label "नेपाली" ,
+		   "Nepali"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ng/>
+	acl:isoCode "ng" ;
+	rdfs:label "Owambo" ,
+		   "Ndonga"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/nl/>
+	acl:isoCode "nl" ;
+	rdfs:label "Nederlands, Vlaams" ,
+		   "Dutch"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/nn/>
+	acl:isoCode "nn" ;
+	rdfs:label "Norsk nynorsk" ,
+		   "Norwegian Nynorsk"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/no/>
+	acl:isoCode "no" ;
+	rdfs:label "Norsk" ,
+		   "Norwegian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/nr/>
+	acl:isoCode "nr" ;
+	rdfs:label "isiNdebele" ,
+		   "South Ndebele"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/nv/>
+	acl:isoCode "nv" ;
+	rdfs:label "Diné bizaad, Dinékʼehǰí" ,
+		   "Navajo, Navaho"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ny/>
+	acl:isoCode "ny" ;
+	rdfs:label "chiCheŵa, chinyanja" ,
+		   "Chichewa; Chewa; Nyanja"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/oc/>
+	acl:isoCode "oc" ;
+	rdfs:label "Occitan" ,
+		   "Occitan"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/oj/>
+	acl:isoCode "oj" ;
+	rdfs:label "ᐊᓂᔑᓈᐯᒧᐎᓐ" ,
+		   "Ojibwe, Ojibwa"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/om/>
+	acl:isoCode "om" ;
+	rdfs:label "Afaan Oromoo" ,
+		   "Oromo"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/or/>
+	acl:isoCode "or" ;
+	rdfs:label "ଓଡ଼ିଆ" ,
+		   "Oriya"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/os/>
+	acl:isoCode "os" ;
+	rdfs:label "ирон æвзаг" ,
+		   "Ossetian, Ossetic"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/pa/>
+	acl:isoCode "pa" ;
+	rdfs:label "ਪੰਜਾਬੀ, پنجابی‎" ,
+		   "Panjabi, Punjabi"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/pi/>
+	acl:isoCode "pi" ;
+	rdfs:label "पाऴि" ,
+		   "Pāli"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/pl/>
+	acl:isoCode "pl" ;
+	rdfs:label "polski" ,
+		   "Polish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ps/>
+	acl:isoCode "ps" ;
+	rdfs:label "پښتو" ,
+		   "Pashto, Pushto"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/pt/>
+	acl:isoCode "pt" ;
+	rdfs:label "Português" ,
+		   "Portuguese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/qu/>
+	acl:isoCode "qu" ;
+	rdfs:label "Runa Simi, Kichwa" ,
+		   "Quechua"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/rm/>
+	acl:isoCode "rm" ;
+	rdfs:label "rumantsch grischun" ,
+		   "Romansh"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/rn/>
+	acl:isoCode "rn" ;
+	rdfs:label "kiRundi" ,
+		   "Kirundi"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ro/>
+	acl:isoCode "ro" ;
+	rdfs:label "română" ,
+		   "Romanian, Moldavian, Moldovan"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ru/>
+	acl:isoCode "ru" ;
+	rdfs:label "русский язык" ,
+		   "Russian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/rw/>
+	acl:isoCode "rw" ;
+	rdfs:label "Ikinyarwanda" ,
+		   "Kinyarwanda"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sa/>
+	acl:isoCode "sa" ;
+	rdfs:label "संस्कृतम्" ,
+		   "Sanskrit (Saṁskṛta)"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sc/>
+	acl:isoCode "sc" ;
+	rdfs:label "sardu" ,
+		   "Sardinian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sd/>
+	acl:isoCode "sd" ;
+	rdfs:label "सिन्धी, سنڌي، سندھی‎" ,
+		   "Sindhi"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/se/>
+	acl:isoCode "se" ;
+	rdfs:label "Davvisámegiella" ,
+		   "Northern Sami"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sg/>
+	acl:isoCode "sg" ;
+	rdfs:label "yângâ tî sängö" ,
+		   "Sango"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/si/>
+	acl:isoCode "si" ;
+	rdfs:label "සිංහල" ,
+		   "Sinhala, Sinhalese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sk/>
+	acl:isoCode "sk" ;
+	rdfs:label "slovenčina" ,
+		   "Slovak"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sl/>
+	acl:isoCode "sl" ;
+	rdfs:label "slovenščina" ,
+		   "Slovene"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sm/>
+	acl:isoCode "sm" ;
+	rdfs:label "gagana faa Samoa" ,
+		   "Samoan"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sn/>
+	acl:isoCode "sn" ;
+	rdfs:label "chiShona" ,
+		   "Shona"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/so/>
+	acl:isoCode "so" ;
+	rdfs:label "Soomaaliga, af Soomaali" ,
+		   "Somali"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sq/>
+	acl:isoCode "sq" ;
+	rdfs:label "Shqip" ,
+		   "Albanian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sr/>
+	acl:isoCode "sr" ;
+	rdfs:label "српски језик" ,
+		   "Serbian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ss/>
+	acl:isoCode "ss" ;
+	rdfs:label "SiSwati" ,
+		   "Swati"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/st/>
+	acl:isoCode "st" ;
+	rdfs:label "Sesotho" ,
+		   "Southern Sotho"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/su/>
+	acl:isoCode "su" ;
+	rdfs:label "Basa Sunda" ,
+		   "Sundanese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sv/>
+	acl:isoCode "sv" ;
+	rdfs:label "svenska" ,
+		   "Swedish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/sw/>
+	acl:isoCode "sw" ;
+	rdfs:label "Kiswahili" ,
+		   "Swahili"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ta/>
+	acl:isoCode "ta" ;
+	rdfs:label "தமிழ்" ,
+		   "Tamil"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/te/>
+	acl:isoCode "te" ;
+	rdfs:label "తెలుగు" ,
+		   "Telugu"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/tg/>
+	acl:isoCode "tg" ;
+	rdfs:label "тоҷикӣ, toğikī, تاجیکی‎" ,
+		   "Tajik"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/th/>
+	acl:isoCode "th" ;
+	rdfs:label "ไทย" ,
+		   "Thai"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ti/>
+	acl:isoCode "ti" ;
+	rdfs:label "ትግርኛ" ,
+		   "Tigrinya"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/tk/>
+	acl:isoCode "tk" ;
+	rdfs:label "Türkmen, Түркмен" ,
+		   "Turkmen"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/tl/>
+	acl:isoCode "tl" ;
+	rdfs:label "Wikang Tagalog, ᜏᜒᜃᜅ᜔ ᜆᜄᜎᜓᜄ᜔" ,
+		   "Tagalog"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/tn/>
+	acl:isoCode "tn" ;
+	rdfs:label "Setswana" ,
+		   "Tswana"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/to/>
+	acl:isoCode "to" ;
+	rdfs:label "faka Tonga" ,
+		   "Tonga (Tonga Islands)"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/tr/>
+	acl:isoCode "tr" ;
+	rdfs:label "Türkçe" ,
+		   "Turkish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ts/>
+	acl:isoCode "ts" ;
+	rdfs:label "Xitsonga" ,
+		   "Tsonga"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/tt/>
+	acl:isoCode "tt" ;
+	rdfs:label "татарча, tatarça, تاتارچا‎" ,
+		   "Tatar"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/tw/>
+	acl:isoCode "tw" ;
+	rdfs:label "Twi" ,
+		   "Twi"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ty/>
+	acl:isoCode "ty" ;
+	rdfs:label "Reo Tahiti" ,
+		   "Tahitian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ug/>
+	acl:isoCode "ug" ;
+	rdfs:label "Uyƣurqə, ئۇيغۇرچە‎" ,
+		   "Uighur, Uyghur"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/uk/>
+	acl:isoCode "uk" ;
+	rdfs:label "українська" ,
+		   "Ukrainian"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ur/>
+	acl:isoCode "ur" ;
+	rdfs:label "اردو" ,
+		   "Urdu"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/uz/>
+	acl:isoCode "uz" ;
+	rdfs:label "zbek, Ўзбек, أۇزبېك‎" ,
+		   "Uzbek"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/ve/>
+	acl:isoCode "ve" ;
+	rdfs:label "Tshivenḓa" ,
+		   "Venda"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/vi/>
+	acl:isoCode "vi" ;
+	rdfs:label "Tiếng Việt" ,
+		   "Vietnamese"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/vo/>
+	acl:isoCode "vo" ;
+	rdfs:label "Volapük" ,
+		   "Volapük"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/wa/>
+	acl:isoCode "wa" ;
+	rdfs:label "Walon" ,
+		   "Walloon"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/wo/>
+	acl:isoCode "wo" ;
+	rdfs:label "Wollof" ,
+		   "Wolof"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/xh/>
+	acl:isoCode "xh" ;
+	rdfs:label "isiXhosa" ,
+		   "Xhosa"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/yi/>
+	acl:isoCode "yi" ;
+	rdfs:label "ייִדיש" ,
+		   "Yiddish"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/yo/>
+	acl:isoCode "yo" ;
+	rdfs:label "Yorùbá" ,
+		   "Yoruba"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/za/>
+	acl:isoCode "za" ;
+	rdfs:label "Saɯ cueŋƅ, Saw cuengh" ,
+		   "Zhuang, Chuang"@en .
+
+<http://semanticweb.cs.vu.nl/accurator/languages/zh/>
+	acl:isoCode "zh" ;
+	rdfs:label "中文 (Zhōngwén), 汉语, 漢語" ,
+		   "Chinese"@en .

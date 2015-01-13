@@ -1,0 +1,1753 @@
+@prefix gn: <http://www.geonames.org/ontology#> .
+
+# Named toplevel resources (250)
+
+<http://sws.geonames.org/102358/>
+	gn:countryCode "SA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 102358 ;
+	gn:languages "ar-SA" ;
+	gn:name "Saudi Arabia"@en .
+
+<http://sws.geonames.org/1024031/>
+	gn:countryCode "YT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1024031 ;
+	gn:languages "fr-YT" ;
+	gn:name "Mayotte"@en .
+
+<http://sws.geonames.org/1036973/>
+	gn:countryCode "MZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1036973 ;
+	gn:languages "pt-MZ,vmw" ;
+	gn:name "Mozambique"@en .
+
+<http://sws.geonames.org/1062947/>
+	gn:countryCode "MG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1062947 ;
+	gn:languages "fr-MG,mg" ;
+	gn:name "Madagascar"@en .
+
+<http://sws.geonames.org/1149361/>
+	gn:countryCode "AF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1149361 ;
+	gn:languages "fa-AF,ps,uz-AF,tk" ;
+	gn:name "Afghanistan"@en .
+
+<http://sws.geonames.org/1168579/>
+	gn:countryCode "PK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1168579 ;
+	gn:languages "ur-PK,en-PK,pa,sd,ps,brh" ;
+	gn:name "Pakistan"@en .
+
+<http://sws.geonames.org/1210997/>
+	gn:countryCode "BD" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1210997 ;
+	gn:languages "bn-BD,en" ;
+	gn:name "Bangladesh"@en .
+
+<http://sws.geonames.org/1218197/>
+	gn:countryCode "TM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1218197 ;
+	gn:languages "tk,ru,uz" ;
+	gn:name "Turkmenistan"@en .
+
+<http://sws.geonames.org/1220409/>
+	gn:countryCode "TJ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1220409 ;
+	gn:languages "tg,ru" ;
+	gn:name "Tajikistan"@en .
+
+<http://sws.geonames.org/1227603/>
+	gn:countryCode "LK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1227603 ;
+	gn:languages "si,ta,en" ;
+	gn:name "Sri Lanka"@en .
+
+<http://sws.geonames.org/1252634/>
+	gn:countryCode "BT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1252634 ;
+	gn:languages "dz" ;
+	gn:name "Bhutan"@en .
+
+<http://sws.geonames.org/1269750/>
+	gn:countryCode "IN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1269750 ;
+	gn:languages "en-IN,hi,bn,te,mr,ta,ur,gu,kn,ml,or,pa,as,bh,sat,ks,ne,sd,kok,doi,mni,sit,sa,fr,lus,inc" ;
+	gn:name "India"@en .
+
+<http://sws.geonames.org/1282028/>
+	gn:countryCode "MV" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1282028 ;
+	gn:languages "dv,en" ;
+	gn:name "Maldives"@en .
+
+<http://sws.geonames.org/1282588/>
+	gn:countryCode "IO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1282588 ;
+	gn:languages "en-IO" ;
+	gn:name "British Indian Ocean Territory"@en .
+
+<http://sws.geonames.org/1282988/>
+	gn:countryCode "NP" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1282988 ;
+	gn:languages "ne,en" ;
+	gn:name "Nepal"@en .
+
+<http://sws.geonames.org/130758/>
+	gn:countryCode "IR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 130758 ;
+	gn:languages "fa-IR,ku" ;
+	gn:name "Iran"@en .
+
+<http://sws.geonames.org/1327865/>
+	gn:countryCode "MM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1327865 ;
+	gn:languages "my" ;
+	gn:name "Myanmar [Burma]"@en .
+
+<http://sws.geonames.org/146669/>
+	gn:countryCode "CY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 146669 ;
+	gn:languages "el-CY,tr-CY,en" ;
+	gn:name "Cyprus"@en .
+
+<http://sws.geonames.org/149590/>
+	gn:countryCode "TZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 149590 ;
+	gn:languages "sw-TZ,en,ar" ;
+	gn:name "Tanzania"@en .
+
+<http://sws.geonames.org/1512440/>
+	gn:countryCode "UZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1512440 ;
+	gn:languages "uz,ru,tg" ;
+	gn:name "Uzbekistan"@en .
+
+<http://sws.geonames.org/1522867/>
+	gn:countryCode "KZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1522867 ;
+	gn:languages "kk,ru" ;
+	gn:name "Kazakhstan"@en .
+
+<http://sws.geonames.org/1527747/>
+	gn:countryCode "KG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1527747 ;
+	gn:languages "ky,uz,ru" ;
+	gn:name "Kyrgyzstan"@en .
+
+<http://sws.geonames.org/1546748/>
+	gn:countryCode "TF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1546748 ;
+	gn:languages "fr" ;
+	gn:name "French Southern Territories"@en .
+
+<http://sws.geonames.org/1547314/>
+	gn:countryCode "HM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1547314 ;
+	gn:languages "" ;
+	gn:name "Heard Island and McDonald Islands"@en .
+
+<http://sws.geonames.org/1547376/>
+	gn:countryCode "CC" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1547376 ;
+	gn:languages "ms-CC,en" ;
+	gn:name "Cocos [Keeling] Islands"@en .
+
+<http://sws.geonames.org/1559582/>
+	gn:countryCode "PW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1559582 ;
+	gn:languages "pau,sov,en-PW,tox,ja,fil,zh" ;
+	gn:name "Palau"@en .
+
+<http://sws.geonames.org/1562822/>
+	gn:countryCode "VN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1562822 ;
+	gn:languages "vi,en,fr,zh,km" ;
+	gn:name "Vietnam"@en .
+
+<http://sws.geonames.org/1605651/>
+	gn:countryCode "TH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1605651 ;
+	gn:languages "th,en" ;
+	gn:name "Thailand"@en .
+
+<http://sws.geonames.org/163843/>
+	gn:countryCode "SY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 163843 ;
+	gn:languages "ar-SY,ku,hy,arc,fr,en" ;
+	gn:name "Syria"@en .
+
+<http://sws.geonames.org/1643084/>
+	gn:countryCode "ID" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1643084 ;
+	gn:languages "id,en,nl,jv" ;
+	gn:name "Indonesia"@en .
+
+<http://sws.geonames.org/1655842/>
+	gn:countryCode "LA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1655842 ;
+	gn:languages "lo,fr,en" ;
+	gn:name "Laos"@en .
+
+<http://sws.geonames.org/1668284/>
+	gn:countryCode "TW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1668284 ;
+	gn:languages "zh-TW,zh,nan,hak" ;
+	gn:name "Taiwan"@en .
+
+<http://sws.geonames.org/1694008/>
+	gn:countryCode "PH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1694008 ;
+	gn:languages "tl,en-PH,fil" ;
+	gn:name "Philippines"@en .
+
+<http://sws.geonames.org/1733045/>
+	gn:countryCode "MY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1733045 ;
+	gn:languages "ms-MY,en,zh,ta,te,ml,pa,th" ;
+	gn:name "Malaysia"@en .
+
+<http://sws.geonames.org/174982/>
+	gn:countryCode "AM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 174982 ;
+	gn:languages "hy" ;
+	gn:name "Armenia"@en .
+
+<http://sws.geonames.org/1814991/>
+	gn:countryCode "CN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1814991 ;
+	gn:languages "zh-CN,yue,wuu,dta,ug,za" ;
+	gn:name "China"@en .
+
+<http://sws.geonames.org/1819730/>
+	gn:countryCode "HK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1819730 ;
+	gn:languages "zh-HK,yue,zh,en" ;
+	gn:name "Hong Kong"@en .
+
+<http://sws.geonames.org/1820814/>
+	gn:countryCode "BN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1820814 ;
+	gn:languages "ms-BN,en-BN" ;
+	gn:name "Brunei"@en .
+
+<http://sws.geonames.org/1821275/>
+	gn:countryCode "MO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1821275 ;
+	gn:languages "zh,zh-MO,pt" ;
+	gn:name "Macao"@en .
+
+<http://sws.geonames.org/1831722/>
+	gn:countryCode "KH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1831722 ;
+	gn:languages "km,fr,en" ;
+	gn:name "Cambodia"@en .
+
+<http://sws.geonames.org/1835841/>
+	gn:countryCode "KR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1835841 ;
+	gn:languages "ko-KR,en" ;
+	gn:name "South Korea"@en .
+
+<http://sws.geonames.org/1861060/>
+	gn:countryCode "JP" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1861060 ;
+	gn:languages "ja" ;
+	gn:name "Japan"@en .
+
+<http://sws.geonames.org/1873107/>
+	gn:countryCode "KP" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1873107 ;
+	gn:languages "ko-KP" ;
+	gn:name "North Korea"@en .
+
+<http://sws.geonames.org/1880251/>
+	gn:countryCode "SG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1880251 ;
+	gn:languages "cmn,en-SG,ms-SG,ta-SG,zh-SG" ;
+	gn:name "Singapore"@en .
+
+<http://sws.geonames.org/1899402/>
+	gn:countryCode "CK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1899402 ;
+	gn:languages "en-CK,mi" ;
+	gn:name "Cook Islands"@en .
+
+<http://sws.geonames.org/192950/>
+	gn:countryCode "KE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 192950 ;
+	gn:languages "en-KE,sw-KE" ;
+	gn:name "Kenya"@en .
+
+<http://sws.geonames.org/1966436/>
+	gn:countryCode "TL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 1966436 ;
+	gn:languages "tet,pt-TL,id,en" ;
+	gn:name "East Timor"@en .
+
+<http://sws.geonames.org/2017370/>
+	gn:countryCode "RU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2017370 ;
+	gn:languages "ru,tt,xal,cau,ady,kv,ce,tyv,cv,udm,tut,mns,bua,myv,mdf,chm,ba,inh,tut,kbd,krc,ava,sah,nog" ;
+	gn:name "Russia"@en .
+
+<http://sws.geonames.org/2029969/>
+	gn:countryCode "MN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2029969 ;
+	gn:languages "mn,ru" ;
+	gn:name "Mongolia"@en .
+
+<http://sws.geonames.org/203312/>
+	gn:countryCode "CD" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 203312 ;
+	gn:languages "fr-CD,ln,kg" ;
+	gn:name "Democratic Republic of the Congo"@en .
+
+<http://sws.geonames.org/2077456/>
+	gn:countryCode "AU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2077456 ;
+	gn:languages "en-AU" ;
+	gn:name "Australia"@en .
+
+<http://sws.geonames.org/2078138/>
+	gn:countryCode "CX" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2078138 ;
+	gn:languages "en,zh,ms-CC" ;
+	gn:name "Christmas Island"@en .
+
+<http://sws.geonames.org/2080185/>
+	gn:countryCode "MH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2080185 ;
+	gn:languages "mh,en-MH" ;
+	gn:name "Marshall Islands"@en .
+
+<http://sws.geonames.org/2081918/>
+	gn:countryCode "FM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2081918 ;
+	gn:languages "en-FM,chk,pon,yap,kos,uli,woe,nkr,kpg" ;
+	gn:name "Micronesia"@en .
+
+<http://sws.geonames.org/2088628/>
+	gn:countryCode "PG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2088628 ;
+	gn:languages "en-PG,ho,meu,tpi" ;
+	gn:name "Papua New Guinea"@en .
+
+<http://sws.geonames.org/2103350/>
+	gn:countryCode "SB" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2103350 ;
+	gn:languages "en-SB,tpi" ;
+	gn:name "Solomon Islands"@en .
+
+<http://sws.geonames.org/2110297/>
+	gn:countryCode "TV" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2110297 ;
+	gn:languages "tvl,en,sm,gil" ;
+	gn:name "Tuvalu"@en .
+
+<http://sws.geonames.org/2110425/>
+	gn:countryCode "NR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2110425 ;
+	gn:languages "na,en-NR" ;
+	gn:name "Nauru"@en .
+
+<http://sws.geonames.org/2134431/>
+	gn:countryCode "VU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2134431 ;
+	gn:languages "bi,en-VU,fr-VU" ;
+	gn:name "Vanuatu"@en .
+
+<http://sws.geonames.org/2139685/>
+	gn:countryCode "NC" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2139685 ;
+	gn:languages "fr-NC" ;
+	gn:name "New Caledonia"@en .
+
+<http://sws.geonames.org/2155115/>
+	gn:countryCode "NF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2155115 ;
+	gn:languages "en-NF" ;
+	gn:name "Norfolk Island"@en .
+
+<http://sws.geonames.org/2186224/>
+	gn:countryCode "NZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2186224 ;
+	gn:languages "en-NZ,mi" ;
+	gn:name "New Zealand"@en .
+
+<http://sws.geonames.org/2205218/>
+	gn:countryCode "FJ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2205218 ;
+	gn:languages "en-FJ,fj" ;
+	gn:name "Fiji"@en .
+
+<http://sws.geonames.org/2215636/>
+	gn:countryCode "LY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2215636 ;
+	gn:languages "ar-LY,it,en" ;
+	gn:name "Libya"@en .
+
+<http://sws.geonames.org/2233387/>
+	gn:countryCode "CM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2233387 ;
+	gn:languages "en-CM,fr-CM" ;
+	gn:name "Cameroon"@en .
+
+<http://sws.geonames.org/223816/>
+	gn:countryCode "DJ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 223816 ;
+	gn:languages "fr-DJ,ar,so-DJ,aa" ;
+	gn:name "Djibouti"@en .
+
+<http://sws.geonames.org/2245662/>
+	gn:countryCode "SN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2245662 ;
+	gn:languages "fr-SN,wo,fuc,mnk" ;
+	gn:name "Senegal"@en .
+
+<http://sws.geonames.org/2260494/>
+	gn:countryCode "CG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2260494 ;
+	gn:languages "fr-CG,kg,ln-CG" ;
+	gn:name "Republic of the Congo"@en .
+
+<http://sws.geonames.org/226074/>
+	gn:countryCode "UG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 226074 ;
+	gn:languages "en-UG,lg,sw,ar" ;
+	gn:name "Uganda"@en .
+
+<http://sws.geonames.org/2264397/>
+	gn:countryCode "PT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2264397 ;
+	gn:languages "pt-PT,mwl" ;
+	gn:name "Portugal"@en .
+
+<http://sws.geonames.org/2275384/>
+	gn:countryCode "LR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2275384 ;
+	gn:languages "en-LR" ;
+	gn:name "Liberia"@en .
+
+<http://sws.geonames.org/2287781/>
+	gn:countryCode "CI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2287781 ;
+	gn:languages "fr-CI" ;
+	gn:name "Ivory Coast"@en .
+
+<http://sws.geonames.org/2300660/>
+	gn:countryCode "GH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2300660 ;
+	gn:languages "en-GH,ak,ee,tw" ;
+	gn:name "Ghana"@en .
+
+<http://sws.geonames.org/2309096/>
+	gn:countryCode "GQ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2309096 ;
+	gn:languages "es-GQ,fr" ;
+	gn:name "Equatorial Guinea"@en .
+
+<http://sws.geonames.org/2328926/>
+	gn:countryCode "NG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2328926 ;
+	gn:languages "en-NG,ha,yo,ig,ff" ;
+	gn:name "Nigeria"@en .
+
+<http://sws.geonames.org/2361809/>
+	gn:countryCode "BF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2361809 ;
+	gn:languages "fr-BF" ;
+	gn:name "Burkina Faso"@en .
+
+<http://sws.geonames.org/2363686/>
+	gn:countryCode "TG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2363686 ;
+	gn:languages "fr-TG,ee,hna,kbp,dag,ha" ;
+	gn:name "Togo"@en .
+
+<http://sws.geonames.org/2372248/>
+	gn:countryCode "GW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2372248 ;
+	gn:languages "pt-GW,pov" ;
+	gn:name "Guinea-Bissau"@en .
+
+<http://sws.geonames.org/2378080/>
+	gn:countryCode "MR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2378080 ;
+	gn:languages "ar-MR,fuc,snk,fr,mey,wo" ;
+	gn:name "Mauritania"@en .
+
+<http://sws.geonames.org/2395170/>
+	gn:countryCode "BJ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2395170 ;
+	gn:languages "fr-BJ" ;
+	gn:name "Benin"@en .
+
+<http://sws.geonames.org/239880/>
+	gn:countryCode "CF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 239880 ;
+	gn:languages "fr-CF,sg,ln,kg" ;
+	gn:name "Central African Republic"@en .
+
+<http://sws.geonames.org/2400553/>
+	gn:countryCode "GA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2400553 ;
+	gn:languages "fr-GA" ;
+	gn:name "Gabon"@en .
+
+<http://sws.geonames.org/2403846/>
+	gn:countryCode "SL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2403846 ;
+	gn:languages "en-SL,men,tem" ;
+	gn:name "Sierra Leone"@en .
+
+<http://sws.geonames.org/2410758/>
+	gn:countryCode "ST" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2410758 ;
+	gn:languages "pt-ST" ;
+	gn:name "São Tomé and Príncipe"@en .
+
+<http://sws.geonames.org/2411586/>
+	gn:countryCode "GI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2411586 ;
+	gn:languages "en-GI,es,it,pt" ;
+	gn:name "Gibraltar"@en .
+
+<http://sws.geonames.org/241170/>
+	gn:countryCode "SC" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 241170 ;
+	gn:languages "en-SC,fr-SC" ;
+	gn:name "Seychelles"@en .
+
+<http://sws.geonames.org/2413451/>
+	gn:countryCode "GM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2413451 ;
+	gn:languages "en-GM,mnk,wof,wo,ff" ;
+	gn:name "Gambia"@en .
+
+<http://sws.geonames.org/2420477/>
+	gn:countryCode "GN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2420477 ;
+	gn:languages "fr-GN" ;
+	gn:name "Guinea"@en .
+
+<http://sws.geonames.org/2434508/>
+	gn:countryCode "TD" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2434508 ;
+	gn:languages "fr-TD,ar-TD,sre" ;
+	gn:name "Chad"@en .
+
+<http://sws.geonames.org/2440476/>
+	gn:countryCode "NE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2440476 ;
+	gn:languages "fr-NE,ha,kr,dje" ;
+	gn:name "Niger"@en .
+
+<http://sws.geonames.org/2453866/>
+	gn:countryCode "ML" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2453866 ;
+	gn:languages "fr-ML,bm" ;
+	gn:name "Mali"@en .
+
+<http://sws.geonames.org/2461445/>
+	gn:countryCode "EH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2461445 ;
+	gn:languages "ar,mey" ;
+	gn:name "Western Sahara"@en .
+
+<http://sws.geonames.org/2464461/>
+	gn:countryCode "TN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2464461 ;
+	gn:languages "ar-TN,fr" ;
+	gn:name "Tunisia"@en .
+
+<http://sws.geonames.org/248816/>
+	gn:countryCode "JO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 248816 ;
+	gn:languages "ar-JO,en" ;
+	gn:name "Jordan"@en .
+
+<http://sws.geonames.org/2510769/>
+	gn:countryCode "ES" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2510769 ;
+	gn:languages "es-ES,ca,gl,eu,oc" ;
+	gn:name "Spain"@en .
+
+<http://sws.geonames.org/2542007/>
+	gn:countryCode "MA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2542007 ;
+	gn:languages "ar-MA,fr" ;
+	gn:name "Morocco"@en .
+
+<http://sws.geonames.org/2562770/>
+	gn:countryCode "MT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2562770 ;
+	gn:languages "mt,en-MT" ;
+	gn:name "Malta"@en .
+
+<http://sws.geonames.org/2589581/>
+	gn:countryCode "DZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2589581 ;
+	gn:languages "ar-DZ" ;
+	gn:name "Algeria"@en .
+
+<http://sws.geonames.org/2622320/>
+	gn:countryCode "FO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2622320 ;
+	gn:languages "fo,da-FO" ;
+	gn:name "Faroe Islands"@en .
+
+<http://sws.geonames.org/2623032/>
+	gn:countryCode "DK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2623032 ;
+	gn:languages "da-DK,en,fo,de-DK" ;
+	gn:name "Denmark"@en .
+
+<http://sws.geonames.org/2629691/>
+	gn:countryCode "IS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2629691 ;
+	gn:languages "is,en,de,da,sv,no" ;
+	gn:name "Iceland"@en .
+
+<http://sws.geonames.org/2635167/>
+	gn:countryCode "GB" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2635167 ;
+	gn:languages "en-GB,cy-GB,gd" ;
+	gn:name "United Kingdom"@en .
+
+<http://sws.geonames.org/2658434/>
+	gn:countryCode "CH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2658434 ;
+	gn:languages "de-CH,fr-CH,it-CH,rm" ;
+	gn:name "Switzerland"@en .
+
+<http://sws.geonames.org/2661886/>
+	gn:countryCode "SE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2661886 ;
+	gn:languages "sv-SE,se,sma,fi-SE" ;
+	gn:name "Sweden"@en .
+
+<http://sws.geonames.org/272103/>
+	gn:countryCode "LB" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 272103 ;
+	gn:languages "ar-LB,fr-LB,en,hy" ;
+	gn:name "Lebanon"@en .
+
+<http://sws.geonames.org/2750405/>
+	gn:countryCode "NL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2750405 ;
+	gn:languages "nl-NL,fy-NL" ;
+	gn:name "Netherlands"@en .
+
+<http://sws.geonames.org/2782113/>
+	gn:countryCode "AT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2782113 ;
+	gn:languages "de-AT,hr,hu,sl" ;
+	gn:name "Austria"@en .
+
+<http://sws.geonames.org/2802361/>
+	gn:countryCode "BE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2802361 ;
+	gn:languages "nl-BE,fr-BE,de-BE" ;
+	gn:name "Belgium"@en .
+
+<http://sws.geonames.org/285570/>
+	gn:countryCode "KW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 285570 ;
+	gn:languages "ar-KW,en" ;
+	gn:name "Kuwait"@en .
+
+<http://sws.geonames.org/286963/>
+	gn:countryCode "OM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 286963 ;
+	gn:languages "ar-OM,en,bal,ur" ;
+	gn:name "Oman"@en .
+
+<http://sws.geonames.org/289688/>
+	gn:countryCode "QA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 289688 ;
+	gn:languages "ar-QA,es" ;
+	gn:name "Qatar"@en .
+
+<http://sws.geonames.org/290291/>
+	gn:countryCode "BH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 290291 ;
+	gn:languages "ar-BH,en,fa,ur" ;
+	gn:name "Bahrain"@en .
+
+<http://sws.geonames.org/290557/>
+	gn:countryCode "AE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 290557 ;
+	gn:languages "ar-AE,fa,en,hi,ur" ;
+	gn:name "United Arab Emirates"@en .
+
+<http://sws.geonames.org/2921044/>
+	gn:countryCode "DE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2921044 ;
+	gn:languages "de" ;
+	gn:name "Germany"@en .
+
+<http://sws.geonames.org/294640/>
+	gn:countryCode "IL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 294640 ;
+	gn:languages "he,ar-IL,en-IL," ;
+	gn:name "Israel"@en .
+
+<http://sws.geonames.org/2960313/>
+	gn:countryCode "LU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2960313 ;
+	gn:languages "lb,de-LU,fr-LU" ;
+	gn:name "Luxembourg"@en .
+
+<http://sws.geonames.org/2963597/>
+	gn:countryCode "IE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2963597 ;
+	gn:languages "en-IE,ga-IE" ;
+	gn:name "Ireland"@en .
+
+<http://sws.geonames.org/298795/>
+	gn:countryCode "TR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 298795 ;
+	gn:languages "tr-TR,ku,diq,az,av" ;
+	gn:name "Turkey"@en .
+
+<http://sws.geonames.org/2993457/>
+	gn:countryCode "MC" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 2993457 ;
+	gn:languages "fr-MC,en,it" ;
+	gn:name "Monaco"@en .
+
+<http://sws.geonames.org/3017382/>
+	gn:countryCode "FR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3017382 ;
+	gn:languages "fr-FR,frp,br,co,ca,eu,oc" ;
+	gn:name "France"@en .
+
+<http://sws.geonames.org/3041565/>
+	gn:countryCode "AD" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3041565 ;
+	gn:languages "ca" ;
+	gn:name "Andorra"@en .
+
+<http://sws.geonames.org/3042058/>
+	gn:countryCode "LI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3042058 ;
+	gn:languages "de-LI" ;
+	gn:name "Liechtenstein"@en .
+
+<http://sws.geonames.org/3042142/>
+	gn:countryCode "JE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3042142 ;
+	gn:languages "en,pt" ;
+	gn:name "Jersey"@en .
+
+<http://sws.geonames.org/3042225/>
+	gn:countryCode "IM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3042225 ;
+	gn:languages "en,gv" ;
+	gn:name "Isle of Man"@en .
+
+<http://sws.geonames.org/3042362/>
+	gn:countryCode "GG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3042362 ;
+	gn:languages "en,fr" ;
+	gn:name "Guernsey"@en .
+
+<http://sws.geonames.org/3057568/>
+	gn:countryCode "SK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3057568 ;
+	gn:languages "sk,hu" ;
+	gn:name "Slovakia"@en .
+
+<http://sws.geonames.org/3077311/>
+	gn:countryCode "CZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3077311 ;
+	gn:languages "cs,sk" ;
+	gn:name "Czech Republic"@en .
+
+<http://sws.geonames.org/3144096/>
+	gn:countryCode "NO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3144096 ;
+	gn:languages "no,nb,nn,se,fi" ;
+	gn:name "Norway"@en .
+
+<http://sws.geonames.org/3164670/>
+	gn:countryCode "VA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3164670 ;
+	gn:languages "la,it,fr" ;
+	gn:name "Vatican City"@en .
+
+<http://sws.geonames.org/3168068/>
+	gn:countryCode "SM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3168068 ;
+	gn:languages "it-SM" ;
+	gn:name "San Marino"@en .
+
+<http://sws.geonames.org/3175395/>
+	gn:countryCode "IT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3175395 ;
+	gn:languages "it-IT,de-IT,fr-IT,sc,ca,co,sl" ;
+	gn:name "Italy"@en .
+
+<http://sws.geonames.org/3190538/>
+	gn:countryCode "SI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3190538 ;
+	gn:languages "sl,sh" ;
+	gn:name "Slovenia"@en .
+
+<http://sws.geonames.org/3194884/>
+	gn:countryCode "ME" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3194884 ;
+	gn:languages "sr,hu,bs,sq,hr,rom" ;
+	gn:name "Montenegro"@en .
+
+<http://sws.geonames.org/3202326/>
+	gn:countryCode "HR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3202326 ;
+	gn:languages "hr-HR,sr" ;
+	gn:name "Croatia"@en .
+
+<http://sws.geonames.org/3277605/>
+	gn:countryCode "BA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3277605 ;
+	gn:languages "bs,hr-BA,sr-BA" ;
+	gn:name "Bosnia and Herzegovina"@en .
+
+<http://sws.geonames.org/3351879/>
+	gn:countryCode "AO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3351879 ;
+	gn:languages "pt-AO" ;
+	gn:name "Angola"@en .
+
+<http://sws.geonames.org/3355338/>
+	gn:countryCode "NA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3355338 ;
+	gn:languages "en-NA,af,de,hz,naq" ;
+	gn:name "Namibia"@en .
+
+<http://sws.geonames.org/3370751/>
+	gn:countryCode "SH" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3370751 ;
+	gn:languages "en-SH" ;
+	gn:name "Saint Helena"@en .
+
+<http://sws.geonames.org/3371123/>
+	gn:countryCode "BV" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3371123 ;
+	gn:languages "" ;
+	gn:name "Bouvet Island"@en .
+
+<http://sws.geonames.org/3374084/>
+	gn:countryCode "BB" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3374084 ;
+	gn:languages "en-BB" ;
+	gn:name "Barbados"@en .
+
+<http://sws.geonames.org/3374766/>
+	gn:countryCode "CV" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3374766 ;
+	gn:languages "pt-CV" ;
+	gn:name "Cape Verde"@en .
+
+<http://sws.geonames.org/3378535/>
+	gn:countryCode "GY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3378535 ;
+	gn:languages "en-GY" ;
+	gn:name "Guyana"@en .
+
+<http://sws.geonames.org/337996/>
+	gn:countryCode "ET" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 337996 ;
+	gn:languages "am,en-ET,om-ET,ti-ET,so-ET,sid" ;
+	gn:name "Ethiopia"@en .
+
+<http://sws.geonames.org/338010/>
+	gn:countryCode "ER" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 338010 ;
+	gn:languages "aa-ER,ar,tig,kun,ti-ER" ;
+	gn:name "Eritrea"@en .
+
+<http://sws.geonames.org/3381670/>
+	gn:countryCode "GF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3381670 ;
+	gn:languages "fr-GF" ;
+	gn:name "French Guiana"@en .
+
+<http://sws.geonames.org/3382998/>
+	gn:countryCode "SR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3382998 ;
+	gn:languages "nl-SR,en,srn,hns,jv" ;
+	gn:name "Suriname"@en .
+
+<http://sws.geonames.org/3424932/>
+	gn:countryCode "PM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3424932 ;
+	gn:languages "fr-PM" ;
+	gn:name "Saint Pierre and Miquelon"@en .
+
+<http://sws.geonames.org/3425505/>
+	gn:countryCode "GL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3425505 ;
+	gn:languages "kl,da-GL,en" ;
+	gn:name "Greenland"@en .
+
+<http://sws.geonames.org/3437598/>
+	gn:countryCode "PY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3437598 ;
+	gn:languages "es-PY,gn" ;
+	gn:name "Paraguay"@en .
+
+<http://sws.geonames.org/3439705/>
+	gn:countryCode "UY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3439705 ;
+	gn:languages "es-UY" ;
+	gn:name "Uruguay"@en .
+
+<http://sws.geonames.org/3469034/>
+	gn:countryCode "BR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3469034 ;
+	gn:languages "pt-BR,es,en,fr" ;
+	gn:name "Brazil"@en .
+
+<http://sws.geonames.org/3474414/>
+	gn:countryCode "FK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3474414 ;
+	gn:languages "en-FK" ;
+	gn:name "Falkland Islands"@en .
+
+<http://sws.geonames.org/3474415/>
+	gn:countryCode "GS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3474415 ;
+	gn:languages "en" ;
+	gn:name "South Georgia and the South Sandwich Islands"@en .
+
+<http://sws.geonames.org/3489940/>
+	gn:countryCode "JM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3489940 ;
+	gn:languages "en-JM" ;
+	gn:name "Jamaica"@en .
+
+<http://sws.geonames.org/3508796/>
+	gn:countryCode "DO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3508796 ;
+	gn:languages "es-DO" ;
+	gn:name "Dominican Republic"@en .
+
+<http://sws.geonames.org/3562981/>
+	gn:countryCode "CU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3562981 ;
+	gn:languages "es-CU" ;
+	gn:name "Cuba"@en .
+
+<http://sws.geonames.org/3570311/>
+	gn:countryCode "MQ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3570311 ;
+	gn:languages "fr-MQ" ;
+	gn:name "Martinique"@en .
+
+<http://sws.geonames.org/3572887/>
+	gn:countryCode "BS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3572887 ;
+	gn:languages "en-BS" ;
+	gn:name "Bahamas"@en .
+
+<http://sws.geonames.org/3573345/>
+	gn:countryCode "BM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3573345 ;
+	gn:languages "en-BM,pt" ;
+	gn:name "Bermuda"@en .
+
+<http://sws.geonames.org/3573511/>
+	gn:countryCode "AI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3573511 ;
+	gn:languages "en-AI" ;
+	gn:name "Anguilla"@en .
+
+<http://sws.geonames.org/3573591/>
+	gn:countryCode "TT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3573591 ;
+	gn:languages "en-TT,hns,fr,es,zh" ;
+	gn:name "Trinidad and Tobago"@en .
+
+<http://sws.geonames.org/3575174/>
+	gn:countryCode "KN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3575174 ;
+	gn:languages "en-KN" ;
+	gn:name "Saint Kitts and Nevis"@en .
+
+<http://sws.geonames.org/3575830/>
+	gn:countryCode "DM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3575830 ;
+	gn:languages "en-DM" ;
+	gn:name "Dominica"@en .
+
+<http://sws.geonames.org/3576396/>
+	gn:countryCode "AG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3576396 ;
+	gn:languages "en-AG" ;
+	gn:name "Antigua and Barbuda"@en .
+
+<http://sws.geonames.org/3576468/>
+	gn:countryCode "LC" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3576468 ;
+	gn:languages "en-LC" ;
+	gn:name "Saint Lucia"@en .
+
+<http://sws.geonames.org/3576916/>
+	gn:countryCode "TC" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3576916 ;
+	gn:languages "en-TC" ;
+	gn:name "Turks and Caicos Islands"@en .
+
+<http://sws.geonames.org/3577279/>
+	gn:countryCode "AW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3577279 ;
+	gn:languages "nl-AW,es,en" ;
+	gn:name "Aruba"@en .
+
+<http://sws.geonames.org/3577718/>
+	gn:countryCode "VG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3577718 ;
+	gn:languages "en-VG" ;
+	gn:name "British Virgin Islands"@en .
+
+<http://sws.geonames.org/3577815/>
+	gn:countryCode "VC" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3577815 ;
+	gn:languages "en-VC,fr" ;
+	gn:name "Saint Vincent and the Grenadines"@en .
+
+<http://sws.geonames.org/3578097/>
+	gn:countryCode "MS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3578097 ;
+	gn:languages "en-MS" ;
+	gn:name "Montserrat"@en .
+
+<http://sws.geonames.org/3578421/>
+	gn:countryCode "MF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3578421 ;
+	gn:languages "fr" ;
+	gn:name "Saint Martin"@en .
+
+<http://sws.geonames.org/3578476/>
+	gn:countryCode "BL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3578476 ;
+	gn:languages "fr" ;
+	gn:name "Saint Barthélemy"@en .
+
+<http://sws.geonames.org/3579143/>
+	gn:countryCode "GP" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3579143 ;
+	gn:languages "fr-GP" ;
+	gn:name "Guadeloupe"@en .
+
+<http://sws.geonames.org/357994/>
+	gn:countryCode "EG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 357994 ;
+	gn:languages "ar-EG,en,fr" ;
+	gn:name "Egypt"@en .
+
+<http://sws.geonames.org/3580239/>
+	gn:countryCode "GD" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3580239 ;
+	gn:languages "en-GD" ;
+	gn:name "Grenada"@en .
+
+<http://sws.geonames.org/3580718/>
+	gn:countryCode "KY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3580718 ;
+	gn:languages "en-KY" ;
+	gn:name "Cayman Islands"@en .
+
+<http://sws.geonames.org/3582678/>
+	gn:countryCode "BZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3582678 ;
+	gn:languages "en-BZ,es" ;
+	gn:name "Belize"@en .
+
+<http://sws.geonames.org/3585968/>
+	gn:countryCode "SV" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3585968 ;
+	gn:languages "es-SV" ;
+	gn:name "El Salvador"@en .
+
+<http://sws.geonames.org/3595528/>
+	gn:countryCode "GT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3595528 ;
+	gn:languages "es-GT" ;
+	gn:name "Guatemala"@en .
+
+<http://sws.geonames.org/3608932/>
+	gn:countryCode "HN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3608932 ;
+	gn:languages "es-HN" ;
+	gn:name "Honduras"@en .
+
+<http://sws.geonames.org/3617476/>
+	gn:countryCode "NI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3617476 ;
+	gn:languages "es-NI,en" ;
+	gn:name "Nicaragua"@en .
+
+<http://sws.geonames.org/3624060/>
+	gn:countryCode "CR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3624060 ;
+	gn:languages "es-CR,en" ;
+	gn:name "Costa Rica"@en .
+
+<http://sws.geonames.org/3625428/>
+	gn:countryCode "VE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3625428 ;
+	gn:languages "es-VE" ;
+	gn:name "Venezuela"@en .
+
+<http://sws.geonames.org/3658394/>
+	gn:countryCode "EC" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3658394 ;
+	gn:languages "es-EC" ;
+	gn:name "Ecuador"@en .
+
+<http://sws.geonames.org/366755/>
+	gn:countryCode "SD" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 366755 ;
+	gn:languages "ar-SD,en,fia" ;
+	gn:name "Sudan"@en .
+
+<http://sws.geonames.org/3686110/>
+	gn:countryCode "CO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3686110 ;
+	gn:languages "es-CO" ;
+	gn:name "Colombia"@en .
+
+<http://sws.geonames.org/3703430/>
+	gn:countryCode "PA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3703430 ;
+	gn:languages "es-PA,en" ;
+	gn:name "Panama"@en .
+
+<http://sws.geonames.org/3723988/>
+	gn:countryCode "HT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3723988 ;
+	gn:languages "ht,fr-HT" ;
+	gn:name "Haiti"@en .
+
+<http://sws.geonames.org/3865483/>
+	gn:countryCode "AR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3865483 ;
+	gn:languages "es-AR,en,it,de,fr,gn" ;
+	gn:name "Argentina"@en .
+
+<http://sws.geonames.org/3895114/>
+	gn:countryCode "CL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3895114 ;
+	gn:languages "es-CL" ;
+	gn:name "Chile"@en .
+
+<http://sws.geonames.org/390903/>
+	gn:countryCode "GR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 390903 ;
+	gn:languages "el-GR,en,fr" ;
+	gn:name "Greece"@en .
+
+<http://sws.geonames.org/3923057/>
+	gn:countryCode "BO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3923057 ;
+	gn:languages "es-BO,qu,ay" ;
+	gn:name "Bolivia"@en .
+
+<http://sws.geonames.org/3932488/>
+	gn:countryCode "PE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3932488 ;
+	gn:languages "es-PE,qu,ay" ;
+	gn:name "Peru"@en .
+
+<http://sws.geonames.org/3996063/>
+	gn:countryCode "MX" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 3996063 ;
+	gn:languages "es-MX" ;
+	gn:name "Mexico"@en .
+
+<http://sws.geonames.org/4030656/>
+	gn:countryCode "PF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4030656 ;
+	gn:languages "fr-PF,ty" ;
+	gn:name "French Polynesia"@en .
+
+<http://sws.geonames.org/4030699/>
+	gn:countryCode "PN" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4030699 ;
+	gn:languages "en-PN" ;
+	gn:name "Pitcairn Islands"@en .
+
+<http://sws.geonames.org/4030945/>
+	gn:countryCode "KI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4030945 ;
+	gn:languages "en-KI,gil" ;
+	gn:name "Kiribati"@en .
+
+<http://sws.geonames.org/4031074/>
+	gn:countryCode "TK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4031074 ;
+	gn:languages "tkl,en-TK" ;
+	gn:name "Tokelau"@en .
+
+<http://sws.geonames.org/4032283/>
+	gn:countryCode "TO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4032283 ;
+	gn:languages "to,en-TO" ;
+	gn:name "Tonga"@en .
+
+<http://sws.geonames.org/4034749/>
+	gn:countryCode "WF" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4034749 ;
+	gn:languages "wls,fud,fr-WF" ;
+	gn:name "Wallis and Futuna"@en .
+
+<http://sws.geonames.org/4034894/>
+	gn:countryCode "WS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4034894 ;
+	gn:languages "sm,en-WS" ;
+	gn:name "Samoa"@en .
+
+<http://sws.geonames.org/4036232/>
+	gn:countryCode "NU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4036232 ;
+	gn:languages "niu,en-NU" ;
+	gn:name "Niue"@en .
+
+<http://sws.geonames.org/4041468/>
+	gn:countryCode "MP" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4041468 ;
+	gn:languages "fil,tl,zh,ch-MP,en-MP" ;
+	gn:name "Northern Mariana Islands"@en .
+
+<http://sws.geonames.org/4043988/>
+	gn:countryCode "GU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4043988 ;
+	gn:languages "en-GU,ch-GU" ;
+	gn:name "Guam"@en .
+
+<http://sws.geonames.org/433561/>
+	gn:countryCode "BI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 433561 ;
+	gn:languages "fr-BI,rn" ;
+	gn:name "Burundi"@en .
+
+<http://sws.geonames.org/453733/>
+	gn:countryCode "EE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 453733 ;
+	gn:languages "et,ru" ;
+	gn:name "Estonia"@en .
+
+<http://sws.geonames.org/4566966/>
+	gn:countryCode "PR" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4566966 ;
+	gn:languages "en-PR,es-PR" ;
+	gn:name "Puerto Rico"@en .
+
+<http://sws.geonames.org/458258/>
+	gn:countryCode "LV" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 458258 ;
+	gn:languages "lv,ru,lt" ;
+	gn:name "Latvia"@en .
+
+<http://sws.geonames.org/4796775/>
+	gn:countryCode "VI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 4796775 ;
+	gn:languages "en-VI" ;
+	gn:name "U.S. Virgin Islands"@en .
+
+<http://sws.geonames.org/49518/>
+	gn:countryCode "RW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 49518 ;
+	gn:languages "rw,en-RW,fr-RW,sw" ;
+	gn:name "Rwanda"@en .
+
+<http://sws.geonames.org/51537/>
+	gn:countryCode "SO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 51537 ;
+	gn:languages "so-SO,ar-SO,it,en-SO" ;
+	gn:name "Somalia"@en .
+
+<http://sws.geonames.org/5854968/>
+	gn:countryCode "UM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 5854968 ;
+	gn:languages "en-UM" ;
+	gn:name "U.S. Minor Outlying Islands"@en .
+
+<http://sws.geonames.org/587116/>
+	gn:countryCode "AZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 587116 ;
+	gn:languages "az,ru,hy" ;
+	gn:name "Azerbaijan"@en .
+
+<http://sws.geonames.org/5880801/>
+	gn:countryCode "AS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 5880801 ;
+	gn:languages "en-AS,sm,to" ;
+	gn:name "American Samoa"@en .
+
+<http://sws.geonames.org/597427/>
+	gn:countryCode "LT" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 597427 ;
+	gn:languages "lt,ru,pl" ;
+	gn:name "Lithuania"@en .
+
+<http://sws.geonames.org/607072/>
+	gn:countryCode "SJ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 607072 ;
+	gn:languages "no,ru" ;
+	gn:name "Svalbard and Jan Mayen"@en .
+
+<http://sws.geonames.org/614540/>
+	gn:countryCode "GE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 614540 ;
+	gn:languages "ka,ru,hy,az" ;
+	gn:name "Georgia"@en .
+
+<http://sws.geonames.org/617790/>
+	gn:countryCode "MD" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 617790 ;
+	gn:languages "ro,ru,gag,tr" ;
+	gn:name "Moldova"@en .
+
+<http://sws.geonames.org/6251999/>
+	gn:countryCode "CA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 6251999 ;
+	gn:languages "en-CA,fr-CA,iu" ;
+	gn:name "Canada"@en .
+
+<http://sws.geonames.org/6252001/>
+	gn:countryCode "US" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 6252001 ;
+	gn:languages "en-US,es-US,haw,fr" ;
+	gn:name "United States"@en .
+
+<http://sws.geonames.org/6254930/>
+	gn:countryCode "PS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 6254930 ;
+	gn:languages "ar-PS" ;
+	gn:name "Palestine"@en .
+
+<http://sws.geonames.org/6290252/>
+	gn:countryCode "RS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 6290252 ;
+	gn:languages "sr,hu,bs,rom" ;
+	gn:name "Serbia"@en .
+
+<http://sws.geonames.org/630336/>
+	gn:countryCode "BY" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 630336 ;
+	gn:languages "be,ru" ;
+	gn:name "Belarus"@en .
+
+<http://sws.geonames.org/660013/>
+	gn:countryCode "FI" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 660013 ;
+	gn:languages "fi-FI,sv-FI,smn" ;
+	gn:name "Finland"@en .
+
+<http://sws.geonames.org/661882/>
+	gn:countryCode "AX" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 661882 ;
+	gn:languages "sv-AX" ;
+	gn:name "Åland"@en .
+
+<http://sws.geonames.org/6697173/>
+	gn:countryCode "AQ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 6697173 ;
+	gn:languages "" ;
+	gn:name "Antarctica"@en .
+
+<http://sws.geonames.org/690791/>
+	gn:countryCode "UA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 690791 ;
+	gn:languages "uk,ru-UA,rom,pl,hu" ;
+	gn:name "Ukraine"@en .
+
+<http://sws.geonames.org/69543/>
+	gn:countryCode "YE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 69543 ;
+	gn:languages "ar-YE" ;
+	gn:name "Yemen"@en .
+
+<http://sws.geonames.org/718075/>
+	gn:countryCode "MK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 718075 ;
+	gn:languages "mk,sq,tr,rmm,sr" ;
+	gn:name "Macedonia"@en .
+
+<http://sws.geonames.org/719819/>
+	gn:countryCode "HU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 719819 ;
+	gn:languages "hu-HU" ;
+	gn:name "Hungary"@en .
+
+<http://sws.geonames.org/732800/>
+	gn:countryCode "BG" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 732800 ;
+	gn:languages "bg,tr-BG" ;
+	gn:name "Bulgaria"@en .
+
+<http://sws.geonames.org/7609695/>
+	gn:countryCode "SX" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 7609695 ;
+	gn:languages "nl,en" ;
+	gn:name "Sint Maarten"@en .
+
+<http://sws.geonames.org/7626836/>
+	gn:countryCode "CW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 7626836 ;
+	gn:languages "nl,pap" ;
+	gn:name "Curacao"@en .
+
+<http://sws.geonames.org/7626844/>
+	gn:countryCode "BQ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 7626844 ;
+	gn:languages "nl,pap,en" ;
+	gn:name "Bonaire"@en .
+
+<http://sws.geonames.org/783754/>
+	gn:countryCode "AL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 783754 ;
+	gn:languages "sq,el" ;
+	gn:name "Albania"@en .
+
+<http://sws.geonames.org/7909807/>
+	gn:countryCode "SS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 7909807 ;
+	gn:languages "en" ;
+	gn:name "South Sudan"@en .
+
+<http://sws.geonames.org/798544/>
+	gn:countryCode "PL" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 798544 ;
+	gn:languages "pl" ;
+	gn:name "Poland"@en .
+
+<http://sws.geonames.org/798549/>
+	gn:countryCode "RO" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 798549 ;
+	gn:languages "ro,hu,rom" ;
+	gn:name "Romania"@en .
+
+<http://sws.geonames.org/831053/>
+	gn:countryCode "XK" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 831053 ;
+	gn:languages "sq,sr" ;
+	gn:name "Kosovo"@en .
+
+<http://sws.geonames.org/878675/>
+	gn:countryCode "ZW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 878675 ;
+	gn:languages "en-ZW,sn,nr,nd" ;
+	gn:name "Zimbabwe"@en .
+
+<http://sws.geonames.org/895949/>
+	gn:countryCode "ZM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 895949 ;
+	gn:languages "en-ZM,bem,loz,lun,lue,ny,toi" ;
+	gn:name "Zambia"@en .
+
+<http://sws.geonames.org/921929/>
+	gn:countryCode "KM" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 921929 ;
+	gn:languages "ar,fr-KM" ;
+	gn:name "Comoros"@en .
+
+<http://sws.geonames.org/927384/>
+	gn:countryCode "MW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 927384 ;
+	gn:languages "ny,yao,tum,swk" ;
+	gn:name "Malawi"@en .
+
+<http://sws.geonames.org/932692/>
+	gn:countryCode "LS" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 932692 ;
+	gn:languages "en-LS,st,zu,xh" ;
+	gn:name "Lesotho"@en .
+
+<http://sws.geonames.org/933860/>
+	gn:countryCode "BW" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 933860 ;
+	gn:languages "en-BW,tn-BW" ;
+	gn:name "Botswana"@en .
+
+<http://sws.geonames.org/934292/>
+	gn:countryCode "MU" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 934292 ;
+	gn:languages "en-MU,bho,fr" ;
+	gn:name "Mauritius"@en .
+
+<http://sws.geonames.org/934841/>
+	gn:countryCode "SZ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 934841 ;
+	gn:languages "en-SZ,ss-SZ" ;
+	gn:name "Swaziland"@en .
+
+<http://sws.geonames.org/935317/>
+	gn:countryCode "RE" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 935317 ;
+	gn:languages "fr-RE" ;
+	gn:name "Réunion"@en .
+
+<http://sws.geonames.org/953987/>
+	gn:countryCode "ZA" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 953987 ;
+	gn:languages "zu,xh,af,nso,en-ZA,tn,st,ts,ss,ve,nr" ;
+	gn:name "South Africa"@en .
+
+<http://sws.geonames.org/99237/>
+	gn:countryCode "IQ" ;
+	gn:featureClass gn:A ;
+	gn:geonamesID 99237 ;
+	gn:languages "ar-IQ,ku,hy" ;
+	gn:name "Iraq"@en .
