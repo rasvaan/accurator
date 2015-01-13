@@ -46,3 +46,16 @@ html,body {
 .btn-link:focus {
 	outline: none;
 }
+
+/* Profile page */
+#rowStartChange {
+	margin-top: 20px;
+}
+
+#frmGroupSearch {
+	margin-top: 20px;
+}
+
+#rowLastAnnotated {
+	margin-top: 20px;
+}

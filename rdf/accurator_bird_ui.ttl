@@ -5,10 +5,12 @@
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
+###### Intro Screen #####
+
 abui:intro a aui:AccuratorUI ;
 	dcterms:title "Accurator intro UI"@en ;
 	aui:txtSlogan "Accurate Art Annotations"@en ;
-	aui:txtSubSlogan "Help us add information to the artworks depicting birds"@en ;
+	aui:txtSubSlogan "Help us add information to artworks depicting birds"@en ;
 	aui:btnRegister "Register"@en ;
 	aui:btnLogin "or Log in"@en ;
 	aui:mdlTxtTitle "Log in"@en ;
@@ -25,6 +27,8 @@ aui:mdlFrmUsername a aui:UILabel .
 aui:mdlFrmPassword a aui:UILabel .
 aui:mdlBtnLogin a aui:UILabel .
 
+##### Register Screen #####
+
 abui:register a aui:AccuratorUI ;
 	dcterms:title "Accurator register UI"@en ;
 	aui:txtHeader "Create your Accurator Account"@en ;
@@ -37,6 +41,22 @@ aui:txtHeader a aui:UILabel .
 aui:frmRealName a aui:UILabel .
 aui:frmUsername a aui:UILabel .
 aui:frmPassword a aui:UILabel .
+
+##### Profile Screen #####
+
+abui:profile a aui:AccuratorUI ;
+	dcterms:title "Accurator profile UI"@en ;
+	aui:txtSlogan "Welcome "@en ;
+	aui:txtSubSlogan "start annotating or change your personal info"@en ;
+	aui:btnRecommend "Recommend something to annotate "@en ;
+	aui:btnSearch "Search "@en ;
+	aui:lblLastAnnotated "Artworks you recently annotated"@en .
+
+aui:btnRecommend a aui:UILabel .
+aui:btnSearch a aui:UILabel .
+aui:lblLastAnnotated a aui:UILabel .
+
+##### Additional Info Screen #####
 
 abui:additional_info a aui:AccuratorUI ;
 	dcterms:title "Accurator additional info UI"@en  ;
@@ -171,9 +191,3 @@ aui:internetOnceADay a aui:UILabel .
 aui:internet3to5 a aui:UILabel .
 aui:internet1to2 a aui:UILabel .
 aui:internetLessThan1 a aui:UILabel .
-
-
-
-
-
-

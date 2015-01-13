@@ -20,12 +20,45 @@
 	</nav>
 	
 	<div class="content">
-		<p>Profile</p>
+		<!-- Header -->
+		<div class="row">
+			<div class="col-md-11 col-md-offset-1">
+				<h2 id="txtSlogan">
+					<small id ="txtSubSlogan">
+					</small>
+				</h2>
+			</div>
+		</div>
+		
+		<!-- Start and change info -->
+		<div class="row" id="rowStartChange">
+			<div class="col-md-5 col-md-offset-1">
+				<button class="btn btn-primary" id="btnRecommend">
+				</button>
+				<form class="form-inline" id="frmGroupSearch">
+					<div class="form-group">
+    					<input type="text" class="form-control" id="frmSearch">
+  					</div>
+				 	<button type="submit" id="btnSearch" class="btn btn-default"></button>
+				</form>
+			</div>
+			<div class="col-md-5">
+				<p>Change info</p>
+			</div>
+		</div>
+		<!-- Already annotated -->
+		<div class="row" id="rowLastAnnotated">
+			<div class="col-md-10 col-md-offset-1">
+				<h4 id="lblLastAnnotated">
+				</h4>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/laconic.js"></script>
 	<script type="text/javascript" src="js/accurator_profile.js"></script>
+	<script>profileInit();</script>
 </body>
 </html>
