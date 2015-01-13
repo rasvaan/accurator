@@ -42,6 +42,18 @@ aui:frmRealName a aui:UILabel .
 aui:frmUsername a aui:UILabel .
 aui:frmPassword a aui:UILabel .
 
+##### Expertise Screen #####
+
+abui:expertise a aui:AccuratorUI ;
+	dcterms:title "Accurator expertise form UI"@en ;
+	aui:txtHeader "Expertise"@en ;
+	aui:txtSubHeader "provide us with some insights about your knowledge"@en ;
+	aui:btnSkip "or skip this step"@en ;
+	aui:btnSubmit "Submit"@en .
+
+aui:txtSubHeader a aui:UILabel .
+aui:btnSubmit a aui:UILabel .
+
 ##### Profile Screen #####
 
 abui:profile a aui:AccuratorUI ;

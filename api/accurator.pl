@@ -18,38 +18,11 @@ user:file_search_path(img, web(img)).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
+:- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
 
 :- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
-
-%%	recently_annotated_api(+Request)
-%
-%	Retrieves a list of artworks the user recently annotated.
-recently_annotated_api(Request) :-
-    get_parameters_annotated(Request, Options),
-	get_annotated(Dic, Options),
-	reply_json_dict(Dic).
-
-get_annotated(Dic, _Options) :-
-	%option(user(User), Options),
-	Dic = artworks{uris:['http://purl.org/collections/nl/naturalis/print-134677',
-				  'http://purl.org/collections/nl/naturalis/print-134685',
-				  'http://purl.org/collections/nl/naturalis/print-134699',
-				  'http://purl.org/collections/nl/naturalis/print-134703',
-				  'http://purl.org/collections/nl/naturalis/print-134710',
-				  'http://purl.org/collections/nl/naturalis/print-134717',
-				  'http://purl.org/collections/nl/naturalis/print-134731',
-				  'http://purl.org/collections/nl/naturalis/print-134766',
-				  'http://purl.org/collections/nl/naturalis/print-134767']}.
-
-%%	get_parameters_annotated(+Request, -Options)
-%
-%	Retrieves an option list of parameters from the url.
-get_parameters_annotated(Request, Options) :-
-    http_parameters(Request,
-        [user(User, [description('The user'), optional(false)])]),
-    Options = [user(User)].
 
 %%	ui_elements_api(+Request)
 %
@@ -143,3 +116,61 @@ get_selector_labels(Selector, Locale, LiteralDict) :-
 				iri_xml_namespace(Predicate, _, OptionLabel)),
 			LiteralArray),
 	dict_pairs(LiteralDict, elements, LiteralArray).
+
+%%	recently_annotated_api(+Request)
+%
+%	Retrieves a list of artworks the user recently annotated.
+recently_annotated_api(Request) :-
+    get_parameters_annotated(Request, Options),
+	get_annotated(Dic, Options),
+	reply_json_dict(Dic).
+
+%%	get_parameters_annotated(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_annotated(Request, Options) :-
+    http_parameters(Request,
+        [user(User, [description('The user'), optional(false)])]),
+    Options = [user(User)].
+
+%%	get_annotated(-Dic, +Options)
+%
+%	Query for a list of artworks the user recently annotated.
+get_annotated(Dic, _Options) :-
+	%option(user(User), Options),
+	Dic = artworks{uris:['http://purl.org/collections/nl/naturalis/print-134677',
+						 'http://purl.org/collections/nl/naturalis/print-134685',
+						 'http://purl.org/collections/nl/naturalis/print-134699',
+						 'http://purl.org/collections/nl/naturalis/print-134703',
+						 'http://purl.org/collections/nl/naturalis/print-134710',
+						 'http://purl.org/collections/nl/naturalis/print-134717',
+						 'http://purl.org/collections/nl/naturalis/print-134731',
+						 'http://purl.org/collections/nl/naturalis/print-134766',
+						 'http://purl.org/collections/nl/naturalis/print-134767']}.
+
+%%	expertise_topics_api(+Request)
+%
+%	Retrieves a list of expertise topics.
+expertise_topics_api(Request) :-
+    get_parameters_expertise(Request, Options),
+	get_expertise_topics(Dic, Options),
+	reply_json_dict(Dic).
+
+%%	expertise_topics(+Request)
+%
+%	Retrieves a list of expertise topics.
+get_expertise_topics(Dic, _Options) :-
+	%option(user(User), Options),
+	Dic = expertise_topics{topics:['waterbirds',
+								   'hwaks',
+								   'eagles',
+								   'owls',
+								   'swans']}.
+
+%%	get_parameters_expertise(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_expertise(Request, Options) :-
+    http_parameters(Request,
+        [locale(Locale, [description('Locale of language elements to retrieve'), optional(false)])]),
+    Options = [locale(Locale)].

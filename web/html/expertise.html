@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" href="img/favicon.ico">
 	<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap-slider.min.css" />
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 </head>
 
@@ -20,12 +21,40 @@
 	</nav>
 	
 	<div class="content">
-		<p>Expertise</p>
+		<!-- Header -->
+		<div class="row">
+			<div class="col-md-11 col-md-offset-1">
+				<h2 id="txtHeader">
+					<small id ="txtSubHeader">
+					</small>
+				</h2>
+			</div>
+		</div>
+		
+		<!-- Expertise Form -->
+		<div class="row" id="rowExpertise">
+			<div class="col-md-5 col-md-offset-1" id="frmExpertiseLeft">
+			</div>
+			<div class="col-md-5" id="frmExpertiseRight">
+			</div>
+		</div>
+		
+		<!-- Buttons -->
+		<div class="row" id="rowButtonsExpertise">
+			<div class="col-md-4 col-md-offset-1">
+				<button class="btn btn-primary" id="btnSubmit">
+				</button>
+				<button class="btn btn-link" id="btnSkip">
+				</button>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap-slider.min.js"></script>
 	<script type="text/javascript" src="js/laconic.js"></script>
 	<script type="text/javascript" src="js/accurator_expertise.js"></script>
+	<script>expertiseInit();</script>
 </body>
 </html>
