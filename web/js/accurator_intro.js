@@ -1,15 +1,21 @@
 /* Accurator Intro
 */
-
+locale = "en";
+ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#intro";
+	
 function introInit() {
-	locale = "en";
-	ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#intro";
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			registerButtonEvent();
-			initLabels(data);})
+			initLabels(data)})
 		.fail(function(data, textStatus){
 			$("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
+}
+
+function registerButtonEvent() {
+	$("#btnRegister").click(function() {
+		document.location.href="/register.html";
+	});	
 }
 
 function initLabels(data) {
@@ -25,10 +31,4 @@ function addTextModal(data) {
 	$("#mdlBtnLogin").append(data.mdlBtnLogin);
 	$("#mdlFrmUsername").append(data.mdlFrmUsername);
 	$("#mdlFrmPassword").append(data.mdlFrmPassword);
-}
-
-function registerButtonEvent() {
-	$("#btnRegister").click(function() {
-		document.location.href="/register.html";
-	});	
 }

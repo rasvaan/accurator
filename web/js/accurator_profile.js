@@ -51,7 +51,7 @@ function getRecentlyAnnotated() {
 }
 
 function addItems(data) {
-	var itemUris =data.uris;
+	var itemUris = data.uris;
 	// Get item enrichments from server, on success add pagination and thumbnails
 	new Pengine({server: server.location + 'pengine',
 				 application: 'enrichment',
