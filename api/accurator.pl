@@ -17,10 +17,39 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
+:- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 
 :- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
+
+%%	recently_annotated_api(+Request)
+%
+%	Retrieves a list of artworks the user recently annotated.
+recently_annotated_api(Request) :-
+    get_parameters_annotated(Request, Options),
+	get_annotated(Dic, Options),
+	reply_json_dict(Dic).
+
+get_annotated(Dic, _Options) :-
+	%option(user(User), Options),
+	Dic = artworks{uris:['http://purl.org/collections/nl/naturalis/print-134677',
+				  'http://purl.org/collections/nl/naturalis/print-134685',
+				  'http://purl.org/collections/nl/naturalis/print-134699',
+				  'http://purl.org/collections/nl/naturalis/print-134703',
+				  'http://purl.org/collections/nl/naturalis/print-134710',
+				  'http://purl.org/collections/nl/naturalis/print-134717',
+				  'http://purl.org/collections/nl/naturalis/print-134731',
+				  'http://purl.org/collections/nl/naturalis/print-134766',
+				  'http://purl.org/collections/nl/naturalis/print-134767']}.
+
+%%	get_parameters_annotated(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_annotated(Request, Options) :-
+    http_parameters(Request,
+        [user(User, [description('The user'), optional(false)])]),
+    Options = [user(User)].
 
 %%	ui_elements_api(+Request)
 %
@@ -29,7 +58,7 @@ user:file_search_path(img, web(img)).
 %	results, after which the data is outputted
 %	as json.
 ui_elements_api(Request) :-
-    get_parameters(Request, Options),
+    get_parameters_elements(Request, Options),
 	option(type(Type), Options),
 	get_elements(Type, Dic, Options),
 	reply_json_dict(Dic).
@@ -37,7 +66,7 @@ ui_elements_api(Request) :-
 %%	get_parameters(+Request, -Options)
 %
 %	Retrieves an option list of parameters from the url.
-get_parameters(Request, Options) :-
+get_parameters_elements(Request, Options) :-
     http_parameters(Request,
         [ui(UI,
 			[description('The ui screen for which text elements are retrieved'),
