@@ -3,6 +3,7 @@
 /** <module> Accurator
 */
 
+:- use_module(library(accurator/settings)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
