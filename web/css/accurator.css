@@ -68,3 +68,17 @@ html,body {
 #rowButtonsExpertise {
 	margin-top: 10px;
 }
+
+slider.slider-horizontal {
+	height: 15px;
+	align: center;
+}
+
+.slider-handle {
+	width: 15px;
+  	height: 15px;
+}
+
+.sliderLabel {
+	padding: 0px 15px 0px 15px;
+}

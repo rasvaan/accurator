@@ -38,16 +38,28 @@ function initExpertiseTopics() {
 		for(var i=0; i<halfTheTopics; i++) {
 			$("#frmExpertiseLeft").append(
 					$.el.div({'class':'row'},
-							 $.el.h4(topics[i]),
-							 expertiseSlider(topics[i])));
-			initSlider(topics[i]);
+							 $.el.h5(topics[i].label,
+									 $.el.small(printArray(topics[i].childrens_labels)))));
+			$("#frmExpertiseLeft").append(
+					$.el.div({'class':'row'},
+							$.el.div({'class':'col-md-10 col-md-offset-1'},
+									$.el.small({'class':'sliderLabel'}, "nothing"),
+									expertiseSlider(topics[i].label),
+									$.el.small({'class':'sliderLabel'}, "a lot"))));
+			initSlider(topics[i].label);
 		}
 		for(var i=halfTheTopics; i<topics.length; i++) {
 			$("#frmExpertiseRight").append(
 					$.el.div({'class':'row'},
-							 $.el.h4(topics[i]),
-							 expertiseSlider(topics[i])));
-			initSlider(topics[i]);
+							 $.el.h5(topics[i].label,
+									 $.el.small(printArray(topics[i].childrens_labels)))));
+			$("#frmExpertiseRight").append(
+							$.el.div({'class':'row'},
+									$.el.div({'class':'col-md-10 col-md-offset-1'},
+											$.el.small({'class':'sliderLabel'}, "nothing"),
+											expertiseSlider(topics[i].label),
+											$.el.small({'class':'sliderLabel'}, "a lot"))));
+			initSlider(topics[i].label);
 		}
 		})
 	.fail(function(data, textStatus){});
@@ -59,10 +71,18 @@ function expertiseSlider(id) {
 						'type':'text',
 						'data-slider-min':'0',
 						'data-slider-max':'1',
-						'data-slider-step':'0.05',
+						'data-slider-step':'0.01',
 						'data-slider-value':'0'});	
 }
 
 function initSlider(id) {
 	$("#"+id).slider();
+}
+
+function printArray(labelArray) {
+	var arrayString = "";
+	for(var i=0; i<labelArray.length; i++) {
+		arrayString += " " + labelArray[i];
+	}
+	return arrayString;
 }

@@ -47,7 +47,7 @@ aui:frmPassword a aui:UILabel .
 abui:expertise a aui:AccuratorUI ;
 	dcterms:title "Accurator expertise form UI"@en ;
 	aui:txtHeader "Expertise"@en ;
-	aui:txtSubHeader "provide us with some insights about your knowledge"@en ;
+	aui:txtSubHeader "how much do you know about the following topics?"@en ;
 	aui:btnSkip "or skip this step"@en ;
 	aui:btnSubmit "Submit"@en .
 
