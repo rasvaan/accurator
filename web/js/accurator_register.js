@@ -38,8 +38,8 @@ function registerEvent() {
 }
 
 function setRegisterFailureText(text) {
-	alertWell = $.el.div({'class':'well'}, 
-			$.el.p({'class':'text-danger'}, text)); 
+	alertWell = $.el.div({'class':'registerMessage'},
+			$.el.h5({'class':'text-danger'}, text)); 
 	// clear the current
 	$("#messageWell").empty();
 	$("#messageWell").append(alertWell);
