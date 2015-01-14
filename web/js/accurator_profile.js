@@ -21,7 +21,7 @@ function getServerUrl() {
 function profileInit() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
-			registerButtonEvent();
+			addButtonEvents();
 			initLabels(data);
 			getRecentlyAnnotated();})
 		.fail(function(data, textStatus){
@@ -32,13 +32,17 @@ function initLabels(data) {
 	$("#txtSlogan").prepend(data.txtSlogan + " " + user);
 	$("#txtSubSlogan").prepend(data.txtSubSlogan);
 	$("#btnRecommend").append(data.btnRecommend);
+	$("#btnChangeExpertise").append(data.btnChangeExpertise);
 	$("#btnSearch").append(data.btnSearch);
 	$("#lblLastAnnotated").append(data.lblLastAnnotated);
 }
 
-function registerButtonEvent() {
+function addButtonEvents() {
 	$("#btnRecommend").click(function() {
 		document.location.href="/recommendations.html";
+	});
+	$("#btnChangeExpertise").click(function() {
+		document.location.href="/expertise.html";
 	});	
 }
 

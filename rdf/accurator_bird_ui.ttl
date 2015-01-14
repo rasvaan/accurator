@@ -42,7 +42,7 @@ abui:register a aui:AccuratorUI ;
 	aui:frmPasswordRepeat "Confirm your password"@en ;
 	aui:btnRegister "Register"@en ;
 	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
-	aui:lblUserTaken "The username is already in use."@en .
+aui:lblUserTaken "The username is already in use."@en ;
 	aui:lblPasswordsMatchFail "The passwords do not match."@en .
 
 aui:txtHeader a aui:UILabel .
@@ -74,10 +74,12 @@ abui:profile a aui:AccuratorUI ;
 	aui:txtSubSlogan "start annotating or change your personal info"@en ;
 	aui:btnRecommend "Recommend something to annotate "@en ;
 	aui:btnSearch "Search "@en ;
+	aui:btnChangeExpertise "Change expertise levels"@en ;
 	aui:lblLastAnnotated "Artworks you recently annotated"@en .
 
 aui:btnRecommend a aui:UILabel .
 aui:btnSearch a aui:UILabel .
+aui:btnChangeExpertise a aui:UILabel .
 aui:lblLastAnnotated a aui:UILabel .
 
 ##### Additional Info Screen #####
