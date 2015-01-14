@@ -24,6 +24,7 @@ user:file_search_path(img, web(img)).
 :- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
+:- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
 
 %%	ui_elements_api(+Request)
 %
@@ -160,13 +161,73 @@ expertise_topics_api(Request) :-
 %%	expertise_topics(+Request)
 %
 %	Retrieves a list of expertise topics.
-get_expertise_topics(Dic, _Options) :-
-	%option(user(User), Options),
-	Dic = expertise_topics{topics:['waterbirds',
-								   'hwaks',
-								   'eagles',
-								   'owls',
-								   'swans']}.
+get_expertise_topics(Topics, Options) :-
+	setting(accurator:top_concept, TopConcept),
+	setting(accurator:number_expertise_topics, Number),
+	option(locale(Locale), Options),
+	get_number_topics([TopConcept], Number, TopicUris),
+	maplist(get_info_topics(Locale), TopicUris, TopicDicts),
+	Topics = expertise_topics{topics:TopicDicts}.
+
+get_info_topics(Locale, Uri, Dict) :-
+	rdf_global_id(Uri, GlobalUri),
+	get_label(Locale, Uri, Label),
+	get_childrens_labels(Uri, Locale, 3, ChildrensLabels),
+	Dict = topic{uri:GlobalUri, label:Label, childrens_labels:ChildrensLabels}.
+
+get_label(Locale, Uri, Label) :-
+	rdf(Uri, txn:commonName, literal(lang(Locale, Label))), !.
+
+get_label(Locale, Uri, Label) :-
+	rdf(Uri, skos:prefLabel, literal(lang(Locale, Label))), !.
+
+get_label(Locale, Uri, Label) :-
+	rdf_has(Uri, skos:prefLabel, literal(lang(Locale, Label))), !.
+
+%ioc specific, to get common names when possible
+get_label(_Locale, Uri, Label) :-
+	rdf(Uri, txn:commonName, literal(Label)), !.
+
+get_label(_Locale, Uri, Label) :-
+	rdf(Uri, skos:prefLabel, literal(Label)), !.
+
+get_label(_Locale, Uri, Label) :-
+	rdf_has(Uri, skos:prefLabel, literal(Label)), !.
+
+get_childrens_labels(Uri, Locale, MaxNumber, Labels) :-
+	get_children(Uri, Children),
+	maplist(get_label(Locale), Children, LongLabels),
+	shorten_when_needed(LongLabels, MaxNumber, Labels).
+
+shorten_when_needed(LongLabels, MaxNumber, LongLabels) :-
+	length(LongLabels, Length),
+	Length =< MaxNumber, !.
+
+shorten_when_needed(LongLabels, MaxNumber, Labels) :-
+	append(Labels, _Rest, LongLabels),
+	length(Labels, MaxNumber).
+
+%%	get_number_topics(Concepts, Number, PreviousTopics, PreviousTopics)
+%
+%	Find a list of topics, smaller than the specified number. If the new
+%	number exceeds the specified number, the previous list of concepts
+%	is returned.
+get_number_topics(Concepts, Number, Topics) :-
+	maplist(get_children, Concepts, ChildrenLists),
+	append(ChildrenLists, Children),
+	length(Children, NumberChildren),
+	NumberChildren < Number,
+	get_number_topics(Children, Number, Topics).
+get_number_topics(Topics, _Number, Topics) :-
+	!.
+
+%%	get_children(+Concept, -ChildrenList)
+%
+%	Get a list of children for the concept.
+get_children(Concept, ChildrenList) :-
+	findall(Child,
+			rdf_has(Child, skos:broader, Concept),
+			ChildrenList).
 
 %%	get_parameters_expertise(+Request, -Options)
 %
