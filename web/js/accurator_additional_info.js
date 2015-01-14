@@ -143,10 +143,10 @@ function initInternetSelector(optionList) {
 
 function addButtonEvents() {
 	$("#btnAddInfo").click(function() {
-		document.location.href="/profile.html";
+		document.location.href="/expertise.html";
 	});
 	$("#btnSkip").click(function() {
-		document.location.href="/profile.html";
+		document.location.href="/expertise.html";
 	});	
 }
 

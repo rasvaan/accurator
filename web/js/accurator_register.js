@@ -64,6 +64,10 @@ function register() {
 }
 
 function registerServer(name, user, password) {
+	userTaken = false;
+	if(userTaken)
+		setRegisterFailureText(lblUserTaken);
+
 	console.log("registering user " + name);
 	//Should defenitely be loggin in to server
 	return true;
