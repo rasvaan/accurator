@@ -9,6 +9,8 @@
 :- use_module(library(http/http_server_files)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/http_parameters)).
+:- use_module(library(http/html_write)).
+:- use_module(user(user_db)).
 
 http:location(html, cliopatria(html), []).
 http:location(img, cliopatria(img), []).
@@ -21,10 +23,13 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
 
+:- http_handler(cliopatria(register_user), register_user,  []).
+
 :- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
+
 
 %%	ui_elements_api(+Request)
 %
@@ -236,3 +241,18 @@ get_parameters_expertise(Request, Options) :-
     http_parameters(Request,
         [locale(Locale, [description('Locale of language elements to retrieve'), optional(false)])]),
     Options = [locale(Locale)].
+
+%%	register_user(+Request)
+%
+%	Register a user using information within a json object.
+register_user(Request) :-
+	http_read_json_dict(Request, JsonIn),
+	atom_string(User, JsonIn.user),
+	atom_string(JsonIn.password, Password),
+	atom_string(RealName, JsonIn.name),
+	password_hash(Password, Hash),
+	Allow = [ read(_,_), write(_,annotate) ],
+	user_add(User, [realname(RealName), password(Hash), allow(Allow)]),
+	reply_html_page(/,
+			title('Register user'),
+			h1('Successfully registered user')).

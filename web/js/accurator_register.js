@@ -5,6 +5,15 @@ var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#register";
 var lblRegistrationFailed;
 var lblPasswordsMatchFail;
 
+server = {
+		location: getServerUrl()
+}
+
+function getServerUrl() {
+	var urlParts = document.location.href.split("register");
+	return urlParts[0];
+}
+
 function registerInit() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
@@ -46,7 +55,6 @@ function setRegisterFailureText(text) {
 }
 
 function register() {
-	var register = false
 	var name = $("#regRealName").val();
 	var user = $("#regUsername").val();
 	var password = $("#regPassword").val();
@@ -57,18 +65,29 @@ function register() {
 	} else if (password != passwordRepeat){
 		setRegisterFailureText(lblPasswordsMatchFail);
 	} else {
-		register = registerServer(name, user, password);
+		registerServer(name, user, password);
 	}
-	if(register)
-		document.location.href="/additional_info.html";
 }
 
 function registerServer(name, user, password) {
-	userTaken = false;
-	if(userTaken)
-		setRegisterFailureText(lblUserTaken);
-
-	console.log("registering user " + name);
-	//Should defenitely be loggin in to server
-	return true;
+	var json = {"name":name, "user":user, "password":password};
+	var url = server.location + "register_user"; 
+	
+	$.ajax({
+		type: "POST",
+		url: url,
+		contentType: "application/json",
+		data: JSON.stringify(json),
+		success: function(data, textStatus, request){
+			alert(textStatus);
+			document.location.href="/additional_info.html";
+		},
+		error: function (request, textStatus, errorThrown) {
+	        if(errorThrown == "Not Found")
+	        	setRegisterFailureText("Server did not respond.");
+	        //TODO: Update with actual message
+	        if(errorThrown == "USer already exists")
+	    		setRegisterFailureText(lblUserTaken);
+		}
+	});
 }
