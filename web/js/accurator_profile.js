@@ -1,7 +1,7 @@
 /* Accurator Profile
 */
 var user = "rasvaan";
-var locale = "en";
+var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#profile";
 var recentItems;
 
@@ -19,6 +19,8 @@ function getServerUrl() {
 }
 
 function profileInit() {
+	locale = getLocale();
+	initLocaleRadio();
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			addButtonEvents();
@@ -28,6 +30,25 @@ function profileInit() {
 			$("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
 }
 
+function initLocaleRadio() {
+	if (locale === "en") {
+		$("#radioLocaleEn").trigger('click');
+	} else {
+		$("#radioLocaleEn").click(function() {
+			setLocale("en");
+			location.reload();
+			});
+	}
+	if (locale === "nl") {
+		$("#radioLocaleNl").trigger('click');
+	} else {
+		$("#radioLocaleNl").click(function() {
+			setLocale("nl");
+			location.reload();
+			});
+	}
+}
+
 function initLabels(data) {
 	$("#txtSlogan").prepend(data.txtSlogan + " " + user);
 	$("#txtSubSlogan").prepend(data.txtSubSlogan);
@@ -35,6 +56,9 @@ function initLabels(data) {
 	$("#btnChangeExpertise").append(data.btnChangeExpertise);
 	$("#btnSearch").append(data.btnSearch);
 	$("#lblLastAnnotated").append(data.lblLastAnnotated);
+	$("#frmChangeLocale").append(data.frmChangeLocale);
+	$("#radioLocaleEn").after(data.radioLocaleEn);
+	$("#radioLocaleNl").after(data.radioLocaleNl);
 }
 
 function addButtonEvents() {

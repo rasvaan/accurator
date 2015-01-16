@@ -1,9 +1,10 @@
 /* Accurator Expertise
 */
-var locale = "en";
+var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#expertise";
 
 function expertiseInit() {
+	locale = getLocale();
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
 		registerButtonEvent();

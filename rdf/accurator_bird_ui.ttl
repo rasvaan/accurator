@@ -78,12 +78,18 @@ abui:profile a aui:AccuratorUI ;
 	aui:btnRecommend "Recommend something to annotate "@en ;
 	aui:btnSearch "Search "@en ;
 	aui:btnChangeExpertise "Change expertise levels"@en ;
-	aui:lblLastAnnotated "Artworks you recently annotated"@en .
+	aui:lblLastAnnotated "Artworks you recently annotated"@en ;
+	aui:frmChangeLocale "Change the language of the interface"@en ;
+	aui:radioLocaleEn "English"@en ;
+	aui:radioLocaleNl "Dutch"@en .
 
 aui:btnRecommend a aui:UILabel .
 aui:btnSearch a aui:UILabel .
 aui:btnChangeExpertise a aui:UILabel .
 aui:lblLastAnnotated a aui:UILabel .
+aui:frmChangeLocale a aui:UILabel .
+aui:radioLocaleEn a aui:UILabel .
+aui:radioLocaleNl a aui:UILabel .
 
 ##### Additional Info Screen #####
 

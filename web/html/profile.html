@@ -43,8 +43,20 @@
 				</form>
 			</div>
 			<div class="col-md-5" id="rowChangeInfo">
-				<button class="btn btn-link" id="btnChangeExpertise">
+				<button class="btn btn-default" id="btnChangeExpertise">
 				</button>
+			 	<div id="frmLocale" class="form-group">
+					<label for="changeLocale" id="frmChangeLocale" class="col-sm-10 control-label">
+					</label>
+					<div class="col-sm-6">
+						<label class="radio-inline">
+							<input type="radio" name="localeRadio" id="radioLocaleEn" value="en">
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="localeRadio" id="radioLocaleNl" value="nl">
+						</label>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!-- Already annotated -->
@@ -64,6 +76,7 @@
 	<script type="text/javascript" src="/js/pagination_profile.js"></script>
 	<script type="text/javascript" src="/js/thumbnail_profile.js"></script>
 	<script type="text/javascript" src="/js/pengines.js"></script>
+	<script type="text/javascript" src="js/accurator_utilities.js"></script>
 	<script type="text/javascript" src="js/accurator_profile.js"></script>
 	<script>profileInit();</script>
 </body>

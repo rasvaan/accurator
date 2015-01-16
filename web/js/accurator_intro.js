@@ -1,10 +1,12 @@
 /* Accurator Intro
 */
-var locale = "en";
+var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#intro";
 var loginWarning, loginIncomplete;
 
 function introInit() {
+	locale = getLocale();
+	
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			registerButtonEvent();
