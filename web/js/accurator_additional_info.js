@@ -41,6 +41,7 @@ function initFormQuestions(data) {
 	$("#frmSocialNetwork").append(data.frmSocialNetwork);
 	$("#frmInternetUsage").append(data.frmInternetUsage);
 	$("#frmMuseumVisits").append(data.frmMuseumVisits);
+	$("#frmEmployee").append(data.frmEmployee);	
 	$("#frmTaggingExperience").append(data.frmTaggingExperience);
 	$("#frmTaggingExperienceLevel").append(data.frmTaggingExperienceLevel);
 	$("#frmTagSite").append(data.frmTagSite);

@@ -25,7 +25,7 @@ function registerButtonEvent() {
 	$("#btnSubmit").click(function() {
 		document.location.href="/profile.html";
 	});
-	$("#btnRegister").click(function() {
+	$("#btnSkip").click(function() {
 		document.location.href="/profile.html";
 	});	
 }
