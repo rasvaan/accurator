@@ -18,7 +18,17 @@ abui:intro a aui:AccuratorUI ;
 	aui:mdlFrmPassword "Password"@en ;
 	aui:mdlBtnLogin "Log in"@en ;
 	aui:loginWarning "Log in unsuccessful"@en ;
-	aui:loginIncomplete "Please add both your username and password"@en.
+	aui:loginIncomplete "Please add both your username and password"@en ;
+	aui:txtSlogan "Accurate Kunst Annotaties"@nl ;
+	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met vogel afbeeldingen"@nl ;
+	aui:btnRegister "Registreer"@nl ;
+	aui:btnLogin "of Log in"@nl ;
+	aui:mdlTxtTitle "Inloggen"@nl ;
+	aui:mdlFrmUsername "Gebruikersnaam"@nl ;
+	aui:mdlFrmPassword "Wachtwoord"@nl ;
+	aui:mdlBtnLogin "Log in"@nl ;
+	aui:loginWarning "Inloggen mislukt"@nl ;
+	aui:loginIncomplete "Voer zowel een gebruikersnaam als wachtwoord in"@nl .
 
 aui:txtSlogan a aui:UILabel .
 aui:txtSubSlogan a aui:UILabel .
@@ -44,7 +54,17 @@ abui:register a aui:AccuratorUI ;
 	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
 	aui:lblUserTaken "Username already exists."@en ;
 	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
-	aui:lblServerError "Server error"@en.
+	aui:lblServerError "Server error"@en ;
+	aui:txtHeader "Maak uw Accurator-account"@nl ;
+	aui:frmRealName "Volledige naam"@nl ;
+	aui:frmUsername "Kies een gebruikersnaam"@nl ;
+	aui:frmPassword "Een wachtwoord maken"@nl ;
+	aui:frmPasswordRepeat "Bevestig uw wachtwoord"@nl ;
+	aui:btnRegister "Registreer"@nl ;
+	aui:lblRegistrationFailed "Registratie mislukt, vul alle velden in."@nl ;
+	aui:lblUserTaken "Gebruikersnaam bestaat al."@nl ;
+	aui:lblPasswordsMatchFail "De wachtwoorden komen niet overeen."@nl ;
+	aui:lblServerError "Server fout"@nl .
 
 aui:txtHeader a aui:UILabel .
 aui:frmRealName a aui:UILabel .
@@ -64,7 +84,11 @@ abui:expertise a aui:AccuratorUI ;
 	aui:txtHeader "Expertise"@en ;
 	aui:txtSubHeader "how much do you know about the following topics?"@en ;
 	aui:btnSkip "or skip this step"@en ;
-	aui:btnSubmit "Submit"@en .
+	aui:btnSubmit "Submit"@en ;
+	aui:txtHeader "Expertise"@nl ;
+	aui:txtSubHeader "hoeveel weet u af van de volgende onderwerpen?"@nl ;
+	aui:btnSkip "of sla deze stap over"@nl ;
+	aui:btnSubmit "Verstuur"@nl .
 
 aui:txtSubHeader a aui:UILabel .
 aui:btnSubmit a aui:UILabel .
@@ -75,13 +99,22 @@ abui:profile a aui:AccuratorUI ;
 	dcterms:title "Accurator profile UI"@en ;
 	aui:txtSlogan "Welcome "@en ;
 	aui:txtSubSlogan "start annotating or change your personal info"@en ;
-	aui:btnRecommend "Recommend something to annotate "@en ;
-	aui:btnSearch "Search "@en ;
+	aui:btnRecommend "Recommend something to annotate"@en ;
+	aui:btnSearch "Search"@en ;
 	aui:btnChangeExpertise "Change expertise levels"@en ;
 	aui:lblLastAnnotated "Artworks you recently annotated"@en ;
 	aui:frmChangeLocale "Change the language of the interface"@en ;
 	aui:radioLocaleEn "English"@en ;
-	aui:radioLocaleNl "Dutch"@en .
+	aui:radioLocaleNl "Dutch"@en ;
+	aui:txtSlogan "Welkom "@nl ;
+	aui:txtSubSlogan "begin met annoteren of verander uw instellingen"@nl ;
+	aui:btnRecommend "Begin met annoteren"@nl ;
+	aui:btnSearch "Zoek"@nl ;
+	aui:btnChangeExpertise "Verander uw expertise niveaus"@nl ;
+	aui:lblLastAnnotated "Kunstwerken die u recent heeft geannoteerd"@nl ;
+	aui:frmChangeLocale "Verander de taal van de interface"@nl;
+	aui:radioLocaleEn "Engels"@nl ;
+	aui:radioLocaleNl "Nederlands"@nl .
 
 aui:btnRecommend a aui:UILabel .
 aui:btnSearch a aui:UILabel .
@@ -136,7 +169,46 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:chkTagSiteWaIsDa "WaIsDa?"@en ;
 	aui:chkTagSiteSpotvogel "Spotvogel"@en ;
 	aui:chkTagSiteSteve "Steve.Museum"@en ;
-	aui:chkTagNone "None of these"@en .
+	aui:chkTagNone "None of these"@en ;
+aui:txtHeader "Aanvullende informatie"@nl ;
+aui:txtHeaderSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
+aui:btnAddInfo "Verstuur aanvullende informatie"@nl ;
+aui:btnSkip "of sla deze stap over"@nl ;
+aui:frmAge "Leeftijd"@nl ;
+aui:frmGender "Geslacht"@nl ;
+aui:radioGenderMale "Man"@nl ;
+aui:radioGenderFemale "Vrouw"@nl ;
+aui:frmCountry "In welk land woont u?"@nl ;
+aui:frmCommunity "Hoe zou u uw leefomgeving omschrijven?"@nl ;
+aui:radioCommunityUrban "Stedelijk"@nl ;
+aui:radioCommunitySubUrban "Voorstedelijk"@nl ;
+aui:radioCommunityRural "Platteland"@nl ;
+aui:frmLanguage "Welke taal beheerst u het beste?"@nl ;
+aui:frmEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
+aui:frmIncome "Wat is het gemiddelde jaarlijkse inkomen van uw huishouden?"@nl ;
+aui:frmMail "Email"@nl ;
+aui:frmSocialNetwork "Op welke sociale media bent u actief?"@nl ;
+aui:chkSocialFacebook "Facebook"@nl ;
+aui:chkSocialLinkedIn "LinkedIn"@nl ;
+aui:chkSocialTwitter "Twitter"@nl ;
+aui:chkSocialNone "Geen van deze"@nl ;
+aui:frmInternetUsage "Hoe vaak gebruikt u het internet?"@nl ;
+aui:frmMuseumVisits "Hoe vaak bezoekt u gemiddeld een museum per jaar?"@nl ;
+aui:frmEmployee "Bent u een museum medewerker?"@nl ;
+aui:radioEmployeeYes "Ja"@nl ;
+aui:radioEmployeeNo "Nee"@nl ;
+aui:frmTaggingExperience "Heeft u ervaring met het toevoegen van taggen van media?"@nl ;
+aui:radioTaggingYes "Ja"@nl ;
+aui:radioTaggingNo "Nee"@nl;
+aui:frmTaggingExperienceLevel "Hoe zou u uw tag ervaringsniveau omschrijven?"@nl ;
+aui:radioTaggingNovice "Beginner"@nl ;
+aui:radioTaggingIntermediate "Gemiddeld"@nl ;
+aui:radioTaggingExpert "Expert"@nl ;
+aui:frmTagSite "Welke van de volgende websites heeft u weleens gebruikt om te taggen?"@nl ;
+aui:chkTagSiteWaIsDa "WaIsDa?"@nl ;
+aui:chkTagSiteSpotvogel "Spotvogel"@nl ;
+aui:chkTagSiteSteve "Steve.Museum"@nl ;
+aui:chkTagNone "Geen van deze"@nl .
 
 aui:txtHeader a aui:UILabel .
 aui:txtHeaderSub a aui:UILabel .
@@ -185,7 +257,14 @@ aui:educationOptions a aui:SelectorField ;
 	aui:optionBachelor "Bachelor"@en ;
 	aui:optionMaster "Master"@en ;
 	aui:optionDoctorate "Doctorate"@en ;
-	aui:optionUknown "Unknown"@en .
+	aui:optionUknown "Unknown"@en ;
+	aui:optionPrimarySchool "Geen opleiding of enkel lager onderwijs"@nl ;
+	aui:optionHighSchool "VMBO / MAVO / MULO / LBO  / VBO"@nl ;
+	aui:optionCollege "HAVO / VWO / HBS"@nl ;
+	aui:optionBachelor "HBO / HTS / Bachelor"@nl ;
+	aui:optionMaster "WO / Master (MBA)"@nl ;
+	aui:optionDoctorate "Doctoraal"@nl ;
+	aui:optionUknown "Onbekend"@nl .
 
 aui:optionPrimarySchool a aui:UILabel .
 aui:optionHighSchool a aui:UILabel .
@@ -203,7 +282,15 @@ aui:incomeOptions a aui:SelectorField ;
 	aui:income75to100 "$75,000 to $99,999"@en ;
 	aui:income100to150 "$100,000 to $149,999"@en ;
 	aui:income150to200 "$150,000 to $199,999"@en ;
-	aui:income200 "$200,000 or more"@en .
+	aui:income200 "$200,000 or more"@en ;
+	aui:income20 "Minder dan \u20AC 20,000"@nl ;
+	aui:income20to35 "\u20AC20.000 tot \u20AC34.999"@nl ;
+	aui:income35to50 "\u20AC35.000 tot \u20AC49.999"@nl ;
+	aui:income50to75 "\u20AC50.000 tot \u20AC74.999"@nl ;
+	aui:income75to100 "\u20AC75.000 tot \u20AC99.999"@nl ;
+	aui:income100to150 "\u20AC100.000 tot \u20AC149.999"@nl ;
+	aui:income150to200 "\u20AC150.000 tot \u20AC199.999"@nl ;
+	aui:income200 "\u20AC200.000 of meer"@nl .
 
 aui:income20 a aui:UILabel .
 aui:income20to35 a aui:UILabel .
@@ -219,7 +306,12 @@ aui:internetOptions a aui:SelectorField ;
 	aui:internetOnceADay "Once a day"@en ;
 	aui:internet3to5 "3-5 days per week"@en ;
 	aui:internet1to2 "1-2 days per week"@en ;
-	aui:internetLessThan1 "Less than 1 day per week"@en .
+	aui:internetLessThan1 "Less than 1 day per week"@en ;
+	aui:internetAlways "Altijd online"@nl ;
+	aui:internetOnceADay "Elke dag"@nl ;
+	aui:internet3to5 "3 tot 5 dagen per week"@nl ;
+	aui:internet1to2 "1 tot 2 dagen per week"@nl ;
+	aui:internetLessThan1 "Minder dan een dag per week"@nl .
 
 aui:internetAlways a aui:UILabel .
 aui:internetOnceADay a aui:UILabel .
