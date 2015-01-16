@@ -42,8 +42,9 @@ abui:register a aui:AccuratorUI ;
 	aui:frmPasswordRepeat "Confirm your password"@en ;
 	aui:btnRegister "Register"@en ;
 	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
-aui:lblUserTaken "The username is already in use."@en ;
-	aui:lblPasswordsMatchFail "The passwords do not match."@en .
+	aui:lblUserTaken "Username already exists."@en ;
+	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
+	aui:lblServerError "Server error"@en.
 
 aui:txtHeader a aui:UILabel .
 aui:frmRealName a aui:UILabel .
@@ -53,6 +54,8 @@ aui:frmPasswordRepeat a aui:UILabel .
 aui:lblRegistrationFailed a aui:UILabel .
 aui:lblUserTaken a aui:UILabel .
 aui:lblPasswordsMatchFail a aui:UILabel .
+aui:lblUserTaken a aui:UILabel .
+aui:lblServerError a aui:UILabel .
 
 ##### Expertise Screen #####
 

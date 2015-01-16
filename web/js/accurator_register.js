@@ -2,8 +2,7 @@
 */
 var locale = "en";
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#register";
-var lblRegistrationFailed;
-var lblPasswordsMatchFail;
+var lblRegistrationFailed, lblPasswordsMatchFail, lblUserTaken, lblServerError;
 
 server = {
 		location: getServerUrl()
@@ -32,6 +31,8 @@ function initLabels(data) {
 	$("#btnRegister").append(data.btnRegister);
 	lblRegistrationFailed = data.lblRegistrationFailed;
 	lblPasswordsMatchFail = data.lblPasswordsMatchFail;
+	lblUserTaken = data.lblUserTaken;
+	lblServerError = data.lblServerError
 }
 
 function registerEvent() {
@@ -79,15 +80,16 @@ function registerServer(name, user, password) {
 		contentType: "application/json",
 		data: JSON.stringify(json),
 		success: function(data, textStatus, request){
-			alert(textStatus);
 			document.location.href="/additional_info.html";
 		},
 		error: function (request, textStatus, errorThrown) {
-	        if(errorThrown == "Not Found")
+			if(errorThrown == "Not Found")
 	        	setRegisterFailureText("Server did not respond.");
-	        //TODO: Update with actual message
-	        if(errorThrown == "USer already exists")
+	        if(request.responseText.contains("User already exists")) {
 	    		setRegisterFailureText(lblUserTaken);
+	        } else {
+	        	setRegisterFailureText(lblServerError);
+	        }
 		}
 	});
 }

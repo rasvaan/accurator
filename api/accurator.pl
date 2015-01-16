@@ -248,11 +248,15 @@ get_parameters_expertise(Request, Options) :-
 register_user(Request) :-
 	http_read_json_dict(Request, JsonIn),
 	atom_string(User, JsonIn.user),
-	atom_string(JsonIn.password, Password),
-	atom_string(RealName, JsonIn.name),
-	password_hash(Password, Hash),
-	Allow = [ read(_,_), write(_,annotate) ],
-	user_add(User, [realname(RealName), password(Hash), allow(Allow)]),
-	reply_html_page(/,
-			title('Register user'),
-			h1('Successfully registered user')).
+	(   current_user(User)
+	->  throw(error(permission_error(create, user, User),
+			context(_, 'User already exists')))
+	;   atom_string(JsonIn.password, Password),
+		password_hash(Password, Hash),
+		atom_string(RealName, JsonIn.name),
+			Allow = [ read(_,_), write(_,annotate) ],
+		user_add(User, [realname(RealName), password(Hash), allow(Allow)]),
+		reply_html_page(/,
+					title('Register user'),
+						h1('Successfully registered user'))
+	).
