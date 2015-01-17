@@ -2,6 +2,7 @@
 */
 var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#expertise";
+var sldALot, sldNothing;
 
 function expertiseInit() {
 	locale = getLocale();
@@ -19,6 +20,8 @@ function initLabels(data) {
 	$("#frmRealName").append(data.frmRealName);
 	$("#btnSubmit").append(data.btnSubmit);
 	$("#btnSkip").append(data.btnSkip);
+	sldALot = data.sldALot;
+	sldNothing = data.sldNothing;
 }
 
 function registerButtonEvent() {
@@ -34,7 +37,7 @@ function initExpertiseTopics() {
 	$.getJSON("expertise_topics", {locale:locale})
 	.done(function(data){
 		var topics = data.topics;
-		var halfTheTopics = parseInt(topics.length/2, 10) + 1;
+		var halfTheTopics = parseInt(topics.length/2, 10);
 
 		for(var i=0; i<halfTheTopics; i++) {
 			$("#frmExpertiseLeft").append(
@@ -44,9 +47,9 @@ function initExpertiseTopics() {
 			$("#frmExpertiseLeft").append(
 					$.el.div({'class':'row'},
 							$.el.div({'class':'col-md-10 col-md-offset-1'},
-									$.el.small({'class':'sliderLabel'}, "nothing"),
+									$.el.small({'class':'sliderLabel'}, sldNothing),
 									expertiseSlider(topics[i].label),
-									$.el.small({'class':'sliderLabel'}, "a lot"))));
+									$.el.small({'class':'sliderLabel'}, sldALot))));
 			initSlider(topics[i].label);
 		}
 		for(var i=halfTheTopics; i<topics.length; i++) {
@@ -57,9 +60,9 @@ function initExpertiseTopics() {
 			$("#frmExpertiseRight").append(
 							$.el.div({'class':'row'},
 									$.el.div({'class':'col-md-10 col-md-offset-1'},
-											$.el.small({'class':'sliderLabel'}, "nothing"),
+											$.el.small({'class':'sliderLabel'}, sldNothing),
 											expertiseSlider(topics[i].label),
-											$.el.small({'class':'sliderLabel'}, "a lot"))));
+											$.el.small({'class':'sliderLabel'}, sldALot))));
 			initSlider(topics[i].label);
 		}
 		})
@@ -70,7 +73,7 @@ function expertiseSlider(id) {
 	return $.el.input({'id':id,
 						'data-slider-id':'sld'+id,
 						'type':'text',
-						'data-slider-min':'0',
+						'data-slider-min':'-1',
 						'data-slider-max':'1',
 						'data-slider-step':'0.01',
 						'data-slider-value':'0'});	
