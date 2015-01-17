@@ -180,25 +180,6 @@ get_info_topics(Locale, Uri, Dict) :-
 	get_childrens_labels(Uri, Locale, 3, ChildrensLabels),
 	Dict = topic{uri:GlobalUri, label:Label, childrens_labels:ChildrensLabels}.
 
-get_label(Locale, Uri, Label) :-
-	rdf(Uri, txn:commonName, literal(lang(Locale, Label))), !.
-
-get_label(Locale, Uri, Label) :-
-	rdf(Uri, skos:prefLabel, literal(lang(Locale, Label))), !.
-
-get_label(Locale, Uri, Label) :-
-	rdf_has(Uri, skos:prefLabel, literal(lang(Locale, Label))), !.
-
-%ioc specific, to get common names when possible
-get_label(_Locale, Uri, Label) :-
-	rdf(Uri, txn:commonName, literal(Label)), !.
-
-get_label(_Locale, Uri, Label) :-
-	rdf(Uri, skos:prefLabel, literal(Label)), !.
-
-get_label(_Locale, Uri, Label) :-
-	rdf_has(Uri, skos:prefLabel, literal(Label)), !.
-
 get_childrens_labels(Uri, Locale, MaxNumber, Labels) :-
 	get_children(Uri, Children),
 	maplist(get_label(Locale), Children, LongLabels),
@@ -260,3 +241,36 @@ register_user(Request) :-
 					title('Register user'),
 						h1('Successfully registered user'))
 	).
+
+%%	get_label(Locale, Uri, Label)
+%
+%	Get a label for a specified uri and locale. Three different
+%	attempts:
+%
+%	* with locale specified
+%	* ignoring the type of specified locale
+%	* literals without locale specified
+%
+%	Three different label properties are tried:
+%
+%	* txn:commonName - a life sciences specific label
+%	* skos:prefLabel - skos
+%	* subproperties of skos:prefLabel
+get_label(Locale, Uri, Label) :-
+	rdf(Uri, txn:commonName, literal(lang(Locale, Label))), !.
+get_label(Locale, Uri, Label) :-
+	rdf(Uri, skos:prefLabel, literal(lang(Locale, Label))), !.
+get_label(Locale, Uri, Label) :-
+	rdf_has(Uri, skos:prefLabel, literal(lang(Locale, Label))), !.
+get_label(_Locale, Uri, Label) :-
+	rdf(Uri, txn:commonName, literal(lang(_, Label))), !.
+get_label(_Locale, Uri, Label) :-
+	rdf(Uri, skos:prefLabel, literal(lang(_, Label))), !.
+get_label(_Locale, Uri, Label) :-
+	rdf_has(Uri, skos:prefLabel, literal(lang(_, Label))), !.
+get_label(_Locale, Uri, Label) :-
+	rdf(Uri, txn:commonName, literal(Label)), !.
+get_label(_Locale, Uri, Label) :-
+	rdf(Uri, skos:prefLabel, literal(Label)), !.
+get_label(_Locale, Uri, Label) :-
+	rdf_has(Uri, skos:prefLabel, literal(Label)), !.
