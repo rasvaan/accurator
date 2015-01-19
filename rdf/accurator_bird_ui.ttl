@@ -19,7 +19,7 @@ abui:intro a aui:AccuratorUI ;
 	aui:mdlBtnLogin "Log in"@en ;
 	aui:loginWarning "Log in unsuccessful"@en ;
 	aui:loginIncomplete "Please add both your username and password"@en ;
-	aui:txtSlogan "Accurate Kunst Annotaties"@nl ;
+	aui:txtSlogan "Accurate Kunst Beschrijvingen"@nl ;
 	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met vogel afbeeldingen"@nl ;
 	aui:btnRegister "Registreer"@nl ;
 	aui:btnLogin "of Log in"@nl ;
@@ -158,6 +158,7 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:chkSocialLinkedIn "LinkedIn"@en ;
 	aui:chkSocialTwitter "Twitter"@en ;
 	aui:chkSocialNone "None of these"@en ;
+	aui:frmTwitterId "What is your Twitter id?"@en  ;
 	aui:frmInternetUsage "How often do you make use of the internet?"@en ;
 	aui:hasSelector aui:internetOptions ;
 	aui:frmMuseumVisits "How many times a year do you visit a museum on average?"@en ;
@@ -176,45 +177,46 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:chkTagSiteSpotvogel "Spotvogel"@en ;
 	aui:chkTagSiteSteve "Steve.Museum"@en ;
 	aui:chkTagNone "None of these"@en ;
-aui:txtHeader "Aanvullende informatie"@nl ;
-aui:txtHeaderSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
-aui:btnAddInfo "Verstuur aanvullende informatie"@nl ;
-aui:btnSkip "of sla deze stap over"@nl ;
-aui:frmAge "Leeftijd"@nl ;
-aui:frmGender "Geslacht"@nl ;
-aui:radioGenderMale "Man"@nl ;
-aui:radioGenderFemale "Vrouw"@nl ;
-aui:frmCountry "In welk land woont u?"@nl ;
-aui:frmCommunity "Hoe zou u uw leefomgeving omschrijven?"@nl ;
-aui:radioCommunityUrban "Stedelijk"@nl ;
-aui:radioCommunitySubUrban "Voorstedelijk"@nl ;
-aui:radioCommunityRural "Platteland"@nl ;
-aui:frmLanguage "Welke taal beheerst u het beste?"@nl ;
-aui:frmEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
-aui:frmIncome "Wat is het gemiddelde jaarlijkse inkomen van uw huishouden?"@nl ;
-aui:frmMail "Email"@nl ;
-aui:frmSocialNetwork "Op welke sociale media bent u actief?"@nl ;
-aui:chkSocialFacebook "Facebook"@nl ;
-aui:chkSocialLinkedIn "LinkedIn"@nl ;
-aui:chkSocialTwitter "Twitter"@nl ;
-aui:chkSocialNone "Geen van deze"@nl ;
-aui:frmInternetUsage "Hoe vaak gebruikt u het internet?"@nl ;
-aui:frmMuseumVisits "Hoe vaak per jaar bezoekt u gemiddeld een museum?"@nl ;
-aui:frmEmployee "Bent u een museum medewerker?"@nl ;
-aui:radioEmployeeYes "Ja"@nl ;
-aui:radioEmployeeNo "Nee"@nl ;
-aui:frmTaggingExperience "Heeft u ervaring met het toevoegen van taggen van media?"@nl ;
-aui:radioTaggingYes "Ja"@nl ;
-aui:radioTaggingNo "Nee"@nl;
-aui:frmTaggingExperienceLevel "Hoe zou u uw tag ervaringsniveau omschrijven?"@nl ;
-aui:radioTaggingNovice "Beginner"@nl ;
-aui:radioTaggingIntermediate "Gemiddeld"@nl ;
-aui:radioTaggingExpert "Expert"@nl ;
-aui:frmTagSite "Welke van de volgende websites heeft u weleens gebruikt om te taggen?"@nl ;
-aui:chkTagSiteWaIsDa "WaIsDa?"@nl ;
-aui:chkTagSiteSpotvogel "Spotvogel"@nl ;
-aui:chkTagSiteSteve "Steve.Museum"@nl ;
-aui:chkTagNone "Geen van deze"@nl .
+	aui:txtHeader "Aanvullende informatie"@nl ;
+	aui:txtHeaderSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
+	aui:btnAddInfo "Bevestig"@nl ;
+	aui:btnSkip "of sla deze stap over"@nl ;
+	aui:frmAge "Leeftijd"@nl ;
+	aui:frmGender "Geslacht"@nl ;
+	aui:radioGenderMale "Man"@nl ;
+	aui:radioGenderFemale "Vrouw"@nl ;
+	aui:frmCountry "In welk land woont u?"@nl ;
+	aui:frmCommunity "Hoe zou u uw leefomgeving omschrijven?"@nl ;
+	aui:radioCommunityUrban "Stedelijk"@nl ;
+	aui:radioCommunitySubUrban "Voorstedelijk"@nl ;
+	aui:radioCommunityRural "Platteland"@nl ;
+	aui:frmLanguage "Welke taal beheerst u het beste?"@nl ;
+	aui:frmEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
+	aui:frmIncome "Wat is het gemiddelde jaarlijkse netto inkomen van uw huishouden?"@nl ;
+	aui:frmMail "Email"@nl ;
+	aui:frmSocialNetwork "Op welke sociale media bent u actief?"@nl ;
+	aui:chkSocialFacebook "Facebook"@nl ;
+	aui:chkSocialLinkedIn "LinkedIn"@nl ;
+	aui:chkSocialTwitter "Twitter"@nl ;
+	aui:chkSocialNone "Geen van deze"@nl ;
+	aui:frmTwitterId "Wat is uw Twitter id?"@nl  ;
+	aui:frmInternetUsage "Hoe vaak gebruikt u het internet?"@nl ;
+	aui:frmMuseumVisits "Hoe vaak per jaar bezoekt u gemiddeld een museum?"@nl ;
+	aui:frmEmployee "Bent u een museum medewerker?"@nl ;
+	aui:radioEmployeeYes "Ja"@nl ;
+	aui:radioEmployeeNo "Nee"@nl ;
+	aui:frmTaggingExperience "Heeft u ervaring met het toevoegen van informatie aan media?"@nl ;
+	aui:radioTaggingYes "Ja"@nl ;
+	aui:radioTaggingNo "Nee"@nl;
+	aui:frmTaggingExperienceLevel "Hoe zou u uw tag ervaringsniveau omschrijven?"@nl ;
+	aui:radioTaggingNovice "Beginner"@nl ;
+	aui:radioTaggingIntermediate "Gemiddeld"@nl ;
+	aui:radioTaggingExpert "Expert"@nl ;
+	aui:frmTagSite "Welke van de volgende websites heeft u weleens gebruikt om te taggen?"@nl ;
+	aui:chkTagSiteWaIsDa "WaIsDa?"@nl ;
+	aui:chkTagSiteSpotvogel "Spotvogel"@nl ;
+	aui:chkTagSiteSteve "Steve.Museum"@nl ;
+	aui:chkTagNone "Geen van deze"@nl .
 
 aui:txtHeader a aui:UILabel .
 aui:txtHeaderSub a aui:UILabel .
@@ -238,6 +240,7 @@ aui:chkSocialFacebook a aui:UILabel .
 aui:chkSocialLinkedIn a aui:UILabel .
 aui:chkSocialTwitter a aui:UILabel .
 aui:chkSocialNone a aui:UILabel .
+aui:frmTwitterId a aui:UILabel .
 aui:frmInternetUsage a aui:UILabel .
 aui:frmMuseumVisits a aui:UILabel .
 aui:frmEmployee a aui:UILabel .

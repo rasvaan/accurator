@@ -2,19 +2,32 @@
 */
 var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#additional_info";
-	
+var twitterFieldAdded = false;
+var frmTwitterId;
+
 function additionalInfoInit() {
 	locale = getLocale();
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
 		addButtonEvents();
-		initLabels(data);})
+		initLabels(data);
+		addFormEvents();
+		$("#frmAge").focus();})
 	.fail(function(data, textStatus){
-//		setRegisterFailureText("Problem connecting to server, please contact the system administrator.");
 		});
 }
 
+function addButtonEvents() {
+	$("#btnAddInfo").click(function() {
+		document.location.href="/expertise.html";
+	});
+	$("#btnSkip").click(function() {
+		document.location.href="/expertise.html";
+	});	
+}
+
 function initLabels(data) {
+	frmTwitterId = data.frmTwitterId;
 	$("#txtHeader").prepend(data.txtHeader);
 	$("#txtHeaderSub").append(data.txtHeaderSub);
 	initFormQuestions(data);
@@ -71,6 +84,24 @@ function initCheckboxes(data) {
 	$("#chkTagSiteSpotvogel").after(data.chkTagSiteSpotvogel);
 	$("#chkTagSiteSteve").after(data.chkTagSiteSteve);
 	$("#chkTagNone").after(data.chkTagNone);
+}
+
+function addFormEvents() {
+	$("#chkSocialTwitter").click(function() {
+		if(!twitterFieldAdded) {
+			$("#frmGroupSocialNetwork").after(
+				$.el.div({'class':'form-group'},
+						$.el.label({'for':'addTwitterId',
+									'id':'frmTwitterId',
+									'class':'col-sm-5 control-label'},
+									frmTwitterId),
+						$.el.div({'class':'col-sm-5'},
+								 $.el.input({'type':'text',
+									 		 'id':'addTwitterId',
+									 		 'class':'form-control'}))));
+			twitterFieldAdded = true;
+		}
+	});
 }
 
 function initCountriesSelector() {
@@ -142,13 +173,3 @@ function initInternetSelector(optionList) {
 	$("#sltInternet").append($.el.option(optionList.internet1to2));
 	$("#sltInternet").append($.el.option(optionList.internetLessThan1));
 }
-
-function addButtonEvents() {
-	$("#btnAddInfo").click(function() {
-		document.location.href="/expertise.html";
-	});
-	$("#btnSkip").click(function() {
-		document.location.href="/expertise.html";
-	});	
-}
-
