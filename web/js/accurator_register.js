@@ -19,7 +19,8 @@ function registerInit() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
 		registerEvent();
-		initLabels(data);})
+		initLabels(data);
+		$("#frmRealName").focus();})
 	.fail(function(data, textStatus){
 		setRegisterFailureText("Problem connecting to server, please contact the system administrator.");});
 }
