@@ -82,17 +82,17 @@ aui:lblServerError a aui:UILabel .
 abui:expertise a aui:AccuratorUI ;
 	dcterms:title "Accurator expertise form UI"@en ;
 	aui:txtHeader "Expertise"@en ;
-	aui:txtSubHeader "how much do you know about the following topics?"@en ;
+	aui:txtSubHeader "how much do you know about the following bird species?"@en ;
 	aui:btnSkip "or skip this step"@en ;
 	aui:btnSubmit "Submit"@en ;
 	aui:sldALot "a lot"@en ;
 	aui:sldNothing "nothing"@en ;
 	aui:txtHeader "Expertise"@nl ;
-	aui:txtSubHeader "hoeveel weet u af van de volgende onderwerpen?"@nl ;
+	aui:txtSubHeader "hoeveel weet u af van de volgende vogelsoorten?"@nl ;
 	aui:btnSkip "of sla deze stap over"@nl ;
-	aui:btnSubmit "Verstuur"@nl ;
+	aui:btnSubmit "Bevestig"@nl ;
 	aui:sldALot "veel"@nl ;
-	aui:sldNothing "niets"@nl .
+	aui:sldNothing "weinig"@nl .
 
 aui:txtSubHeader a aui:UILabel .
 aui:btnSubmit a aui:UILabel .

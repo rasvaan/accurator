@@ -46,7 +46,7 @@ function initExpertiseTopics() {
 									 $.el.small(printArray(topics[i].childrens_labels)))));
 			$("#frmExpertiseLeft").append(
 					$.el.div({'class':'row'},
-							$.el.div({'class':'col-md-10 col-md-offset-1'},
+							$.el.div({'class':'col-md-11 col-md-offset-1'},
 									$.el.small({'class':'sliderLabel'}, sldNothing),
 									expertiseSlider(topics[i].label),
 									$.el.small({'class':'sliderLabel'}, sldALot))));
@@ -59,7 +59,7 @@ function initExpertiseTopics() {
 									 $.el.small(printArray(topics[i].childrens_labels)))));
 			$("#frmExpertiseRight").append(
 							$.el.div({'class':'row'},
-									$.el.div({'class':'col-md-10 col-md-offset-1'},
+									$.el.div({'class':'col-md-11 col-md-offset-1'},
 											$.el.small({'class':'sliderLabel'}, sldNothing),
 											expertiseSlider(topics[i].label),
 											$.el.small({'class':'sliderLabel'}, sldALot))));
@@ -73,10 +73,10 @@ function expertiseSlider(id) {
 	return $.el.input({'id':id,
 						'data-slider-id':'sld'+id,
 						'type':'text',
-						'data-slider-min':'-1',
-						'data-slider-max':'1',
-						'data-slider-step':'0.01',
-						'data-slider-value':'0'});	
+						'data-slider-min':'1',
+						'data-slider-max':'5',
+						'data-slider-step':'0.1',
+						'data-slider-value':'3'});	
 }
 
 function initSlider(id) {
