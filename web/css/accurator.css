@@ -7,46 +7,29 @@ html,body {
 	margin-top: 50px;
 }
 
+.bottomButtons {
+	margin-bottom: 20px;
+}
 /* Navbar */
 #headerImage {
 	height: 20px;
 }
 
 /* Intro page */
+.introScreen {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
 .backgroundImage {
-	position: relative; top: 0; left: 0;
-	min-width: 100%;
-	max-width: 100%;
+	min-width: 125%;
+	max-width: 125%;	
 }
 
 .introText {
-	position: absolute; top: 75px;
+	position: absolute; 
+	top: 75px;
 }
-
-.btn-transparent {
-	height: 40px; color: #fff; background-color: rgba(0, 0, 0, 0.33);	border: none;
-}
-
-.btn-transparent:focus {
-	background-color: #fff; text-decoration: none;
-}
-
-.btn-transparent:hover {
-	background-color: #fff; text-decoration: none;
-}
-
-.btn-link {
-	color: #505050;
-}
-
-.btn-link:hover {
-	color: #909090; cursor: pointer;
-}
-
-.btn-link:focus {
-	outline: none;
-}
-
 
 /* Register page */
 .registerMessage {
@@ -79,6 +62,7 @@ html,body {
 	margin-top: 10px;
 }
 
+/* Sliders */
 slider.slider-horizontal {
 	height: 15px;
 	align: center;
@@ -91,4 +75,29 @@ slider.slider-horizontal {
 
 .sliderLabel {
 	padding: 0px 15px 0px 15px;
+}
+
+/* Buttons */
+.btn-transparent {
+	height: 40px; color: #fff; background-color: rgba(0, 0, 0, 0.33);	border: none;
+}
+
+.btn-transparent:focus {
+	background-color: #fff; text-decoration: none;
+}
+
+.btn-transparent:hover {
+	background-color: #fff; text-decoration: none;
+}
+
+.btn-link {
+	color: #505050;
+}
+
+.btn-link:hover {
+	color: #909090; cursor: pointer;
+}
+
+.btn-link:focus {
+	outline: none;
 }

@@ -8,8 +8,8 @@
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 </head>
 
-<body>
-<div class="container-fluid">
+<body class="introScreen">
+	<!-- Navbar -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -20,23 +20,26 @@
 		</div>
 	</nav>
 	
+	<!-- Background -->
 	<img class="backgroundImage" src="/img/background/1.jpg"></img>
-	<div class="content">
-		<div class="introText">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
-					<h2 id="txtSlogan">
-						<small id ="txtSubSlogan">
-						</small>
-					</h2>
-					<button class="btn btn-transparent" id="btnRegister">
-					</button>
-					<button class="btn btn-link" id="btnLogin" data-toggle="modal" data-target="#modalLogin">
-					</button>
-				</div>
+	
+	<!-- Text -->
+	<div class="introText container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<h2 id="txtSlogan">
+					<small id ="txtSubSlogan">
+					</small>
+				</h2>
+				<button class="btn btn-transparent" id="btnRegister">
+				</button>
+				<button class="btn btn-link" id="btnLogin" data-toggle="modal" data-target="#modalLogin">
+				</button>
 			</div>
 		</div>
 	</div>
+	
+	<!-- Modal -->
 	<div class="modal fade" id="modalLogin">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -76,6 +79,5 @@
 	<script type="text/javascript" src="js/accurator_utilities.js"></script>
 	<script type="text/javascript" src="js/accurator_intro.js"></script>
 	<script>introInit()</script>
-</div>
 </body>
 </html>
