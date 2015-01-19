@@ -53,6 +53,8 @@ function initLocaleRadio() {
 function initLabels(data) {
 	$("#txtSlogan").prepend(data.txtSlogan + " " + user);
 	$("#txtSubSlogan").prepend(data.txtSubSlogan);
+	$("#txtStartAnnotating").append(data.txtStartAnnotating);
+	$("#txtChangeSettings").append(data.txtChangeSettings);
 	$("#btnRecommend").append(data.btnRecommend);
 	$("#btnChangeExpertise").append(data.btnChangeExpertise);
 	$("#btnSearch").append(data.btnSearch);

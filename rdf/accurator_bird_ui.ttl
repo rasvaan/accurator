@@ -105,7 +105,8 @@ abui:profile a aui:AccuratorUI ;
 	dcterms:title "Accurator profile UI"@en ;
 	aui:txtSlogan "Welcome "@en ;
 	aui:txtSubSlogan "start annotating or change your personal info"@en ;
-	aui:btnRecommend "Annotate recommended works"@en ;
+	aui:txtStartAnnotating "To start annotating you can choose to search for specific works or to get works recommended."@en ;
+	aui:btnRecommend "Recommended works"@en ;
 	aui:btnSearch "Search"@en ;
 	aui:btnChangeExpertise "Change expertise levels"@en ;
 	aui:lblLastAnnotated "Artworks you recently annotated"@en ;
@@ -114,7 +115,9 @@ abui:profile a aui:AccuratorUI ;
 	aui:radioLocaleNl "Dutch"@en ;
 	aui:txtSlogan "Welkom "@nl ;
 	aui:txtSubSlogan "begin met annoteren of verander uw instellingen"@nl ;
-	aui:btnRecommend "Annoteer aanbevolen werken"@nl ;
+	aui:txtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
+	aui:txtChangeSettings "begin met annoteren of verander uw instellingen"@nl ;
+	aui:btnRecommend "Aanbevolen werken"@nl ;
 	aui:btnSearch "Zoek"@nl ;
 	aui:btnChangeExpertise "Verander uw expertise niveaus"@nl ;
 	aui:lblLastAnnotated "Kunstwerken die u recent heeft geannoteerd"@nl ;
@@ -122,6 +125,7 @@ abui:profile a aui:AccuratorUI ;
 	aui:radioLocaleEn "Engels"@nl ;
 	aui:radioLocaleNl "Nederlands"@nl .
 
+aui:txtStartAnnotating a aui:UILabel .
 aui:btnRecommend a aui:UILabel .
 aui:btnSearch a aui:UILabel .
 aui:btnChangeExpertise a aui:UILabel .
