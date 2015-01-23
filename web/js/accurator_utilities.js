@@ -22,11 +22,11 @@ function setLocale(languageCode) {
 
 //Server info
 server = {
-location: getServerUrl()
+	location: getServerUrl()
 }
 
 function getServerUrl() {
-	var urlParts = document.location.href.split("register");
+	var urlParts = document.location.href.split(window.location.pathname);
 	return urlParts[0];
 }
 
