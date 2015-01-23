@@ -6,17 +6,8 @@ var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#profile";
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
 
-server = {
-		location: getServerUrl()
-}
-
 displayOptions = {
 		numberDisplayedItems: 6,
-}
-
-function getServerUrl() {
-	var urlParts = document.location.href.split("profile");
-	return urlParts[0];
 }
 
 function profileInit() {

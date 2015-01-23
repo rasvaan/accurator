@@ -1,18 +1,8 @@
 /* Accurator Register
 */
-//var locale = "en";
 var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#register";
 var lblRegistrationFailed, lblPasswordsMatchFail, lblUserTaken, lblServerError;
-
-server = {
-		location: getServerUrl()
-}
-
-function getServerUrl() {
-	var urlParts = document.location.href.split("register");
-	return urlParts[0];
-}
 
 function registerInit() {
 	locale = getLocale();

@@ -20,6 +20,16 @@ function setLocale(languageCode) {
 	localStorage.setItem("locale", languageCode);
 }
 
+//Server info
+server = {
+location: getServerUrl()
+}
+
+function getServerUrl() {
+	var urlParts = document.location.href.split("register");
+	return urlParts[0];
+}
+
 function getUserUriBase() {
 	return 'http://semanticweb.cs.vu.nl/user/';
 }
