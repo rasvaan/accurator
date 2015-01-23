@@ -3,7 +3,8 @@
 var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#additional_info";
 var twitterFieldAdded = false;
-var frmTwitterId;
+var tagsiteFieldAdded = false;
+var frmTwitterId, frmTagSiteOpen;
 
 function additionalInfoInit() {
 	locale = getLocale();
@@ -28,6 +29,7 @@ function addButtonEvents() {
 
 function initLabels(data) {
 	frmTwitterId = data.frmTwitterId;
+	frmTagSiteOpen = data.frmTagSiteOpen;
 	$("#txtHeader").prepend(data.txtHeader);
 	$("#txtHeaderSub").append(data.txtHeaderSub);
 	initFormQuestions(data);
@@ -80,9 +82,9 @@ function initCheckboxes(data) {
 	$("#chkSocialLinkedIn").after(data.chkSocialLinkedIn);
 	$("#chkSocialTwitter").after(data.chkSocialTwitter);
 	$("#chkSocialNone").after(data.chkSocialNone);
-	$("#chkTagSiteWaIsDa").after(data.chkTagSiteWaIsDa);
-	$("#chkTagSiteSpotvogel").after(data.chkTagSiteSpotvogel);
-	$("#chkTagSiteSteve").after(data.chkTagSiteSteve);
+	$("#chkTagSiteFlickr").after(data.chkTagSiteFlickr);
+	$("#chkTagSiteDelicious").after(data.chkTagSiteDelicious);
+	$("#chkTagSiteOther").after(data.chkTagSiteOther);
 	$("#chkTagNone").after(data.chkTagNone);
 }
 
@@ -100,6 +102,21 @@ function addFormEvents() {
 									 		 'id':'addTwitterId',
 									 		 'class':'form-control'}))));
 			twitterFieldAdded = true;
+		}
+	});
+	$("#chkTagSiteOther").click(function() {
+		if(!tagsiteFieldAdded) {
+			$("#frmGroupTaggingSite").after(
+				$.el.div({'class':'form-group'},
+					$.el.label({'for':'addTagSite',
+							    'id':'frmTagSite',
+								'class':'col-sm-5 control-label'},
+								frmTagSiteOpen),
+					$.el.div({'class':'col-sm-5'},
+							 $.el.input({'type':'text',
+										 'id':'addTagSite',
+										 'class':'form-control'}))));
+			tagsiteFieldAdded = true;
 		}
 	});
 }
