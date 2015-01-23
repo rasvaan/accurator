@@ -1,6 +1,7 @@
 /* Accurator Utilities
 */
 
+//Locale
 function getLocale() {
 	if(localStorage.getItem("locale") === null){
 		console.log("No locale set");
@@ -17,4 +18,8 @@ function setLocaleToBrowserLanguage() {
 
 function setLocale(languageCode) {
 	localStorage.setItem("locale", languageCode);
+}
+
+function getUserUriBase() {
+	return 'http://semanticweb.cs.vu.nl/user/';
 }

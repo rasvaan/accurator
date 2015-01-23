@@ -60,7 +60,7 @@ function setRegisterFailureText(text) {
 
 function register() {
 	var name = $("#regRealName").val();
-	var user = $("#regUsername").val();
+	var user = getUserUriBase() + $("#regUsername").val();
 	var password = $("#regPassword").val();
 	var passwordRepeat = $("#regPasswordRepeat").val();
 	
