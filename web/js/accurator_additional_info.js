@@ -1,6 +1,7 @@
 /* Accurator Additional Info
 */
 var locale;
+var info = {};
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#additional_info";
 var twitterFieldAdded = false;
 var tagsiteFieldAdded = false;
@@ -20,7 +21,7 @@ function additionalInfoInit() {
 
 function addButtonEvents() {
 	$("#btnAddInfo").click(function() {
-		document.location.href="/expertise.html";
+		processFormFields();
 	});
 	$("#btnSkip").click(function() {
 		document.location.href="/expertise.html";
@@ -190,3 +191,74 @@ function initInternetSelector(optionList) {
 	$("#sltInternet").append($.el.option(optionList.internet1to2));
 	$("#sltInternet").append($.el.option(optionList.internetLessThan1));
 }
+
+function processFormFields() {
+	getInput();
+	var url = server.location + "save_additional_info";
+	
+	
+	$.ajax({
+		type: "POST",
+		url: url,
+		contentType: "application/json",
+		data: JSON.stringify(info),
+		success: function(data, textStatus, request){
+		   document.location.href="/expertise.html";
+		},
+		error: function (request, textStatus, errorThrown) {
+		}
+	});
+}
+
+function getInput() {
+	getInputTextFields();
+	getInputRadioButtons();
+	getInputCheckboxes();
+	
+	
+	
+	
+	
+	
+	
+	
+	console.log(info);
+	return info;
+}
+
+function getInputTextFields() {
+	if (!($("#addAge").val() === ""))
+		info.age = $("#addAge").val();
+	if (!($("#addMail").val() === ""))
+		info.mail = $("#addMail").val();
+	if (!($("#addMuseumVisits").val() === ""))
+		info.museum_visits = $("#addMuseumVisits").val();
+	if (!($("#addTwitterId").val() === undefined) && !($("#addTwitterId").val() === ""))
+		info.twitter_id = $("#addTwitterId").val();
+	if (!($("#addTagSite").val() === undefined) && !($("#addTagSite").val() === ""))
+		info.tag_site = $("#addTagSite").val();
+}
+
+function getInputRadioButtons() {
+	if(!($("input[name='genderRadio']:checked").val() === undefined))
+		info.gender = $("input[name='genderRadio']:checked").val();
+	if(!($("input[name='communityRadio']:checked").val() === undefined))
+		info.community = $("input[name='communityRadio']:checked").val();
+	if(!($("input[name='employeeRadio']:checked").val() === undefined))
+		info.museum_employee = $("input[name='employeeRadio']:checked").val();
+	if(!($("input[name='taggingExperienceRadio']:checked").val() === undefined))
+		info.tagging_experience = $("input[name='taggingExperienceRadio']:checked").val();
+	if(!($("input[name='taggingExperienceLevelRadio']:checked").val() === undefined))
+		info.tagging_experience_level = $("input[name='taggingExperienceLevelRadio']:checked").val();
+}
+
+function getInputCheckboxes() {
+//	if(!($("input[name='genderRadio']:checked").val() === undefined))
+//		info.gender = $("#frmGroupSocialNetwork.div.label.input:checked").val();
+}
+
+
+
+
+
+
