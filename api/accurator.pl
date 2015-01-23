@@ -28,6 +28,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
 
 :- http_handler(cliopatria(register_user), register_user,  []).
+:- http_handler(cliopatria(user_login), user_login,  []).
 
 :- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
@@ -244,6 +245,25 @@ register_user(Request) :-
 					title('Register user'),
 						h1('Successfully registered user'))
 	).
+
+%%	user_login(+Request)
+%
+%	User login.
+user_login(Request) :-
+	http_read_json_dict(Request, JsonIn),
+	atom_string(User, JsonIn.user),
+	(   current_user(User),
+		atom_string(JsonIn.password, Password),
+		password_hash(Password, _Hash),
+		validate_password(User, Password),
+		login(User)
+	->  reply_html_page(/,
+					title('Login user'),
+						h1('Successfully logged in user'))
+	;   throw(error(permission_error(login, user, User),
+			context(_, 'Login failed')))
+	).
+
 
 %%	get_label(Locale, Uri, Label)
 %

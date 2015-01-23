@@ -11,7 +11,7 @@ function introInit() {
 		.done(function(data){
 			registerButtonEvent();
 			loginButtonEvent(data);
-			initLabels(data)})
+			initLabels(data);})
 		.fail(function(data, textStatus){
 			$("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
 }
@@ -34,25 +34,32 @@ function loginButtonEvent(data) {
 }
 
 function login() {
-	var username = $("#inputUsername").val();
+	var user = getUserUriBase() + $("#inputUsername").val();
 	var password = $("#inputPassword").val();
-	var login = false;
 	
-	if(username == "" || password == "") {
+	if(user == "" || password == "") {
 		$(".modal-body").append($.el.p({'class':'text-danger'}, loginIncomplete));
 	} else {
-		login = loginServer();
-	}
-	if(login) {
-		document.location.href="/profile.html";
-	} else {
-		$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
+		loginServer(user, password);
 	}
 }
 
-function loginServer() {
-	//Should defenitely be loggin in to server
-	return true;
+function loginServer(user, password) {
+	var json = {"user":user, "password":password};
+	var url = server.location + "/user_login";
+	
+	$.ajax({
+		type: "POST",
+		url: url,
+		contentType: "application/json",
+		data: JSON.stringify(json),
+		success: function(data, textStatus, request){
+			document.location.href="/additional_info.html";
+		},
+		error: function (request, textStatus, errorThrown) {
+			$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
+		}
+	});
 }
 
 function initLabels(data) {
