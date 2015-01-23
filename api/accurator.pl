@@ -8,9 +8,12 @@
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
 :- use_module(library(http/http_json)).
+:- use_module(library(http/html_head)).
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/html_write)).
 :- use_module(user(user_db)).
+:- use_module(user(user_db)).
+:- use_module(applications(annotation)).
 
 http:location(html, cliopatria(html), []).
 http:location(img, cliopatria(img), []).
@@ -19,6 +22,7 @@ user:file_search_path(img, web(img)).
 
 :- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
+:- http_handler(cliopatria(annotate_image), http_image_annotation, []).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
@@ -29,7 +33,6 @@ user:file_search_path(img, web(img)).
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
-
 
 %%	ui_elements_api(+Request)
 %
@@ -274,3 +277,59 @@ get_label(_Locale, Uri, Label) :-
 	rdf(Uri, skos:prefLabel, literal(Label)), !.
 get_label(_Locale, Uri, Label) :-
 	rdf_has(Uri, skos:prefLabel, literal(Label)), !.
+
+http_image_annotation(Request) :-
+	get_annotation_parameters(Request, Options),
+	reply_page(Options).
+
+get_annotation_parameters(Request, Options) :-
+	http_parameters(Request,
+	[ uri(Uri,
+			 [uri,
+			  description('URI of the object to be annotated')
+			 ]),
+	  ui(UI,
+		 [ optional(true),
+		   description('URI of the UI configuration')
+		 ])
+	]),
+	Options = [uri(Uri), ui(UI)].
+
+reply_page(Options) :-
+    option(uri(Uri), Options),
+	%AnnotationOptions = [targets([Uri])],
+	option(ui(UI), Options),
+	get_anfields(UI, [], [], AnnotationFields),
+	debug(anno, 'UI: ~p', [UI]),
+	AnnotationOptions = [targets([Uri]),
+						 ui(UI),
+						 annotation_fields(AnnotationFields)],
+	%					 metadata_fields([]),
+	%					 user('http://rasvaan')],
+	reply_html_page(
+	[title(Uri),
+	 link([href('img/favicon.ico'),rel('shortcut icon')]),
+	 meta([name('viewport'),content('width=device-width, initial-scale=1.0')])
+    ],
+	[\html_requires(css('bootstrap.min.css')),
+	 \html_requires(css('accurator.css')),
+	 \navigation_bar,
+	 \annotation_page_body(AnnotationOptions)]).
+
+%%	navigation_bar(+Page)
+%
+%	Generates the navigation bar.
+navigation_bar -->
+    html({|html||
+	<!-- Navbar -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				 <a class="navbar-brand" href="/intro.html">
+					<img id="headerImage" src="/img/accurator.png" alt="Accurator">
+				 </a>
+			</div>
+		</div>
+	</nav>
+	|}).
+

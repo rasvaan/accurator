@@ -177,10 +177,11 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:radioTaggingIntermediate "Intermediate"@en ;
 	aui:radioTaggingExpert "Expert"@en ;
 	aui:frmTagSite "Did you tag on one of these websites?"@en ;
-	aui:chkTagSiteWaIsDa "WaIsDa?"@en ;
-	aui:chkTagSiteSpotvogel "Spotvogel"@en ;
-	aui:chkTagSiteSteve "Steve.Museum"@en ;
+	aui:chkTagSiteFlickr "Flickr"@en ;
+	aui:chkTagSiteDelicious "Delicious"@en ;
+	aui:chkTagSiteOther "Other site"@en ;
 	aui:chkTagNone "None of these"@en ;
+	aui:frmTagSiteOpen "Which other tagging site(s)?"@en ;
 	aui:txtHeader "Aanvullende informatie"@nl ;
 	aui:txtHeaderSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
 	aui:btnAddInfo "Bevestig"@nl ;
@@ -217,10 +218,11 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:radioTaggingIntermediate "Gemiddeld"@nl ;
 	aui:radioTaggingExpert "Expert"@nl ;
 	aui:frmTagSite "Welke van de volgende websites heeft u weleens gebruikt om te taggen?"@nl ;
-	aui:chkTagSiteWaIsDa "WaIsDa?"@nl ;
-	aui:chkTagSiteSpotvogel "Spotvogel"@nl ;
-	aui:chkTagSiteSteve "Steve.Museum"@nl ;
-	aui:chkTagNone "Geen van deze"@nl .
+	aui:chkTagSiteFlickr "Flickr"@nl ;
+	aui:chkTagSiteDelicious "Delicious"@nl ;
+	aui:chkTagSiteOther "Andere site"@nl ;
+	aui:chkTagNone "Geen van deze"@nl ;
+	aui:frmTagSiteOpen "Welke andere tag site(s)?"@nl .
 
 aui:txtHeader a aui:UILabel .
 aui:txtHeaderSub a aui:UILabel .
@@ -258,10 +260,11 @@ aui:radioTaggingIntermediate a aui:UILabel .
 aui:radioTaggingExpert a aui:UILabel .
 aui:frmTaggingExperienceLevel a aui:UILabel .
 aui:frmTagSite a aui:UILabel .
-aui:chkTagSiteWaIsDa a aui:UILabel .
-aui:chkTagSiteSpotvogel a aui:UILabel .
-aui:chkTagSiteSteve a aui:UILabel .
+aui:chkTagSiteFlickr a aui:UILabel .
+aui:chkTagSiteDelicious a aui:UILabel .
+aui:chkTagSiteOther a aui:UILabel .
 aui:chkTagNone a aui:UILabel .
+aui:frmTagSiteOpen a aui:UILabel .
 
 aui:educationOptions a aui:SelectorField ;
 	aui:optionPrimarySchool "Primary school"@en ;
