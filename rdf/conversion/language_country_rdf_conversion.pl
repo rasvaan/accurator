@@ -2,6 +2,7 @@
 						  save_languages/0]).
 
 :- use_module(library(http/json)).
+:- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_turtle_write)).% Save results
 
 :- rdf_register_prefix(acl, 'http://semanticweb.cs.vu.nl/accurator/languages/').
