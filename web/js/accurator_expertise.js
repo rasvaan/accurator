@@ -26,10 +26,10 @@ function initLabels(data) {
 
 function registerButtonEvent() {
 	$("#btnSubmit").click(function() {
-		document.location.href="/profile.html";
+		document.location.href="profile.html";
 	});
 	$("#btnSkip").click(function() {
-		document.location.href="/profile.html";
+		document.location.href="profile.html";
 	});	
 }
 

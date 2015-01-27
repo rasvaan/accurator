@@ -57,10 +57,10 @@ function initLabels(data) {
 
 function addButtonEvents() {
 	$("#btnRecommend").click(function() {
-		document.location.href="/recommendations.html";
+		document.location.href="recommendations.html";
 	});
 	$("#btnChangeExpertise").click(function() {
-		document.location.href="/expertise.html";
+		document.location.href="expertise.html";
 	});	
 }
 

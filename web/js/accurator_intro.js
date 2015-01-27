@@ -18,7 +18,7 @@ function introInit() {
 
 function registerButtonEvent() {
 	$("#btnRegister").click(function() {
-		document.location.href="/register.html";
+		document.location.href="register.html";
 	});	
 }
 
@@ -46,7 +46,7 @@ function login() {
 
 function loginServer(user, password) {
 	var json = {"user":user, "password":password};
-	var url = server.location + "/user_login";
+	var url = server.location + "user_login";
 	
 	$.ajax({
 		type: "POST",
@@ -54,7 +54,7 @@ function loginServer(user, password) {
 		contentType: "application/json",
 		data: JSON.stringify(json),
 		success: function(data, textStatus, request){
-			document.location.href="/additional_info.html";
+			document.location.href="additional_info.html";
 		},
 		error: function (request, textStatus, errorThrown) {
 			$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
