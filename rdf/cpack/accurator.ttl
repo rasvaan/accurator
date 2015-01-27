@@ -13,7 +13,7 @@
 
 <> a cpack:Package ;
 	cpack:packageName "accurator" ;
-	dcterms:title "Accurator annotatoin system." ;
+	dcterms:title "Accurator annotation system." ;
 	cpack:author [ a foaf:Person ;
 		       foaf:name "Chris Dijkshoorn" ;
 		       foaf:mbox <literal(c.r.dijkshoorn@vu.nl)> ;
@@ -22,9 +22,10 @@
 	    [ a cpack:GitRepository ;
 	      cpack:gitURL <https://github.com//rasvaan/accurator.git>
 	    ] ;
+	cpack:requires [ cpack:name "cluster_search" ] ;
+	cpack:requires [ cpack:name "cluster_search_ui" ] ;
 	cpack:description
 
-"""Package description goes here.  You can use markdown.
-""" .
+"Frontend of the Accurator annotation system." .
 
 
