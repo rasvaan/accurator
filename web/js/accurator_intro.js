@@ -46,11 +46,10 @@ function login() {
 
 function loginServer(user, password) {
 	var json = {"user":user, "password":password};
-	var url = server.location + "user_login";
 	
 	$.ajax({
 		type: "POST",
-		url: url,
+		url: "user_login",
 		contentType: "application/json",
 		data: JSON.stringify(json),
 		success: function(data, textStatus, request){

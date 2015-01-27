@@ -65,11 +65,10 @@ function register() {
 
 function registerServer(name, user, password) {
 	var json = {"name":name, "user":user, "password":password};
-	var url = server.location + "register_user"; 
 	
 	$.ajax({
 		type: "POST",
-		url: url,
+		url: "register_user",
 		contentType: "application/json",
 		data: JSON.stringify(json),
 		success: function(data, textStatus, request){

@@ -194,12 +194,10 @@ function initInternetSelector(optionList) {
 
 function processFormFields() {
 	getInput();
-	var url = server.location + "save_additional_info";
-	
-	
+
 	$.ajax({
 		type: "POST",
-		url: url,
+		url: "save_additional_info",
 		contentType: "application/json",
 		data: JSON.stringify(info),
 		success: function(data, textStatus, request){
@@ -214,14 +212,6 @@ function getInput() {
 	getInputTextFields();
 	getInputRadioButtons();
 	getInputCheckboxes();
-	
-	
-	
-	
-	
-	
-	
-	
 	console.log(info);
 	return info;
 }
