@@ -9,6 +9,7 @@
 :- use_module(library(http/http_server_files)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/html_head)).
+:- use_module(library(http/http_path)).
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/html_write)).
 :- use_module(user(user_db)).
@@ -326,9 +327,10 @@ reply_page(Options) :-
 						 annotation_fields(AnnotationFields)],
 	%					 metadata_fields([]),
 	%					 user('http://rasvaan')],
+	http_absolute_location(cliopatria('img/favicon.ico'), LogoUrl, []),
 	reply_html_page(
 	[title(Uri),
-	 link([href('img/favicon.ico'),rel('shortcut icon')]),
+	 link([href(LogoUrl),rel('shortcut icon')]),
 	 meta([name('viewport'),content('width=device-width, initial-scale=1.0')])
     ],
 	[\html_requires(css('bootstrap.min.css')),
