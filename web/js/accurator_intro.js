@@ -45,18 +45,16 @@ function login() {
 }
 
 function loginServer(user, password) {
-	var json = {"user":user, "password":password};
-	
 	$.ajax({
 		type: "POST",
-		url: "user_login",
-		contentType: "application/json",
-		data: JSON.stringify(json),
+		url: "user/login",
+		data: {"user":user, "password":password},
 		success: function(data, textStatus, request){
-			document.location.href="additional_info.html";
-		},
-		error: function (request, textStatus, errorThrown) {
+		   if(data.contains("Login failed")) {
 			$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
+		   } else if (data.contains("Login ok")) {
+				document.location.href="additional_info.html";
+		   }
 		}
 	});
 }
