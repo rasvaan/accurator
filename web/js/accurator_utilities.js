@@ -20,6 +20,15 @@ function setLocale(languageCode) {
 	localStorage.setItem("locale", languageCode);
 }
 
+
+//User
+function userLoggedIn(initFunction) {
+	//get the user id
+	$.getJSON("get_user")
+	.done(initFunction)
+	.fail(function(){alert("No user logged in.");});
+}
+
 function getUserUriBase() {
 	return 'http://semanticweb.cs.vu.nl/user/';
 }

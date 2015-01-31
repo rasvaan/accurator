@@ -1,6 +1,6 @@
 /* Accurator Profile
 */
-var user = "rasvaan";
+var user;
 var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#profile";
 var recentItems;
@@ -11,15 +11,35 @@ displayOptions = {
 }
 
 function profileInit() {
-	locale = getLocale();
-	initLocaleRadio();
+	userLoggedIn(function(){
+		locale = getLocale();
+		getUserInfo();
+		populateUI();
+		initLocaleRadio();
+		addButtonEvents();
+	});
+}
+
+function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(data){
-			addButtonEvents();
-			initLabels(data);
-			getRecentlyAnnotated();})
-		.fail(function(data, textStatus){
-			$("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
+	.done(function(data){
+		  initLabels(data);})
+	.fail(function(data, textStatus){
+		  $("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
+}
+
+function getUserInfo() {
+	//get the user id
+	$.getJSON("get_user")
+	.done(function(data){
+		  user = data.user;
+		  alert("Logged in user " + user);
+		  getRecentlyAnnotated();
+		  })
+	.fail(function(data, textStatus){
+		  
+		  });
+	return user;
 }
 
 function initLocaleRadio() {
