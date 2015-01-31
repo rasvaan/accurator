@@ -334,3 +334,15 @@ aui:internetOnceADay a aui:UILabel .
 aui:internet3to5 a aui:UILabel .
 aui:internet1to2 a aui:UILabel .
 aui:internetLessThan1 a aui:UILabel .
+
+##### Login Modal #####
+
+abui:login_modal a aui:AccuratorUI ;
+	aui:mdlTxtTitle "No user logged in, please log in"@en ;
+	aui:mdlFrmUsername "Username"@en ;
+	aui:mdlFrmPassword "Password"@en ;
+	aui:mdlBtnLogin "Log in"@en ;
+	aui:mdlTxtTitle "Er is geen gebruiker ingelogt, log alstublieft opnieuw in."@nl ;
+	aui:mdlFrmUsername "Gebruikersnaam"@nl ;
+	aui:mdlFrmPassword "Wachtwoord"@nl ;
+	aui:mdlBtnLogin "Log in"@nl .

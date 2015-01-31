@@ -26,7 +26,17 @@ function userLoggedIn(initFunction) {
 	//get the user id
 	$.getJSON("get_user")
 	.done(initFunction)
-	.fail(function(){alert("No user logged in.");});
+	.fail(function(){loginModal()});
+}
+
+function loginModal() {
+	$.getJSON("ui_elements", {locale:getLocale(), ui:"http://semanticweb.cs.vu.nl/accurator/ui/bird#login_modal", type:"labels"})
+	.done(function(data){
+		  $("#mdlTxtTitle").append(data.mdlTxtTitle);
+		  $("#mdlBtnLogin").append(data.mdlBtnLogin);
+		  $("#mdlFrmUsername").append(data.mdlFrmUsername);
+		  $("#mdlFrmPassword").append(data.mdlFrmPassword);
+		  $('#modalLogin').modal();});
 }
 
 function getUserUriBase() {
