@@ -13,20 +13,12 @@ abui:intro a aui:AccuratorUI ;
 	aui:txtSubSlogan "Help us add information to artworks depicting birds"@en ;
 	aui:btnRegister "Register"@en ;
 	aui:btnLogin "or Log in"@en ;
-	aui:mdlTxtTitle "Log in"@en ;
-	aui:mdlFrmUsername "Username"@en ;
-	aui:mdlFrmPassword "Password"@en ;
-	aui:mdlBtnLogin "Log in"@en ;
 	aui:loginWarning "Log in unsuccessful"@en ;
 	aui:loginIncomplete "Please add both your username and password"@en ;
 	aui:txtSlogan "Accurate Kunst Beschrijvingen"@nl ;
 	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met vogel afbeeldingen"@nl ;
 	aui:btnRegister "Registreer"@nl ;
 	aui:btnLogin "of Log in"@nl ;
-	aui:mdlTxtTitle "Inloggen"@nl ;
-	aui:mdlFrmUsername "Gebruikersnaam"@nl ;
-	aui:mdlFrmPassword "Wachtwoord"@nl ;
-	aui:mdlBtnLogin "Log in"@nl ;
 	aui:loginWarning "Inloggen mislukt"@nl ;
 	aui:loginIncomplete "Voer zowel een gebruikersnaam als wachtwoord in"@nl .
 
@@ -34,10 +26,6 @@ aui:txtSlogan a aui:UILabel .
 aui:txtSubSlogan a aui:UILabel .
 aui:btnRegister a aui:UILabel .
 aui:btnLogin a aui:UILabel .
-aui:mdlTxtTitle a aui:UILabel .
-aui:mdlFrmUsername a aui:UILabel .
-aui:mdlFrmPassword a aui:UILabel .
-aui:mdlBtnLogin a aui:UILabel .
 aui:loginWarning a aui:UILabel .
 aui:loginIncomplete a aui:UILabel .
 
@@ -338,11 +326,16 @@ aui:internetLessThan1 a aui:UILabel .
 ##### Login Modal #####
 
 abui:login_modal a aui:AccuratorUI ;
-	aui:mdlTxtTitle "No user logged in, please log in"@en ;
+	aui:mdlTxtTitle "Log in"@en ;
 	aui:mdlFrmUsername "Username"@en ;
 	aui:mdlFrmPassword "Password"@en ;
 	aui:mdlBtnLogin "Log in"@en ;
-	aui:mdlTxtTitle "Er is geen gebruiker ingelogt, log alstublieft opnieuw in."@nl ;
+	aui:mdlTxtTitle "Inloggen"@nl ;
 	aui:mdlFrmUsername "Gebruikersnaam"@nl ;
 	aui:mdlFrmPassword "Wachtwoord"@nl ;
 	aui:mdlBtnLogin "Log in"@nl .
+
+aui:mdlTxtTitle a aui:UILabel .
+aui:mdlFrmUsername a aui:UILabel .
+aui:mdlFrmPassword a aui:UILabel .
+aui:mdlBtnLogin a aui:UILabel .
