@@ -71,8 +71,8 @@ function registerServer(name, user, password) {
 		url: "register_user",
 		contentType: "application/json",
 		data: JSON.stringify(json),
-		success: function(data, textStatus, request){
-			document.location.href="additional_info.html";
+		success: function(){
+		   loginServer(user, password, function(){document.location.href="additional_info.html";})
 		},
 		error: function (request, textStatus, errorThrown) {
 			if(errorThrown == "Not Found")
