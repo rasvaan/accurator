@@ -2,7 +2,6 @@
 */
 var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#intro";
-var loginWarning, loginIncomplete;
 
 function introInit() {
 	locale = getLocale();
@@ -35,6 +34,4 @@ function initLabels(data) {
 	$("#txtSubSlogan").prepend(data.txtSubSlogan);
 	$("#btnRegister").append(data.btnRegister);
 	$("#btnLogin").append(data.btnLogin);
-	loginWarning = data.loginWarning;
-	loginIncomplete = data.loginIncomplete;
 }

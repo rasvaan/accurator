@@ -1,5 +1,6 @@
 /* Accurator Utilities
 */
+var loginWarning, loginIncomplete;
 
 //Locale
 function getLocale() {
@@ -22,11 +23,11 @@ function setLocale(languageCode) {
 
 
 //User
-function userLoggedIn(initFunction) {
+function userLoggedIn(onSuccess, onDismissal) {
 	//get the user id
 	$.getJSON("get_user")
-	.done(initFunction)
-	.fail(function(){loginModal()});
+		.done(onSuccess)
+		.fail(function(){loginModal(onSuccess, onDismissal)});
 }
 
 function loginModal(onSuccess, onDismissal) {
@@ -43,9 +44,11 @@ function initModalLabels(data) {
 	$("#mdlBtnLogin").html(data.mdlBtnLogin);
 	$("#mdlFrmUsername").html(data.mdlFrmUsername);
 	$("#mdlFrmPassword").html(data.mdlFrmPassword);
+	loginWarning = data.loginWarning;
+	loginIncomplete = data.loginIncomplete;
 }
 
-function loginButtonEvent(onSuccess) {
+function loginButtonEvent(onSuccess, onDismissal) {
 	$("#mdlBtnLogin").click(function() {
 		login(onSuccess);
 	});
@@ -56,7 +59,7 @@ function loginButtonEvent(onSuccess) {
 	});
 	$("#modalLogin").on('hidden.bs.modal', function (e) {
 		onDismissal();
-	})
+	});
 	$("#mdlBtnClose").click(function() {
 		onDismissal();
 	});
@@ -83,6 +86,9 @@ function loginServer(user, password, onSuccess) {
 		   if(data.contains("Login failed")) {
 		   $(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
 		   } else if (data.contains("Login ok")) {
+		   //Remove event listener and hide modal
+		   $("#modalLogin").off('hidden.bs.modal');
+		   $("#modalLogin").modal('hide');
 		   onSuccess();
 		   }
 		   }

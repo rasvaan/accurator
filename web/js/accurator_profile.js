@@ -11,13 +11,17 @@ displayOptions = {
 }
 
 function profileInit() {
-	userLoggedIn(function(){
+	onSuccess = function(){
 		locale = getLocale();
 		getUserInfo();
 		populateUI();
 		initLocaleRadio();
 		addButtonEvents();
-	});
+	};
+	onFail = function(){
+		document.location.href="intro.html";
+	};
+	userLoggedIn(onSuccess, onFail);
 }
 
 function populateUI() {
