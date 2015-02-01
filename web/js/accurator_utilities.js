@@ -83,9 +83,9 @@ function loginServer(user, password, onSuccess) {
 		   url: "user/login",
 		   data: {"user":user, "password":password},
 		   success: function(data, textStatus, request){
-		   if(data.contains("Login failed")) {
+		   if(data.indexOf("Login failed") != -1) {
 		   $(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
-		   } else if (data.contains("Login ok")) {
+		   } else if (data.indexOf("Login ok") != -1) {
 		   //Remove event listener and hide modal
 		   $("#modalLogin").off('hidden.bs.modal');
 		   $("#modalLogin").modal('hide');
