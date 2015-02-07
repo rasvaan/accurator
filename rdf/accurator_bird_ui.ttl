@@ -23,6 +23,30 @@ aui:txtSubSlogan a aui:UILabel .
 aui:btnRegister a aui:UILabel .
 aui:btnLogin a aui:UILabel .
 
+###### About Screen #####
+
+abui:about a aui:AccuratorUI ;
+	dcterms:title "Accurator about UI"@en ;
+	aui:txtAboutSlogan "About Accurator"@en ;
+	aui:txtAboutSlogan "Over Accurator"@nl ;
+	aui:txtAboutAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be the	annotation of the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
+	aui:txtAboutAccurator "Accurator is een platform dat gebruikers in staat stelt hun expertise te delen met museum professionals bij het beschrijven van museumstukken. Dit kan, bijvoorbeeld, het voorzien van informatie zijn van dieren of planten prenten. Naast het verrijken van beschrijvingen van de museumstukken helpt dit proces ook de online toegankelijkheid van de collectie."@nl ;
+	aui:txtSealincMediaSlogan "SEALINCMedia"@en ;
+	aui:txtSealincMediaSlogan "SEALINCMedia"@nl ;
+	aui:txtAboutSealincMedia "Accurator is developed as part of the SEALINCMedia project. The collaborating institutions are Vrije University	Amsterdam, Technical University Delft, Centrum Wiskunde and Informatica, Rijksmuseum Amsterdam, Naturalis and the National Library of The Netherlands. SEALINCMedia is part of the COMMIT/ project which brings together academic research and (non-)profit organizations to solve challenges in ICT."@en ;
+	aui:txtAboutSealincMedia "De ontwikkeling van Accurator maakt deel uit van het SEALINCMedia project. Het samenwerkingsverband bestaat uit de Vrije Universiteit Amsterdam, de Technische Universiteit Delf, Centrum Wiskunde en Informatica, Rijksmuseum Amsterdam, Naturalis en de Koninklijke Bibliotheek. SEALINCMedia maakt onderdeel uit van het COMMIT/ project wat onderzoek en (non-)profit organisaties samenbrengt om ICT uitdagingen op te lossen."@nl ;
+	aui:txtSealincResearchSlogan "Accurator for research"@en ;
+	aui:txtSealincResearchSlogan "Accurator en onderzoek"@nl ;
+	aui:txtAboutSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the annotation of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the annotations and annotators using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator."@en ;
+	aui:txtAboutSealincResearch "De onderzoeks uitdagingen zijn: het vinden de niche van experts en hen motiveren om informatie bij te dragen aan kunstwerken; experts de kunstwerken tonen waar overeenkomend met hun expertise; de bijdragen evalueren met behulp van algoritmen en deze aspecten presenteren in een passende interface. Om deze hypothesen te testen is Accurator continu in ontwikkeling."@nl .
+
+aui:txtAboutSlogan a aui:UILabel .
+aui:txtAboutAccurator a aui:UILabel .
+aui:txtSealincMediaSlogan a aui:UILabel .
+aui:txtAboutSealincMedia a aui:UILabel .
+aui:txtSealincResearchSlogan a aui:UILabel .
+aui:txtAboutSealincResearch a aui:UILabel .
+
 ##### Register Screen #####
 
 abui:register a aui:AccuratorUI ;

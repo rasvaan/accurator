@@ -62,6 +62,12 @@ html,body {
 	margin-top: 10px;
 }
 
+/* About page */
+.footerLogo {
+	height: 40px;
+	padding-bottom: 10px;
+}
+
 /* Sliders */
 slider.slider-horizontal {
 	height: 15px;
