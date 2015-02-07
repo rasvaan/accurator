@@ -36,7 +36,9 @@ function loginModal(onSuccess, onDismissal) {
 	.done(function(data){
 		  loginButtonEvent(onSuccess, onDismissal);
 		  initModalLabels(data);
-		  $("#modalLogin").modal();});
+		  $("#modalLogin").modal();
+		  $("#inputUsername").focus();
+	});
 }
 
 function initModalLabels(data) {
@@ -46,6 +48,9 @@ function initModalLabels(data) {
 	$("#mdlFrmPassword").html(data.mdlFrmPassword);
 	loginWarning = data.loginWarning;
 	loginIncomplete = data.loginIncomplete;
+	$("body").on('shown.bs.modal', '.modal', function () {
+		$("#inputUsername").focus();
+	})
 }
 
 function loginButtonEvent(onSuccess, onDismissal) {
