@@ -114,19 +114,22 @@ get_text_elements(TextDic, Options) :-
 	dict_pairs(TextDic, elements, LabelList).
 
 get_selector_options(UI, Locale, SelectorFields) :-
-	findall(SelectorLabel-LiteralArray,
-			(	rdf(UI, aui:hasSelector, Selector),
-				rdf(Selector, rdf:type, aui:'SelectorField'),
-				 iri_xml_namespace(Selector, _, SelectorLabel),
-				get_selector_labels(Selector, Locale, LiteralArray)
+	findall(SelectLabel-LiteralArray,
+			(	rdf(UI, aui:hasSelect, Select),
+				rdf(Select, rdf:type, aui:'SelectField'),
+				iri_xml_namespace(Select, _, SelectLabel),
+				get_selector_labels(Select, Locale, LiteralArray)
 				),
 			SelectorFields).
 
 get_selector_labels(Selector, Locale, LiteralDict) :-
-	findall(OptionLabel-Literal,
-			(	rdf(Selector, Predicate, literal(lang(Locale, Literal))),
-				rdf(Predicate, rdf:type, aui:'UILabel'),
-				iri_xml_namespace(Predicate, _, OptionLabel)),
+	findall(OptionLabel-LabelDict,
+			(	rdf(Selector, aui:hasSelectOption, SelectOption),
+				rdf(SelectOption, rdf:type, aui:'SelectOption'),
+				rdf(SelectOption, skos:prefLabel, literal(lang(Locale, Literal))),
+				rdf(SelectOption, skos:notation, literal(Id)),
+				iri_xml_namespace(SelectOption, _, OptionLabel),
+				dict_pairs(LabelDict, elements, [label-Literal, id-Id])),
 			LiteralArray),
 	dict_pairs(LiteralDict, elements, LiteralArray).
 

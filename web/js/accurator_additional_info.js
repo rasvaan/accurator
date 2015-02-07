@@ -3,6 +3,7 @@
 var locale;
 var countries = [];
 var languages = [];
+var educationOptions, incomeOptions, internetOptions;
 var info = {};
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#additional_info";
 var twitterFieldAdded = false;
@@ -42,8 +43,11 @@ function initLabels(data) {
 	initCheckboxes(data);
 	initCountriesSelector();
 	initLanguagesSelector();
-	initEducationSelector(data.educationOptions);
+	educationOptions = data.educationOptions;
+	initEducationSelector();
+	incomeOptions = data.incomeOptions;
 	initIncomeSelector(data.incomeOptions);
+	internetOptions = data.internetOptions;
 	initInternetSelector(data.internetOptions);
 }
 
@@ -160,36 +164,36 @@ function initLanguagesSelector() {
 	});
 }
 
-function initEducationSelector(optionList) {
+function initEducationSelector() {
 	$("#sltEducation").append($.el.option(""));
-	$("#sltEducation").append($.el.option(optionList.optionPrimarySchool));
-	$("#sltEducation").append($.el.option(optionList.optionHighSchool));
-	$("#sltEducation").append($.el.option(optionList.optionCollege));
-	$("#sltEducation").append($.el.option(optionList.optionBachelor));
-	$("#sltEducation").append($.el.option(optionList.optionMaster));
-	$("#sltEducation").append($.el.option(optionList.optionDoctorate));
-	$("#sltEducation").append($.el.option(optionList.optionUknown));
+	$("#sltEducation").append($.el.option(educationOptions.optionPrimarySchool.label));
+	$("#sltEducation").append($.el.option(educationOptions.optionHighSchool.label));
+	$("#sltEducation").append($.el.option(educationOptions.optionCollege.label));
+	$("#sltEducation").append($.el.option(educationOptions.optionBachelor.label));
+	$("#sltEducation").append($.el.option(educationOptions.optionMaster.label));
+	$("#sltEducation").append($.el.option(educationOptions.optionDoctorate.label));
+	$("#sltEducation").append($.el.option(educationOptions.optionUknown.label));
 }
 
-function initIncomeSelector(optionList) {
+function initIncomeSelector() {
 	$("#sltIncome").append($.el.option(""));
-	$("#sltIncome").append($.el.option(optionList.income20));
-	$("#sltIncome").append($.el.option(optionList.income20to35));
-	$("#sltIncome").append($.el.option(optionList.income35to50));
-	$("#sltIncome").append($.el.option(optionList.income50to75));
-	$("#sltIncome").append($.el.option(optionList.income75to100));
-	$("#sltIncome").append($.el.option(optionList.income100to150));
-	$("#sltIncome").append($.el.option(optionList.income150to200));
-	$("#sltIncome").append($.el.option(optionList.income200));
+	$("#sltIncome").append($.el.option(incomeOptions.income20.label));
+	$("#sltIncome").append($.el.option(incomeOptions.income20to35.label));
+	$("#sltIncome").append($.el.option(incomeOptions.income35to50.label));
+	$("#sltIncome").append($.el.option(incomeOptions.income50to75.label));
+	$("#sltIncome").append($.el.option(incomeOptions.income75to100.label));
+	$("#sltIncome").append($.el.option(incomeOptions.income100to150.label));
+	$("#sltIncome").append($.el.option(incomeOptions.income150to200.label));
+	$("#sltIncome").append($.el.option(incomeOptions.income200.label));
 }
 
 function initInternetSelector(optionList) {
 	$("#sltInternet").append($.el.option(""));
-	$("#sltInternet").append($.el.option(optionList.internetAlways));
-	$("#sltInternet").append($.el.option(optionList.internetOnceADay));
-	$("#sltInternet").append($.el.option(optionList.internet3to5));
-	$("#sltInternet").append($.el.option(optionList.internet1to2));
-	$("#sltInternet").append($.el.option(optionList.internetLessThan1));
+	$("#sltInternet").append($.el.option(internetOptions.internetAlways.label));
+	$("#sltInternet").append($.el.option(internetOptions.internetOnceADay.label));
+	$("#sltInternet").append($.el.option(internetOptions.internet3to5.label));
+	$("#sltInternet").append($.el.option(internetOptions.internet1to2.label));
+	$("#sltInternet").append($.el.option(internetOptions.internetLessThan1.label));
 }
 
 function processFormFields() {
@@ -292,16 +296,16 @@ function getInputDropdownMenus() {
 	if (!($("#sltLanguage").val() === ""))
 		info.language = getLanguageCode($("#sltLanguage").val());
 	if (!($("#sltEducation").val() === ""))
-		info.education = $("#sltEducation").val();
+		info.education = getOptionId(educationOptions, $("#sltEducation").val());
 	if (!($("#sltIncome").val() === ""))
-		info.income = $("#sltIncome").val();
+		info.income = getOptionId(incomeOptions, $("#sltIncome").val());
 	if (!($("#sltInternet").val() === ""))
-		info.internet_use = $("#sltInternet").val();
+		info.internet_use = getOptionId(internetOptions, $("#sltInternet").val());
 }
 
 function getCountryId(name) {
 	// Find the geonames id corresponding to the selected name
-	for(var i=0; countries.length; i++) {
+	for(var i=0; i<countries.length; i++) {
 		if (countries[i].name === name)
 			return countries[i].country_code;
 	}
@@ -309,9 +313,17 @@ function getCountryId(name) {
 
 function getLanguageCode(name) {
 	// Find the iso code corresponding to the selected name
-	for(var i=0; languages.length; i++) {
+	for(var i=0; i<languages.length; i++) {
 		if (languages[i].name === name)
 			return languages[i].iso_code;
+	}
+}
+
+function getOptionId(optionList, name) {
+	// Find the id corresponding to the selected name
+	for (var key in optionList) {
+		if(optionList[key].label === name)
+			return optionList[key].id;
 	}
 }
 

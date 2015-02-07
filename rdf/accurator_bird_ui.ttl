@@ -135,9 +135,9 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:radioCommunityRural "Rural"@en ;
 	aui:frmLanguage "What is your primary language?"@en ;
 	aui:frmEducation "What is the highest level of education you have recieved?"@en ;
-	aui:hasSelector aui:educationOptions ;
+	aui:hasSelect aui:educationOptions ;
 	aui:frmIncome "What is your household income?"@en ;
-	aui:hasSelector aui:incomeOptions ;
+	aui:hasSelect aui:incomeOptions ;
 	aui:frmMail "Email"@en ;
 	aui:frmSocialNetwork "On which social network sites are you active?"@en  ;
 	aui:chkSocialFacebook "Facebook"@en ;
@@ -146,7 +146,7 @@ abui:additional_info a aui:AccuratorUI ;
 	aui:chkSocialNone "None of these"@en ;
 	aui:frmTwitterId "What is your Twitter id?"@en  ;
 	aui:frmInternetUsage "How often do you make use of the internet?"@en ;
-	aui:hasSelector aui:internetOptions ;
+	aui:hasSelect aui:internetOptions ;
 	aui:frmMuseumVisits "How many times a year do you visit a museum on average?"@en ;
 	aui:frmEmployee "Are you employed by a museum?"@en ;
 	aui:radioEmployeeYes "Yes"@en ;
@@ -248,74 +248,131 @@ aui:chkTagSiteOther a aui:UILabel .
 aui:chkTagNone a aui:UILabel .
 aui:frmTagSiteOpen a aui:UILabel .
 
-aui:educationOptions a aui:SelectorField ;
-	aui:optionPrimarySchool "Primary school"@en ;
-	aui:optionHighSchool "High school"@en ;
-	aui:optionCollege "College"@en ;
-	aui:optionBachelor "Bachelor"@en ;
-	aui:optionMaster "Master"@en ;
-	aui:optionDoctorate "Doctorate"@en ;
-	aui:optionUknown "Unknown"@en ;
-	aui:optionPrimarySchool "Geen opleiding of enkel lager onderwijs"@nl ;
-	aui:optionHighSchool "VMBO / MAVO / MULO / LBO  / VBO"@nl ;
-	aui:optionCollege "HAVO / VWO / HBS"@nl ;
-	aui:optionBachelor "HBO / HTS / Bachelor"@nl ;
-	aui:optionMaster "WO / Master (MBA)"@nl ;
-	aui:optionDoctorate "Doctoraal"@nl ;
-	aui:optionUknown "Onbekend"@nl .
+aui:educationOptions a aui:SelectField ;
+	aui:hasSelectOption aui:optionPrimarySchool ;
+	aui:hasSelectOption aui:optionHighSchool ;
+	aui:hasSelectOption aui:optionCollege ;
+	aui:hasSelectOption aui:optionBachelor ;
+	aui:hasSelectOption aui:optionMaster ;
+	aui:hasSelectOption aui:optionDoctorate ;
+	aui:hasSelectOption aui:optionUknown .
 
-aui:optionPrimarySchool a aui:UILabel .
-aui:optionHighSchool a aui:UILabel .
-aui:optionCollege a aui:UILabel .
-aui:optionBachelor a aui:UILabel .
-aui:optionMaster a aui:UILabel .
-aui:optionDoctorate a aui:UILabel .
-aui:optionUknown a aui:UILabel .
+aui:optionPrimarySchool a aui:SelectOption ;
+	skos:notation "primary_school" ;
+	skos:prefLabel "Primary school"@en ;
+	skos:prefLabel "Geen opleiding of enkel lager onderwijs"@nl .
 
-aui:incomeOptions a aui:SelectorField ;
-	aui:income20 "Less than $20,000"@en ;
-	aui:income20to35 "$20,000 to $34,999"@en ;
-	aui:income35to50 "$35,000 to $49,999"@en ;
-	aui:income50to75 "$50,000 to $74,999"@en ;
-	aui:income75to100 "$75,000 to $99,999"@en ;
-	aui:income100to150 "$100,000 to $149,999"@en ;
-	aui:income150to200 "$150,000 to $199,999"@en ;
-	aui:income200 "$200,000 or more"@en ;
-	aui:income20 "Minder dan \u20AC 20,000"@nl ;
-	aui:income20to35 "\u20AC20.000 tot \u20AC34.999"@nl ;
-	aui:income35to50 "\u20AC35.000 tot \u20AC49.999"@nl ;
-	aui:income50to75 "\u20AC50.000 tot \u20AC74.999"@nl ;
-	aui:income75to100 "\u20AC75.000 tot \u20AC99.999"@nl ;
-	aui:income100to150 "\u20AC100.000 tot \u20AC149.999"@nl ;
-	aui:income150to200 "\u20AC150.000 tot \u20AC199.999"@nl ;
-	aui:income200 "\u20AC200.000 of meer"@nl .
+aui:optionHighSchool a aui:SelectOption ;
+	skos:notation  "high_school" ;
+	skos:prefLabel "High school"@en ;
+	skos:prefLabel  "VMBO / MAVO / MULO / LBO  / VBO"@nl .
 
-aui:income20 a aui:UILabel .
-aui:income20to35 a aui:UILabel .
-aui:income35to50 a aui:UILabel .
-aui:income50to75 a aui:UILabel .
-aui:income75to100 a aui:UILabel .
-aui:income100to150 a aui:UILabel .
-aui:income150to200 a aui:UILabel .
-aui:income200 a aui:UILabel .
+aui:optionCollege a aui:SelectOption ;
+	skos:notation "college" ;
+	skos:prefLabel "College"@en ;
+	skos:prefLabel "HAVO / VWO / HBS"@nl .
 
-aui:internetOptions a aui:SelectorField ;
-	aui:internetAlways "Always online"@en ;
-	aui:internetOnceADay "Once a day"@en ;
-	aui:internet3to5 "3-5 days per week"@en ;
-	aui:internet1to2 "1-2 days per week"@en ;
-	aui:internetLessThan1 "Less than 1 day per week"@en ;
-	aui:internetAlways "Altijd online"@nl ;
-	aui:internetOnceADay "Elke dag"@nl ;
-	aui:internet3to5 "3 tot 5 dagen per week"@nl ;
-	aui:internet1to2 "1 tot 2 dagen per week"@nl ;
-	aui:internetLessThan1 "Minder dan een dag per week"@nl .
+aui:optionBachelor a aui:SelectOption ;
+	skos:notation "bachelor" ;
+	skos:prefLabel "Bachelor"@en ;
+	skos:prefLabel "HBO / HTS / Bachelor"@nl .
 
-aui:internetAlways a aui:UILabel .
-aui:internetOnceADay a aui:UILabel .
-aui:internet3to5 a aui:UILabel .
-aui:internet1to2 a aui:UILabel .
-aui:internetLessThan1 a aui:UILabel .
+aui:optionMaster a aui:SelectOption ;
+	skos:notation "master" ;
+	skos:prefLabel "Master"@en ;
+	skos:prefLabel "WO / Master (MBA)"@nl .
+
+aui:optionDoctorate a aui:SelectOption ;
+	skos:notation "doctorate" ;
+	skos:prefLabel "Doctorate"@en ;
+	skos:prefLabel "Doctoraal"@nl .
+
+aui:optionUknown a aui:SelectOption ;
+	skos:notation "unknown" ;
+	skos:prefLabel "Unknown"@en ;
+	skos:prefLabel "Onbekend"@nl .
+
+aui:incomeOptions a aui:SelectField ;
+	aui:hasSelectOption aui:income20 ;
+	aui:hasSelectOption aui:income20to35 ;
+	aui:hasSelectOption aui:income35to50 ;
+	aui:hasSelectOption aui:income50to75 ;
+	aui:hasSelectOption aui:income75to100 ;
+	aui:hasSelectOption aui:income100to150 ;
+	aui:hasSelectOption aui:income150to200 ;
+	aui:hasSelectOption aui:income200 .
+
+aui:income20 a aui:SelectOption ;
+	skos:notation "income_20" ;
+	skos:prefLabel "Less than $20,000"@en ;
+	skos:prefLabel "Minder dan \u20AC 20,000"@nl ; .
+
+aui:income20to35 a aui:SelectOption ;
+	skos:notation "income_20_to_35" ;
+	skos:prefLabel "$20,000 to $34,999"@en ;
+	skos:prefLabel "\u20AC20.000 tot \u20AC34.999"@nl .
+
+aui:income35to50 a aui:SelectOption ;
+	skos:notation "income_35_to_50" ;
+	skos:prefLabel "$35,000 to $49,999"@en ;
+	skos:prefLabel "\u20AC35.000 tot \u20AC49.999"@nl .
+
+aui:income50to75 a aui:SelectOption ;
+	skos:notation "income_50_to_75" ;
+	skos:prefLabel "$50,000 to $74,999"@en ;
+	skos:prefLabel "\u20AC50.000 tot \u20AC74.999"@nl .
+
+aui:income75to100 a aui:SelectOption ;
+	skos:notation "income_75_to_100" ;
+	skos:prefLabel "$75,000 to $99,999"@en ;
+	skos:prefLabel "\u20AC75.000 tot \u20AC99.999"@nl .
+
+aui:income100to150 a aui:SelectOption ;
+	skos:notation "income_100_to_150" ;
+	skos:prefLabel "$100,000 to $149,999"@en ;
+	skos:prefLabel "\u20AC100.000 tot \u20AC149.999"@nl .
+
+aui:income150to200 a aui:SelectOption ;
+	skos:notation "income_150_to_200" ;
+	skos:prefLabel "$150,000 to $199,999"@en ;
+	skos:prefLabel "\u20AC150.000 tot \u20AC199.999"@nl .
+
+aui:income200 a aui:SelectOption ;
+	skos:notation "income_200" ;
+	skos:prefLabel "$200,000 or more"@en ;
+	skos:prefLabel "\u20AC200.000 of meer"@nl .
+
+aui:internetOptions a aui:SelectField ;
+	aui:hasSelectOption aui:internetAlways ;
+	aui:hasSelectOption aui:internetOnceADay ;
+	aui:hasSelectOption aui:internet3to5 ;
+	aui:hasSelectOption aui:internet1to2 ;
+	aui:hasSelectOption aui:internetLessThan1 .
+
+aui:internetAlways a aui:SelectOption ;
+	skos:notation "internet_always" ;
+	skos:prefLabel "Always online"@en ;
+	skos:prefLabel "Altijd online"@nl ; .
+
+aui:internetOnceADay a aui:SelectOption ;
+	skos:notation "internet_once_a_day" ;
+	skos:prefLabel "Once a day"@en ;
+	skos:prefLabel "Elke dag"@nl .
+
+aui:internet3to5 a aui:SelectOption ;
+	skos:notation "internet_3_to_5_a_week" ;
+	skos:prefLabel "3-5 days per week"@en ;
+	skos:prefLabel "3 tot 5 dagen per week"@nl .
+
+aui:internet1to2 a aui:SelectOption ;
+	skos:notation "internet_1_to_2_a_week" ;
+	skos:prefLabel "1-2 days per week"@en ;
+	skos:prefLabel "1 tot 2 dagen per week"@nl .
+
+aui:internetLessThan1 a aui:SelectOption ;
+	skos:notation "internet_less_than_1_a_week" ;
+	skos:prefLabel "Less than 1 day per week"@en ;
+	skos:prefLabel "Minder dan een dag per week"@nl .
 
 ##### Login Modal #####
 
