@@ -11,15 +11,23 @@ var tagsiteFieldAdded = false;
 var frmTwitterId, frmTagSiteOpen;
 
 function additionalInfoInit() {
-	locale = getLocale();
+	// Check if user is logged in
+	onSuccess = function(){
+		locale = getLocale();
+		populateUI();
+	};
+	onDismissal = function(){document.location.href="intro.html"};
+	userLoggedIn(onSuccess, onDismissal);
+}
+
+function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
-		addButtonEvents();
-		initLabels(data);
-		addFormEvents();
-		$("#frmAge").focus();})
-	.fail(function(data, textStatus){
-		});
+		  addButtonEvents();
+		  initLabels(data);
+		  addFormEvents();
+		  $("#frmAge").focus();})
+	.fail(function(){});
 }
 
 function addButtonEvents() {
