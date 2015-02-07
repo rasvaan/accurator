@@ -212,6 +212,7 @@ function getInput() {
 	getInputTextFields();
 	getInputRadioButtons();
 	getInputCheckboxes();
+	getInputDropdownMenus();
 	console.log(info);
 	return info;
 }
@@ -285,7 +286,18 @@ function getInputTaggingSite() {
 	}
 }
 
-
+function getInputDropdownMenus() {
+	if (!($("#sltCountry").val() === ""))
+		info.country = $("#sltCountry").val();
+	if (!($("#sltLanguage").val() === ""))
+		info.language = $("#sltLanguage").val();
+	if (!($("#sltEducation").val() === ""))
+		info.education = $("#sltEducation").val();
+	if (!($("#sltIncome").val() === ""))
+		info.income = $("#sltIncome").val();
+	if (!($("#sltInternet").val() === ""))
+		info.internet_use = $("#sltInternet").val();
+}
 
 
 
