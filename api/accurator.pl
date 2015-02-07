@@ -82,8 +82,9 @@ get_countries(DictArray, _Options) :-
 				rdf(GeonamesCountry, gn:name, literal(lang(en, CountryName))),
 				CountryDict0 = country{},
 				CountryDict1 = CountryDict0.put(name, CountryName),
-				rdf(GeonamesCountry, gn:geonamesID, literal(GeonamesIDInt)),
-				CountryDict = CountryDict1.put(geo_id, GeonamesIDInt)),
+				rdf(GeonamesCountry, gn:countryCode, literal(CountryCode)),
+				downcase_atom(CountryCode, CountryCodeLower),
+				CountryDict = CountryDict1.put(country_code, CountryCodeLower)),
 			DictArray).
 
 get_languages(DictArray, _Options) :-

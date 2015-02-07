@@ -1,6 +1,8 @@
 /* Accurator Additional Info
 */
 var locale;
+var countries = [];
+var languages = [];
 var info = {};
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#additional_info";
 var twitterFieldAdded = false;
@@ -125,9 +127,8 @@ function addFormEvents() {
 function initCountriesSelector() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"countries"})
 	.done(function(data){
-		var countries = [];
 		for (var key in data) {
-			countries[key] = {"name":data[key].name, "geo_id":data[key].geo_id};
+			countries[key] = {"name":data[key].name, "country_code":data[key].country_code};
 		}
 		countries.sort(function(a,b) { return a.name.localeCompare(b.name) });
 		
@@ -144,7 +145,6 @@ function initCountriesSelector() {
 function initLanguagesSelector() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"languages"})
 	.done(function(data){
-		var languages = [];
 		for (var key in data) {
 			languages[key] = {"iso_code":data[key].iso_code, "name":data[key].name};
 		}
@@ -288,9 +288,9 @@ function getInputTaggingSite() {
 
 function getInputDropdownMenus() {
 	if (!($("#sltCountry").val() === ""))
-		info.country = $("#sltCountry").val();
+		info.country = getCountryId($("#sltCountry").val());
 	if (!($("#sltLanguage").val() === ""))
-		info.language = $("#sltLanguage").val();
+		info.language = getLanguageCode($("#sltLanguage").val());
 	if (!($("#sltEducation").val() === ""))
 		info.education = $("#sltEducation").val();
 	if (!($("#sltIncome").val() === ""))
@@ -299,6 +299,20 @@ function getInputDropdownMenus() {
 		info.internet_use = $("#sltInternet").val();
 }
 
+function getCountryId(name) {
+	// Find the geonames id corresponding to the selected name
+	for(var i=0; countries.length; i++) {
+		if (countries[i].name === name)
+			return countries[i].country_code;
+	}
+}
 
+function getLanguageCode(name) {
+	// Find the iso code corresponding to the selected name
+	for(var i=0; languages.length; i++) {
+		if (languages[i].name === name)
+			return languages[i].iso_code;
+	}
+}
 
 
