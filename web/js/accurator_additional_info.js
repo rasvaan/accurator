@@ -223,10 +223,6 @@ function getInputTextFields() {
 		info.mail = $("#addMail").val();
 	if (!($("#addMuseumVisits").val() === ""))
 		info.museum_visits = $("#addMuseumVisits").val();
-	if (!($("#addTwitterId").val() === undefined) && !($("#addTwitterId").val() === ""))
-		info.twitter_id = $("#addTwitterId").val();
-	if (!($("#addTagSite").val() === undefined) && !($("#addTagSite").val() === ""))
-		info.tag_site = $("#addTagSite").val();
 }
 
 function getInputRadioButtons() {
@@ -243,8 +239,50 @@ function getInputRadioButtons() {
 }
 
 function getInputCheckboxes() {
-//	if(!($("input[name='genderRadio']:checked").val() === undefined))
-//		info.gender = $("#frmGroupSocialNetwork.div.label.input:checked").val();
+	getInputSocialNetwork();
+	getInputTaggingSite();
+}
+
+function getInputSocialNetwork() {
+	if($("#chkSocialNone").is(":checked")) {
+		info.facebook = false;
+		info.linked_in = false;
+		info.twitter = false;
+	} else {
+		if ($("#chkSocialFacebook").is(":checked"))
+			info.facebook = true;
+		if ($("#chkSocialLinkedIn").is(":checked"))
+			info.linked_in = true;
+		//Set twitter to true when no id is given but box is checked
+		if ($("#chkSocialTwitter").is(":checked")) {
+			if (!($("#addTwitterId").val() === undefined) && !($("#addTwitterId").val() === "")) {
+				info.twitter = $("#addTwitterId").val();
+			} else {
+				info.twitter = true;
+			}
+		}
+	}
+}
+
+function getInputTaggingSite() {
+	if($("#chkTagNone").is(":checked")) {
+		info.flickr = false;
+		info.delicious = false;
+		info.other = false;
+	} else {
+		if ($("#chkTagSiteFlickr").is(":checked"))
+			info.flickr = true;
+		if ($("#chkTagSiteDelicious").is(":checked"))
+			info.delicious = true;
+		//Set tagsite to true
+		if ($("#chkTagSiteOther").is(":checked")) {
+			if (!($("#addTagSite").val() === undefined) && !($("#addTagSite").val() === "")) {
+				info.other_tag_site = $("#addTagSite").val();
+			} else {
+				info.other_tag_site = true;
+			}
+		}
+	}
 }
 
 
