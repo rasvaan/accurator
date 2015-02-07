@@ -24,14 +24,6 @@ function profileInit() {
 	userLoggedIn(onSuccess, onFail);
 }
 
-function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(data){
-		  initLabels(data);})
-	.fail(function(data, textStatus){
-		  $("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
-}
-
 function getUserInfo() {
 	//get the user id
 	$.getJSON("get_user")
@@ -40,10 +32,15 @@ function getUserInfo() {
 		  alert("Logged in user " + user);
 		  getRecentlyAnnotated();
 		  })
+	.fail(function(){});
+}
+
+function populateUI() {
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
+	.done(function(data){
+		  initLabels(data);})
 	.fail(function(data, textStatus){
-		  
-		  });
-	return user;
+		  $("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
 }
 
 function initLocaleRadio() {

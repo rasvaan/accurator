@@ -206,18 +206,25 @@ function initInternetSelector(optionList) {
 
 function processFormFields() {
 	getInput();
+	
+	//get the user id
+	$.getJSON("get_user")
+	.done(function(data){
+		  info.user = data.user;
+		  
+		  $.ajax({type: "POST",
+				  url: "save_additional_info",
+				  contentType: "application/json",
+				  data: JSON.stringify(info),
+				  success: function(data, textStatus, request){
+					document.location.href="expertise.html";
+				  },
+				  error: function () {}
+		  });
+	})
+	.fail(function(){});
+	
 
-	$.ajax({
-		type: "POST",
-		url: "save_additional_info",
-		contentType: "application/json",
-		data: JSON.stringify(info),
-		success: function(data, textStatus, request){
-		   document.location.href="expertise.html";
-		},
-		error: function (request, textStatus, errorThrown) {
-		}
-	});
 }
 
 function getInput() {
@@ -225,7 +232,6 @@ function getInput() {
 	getInputRadioButtons();
 	getInputCheckboxes();
 	getInputDropdownMenus();
-	console.log(info);
 	return info;
 }
 

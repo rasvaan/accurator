@@ -30,6 +30,7 @@ user:file_search_path(img, web(img)).
 
 :- http_handler(cliopatria(register_user), register_user,  []).
 :- http_handler(cliopatria(get_user), get_user,  []).
+:- http_handler(cliopatria(save_additional_info), save_additional_info,  []).
 
 :- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
@@ -258,6 +259,25 @@ get_user(_Request) :-
 	logged_on(User),
 	reply_json_dict(user{user:User}).
 
+%%	save_additional_info(+Request)
+%
+%	Saves the additional information about a user.
+save_additional_info(Request) :-
+	http_read_json_dict(Request, Info0),
+	atom_string(User, Info0.user),
+	del_dict(user, Info0, _Value, Info),
+	dict_pairs(Info, elements, InfoPairs),
+	save_info_pairs(User, InfoPairs),
+	reply_html_page(/,
+					title('Save additional info'),
+						h1('Additional info successfuly saved.')).
+
+save_info_pairs(_User, []).
+save_info_pairs(User, [Property-Value|Pairs]) :-
+	InfoAtom =.. [Property, Value],
+	set_user_property(User, InfoAtom),
+	save_info_pairs(User, Pairs).
+
 %%	get_label(Locale, Uri, Label)
 %
 %	Get a label for a specified uri and locale. Three different
@@ -346,4 +366,5 @@ navigation_bar -->
 		</div>
 	</nav>
 	|}).
+
 
