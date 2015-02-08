@@ -1,15 +1,16 @@
 /* Accurator css */
-html,body {
+html, body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-.content {
-	margin-top: 50px;
+body {
+	padding-top: 51px;
 }
 
 .bottomButtons {
 	margin-bottom: 20px;
 }
+
 /* Navbar */
 #headerImage {
 	height: 20px;
