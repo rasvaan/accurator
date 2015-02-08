@@ -56,9 +56,9 @@ function initLabels(data) {
 	$("#txtSlogan").prepend(data.txtSlogan + " " + userName);
 	$("#txtSubSlogan").prepend(data.txtSubSlogan);
 	$("#txtStartAnnotating").append(data.txtStartAnnotating);
-	$("#txtChangeSettings").append(data.txtChangeSettings);
 	$("#btnRecommend").append(data.btnRecommend);
 	$("#btnChangeExpertise").append(data.btnChangeExpertise);
+	$("#btnChangeInfo").append(data.btnChangeInfo);
 	$("#btnSearch").append(data.btnSearch);
 	$("#lblLastAnnotated").append(data.lblLastAnnotated);
 	$("#frmChangeLocale").append(data.frmChangeLocale);
@@ -68,11 +68,14 @@ function initLabels(data) {
 
 function addButtonEvents() {
 	$("#btnRecommend").click(function() {
-		document.location.href="recommendations.html";
+		document.location.href="/recommendations.html";
 	});
 	$("#btnChangeExpertise").click(function() {
-		document.location.href="expertise.html";
-	});	
+		document.location.href="/expertise.html";
+	});
+	$("#btnChangeInfo").click(function() {
+		document.location.href="/additional_info.html";
+	});
 }
 
 function getRecentlyAnnotated() {
