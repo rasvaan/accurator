@@ -6,7 +6,7 @@ function resultsInit() {
 	onSuccess = function(data){
 		user = data.user;
 		userName = getUserName(user);
-		populateNavbar(userName, [{link:"/profile.html", name:"Profile"}]);
+		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 		var query = getParameterByName("query");
 		var userParam = getParameterByName("user");
 		
@@ -19,7 +19,7 @@ function resultsInit() {
 			recommendItems(user);
 		}
 	};
-	onFail = function(){document.location.href="/intro.html";};
+	onFail = function(){document.location.href="intro.html";};
 	logUserIn(onSuccess, onFail);
 }
 

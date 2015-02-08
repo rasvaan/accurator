@@ -21,7 +21,7 @@ function profileInit() {
 		populateNavbar(userName, []);
 		getRecentlyAnnotated();
 	};
-	onFail = function(){document.location.href="/intro.html";};
+	onFail = function(){document.location.href="intro.html";};
 	logUserIn(onSuccess, onFail);
 }
 
@@ -68,24 +68,24 @@ function initLabels(data) {
 
 function addButtonEvents() {
 	$("#btnRecommend").click(function() {
-		document.location.href="/results.html" + "?user=" + user;
+		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
 	$("#frmSearch").keypress(function(event) {
 		if (event.which == 13) {
 			var query = encodeURIComponent($("#frmSearch").val());
-			document.location.href="/results.html?query=" + query;
+			document.location.href="results.html?query=" + query;
 		}
 	});
 	$("#btnSearch").click(function() {
 		var query = encodeURIComponent($("#frmSearch").val());
-		document.location.href="/results.html?query=" + query;
+		document.location.href="results.html?query=" + query;
 	});
 	$("#btnChangeExpertise").click(function() {
-		document.location.href="/expertise.html";
+		document.location.href="expertise.html";
 	});
 	$("#btnChangeInfo").click(function() {
-		document.location.href="/additional_info.html";
+		document.location.href="additional_info.html";
 	});
 }
 

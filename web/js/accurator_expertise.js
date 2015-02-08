@@ -10,9 +10,9 @@ function expertiseInit() {
 		locale = getLocale();
 		populateUI();
 		var userName = getUserName(data.user);
-		populateNavbar(userName, [{link:"/profile.html", name:"Profile"}]);
+		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 	};
-	onDismissal = function(){document.location.href="/intro.html"};
+	onDismissal = function(){document.location.href="intro.html"};
 	logUserIn(onSuccess, onDismissal);
 }
 
