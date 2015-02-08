@@ -1,6 +1,6 @@
 /* Accurator Profile
 */
-var user;
+var user, userName;
 var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#profile";
 var recentItems;
@@ -11,36 +11,26 @@ displayOptions = {
 }
 
 function profileInit() {
-	onSuccess = function(){
+	onSuccess = function(data){
 		locale = getLocale();
-		getUserInfo();
+		user = data.user;
+		userName = getUserName(user);
 		populateUI();
 		initLocaleRadio();
 		addButtonEvents();
+		populateNavbar(userName, []);
+		getRecentlyAnnotated();
 	};
-	onFail = function(){
-		document.location.href="intro.html";
-	};
-	userLoggedIn(onSuccess, onFail);
-}
-
-function getUserInfo() {
-	//get the user id
-	$.getJSON("get_user")
-	.done(function(data){
-		  user = data.user;
-		  alert("Logged in user " + user);
-		  getRecentlyAnnotated();
-		  })
-	.fail(function(){});
+	onFail = function(){document.location.href="intro.html";};
+	logUserIn(onSuccess, onFail);
 }
 
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(data){
-		  initLabels(data);})
-	.fail(function(data, textStatus){
-		  $("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
+		.done(function(data){
+			initLabels(data);})
+		.fail(function(data, textStatus){
+			$("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
 }
 
 function initLocaleRadio() {
@@ -50,7 +40,7 @@ function initLocaleRadio() {
 		$("#radioLocaleEn").click(function() {
 			setLocale("en");
 			location.reload();
-			});
+		});
 	}
 	if (locale === "nl") {
 		$("#radioLocaleNl").trigger('click');
@@ -58,12 +48,12 @@ function initLocaleRadio() {
 		$("#radioLocaleNl").click(function() {
 			setLocale("nl");
 			location.reload();
-			});
+		});
 	}
 }
 
 function initLabels(data) {
-	$("#txtSlogan").prepend(data.txtSlogan + " " + user);
+	$("#txtSlogan").prepend(data.txtSlogan + " " + userName);
 	$("#txtSubSlogan").prepend(data.txtSubSlogan);
 	$("#txtStartAnnotating").append(data.txtStartAnnotating);
 	$("#txtChangeSettings").append(data.txtChangeSettings);

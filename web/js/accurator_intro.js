@@ -4,25 +4,35 @@ var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#intro";
 
 function introInit() {
-	locale = getLocale();
-	
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(data){
-			buttonEvents();
-			initLabels(data);})
-		.fail(function(data, textStatus){
-			$("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
+	// If user is logged in go to profile page otherwise show intro.
+	onSuccess = function() {
+		document.location.href="profile.html";
+	};
+	onFail = function() {
+		locale = getLocale();
+		populateUI();
+	};
+	userLoggedIn(onSuccess, onFail);
 }
 
-function buttonEvents() {
+function populateUI() {
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
+		.done(function(data){
+			  addButtonEvents();
+			  initLabels(data);})
+		.fail(function(data, textStatus){
+			  $("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
+}
+
+function addButtonEvents() {
 	$("#btnRegister").click(function() {
 		document.location.href="register.html";
 	});
 	$("#btnLogin").click(function() {
-		onSuccess = function(){
+		onSuccess = function() {
 			document.location.href="profile.html";
 		};
-		onDismissal = function(){
+		onDismissal = function() {
 			$("#modalLogin").modal('hide');
 		};
 		loginModal(onSuccess, onDismissal);
@@ -34,4 +44,5 @@ function initLabels(data) {
 	$("#txtSubSlogan").prepend(data.txtSubSlogan);
 	$("#btnRegister").append(data.btnRegister);
 	$("#btnLogin").append(data.btnLogin);
+	$("#lnkAbout").append(data.lnkAbout);
 }

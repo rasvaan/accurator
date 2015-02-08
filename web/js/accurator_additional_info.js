@@ -11,23 +11,25 @@ var tagsiteFieldAdded = false;
 var frmTwitterId, frmTagSiteOpen;
 
 function additionalInfoInit() {
-	// Check if user is logged in
-	onSuccess = function(){
+	// Make sure user is logged in
+	onSuccess = function(data){
 		locale = getLocale();
 		populateUI();
+		var userName = getUserName(data.user);
+		populateNavbar(userName, [{link:"/profile.html", name:"Profile"}]);
 	};
-	onDismissal = function(){document.location.href="intro.html"};
-	userLoggedIn(onSuccess, onDismissal);
+	onDismissal = function(){document.location.href="/intro.html"};
+	logUserIn(onSuccess, onDismissal);
 }
 
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(data){
-		  addButtonEvents();
-		  initLabels(data);
-		  addFormEvents();
-		  $("#frmAge").focus();})
-	.fail(function(){});
+		.done(function(data){
+			addButtonEvents();
+			initLabels(data);
+			addFormEvents();
+			$("#frmAge").focus();})
+		.fail(function(){});
 }
 
 function addButtonEvents() {
@@ -207,24 +209,20 @@ function initInternetSelector(optionList) {
 function processFormFields() {
 	getInput();
 	
-	//get the user id
+	//get the user id and post information
 	$.getJSON("get_user")
-	.done(function(data){
-		  info.user = data.user;
+		.done(function(data){
+			info.user = data.user;
 		  
-		  $.ajax({type: "POST",
-				  url: "save_additional_info",
-				  contentType: "application/json",
-				  data: JSON.stringify(info),
-				  success: function(data, textStatus, request){
-					document.location.href="expertise.html";
-				  },
-				  error: function () {}
-		  });
+			$.ajax({type: "POST",
+				   url: "save_additional_info",
+				   contentType: "application/json",
+				   data: JSON.stringify(info),
+				   success: function(){
+				       document.location.href="expertise.html";
+				   }
+			});
 	})
-	.fail(function(){});
-	
-
 }
 
 function getInput() {

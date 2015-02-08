@@ -5,13 +5,23 @@ var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#expertise";
 var sldALot, sldNothing;
 
 function expertiseInit() {
-	locale = getLocale();
+	// Make sure user is logged in
+	onSuccess = function(data){
+		locale = getLocale();
+		populateUI();
+		var userName = getUserName(data.user);
+		populateNavbar(userName, [{link:"/profile.html", name:"Profile"}]);
+	};
+	onDismissal = function(){document.location.href="/intro.html"};
+	logUserIn(onSuccess, onDismissal);
+}
+
+function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(data){
-		registerButtonEvent();
-		initLabels(data);
-		initExpertiseTopics();})
-	.fail(function(data, textStatus){});
+		.done(function(data){
+			registerButtonEvent();
+			initLabels(data);
+			initExpertiseTopics();});
 }
 
 function initLabels(data) {

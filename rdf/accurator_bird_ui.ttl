@@ -13,15 +13,18 @@ abui:intro a aui:AccuratorUI ;
 	aui:txtSubSlogan "Help us add information to artworks depicting birds"@en ;
 	aui:btnRegister "Register"@en ;
 	aui:btnLogin "or Log in"@en ;
+	aui:lnkAbout "About"@en ;
 	aui:txtSlogan "Accurate Kunst Beschrijvingen"@nl ;
 	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met vogel afbeeldingen"@nl ;
 	aui:btnRegister "Registreer"@nl ;
-	aui:btnLogin "of Log in"@nl .
+	aui:btnLogin "of Log in"@nl ;
+	aui:lnkAbout "Informatie"@nl .
 
 aui:txtSlogan a aui:UILabel .
 aui:txtSubSlogan a aui:UILabel .
 aui:btnRegister a aui:UILabel .
 aui:btnLogin a aui:UILabel .
+aui:lnkAbout a aui:UILabel .
 
 ###### About Screen #####
 
