@@ -6,10 +6,21 @@ var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#about";
 
 function aboutInit() {
 	locale = getLocale();
-	
+	onSuccess = function(data){
+		populateUI();
+		userName = getUserName(data.user);
+		populateNavbar(userName, [{link:"/profile.html", name:"Profile"}]);
+	};
+	onFail = function(){
+		populateUI();
+	};
+	logUserIn(onSuccess, onFail);
+}
+
+function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(data){
-		  initLabels(data);});
+		.done(function(data){
+			initLabels(data);});
 }
 
 function initLabels(data) {
