@@ -80,7 +80,7 @@ function addButtonEvents() {
 
 function getRecentlyAnnotated() {
 	$.getJSON("recently_annotated", {user:user})
-	.done(function(data){
+		.done(function(data){
 			var numberOfItems = data.uris.length;
 			var items = [];
 
@@ -95,8 +95,7 @@ function getRecentlyAnnotated() {
 				enrichedClusters[0] = new cluster([], 'undefined');
 				addItems(0);
 			}
-		})
-	.fail(function(data, textStatus){});
+		});
 }
 
 function noResultsHtml() {

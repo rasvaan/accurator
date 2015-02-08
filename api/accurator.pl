@@ -36,6 +36,7 @@ user:file_search_path(img, web(img)).
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
+:- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
 
 %%	ui_elements_api(+Request)
 %
@@ -153,17 +154,14 @@ get_parameters_annotated(Request, Options) :-
 %%	get_annotated(-Dic, +Options)
 %
 %	Query for a list of artworks the user recently annotated.
-get_annotated(Dic, _Options) :-
-	%option(user(User), Options),
-	Dic = artworks{uris:['http://purl.org/collections/nl/naturalis/print-134677',
-						 'http://purl.org/collections/nl/naturalis/print-134685',
-						 'http://purl.org/collections/nl/naturalis/print-134699',
-						 'http://purl.org/collections/nl/naturalis/print-134703',
-						 'http://purl.org/collections/nl/naturalis/print-134710',
-						 'http://purl.org/collections/nl/naturalis/print-134717',
-						 'http://purl.org/collections/nl/naturalis/print-134731',
-						 'http://purl.org/collections/nl/naturalis/print-134766',
-						 'http://purl.org/collections/nl/naturalis/print-134767']}.
+get_annotated(Dic, Options) :-
+	option(user(User), Options),
+	setof(Uri, Annotation^User^
+		  (	  rdf(Annotation, oa:annotatedBy, User),
+			  rdf(Annotation, oa:hasTarget, Uri),
+			  rdf(Uri, rdf:type, edm:'ProvidedCHO')),
+		  Uris),
+	Dic = artworks{uris:Uris}.
 
 %%	expertise_topics_api(+Request)
 %
