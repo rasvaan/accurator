@@ -7,12 +7,12 @@ var lblRegistrationFailed, lblPasswordsMatchFail, lblUserTaken, lblServerError;
 function registerInit() {
 	locale = getLocale();
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(data){
-		registerEvent();
-		initLabels(data);
-		$("#frmRealName").focus();})
-	.fail(function(data, textStatus){
-		setRegisterFailureText("Problem connecting to server, please contact the system administrator.");});
+		.done(function(data){
+			  registerEvent();
+			  initLabels(data);
+			  $("#frmRealName").focus();})
+		.fail(function(data, textStatus){
+			  setRegisterFailureText("Problem connecting to server, please contact the system administrator.");});
 }
 
 function initLabels(data) {

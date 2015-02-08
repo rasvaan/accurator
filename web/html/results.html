@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
 <head>
-	<title>Profile</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Recommendations</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="img/favicon.ico">
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="/css/search.css">
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 </head>
 
@@ -12,71 +13,19 @@
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="intro.html">
-					<img id="headerImage" src="img/accurator.png" alt="Accurator">
-				</a>
+				 <a class="navbar-brand" href="/intro.html">
+				 	<img id="headerImage" src="/img/accurator.png" alt="Accurator">
+				 </a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
 			</ul>
 		</div>
 	</nav>
 	
-	<div class="container">
-		<!-- Header -->
-		<div class="row">
-			<div class="col-md-12">
-				<h2 id="txtSlogan">
-					<small id="txtSubSlogan">
-					</small>
-				</h2>
-			</div>
-		</div>
-		
-		<!-- Start and change info -->
-		<div class="row" id="rowStartChange">
-			<div class="col-md-6">
-			<p id="txtStartAnnotating"></p>
-				<button class="btn btn-primary" id="btnRecommend">
-				</button>
-				<div class="form-inline" id="frmGroupSearch">
-					<div class="form-group">
-    					<input type="text" autocomplete="off" class="form-control" id="frmSearch">
-  					</div>
-				 	<button id="btnSearch" class="btn btn-default">
-					</button>
-				</div>
-			</div>
-			<div class="col-md-6" id="rowChangeInfo">
-				<button class="btn btn-default" id="btnChangeExpertise">
-				</button>
-				<button class="btn btn-default" id="btnChangeInfo">
-				</button>
-			 	<div id="frmLocale" class="form-group">
-					<label for="changeLocale" id="frmChangeLocale" class="col-sm-10 control-label">
-					</label>
-					<div class="col-sm-6">
-						<label class="radio-inline">
-							<input type="radio" name="localeRadio" id="radioLocaleEn" value="en">
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="localeRadio" id="radioLocaleNl" value="nl">
-						</label>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<!-- Already annotated -->
-		<div class="row" id="rowLastAnnotated">
-			<div class="col-md-12" id="hdrLastAnnotated">
-				<h4 id="lblLastAnnotated">
-				</h4>
-			</div>
-			<div class="col-md-12" id="cluster0">
-			</div>
-		</div>
+	<!-- Results -->
+	<div class="container" id="results">
 	</div>
-
+	
 	<!-- Login modal -->
 	<div class="modal fade" id="modalLogin">
 		<div class="modal-dialog">
@@ -86,18 +35,18 @@
 					<h4 id="mdlTxtTitle">
 					</h4>
 				</div>
- 				<div class="modal-body">
+				<div class="modal-body">
 					<form role="form">
 						<div class="form-group">
 							<label id="mdlFrmUsername" for="inputUsername">
 							</label>
 							<input type="text" class="form-control" id="inputUsername">
-						</div>
+								</div>
 						<div class="form-group">
 							<label id="mdlFrmPassword" for="password">
 							</label>
 							<input type="password" class="form-control" id="inputPassword">
-						</div>
+								</div>
 						<p class="text-warning" id="mdlLblLogin">
 						</p>
 					</form>
@@ -111,7 +60,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
 	<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/accurator.laconic.js"></script>
@@ -120,7 +69,7 @@
 	<script type="text/javascript" src="js/thumbnail.js"></script>
 	<script type="text/javascript" src="js/pengines.js"></script>
 	<script type="text/javascript" src="js/accurator_utilities.js"></script>
-	<script type="text/javascript" src="js/accurator_profile.js"></script>
-	<script>profileInit();</script>
+	<script type="text/javascript" src="js/accurator_results.js"></script>
+	<script>resultsInit();</script>
 </body>
 </html>
