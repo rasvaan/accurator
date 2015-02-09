@@ -1,7 +1,7 @@
 /* Accurator Intro
 */
 var locale;
-var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#intro";
+var ui = "http://accurator.nl/ui/bird#intro";
 
 function introInit() {
 	// If user is logged in go to profile page otherwise show intro.

@@ -1,7 +1,7 @@
 /* Accurator Expertise
 */
 var locale;
-var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#expertise";
+var ui = "http://accurator.nl/ui/bird#expertise";
 var sldALot, sldNothing;
 
 function expertiseInit() {

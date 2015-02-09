@@ -1,8 +1,30 @@
-@prefix aui:       <http://semanticweb.cs.vu.nl/accurator/ui/> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dc:     <http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-aui:uiLabel a rdf:Property;
-	rdfs:label "super-property of all labels"@en .
+auis:uiLabel a rdf:Property;
+	rdfs:label "Super-property of all labels"@en .
+
+auis:UILabel a rdfs:Class;
+	rdfs:label "Super-class of all labels"@en .
+
+auis:UI a rdfs:Class;
+	rdfs:label "Super-class of all user interfaces."@en .
+
+auis:SelectField a rdfs:Class;
+	rdfs:label "Select field" ;
+	rdfs:comment "Selectfield bundles possible options together."@en .
+
+auis:hasSelect a rdf:Property;
+	rdfs:label "Has select field" ;
+	rdfs:comment "Property linking a ui and a select field"@en .
+
+auis:SelectOption a rdfs:Class;
+	rdfs:label "Option of selector field" ;
+	rdfs:comment "Option of a selectfield with a preflabel and notation, used for language independent storage of selected values."@en .
+
+auis:hasSelectOption a rdf:Property;
+	rdfs:label "Has select option" ;
+	rdfs:comment "Property linking a selectfield and its options"@en .

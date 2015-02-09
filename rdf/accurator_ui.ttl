@@ -1,0 +1,430 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+###### Intro Screen #####
+
+aui:intro a auis:UI ;
+	dcterms:title "Accurator intro UI"@en ;
+	aui:txtSlogan "Accurate Art Annotations"@en ;
+	aui:txtSubSlogan "Help us add information to artworks"@en ;
+	aui:btnRegister "Register"@en ;
+	aui:btnLogin "or Log in"@en ;
+	aui:lnkAbout "About"@en ;
+	aui:txtSlogan "Accurate Kunst Beschrijvingen"@nl ;
+	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken"@nl ;
+	aui:btnRegister "Registreer"@nl ;
+	aui:btnLogin "of Log in"@nl ;
+	aui:lnkAbout "Informatie"@nl .
+
+aui:txtSlogan a auis:UILabel .
+aui:txtSubSlogan a auis:UILabel .
+aui:btnRegister a auis:UILabel .
+aui:btnLogin a auis:UILabel .
+aui:lnkAbout a auis:UILabel .
+
+###### About Screen #####
+
+aui:about a auis:UI ;
+	dcterms:title "Accurator about UI"@en ;
+	aui:txtAboutSlogan "About Accurator"@en ;
+	aui:txtAboutSlogan "Over Accurator"@nl ;
+	aui:txtAboutAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be the	annotation of the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
+	aui:txtAboutAccurator "Accurator is een platform dat gebruikers in staat stelt hun expertise te delen met museum professionals bij het beschrijven van museumstukken. Dit kan, bijvoorbeeld, het voorzien van informatie zijn van dieren of planten prenten. Naast het verrijken van beschrijvingen van de museumstukken helpt dit proces ook de online toegankelijkheid van de collectie."@nl ;
+	aui:txtSealincMediaSlogan "SEALINCMedia"@en ;
+	aui:txtSealincMediaSlogan "SEALINCMedia"@nl ;
+	aui:txtAboutSealincMedia "Accurator is developed as part of the SEALINCMedia project. The collaborating institutions are Vrije University	Amsterdam, Technical University Delft, Centrum Wiskunde and Informatica, Rijksmuseum Amsterdam, Naturalis and the National Library of The Netherlands. SEALINCMedia is part of the COMMIT/ project which brings together academic research and (non-)profit organizations to solve challenges in ICT."@en ;
+	aui:txtAboutSealincMedia "De ontwikkeling van Accurator maakt deel uit van het SEALINCMedia project. Het samenwerkingsverband bestaat uit de Vrije Universiteit Amsterdam, de Technische Universiteit Delf, Centrum Wiskunde en Informatica, Rijksmuseum Amsterdam, Naturalis en de Koninklijke Bibliotheek. SEALINCMedia maakt onderdeel uit van het COMMIT/ project wat onderzoek en (non-)profit organisaties samenbrengt om ICT uitdagingen op te lossen."@nl ;
+	aui:txtSealincResearchSlogan "Accurator for research"@en ;
+	aui:txtSealincResearchSlogan "Accurator en onderzoek"@nl ;
+	aui:txtAboutSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the annotation of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the annotations and annotators using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator."@en ;
+	aui:txtAboutSealincResearch "De onderzoeks uitdagingen zijn: het vinden de niche van experts en hen motiveren om informatie bij te dragen aan kunstwerken; experts de kunstwerken tonen waar overeenkomend met hun expertise; de bijdragen evalueren met behulp van algoritmen en deze aspecten presenteren in een passende interface. Om deze hypothesen te testen is Accurator continu in ontwikkeling."@nl .
+
+aui:txtAboutSlogan a auis:UILabel .
+aui:txtAboutAccurator a auis:UILabel .
+aui:txtSealincMediaSlogan a auis:UILabel .
+aui:txtAboutSealincMedia a auis:UILabel .
+aui:txtSealincResearchSlogan a auis:UILabel .
+aui:txtAboutSealincResearch a auis:UILabel .
+
+##### Register Screen #####
+
+aui:register a auis:UI ;
+	dcterms:title "Accurator register UI"@en ;
+	aui:txtHeader "Create your Accurator Account"@en ;
+	aui:frmRealName "Full name"@en ;
+	aui:frmUsername "Username"@en ;
+	aui:frmPassword "Password"@en ;
+	aui:frmPasswordRepeat "Confirm your password"@en ;
+	aui:btnRegister "Register"@en ;
+	aui:btnGoBack "or go back to previous page"@en ;
+	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
+	aui:lblUserTaken "Username already exists."@en ;
+	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
+	aui:lblServerError "Server error"@en ;
+	aui:txtHeader "Maak uw Accurator-account"@nl ;
+	aui:frmRealName "Volledige naam"@nl ;
+	aui:frmUsername "Kies een gebruikersnaam"@nl ;
+	aui:frmPassword "Wachtwoord"@nl ;
+	aui:frmPasswordRepeat "Bevestig uw wachtwoord"@nl ;
+	aui:btnRegister "Registreer"@nl ;
+	aui:btnGoBack "of ga terug naar de vorige pagina"@nl ;
+	aui:lblRegistrationFailed "Registratie mislukt, vul alle velden in."@nl ;
+	aui:lblUserTaken "Gebruikersnaam bestaat al."@nl ;
+	aui:lblPasswordsMatchFail "De wachtwoorden komen niet overeen."@nl ;
+	aui:lblServerError "Server fout"@nl .
+
+aui:txtHeader a auis:UILabel .
+aui:frmRealName a auis:UILabel .
+aui:frmUsername a auis:UILabel .
+aui:frmPassword a auis:UILabel .
+aui:frmPasswordRepeat a auis:UILabel .
+aui:btnGoBack a auis:UILabel .
+aui:lblRegistrationFailed a auis:UILabel .
+aui:lblUserTaken a auis:UILabel .
+aui:lblPasswordsMatchFail a auis:UILabel .
+aui:lblUserTaken a auis:UILabel .
+aui:lblServerError a auis:UILabel .
+
+##### Expertise Screen #####
+
+aui:expertise a auis:UI ;
+	dcterms:title "Accurator expertise form UI"@en ;
+	aui:txtHeader "Expertise"@en ;
+	aui:txtSubHeader "how much do you know about the following topics?"@en ;
+	aui:btnSkip "or skip this step"@en ;
+	aui:btnSubmit "Submit"@en ;
+	aui:sldALot "a lot"@en ;
+	aui:sldNothing "nothing"@en ;
+	aui:txtHeader "Expertise"@nl ;
+	aui:txtSubHeader "hoeveel weet u af van de volgende onderwerpen?"@nl ;
+	aui:btnSkip "of sla deze stap over"@nl ;
+	aui:btnSubmit "Bevestig"@nl ;
+	aui:sldALot "veel"@nl ;
+	aui:sldNothing "weinig"@nl .
+
+aui:txtSubHeader a auis:UILabel .
+aui:btnSubmit a auis:UILabel .
+aui:sldALot a auis:UILabel .
+aui:sldNothing a auis:UILabel .
+
+##### Profile Screen #####
+
+aui:profile a auis:UI ;
+	dcterms:title "Accurator profile UI"@en ;
+	aui:txtSlogan "Welcome "@en ;
+	aui:txtSubSlogan "start annotating or change your personal info"@en ;
+	aui:txtStartAnnotating "To start annotating you can choose to search for specific works or to get works recommended."@en ;
+	aui:btnRecommend "Recommended works"@en ;
+	aui:btnSearch "Search"@en ;
+	aui:btnChangeExpertise "Change expertise levels"@en ;
+	aui:btnChangeInfo "Change personal info"@en ;
+	aui:lblLastAnnotated "Artworks you recently annotated"@en ;
+	aui:frmChangeLocale "Change the language of the interface"@en ;
+	aui:radioLocaleEn "English"@en ;
+	aui:radioLocaleNl "Dutch"@en ;
+	aui:txtSlogan "Welkom "@nl ;
+	aui:txtSubSlogan "begin met het toevoegen van informatie of verander uw instellingen"@nl ;
+	aui:txtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
+	aui:btnRecommend "Aanbevolen werken"@nl ;
+	aui:btnSearch "Zoek"@nl ;
+	aui:btnChangeExpertise "Verander uw expertise niveaus"@nl ;
+	aui:btnChangeInfo "Verander uw persoonlijke info"@nl ;
+	aui:lblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl ;
+	aui:frmChangeLocale "Verander de taal van de interface"@nl;
+	aui:radioLocaleEn "Engels"@nl ;
+	aui:radioLocaleNl "Nederlands"@nl .
+
+aui:txtStartAnnotating a auis:UILabel .
+aui:btnRecommend a auis:UILabel .
+aui:btnSearch a auis:UILabel .
+aui:btnChangeExpertise a auis:UILabel .
+aui:btnChangeInfo a auis:UILabel .
+aui:lblLastAnnotated a auis:UILabel .
+aui:frmChangeLocale a auis:UILabel .
+aui:radioLocaleEn a auis:UILabel .
+aui:radioLocaleNl a auis:UILabel .
+
+##### Additional Info Screen #####
+
+aui:additional_info a auis:UI ;
+	dcterms:title "Accurator additional info UI"@en  ;
+	aui:txtHeader "Additional Info"@en ;
+	aui:txtHeaderSub "it would help us a lot if you would provide us with the following information"@en ;
+	aui:btnAddInfo "Add Additional Info"@en ;
+	aui:btnSkip "or skip this step"@en ;
+	aui:frmAge "Age"@en ;
+	aui:frmGender "Gender"@en ;
+	aui:radioGenderMale "Male"@en ;
+	aui:radioGenderFemale "Female"@en ;
+	aui:frmCountry "What is your counrty of residence?"@en ;
+	aui:frmCommunity "What resembles most closely the community you reside in?"@en ;
+	aui:radioCommunityUrban "Urban"@en ;
+	aui:radioCommunitySubUrban "Sub-urban"@en ;
+	aui:radioCommunityRural "Rural"@en ;
+	aui:frmLanguage "What is your primary language?"@en ;
+	aui:frmEducation "What is the highest level of education you have recieved?"@en ;
+	auis:hasSelect aui:educationOptions ;
+	aui:frmIncome "What is your household income?"@en ;
+	auis:hasSelect aui:incomeOptions ;
+	aui:frmMail "Email"@en ;
+	aui:frmSocialNetwork "On which social network sites are you active?"@en  ;
+	aui:chkSocialFacebook "Facebook"@en ;
+	aui:chkSocialLinkedIn "LinkedIn"@en ;
+	aui:chkSocialTwitter "Twitter"@en ;
+	aui:chkSocialNone "None of these"@en ;
+	aui:frmTwitterId "What is your Twitter id?"@en  ;
+	aui:frmInternetUsage "How often do you make use of the internet?"@en ;
+	auis:hasSelect aui:internetOptions ;
+	aui:frmMuseumVisits "How many times a year do you visit a museum on average?"@en ;
+	aui:frmEmployee "Are you employed by a museum?"@en ;
+	aui:radioEmployeeYes "Yes"@en ;
+	aui:radioEmployeeNo "No"@en ;
+	aui:frmTaggingExperience "Do you have any tagging experience?"@en ;
+	aui:radioTaggingYes "Yes"@en ;
+	aui:radioTaggingNo "No"@en ;
+	aui:frmTaggingExperienceLevel "How would you describe your level of tagging experience?"@en ;
+	aui:radioTaggingNovice "Novice"@en ;
+	aui:radioTaggingIntermediate "Intermediate"@en ;
+	aui:radioTaggingExpert "Expert"@en ;
+	aui:frmTagSite "Did you tag on one of these websites?"@en ;
+	aui:chkTagSiteFlickr "Flickr"@en ;
+	aui:chkTagSiteDelicious "Delicious"@en ;
+	aui:chkTagSiteOther "Other site"@en ;
+	aui:chkTagNone "None of these"@en ;
+	aui:frmTagSiteOpen "Which other tagging site(s)?"@en ;
+	aui:txtHeader "Aanvullende informatie"@nl ;
+	aui:txtHeaderSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
+	aui:btnAddInfo "Bevestig"@nl ;
+	aui:btnSkip "of sla deze stap over"@nl ;
+	aui:frmAge "Leeftijd"@nl ;
+	aui:frmGender "Geslacht"@nl ;
+	aui:radioGenderMale "Man"@nl ;
+	aui:radioGenderFemale "Vrouw"@nl ;
+	aui:frmCountry "In welk land woont u?"@nl ;
+	aui:frmCommunity "Hoe zou u uw leefomgeving omschrijven?"@nl ;
+	aui:radioCommunityUrban "Stedelijk"@nl ;
+	aui:radioCommunitySubUrban "Voorstedelijk"@nl ;
+	aui:radioCommunityRural "Platteland"@nl ;
+	aui:frmLanguage "Welke taal beheerst u het beste?"@nl ;
+	aui:frmEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
+	aui:frmIncome "Wat is het gemiddelde jaarlijkse netto inkomen van uw huishouden?"@nl ;
+	aui:frmMail "Email"@nl ;
+	aui:frmSocialNetwork "Op welke sociale media bent u actief?"@nl ;
+	aui:chkSocialFacebook "Facebook"@nl ;
+	aui:chkSocialLinkedIn "LinkedIn"@nl ;
+	aui:chkSocialTwitter "Twitter"@nl ;
+	aui:chkSocialNone "Geen van deze"@nl ;
+	aui:frmTwitterId "Wat is uw Twitter id?"@nl  ;
+	aui:frmInternetUsage "Hoe vaak gebruikt u het internet?"@nl ;
+	aui:frmMuseumVisits "Hoe vaak per jaar bezoekt u gemiddeld een museum?"@nl ;
+	aui:frmEmployee "Bent u een museum medewerker?"@nl ;
+	aui:radioEmployeeYes "Ja"@nl ;
+	aui:radioEmployeeNo "Nee"@nl ;
+	aui:frmTaggingExperience "Heeft u ervaring met het toevoegen van informatie aan media?"@nl ;
+	aui:radioTaggingYes "Ja"@nl ;
+	aui:radioTaggingNo "Nee"@nl;
+	aui:frmTaggingExperienceLevel "Hoe zou u uw tag ervaringsniveau omschrijven?"@nl ;
+	aui:radioTaggingNovice "Beginner"@nl ;
+	aui:radioTaggingIntermediate "Gemiddeld"@nl ;
+	aui:radioTaggingExpert "Expert"@nl ;
+	aui:frmTagSite "Welke van de volgende websites heeft u weleens gebruikt om te taggen?"@nl ;
+	aui:chkTagSiteFlickr "Flickr"@nl ;
+	aui:chkTagSiteDelicious "Delicious"@nl ;
+	aui:chkTagSiteOther "Andere site"@nl ;
+	aui:chkTagNone "Geen van deze"@nl ;
+	aui:frmTagSiteOpen "Welke andere tag site(s)?"@nl .
+
+aui:txtHeader a auis:UILabel .
+aui:txtHeaderSub a auis:UILabel .
+aui:btnAddInfo a auis:UILabel .
+aui:btnSkip a auis:UILabel .
+aui:frmAge a auis:UILabel .
+aui:frmGender a auis:UILabel .
+aui:frmCountry a auis:UILabel .
+aui:frmCommunity a auis:UILabel .
+aui:radioGenderMale a auis:UILabel .
+aui:radioGenderFemale a auis:UILabel .
+aui:radioCommunityUrban a auis:UILabel .
+aui:radioCommunitySubUrban a auis:UILabel .
+aui:radioCommunityRural a auis:UILabel .
+aui:frmLanguage a auis:UILabel .
+aui:frmEducation a auis:UILabel .
+aui:frmIncome a auis:UILabel .
+aui:frmMail a auis:UILabel .
+aui:frmSocialNetwork a auis:UILabel .
+aui:chkSocialFacebook a auis:UILabel .
+aui:chkSocialLinkedIn a auis:UILabel .
+aui:chkSocialTwitter a auis:UILabel .
+aui:chkSocialNone a auis:UILabel .
+aui:frmTwitterId a auis:UILabel .
+aui:frmInternetUsage a auis:UILabel .
+aui:frmMuseumVisits a auis:UILabel .
+aui:frmEmployee a auis:UILabel .
+aui:radioEmployeeYes a auis:UILabel .
+aui:radioEmployeeNo a auis:UILabel .
+aui:frmTaggingExperience a auis:UILabel .
+aui:radioTaggingYes a auis:UILabel .
+aui:radioTaggingNo a auis:UILabel .
+aui:radioTaggingNovice a auis:UILabel .
+aui:radioTaggingIntermediate a auis:UILabel .
+aui:radioTaggingExpert a auis:UILabel .
+aui:frmTaggingExperienceLevel a auis:UILabel .
+aui:frmTagSite a auis:UILabel .
+aui:chkTagSiteFlickr a auis:UILabel .
+aui:chkTagSiteDelicious a auis:UILabel .
+aui:chkTagSiteOther a auis:UILabel .
+aui:chkTagNone a auis:UILabel .
+aui:frmTagSiteOpen a auis:UILabel .
+
+aui:educationOptions a auis:SelectField ;
+	auis:hasSelectOption aui:optionPrimarySchool ;
+	auis:hasSelectOption aui:optionHighSchool ;
+	auis:hasSelectOption aui:optionCollege ;
+	auis:hasSelectOption aui:optionBachelor ;
+	auis:hasSelectOption aui:optionMaster ;
+	auis:hasSelectOption aui:optionDoctorate ;
+	auis:hasSelectOption aui:optionUknown .
+
+aui:optionPrimarySchool a auis:SelectOption ;
+	skos:notation "primary_school" ;
+	skos:prefLabel "Primary school"@en ;
+	skos:prefLabel "Geen opleiding of enkel lager onderwijs"@nl .
+
+aui:optionHighSchool a auis:SelectOption ;
+	skos:notation  "high_school" ;
+	skos:prefLabel "High school"@en ;
+	skos:prefLabel  "VMBO / MAVO / MULO / LBO  / VBO"@nl .
+
+aui:optionCollege a auis:SelectOption ;
+	skos:notation "college" ;
+	skos:prefLabel "College"@en ;
+	skos:prefLabel "HAVO / VWO / HBS"@nl .
+
+aui:optionBachelor a auis:SelectOption ;
+	skos:notation "bachelor" ;
+	skos:prefLabel "Bachelor"@en ;
+	skos:prefLabel "HBO / HTS / Bachelor"@nl .
+
+aui:optionMaster a auis:SelectOption ;
+	skos:notation "master" ;
+	skos:prefLabel "Master"@en ;
+	skos:prefLabel "WO / Master (MBA)"@nl .
+
+aui:optionDoctorate a auis:SelectOption ;
+	skos:notation "doctorate" ;
+	skos:prefLabel "Doctorate"@en ;
+	skos:prefLabel "Doctoraal"@nl .
+
+aui:optionUknown a auis:SelectOption ;
+	skos:notation "unknown" ;
+	skos:prefLabel "Unknown"@en ;
+	skos:prefLabel "Onbekend"@nl .
+
+aui:incomeOptions a auis:SelectField ;
+	auis:hasSelectOption aui:income20 ;
+	auis:hasSelectOption aui:income20to35 ;
+	auis:hasSelectOption aui:income35to50 ;
+	auis:hasSelectOption aui:income50to75 ;
+	auis:hasSelectOption aui:income75to100 ;
+	auis:hasSelectOption aui:income100to150 ;
+	auis:hasSelectOption aui:income150to200 ;
+	auis:hasSelectOption aui:income200 .
+
+aui:income20 a auis:SelectOption ;
+	skos:notation "income_20" ;
+	skos:prefLabel "Less than $20,000"@en ;
+	skos:prefLabel "Minder dan \u20AC 20,000"@nl ; .
+
+aui:income20to35 a auis:SelectOption ;
+	skos:notation "income_20_to_35" ;
+	skos:prefLabel "$20,000 to $34,999"@en ;
+	skos:prefLabel "\u20AC20.000 tot \u20AC34.999"@nl .
+
+aui:income35to50 a auis:SelectOption ;
+	skos:notation "income_35_to_50" ;
+	skos:prefLabel "$35,000 to $49,999"@en ;
+	skos:prefLabel "\u20AC35.000 tot \u20AC49.999"@nl .
+
+aui:income50to75 a auis:SelectOption ;
+	skos:notation "income_50_to_75" ;
+	skos:prefLabel "$50,000 to $74,999"@en ;
+	skos:prefLabel "\u20AC50.000 tot \u20AC74.999"@nl .
+
+aui:income75to100 a auis:SelectOption ;
+	skos:notation "income_75_to_100" ;
+	skos:prefLabel "$75,000 to $99,999"@en ;
+	skos:prefLabel "\u20AC75.000 tot \u20AC99.999"@nl .
+
+aui:income100to150 a auis:SelectOption ;
+	skos:notation "income_100_to_150" ;
+	skos:prefLabel "$100,000 to $149,999"@en ;
+	skos:prefLabel "\u20AC100.000 tot \u20AC149.999"@nl .
+
+aui:income150to200 a auis:SelectOption ;
+	skos:notation "income_150_to_200" ;
+	skos:prefLabel "$150,000 to $199,999"@en ;
+	skos:prefLabel "\u20AC150.000 tot \u20AC199.999"@nl .
+
+aui:income200 a auis:SelectOption ;
+	skos:notation "income_200" ;
+	skos:prefLabel "$200,000 or more"@en ;
+	skos:prefLabel "\u20AC200.000 of meer"@nl .
+
+aui:internetOptions a auis:SelectField ;
+	auis:hasSelectOption aui:internetAlways ;
+	auis:hasSelectOption aui:internetOnceADay ;
+	auis:hasSelectOption aui:internet3to5 ;
+	auis:hasSelectOption aui:internet1to2 ;
+	auis:hasSelectOption aui:internetLessThan1 .
+
+aui:internetAlways a auis:SelectOption ;
+	skos:notation "internet_always" ;
+	skos:prefLabel "Always online"@en ;
+	skos:prefLabel "Altijd online"@nl ; .
+
+aui:internetOnceADay a auis:SelectOption ;
+	skos:notation "internet_once_a_day" ;
+	skos:prefLabel "Once a day"@en ;
+	skos:prefLabel "Elke dag"@nl .
+
+aui:internet3to5 a auis:SelectOption ;
+	skos:notation "internet_3_to_5_a_week" ;
+	skos:prefLabel "3-5 days per week"@en ;
+	skos:prefLabel "3 tot 5 dagen per week"@nl .
+
+aui:internet1to2 a auis:SelectOption ;
+	skos:notation "internet_1_to_2_a_week" ;
+	skos:prefLabel "1-2 days per week"@en ;
+	skos:prefLabel "1 tot 2 dagen per week"@nl .
+
+aui:internetLessThan1 a auis:SelectOption ;
+	skos:notation "internet_less_than_1_a_week" ;
+	skos:prefLabel "Less than 1 day per week"@en ;
+	skos:prefLabel "Minder dan een dag per week"@nl .
+
+##### Login Modal #####
+
+aui:login_modal a auis:UI ;
+	aui:mdlTxtTitle "Log in"@en ;
+	aui:mdlFrmUsername "Username"@en ;
+	aui:mdlFrmPassword "Password"@en ;
+	aui:mdlBtnLogin "Log in"@en ;
+	aui:loginWarning "Log in unsuccessful"@en ;
+	aui:loginIncomplete "Please add both your username and password"@en ;
+	aui:mdlTxtTitle "Inloggen"@nl ;
+	aui:mdlFrmUsername "Gebruikersnaam"@nl ;
+	aui:mdlFrmPassword "Wachtwoord"@nl ;
+	aui:mdlBtnLogin "Log in"@nl ;
+	aui:loginWarning "Inloggen mislukt"@nl ;
+	aui:loginIncomplete "Voer zowel een gebruikersnaam als wachtwoord in"@nl .
+
+aui:mdlTxtTitle a auis:UILabel .
+aui:mdlFrmUsername a auis:UILabel .
+aui:mdlFrmPassword a auis:UILabel .
+aui:mdlBtnLogin a auis:UILabel .
+aui:loginWarning a auis:UILabel .
+aui:loginIncomplete a auis:UILabel .

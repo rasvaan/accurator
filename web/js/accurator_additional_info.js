@@ -5,7 +5,7 @@ var countries = [];
 var languages = [];
 var educationOptions, incomeOptions, internetOptions;
 var info = {};
-var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#additional_info";
+var ui = "http://accurator.nl/ui/bird#additional_info";
 var twitterFieldAdded = false;
 var tagsiteFieldAdded = false;
 var frmTwitterId, frmTagSiteOpen;

@@ -32,8 +32,9 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(get_user), get_user,  []).
 :- http_handler(cliopatria(save_additional_info), save_additional_info,  []).
 
-:- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
-:- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
+:- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
+:- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
+%:- rdf_register_prefix(abui, 'http://accurator.nl/ui/bird#').
 :- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
@@ -68,6 +69,9 @@ get_parameters_elements(Request, Options) :-
 	]),
     Options = [ui(UI), locale(Locale), type(Type)].
 
+%%	get_elements(+Type, -Dic, +Options)
+%
+%	Determine which type of UI elements to query for.
 get_elements(labels, Dic, Options) :-
 	get_text_elements(Dic, Options).
 
@@ -77,7 +81,9 @@ get_elements(countries, Dic, Options) :-
 get_elements(languages, Dic, Options) :-
 	get_languages(Dic, Options).
 
-
+%%	get_countries(+DictArray, _Options)
+%
+%	Get a list of country names based on the geonames dataset.
 get_countries(DictArray, _Options) :-
 	findall(CountryDict,
 			(	rdf(GeonamesCountry, gn:featureClass, gn:'A'),
@@ -90,6 +96,9 @@ get_countries(DictArray, _Options) :-
 				CountryDict = CountryDict1.put(country_code, CountryCodeLower)),
 			DictArray).
 
+%%	get_languages(-DictArray, _Options)
+%
+%	Get a list of languages.
 get_languages(DictArray, _Options) :-
 	findall(LanguageDict,
 			(	rdf(GeonamesCountry, acl:isoCode, literal(IsoCode)),
@@ -107,19 +116,47 @@ get_languages(DictArray, _Options) :-
 get_text_elements(TextDic, Options) :-
 	option(locale(Locale), Options),
 	option(ui(UI), Options),
-	findall(Label-Literal,
-			(	rdf(UI, Predicate, literal(lang(Locale, Literal))),
-				rdf(Predicate, rdf:type, aui:'UILabel'),
-				iri_xml_namespace(Predicate, _, Label)),
-			LabelList0),
+	% get all the predicates off this and possible super ui
+	setof(Predicate, UI^ui_predicate(UI, Predicate), Predicates),
+	maplist(get_text_element(UI, Locale), Predicates, LabelList0),
 	get_selector_options(UI, Locale, SelectorFields),
 	append(LabelList0, SelectorFields, LabelList),
 	dict_pairs(TextDic, elements, LabelList).
 
+ui_predicate(UI, Predicate) :-
+	rdf(UI, Predicate, _Object),
+	rdf(Predicate, rdf:type, auis:'UILabel').
+ui_predicate(UI, Predicate) :-
+	rdf(UI, rdfs:subClassOf, SuperUI),
+	rdf(Predicate, rdf:type, auis:'UILabel'),
+	rdf(SuperUI, Predicate, _Object).
+
+%%	get_text_element(-Label, -Literal, +UI, +Locale)
+%
+%	Retrieves text elements according to the ui and locale specified in
+%	Options. If the ui is not found for the specified UI, the generic
+%	super class will be queried.
+get_text_element(UI, Locale, Predicate, Label-Literal) :-
+	rdf(UI, Predicate, literal(lang(Locale, Literal))),
+	rdf(Predicate, rdf:type, auis:'UILabel'),
+	!,
+	iri_xml_namespace(Predicate, _, Label).
+
+get_text_element(UI, Locale, Predicate, Label-Literal) :-
+	rdf(UI, rdfs:subClassOf, SuperUI),
+	rdf(SuperUI, Predicate, literal(lang(Locale, Literal))),
+	rdf(Predicate, rdf:type, auis:'UILabel'),
+	iri_xml_namespace(Predicate, _, Label).
+
+%%	get_selector_options(UI, Locale, SelectorFields)
+%
+%	Get a list of selector fields based on the specified UI and locale.
 get_selector_options(UI, Locale, SelectorFields) :-
 	findall(SelectLabel-LiteralArray,
-			(	rdf(UI, aui:hasSelect, Select),
-				rdf(Select, rdf:type, aui:'SelectField'),
+			%HACK: for now only the generic UI has selectfields.
+			(	rdf(UI, rdfs:subClassOf, SuperUI),
+				rdf(SuperUI, auis:hasSelect, Select),
+				rdf(Select, rdf:type, auis:'SelectField'),
 				iri_xml_namespace(Select, _, SelectLabel),
 				get_selector_labels(Select, Locale, LiteralArray)
 				),
@@ -127,8 +164,8 @@ get_selector_options(UI, Locale, SelectorFields) :-
 
 get_selector_labels(Selector, Locale, LiteralDict) :-
 	findall(OptionLabel-LabelDict,
-			(	rdf(Selector, aui:hasSelectOption, SelectOption),
-				rdf(SelectOption, rdf:type, aui:'SelectOption'),
+			(	rdf(Selector, auis:hasSelectOption, SelectOption),
+				rdf(SelectOption, rdf:type, auis:'SelectOption'),
 				rdf(SelectOption, skos:prefLabel, literal(lang(Locale, Literal))),
 				rdf(SelectOption, skos:notation, literal(Id)),
 				iri_xml_namespace(SelectOption, _, OptionLabel),
@@ -176,6 +213,14 @@ expertise_topics_api(Request) :-
 	get_expertise_topics(Dic, Options),
 	reply_json_dict(Dic).
 
+%%	get_parameters_expertise(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_expertise(Request, Options) :-
+    http_parameters(Request,
+        [locale(Locale, [description('Locale of language elements to retrieve'), optional(false)])]),
+    Options = [locale(Locale)].
+
 %%	expertise_topics(+Request)
 %
 %	Retrieves a list of expertise topics.
@@ -186,25 +231,6 @@ get_expertise_topics(Topics, Options) :-
 	get_number_topics([TopConcept], Number, TopicUris),
 	maplist(get_info_topics(Locale), TopicUris, TopicDicts),
 	Topics = expertise_topics{topics:TopicDicts}.
-
-get_info_topics(Locale, Uri, Dict) :-
-	rdf_global_id(Uri, GlobalUri),
-	get_label(Locale, Uri, Label),
-	get_childrens_labels(Uri, Locale, 3, ChildrensLabels),
-	Dict = topic{uri:GlobalUri, label:Label, childrens_labels:ChildrensLabels}.
-
-get_childrens_labels(Uri, Locale, MaxNumber, Labels) :-
-	get_children(Uri, Children),
-	maplist(get_label(Locale), Children, LongLabels),
-	shorten_when_needed(LongLabels, MaxNumber, Labels).
-
-shorten_when_needed(LongLabels, MaxNumber, LongLabels) :-
-	length(LongLabels, Length),
-	Length =< MaxNumber, !.
-
-shorten_when_needed(LongLabels, MaxNumber, Labels) :-
-	append(Labels, _Rest, LongLabels),
-	length(Labels, MaxNumber).
 
 %%	get_number_topics(Concepts, Number, PreviousTopics, PreviousTopics)
 %
@@ -228,13 +254,24 @@ get_children(Concept, ChildrenList) :-
 			rdf_has(Child, skos:broader, Concept),
 			ChildrenList).
 
-%%	get_parameters_expertise(+Request, -Options)
-%
-%	Retrieves an option list of parameters from the url.
-get_parameters_expertise(Request, Options) :-
-    http_parameters(Request,
-        [locale(Locale, [description('Locale of language elements to retrieve'), optional(false)])]),
-    Options = [locale(Locale)].
+get_info_topics(Locale, Uri, Dict) :-
+	rdf_global_id(Uri, GlobalUri),
+	get_label(Locale, Uri, Label),
+	get_childrens_labels(Uri, Locale, 3, ChildrensLabels),
+	Dict = topic{uri:GlobalUri, label:Label, childrens_labels:ChildrensLabels}.
+
+get_childrens_labels(Uri, Locale, MaxNumber, Labels) :-
+	get_children(Uri, Children),
+	maplist(get_label(Locale), Children, LongLabels),
+	shorten_when_needed(LongLabels, MaxNumber, Labels).
+
+shorten_when_needed(LongLabels, MaxNumber, LongLabels) :-
+	length(LongLabels, Length),
+	Length =< MaxNumber, !.
+
+shorten_when_needed(LongLabels, MaxNumber, Labels) :-
+	append(Labels, _Rest, LongLabels),
+	length(Labels, MaxNumber).
 
 %%	register_user(+Request)
 %
@@ -322,12 +359,10 @@ get_annotation_parameters(Request, Options) :-
 	http_parameters(Request,
 	[ uri(Uri,
 			 [uri,
-			  description('URI of the object to be annotated')
-			 ]),
+			  description('URI of the object to be annotated') ]),
 	  ui(UI,
 		 [ optional(true),
-		   description('URI of the UI configuration')
-		 ])
+		   description('URI of the UI configuration') ])
 	]),
 	Options = [uri(Uri), ui(UI)].
 

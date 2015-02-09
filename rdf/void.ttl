@@ -5,11 +5,15 @@
 @prefix   dcterms: <http://purl.org/dc/terms/> .
 
 [ vann:preferredNamespacePrefix "aui" ;
-  vann:preferredNamespaceUri "http://semanticweb.cs.vu.nl/accurator/ui/"
+  vann:preferredNamespaceUri "http://accurator.nl/ui/generic#"
+] .
+
+[ vann:preferredNamespacePrefix "auis" ;
+  vann:preferredNamespaceUri "http://accurator.nl/ui/schema#"
 ] .
 
 [ vann:preferredNamespacePrefix "abui" ;
-  vann:preferredNamespaceUri "http://semanticweb.cs.vu.nl/accurator/ui/bird#"
+  vann:preferredNamespaceUri "http://accurator.nl/ui/bird#"
 ] .
 
 [ vann:preferredNamespacePrefix "acl" ;
@@ -25,6 +29,11 @@ vann:preferredNamespaceUri "http://www.geonames.org/ontology#"
 	dcterms:title "Accurator UI configuration file";
 	void:dataDump <accurator_ui_schema.ttl> .
 
+<accurator-ui>
+	a void:Dataset ;
+	dcterms:title "Domain agnositc Accurator UI instance";
+	void:dataDump <accurator_ui.ttl> .
+
 <accurator-ui-countries>
 	a void:Dataset ;
 	dcterms:title "File with country names";
@@ -38,8 +47,9 @@ vann:preferredNamespaceUri "http://www.geonames.org/ontology#"
 <accurator-bird-ui>
 	a void:Dataset ;
 	void:subset <accurator-ui-schema> ;
+	void:subset <accurator-ui> ;
 	void:subset <accurator-ui-countries> ;
 	void:subset <accurator-ui-languages> ;
-	dcterms:title "Accurator UI configuration ui instance for Bird prints";
+	dcterms:title "Accurator UI configuration instance for Bird domain";
 	void:dataDump <accurator_bird_ui.ttl> .
 

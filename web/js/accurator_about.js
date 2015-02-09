@@ -1,7 +1,7 @@
 /* Accurator About
 */
 var locale;
-var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#about";
+var ui = "http://accurator.nl/ui/bird#about";
 
 
 function aboutInit() {
@@ -10,7 +10,7 @@ function aboutInit() {
 		setLinkLogo("profile");
 		populateUI();
 		userName = getUserName(data.user);
-		populateNavbar(userName, [{link:"/profile.html", name:"Profile"}]);
+		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 	};
 	onFail = function(){
 		populateUI();

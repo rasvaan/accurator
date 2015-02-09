@@ -2,7 +2,7 @@
 */
 var user, userName;
 var locale;
-var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#profile";
+var ui = "http://accurator.nl/ui/bird#profile";
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
 var

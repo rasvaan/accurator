@@ -46,7 +46,7 @@ function logUserIn(onSuccess, onDismissal) {
 }
 
 function loginModal(onSuccess, onDismissal) {
-	var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#login_modal";
+	var ui = "http://accurator.nl/ui/bird#login_modal";
 	$.getJSON("ui_elements", {locale:getLocale(), ui:ui, type:"labels"})
 		.done(function(data){
 			loginButtonEvent(onSuccess, onDismissal);
@@ -121,7 +121,7 @@ function logout() {
 }
 
 function getUserUriBase() {
-	return "http://semanticweb.cs.vu.nl/user/";
+	return "http://accurator.nl/user#";
 }
 
 function getUserName(userUri) {
