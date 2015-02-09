@@ -34,6 +34,7 @@ user:file_search_path(img, web(img)).
 
 :- rdf_register_prefix(aui, 'http://semanticweb.cs.vu.nl/accurator/ui/').
 :- rdf_register_prefix(abui, 'http://semanticweb.cs.vu.nl/accurator/ui/bird#').
+:- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
 :- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
@@ -161,7 +162,11 @@ get_annotated(Dic, Options) :-
 			  rdf(Annotation, oa:hasTarget, Uri),
 			  rdf(Uri, rdf:type, edm:'ProvidedCHO')),
 		  Uris),
+	!,
 	Dic = artworks{uris:Uris}.
+
+get_annotated(Dic, _Options) :-
+	Dic = artworks{uris:[]}.
 
 %%	expertise_topics_api(+Request)
 %

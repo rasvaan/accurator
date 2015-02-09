@@ -5,6 +5,7 @@ var locale;
 var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#profile";
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
+var
 
 displayOptions = {
 		numberDisplayedItems: 6,
@@ -96,7 +97,7 @@ function getRecentlyAnnotated() {
 			var items = [];
 
 			if(numberOfItems === 0) {
-				$("#cluster0").append(noResultsHtml());
+				$("#rowLastAnnotated").hide();
 			} else {
 				for (var i=0; i<numberOfItems; i++) {
 					var uri = data.uris[i];
@@ -107,8 +108,4 @@ function getRecentlyAnnotated() {
 				addItems(0);
 			}
 		});
-}
-
-function noResultsHtml() {
-	return $.el.h5('You should start annotating to see some results!');
 }
