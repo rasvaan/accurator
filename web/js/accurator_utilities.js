@@ -117,8 +117,7 @@ function loginServer(user, password, onSuccess) {
 }
 
 function logout() {
-	$.ajax({type: "POST", url: "/user/logout"});
-	alert("loging out");
+	$.ajax({type: "POST", url: "user/logout"});
 }
 
 function getUserUriBase() {
@@ -137,7 +136,8 @@ function getUserUri(userName) {
 function populateNavbar(userName, linkList) {
 	$(".navbar-right").append(
 		$.el.li({'class':'dropdown'},
-			$.el.a({'class':'dropdown-toggle',
+			$.el.a({'href':'#',
+				    'class':'dropdown-toggle',
 				    'data-toggle':'dropdown',
 					'role':'button',
 					'aria-expanded':'false'},
@@ -145,12 +145,12 @@ function populateNavbar(userName, linkList) {
 					$.el.span({'class':'caret'})),
 			$.el.ul({'class':'dropdown-menu',
 					 'role':'menu'},
-					 $.el.li($.el.a({'href':'/intro.html',
+					 $.el.li($.el.a({'href':'intro.html',
 									 'id':'btnLogout'},
 									 "Logout")),
 					 addLinks(linkList),
 					 $.el.li({'class':'divider'}),
-					 $.el.li($.el.a({'href':'/about.html'},"About Accurator"))))
+					 $.el.li($.el.a({'href':'about.html'},"About Accurator"))))
 	);
 	$("#btnLogout").click(function() {
 		logout();
