@@ -7,6 +7,7 @@ var sldALot, sldNothing;
 function expertiseInit() {
 	// Make sure user is logged in
 	onSuccess = function(data){
+		setLinkLogo("profile");
 		locale = getLocale();
 		populateUI();
 		var userName = getUserName(data.user);

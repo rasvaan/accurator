@@ -4,6 +4,7 @@ var userName;
 
 function resultsInit() {
 	onSuccess = function(data){
+		setLinkLogo("profile");
 		user = data.user;
 		userName = getUserName(user);
 		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);

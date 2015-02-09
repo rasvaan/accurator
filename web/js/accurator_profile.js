@@ -13,6 +13,7 @@ displayOptions = {
 
 function profileInit() {
 	onSuccess = function(data){
+		setLinkLogo("profile");
 		locale = getLocale();
 		user = data.user;
 		userName = getUserName(user);

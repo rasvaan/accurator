@@ -2,6 +2,14 @@
 */
 var loginWarning, loginIncomplete;
 
+//Logo referal
+function setLinkLogo(page) {
+	if(page === "profile")
+	   $(".navbar-brand").attr('href', "profile.html");
+	if(page === "intro")
+		$(".navbar-brand").attr('href', "intro.html");
+}
+
 //Locale
 function getLocale() {
 	if(localStorage.getItem("locale") === null){

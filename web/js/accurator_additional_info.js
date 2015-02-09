@@ -13,6 +13,7 @@ var frmTwitterId, frmTagSiteOpen;
 function additionalInfoInit() {
 	// Make sure user is logged in
 	onSuccess = function(data){
+		setLinkLogo("profile");
 		locale = getLocale();
 		populateUI();
 		var userName = getUserName(data.user);

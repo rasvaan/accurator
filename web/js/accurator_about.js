@@ -7,6 +7,7 @@ var ui = "http://semanticweb.cs.vu.nl/accurator/ui/bird#about";
 function aboutInit() {
 	locale = getLocale();
 	onSuccess = function(data){
+		setLinkLogo("profile");
 		populateUI();
 		userName = getUserName(data.user);
 		populateNavbar(userName, [{link:"/profile.html", name:"Profile"}]);
@@ -14,7 +15,7 @@ function aboutInit() {
 	onFail = function(){
 		populateUI();
 	};
-	logUserIn(onSuccess, onFail);
+	userLoggedIn(onSuccess, onFail);
 }
 
 function populateUI() {
