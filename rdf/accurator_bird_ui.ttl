@@ -60,6 +60,7 @@ abui:register a aui:AccuratorUI ;
 	aui:frmPassword "Password"@en ;
 	aui:frmPasswordRepeat "Confirm your password"@en ;
 	aui:btnRegister "Register"@en ;
+	aui:btnGoBack "or go back to previous page"@en ;
 	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
 	aui:lblUserTaken "Username already exists."@en ;
 	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
@@ -70,6 +71,7 @@ abui:register a aui:AccuratorUI ;
 	aui:frmPassword "Wachtwoord"@nl ;
 	aui:frmPasswordRepeat "Bevestig uw wachtwoord"@nl ;
 	aui:btnRegister "Registreer"@nl ;
+	aui:btnGoBack "of ga terug naar de vorige pagina"@nl ;
 	aui:lblRegistrationFailed "Registratie mislukt, vul alle velden in."@nl ;
 	aui:lblUserTaken "Gebruikersnaam bestaat al."@nl ;
 	aui:lblPasswordsMatchFail "De wachtwoorden komen niet overeen."@nl ;
@@ -80,6 +82,7 @@ aui:frmRealName a aui:UILabel .
 aui:frmUsername a aui:UILabel .
 aui:frmPassword a aui:UILabel .
 aui:frmPasswordRepeat a aui:UILabel .
+aui:btnGoBack a aui:UILabel .
 aui:lblRegistrationFailed a aui:UILabel .
 aui:lblUserTaken a aui:UILabel .
 aui:lblPasswordsMatchFail a aui:UILabel .

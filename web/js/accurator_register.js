@@ -22,6 +22,7 @@ function initLabels(data) {
 	$("#frmPassword").append(data.frmPassword);
 	$("#frmPasswordRepeat").append(data.frmPasswordRepeat);
 	$("#btnRegister").append(data.btnRegister);
+	$("#btnGoBack").append(data.btnGoBack);
 	lblRegistrationFailed = data.lblRegistrationFailed;
 	lblPasswordsMatchFail = data.lblPasswordsMatchFail;
 	lblUserTaken = data.lblUserTaken;
@@ -31,7 +32,10 @@ function initLabels(data) {
 function registerEvent() {
 	$("#btnRegister").click(function() {
 		register();
-	});	
+	});
+	$("#btnGoBack").click(function() {
+		document.location.href="intro.html";
+	});
 	// Register on pressing enter
 	$("#regPasswordRepeat").keypress(function(event) {
 		if (event.which == 13) {
