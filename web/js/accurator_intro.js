@@ -1,27 +1,61 @@
 /* Accurator Intro
 */
-var locale;
-var ui = "http://accurator.nl/ui/bird#intro";
+var locale, ui, domain;
 
 function introInit() {
+	locale = getLocale();
+	domain = getParameterByName("domain");
+	ui = getUiUri(domain, "intro");
+	setBackground();
+	
 	// If user is logged in go to profile page otherwise show intro.
 	onSuccess = function() {
 		document.location.href="profile.html";
 	};
 	onFail = function() {
-		locale = getLocale();
-		populateUI();
+		populateUI(ui);
 	};
 	userLoggedIn(onSuccess, onFail);
 }
 
-function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
+function setBackground() {
+	// Set a background according to the specified domain
+	backgroundUrl = "img/background/" + domain + ".jpg";
+	backgroundDarkUrl = "img/background/" + domain + "-dark.jpg";
+	backgroundGeneric = "img/background/generic.jpg";
+	
+	$.ajax({url:backgroundUrl,
+		    type:'HEAD',
+		    success: function() {
+				$(".backgroundImage").attr("src", backgroundUrl);
+		    }
+	});
+	$.ajax({url:backgroundDarkUrl,
+		    type:'HEAD',
+		    success: function() {
+				$(".backgroundImage").attr("src", backgroundDarkUrl);
+				lightFontColor();
+		    },
+		    fail: function() {
+				$(".backgroundImage").attr("src", backgroundDarkUrl);
+		    }
+	});
+}
+
+function lightFontColor() {
+	$("#txtSlogan").css('color', '#FFFFFF');
+	$("#btnLogin").css('color', '#BBBBBB');
+}
+
+function populateUI(uiLocal) {
+	$.getJSON("ui_elements", {locale:locale, ui:uiLocal, type:"labels"})
 		.done(function(data){
 			  addButtonEvents();
 			  initLabels(data);})
 		.fail(function(data, textStatus){
-			  $("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
+			  //Use generic ui elements
+			  populateUI(getGenericUiUri("intro"));
+	});
 }
 
 function addButtonEvents() {

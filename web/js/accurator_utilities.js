@@ -2,7 +2,15 @@
 */
 var loginWarning, loginIncomplete;
 
-//Logo referal
+//UI
+function getUiUri(domain, page) {
+	return "http://accurator.nl/ui/" + domain + "#" + page;
+}
+
+function getGenericUiUri(page) {
+	return "http://accurator.nl/ui/generic#" + page;
+}
+
 function setLinkLogo(page) {
 	if(page === "profile")
 	   $(".navbar-brand").attr('href', "profile.html");
