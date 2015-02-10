@@ -2,6 +2,7 @@
 */
 var locale;
 var ui = "http://accurator.nl/ui/bird#expertise";
+var topics, userExpertise;
 var sldALot, sldNothing;
 
 function expertiseInit() {
@@ -37,7 +38,8 @@ function initLabels(data) {
 
 function registerButtonEvent() {
 	$("#btnSubmit").click(function() {
-		document.location.href="profile.html";
+		saveExpertiseValues();
+		//document.location.href="profile.html";
 	});
 	$("#btnSkip").click(function() {
 		document.location.href="profile.html";
@@ -47,7 +49,7 @@ function registerButtonEvent() {
 function initExpertiseTopics() {
 	$.getJSON("expertise_topics", {locale:locale})
 	.done(function(data){
-		var topics = data.topics;
+		topics = data.topics;
 		var halfTheTopics = parseInt(topics.length/2, 10);
 
 		for(var i=0; i<halfTheTopics; i++) {
@@ -76,8 +78,7 @@ function initExpertiseTopics() {
 											$.el.small({'class':'sliderLabel'}, sldALot))));
 			initSlider(topics[i].label);
 		}
-		})
-	.fail(function(data, textStatus){});
+	})
 }
 
 function expertiseSlider(id) {
@@ -92,6 +93,15 @@ function expertiseSlider(id) {
 
 function initSlider(id) {
 	$("#"+id).slider();
+}
+
+function saveExpertiseValues() {
+	for (var i=0; i<topics.length; i++) {
+		var value = $("#"+topics[i].label).val();
+		var scaledValue = (value - 1) / 4;
+		var roundedValue = scaledValue.toFixed(2);
+		console.log(topics[i].uri, roundedValue);
+	}
 }
 
 function printArray(labelArray) {
