@@ -27,17 +27,20 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
-
+:- http_handler(cliopatria(save_expertise_values), save_expertise_values_api,  []).
 :- http_handler(cliopatria(register_user), register_user,  []).
 :- http_handler(cliopatria(get_user), get_user,  []).
 :- http_handler(cliopatria(save_additional_info), save_additional_info,  []).
 
 :- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
 :- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
+:- rdf_register_prefix(ausr, 'http://accurator.nl/user#').
+:- rdf_register_prefix(as, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
 :- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
+:- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
 
 %%	ui_elements_api(+Request)
 %
@@ -271,6 +274,45 @@ shorten_when_needed(LongLabels, MaxNumber, LongLabels) :-
 shorten_when_needed(LongLabels, MaxNumber, Labels) :-
 	append(Labels, _Rest, LongLabels),
 	length(Labels, MaxNumber).
+
+
+%%  save_expertise_values_api(+Request)
+%
+%	Save a list of expertise topics as triples in the triple store.
+save_expertise_values_api(Request) :-
+	http_read_json_dict(Request, JsonIn),
+	atom_string(User, JsonIn.user),
+	Expertise = JsonIn.expertise,
+	dict_pairs(Expertise, elements, ExpertisePairs),
+	maplist(assert_expertise_relationship(User), ExpertisePairs).
+
+assert_expertise_relationship(User, Topic-Value) :-
+	get_time(Time),
+	format_time(atom(TimeStamp), '%FT%T%:z', Time),
+    % Create a sortable list of thing to assert
+	KeyValue0 = [
+	    po(rdf:type, hoonoh:'ExpertiseRelationship'),
+	    po(as:createdAt, literal(type(xsd:dateTime, TimeStamp))),
+	    po(hoonoh:from, User),
+	    po(hoonoh:value, literal(type(xsd:decimal, Value))),
+	    po(hoonoh:toTopic, Topic)
+	],
+	sort(KeyValue0, KeyValue),
+	rdf_global_term(KeyValue, Pairs),
+	variant_sha1(Pairs, Hash),
+	hash_uri(Hash, Expertise),
+	maplist(po2rdf(Expertise), Pairs, Triples),
+		rdf_transaction(
+	     (	 forall(member(rdf(S,P,O), Triples),
+			rdf_assert(S,P,O, User)))).
+
+hash_uri(Hash, Uri) :-
+	nonvar(Hash), Hash \= null,
+	!,
+	atomic_list_concat(['http://accurator.nl/expertise#', Hash], Uri).
+
+po2rdf(S,po(P,O),rdf(S,P,O)).
+
 
 %%	register_user(+Request)
 %
