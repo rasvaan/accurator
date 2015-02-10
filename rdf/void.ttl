@@ -4,25 +4,10 @@
 @prefix       owl: <http://www.w3.org/2002/07/owl#> .
 @prefix   dcterms: <http://purl.org/dc/terms/> .
 
-[ vann:preferredNamespacePrefix "aui" ;
-  vann:preferredNamespaceUri "http://accurator.nl/ui/generic#"
-] .
-
-[ vann:preferredNamespacePrefix "auis" ;
-  vann:preferredNamespaceUri "http://accurator.nl/ui/schema#"
-] .
-
-[ vann:preferredNamespacePrefix "abui" ;
-  vann:preferredNamespaceUri "http://accurator.nl/ui/bird#"
-] .
-
-[ vann:preferredNamespacePrefix "acl" ;
-vann:preferredNamespaceUri "http://semanticweb.cs.vu.nl/accurator/languages/"
-] .
-
-[ vann:preferredNamespacePrefix "gn" ;
-vann:preferredNamespaceUri "http://www.geonames.org/ontology#"
-] .
+<accurator-schema>
+	a void:Dataset ;
+	dcterms:title "Schema of Accurator";
+	void:dataDump <accurator_schema.ttl> .
 
 <accurator-ui-schema>
 	a void:Dataset ;
@@ -50,14 +35,53 @@ vann:preferredNamespaceUri "http://www.geonames.org/ontology#"
 	void:subset <accurator-ui> ;
 	void:subset <accurator-ui-countries> ;
 	void:subset <accurator-ui-languages> ;
-	dcterms:title "Accurator UI configuration instance for Bird domain";
+	dcterms:title "Accurator configuration for bird domain" ;
+	void:dataDump <accurator_domain_bird.ttl> ;
 	void:dataDump <accurator_ui_bird.ttl> .
 
 <accurator-bible-domain>
 	a void:Dataset ;
+	void:subset <accurator-schema> ;
 	void:subset <accurator-ui-schema> ;
 	void:subset <accurator-ui> ;
 	void:subset <accurator-ui-countries> ;
 	void:subset <accurator-ui-languages> ;
-	dcterms:title "Accurator UI configuration instance for Bird domain";
+	dcterms:title "Accurator configuration for bible domain" ;
+	void:dataDump <accurator_domain_bible.ttl> ;
 	void:dataDump <accurator_ui_bible.ttl> .
+
+[ vann:preferredNamespacePrefix "accu" ;
+vann:preferredNamespaceUri "http://accurator.nl/schema#"
+] .
+
+[ vann:preferredNamespacePrefix "aui" ;
+vann:preferredNamespaceUri "http://accurator.nl/ui/generic#"
+] .
+
+[ vann:preferredNamespacePrefix "auis" ;
+vann:preferredNamespaceUri "http://accurator.nl/ui/schema#"
+] .
+
+[ vann:preferredNamespacePrefix "abir" ;
+vann:preferredNamespaceUri "http://accurator.nl/bird#"
+] .
+
+[ vann:preferredNamespacePrefix "abirui" ;
+vann:preferredNamespaceUri "http://accurator.nl/ui/bird#"
+] .
+
+[ vann:preferredNamespacePrefix "abib" ;
+vann:preferredNamespaceUri "http://accurator.nl/bible#"
+] .
+
+[ vann:preferredNamespacePrefix "abibui" ;
+vann:preferredNamespaceUri "http://accurator.nl/ui/bible#"
+] .
+
+[ vann:preferredNamespacePrefix "acl" ;
+vann:preferredNamespaceUri "http://semanticweb.cs.vu.nl/accurator/languages/"
+] .
+
+[ vann:preferredNamespacePrefix "gn" ;
+vann:preferredNamespaceUri "http://www.geonames.org/ontology#"
+] .

@@ -1,6 +1,6 @@
 @prefix auis:   <http://accurator.nl/ui/schema#> .
 @prefix aui:    <http://accurator.nl/ui/generic#> .
-@prefix abui:   <http://accurator.nl/ui/bird#> .
+@prefix abirui: <http://accurator.nl/ui/bird#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms:<http://purl.org/dc/terms/> .
@@ -8,43 +8,43 @@
 
 ###### Bird Intro Screen #####
 
-abui:intro a auis:UI ;
+abirui:intro a auis:UI ;
 	rdfs:subClassOf aui:intro;
 	aui:txtSubSlogan "Help us add information to artworks depicting birds"@en ;
 	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met vogel afbeeldingen"@nl .
 
-abui:txtSubSlogan a auis:UILabel .
+abirui:txtSubSlogan a auis:UILabel .
 
 ###### Bird About Screen #####
 
-abui:about a auis:UI ;
+abirui:about a auis:UI ;
 	rdfs:subClassOf aui:about .
 
 ##### Bird Register Screen #####
 
-abui:register a aui:UI ;
+abirui:register a aui:UI ;
 	rdfs:subClassOf aui:register .
 
 ##### Bird Expertise Screen #####
 
-abui:expertise a auis:UI ;
+abirui:expertise a auis:UI ;
 	rdfs:subClassOf aui:expertise ;
 	aui:txtSubHeader "how much do you know about the following bird species?"@en ;
 	aui:txtSubHeader "hoeveel weet u af van de volgende vogelsoorten?"@nl .
 
-abui:txtSubHeader a auis:UILabel .
+abirui:txtSubHeader a auis:UILabel .
 
 ##### Bird Profile Screen #####
 
-abui:profile a aui:UI ;
+abirui:profile a aui:UI ;
 	rdfs:subClassOf aui:profile .
 
 ##### Bird Additional Info Screen #####
 
-abui:additional_info a auis:UI ;
+abirui:additional_info a auis:UI ;
 	rdfs:subClassOf aui:additional_info .
 
 ##### Bird Login Modal #####
 
-abui:login_modal a auis:UI ;
+abirui:login_modal a auis:UI ;
 	rdfs:subClassOf aui:login_modal .

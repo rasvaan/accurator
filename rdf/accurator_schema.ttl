@@ -1,0 +1,31 @@
+@prefix accu:   <http://accurator.nl/schema#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix dctypes:<http://purl.org/dc/dcmitype/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+accu:Domain a rdfs:Class;
+	rdfs:label "A subject domain, e.g. birds or bibles."@en .
+
+accu:hasDesciptiveImage a rdf:Property;
+	rdfs:label "Has desciptive image"@en ;
+	rdfs:comment "Property connecting a resource to an image descibing the resource"@en ;
+	rdfs:subPropertyOf dcterms:description ;
+	rdfs:range accu:DesciptiveImage .
+
+accu:DesciptiveImage a rdfs:Class;
+	rdfs:label "Descriptive image"@en ;
+	rdfs:comment "Image that illustrates a resource"@en ;
+	rdfs:subClassOf dctypes:StillImage.
+
+accu:hasUI a rdf:Property;
+	rdfs:label "Has user interface specification"@en ;
+	rdfs:comment "Property linking a domain to a user interface specification."@en ;
+	rdfs:range auis:UI ;
+	rdfs:domain accu:Domain .
+
+accu:hasFilePath a rdf:Property;
+	rdfs:label "Has file path"@en ;
+	rdfs:comment "Connecting a resource to the filepath it can be found"@en .

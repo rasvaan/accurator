@@ -11,7 +11,7 @@ auis:UILabel a rdfs:Class;
 	rdfs:label "Super-class of all labels"@en .
 
 auis:UI a rdfs:Class;
-	rdfs:label "Super-class of all user interfaces."@en .
+	rdfs:label "Super-class of all Accurator user interfaces."@en .
 
 auis:SelectField a rdfs:Class;
 	rdfs:label "Select field" ;

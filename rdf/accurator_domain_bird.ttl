@@ -1,0 +1,21 @@
+@prefix accu:   <http://accurator.nl/schema#> .
+@prefix abir:   <http://accurator.nl/bird#> .
+@prefix abirui: <http://accurator.nl/ui/bird#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix birds:	<http://purl.org/collections/birds/> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix dctypes:<http://purl.org/dc/dcmitype/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+abir:domain a accu:Domain ;
+	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
+	skos:hasTopConcept birds:class-aves ;
+	accu:hasUI abirui: ;
+	accu:hasDesciptiveImage abir:bird .
+
+<http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
+
+abir:bird a dctypes:StillImage ;
+	accu:hasFilePath "img/background/bird.jpg" .
