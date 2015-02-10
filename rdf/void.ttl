@@ -44,12 +44,20 @@ vann:preferredNamespaceUri "http://www.geonames.org/ontology#"
 	dcterms:title "File with language names";
 	void:dataDump <languages.ttl> .
 
-<accurator-bird-ui>
+<accurator-bird-domain>
 	a void:Dataset ;
 	void:subset <accurator-ui-schema> ;
 	void:subset <accurator-ui> ;
 	void:subset <accurator-ui-countries> ;
 	void:subset <accurator-ui-languages> ;
 	dcterms:title "Accurator UI configuration instance for Bird domain";
-	void:dataDump <accurator_bird_ui.ttl> .
+	void:dataDump <accurator_ui_bird.ttl> .
 
+<accurator-bible-domain>
+	a void:Dataset ;
+	void:subset <accurator-ui-schema> ;
+	void:subset <accurator-ui> ;
+	void:subset <accurator-ui-countries> ;
+	void:subset <accurator-ui-languages> ;
+	dcterms:title "Accurator UI configuration instance for Bird domain";
+	void:dataDump <accurator_ui_bible.ttl> .

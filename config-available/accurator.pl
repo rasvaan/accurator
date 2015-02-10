@@ -7,6 +7,7 @@
 
 % Load ui rdf
 :- rdf_attach_library(accurator(rdf)).
-:- rdf_load_library('accurator-bird-ui').
+:- rdf_load_library('accurator-bird-domain').
+:- rdf_load_library('accurator-bible-domain').
 
 :- use_module(api(accurator)).

@@ -1,0 +1,50 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix abibui: <http://accurator.nl/ui/bible#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+###### Bible Intro Screen #####
+
+abibui:intro a auis:UI ;
+	rdfs:subClassOf aui:intro;
+	aui:txtSubSlogan "Help us add information to artworks with biblical scenes"@en ;
+	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met bijbelse themas"@nl .
+
+abibui:txtSubSlogan a auis:UILabel .
+
+###### Bible About Screen #####
+
+abibui:about a auis:UI ;
+	rdfs:subClassOf aui:about .
+
+##### Bible Register Screen #####
+
+abibui:register a aui:UI ;
+	rdfs:subClassOf aui:register .
+
+##### Bible Expertise Screen #####
+
+abibui:expertise a auis:UI ;
+	rdfs:subClassOf aui:expertise ;
+	aui:txtSubHeader "how much do you know about the following biblical themes?"@en ;
+	aui:txtSubHeader "hoeveel weet u af van de volgende bijbelse themas?"@nl .
+
+abibui:txtSubHeader a auis:UILabel .
+
+##### Bible Profile Screen #####
+
+abibui:profile a aui:UI ;
+	rdfs:subClassOf aui:profile .
+
+##### Bible Additional Info Screen #####
+
+abibui:additional_info a auis:UI ;
+	rdfs:subClassOf aui:additional_info .
+
+##### Bible Login Modal #####
+
+abibui:login_modal a auis:UI ;
+	rdfs:subClassOf aui:login_modal .

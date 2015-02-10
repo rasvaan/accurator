@@ -24,20 +24,27 @@ function setBackground() {
 	backgroundDarkUrl = "img/background/" + domain + "-dark.jpg";
 	backgroundGeneric = "img/background/generic.jpg";
 	
+	if(domain === "") {
+		$(".backgroundImage").attr("src", backgroundGeneric);
+		return;
+	}
+	
 	$.ajax({url:backgroundUrl,
 		    type:'HEAD',
 		    success: function() {
 				$(".backgroundImage").attr("src", backgroundUrl);
-		    }
-	});
-	$.ajax({url:backgroundDarkUrl,
-		    type:'HEAD',
-		    success: function() {
-				$(".backgroundImage").attr("src", backgroundDarkUrl);
-				lightFontColor();
 		    },
-		    fail: function() {
-				$(".backgroundImage").attr("src", backgroundDarkUrl);
+		    error: function() {
+		        $.ajax({url:backgroundDarkUrl,
+					   type:'HEAD',
+					   success: function() {
+						   $(".backgroundImage").attr("src", backgroundDarkUrl);
+						   lightFontColor();
+					   },
+					   error: function() {
+					       $(".backgroundImage").attr("src", backgroundGeneric);
+					   }
+				});
 		    }
 	});
 }

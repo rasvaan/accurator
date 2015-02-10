@@ -4,7 +4,11 @@ var loginWarning, loginIncomplete;
 
 //UI
 function getUiUri(domain, page) {
-	return "http://accurator.nl/ui/" + domain + "#" + page;
+	if(domain === "") {
+		return getGenericUiUri(page);
+	} else {
+		return "http://accurator.nl/ui/" + domain + "#" + page;
+	}
 }
 
 function getGenericUiUri(page) {

@@ -34,17 +34,17 @@ abui:expertise a auis:UI ;
 
 abui:txtSubHeader a auis:UILabel .
 
-##### Profile Screen #####
+##### Bird Profile Screen #####
 
 abui:profile a aui:UI ;
 	rdfs:subClassOf aui:profile .
 
-##### Additional Info Screen #####
+##### Bird Additional Info Screen #####
 
 abui:additional_info a auis:UI ;
 	rdfs:subClassOf aui:additional_info .
 
-##### Login Modal #####
+##### Bird Login Modal #####
 
 abui:login_modal a auis:UI ;
 	rdfs:subClassOf aui:login_modal .

@@ -1,11 +1,11 @@
 /* Accurator About
 */
-var locale;
-var ui = "http://accurator.nl/ui/bird#about";
-
+var locale, ui;
 
 function aboutInit() {
 	locale = getLocale();
+	ui = getUiUri(domain, "about");
+	
 	onSuccess = function(data){
 		setLinkLogo("profile");
 		populateUI();
@@ -21,7 +21,11 @@ function aboutInit() {
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
-			initLabels(data);});
+			initLabels(data);})
+		.fail(function(data, textStatus){
+			//Use generic ui elements
+			populateUI(getGenericUiUri("about"));
+	});
 }
 
 function initLabels(data) {
