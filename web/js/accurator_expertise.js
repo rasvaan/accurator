@@ -1,8 +1,9 @@
 /* Accurator Expertise
 */
-var locale;
+var locale, user;
 var ui = "http://accurator.nl/ui/bird#expertise";
-var topics, userExpertise;
+var topics;
+var userExpertise = {};
 var sldALot, sldNothing;
 
 function expertiseInit() {
@@ -11,7 +12,8 @@ function expertiseInit() {
 		setLinkLogo("profile");
 		locale = getLocale();
 		populateUI();
-		var userName = getUserName(data.user);
+		user = data.user;
+		var userName = getUserName(user);
 		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 	};
 	onDismissal = function(){document.location.href="intro.html"};
@@ -38,8 +40,7 @@ function initLabels(data) {
 
 function registerButtonEvent() {
 	$("#btnSubmit").click(function() {
-		saveExpertiseValues();
-		//document.location.href="profile.html";
+		processExpertiseValues();
 	});
 	$("#btnSkip").click(function() {
 		document.location.href="profile.html";
@@ -95,13 +96,23 @@ function initSlider(id) {
 	$("#"+id).slider();
 }
 
-function saveExpertiseValues() {
+function processExpertiseValues() {
+	userExpertise.user = user;
+	userExpertise.expertise = {};
 	for (var i=0; i<topics.length; i++) {
 		var value = $("#"+topics[i].label).val();
 		var scaledValue = (value - 1) / 4;
 		var roundedValue = scaledValue.toFixed(2);
-		console.log(topics[i].uri, roundedValue);
+		userExpertise.expertise[topics[i].uri] = roundedValue;
 	}
+	$.ajax({type: "POST",
+		    url: "save_expertise_values",
+			contentType: "application/json",
+			data: JSON.stringify(userExpertise),
+			success: function(){
+				       document.location.href="profile.html";
+			}
+	});
 }
 
 function printArray(labelArray) {

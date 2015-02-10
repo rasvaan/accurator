@@ -34,7 +34,6 @@ user:file_search_path(img, web(img)).
 
 :- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
 :- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
-%:- rdf_register_prefix(abui, 'http://accurator.nl/ui/bird#').
 :- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
