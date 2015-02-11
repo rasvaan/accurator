@@ -284,7 +284,10 @@ save_expertise_values_api(Request) :-
 	atom_string(User, JsonIn.user),
 	Expertise = JsonIn.expertise,
 	dict_pairs(Expertise, elements, ExpertisePairs),
-	maplist(assert_expertise_relationship(User), ExpertisePairs).
+	maplist(assert_expertise_relationship(User), ExpertisePairs),
+	reply_html_page(/,
+					title('Assert expertise values'),
+						h1('Successfully asserted expertise values')).
 
 assert_expertise_relationship(User, Topic-Value) :-
 	get_time(Time),
