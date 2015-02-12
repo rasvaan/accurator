@@ -29,6 +29,15 @@
 	dcterms:title "File with language names";
 	void:dataDump <languages.ttl> .
 
+<accurator-generic>
+	a void:Dataset ;
+	void:subset <accurator-ui-schema> ;
+	void:subset <accurator-ui> ;
+	void:subset <accurator-ui-countries> ;
+	void:subset <accurator-ui-languages> ;
+	dcterms:title "Generic Accurator configuration" ;
+	void:dataDump <accurator_domain.ttl> .
+
 <accurator-bird-domain>
 	a void:Dataset ;
 	void:subset <accurator-ui-schema> ;
@@ -52,6 +61,10 @@
 
 [ vann:preferredNamespacePrefix "accu" ;
 vann:preferredNamespaceUri "http://accurator.nl/schema#"
+] .
+
+[ vann:preferredNamespacePrefix "agen" ;
+vann:preferredNamespaceUri "http://accurator.nl/generic#"
 ] .
 
 [ vann:preferredNamespacePrefix "aui" ;
