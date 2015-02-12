@@ -10,6 +10,7 @@ function aboutInit() {
 		populateUI(data.ui + "about");
 	}
 	var onLoggedIn = function(data){
+		setLinkLogo("profile");
 		userName = getUserName(data.user);
 		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 		domainSettings = domainSettings(domain, onDomain);
@@ -21,7 +22,6 @@ function aboutInit() {
 }
 
 function populateUI(ui) {
-	setLinkLogo("profile");
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			initLabels(data);});

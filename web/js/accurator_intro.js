@@ -23,10 +23,9 @@ function introInit() {
 }
 
 function setBackground(backgroundUrl, imageBrightness) {
-	if(imageBrightness=== "light") {
-		$(".backgroundImage").attr("src", backgroundUrl);
-	} else if (imageBrightness === "dark") {
-	   $(".backgroundImage").attr("src", backgroundDarkUrl);
+	$(".backgroundImage").attr("src", backgroundUrl);
+	
+	if (imageBrightness === "dark") {
 	   // Make font lighter
 	   $("#txtSlogan").css('color', '#FFFFFF');
 	   $("#btnLogin").css('color', '#BBBBBB');
