@@ -100,10 +100,19 @@ get_parameters_domain(Request, Options) :-
         [domain(Domain, [description('The domain'), optional(false)])]),
     Options = [domain(Domain)].
 
+%%	get_domain_settings(-Dic, +Options)
+%
+%	Check if domain exists, if so get dict with values, otherwise return
+%	dic with the generic settings
 get_domain_settings(Dic, Options) :-
 	option(domain(Domain), Options),
 	rdf(DomainUri, rdf:type, accu:'Domain'),
 	rdf(DomainUri, rdfs:label, literal(Domain)),
+	get_domain_dic(DomainUri, Domain, Dic).
+get_domain_settings(Dic, _Options) :-
+	get_domain_dic('http://accurator.nl/generic#domain', 'generic', Dic).
+
+get_domain_dic(DomainUri, Domain, Dic) :-
 	rdf(DomainUri, dcterms:requires, Taxonomy),
 	rdf(DomainUri, skos:hasTopConcept, TopConcept),
 	rdf(DomainUri, accu:hasUI, UI),

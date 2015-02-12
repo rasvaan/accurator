@@ -4,7 +4,7 @@ var locale, ui, domain, domainSettings;
 
 function introInit() {
 	locale = getLocale();
-	domain = getParameterByName("domain");
+	domain = getDomain();
 	
 	// If user is logged in go to profile page
 	onLoggedIn = function() {

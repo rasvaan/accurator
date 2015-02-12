@@ -3,10 +3,28 @@
 var loginWarning, loginIncomplete;
 
 //Domain
+function getDomain() {
+	if(localStorage.getItem("domain") === null){
+		console.log("No domain given");
+		setDomainToGenericOrParameter();
+	}
+	return localStorage.getItem("domain");
+}
+
+function setDomainToGenericOrParameter() {
+	var domain = getParameterByName("domain");
+	if(domain === "") {
+		localStorage.setItem("domain", "generic");
+	} else {
+		localStorage.setItem("domain", domain);
+	}
+}
+
+function setDomain(domain) {
+	localStorage.setItem("domain", domain);
+}
+
 function domainSettings(domain, onDomain) {
-	if(domain === "")
-		domain = "generic";
-	
 	$.getJSON("domain_settings", {domain:domain})
 		.done(function(data){
 			onDomain(data);
