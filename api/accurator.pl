@@ -25,6 +25,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
 :- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
+:- http_handler(cliopatria(domain_settings), domain_settings_api,  []).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
 :- http_handler(cliopatria(save_expertise_values), save_expertise_values_api,  []).
@@ -82,6 +83,39 @@ get_elements(countries, Dic, Options) :-
 
 get_elements(languages, Dic, Options) :-
 	get_languages(Dic, Options).
+
+%%	domain_settings_api(+Request)
+%
+%	Retrieves the settings specific to a domain.
+domain_settings_api(Request) :-
+    get_parameters_domain(Request, Options),
+	get_domain_settings(Dic, Options),
+	reply_json_dict(Dic).
+
+%%	get_parameters_domain(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_domain(Request, Options) :-
+    http_parameters(Request,
+        [domain(Domain, [description('The domain'), optional(false)])]),
+    Options = [domain(Domain)].
+
+get_domain_settings(Dic, Options) :-
+	option(domain(Domain), Options),
+	rdf(DomainUri, rdf:type, accu:'Domain'),
+	rdf(DomainUri, rdfs:label, literal(Domain)),
+	rdf(DomainUri, dcterms:requires, Taxonomy),
+	rdf(DomainUri, skos:hasTopConcept, TopConcept),
+	rdf(DomainUri, accu:hasUI, UI),
+	rdf(DomainUri, accu:hasDesciptiveImage, Image),
+	rdf(Image, accu:hasFilePath, literal(ImagePath)),
+	rdf(Image, accu:brightness, literal(Brightness)),
+	Dic = domain{domain:Domain,
+				 taxonomy:Taxonomy,
+				 top_concept:TopConcept,
+				 ui:UI,
+				 image:ImagePath,
+				 image_brightness:Brightness}.
 
 %%	get_countries(+DictArray, _Options)
 %
