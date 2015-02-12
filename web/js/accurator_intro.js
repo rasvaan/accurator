@@ -7,19 +7,19 @@ function introInit() {
 	domain = getParameterByName("domain");
 	
 	// If user is logged in go to profile page
-	onSuccess = function() {
+	onLoggedIn = function() {
 		document.location.href="profile.html";
 	};
 	// If user is not logged in populate intro page
-	onFail = function() {
+	onNotLoggedIn = function() {
 		//Get domain settings before populating ui
-		var onDomain = function(data) {
+		onDomain = function(data) {
 			setBackground(data.image, data.image_brightness);
 			populateUI(data.ui + "intro");
 		}
 		domainSettings = domainSettings(domain, onDomain);
 	};
-	userLoggedIn(onSuccess, onFail);
+	userLoggedIn(onLoggedIn, onNotLoggedIn);
 }
 
 function setBackground(backgroundUrl, imageBrightness) {
@@ -34,7 +34,6 @@ function setBackground(backgroundUrl, imageBrightness) {
 }
 
 function populateUI(uiLocal) {
-	alert(uiLocal);
 	$.getJSON("ui_elements", {locale:locale, ui:uiLocal, type:"labels"})
 		.done(function(data){
 			  addButtonEvents();

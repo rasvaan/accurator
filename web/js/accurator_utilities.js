@@ -8,8 +8,8 @@ function domainSettings(domain, onDomain) {
 		domain = "generic";
 	
 	$.getJSON("domain_settings", {domain:domain})
-	.done(function(data){
-		  onDomain(data);
+		.done(function(data){
+			onDomain(data);
 	});
 }
 
@@ -43,11 +43,11 @@ function setLocale(languageCode) {
 
 
 //User
-function userLoggedIn(onSuccess, onFaill) {
+function userLoggedIn(onLoggedIn, onNotLoggedIn) {
 	//see if user is logged in
 	$.getJSON("get_user")
-		.done(onSuccess)
-		.fail(onFail);
+		.done(onLoggedIn)
+		.fail(onNotLoggedIn);
 }
 
 function logUserIn(onSuccess, onDismissal) {

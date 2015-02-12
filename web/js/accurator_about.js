@@ -1,31 +1,30 @@
 /* Accurator About
 */
-var locale, ui;
+var locale, domain;
 
 function aboutInit() {
 	locale = getLocale();
-	ui = getUiUri(domain, "about");
+	domain = getParameterByName("domain");
 	
-	onSuccess = function(data){
-		setLinkLogo("profile");
-		populateUI();
+	var onDomain = function(data) {
+		populateUI(data.ui + "about");
+	}
+	var onLoggedIn = function(data){
 		userName = getUserName(data.user);
 		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+		domainSettings = domainSettings(domain, onDomain);
 	};
-	onFail = function(){
-		populateUI();
+	var onNotLoggedIn = function(){
+		domainSettings = domainSettings(domain, onDomain);
 	};
-	userLoggedIn(onSuccess, onFail);
+	userLoggedIn(onLoggedIn, onNotLoggedIn);
 }
 
-function populateUI() {
+function populateUI(ui) {
+	setLinkLogo("profile");
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
-			initLabels(data);})
-		.fail(function(data, textStatus){
-			//Use generic ui elements
-			populateUI(getGenericUiUri("about"));
-	});
+			initLabels(data);});
 }
 
 function initLabels(data) {
