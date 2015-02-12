@@ -2,19 +2,19 @@
 */
 var loginWarning, loginIncomplete;
 
+//Domain
+function domainSettings(domain, onDomain) {
+	if(domain === "")
+		domain = "generic";
+	
+	$.getJSON("domain_settings", {domain:domain})
+	.done(function(data){
+		  onDomain(data);
+	});
+}
+
+
 //UI
-function getUiUri(domain, page) {
-	if(domain === "") {
-		return getGenericUiUri(page);
-	} else {
-		return "http://accurator.nl/ui/" + domain + "#" + page;
-	}
-}
-
-function getGenericUiUri(page) {
-	return "http://accurator.nl/ui/generic#" + page;
-}
-
 function setLinkLogo(page) {
 	if(page === "profile")
 	   $(".navbar-brand").attr('href', "profile.html");

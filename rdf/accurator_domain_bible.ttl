@@ -10,6 +10,7 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 abib:domain a accu:Domain ;
+	rdfs:label "bible" ;
 	dcterms:requires <http://iconclass.org/> ;
 	skos:hasTopConcept ic:7 ;
 	accu:hasUI abibui: ;
@@ -18,4 +19,5 @@ abib:domain a accu:Domain ;
 <http://iconclass.org/> a skos:ConceptScheme .
 
 abib:jeremia a dctypes:StillImage ;
-	accu:hasFilePath "img/background/bible-dark.jpg" .
+	accu:hasFilePath "img/background/bible.jpg" ;
+	accu:brightness "dark" .

@@ -10,6 +10,7 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 abir:domain a accu:Domain ;
+	rdfs:label "bird";
 	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
@@ -18,4 +19,5 @@ abir:domain a accu:Domain ;
 <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
 
 abir:bird a dctypes:StillImage ;
-	accu:hasFilePath "img/background/bird.jpg" .
+	accu:hasFilePath "img/background/bird.jpg" ;
+	accu:brightness "light" .

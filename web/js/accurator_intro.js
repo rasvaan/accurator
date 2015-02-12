@@ -1,68 +1,44 @@
 /* Accurator Intro
 */
-var locale, ui, domain;
+var locale, ui, domain, domainSettings;
 
 function introInit() {
 	locale = getLocale();
 	domain = getParameterByName("domain");
-	ui = getUiUri(domain, "intro");
-	setBackground();
 	
-	// If user is logged in go to profile page otherwise show intro.
+	// If user is logged in go to profile page
 	onSuccess = function() {
 		document.location.href="profile.html";
 	};
+	// If user is not logged in populate intro page
 	onFail = function() {
-		populateUI(ui);
+		//Get domain settings before populating ui
+		var onDomain = function(data) {
+			setBackground(data.image, data.image_brightness);
+			populateUI(data.ui + "intro");
+		}
+		domainSettings = domainSettings(domain, onDomain);
 	};
 	userLoggedIn(onSuccess, onFail);
 }
 
-function setBackground() {
-	// Set a background according to the specified domain
-	backgroundUrl = "img/background/" + domain + ".jpg";
-	backgroundDarkUrl = "img/background/" + domain + "-dark.jpg";
-	backgroundGeneric = "img/background/generic.jpg";
-	
-	if(domain === "") {
-		$(".backgroundImage").attr("src", backgroundGeneric);
-		return;
+function setBackground(backgroundUrl, imageBrightness) {
+	if(imageBrightness=== "light") {
+		$(".backgroundImage").attr("src", backgroundUrl);
+	} else if (imageBrightness === "dark") {
+	   $(".backgroundImage").attr("src", backgroundDarkUrl);
+	   // Make font lighter
+	   $("#txtSlogan").css('color', '#FFFFFF');
+	   $("#btnLogin").css('color', '#BBBBBB');
 	}
-	
-	$.ajax({url:backgroundUrl,
-		    type:'HEAD',
-		    success: function() {
-				$(".backgroundImage").attr("src", backgroundUrl);
-		    },
-		    error: function() {
-		        $.ajax({url:backgroundDarkUrl,
-					   type:'HEAD',
-					   success: function() {
-						   $(".backgroundImage").attr("src", backgroundDarkUrl);
-						   lightFontColor();
-					   },
-					   error: function() {
-					       $(".backgroundImage").attr("src", backgroundGeneric);
-					   }
-				});
-		    }
-	});
-}
-
-function lightFontColor() {
-	$("#txtSlogan").css('color', '#FFFFFF');
-	$("#btnLogin").css('color', '#BBBBBB');
 }
 
 function populateUI(uiLocal) {
+	alert(uiLocal);
 	$.getJSON("ui_elements", {locale:locale, ui:uiLocal, type:"labels"})
 		.done(function(data){
 			  addButtonEvents();
-			  initLabels(data);})
-		.fail(function(data, textStatus){
-			  //Use generic ui elements
-			  populateUI(getGenericUiUri("intro"));
-	});
+			  initLabels(data);});
 }
 
 function addButtonEvents() {
