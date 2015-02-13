@@ -25,7 +25,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
 :- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
-:- http_handler(cliopatria(domain_settings), domain_settings_api,  []).
+:- http_handler(cliopatria(domains), domains_api,  []).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
 :- http_handler(cliopatria(save_expertise_values), save_expertise_values_api,  []).
@@ -87,7 +87,7 @@ get_elements(languages, Dic, Options) :-
 %%	domain_settings_api(+Request)
 %
 %	Retrieves the settings specific to a domain.
-domain_settings_api(Request) :-
+domains_api(Request) :-
     get_parameters_domain(Request, Options),
 	get_domain_settings(Dic, Options),
 	reply_json_dict(Dic).
@@ -97,13 +97,23 @@ domain_settings_api(Request) :-
 %	Retrieves an option list of parameters from the url.
 get_parameters_domain(Request, Options) :-
     http_parameters(Request,
-        [domain(Domain, [description('The domain'), optional(false)])]),
+        [domain(Domain, [description('The domain'), optional(true)])]),
     Options = [domain(Domain)].
 
 %%	get_domain_settings(-Dic, +Options)
 %
-%	Check if domain exists, if so get dict with values, otherwise return
-%	dic with the generic settings
+%	If no domain is provided, return available domains. If domain is
+%	the given option and it exists, get dict with values,
+%	otherwise return dic with the generic settings
+get_domain_settings(Dic, Options) :-
+	option(domain(Domain), Options),
+	var(Domain), !,
+	findall(Domain,
+			(	rdf(DomainUri, rdf:type, accu:'Domain'),
+				rdf(DomainUri, rdfs:label, literal(Domain))),
+			Domains),
+	Dic = Domains.
+
 get_domain_settings(Dic, Options) :-
 	option(domain(Domain), Options),
 	rdf(DomainUri, rdf:type, accu:'Domain'),
