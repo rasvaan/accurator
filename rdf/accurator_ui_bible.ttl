@@ -48,3 +48,8 @@ abibui:additional_info a auis:UI ;
 
 abibui:login_modal a auis:UI ;
 	rdfs:subClassOf aui:login_modal .
+
+##### Bible Domain Screen #####
+
+abibui:domain a auis:UI ;
+	rdfs:subClassOf aui:domain .

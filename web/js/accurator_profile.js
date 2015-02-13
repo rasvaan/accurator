@@ -12,7 +12,7 @@ displayOptions = {
 }
 
 function profileInit() {
-	onSuccess = function(data){
+	onLoggedIn = function(data){
 		setLinkLogo("profile");
 		locale = getLocale();
 		user = data.user;
@@ -23,8 +23,8 @@ function profileInit() {
 		populateNavbar(userName, []);
 		getRecentlyAnnotated();
 	};
-	onFail = function(){document.location.href="intro.html";};
-	logUserIn(onSuccess, onFail);
+	onDismissal = function(){document.location.href="intro.html";};
+	logUserIn(onLoggedIn, onDismissal);
 }
 
 function populateUI() {

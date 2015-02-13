@@ -13,6 +13,7 @@ function getDomain() {
 
 function setDomainToGenericOrParameter() {
 	var domain = getParameterByName("domain");
+	// Set domain to generic if no parameter is given
 	if(domain === "") {
 		localStorage.setItem("domain", "generic");
 	} else {
@@ -24,13 +25,27 @@ function setDomain(domain) {
 	localStorage.setItem("domain", domain);
 }
 
+function domainSetting(domain) {
+	$.getJSON("domains", {domain:domain})
+		.done(function(data){
+			return data;
+	});
+}
+
 function domainSettings(domain, onDomain) {
-	$.getJSON("domain_settings", {domain:domain})
+	$.getJSON("domains", {domain:domain})
 		.done(function(data){
 			onDomain(data);
 	});
 }
 
+function getAvailableDomains(onDomains) {
+	$.getJSON("domains")
+		.done(function(data){
+			onDomains(data);
+			return data;
+	});
+}
 
 //UI
 function setLinkLogo(page) {
@@ -68,11 +83,11 @@ function userLoggedIn(onLoggedIn, onNotLoggedIn) {
 		.fail(onNotLoggedIn);
 }
 
-function logUserIn(onSuccess, onDismissal) {
+function logUserIn(onLoggedIn, onDismissal) {
 	//make sure user is logged in
 	$.getJSON("get_user")
-		.done(function(data){onSuccess(data)})
-		.fail(function(){loginModal(onSuccess, onDismissal)});
+		.done(function(data){onLoggedIn(data)})
+		.fail(function(){loginModal(onLoggedIn, onDismissal)});
 }
 
 function loginModal(onSuccess, onDismissal) {

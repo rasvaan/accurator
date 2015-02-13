@@ -6,6 +6,7 @@ var lblRegistrationFailed, lblPasswordsMatchFail, lblUserTaken, lblServerError;
 
 function registerInit() {
 	locale = getLocale();
+	
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			  registerEvent();

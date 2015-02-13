@@ -428,3 +428,14 @@ aui:mdlFrmPassword a auis:UILabel .
 aui:mdlBtnLogin a auis:UILabel .
 aui:loginWarning a auis:UILabel .
 aui:loginIncomplete a auis:UILabel .
+
+##### Domain Screen #####
+
+aui:domain a auis:UI ;
+	aui:txtTitle "Select your desired domain"@en ;
+	aui:txtTitle "Selecteer het gewenste domein"@nl .
+
+aui:txtTitle a auis:UILabel .
+
+
+

@@ -48,3 +48,8 @@ abirui:additional_info a auis:UI ;
 
 abirui:login_modal a auis:UI ;
 	rdfs:subClassOf aui:login_modal .
+
+##### Bird Domain Screen #####
+
+abirui:domain a auis:UI ;
+	rdfs:subClassOf aui:domain .

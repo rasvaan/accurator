@@ -29,3 +29,7 @@ accu:hasUI a rdf:Property;
 accu:hasFilePath a rdf:Property;
 	rdfs:label "Has file path"@en ;
 	rdfs:comment "Connecting a resource to the filepath it can be found"@en .
+
+accu:brightness a rdf:Property;
+	rdfs:label "Has brightness"@en ;
+	rdfs:comment "Whether a depiction is dark or light."@en .
