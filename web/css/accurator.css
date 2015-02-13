@@ -37,6 +37,40 @@ body {
 	margin-top: 50px;
 }
 
+/* Domain page */
+.domainScreen {
+	background-color: #444;
+}
+.domainImage {
+	max-width: 100%;
+	cursor: pointer;
+}
+
+#txtTitle {
+	text-align: center;
+	color: #eee;
+	padding-bottom: 10px;
+}
+
+.domainTitle {
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	width: 100%;
+	cursor: pointer;
+}
+
+.noGutter {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.noPadding {
+   padding-left: 0;
+   padding-right: 0;
+   overflow-x: hidden;
+}
+
 /* Profile page */
 #rowStartChange {
 	margin-top: 20px;
