@@ -6,27 +6,31 @@
 @prefix dctypes:<http://purl.org/dc/dcmitype/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-accu:Domain a rdfs:Class;
+accu:Domain a rdfs:Class ;
 	rdfs:label "A subject domain, e.g. birds or bibles."@en .
 
-accu:hasDesciptiveImage a rdf:Property;
+accu:hasDesciptiveImage a rdf:Property ;
 	rdfs:label "Has desciptive image"@en ;
 	rdfs:comment "Property connecting a resource to an image descibing the resource"@en ;
 	rdfs:subPropertyOf dcterms:description ;
 	rdfs:range accu:DesciptiveImage .
 
-accu:DesciptiveImage a rdfs:Class;
+accu:DesciptiveImage a rdfs:Class ;
 	rdfs:label "Descriptive image"@en ;
 	rdfs:comment "Image that illustrates a resource"@en ;
 	rdfs:subClassOf dctypes:StillImage.
 
-accu:hasUI a rdf:Property;
+accu:hasUI a rdf:Property ;
 	rdfs:label "Has user interface specification"@en ;
 	rdfs:comment "Property linking a domain to a user interface specification."@en ;
 	rdfs:range auis:UI ;
 	rdfs:domain accu:Domain .
 
-accu:hasFilePath a rdf:Property;
+accu:hasMaximumExpertiseTopics a rdf:Property ;
+	rdfs:label "Has maximum number of expertise topics"@en ;
+	rdfs:comment "The maximum number of expertise topics shown to a user."@en .
+
+accu:hasFilePath a rdf:Property ;
 	rdfs:label "Has file path"@en ;
 	rdfs:comment "Connecting a resource to the filepath it can be found"@en .
 

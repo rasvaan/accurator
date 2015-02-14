@@ -1,31 +1,40 @@
 /* Accurator Expertise
 */
-var locale, user;
-var ui = "http://accurator.nl/ui/bird#expertise";
+var locale, ui, user, domain, domainSettings;
 var topics;
 var userExpertise = {};
 var sldALot, sldNothing;
 
 function expertiseInit() {
+	locale = getLocale();
+	domain = getDomain();
+	
 	// Make sure user is logged in
-	onSuccess = function(data){
+	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
-		locale = getLocale();
-		populateUI();
-		user = data.user;
-		var userName = getUserName(user);
-		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+		
+		//Get domain settings before populating ui
+		onDomain = function(domainData) {
+			ui = domainData.ui + "expertise";
+			populateUI(domainData.taxonomy,
+					   domainData.top_concept,
+					   domainData.max_topics);
+			user = loginData.user;
+			var userName = getUserName(user);
+			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+		}
+		domainSettings = domainSettings(domain, onDomain);
 	};
 	onDismissal = function(){document.location.href="intro.html"};
-	logUserIn(onSuccess, onDismissal);
+	logUserIn(onLoggedIn, onDismissal);
 }
 
-function populateUI() {
+function populateUI(taxonomy, topConcept, maxTopics) {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			registerButtonEvent();
 			initLabels(data);
-			initExpertiseTopics();});
+			initExpertiseTopics(taxonomy, topConcept, maxTopics);});
 }
 
 function initLabels(data) {
@@ -47,8 +56,11 @@ function registerButtonEvent() {
 	});	
 }
 
-function initExpertiseTopics() {
-	$.getJSON("expertise_topics", {locale:locale})
+function initExpertiseTopics(taxonomy, topConcept, maxTopics) {
+	$.getJSON("expertise_topics", {locale:locale,
+								   taxonomy:taxonomy,
+								   top_concept:topConcept,
+								   number_of_topics:maxTopics})
 	.done(function(data){
 		topics = data.topics;
 		var halfTheTopics = parseInt(topics.length/2, 10);

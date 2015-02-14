@@ -3,7 +3,6 @@
 /** <module> Accurator
 */
 
-:- use_module(library(accurator/settings)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
@@ -125,6 +124,7 @@ get_domain_settings(Dic, _Options) :-
 get_domain_dic(DomainUri, Domain, Dic) :-
 	rdf(DomainUri, dcterms:requires, Taxonomy),
 	rdf(DomainUri, skos:hasTopConcept, TopConcept),
+	rdf(DomainUri, accu:hasMaximumExpertiseTopics, literal(MaxTopics)),
 	rdf(DomainUri, accu:hasUI, UI),
 	rdf(DomainUri, accu:hasDesciptiveImage, Image),
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
@@ -132,6 +132,7 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 	Dic = domain{domain:Domain,
 				 taxonomy:Taxonomy,
 				 top_concept:TopConcept,
+				 max_topics:MaxTopics,
 				 ui:UI,
 				 image:ImagePath,
 				 image_brightness:Brightness}.
@@ -273,16 +274,20 @@ expertise_topics_api(Request) :-
 %	Retrieves an option list of parameters from the url.
 get_parameters_expertise(Request, Options) :-
     http_parameters(Request,
-        [locale(Locale, [description('Locale of language elements to retrieve'), optional(false)])]),
-    Options = [locale(Locale)].
+        [locale(Locale, [description('Locale of language elements to retrieve'), optional(false)]),
+		taxonomy(Taxonomy, [description('Domain specific taxonomy.'), optional(false)]),
+		number_of_topics(NumberOfTopicsString, [description('The maximum number of topics to retrive'), optional(false)]),
+		top_concept(TopConcept, [description('The top concept to start searching form.'), optional(false)])]),
+    atom_number(NumberOfTopicsString, NumberOfTopics),
+	Options = [locale(Locale), taxonomy(Taxonomy), topConcept(TopConcept), numberOfTopics(NumberOfTopics)].
 
 %%	expertise_topics(+Request)
 %
 %	Retrieves a list of expertise topics.
 get_expertise_topics(Topics, Options) :-
-	setting(accurator:top_concept, TopConcept),
-	setting(accurator:number_expertise_topics, Number),
 	option(locale(Locale), Options),
+	option(topConcept(TopConcept), Options),
+	option(numberOfTopics(Number), Options),
 	get_number_topics([TopConcept], Number, TopicUris),
 	maplist(get_info_topics(Locale), TopicUris, TopicDicts),
 	Topics = expertise_topics{topics:TopicDicts}.

@@ -14,7 +14,8 @@ abib:domain a accu:Domain ;
 	dcterms:requires <http://iconclass.org/> ;
 	skos:hasTopConcept ic:7 ;
 	accu:hasUI abibui: ;
-	accu:hasDesciptiveImage abib:jeremia .
+	accu:hasDesciptiveImage abib:jeremia ;
+	accu:hasMaximumExpertiseTopics "50" .
 
 <http://iconclass.org/> a skos:ConceptScheme .
 
