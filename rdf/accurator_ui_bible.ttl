@@ -6,6 +6,13 @@
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
+###### Bible Domain #####
+abibui:domain a auis:UI;
+	aui:domainLabel "Bible domain"@en ;
+	aui:domainLabel "Bijbel domein"@nl .
+
+aui:domainLabel a auis:UILabel .
+
 ###### Bible Intro Screen #####
 
 abibui:intro a auis:UI ;
@@ -48,8 +55,4 @@ abibui:additional_info a auis:UI ;
 
 abibui:login_modal a auis:UI ;
 	rdfs:subClassOf aui:login_modal .
-
-##### Bible Domain Screen #####
-
-abibui:domain a auis:UI ;
-	rdfs:subClassOf aui:domain .
+	

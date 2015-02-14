@@ -39,7 +39,7 @@ body {
 
 /* Domain page */
 .domainScreen {
-	background-color: #444;
+	background-color: #333;
 }
 .domainImage {
 	max-width: 100%;
@@ -48,7 +48,7 @@ body {
 
 #txtTitle {
 	text-align: center;
-	color: #eee;
+	color: #fff;
 	padding-bottom: 10px;
 }
 

@@ -35,30 +35,49 @@ function populateDomains(domainLabels) {
 	domainsToShow = domainLabels.length - 1;
 	avaulableCulmns = 12;
 	columnWidth = 12/domainsToShow;
+	var row;
 	
 	// Get domain settings for all the domains
 	for(i=0; i<domainLabels.length; i++) {
+		if(!(i%2===0)) {
+			row = parseInt((i/2) + 0.5);
+			// Add a new row for every two domains
+			$(".domains").append(
+				$.el.div({'class':'row',
+						  'id':'domain' + row}));
+		}
+
 		$.getJSON("domains", {domain:domainLabels[i]})
 			.done(function(data){
 				if(!(data.domain === "generic")) {
-					$("#domains").append(domainHtml(data, columnWidth));
-					addDomainEvent(data.domain);
-					
-					if(data.image_brightness === "dark")
-						$("#text" + data.domain).css('color', '#DDD');
+					domainHtml(data, row);
 				}
 			});
 	}
 }
 
-function domainHtml(data) {
-	return $.el.div({'class':'noPadding col-md-'+columnWidth},
-		$.el.h3({'class':'domainTitle',
-				 'id':'text' + data.domain},
-			data.domain),
-		$.el.img({'class':'domainImage',
-				  'id':'image' + data.domain,
-				  'src':data.image}));
+function domainHtml(domainData, row) {
+	var domain = domainData.domain;
+	$.getJSON("ui_elements", {locale:locale,
+							  ui:domainData.ui + "domain",
+							  type:"labels"})
+		.done(function(data){
+			console.log(domainData);
+			console.log(data);
+			$("#domain" + row).append(
+				$.el.div({'class':'noPadding col-md-'+columnWidth},
+					$.el.h3({'class':'domainTitle',
+							 'id':'text' + domain},
+							 data.domainLabel),
+					$.el.img({'class':'domainImage',
+							  'id':'image' + domain,
+							  'src':domainData.image})));
+			if(domainData.image_brightness === "dark")
+				$("#text" + domainData.domain).css('color', '#fff');
+			addDomainEvent(data.domain);
+		});
+	
+	
 }
 
 function addDomainEvent(domain) {

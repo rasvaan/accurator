@@ -6,6 +6,13 @@
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
+###### Bird Domain #####
+abirui:domain a auis:UI ;
+	aui:domainLabel "Bird domain"@en ;
+	aui:domainLabel "Vogel domein"@nl .
+
+aui:domainLabel a auis:UILabel .
+
 ###### Bird Intro Screen #####
 
 abirui:intro a auis:UI ;
@@ -48,8 +55,3 @@ abirui:additional_info a auis:UI ;
 
 abirui:login_modal a auis:UI ;
 	rdfs:subClassOf aui:login_modal .
-
-##### Bird Domain Screen #####
-
-abirui:domain a auis:UI ;
-	rdfs:subClassOf aui:domain .
