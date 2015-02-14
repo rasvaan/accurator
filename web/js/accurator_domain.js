@@ -74,7 +74,7 @@ function domainHtml(domainData, row) {
 							  'src':domainData.image})));
 			if(domainData.image_brightness === "dark")
 				$("#text" + domainData.domain).css('color', '#fff');
-			addDomainEvent(data.domain);
+			addDomainEvent(domain);
 		});
 	
 	
