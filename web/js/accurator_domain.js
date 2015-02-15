@@ -11,7 +11,7 @@ function domainInit() {
 		var onDomains = function(data){
 			// Continue to next page if already a valid domain is given
 			if ((data.indexOf(domain) > -1) && !(domain ==="generic"))
-				document.location.href="additional_info.html";
+				document.location.href="expertise.html";
 			populateDomains(data);
 			populateUI();
 		};
@@ -78,11 +78,11 @@ function domainHtml(domainData, row) {
 function addDomainEvent(domain) {
 	$("#image"+domain).click(function() {
 		setDomain(domain);
-		document.location.href="additional_info.html";
+		document.location.href="expertise.html";
 	});
 	$("#text"+domain).click(function() {
 		setDomain(domain);
-		document.location.href="additional_info.html";
+		document.location.href="expertise.html";
 	});
 }
 

@@ -1,8 +1,9 @@
 /* Accurator Results
 */
-var userName;
+var locale, userName;
 
 function resultsInit() {
+	locale = getLocale();
 	onSuccess = function(data){
 		setLinkLogo("profile");
 		user = data.user;

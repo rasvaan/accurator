@@ -38,7 +38,7 @@ function addButtonEvents() {
 		processFormFields();
 	});
 	$("#btnSkip").click(function() {
-		document.location.href="expertise.html";
+		document.location.href="domain.html";
 	});	
 }
 
@@ -220,7 +220,7 @@ function processFormFields() {
 				   contentType: "application/json",
 				   data: JSON.stringify(info),
 				   success: function(){
-				       document.location.href="expertise.html";
+				       document.location.href="domain.html";
 				   }
 			});
 	})

@@ -165,7 +165,7 @@ function logout() {
 	$.ajax({type: "POST",
 			url: "user/logout",
 			success: function(){
-				document.location.href="profile.html";
+				document.location.href="intro.html";
 			}});
 }
 
