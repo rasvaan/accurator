@@ -162,7 +162,11 @@ function loginServer(user, password, onSuccess) {
 }
 
 function logout() {
-	$.ajax({type: "POST", url: "user/logout"});
+	$.ajax({type: "POST",
+			url: "user/logout",
+			success: function(){
+				document.location.href="profile.html";
+			}});
 }
 
 function getUserUriBase() {
@@ -194,17 +198,18 @@ function populateNavbar(userName, linkList) {
 							$.el.span({'class':'caret'})),
 					$.el.ul({'class':'dropdown-menu',
 							'role':'menu'},
-							$.el.li($.el.a({'href':'intro.html',
+							$.el.li($.el.a({'href':'#',
 											'id':'btnLogout'},
 											data.ddLogOut)),
 							addLinks(linkList, data),
 							$.el.li({'class':'divider'}),
 							$.el.li($.el.a({'href':'about.html'},
 											data.ddAbout))))
-			)});
-	$("#btnLogout").click(function() {
-		logout();
-	});
+			)
+			$("#btnLogout").click(function() {
+				logout();
+			});
+		});
 }
 
 function addLinks(linkList, labels) {
