@@ -120,7 +120,8 @@ aui:profile a auis:UI ;
 	aui:txtStartAnnotating "To start annotating you can choose to search for specific works or to get works recommended."@en ;
 	aui:btnRecommend "Recommended works"@en ;
 	aui:btnSearch "Search"@en ;
-	aui:btnChangeExpertise "Change expertise levels"@en ;
+	aui:btnChangeExpertise "change expertise levels of domain "@en ;
+	aui:btnDomain "Change domain"@en ;
 	aui:btnChangeInfo "Change personal info"@en ;
 	aui:lblLastAnnotated "Artworks you recently annotated"@en ;
 	aui:frmChangeLocale "Change the language of the interface"@en ;
@@ -131,8 +132,10 @@ aui:profile a auis:UI ;
 	aui:txtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
 	aui:btnRecommend "Aanbevolen werken"@nl ;
 	aui:btnSearch "Zoek"@nl ;
-	aui:btnChangeExpertise "Verander uw expertise niveaus"@nl ;
+	aui:btnChangeExpertise "verander expertise niveaus van het domein "@nl ;
+	aui:btnDomain "Verander domein"@nl ;
 	aui:btnChangeInfo "Verander uw persoonlijke info"@nl ;
+
 	aui:lblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl ;
 	aui:frmChangeLocale "Verander de taal van de interface"@nl;
 	aui:radioLocaleEn "Engels"@nl ;
@@ -142,6 +145,7 @@ aui:txtStartAnnotating a auis:UILabel .
 aui:btnRecommend a auis:UILabel .
 aui:btnSearch a auis:UILabel .
 aui:btnChangeExpertise a auis:UILabel .
+aui:btnDomain a auis:UILabel .
 aui:btnChangeInfo a auis:UILabel .
 aui:lblLastAnnotated a auis:UILabel .
 aui:frmChangeLocale a auis:UILabel .
@@ -428,6 +432,20 @@ aui:mdlFrmPassword a auis:UILabel .
 aui:mdlBtnLogin a auis:UILabel .
 aui:loginWarning a auis:UILabel .
 aui:loginIncomplete a auis:UILabel .
+
+##### User Navbar Dropdown #####
+
+aui:user_dropdown a auis:UI ;
+	aui:ddLogOut "Logout"@en ;
+	aui:ddAbout "About Accurator"@en ;
+	aui:ddProfile "Profile"@en ;
+	aui:ddLogOut "Afmelden"@nl ;
+	aui:ddAbout "Over Accurator"@nl ;
+	aui:ddProfile "Profiel"@nl .
+
+aui:ddLogOut a auis:UILabel .
+aui:ddAbout a auis:UILabel .
+aui:ddProfile a auis:UILabel .
 
 ##### Domain Screen #####
 

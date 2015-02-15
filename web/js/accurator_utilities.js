@@ -179,36 +179,51 @@ function getUserUri(userName) {
 
 // Navbar
 function populateNavbar(userName, linkList) {
-	$(".navbar-right").append(
-		$.el.li({'class':'dropdown'},
-			$.el.a({'href':'#',
-				    'class':'dropdown-toggle',
-				    'data-toggle':'dropdown',
-					'role':'button',
-					'aria-expanded':'false'},
-					userName + " ",
-					$.el.span({'class':'caret'})),
-			$.el.ul({'class':'dropdown-menu',
-					 'role':'menu'},
-					 $.el.li($.el.a({'href':'intro.html',
-									 'id':'btnLogout'},
-									 "Logout")),
-					 addLinks(linkList),
-					 $.el.li({'class':'divider'}),
-					 $.el.li($.el.a({'href':'about.html'},"About Accurator"))))
-	);
+	$.getJSON("ui_elements", {locale:locale,
+							  ui:"http://accurator.nl/ui/generic#user_dropdown",
+							  type:"labels"})
+		.done(function(data){
+			$(".navbar-right").append(
+				$.el.li({'class':'dropdown'},
+					$.el.a({'href':'#',
+							'class':'dropdown-toggle',
+							'data-toggle':'dropdown',
+							'role':'button',
+							'aria-expanded':'false'},
+							userName + " ",
+							$.el.span({'class':'caret'})),
+					$.el.ul({'class':'dropdown-menu',
+							'role':'menu'},
+							$.el.li($.el.a({'href':'intro.html',
+											'id':'btnLogout'},
+											data.ddLogOut)),
+							addLinks(linkList, data),
+							$.el.li({'class':'divider'}),
+							$.el.li($.el.a({'href':'about.html'},
+											data.ddAbout))))
+			)});
 	$("#btnLogout").click(function() {
 		logout();
 	});
 }
 
-function addLinks(linkList) {
+function addLinks(linkList, labels) {
 	var links = [];
-	for(var i=0; i<linkList.length; i++){
+
+	for(i=0; i<linkList.length; i++){
 		links[i] = $.el.li($.el.a({'href':linkList[i].link},
-								 linkList[i].name))
+			localizedPageName(linkList, labels)
+		));
 	}
 	return links;
+}
+
+function localizedPageName(linkList, labels) {
+	if(linkList[i].name === "Profile") {
+		return labels.ddProfile;
+	} else {
+		return linkList[i].name;
+	}
 }
 
 // Url parameters
