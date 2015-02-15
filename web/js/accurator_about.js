@@ -4,10 +4,10 @@ var locale, domain;
 
 function aboutInit() {
 	locale = getLocale();
-	domain = getParameterByName("domain");
+	domain = getDomain();
 	
-	var onDomain = function(data) {
-		populateUI(data.ui + "about");
+	var onDomain = function(domainData) {
+		populateUI(domainData);
 	}
 	var onLoggedIn = function(data){
 		setLinkLogo("profile");
@@ -21,7 +21,9 @@ function aboutInit() {
 	userLoggedIn(onLoggedIn, onNotLoggedIn);
 }
 
-function populateUI(ui) {
+function populateUI(data) {
+	var ui = data.ui + "about"
+
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			initLabels(data);});
