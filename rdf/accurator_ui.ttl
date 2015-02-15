@@ -118,6 +118,7 @@ aui:profile a auis:UI ;
 	aui:txtSlogan "Welcome "@en ;
 	aui:txtSubSlogan "start annotating or change your personal info"@en ;
 	aui:txtStartAnnotating "To start annotating you can choose to search for specific works or to get works recommended."@en ;
+	aui:txtDomain "The current domain is "@en ;
 	aui:btnRecommend "Recommended works"@en ;
 	aui:btnSearch "Search"@en ;
 	aui:btnChangeExpertise "change expertise levels of domain "@en ;
@@ -130,6 +131,7 @@ aui:profile a auis:UI ;
 	aui:txtSlogan "Welkom "@nl ;
 	aui:txtSubSlogan "begin met het toevoegen van informatie of verander uw instellingen"@nl ;
 	aui:txtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
+	aui:txtDomain "Het huidige domein is "@nl ;
 	aui:btnRecommend "Aanbevolen werken"@nl ;
 	aui:btnSearch "Zoek"@nl ;
 	aui:btnChangeExpertise "verander expertise niveaus van het domein "@nl ;
@@ -142,6 +144,7 @@ aui:profile a auis:UI ;
 	aui:radioLocaleNl "Nederlands"@nl .
 
 aui:txtStartAnnotating a auis:UILabel .
+aui:txtDomain a auis:UILabel .
 aui:btnRecommend a auis:UILabel .
 aui:btnSearch a auis:UILabel .
 aui:btnChangeExpertise a auis:UILabel .

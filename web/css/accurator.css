@@ -82,10 +82,19 @@ body {
 
 #frmLocale {
 	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 #rowLastAnnotated {
 	margin-top: 20px;
+}
+
+#txtDomain {
+	margin-bottom: 20px;
+}
+
+#frmChangeLocale {
+	padding-left: 0px;
 }
 
 /* Expertise page */

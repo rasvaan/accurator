@@ -1,24 +1,23 @@
 /* Accurator Profile
 */
-var user, userName;
-var locale;
+var locale, domain, user, userName;
 var ui = "http://accurator.nl/ui/bird#profile";
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
-var
 
 displayOptions = {
 		numberDisplayedItems: 6,
 }
 
 function profileInit() {
+	locale = getLocale();
+	domain = getDomain();
+	
 	onLoggedIn = function(data){
 		setLinkLogo("profile");
-		locale = getLocale();
 		user = data.user;
 		userName = getUserName(user);
 		populateUI();
-		initLocaleRadio();
 		addButtonEvents();
 		populateNavbar(userName, []);
 		getRecentlyAnnotated();
@@ -30,7 +29,9 @@ function profileInit() {
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
-			initLabels(data);})
+			initLabels(data);
+			initLocaleRadio();
+			initDomains(data);})
 		.fail(function(data, textStatus){
 			$("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
 }
@@ -54,6 +55,67 @@ function initLocaleRadio() {
 	}
 }
 
+function initDomains(textLabels) {
+	var onDomains = function(data){
+		populateDomains(data, textLabels);
+	};
+	getAvailableDomains(onDomains);
+}
+
+function populateDomains(domainLabels, textLabels) {
+	// Get domain settings for all the domains
+	for(i=0; i<domainLabels.length; i++) {
+		var currentDomain = domainLabels[i];
+		var processDomain = function(currentDomain, textLabels){
+			return function(data){
+					if(domain===currentDomain) {
+						addDomainTitle(data, textLabels);
+					} else {
+						domainHtml(data);
+					}
+			}
+		}
+		//Add info about all domains except generic
+		if(currentDomain !== "generic") {
+			$.getJSON("domains", {domain:currentDomain})
+				.done(processDomain(currentDomain, textLabels));
+		}
+	}
+}
+
+function addDomainTitle(domainSettings, textLabels) {
+	$.getJSON("ui_elements", {locale:locale,
+							  ui:domainSettings.ui + "domain",
+							  type:"labels"})
+		.done(function(data){
+			$("#txtDomain").append(
+				textLabels.txtDomain +
+				data.domainLabel);
+		});
+}
+
+function domainHtml(domainData) {
+	var domain = domainData.domain;
+	$.getJSON("ui_elements", {locale:locale,
+							  ui:domainData.ui + "domain",
+							  type:"labels"})
+		.done(function(data){
+			$("#domainItems").append(
+				$.el.li(
+					$.el.a({'href':'#',
+							'id':domainData.domain},
+							 data.domainLabel)));
+			addDomainEvent(domain);
+		});
+}
+
+function addDomainEvent(domain) {
+	$("#" + domain).click(function() {
+		setDomain(domain);
+		location.reload();
+	});
+}
+
 function initLabels(data) {
 	$("#txtSlogan").prepend(data.txtSlogan + " " + userName);
 	$("#txtSubSlogan").prepend(data.txtSubSlogan);
@@ -62,6 +124,7 @@ function initLabels(data) {
 	$("#btnChangeExpertise").append(data.btnChangeExpertise);
 	$("#btnChangeInfo").append(data.btnChangeInfo);
 	$("#btnSearch").append(data.btnSearch);
+	$("#btnDomain").prepend(data.btnDomain);
 	$("#lblLastAnnotated").append(data.lblLastAnnotated);
 	$("#frmChangeLocale").append(data.frmChangeLocale);
 	$("#radioLocaleEn").after(data.radioLocaleEn);

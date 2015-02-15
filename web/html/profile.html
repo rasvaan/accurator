@@ -47,20 +47,45 @@
 				</div>
 			</div>
 			<div class="col-md-6" id="rowChangeInfo">
-				<button class="btn btn-default" id="btnChangeExpertise">
-				</button>
-				<button class="btn btn-default" id="btnChangeInfo">
-				</button>
-			 	<div id="frmLocale" class="form-group">
-					<label for="changeLocale" id="frmChangeLocale" class="col-sm-10 control-label">
-					</label>
-					<div class="col-sm-6">
-						<label class="radio-inline">
-							<input type="radio" name="localeRadio" id="radioLocaleEn" value="en">
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="localeRadio" id="radioLocaleNl" value="nl">
-						</label>
+				<!-- Change domain -->
+				<div class="row">
+					<div class="col-md-12">
+						<label class="control-label" id="txtDomain"></label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle" id="btnDomain" data-toggle="dropdown" aria-expanded="false">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" id="domainItems" role="menu">
+							</ul>
+						</div>
+						<button class="btn btn-link" id="btnChangeExpertise">
+						</button>
+					</div>
+				</div>
+				<div class="row" id="frmLocale">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="changeLocale" id="frmChangeLocale" class="col-sm-10 control-label">
+							</label>
+							<div class="col-sm-6">
+								<label class="radio-inline">
+									<input type="radio" name="localeRadio" id="radioLocaleEn" value="en">
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="localeRadio" id="radioLocaleNl" value="nl">
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<button class="btn btn-default" id="btnChangeInfo">
+						</button>
 					</div>
 				</div>
 			</div>
