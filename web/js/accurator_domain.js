@@ -32,9 +32,6 @@ function populateUI() {
 }
 
 function populateDomains(domainLabels) {
-	domainsToShow = domainLabels.length - 1;
-	avaulableCulmns = 12;
-	columnWidth = 12/domainsToShow;
 	var row;
 	
 	// Get domain settings for all the domains
@@ -65,7 +62,7 @@ function domainHtml(domainData, row) {
 			console.log(domainData);
 			console.log(data);
 			$("#domain" + row).append(
-				$.el.div({'class':'noPadding col-md-'+columnWidth},
+				$.el.div({'class':'noPadding col-md-6'},
 					$.el.h3({'class':'domainTitle',
 							 'id':'text' + domain},
 							 data.domainLabel),
@@ -76,8 +73,6 @@ function domainHtml(domainData, row) {
 				$("#text" + domainData.domain).css('color', '#fff');
 			addDomainEvent(domain);
 		});
-	
-	
 }
 
 function addDomainEvent(domain) {
