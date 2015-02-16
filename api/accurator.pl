@@ -471,7 +471,8 @@ get_annotation_parameters(Request, Options) :-
 reply_page(Options) :-
     option(uri(Uri), Options),
 	%AnnotationOptions = [targets([Uri])],
-	option(ui(UI), Options),
+	%option(ui(UI), Options),
+	UI = 'http://semanticweb.cs.vu.nl/annotate/example#smallBibleUi',
 	get_anfields(UI, [], [], AnnotationFields),
 	debug(anno, 'UI: ~p', [UI]),
 	AnnotationOptions = [targets([Uri]),
