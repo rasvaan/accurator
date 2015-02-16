@@ -62,6 +62,14 @@ function setLinkLogo(page) {
 		$(".navbar-brand").attr('href', "intro.html");
 }
 
+function getUI(page, domainSettings) {
+	if(typeof domainSettings != 'undefined') {
+		return ui = domainSettings.ui + page
+	} else {
+		return ui = "http://accurator.nl/ui/generic#" + page;
+	}
+}
+
 //Locale
 function getLocale() {
 	if(localStorage.getItem("locale") === null){

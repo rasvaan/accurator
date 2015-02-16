@@ -6,8 +6,8 @@ function aboutInit() {
 	locale = getLocale();
 	domain = getDomain();
 	
-	var onDomain = function(domainData) {
-		populateUI(domainData);
+	var onDomain = function(domainSettings) {
+		populateUI(domainSettings);
 	}
 	var onLoggedIn = function(data){
 		setLinkLogo("profile");
@@ -21,8 +21,8 @@ function aboutInit() {
 	userLoggedIn(onLoggedIn, onNotLoggedIn);
 }
 
-function populateUI(data) {
-	var ui = data.ui + "about"
+function populateUI(domainSettins) {
+	var ui = getUI("about", domainSettings);
 
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
