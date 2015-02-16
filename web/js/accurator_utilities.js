@@ -10,10 +10,11 @@ function getDomain() {
 		setDomainToGenericOrParameter();
 	}
 	var domainParameter = getParameterByName("domain");
+	
 	//Domain parameter
-	if(!(domainParameter === null)){
-		console.log("Domain parameter set to " + domainParameter);
+	if(!(domainParameter === "")){
 		setDomain(domainParameter);
+		console.log("Domain parameter set to " + domainParameter);
 	}
 	return localStorage.getItem("domain");
 }
@@ -62,11 +63,12 @@ function setLinkLogo(page) {
 		$(".navbar-brand").attr('href', "intro.html");
 }
 
-function getUI(page, domainSettings) {
+function getUI(domainSettings, page) {
+	console.log(domainSettings, page);
 	if(typeof domainSettings != 'undefined') {
-		return ui = domainSettings.ui + page
+		return domainSettings.ui + page
 	} else {
-		return ui = "http://accurator.nl/ui/generic#" + page;
+		return "http://accurator.nl/ui/generic#" + page;
 	}
 }
 

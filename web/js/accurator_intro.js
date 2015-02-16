@@ -1,6 +1,6 @@
 /* Accurator Intro
 */
-var locale, ui, domain, domainSettings;
+var locale, domain, ui, domainSettings;
 
 function introInit() {
 	locale = getLocale();
@@ -14,8 +14,10 @@ function introInit() {
 	onNotLoggedIn = function() {
 		//Get domain settings before populating ui
 		onDomain = function(data) {
+			ui = getUI(data, "intro");
+			console.log(ui);
 			setBackground(data.image, data.image_brightness);
-			populateUI(data.ui + "intro");
+			populateUI();
 		}
 		domainSettings = domainSettings(domain, onDomain);
 	};
@@ -32,8 +34,8 @@ function setBackground(backgroundUrl, imageBrightness) {
 	}
 }
 
-function populateUI(uiLocal) {
-	$.getJSON("ui_elements", {locale:locale, ui:uiLocal, type:"labels"})
+function populateUI() {
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
 			  addButtonEvents();
 			  initLabels(data);});

@@ -22,7 +22,7 @@ function aboutInit() {
 }
 
 function populateUI(domainSettins) {
-	var ui = getUI("about", domainSettings);
+	ui = getUI(domainSettings, "about");
 
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(data){
