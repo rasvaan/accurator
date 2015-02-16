@@ -4,9 +4,16 @@ var loginWarning, loginIncomplete;
 
 //Domain
 function getDomain() {
+	//No domain
 	if(localStorage.getItem("domain") === null){
 		console.log("No domain given");
 		setDomainToGenericOrParameter();
+	}
+	var domainParameter = getParameterByName("domain");
+	//Domain parameter
+	if(!(domainParameter === null)){
+		console.log("Domain parameter set to " + domainParameter);
+		setDomain(domainParameter);
 	}
 	return localStorage.getItem("domain");
 }
