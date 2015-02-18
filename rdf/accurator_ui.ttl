@@ -109,6 +109,8 @@ aui:txtTitle a auis:UILabel .
 
 aui:expertise a auis:UI ;
 	dcterms:title "Accurator expertise form UI"@en ;
+	aui:title "Expertise"@en ;
+	aui:title "Expertise"@nl ;
 	aui:txtHeader "Expertise"@en ;
 	aui:txtSubHeader "how much do you know about the following topics?"@en ;
 	aui:btnSkip "or skip this step"@en ;
@@ -131,10 +133,12 @@ aui:sldNothing a auis:UILabel .
 
 aui:profile a auis:UI ;
 	dcterms:title "Accurator profile UI"@en ;
+	aui:title "Profile"@en ;
+	aui:title "Profiel"@nl ;
 	aui:txtSlogan "Welcome "@en ;
 	aui:txtSubSlogan "start annotating or change your personal info"@en ;
 	aui:txtStartAnnotating "To start annotating you can choose to search for specific works or to get works recommended."@en ;
-	aui:txtDomain "The current domain is "@en ;
+	aui:txtDomain "The current domain is the "@en ;
 	aui:btnRecommend "Recommended works"@en ;
 	aui:btnSearch "Search"@en ;
 	aui:btnChangeExpertise "change expertise levels of domain "@en ;
@@ -147,7 +151,7 @@ aui:profile a auis:UI ;
 	aui:txtSlogan "Welkom "@nl ;
 	aui:txtSubSlogan "begin met het toevoegen van informatie of verander uw instellingen"@nl ;
 	aui:txtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
-	aui:txtDomain "Het huidige domein is "@nl ;
+	aui:txtDomain "Het huidige domein is het "@nl ;
 	aui:btnRecommend "Aanbevolen werken"@nl ;
 	aui:btnSearch "Zoek"@nl ;
 	aui:btnChangeExpertise "verander expertise niveaus van het domein "@nl ;

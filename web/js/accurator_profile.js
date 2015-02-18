@@ -1,7 +1,6 @@
 /* Accurator Profile
 */
-var locale, domain, user, userName;
-var ui = "http://accurator.nl/ui/bird#profile";
+var locale, ui, domain, user, userName;
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
 
@@ -13,27 +12,68 @@ function profileInit() {
 	locale = getLocale();
 	domain = getDomain();
 	
-	onLoggedIn = function(data){
+	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
-		user = data.user;
+		user = loginData.user;
 		userName = getUserName(user);
-		populateUI();
-		addButtonEvents();
 		populateNavbar(userName, []);
-		getRecentlyAnnotated();
+		populateRecentlyAnnotated();
+		
+		//Get domain settings before populating ui
+		onDomain = function(domainData) {
+			ui = domainData.ui + "profile";
+			populateUI();
+			addButtonEvents();
+		};
+		domainSettings = domainSettings(domain, onDomain);
 	};
 	onDismissal = function(){document.location.href="intro.html";};
 	logUserIn(onLoggedIn, onDismissal);
 }
 
+function populateRecentlyAnnotated() {
+	$.getJSON("recently_annotated", {user:user})
+	.done(function(data){
+		var numberOfItems = data.uris.length;
+		var items = [];
+
+		if(numberOfItems === 0) {
+			$("#rowLastAnnotated").hide();
+		} else {
+			for (var i=0; i<numberOfItems; i++) {
+				var uri = data.uris[i];
+				items[i] = new item(uri);
+			}
+			initialClusters[0] = new cluster([], items);
+			enrichedClusters[0] = new cluster([], 'undefined');
+			addItems(0);
+		}
+	});
+}
+
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(data){
-			initLabels(data);
-			initLocaleRadio();
-			initDomains(data);})
-		.fail(function(data, textStatus){
-			$("#txtSubSlogan").replaceWith('Problem connecting to server, please contact the system administrator');});
+	.done(function(labels){
+		initLabels(labels);
+		initLocaleRadio();
+		initDomains(labels);});
+}
+
+function initLabels(labels) {
+	// Add retrieved labels to html elements
+	document.title = labels.title;
+	$("#txtSlogan").prepend(labels.txtSlogan + " " + userName);
+	$("#txtSubSlogan").prepend(labels.txtSubSlogan);
+	$("#txtStartAnnotating").append(labels.txtStartAnnotating);
+	$("#btnRecommend").append(labels.btnRecommend);
+	$("#btnChangeExpertise").append(labels.btnChangeExpertise);
+	$("#btnChangeInfo").append(labels.btnChangeInfo);
+	$("#btnSearch").append(labels.btnSearch);
+	$("#btnDomain").prepend(labels.btnDomain);
+	$("#lblLastAnnotated").append(labels.lblLastAnnotated);
+	$("#frmChangeLocale").append(labels.frmChangeLocale);
+	$("#radioLocaleEn").after(labels.radioLocaleEn);
+	$("#radioLocaleNl").after(labels.radioLocaleNl);
 }
 
 function initLocaleRadio() {
@@ -55,21 +95,22 @@ function initLocaleRadio() {
 	}
 }
 
-function initDomains(textLabels) {
-	var onDomains = function(data){
-		populateDomains(data, textLabels);
+function initDomains(labels) {
+	var onDomains = function(domainLabels){
+		populateDomains(domainLabels, labels);
 	};
 	getAvailableDomains(onDomains);
 }
 
-function populateDomains(domainLabels, textLabels) {
+function populateDomains(domainLabels, labels) {
 	// Get domain settings for all the domains
 	for(i=0; i<domainLabels.length; i++) {
 		var currentDomain = domainLabels[i];
-		var processDomain = function(currentDomain, textLabels){
+		var processDomain = function(currentDomain, labels){
+			// Add title current domain or option to change to domain
 			return function(data){
 					if(domain===currentDomain) {
-						addDomainTitle(data, textLabels);
+						addDomainTitle(data, labels);
 					} else {
 						domainHtml(data);
 					}
@@ -78,20 +119,21 @@ function populateDomains(domainLabels, textLabels) {
 		//Add info about all domains except generic
 		if(currentDomain !== "generic") {
 			$.getJSON("domains", {domain:currentDomain})
-				.done(processDomain(currentDomain, textLabels));
+			.done(processDomain(currentDomain, labels));
 		}
 	}
 }
 
-function addDomainTitle(domainSettings, textLabels) {
+function addDomainTitle(domainSettings, labels) {
+	// Add the title of the current domain to the profile page
 	$.getJSON("ui_elements", {locale:locale,
 							  ui:domainSettings.ui + "domain",
 							  type:"labels"})
-		.done(function(data){
-			$("#txtDomain").append(
-				textLabels.txtDomain +
-				data.domainLabel);
-		});
+	.done(function(data){
+		$("#txtDomain").append(
+			labels.txtDomain,
+			$.el.span({'class':'text-info'},
+				data.domainLabel));});
 }
 
 function domainHtml(domainData) {
@@ -99,14 +141,14 @@ function domainHtml(domainData) {
 	$.getJSON("ui_elements", {locale:locale,
 							  ui:domainData.ui + "domain",
 							  type:"labels"})
-		.done(function(data){
-			$("#domainItems").append(
-				$.el.li(
-					$.el.a({'href':'#',
-							'id':domainData.domain},
-							 data.domainLabel)));
-			addDomainEvent(domain);
-		});
+	.done(function(data){
+		$("#domainItems").append(
+			$.el.li(
+				$.el.a({'href':'#',
+						'id':domainData.domain},
+						 data.domainLabel)));
+		addDomainEvent(domain);
+	});
 }
 
 function addDomainEvent(domain) {
@@ -116,24 +158,9 @@ function addDomainEvent(domain) {
 	});
 }
 
-function initLabels(data) {
-	$("#txtSlogan").prepend(data.txtSlogan + " " + userName);
-	$("#txtSubSlogan").prepend(data.txtSubSlogan);
-	$("#txtStartAnnotating").append(data.txtStartAnnotating);
-	$("#btnRecommend").append(data.btnRecommend);
-	$("#btnChangeExpertise").append(data.btnChangeExpertise);
-	$("#btnChangeInfo").append(data.btnChangeInfo);
-	$("#btnSearch").append(data.btnSearch);
-	$("#btnDomain").prepend(data.btnDomain);
-	$("#lblLastAnnotated").append(data.lblLastAnnotated);
-	$("#frmChangeLocale").append(data.frmChangeLocale);
-	$("#radioLocaleEn").after(data.radioLocaleEn);
-	$("#radioLocaleNl").after(data.radioLocaleNl);
-}
-
 function addButtonEvents() {
 	$("#btnRecommend").click(function() {
-		document.location.href="results.html" + "?user=" + user;
+		//document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
 	$("#frmSearch").keypress(function(event) {
@@ -152,24 +179,4 @@ function addButtonEvents() {
 	$("#btnChangeInfo").click(function() {
 		document.location.href="additional_info.html";
 	});
-}
-
-function getRecentlyAnnotated() {
-	$.getJSON("recently_annotated", {user:user})
-		.done(function(data){
-			var numberOfItems = data.uris.length;
-			var items = [];
-
-			if(numberOfItems === 0) {
-				$("#rowLastAnnotated").hide();
-			} else {
-				for (var i=0; i<numberOfItems; i++) {
-					var uri = data.uris[i];
-					items[i] = new item(uri);
-				}
-				initialClusters[0] = new cluster([], items);
-				enrichedClusters[0] = new cluster([], 'undefined');
-				addItems(0);
-			}
-		});
 }
