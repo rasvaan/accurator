@@ -1,36 +1,42 @@
 /* Accurator Additional Info
 */
-var locale;
+var locale, domain, ui;
 var countries = [];
 var languages = [];
 var educationOptions, incomeOptions, internetOptions;
 var info = {};
-var ui = "http://accurator.nl/ui/bird#additional_info";
 var twitterFieldAdded = false;
 var tagsiteFieldAdded = false;
 var frmTwitterId, frmTagSiteOpen;
 
 function additionalInfoInit() {
+	locale = getLocale();
+	domain = getDomain();
+
 	// Make sure user is logged in
-	onSuccess = function(data){
+	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
-		locale = getLocale();
-		populateUI();
-		var userName = getUserName(data.user);
-		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+		
+		//Get domain settings before populating ui
+		onDomain = function(domainData) {
+			ui = domainData.ui + "additional_info";
+			populateUI();
+			var userName = getUserName(loginData.user);
+			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+		};
+		domainSettings = domainSettings(domain, onDomain);
 	};
 	onDismissal = function(){document.location.href="intro.html"};
-	logUserIn(onSuccess, onDismissal);
+	logUserIn(onLoggedIn, onDismissal);
 }
 
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(data){
-			addButtonEvents();
-			initLabels(data);
-			addFormEvents();
-			$("#frmAge").focus();})
-		.fail(function(){});
+	.done(function(data){
+		addButtonEvents();
+		initLabels(data);
+		addFormEvents();
+		$("#frmAge").focus();});
 }
 
 function addButtonEvents() {
@@ -43,6 +49,7 @@ function addButtonEvents() {
 }
 
 function initLabels(data) {
+	document.title = data.title;
 	frmTwitterId = data.frmTwitterId;
 	frmTagSiteOpen = data.frmTagSiteOpen;
 	$("#txtHeader").prepend(data.txtHeader);

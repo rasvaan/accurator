@@ -164,6 +164,8 @@ aui:radioLocaleNl a auis:UILabel .
 
 aui:additional_info a auis:UI ;
 	dcterms:title "Accurator additional info UI"@en  ;
+	aui:title "Additional info"@en ;
+	aui:title "Aanvullende informatie"@nl ;
 	aui:txtHeader "Additional Info"@en ;
 	aui:txtHeaderSub "it would help us a lot if you would provide us with the following information"@en ;
 	aui:btnAddInfo "Add Additional Info"@en ;

@@ -22,7 +22,7 @@ function expertiseInit() {
 			user = loginData.user;
 			var userName = getUserName(user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
-		}
+		};
 		domainSettings = domainSettings(domain, onDomain);
 	};
 	onDismissal = function(){document.location.href="intro.html"};
