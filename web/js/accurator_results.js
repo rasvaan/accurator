@@ -1,10 +1,18 @@
 /* Accurator Results
 */
-var locale, userName;
+var locale, ui, userName;
+
+displayOptions = {
+	numberDisplayedItems: 4,
+	showFilters: false,
+	imageFilter: 'onlyImages'
+}
 
 function resultsInit() {
 	locale = getLocale();
-	onSuccess = function(data){
+	domain = getDomain();
+	
+	onLoggedIn = function(data){
 		setLinkLogo("profile");
 		user = data.user;
 		userName = getUserName(user);
@@ -20,9 +28,41 @@ function resultsInit() {
 		} else {
 			recommendItems(user);
 		}
+		
+		onDomain = function(domainData) {
+			ui = domainData.ui + "results";
+			populateUI();
+			addButtonEvents();
+		};
+		domainSettings(domain, onDomain);
 	};
-	onFail = function(){document.location.href="intro.html";};
-	logUserIn(onSuccess, onFail);
+	onDismissal = function(){document.location.href="intro.html";};
+	logUserIn(onLoggedIn, onDismissal);
+}
+
+function populateUI() {
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
+	.done(function(labels){ initLabels(labels); });
+}
+
+function initLabels(labels) {
+	// Add retrieved labels to html elements
+	document.title = labels.title;
+	$("#btnSearch").append(labels.btnSearch);
+}
+
+function addButtonEvents() {
+	// Search on pressing enter
+	$("#frmSearch").keypress(function(event) {
+		if (event.which == 13) {
+			var query = encodeURIComponent($("#frmSearch").val());
+			document.location.href="results.html?query=" + query;
+		}
+	});
+	$("#btnSearch").click(function() {
+		var query = encodeURIComponent($("#frmSearch").val());
+		document.location.href="results.html?query=" + query;
+	});
 }
 
 function initiateSearch(query) {

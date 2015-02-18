@@ -46,6 +46,11 @@ abirui:txtSubHeader a auis:UILabel .
 abirui:profile a aui:UI ;
 	rdfs:subClassOf aui:profile .
 
+##### Bird Results Screen #####
+
+abirui:results a aui:UI ;
+	rdfs:subClassOf aui:results .
+
 ##### Bird Additional Info Screen #####
 
 abirui:additional_info a auis:UI ;

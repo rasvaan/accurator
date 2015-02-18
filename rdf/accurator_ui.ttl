@@ -435,6 +435,15 @@ aui:internetLessThan1 a auis:SelectOption ;
 	skos:prefLabel "Less than 1 day per week"@en ;
 	skos:prefLabel "Minder dan een dag per week"@nl .
 
+##### Profile Screen #####
+
+aui:results a auis:UI ;
+	dcterms:title "Accurator results UI"@en ;
+	aui:title "Results"@en ;
+	aui:title "Zoekresultaten"@nl ;
+	aui:btnSearch "Search"@en ;
+	aui:btnSearch "Zoek"@nl .
+
 ##### Login Modal #####
 
 aui:login_modal a auis:UI ;

@@ -46,6 +46,11 @@ abibui:txtSubHeader a auis:UILabel .
 abibui:profile a aui:UI ;
 	rdfs:subClassOf aui:profile .
 
+##### Bible Results Screen #####
+
+abibui:results a aui:UI ;
+	rdfs:subClassOf aui:results .
+
 ##### Bible Additional Info Screen #####
 
 abibui:additional_info a auis:UI ;
