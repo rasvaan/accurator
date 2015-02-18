@@ -57,6 +57,8 @@ aui:txtAboutSealincResearch a auis:UILabel .
 
 aui:register a auis:UI ;
 	dcterms:title "Accurator register UI"@en ;
+	aui:title "Register"@en ;
+	aui:title "Account maken"@nl ;
 	aui:txtHeader "Create your Accurator Account"@en ;
 	aui:frmRealName "Full name"@en ;
 	aui:frmUsername "Username"@en ;

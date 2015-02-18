@@ -18,7 +18,7 @@ function introInit() {
 			setBackground(domainSettings.image,
 						  domainSettings.image_brightness);
 			populateUI();
-		}
+		};
 		domainSettings = domainSettings(domain, onDomain);
 	};
 	userLoggedIn(onLoggedIn, onNotLoggedIn);

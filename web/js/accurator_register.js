@@ -1,33 +1,42 @@
 /* Accurator Register
 */
-var locale;
-var ui = "http://accurator.nl/ui/bird#register";
+var locale, domain, ui;
 var lblRegistrationFailed, lblPasswordsMatchFail, lblUserTaken, lblServerError;
 
 function registerInit() {
 	locale = getLocale();
+	domain = getDomain();
 	
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(data){
-			  registerEvent();
-			  initLabels(data);
-			  $("#frmRealName").focus();})
-		.fail(function(data, textStatus){
-			  setRegisterFailureText("Problem connecting to server, please contact the system administrator.");});
+	var onDomain = function(domainSettings) {
+		ui = getUI(domainSettings, "register");
+		populateUI();
+	}
+	domainSettings = domainSettings(domain, onDomain);
 }
 
-function initLabels(data) {
-	$("#txtHeader").append(data.txtHeader);
-	$("#frmRealName").append(data.frmRealName);
-	$("#frmUsername").append(data.frmUsername);
-	$("#frmPassword").append(data.frmPassword);
-	$("#frmPasswordRepeat").append(data.frmPasswordRepeat);
-	$("#btnRegister").append(data.btnRegister);
-	$("#btnGoBack").append(data.btnGoBack);
-	lblRegistrationFailed = data.lblRegistrationFailed;
-	lblPasswordsMatchFail = data.lblPasswordsMatchFail;
-	lblUserTaken = data.lblUserTaken;
-	lblServerError = data.lblServerError
+function populateUI() {
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
+	.done(function(labels) {
+		// Add events triggering the register attempt
+		registerEvent();
+		initLabels(labels);
+		$("#frmRealName").focus();});
+}
+function initLabels(labels) {
+	// Add retrieved labels to html elements
+	document.title = labels.title;
+	$("#txtHeader").append(labels.txtHeader);
+	$("#frmRealName").append(labels.frmRealName);
+	$("#frmUsername").append(labels.frmUsername);
+	$("#frmPassword").append(labels.frmPassword);
+	$("#frmPasswordRepeat").append(labels.frmPasswordRepeat);
+	$("#btnRegister").append(labels.btnRegister);
+	$("#btnGoBack").append(labels.btnGoBack);
+	// Set text variables for possible later use
+	lblRegistrationFailed = labels.lblRegistrationFailed;
+	lblPasswordsMatchFail = labels.lblPasswordsMatchFail;
+	lblUserTaken = labels.lblUserTaken;
+	lblServerError = labels.lblServerError
 }
 
 function registerEvent() {
@@ -54,6 +63,7 @@ function setRegisterFailureText(text) {
 }
 
 function register() {
+	// Get and check initial form input
 	var name = $("#regRealName").val();
 	var user = getUserUriBase() + $("#regUsername").val();
 	var password = $("#regPassword").val();
@@ -64,6 +74,7 @@ function register() {
 	} else if (password != passwordRepeat){
 		setRegisterFailureText(lblPasswordsMatchFail);
 	} else {
+		// Attempt registration
 		registerServer(name, user, password);
 	}
 }
