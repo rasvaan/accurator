@@ -62,7 +62,9 @@ function initExpertiseTopics(taxonomy, topConcept, maxTopics) {
 								   top_concept:topConcept,
 								   number_of_topics:maxTopics})
 	.done(function(data){
-		topics = data.topics;
+		topics = generateIds(data.topics);
+		alert('kip');
+		console.log(topics);
 		var halfTheTopics = parseInt(topics.length/2, 10);
 
 		for(var i=0; i<halfTheTopics; i++) {
@@ -74,9 +76,9 @@ function initExpertiseTopics(taxonomy, topConcept, maxTopics) {
 					$.el.div({'class':'row'},
 							$.el.div({'class':'col-md-11 col-md-offset-1'},
 									$.el.small({'class':'sliderLabel'}, sldNothing),
-									expertiseSlider(topics[i].label),
+									expertiseSlider(topics[i].id),
 									$.el.small({'class':'sliderLabel'}, sldALot))));
-			initSlider(topics[i].label);
+			initSlider(topics[i].id);
 		}
 		for(var i=halfTheTopics; i<topics.length; i++) {
 			$("#frmExpertiseRight").append(
@@ -84,14 +86,21 @@ function initExpertiseTopics(taxonomy, topConcept, maxTopics) {
 							 $.el.h5(topics[i].label,
 									 $.el.small(printArray(topics[i].childrens_labels)))));
 			$("#frmExpertiseRight").append(
-							$.el.div({'class':'row'},
-									$.el.div({'class':'col-md-11 col-md-offset-1'},
-											$.el.small({'class':'sliderLabel'}, sldNothing),
-											expertiseSlider(topics[i].label),
-											$.el.small({'class':'sliderLabel'}, sldALot))));
-			initSlider(topics[i].label);
+						$.el.div({'class':'row'},
+								$.el.div({'class':'col-md-11 col-md-offset-1'},
+										$.el.small({'class':'sliderLabel'}, sldNothing),
+										expertiseSlider(topics[i].id),
+										$.el.small({'class':'sliderLabel'}, sldALot))));
+			initSlider(topics[i].id);
 		}
 	})
+}
+
+function generateIds(topics) {
+	for(i=0; i<topics.length; i++) {
+		topics[i].id = generateIdFromUri(topics[i].uri);
+	}
+	return topics;
 }
 
 function expertiseSlider(id) {
@@ -112,7 +121,7 @@ function processExpertiseValues() {
 	userExpertise.user = user;
 	userExpertise.expertise = {};
 	for (var i=0; i<topics.length; i++) {
-		var value = $("#"+topics[i].label).val();
+		var value = $("#"+topics[i].id).val();
 		var scaledValue = (value - 1) / 4;
 		var roundedValue = scaledValue.toFixed(2);
 		userExpertise.expertise[topics[i].uri] = roundedValue;

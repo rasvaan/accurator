@@ -11,7 +11,7 @@
 
 abib:domain a accu:Domain ;
 	rdfs:label "bible" ;
-	dcterms:requires <http://iconclass.org/> ;
+	dcterms:requires <file:///Users/rasvaan/git/iconclass/iconclass.20121019.structure.ttl> ;
 	skos:hasTopConcept ic:7 ;
 	accu:hasUI abibui: ;
 	accu:hasDesciptiveImage abib:jeremia ;

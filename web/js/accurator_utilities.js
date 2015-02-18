@@ -255,3 +255,9 @@ function getParameterByName(name) {
 	results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+// Uri
+function generateIdFromUri(uri) {
+	var pathArray = uri.split('/');
+	return pathArray[pathArray.length - 1];
+}
