@@ -13,10 +13,10 @@ function introInit() {
 	// If user is not logged in populate intro page
 	onNotLoggedIn = function() {
 		//Get domain settings before populating ui
-		onDomain = function(data) {
-			ui = getUI(data, "intro");
-			console.log(ui);
-			setBackground(data.image, data.image_brightness);
+		onDomain = function(domainSettings) {
+			ui = getUI(domainSettings, "intro");
+			setBackground(domainSettings.image,
+						  domainSettings.image_brightness);
 			populateUI();
 		}
 		domainSettings = domainSettings(domain, onDomain);
@@ -28,17 +28,18 @@ function setBackground(backgroundUrl, imageBrightness) {
 	$(".backgroundImage").attr("src", backgroundUrl);
 	
 	if (imageBrightness === "dark") {
-	   // Make font lighter
+	   // Make font lighter to make it readable
 	   $("#txtSlogan").css('color', '#FFFFFF');
 	   $("#btnLogin").css('color', '#BBBBBB');
 	}
 }
 
 function populateUI() {
+	// Retrieve labels from server according to locale and ui
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(data){
+		.done(function(labels){
 			  addButtonEvents();
-			  initLabels(data);});
+			  initLabels(labels);});
 }
 
 function addButtonEvents() {
@@ -46,6 +47,7 @@ function addButtonEvents() {
 		document.location.href="register.html";
 	});
 	$("#btnLogin").click(function() {
+		//Show login modal and on success go to profile
 		onSuccess = function() {
 			document.location.href="profile.html";
 		};
@@ -56,10 +58,11 @@ function addButtonEvents() {
 	});
 }
 
-function initLabels(data) {
-	$("#txtSlogan").prepend(data.txtSlogan);
-	$("#txtSubSlogan").prepend(data.txtSubSlogan);
-	$("#btnRegister").append(data.btnRegister);
-	$("#btnLogin").append(data.btnLogin);
-	$("#lnkAbout").append(data.lnkAbout);
+function initLabels(labels) {
+	// Add retrieved labels to html elements
+	$("#txtSlogan").prepend(labels.txtSlogan);
+	$("#txtSubSlogan").prepend(labels.txtSubSlogan);
+	$("#btnRegister").append(labels.btnRegister);
+	$("#btnLogin").append(labels.btnLogin);
+	$("#lnkAbout").append(labels.lnkAbout);
 }
