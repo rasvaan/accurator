@@ -16,9 +16,7 @@ function expertiseInit() {
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
 			ui = domainData.ui + "expertise";
-			populateUI(domainData.taxonomy,
-					   domainData.top_concept,
-					   domainData.max_topics);
+			populateUI(domainData);
 			user = loginData.user;
 			var userName = getUserName(user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
@@ -29,12 +27,12 @@ function expertiseInit() {
 	logUserIn(onLoggedIn, onDismissal);
 }
 
-function populateUI(taxonomy, topConcept, maxTopics) {
+function populateUI(domainData) {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(data){
-			registerButtonEvent();
-			initLabels(data);
-			initExpertiseTopics(taxonomy, topConcept, maxTopics);});
+	.done(function(data){
+		registerButtonEvent();
+		initLabels(data);
+		initExpertiseTopics(domainData);});
 }
 
 function initLabels(data) {
@@ -56,39 +54,47 @@ function registerButtonEvent() {
 	});	
 }
 
-function initExpertiseTopics(taxonomy, topConcept, maxTopics) {
-	$.getJSON("expertise_topics", {locale:locale,
-								   taxonomy:taxonomy,
-								   top_concept:topConcept,
-								   number_of_topics:maxTopics})
+function initExpertiseTopics(domainData) {
+	console.log(domainData.number_of_children_shown);
+	$.getJSON("expertise_topics", {
+		locale:locale,
+		taxonomy:domainData.taxonomy,
+		top_concept:domainData.top_concept,
+		number_of_topics:domainData.number_of_topics,
+		number_of_children_shown:domainData.number_of_children_shown
+								   })
 	.done(function(data){
 		topics = generateIds(data.topics);
 		var halfTheTopics = parseInt(topics.length/2, 10);
 
 		for(var i=0; i<halfTheTopics; i++) {
 			$("#frmExpertiseLeft").append(
-					$.el.div({'class':'row'},
-							 $.el.h5(topics[i].label,
-									 $.el.small(printArray(topics[i].childrens_labels)))));
+				$.el.div({'class':'row'},
+					$.el.div({'class':'col-md-10 col-md-offset-1'},
+						$.el.h5({'id':'expertiseLabel'},
+							topics[i].label,
+							$.el.small(printArray(topics[i].childrens_labels))))));
 			$("#frmExpertiseLeft").append(
-					$.el.div({'class':'row'},
-							$.el.div({'class':'col-md-11 col-md-offset-1'},
-									$.el.small({'class':'sliderLabel'}, sldNothing),
+				$.el.div({'class':'row'},
+					$.el.div({'class':'col-md-10 col-md-offset-1'},
+						$.el.small({'class':'sliderLabel'}, sldNothing),
 									expertiseSlider(topics[i].id),
-									$.el.small({'class':'sliderLabel'}, sldALot))));
+							$.el.small({'class':'sliderLabel'}, sldALot))));
 			initSlider(topics[i].id);
 		}
 		for(var i=halfTheTopics; i<topics.length; i++) {
 			$("#frmExpertiseRight").append(
-					$.el.div({'class':'row'},
-							 $.el.h5(topics[i].label,
-									 $.el.small(printArray(topics[i].childrens_labels)))));
+				$.el.div({'class':'row'},
+					$.el.div({'class':'col-md-10 col-md-offset-1'},
+						$.el.h5({'id':'expertiseLabel'},
+							topics[i].label,
+							$.el.small(printArray(topics[i].childrens_labels))))));
 			$("#frmExpertiseRight").append(
-						$.el.div({'class':'row'},
-								$.el.div({'class':'col-md-11 col-md-offset-1'},
-										$.el.small({'class':'sliderLabel'}, sldNothing),
-										expertiseSlider(topics[i].id),
-										$.el.small({'class':'sliderLabel'}, sldALot))));
+				$.el.div({'class':'row'},
+					$.el.div({'class':'col-md-10 col-md-offset-1'},
+						$.el.small({'class':'sliderLabel'}, sldNothing),
+						expertiseSlider(topics[i].id),
+						$.el.small({'class':'sliderLabel'}, sldALot))));
 			initSlider(topics[i].id);
 		}
 	})

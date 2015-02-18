@@ -15,7 +15,8 @@ abir:domain a accu:Domain ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
 	accu:hasDesciptiveImage abir:bird ;
-	accu:hasMaximumExpertiseTopics "50" .
+	accu:hasMaximumExpertiseTopics "50" ;
+	accu:hasMaximumChildren "2" .
 
 <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
 

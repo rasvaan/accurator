@@ -15,7 +15,8 @@ agen:domain a accu:Domain ;
 	skos:hasTopConcept ic:2 ;
 	accu:hasUI aui: ;
 	accu:hasDesciptiveImage agen:mountain ;
-	accu:hasMaximumExpertiseTopics "50" .
+	accu:hasMaximumExpertiseTopics "50" ;
+	accu:hasMaximumChildren "2" .
 
 <http://iconclass.org/> a skos:ConceptScheme .
 

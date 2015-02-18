@@ -107,6 +107,9 @@ body {
 	margin-top: 10px;
 }
 
+#expertiseLabel {
+	line-height: 150%;
+}
 /* About page */
 .footerLogo {
 	height: 40px;

@@ -125,6 +125,7 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 	rdf(DomainUri, dcterms:requires, Taxonomy),
 	rdf(DomainUri, skos:hasTopConcept, TopConcept),
 	rdf(DomainUri, accu:hasMaximumExpertiseTopics, literal(MaxTopics)),
+	rdf(DomainUri, accu:hasMaximumChildren, literal(MaxChildren)),
 	rdf(DomainUri, accu:hasUI, UI),
 	rdf(DomainUri, accu:hasDesciptiveImage, Image),
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
@@ -132,7 +133,8 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 	Dic = domain{domain:Domain,
 				 taxonomy:Taxonomy,
 				 top_concept:TopConcept,
-				 max_topics:MaxTopics,
+				 number_of_topics:MaxTopics,
+				 number_of_children_shown:MaxChildren,
 				 ui:UI,
 				 image:ImagePath,
 				 image_brightness:Brightness}.
@@ -277,9 +279,11 @@ get_parameters_expertise(Request, Options) :-
         [locale(Locale, [description('Locale of language elements to retrieve'), optional(false)]),
 		taxonomy(Taxonomy, [description('Domain specific taxonomy.'), optional(false)]),
 		number_of_topics(NumberOfTopicsString, [description('The maximum number of topics to retrive'), optional(false)]),
-		top_concept(TopConcept, [description('The top concept to start searching form.'), optional(false)])]),
+		top_concept(TopConcept, [description('The top concept to start searching form.'), optional(false)]),
+		number_of_children_shown(NumberOfChildrenString, [description('The number of child concepts shown in expertise screen'), optional(true), default(3)])]),
     atom_number(NumberOfTopicsString, NumberOfTopics),
-	Options = [locale(Locale), taxonomy(Taxonomy), topConcept(TopConcept), numberOfTopics(NumberOfTopics)].
+	atom_number(NumberOfChildrenString, NumberOfChildren),
+	Options = [locale(Locale), taxonomy(Taxonomy), topConcept(TopConcept), numberOfTopics(NumberOfTopics), numberOfChildren(NumberOfChildren)].
 
 %%	expertise_topics(+Request)
 %
@@ -289,7 +293,7 @@ get_expertise_topics(Topics, Options) :-
 	option(topConcept(TopConcept), Options),
 	option(numberOfTopics(Number), Options),
 	get_number_topics([TopConcept], Number, TopicUris),
-	maplist(get_info_topics(Locale), TopicUris, TopicDicts),
+	maplist(get_info_topics(Locale, Options), TopicUris, TopicDicts),
 	Topics = expertise_topics{topics:TopicDicts}.
 
 %%	get_number_topics(Concepts, Number, PreviousTopics, PreviousTopics)
@@ -321,6 +325,8 @@ get_children(Concept, ChildrenList) :-
 			ChildrenList),
 	not(length(ChildrenList, 0)), !.
 
+get_children(_Concept, []).
+
 get_narrow_child(Concept, Child) :-
 	rdf_has(Concept, skos:narrower, Child),
 	rdf(Child, rdf:type, skos:'Concept').
@@ -331,12 +337,14 @@ get_broader_child(Concept, Child) :-
 
 %add subproperty query
 
-get_info_topics(Locale, Uri, Dict) :-
+get_info_topics(Locale, Options, Uri, Dict) :-
 	rdf_global_id(Uri, GlobalUri),
 	get_label(Locale, Uri, Label),
-	get_childrens_labels(Uri, Locale, 3, ChildrensLabels),
+	option(numberOfChildren(Number), Options),
+	get_childrens_labels(Uri, Locale, Number, ChildrensLabels),
 	Dict = topic{uri:GlobalUri, label:Label, childrens_labels:ChildrensLabels}.
 
+get_childrens_labels(_Uri, _Locale, 0, []) :- !.
 get_childrens_labels(Uri, Locale, MaxNumber, Labels) :-
 	get_children(Uri, Children),
 	maplist(get_label(Locale), Children, LongLabels),
