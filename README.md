@@ -57,12 +57,13 @@ Clone a repository with RDF and a void file describing the data and load the dat
 $ git clone https://github.com/rasvaan/naturalis.git
 $ cd ..
 $ ./run.pl
-?- rdf_library:rdf_attach_library('../rdf/rijksmuseum/rdf/void.ttl').
+?- rdf_library:rdf_attach_library('../rdf/naturalis/').
 ?- rdf_library:rdf_list_library.
 ```
 
-A list of datasets to load is shown. You can for example choose to load the complete collection: 
+A list of datasets to load is shown. You can for example choose to load a vocabulary and print collection: 
 ```bash
-?- rdf_library:rdf_load_library('RMA-collection',[]).
+?- rdf_library:rdf_load_library('IOC-birdlist-en-nl',[]).
+?- rdf_library:rdf_load_library('Naturalis-prints',[]).
 ```
 With the data loaded you should be able to annotate some artworks!
