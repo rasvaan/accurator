@@ -36,6 +36,7 @@ user:file_search_path(img, web(img)).
 :- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
 :- rdf_register_prefix(ausr, 'http://accurator.nl/user#').
 :- rdf_register_prefix(as, 'http://accurator.nl/schema#').
+:- rdf_register_prefix(dcterms, 'http://purl.org/dc/terms/').
 :- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
 :- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
@@ -173,7 +174,9 @@ get_text_elements(TextDic, Options) :-
 	option(locale(Locale), Options),
 	option(ui(UI), Options),
 	% get all the predicates off this and possible super ui
-	setof(Predicate, UI^ui_predicate(UI, Predicate), Predicates),
+	setof(Predicate, UI^ui_predicate(UI, Predicate), Predicates0),
+	% add title of the page
+	append(Predicates0, [dcterms:title], Predicates),
 	maplist(get_text_element(UI, Locale), Predicates, LabelList0),
 	get_selector_options(UI, Locale, SelectorFields),
 	append(LabelList0, SelectorFields, LabelList),

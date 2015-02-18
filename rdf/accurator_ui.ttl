@@ -30,6 +30,8 @@ aui:lnkAbout a auis:UILabel .
 
 aui:about a auis:UI ;
 	dcterms:title "Accurator about UI"@en ;
+	aui:title "About Accurator"@en ;
+	aui:title "Informatie over Accurator"@nl ;
 	aui:txtAboutSlogan "About Accurator"@en ;
 	aui:txtAboutSlogan "Over Accurator"@nl ;
 	aui:txtAboutAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be the	annotation of the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
@@ -43,6 +45,7 @@ aui:about a auis:UI ;
 	aui:txtAboutSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the annotation of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the annotations and annotators using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator."@en ;
 	aui:txtAboutSealincResearch "De onderzoeks uitdagingen zijn: het vinden de niche van experts en hen motiveren om informatie bij te dragen aan kunstwerken; experts de kunstwerken tonen waar overeenkomend met hun expertise; de bijdragen evalueren met behulp van algoritmen en deze aspecten presenteren in een passende interface. Om deze hypothesen te testen is Accurator continu in ontwikkeling."@nl .
 
+aui:title a auis:UILabel .
 aui:txtAboutSlogan a auis:UILabel .
 aui:txtAboutAccurator a auis:UILabel .
 aui:txtSealincMediaSlogan a auis:UILabel .
