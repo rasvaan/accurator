@@ -63,8 +63,6 @@ function initExpertiseTopics(taxonomy, topConcept, maxTopics) {
 								   number_of_topics:maxTopics})
 	.done(function(data){
 		topics = generateIds(data.topics);
-		alert('kip');
-		console.log(topics);
 		var halfTheTopics = parseInt(topics.length/2, 10);
 
 		for(var i=0; i<halfTheTopics; i++) {

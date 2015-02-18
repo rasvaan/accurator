@@ -311,11 +311,22 @@ get_number_topics(Topics, _Number, Topics) :-
 %	Get a list of children for the concept.
 get_children(Concept, ChildrenList) :-
 	findall(Child,
-			get_child(Concept, Child),
-			ChildrenList).
+			get_narrow_child(Concept, Child),
+			ChildrenList),
+	not(length(ChildrenList, 0)), !.
 
-get_child(Concept, Child) :-
-	rdf(Concept, skos:narrower, Child),
+get_children(Concept, ChildrenList) :-
+	findall(Child,
+			get_broader_child(Concept, Child),
+			ChildrenList),
+	not(length(ChildrenList, 0)), !.
+
+get_narrow_child(Concept, Child) :-
+	rdf_has(Concept, skos:narrower, Child),
+	rdf(Child, rdf:type, skos:'Concept').
+
+get_broader_child(Concept, Child) :-
+	rdf_has(Child, skos:broader, Concept),
 	rdf(Child, rdf:type, skos:'Concept').
 
 %add subproperty query

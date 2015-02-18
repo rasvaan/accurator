@@ -94,6 +94,17 @@ aui:lblPasswordsMatchFail a auis:UILabel .
 aui:lblUserTaken a auis:UILabel .
 aui:lblServerError a auis:UILabel .
 
+##### Domain Screen #####
+
+aui:domain a auis:UI ;
+	dcterms:title "Accurator domain UI"@en ;
+	aui:title "Select Domain"@en ;
+	aui:title "Selecteer Domein"@nl ;
+	aui:txtTitle "Select your desired domain"@en ;
+	aui:txtTitle "Selecteer het gewenste domein"@nl .
+
+aui:txtTitle a auis:UILabel .
+
 ##### Expertise Screen #####
 
 aui:expertise a auis:UI ;
@@ -456,14 +467,4 @@ aui:user_dropdown a auis:UI ;
 aui:ddLogOut a auis:UILabel .
 aui:ddAbout a auis:UILabel .
 aui:ddProfile a auis:UILabel .
-
-##### Domain Screen #####
-
-aui:domain a auis:UI ;
-	aui:txtTitle "Select your desired domain"@en ;
-	aui:txtTitle "Selecteer het gewenste domein"@nl .
-
-aui:txtTitle a auis:UILabel .
-
-
 

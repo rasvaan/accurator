@@ -1,19 +1,23 @@
 /* Accurator Domain
 */
-var locale, domain;
+var locale, domain, ui;
 
 function domainInit() {
 	locale = getLocale();
-	domain = getDomain();
+	// Be domain agnostic on domain selection screen
+	domain = "generic";
 
 	// If user is logged in go to profile page
 	onLoggedIn = function() {
-		var onDomains = function(data){
-			// Continue to next page if already a valid domain is given
-			if ((data.indexOf(domain) > -1) && !(domain ==="generic"))
-				document.location.href="expertise.html";
+		onDomains = function(data){
 			populateDomains(data);
-			populateUI();
+			
+			// Get generic domain settings before populating ui
+			onDomain = function(domainSettings) {
+				ui = getUI(domainSettings, "domain");
+				populateUI();
+			};
+			domainSettings(domain, onDomain);
 		};
 		getAvailableDomains(onDomains);
 	};
@@ -23,12 +27,11 @@ function domainInit() {
 }
 
 function populateUI() {
-	genericUI = "http://accurator.nl/ui/generic#domain";
-	$.getJSON("ui_elements", {locale:locale, ui:genericUI, type:"labels"})
-		.done(function(data){
-			$("#txtTitle").append(data.txtTitle);
+	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
+		.done(function(labels){
+			document.title = labels.title;
+			$("#txtTitle").append(labels.txtTitle);
 		});
-	
 }
 
 function populateDomains(domainLabels) {
@@ -43,7 +46,8 @@ function populateDomains(domainLabels) {
 				$.el.div({'class':'row',
 						  'id':'domain' + row}));
 		}
-
+		
+		// Add domain specific html to rows
 		$.getJSON("domains", {domain:domainLabels[i]})
 			.done(function(data){
 				if(!(data.domain === "generic")) {
@@ -59,8 +63,6 @@ function domainHtml(domainData, row) {
 							  ui:domainData.ui + "domain",
 							  type:"labels"})
 		.done(function(data){
-			console.log(domainData);
-			console.log(data);
 			$("#domain" + row).append(
 				$.el.div({'class':'noPadding col-md-6'},
 					$.el.h3({'class':'domainTitle',
