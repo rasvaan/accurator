@@ -77,20 +77,20 @@ function initLabels(labels) {
 }
 
 function initLocaleRadio() {
+	var onSuccess = function(){location.reload();};
+	
 	if (locale === "en") {
 		$("#radioLocaleEn").trigger('click');
 	} else {
 		$("#radioLocaleEn").click(function() {
-			setLocale("en");
-			location.reload();
+			setLocale("en", onSuccess);
 		});
 	}
 	if (locale === "nl") {
 		$("#radioLocaleNl").trigger('click');
 	} else {
 		$("#radioLocaleNl").click(function() {
-			setLocale("nl");
-			location.reload();
+			setLocale("nl", onSuccess);
 		});
 	}
 }
@@ -152,9 +152,9 @@ function domainHtml(domainData) {
 }
 
 function addDomainEvent(domain) {
+	var onSuccess = function(){location.reload();};
 	$("#" + domain).click(function() {
-		setDomain(domain);
-		location.reload();
+		setDomain(domain, onSuccess);
 	});
 }
 

@@ -11,7 +11,8 @@ function clearLocalStorage(setting) {
 //Domain
 function getDomain() {
 	//No domain
-	if(localStorage.getItem("domain") === null){
+	if(localStorage.getItem("domain") === null ||
+	   localStorage.getItem("domain") === "") {
 		console.log("No domain given");
 		setDomainToGenericOrParameter();
 	}
@@ -35,9 +36,9 @@ function setDomainToGenericOrParameter() {
 	}
 }
 
-function setDomain(domain) {
+function setDomain(domain, onSuccess) {
 	localStorage.setItem("domain", domain);
-	save_user_info({"domain":domain});
+	save_user_info({"domain":domain}, onSuccess);
 }
 
 function domainSetting(domain) {
@@ -64,7 +65,8 @@ function getAvailableDomains(onDomains) {
 
 //Locale
 function getLocale() {
-	if(localStorage.getItem("locale") === null){
+	if(localStorage.getItem("locale") === null ||
+	   localStorage.getItem("locale") === ""){
 		console.log("No locale set");
 		setLocaleToBrowserLanguage();
 	}
@@ -77,9 +79,9 @@ function setLocaleToBrowserLanguage() {
 	localStorage.setItem("locale", languageCode);
 }
 
-function setLocale(languageCode) {
+function setLocale(languageCode, onSuccess) {
 	localStorage.setItem("locale", languageCode);
-	save_user_info({"locale":languageCode});
+	save_user_info({"locale":languageCode}, onSuccess);
 }
 
 //UI
@@ -91,7 +93,6 @@ function setLinkLogo(page) {
 }
 
 function getUI(domainSettings, page) {
-	console.log(domainSettings, page);
 	if(typeof domainSettings != 'undefined') {
 		return domainSettings.ui + page
 	} else {
@@ -176,10 +177,10 @@ function loginServer(user, password, onSuccess) {
 				if(data.indexOf("Login failed") != -1) {
 					$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
 				} else if (data.indexOf("Login ok") != -1) {
+					setUserSettingsLocal(dataLogin, onSuccess);
 					//Remove event listener and hide modal
 					$("#modalLogin").off('hidden.bs.modal');
 					$("#modalLogin").modal('hide');
-					onSuccess(dataLogin);
 				}
 		   }
 	});
@@ -206,8 +207,20 @@ function getUserUri(userName) {
 	return getUserUriBase() + userName;
 }
 
+function setUserSettingsLocal(dataLogin, onSuccess){
+	$.getJSON("get_user_settings")
+	.done(function(data){
+		localStorage.setItem("locale", data.locale);
+		localStorage.setItem("domain", data.domain);
+		onSuccess(dataLogin);
+	});
+}
+
 function save_user_info(info, onSuccess) {
 	//get the user id and post information
+	if(typeof onSuccess == 'undefined')
+		onSuccess = function(){console.log("No success function")};
+		
 	$.getJSON("get_user")
 	.done(function(data){
 		info.user = data.user;
@@ -216,19 +229,6 @@ function save_user_info(info, onSuccess) {
 				contentType: "application/json",
 				data: JSON.stringify(info),
 				success: onSuccess()
-		});
-	});
-}
-
-function save_user_info(info) {
-	//get the user id and post information
-	$.getJSON("get_user")
-	.done(function(data){
-		info.user = data.user;
-		$.ajax({type: "POST",
-				url: "save_user_info",
-				contentType: "application/json",
-				data: JSON.stringify(info),
 		});
 	});
 }

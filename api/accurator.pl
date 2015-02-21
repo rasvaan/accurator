@@ -30,6 +30,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(save_expertise_values), save_expertise_values_api,  []).
 :- http_handler(cliopatria(register_user), register_user,  []).
 :- http_handler(cliopatria(get_user), get_user,  []).
+:- http_handler(cliopatria(get_user_settings), get_user_settings,  []).
 :- http_handler(cliopatria(save_user_info), save_user_info,  []).
 
 :- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
@@ -435,6 +436,23 @@ register_user(Request) :-
 get_user(_Request) :-
 	logged_on(User),
 	reply_json_dict(user{user:User}).
+
+%%	get_user_settings(+Request)
+%
+%	Return saved domain and locale of user.
+get_user_settings(_Request) :-
+	logged_on(User),
+	get_domain(User, Domain),
+	get_locale(User, Locale),
+	reply_json_dict(settings{locale:Locale, domain:Domain}).
+
+get_domain(User, Domain) :-
+	user_property(User, domain(Domain)), !.
+get_domain(_User, "").
+
+get_locale(User, Locale) :-
+	user_property(User, locale(Locale)), !.
+get_locale(_User, "").
 
 %%	save_additional_info(+Request)
 %

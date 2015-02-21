@@ -78,13 +78,12 @@ function domainHtml(domainData, row) {
 }
 
 function addDomainEvent(domain) {
+	var onSuccess = function(){document.location.href="expertise.html"};
 	$("#image"+domain).click(function() {
-		setDomain(domain);
-		document.location.href="expertise.html";
+		setDomain(domain, onSuccess);
 	});
 	$("#text"+domain).click(function() {
-		setDomain(domain);
-		document.location.href="expertise.html";
+		setDomain(domain, onSuccess);
 	});
 }
 
