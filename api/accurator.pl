@@ -542,7 +542,8 @@ reply_page(Options) :-
 	[\html_requires(css('bootstrap.min.css')),
 	 \html_requires(css('accurator.css')),
 	 \navigation_bar,
-	 \annotation_page_body(AnnotationOptions)]).
+	 \annotation_page_body(AnnotationOptions),
+	 \result_view]).
 
 %%	navigation_bar(+Page)
 %
@@ -557,8 +558,20 @@ navigation_bar -->
 					<img id="headerImage" src="img/accurator.png" alt="Accurator">
 				 </a>
 			</div>
+		    <ul class="nav navbar-nav navbar-right">
+				<li><a href="about.html" id="lnkAbout"></a></li>
+			</ul>
 		</div>
 	</nav>
 	|}).
 
-
+result_view -->
+    html({|html||
+	<!-- Added Script -->
+	<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
+	<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/accurator.laconic.js"></script>
+	<script type="text/javascript" src="js/accurator_utilities.js"></script>
+	<script type="text/javascript" src="js/accurator_annotate.js"></script>
+	<script>annotateInit()</script>
+	|}).

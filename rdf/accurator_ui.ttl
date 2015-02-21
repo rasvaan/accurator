@@ -105,6 +105,13 @@ aui:domain a auis:UI ;
 
 aui:txtTitle a auis:UILabel .
 
+##### Annotate Screen #####
+
+aui:annotate a auis:UI ;
+	dcterms:title "Accurator annotate UI"@en ;
+	aui:title "Annotate image "@en ;
+	aui:title "Voeg informatie toe aan "@nl .
+
 ##### Expertise Screen #####
 
 aui:expertise a auis:UI ;
