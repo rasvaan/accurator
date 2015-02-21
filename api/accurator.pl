@@ -212,13 +212,23 @@ get_text_element(UI, Locale, Predicate, Label-Literal) :-
 get_selector_options(UI, Locale, SelectorFields) :-
 	findall(SelectLabel-LiteralArray,
 			%HACK: for now only the generic UI has selectfields.
-			(	rdf(UI, rdfs:subClassOf, SuperUI),
-				rdf(SuperUI, auis:hasSelect, Select),
-				rdf(Select, rdf:type, auis:'SelectField'),
-				iri_xml_namespace(Select, _, SelectLabel),
+			(	get_selector(UI, Select, SelectLabel),
 				get_selector_labels(Select, Locale, LiteralArray)
-				),
+			),
 			SelectorFields).
+
+get_selector(UI, Select, SelectLabel) :-
+	% See if current UI has super ui (since only SuperUI has selectors).
+	rdf(UI, rdfs:subClassOf, SuperUI),
+	!,
+	rdf(SuperUI, auis:hasSelect, Select),
+	rdf(Select, rdf:type, auis:'SelectField'),
+	iri_xml_namespace(Select, _, SelectLabel).
+
+get_selector(UI, Select, SelectLabel) :-
+	rdf(UI, auis:hasSelect, Select),
+	rdf(Select, rdf:type, auis:'SelectField'),
+	iri_xml_namespace(Select, _, SelectLabel).
 
 get_selector_labels(Selector, Locale, LiteralDict) :-
 	findall(OptionLabel-LabelDict,
