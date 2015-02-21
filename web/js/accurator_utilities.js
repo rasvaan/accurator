@@ -2,6 +2,12 @@
 */
 var loginWarning, loginIncomplete;
 
+//Settings
+function clearLocalStorage(setting) {
+	// Remove a setting from local storage
+	localStorage.removeItem(setting);
+}
+
 //Domain
 function getDomain() {
 	//No domain
@@ -23,14 +29,15 @@ function setDomainToGenericOrParameter() {
 	var domain = getParameterByName("domain");
 	// Set domain to generic if no parameter is given
 	if(domain === "") {
-		localStorage.setItem("domain", "generic");
+		setDomain("generic");
 	} else {
-		localStorage.setItem("domain", domain);
+		setDomain(domain);
 	}
 }
 
 function setDomain(domain) {
 	localStorage.setItem("domain", domain);
+	save_user_info({"domain":domain});
 }
 
 function domainSetting(domain) {
@@ -55,23 +62,6 @@ function getAvailableDomains(onDomains) {
 	});
 }
 
-//UI
-function setLinkLogo(page) {
-	if(page === "profile")
-	   $(".navbar-brand").attr('href', "profile.html");
-	if(page === "intro")
-		$(".navbar-brand").attr('href', "intro.html");
-}
-
-function getUI(domainSettings, page) {
-	console.log(domainSettings, page);
-	if(typeof domainSettings != 'undefined') {
-		return domainSettings.ui + page
-	} else {
-		return "http://accurator.nl/ui/generic#" + page;
-	}
-}
-
 //Locale
 function getLocale() {
 	if(localStorage.getItem("locale") === null){
@@ -89,8 +79,25 @@ function setLocaleToBrowserLanguage() {
 
 function setLocale(languageCode) {
 	localStorage.setItem("locale", languageCode);
+	save_user_info({"locale":languageCode});
 }
 
+//UI
+function setLinkLogo(page) {
+	if(page === "profile")
+	   $(".navbar-brand").attr('href', "profile.html");
+	if(page === "intro")
+		$(".navbar-brand").attr('href', "intro.html");
+}
+
+function getUI(domainSettings, page) {
+	console.log(domainSettings, page);
+	if(typeof domainSettings != 'undefined') {
+		return domainSettings.ui + page
+	} else {
+		return "http://accurator.nl/ui/generic#" + page;
+	}
+}
 
 //User
 function userLoggedIn(onLoggedIn, onNotLoggedIn) {
@@ -187,6 +194,7 @@ function logout() {
 }
 
 function getUserUriBase() {
+	// Return the base of the user uri, username should be added
 	return "http://accurator.nl/user#";
 }
 
@@ -196,6 +204,33 @@ function getUserName(userUri) {
 
 function getUserUri(userName) {
 	return getUserUriBase() + userName;
+}
+
+function save_user_info(info, onSuccess) {
+	//get the user id and post information
+	$.getJSON("get_user")
+	.done(function(data){
+		info.user = data.user;
+		$.ajax({type: "POST",
+				url: "save_user_info",
+				contentType: "application/json",
+				data: JSON.stringify(info),
+				success: onSuccess()
+		});
+	});
+}
+
+function save_user_info(info) {
+	//get the user id and post information
+	$.getJSON("get_user")
+	.done(function(data){
+		info.user = data.user;
+		$.ajax({type: "POST",
+				url: "save_user_info",
+				contentType: "application/json",
+				data: JSON.stringify(info),
+		});
+	});
 }
 
 // Navbar

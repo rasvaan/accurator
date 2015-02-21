@@ -216,21 +216,9 @@ function initInternetSelector(optionList) {
 
 function processFormFields() {
 	getInput();
-	
-	//get the user id and post information
-	$.getJSON("get_user")
-		.done(function(data){
-			info.user = data.user;
-		  
-			$.ajax({type: "POST",
-				   url: "save_additional_info",
-				   contentType: "application/json",
-				   data: JSON.stringify(info),
-				   success: function(){
-				       document.location.href="domain.html";
-				   }
-			});
-	})
+	var onSuccess = function(){				       document.location.href="domain.html";
+	}
+	save_user_info(info, onSuccess);
 }
 
 function getInput() {

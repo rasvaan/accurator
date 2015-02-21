@@ -30,7 +30,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(save_expertise_values), save_expertise_values_api,  []).
 :- http_handler(cliopatria(register_user), register_user,  []).
 :- http_handler(cliopatria(get_user), get_user,  []).
-:- http_handler(cliopatria(save_additional_info), save_additional_info,  []).
+:- http_handler(cliopatria(save_user_info), save_user_info,  []).
 
 :- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
 :- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
@@ -439,7 +439,7 @@ get_user(_Request) :-
 %%	save_additional_info(+Request)
 %
 %	Saves the additional information about a user.
-save_additional_info(Request) :-
+save_user_info(Request) :-
 	http_read_json_dict(Request, Info0),
 	atom_string(User, Info0.user),
 	del_dict(user, Info0, _Value, Info),
