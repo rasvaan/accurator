@@ -88,6 +88,10 @@ function registerServer(name, user, password) {
 		contentType: "application/json",
 		data: JSON.stringify(json),
 		success: function(){
+			// Clear domain and locale
+			clearLocalStorage("locale");
+			clearLocalStorage("domain");
+			// Login new user
 		   loginServer(user, password, function(){document.location.href="additional_info.html";})
 		},
 		error: function (request, textStatus, errorThrown) {
