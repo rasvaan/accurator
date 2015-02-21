@@ -543,7 +543,8 @@ reply_page(Options) :-
 	 \html_requires(css('accurator.css')),
 	 \navigation_bar,
 	 \annotation_page_body(AnnotationOptions),
-	 \result_view]).
+	 \login_modal,
+	 \annotate_javascript]).
 
 %%	navigation_bar(+Page)
 %
@@ -565,7 +566,7 @@ navigation_bar -->
 	</nav>
 	|}).
 
-result_view -->
+annotate_javascript -->
     html({|html||
 	<!-- Added Script -->
 	<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
@@ -574,4 +575,40 @@ result_view -->
 	<script type="text/javascript" src="js/accurator_utilities.js"></script>
 	<script type="text/javascript" src="js/accurator_annotate.js"></script>
 	<script>annotateInit()</script>
+	|}).
+
+login_modal -->
+    html({|html||
+	<!-- Login modal -->
+	<div class="modal fade" id="modalLogin">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" id="mdlBtnClose">&times;</button>
+					<h4 id="mdlTxtTitle">
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<label id="mdlFrmUsername" for="inputUsername">
+							</label>
+							<input type="text" class="form-control" id="inputUsername">
+						</div>
+						<div class="form-group">
+							<label id="mdlFrmPassword" for="password">
+							</label>
+							<input type="password" class="form-control" id="inputPassword">
+						</div>
+						<p class="text-warning" id="mdlLblLogin">
+						</p>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="mdlBtnLogin">
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	|}).
