@@ -536,7 +536,7 @@ reply_page(Options) :-
 	AnnotationOptions = [targets([Uri]),
 						 ui(UI),
 						 annotation_fields(AnnotationFields),
-						 metadata_fields([]),
+						 metadata_fields(['http://semanticweb.cs.vu.nl/annotate/ui/imageURL']),
 						 user(User)],
 	http_absolute_location(cliopatria('img/favicon.ico'), LogoUrl, []),
 	reply_html_page(
