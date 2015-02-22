@@ -1,6 +1,7 @@
 @prefix accu:   <http://accurator.nl/schema#> .
 @prefix abib:   <http://accurator.nl/bible#> .
 @prefix abibui: <http://accurator.nl/ui/bible#> .
+@prefix aabib:  <http://accurator.nl/ui/annotation/bible#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
 @prefix ic:     <http://iconclass.org/> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -14,6 +15,7 @@ abib:domain a accu:Domain ;
 	dcterms:requires <file:///Users/rasvaan/git/iconclass/iconclass.20121019.structure.ttl> ;
 	skos:hasTopConcept ic:7 ;
 	accu:hasUI abibui: ;
+	accu:hasAnnotationUI aabib:smallBibleUi ;
 	accu:hasDesciptiveImage abib:jeremia ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "0" .

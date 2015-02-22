@@ -514,25 +514,30 @@ get_annotation_parameters(Request, Options) :-
 	http_parameters(Request,
 	[ uri(Uri,
 			 [uri,
-			  description('URI of the object to be annotated') ]),
-	  ui(UI,
-		 [ optional(true),
-		   description('URI of the UI configuration') ])
+			  description('URI of the object to be annotated') ])
 	]),
-	Options = [uri(Uri), ui(UI)].
+	Options = [uri(Uri)].
+
+reply_page(_Options) :-
+	% Sent to intro page when not logged in
+	not(logged_on(_User)),
+	reply_html_page(
+		[title('Not logged in'),
+		 meta([name('viewport'),content('width=device-width, initial-scale=1.0')])
+		],
+		[script(type('text/javascript'), 'document.location.href="intro.html"')]).
 
 reply_page(Options) :-
     option(uri(Uri), Options),
-	%AnnotationOptions = [targets([Uri])],
-	%option(ui(UI), Options),
-	UI = 'http://semanticweb.cs.vu.nl/annotate/example#smallBibleUi',
+	logged_on(User),
+	get_annotation_ui(User, UI),
 	get_anfields(UI, [], [], AnnotationFields),
 	debug(anno, 'UI: ~p', [UI]),
 	AnnotationOptions = [targets([Uri]),
 						 ui(UI),
-						 annotation_fields(AnnotationFields)],
-	%					 metadata_fields([]),
-	%					 user('http://rasvaan')],
+						 annotation_fields(AnnotationFields),
+						 metadata_fields([]),
+						 user(User)],
 	http_absolute_location(cliopatria('img/favicon.ico'), LogoUrl, []),
 	reply_html_page(
 	[title(Uri),
@@ -545,6 +550,12 @@ reply_page(Options) :-
 	 \annotation_page_body(AnnotationOptions),
 	 \login_modal,
 	 \annotate_javascript]).
+
+get_annotation_ui(User, UI) :-
+	user_property(User, domain(Domain)),
+	atom_string(DomainAtom, Domain),
+	atomic_list_concat(['http://accurator.nl/', DomainAtom, '#domain'], DomainUri),
+	rdf(DomainUri, accu:hasAnnotationUI, UI).
 
 %%	navigation_bar(+Page)
 %

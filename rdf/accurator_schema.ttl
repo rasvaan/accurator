@@ -26,6 +26,10 @@ accu:hasUI a rdf:Property ;
 	rdfs:range auis:UI ;
 	rdfs:domain accu:Domain .
 
+accu:hasAnnotationUI a rdf:Property ;
+	rdfs:label "Has annotation interface specification"@en ;
+	rdfs:comment "Property linking a domain to a annotation interface specification."@en .
+
 accu:hasMaximumExpertiseTopics a rdf:Property ;
 	rdfs:label "Has maximum number of expertise topics"@en ;
 	rdfs:comment "The maximum number of expertise topics shown to a user."@en .

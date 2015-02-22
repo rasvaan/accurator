@@ -1,6 +1,7 @@
 @prefix accu:   <http://accurator.nl/schema#> .
 @prefix abir:   <http://accurator.nl/bird#> .
 @prefix abirui: <http://accurator.nl/ui/bird#> .
+@prefix aabir:  <http://accurator.nl/ui/annotation/bird#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
 @prefix birds:	<http://purl.org/collections/birds/> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -14,6 +15,7 @@ abir:domain a accu:Domain ;
 	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
+	accu:hasAnnotationUI aabir:smallBirdDemoUi ;
 	accu:hasDesciptiveImage abir:bird ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2" .
