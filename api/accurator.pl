@@ -545,12 +545,13 @@ reply_page(Options) :-
 	 meta([name('viewport'),content('width=device-width, initial-scale=1.0')])
     ],
 	[\navigation_bar,
-	 \annotation_page_body(AnnotationOptions),
-	 \metadata,
-	 \login_modal,
-	 \annotate_javascript,
-	 \html_requires(css('bootstrap.min.css')),
-	 \html_requires(css('accurator.css'))]).
+	  div([ class('container')],
+		  [\annotation_page_body(AnnotationOptions),
+		   \metadata,
+		   \login_modal,
+		   \annotate_javascript,
+		   \html_requires(css('bootstrap.min.css')),
+		   \html_requires(css('accurator.css'))])]).
 
 get_annotation_ui(User, UI) :-
 	user_property(User, domain(Domain)),
