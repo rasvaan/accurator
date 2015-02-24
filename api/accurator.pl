@@ -544,12 +544,13 @@ reply_page(Options) :-
 	 link([href(LogoUrl),rel('shortcut icon')]),
 	 meta([name('viewport'),content('width=device-width, initial-scale=1.0')])
     ],
-	[\html_requires(css('bootstrap.min.css')),
-	 \html_requires(css('accurator.css')),
-	 \navigation_bar,
+	[\navigation_bar,
 	 \annotation_page_body(AnnotationOptions),
+	 \metadata,
 	 \login_modal,
-	 \annotate_javascript]).
+	 \annotate_javascript,
+	 \html_requires(css('bootstrap.min.css')),
+	 \html_requires(css('accurator.css'))]).
 
 get_annotation_ui(User, UI) :-
 	user_property(User, domain(Domain)),
@@ -583,11 +584,17 @@ annotate_javascript -->
 	<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
 	<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/accurator.laconic.js"></script>
+	<script type="text/javascript" src="js/pengines.js"></script>
+	<script type="text/javascript" src="js/result.js"></script>
 	<script type="text/javascript" src="js/accurator_utilities.js"></script>
 	<script type="text/javascript" src="js/accurator_annotate.js"></script>
 	<script>annotateInit()</script>
 	|}).
-
+metadata -->
+	html({|html||
+	<!-- Metadata -->
+	<div id="metadata"></div>
+	|}).
 login_modal -->
     html({|html||
 	<!-- Login modal -->

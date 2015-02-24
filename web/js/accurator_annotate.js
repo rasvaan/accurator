@@ -1,10 +1,16 @@
 /* Accurator Annotate
 */
-var locale, domain, ui;
+var locale, domain, ui, uri;
+
+displayOptions = {
+	showAnnotations: true,
+	metadataLinkBase: 'results.html?query='
+}
 
 function annotateInit() {
 	locale = getLocale();
 	domain = getDomain();
+	uri = getParameterByName("uri");
 	
 	// Make sure user is logged in
 	onLoggedIn = function(loginData) {
@@ -29,4 +35,6 @@ function populateUI() {
 		.done(function(labels){
 			document.title = labels.title;
 		});
+	console.log(uri);
+	showResult(uri);
 }
