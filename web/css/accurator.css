@@ -45,6 +45,7 @@ body {
 .domainImage {
 	max-width: 100%;
 	cursor: pointer;
+	overflow: hidden;
 }
 
 #txtTitle {
@@ -114,6 +115,11 @@ body {
 .footerLogo {
 	height: 40px;
 	padding-bottom: 10px;
+}
+
+/* Annotate page */
+#metadata {
+	margin-top: 20px;
 }
 
 /* Sliders */
