@@ -150,7 +150,6 @@ aui:profile a auis:UI ;
 	aui:btnSearch "Search"@en ;
 	aui:btnChangeExpertise "change expertise levels of domain "@en ;
 	aui:btnDomain "Change domain"@en ;
-	aui:btnChangeInfo "Change personal info"@en ;
 	aui:lblLastAnnotated "Artworks you recently annotated"@en ;
 	aui:frmChangeLocale "Change the language of the interface"@en ;
 	aui:radioLocaleEn "English"@en ;
@@ -163,8 +162,6 @@ aui:profile a auis:UI ;
 	aui:btnSearch "Zoek"@nl ;
 	aui:btnChangeExpertise "verander expertise niveaus van het domein "@nl ;
 	aui:btnDomain "Verander domein"@nl ;
-	aui:btnChangeInfo "Verander uw persoonlijke info"@nl ;
-
 	aui:lblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl ;
 	aui:frmChangeLocale "Verander de taal van de interface"@nl;
 	aui:radioLocaleEn "Engels"@nl ;

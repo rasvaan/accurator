@@ -67,7 +67,6 @@ function initLabels(labels) {
 	$("#txtStartAnnotating").append(labels.txtStartAnnotating);
 	$("#btnRecommend").append(labels.btnRecommend);
 	$("#btnChangeExpertise").append(labels.btnChangeExpertise);
-	$("#btnChangeInfo").append(labels.btnChangeInfo);
 	$("#btnSearch").append(labels.btnSearch);
 	$("#btnDomain").prepend(labels.btnDomain);
 	$("#lblLastAnnotated").append(labels.lblLastAnnotated);
@@ -175,8 +174,5 @@ function addButtonEvents() {
 	});
 	$("#btnChangeExpertise").click(function() {
 		document.location.href="expertise.html";
-	});
-	$("#btnChangeInfo").click(function() {
-		document.location.href="additional_info.html";
 	});
 }
