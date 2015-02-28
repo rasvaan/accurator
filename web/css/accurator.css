@@ -98,6 +98,10 @@ body {
 	padding-left: 0px;
 }
 
+.thumbnail {
+	cursor: pointer;
+}
+
 /* Expertise page */
 #rowExpertise {
 	margin-top: 10px;
@@ -124,20 +128,17 @@ body {
 .video {
 	text-align: center;
 }
+
 /* Annotate page */
 #navigation {
 	margin-top: 10px;
 }
 
-#frmSearch {
+#frmSearchAnnotate {
 	text-align: center;
 }
 
-#btnResultSearch {
-	width: 100px;
-}
-
-#btnResultRecommend {
+.navButton {
 	width: 100px;
 }
 
@@ -147,10 +148,6 @@ body {
 
 #metadata {
 	margin-top: 10px;
-}
-
-#frmSearchInput {
-	text-align: right;
 }
 
 /* Sliders */

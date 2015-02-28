@@ -597,23 +597,23 @@ navigation -->
 	<!-- Navigation -->
 	<div class="row" id="navigation">
 	    <div class="col-md-2">
-			<button class="btn btn-default" id="btnPrevious">
+			<button class="btn btn-default navButton" id="btnPrevious">
 		        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			</button>
 		</div>
 		<div class="col-md-8">
-			<div class="form-inline" id="frmSearch">
-		        <button class="btn btn-primary" id="btnResultRecommend">
+			<div class="form-inline" id="frmSearchAnnotate">
+		        <button class="btn btn-primary navButton" id="btnResultRecommend">
 				</button>
 				<div class="form-group">
-				    <input class="form-control" id="frmSearchInput" type="text">
+				    <input class="form-control" id="frmSearch" type="text">
 				</div>
-				<button id="btnResultSearch" class="btn btn-default">
+				<button id="btnResultSearch" class="btn btn-default navButton">
 				</button>
 			</div>
 		</div>
 		<div class="col-md-2" id="btnAlignRight">
-			<button class="btn btn-default" id="btnNext">
+			<button class="btn btn-default navButton" id="btnNext">
 		        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 			</button>
 		</div>
