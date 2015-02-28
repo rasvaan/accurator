@@ -34,7 +34,6 @@ function populateUI(domainSettins) {
 function initLabels(labels) {
 	document.title = labels.title;
 	$("#txtAboutSlogan").append(labels.txtAboutSlogan);
-	$("#txtAboutSlogan").append(labels.txtAboutSlogan);
 	$("#txtAboutAccurator").append(labels.txtAboutAccurator);
 	$("#txtSealincMediaSlogan").append(labels.txtSealincMediaSlogan);
 	$("#txtAboutSealincMedia").append(labels.txtAboutSealincMedia);
