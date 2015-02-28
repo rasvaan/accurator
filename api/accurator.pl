@@ -547,6 +547,7 @@ reply_page(Options) :-
 	[\navigation_bar,
 	  div([ class('container')],
 		  [\annotation_page_body(AnnotationOptions),
+		   \navigation,
 		   \metadata,
 		   \login_modal,
 		   \annotate_javascript,
@@ -590,6 +591,33 @@ annotate_javascript -->
 	<script type="text/javascript" src="js/accurator_utilities.js"></script>
 	<script type="text/javascript" src="js/accurator_annotate.js"></script>
 	<script>annotateInit()</script>
+	|}).
+navigation -->
+	html({|html||
+	<!-- Navigation -->
+	<div class="row" id="navigation">
+	    <div class="col-md-2">
+			<button class="btn btn-default" id="btnPrevious">
+		        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			</button>
+		</div>
+		<div class="col-md-8">
+			<div class="form-inline" id="frmSearch">
+		        <button class="btn btn-primary" id="btnResultRecommend">
+				</button>
+				<div class="form-group">
+				    <input class="form-control" id="frmSearchInput" type="text">
+				</div>
+				<button id="btnResultSearch" class="btn btn-default">
+				</button>
+			</div>
+		</div>
+		<div class="col-md-2" id="btnAlignRight">
+			<button class="btn btn-default" id="btnNext">
+		        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			</button>
+		</div>
+	</div>
 	|}).
 metadata -->
 	html({|html||

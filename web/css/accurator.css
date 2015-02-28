@@ -116,9 +116,41 @@ body {
 	padding-bottom: 10px;
 }
 
-/* Annotate page */
-#metadata {
+#aboutButtons {
 	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.video {
+	text-align: center;
+}
+/* Annotate page */
+#navigation {
+	margin-top: 10px;
+}
+
+#frmSearch {
+	text-align: center;
+}
+
+#btnResultSearch {
+	width: 100px;
+}
+
+#btnResultRecommend {
+	width: 100px;
+}
+
+#btnAlignRight {
+	text-align: right;
+}
+
+#metadata {
+	margin-top: 10px;
+}
+
+#frmSearchInput {
+	text-align: right;
 }
 
 /* Sliders */

@@ -34,6 +34,8 @@ aui:about a auis:UI ;
 	aui:title "Informatie over Accurator"@nl ;
 	aui:txtAboutSlogan "About Accurator"@en ;
 	aui:txtAboutSlogan "Over Accurator"@nl ;
+	aui:btnGoBackHome "Back"@en ;
+	aui:btnGoBackHome "Terug"@nl ;
 	aui:txtAboutAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be the	annotation of the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
 	aui:txtAboutAccurator "Accurator is een platform dat gebruikers in staat stelt hun expertise te delen met museum professionals bij het beschrijven van museumstukken. Dit kan, bijvoorbeeld, het voorzien van informatie zijn van dieren of planten prenten. Naast het verrijken van beschrijvingen van de museumstukken helpt dit proces ook de online toegankelijkheid van de collectie."@nl ;
 	aui:txtSealincMediaSlogan "SEALINCMedia"@en ;
@@ -52,6 +54,7 @@ aui:txtSealincMediaSlogan a auis:UILabel .
 aui:txtAboutSealincMedia a auis:UILabel .
 aui:txtSealincResearchSlogan a auis:UILabel .
 aui:txtAboutSealincResearch a auis:UILabel .
+aui:btnGoBackHome a auis:UILabel .
 
 ##### Register Screen #####
 
@@ -110,7 +113,20 @@ aui:txtTitle a auis:UILabel .
 aui:annotate a auis:UI ;
 	dcterms:title "Accurator annotate UI"@en ;
 	aui:title "Annotate image "@en ;
-	aui:title "Voeg informatie toe aan "@nl .
+	aui:title "Voeg informatie toe aan "@nl ;
+	aui:btnPrevious "Previous"@en ;
+	aui:btnPrevious "Vorige"@nl ;
+	aui:btnNext "Next"@en ;
+	aui:btnNext "Volgende"@nl ;
+	aui:btnResultRecommend "Recommended"@en ;
+	aui:btnResultRecommend "Aanbevolen"@nl ;
+	aui:btnResultSearch "Search"@en ;
+	aui:btnResultSearch "Zoek"@nl .
+
+aui:btnPrevious a auis:UILabel .
+aui:btnNext a auis:UILabel .
+aui:btnResultRecommend a auis:UILabel .
+aui:btnResultSearch a auis:UILabel .
 
 ##### Expertise Screen #####
 
@@ -439,7 +455,7 @@ aui:internetLessThan1 a auis:SelectOption ;
 	skos:prefLabel "Less than 1 day per week"@en ;
 	skos:prefLabel "Minder dan een dag per week"@nl .
 
-##### Profile Screen #####
+##### Results Screen #####
 
 aui:results a auis:UI ;
 	dcterms:title "Accurator results UI"@en ;

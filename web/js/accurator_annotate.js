@@ -32,9 +32,35 @@ function annotateInit() {
 
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(labels){
-			document.title = labels.title;
-		});
+	.done(function(labels){
+		document.title = labels.title;
+		initLabels(labels);
+		addButtonEvents();
+	});
 	console.log(uri);
 	showResult(uri);
+}
+
+function initLabels(data) {
+	$("#btnPrevious").append(data.btnPrevious);
+	$("#btnNext").prepend(data.btnNext);
+	$("#btnResultRecommend").append(data.btnResultRecommend);
+	$("#btnResultSearch").append(data.btnResultSearch);
+}
+
+function addButtonEvents() {
+	$("#btnResultRecommend").click(function() {
+		//document.location.href="results.html" + "?user=" + user;
+	});
+	// Search on pressing enter
+	$("#frmSearchInput").keypress(function(event) {
+		if (event.which == 13) {
+			var query = encodeURIComponent($("#frmSearchInput").val());
+			document.location.href="results.html?query=" + query;
+		}
+	});
+	$("#btnResultSearch").click(function() {
+		var query = encodeURIComponent($("#frmSearch").val());
+		document.location.href="results.html?query=" + query;
+	});
 }

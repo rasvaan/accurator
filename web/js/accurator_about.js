@@ -28,7 +28,8 @@ function populateUI(domainSettins) {
 
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(labels){
-			initLabels(labels);});
+			initLabels(labels);
+			addButtonEvents();});
 }
 
 function initLabels(labels) {
@@ -39,4 +40,11 @@ function initLabels(labels) {
 	$("#txtAboutSealincMedia").append(labels.txtAboutSealincMedia);
 	$("#txtSealincResearchSlogan").append(labels.txtSealincResearchSlogan);
 	$("#txtAboutSealincResearch").append(labels.txtAboutSealincResearch);
+	$("#btnGoBackHome").append(labels.btnGoBackHome);
+}
+
+function addButtonEvents() {
+	$("#btnGoBackHome").click(function() {
+		document.location.href="intro.html";
+	});
 }
