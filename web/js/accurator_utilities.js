@@ -65,6 +65,11 @@ function getAvailableDomains(onDomains) {
 
 //Locale
 function getLocale() {
+	var paramLocale = getParameterByName("locale");
+	
+	if(!(paramLocale === "")) {
+		setLocale(paramLocale);
+	}
 	if(localStorage.getItem("locale") === null ||
 	   localStorage.getItem("locale") === ""){
 		console.log("No locale set");
