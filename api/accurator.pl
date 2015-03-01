@@ -29,6 +29,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
 :- http_handler(cliopatria(save_expertise_values), save_expertise_values_api,  []).
+:- http_handler(cliopatria(get_expertise_values), get_expertise_values_api,  []).
 :- http_handler(cliopatria(register_user), register_user,  []).
 :- http_handler(cliopatria(get_user), get_user,  []).
 :- http_handler(cliopatria(get_user_settings), get_user_settings,  []).
@@ -430,6 +431,31 @@ register_user(Request) :-
 					title('Register user'),
 						h1('Successfully registered user'))
 	).
+
+%%  get_expertise_values_api(+Request)
+%
+%	Get a list of expertise topics linked to the give user.
+get_expertise_values_api(_Request) :-
+	logged_on(User),
+	setof(Topic, User^Expertise^
+		   (   rdf(Expertise, hoonoh:from, User),
+			   rdf(Expertise, hoonoh:toTopic, Topic)),
+		   Topics),
+	maplist(get_date_value(User), Topics, TopicDictPairs),
+	dict_pairs(ExpertiseDict, elements, TopicDictPairs),
+	reply_json_dict(ExpertiseDict).
+
+%%  get_date_value(+User, +Topic, -TopicDateValueDictList)
+%
+%	Get all values and corresponding dates based on user and topic.
+get_date_value(User, Topic, Topic-DateValueDictList) :-
+	findall(DateValueDict,
+			(	rdf(Expertise, hoonoh:from, User),
+				rdf(Expertise, hoonoh:toTopic, Topic),
+				rdf(Expertise, hoonoh:value, literal(type(xsd:decimal, Value))),
+				rdf(Expertise, accu:createdAt, literal(type(xsd:dateTime, Date))),
+				dict_pairs(DateValueDict, elements, [value-Value, date-Date])),
+			DateValueDictList).
 
 %%	get_user(+Request)
 %
