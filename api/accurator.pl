@@ -598,7 +598,7 @@ navigation -->
 	<div class="row" id="navigation">
 	    <div class="col-md-2">
 			<button class="btn btn-default navButton" id="btnPrevious">
-		        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		        <span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
 		</div>
 		<div class="col-md-8">
@@ -614,7 +614,7 @@ navigation -->
 		</div>
 		<div class="col-md-2" id="btnAlignRight">
 			<button class="btn btn-default navButton" id="btnNext">
-		        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		        <span class="glyphicon glyphicon-chevron-right"></span>
 			</button>
 		</div>
 	</div>
