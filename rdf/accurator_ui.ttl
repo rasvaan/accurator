@@ -118,15 +118,15 @@ aui:annotate a auis:UI ;
 	aui:btnPrevious "Vorige"@nl ;
 	aui:btnNext "Next"@en ;
 	aui:btnNext "Volgende"@nl ;
-	aui:btnResultRecommend "Recommend"@en ;
-	aui:btnResultRecommend "Aanbevolen"@nl ;
-	aui:btnResultSearch "Search"@en ;
-	aui:btnResultSearch "Zoek"@nl .
+	aui:btnAnnotateRecommend "Recommended works"@en ;
+	aui:btnAnnotateRecommend "Aanbevolen werken"@nl ;
+	aui:btnAnnotateSearch "Search"@en ;
+	aui:btnAnnotateSearch "Zoek"@nl .
 
 aui:btnPrevious a auis:UILabel .
 aui:btnNext a auis:UILabel .
-aui:btnResultRecommend a auis:UILabel .
-aui:btnResultSearch a auis:UILabel .
+aui:btnAnnotateRecommend a auis:UILabel .
+aui:btnAnnotateSearch a auis:UILabel .
 
 ##### Expertise Screen #####
 
@@ -461,8 +461,8 @@ aui:results a auis:UI ;
 	dcterms:title "Accurator results UI"@en ;
 	aui:title "Results"@en ;
 	aui:title "Zoekresultaten"@nl ;
-	aui:btnResultsRecommend "Recommend"@en ;
-	aui:btnResultsRecommend "Aanbevolen"@nl ;
+	aui:btnResultsRecommend "Recommend works"@en ;
+	aui:btnResultsRecommend "Aanbevolen werken"@nl ;
 	aui:btnResultsSearch "Search"@en ;
 	aui:btnResultsSearch "Zoek"@nl .
 

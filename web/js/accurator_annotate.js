@@ -44,8 +44,8 @@ function populateUI() {
 function initLabels(data) {
 	$("#btnPrevious").append(data.btnPrevious);
 	$("#btnNext").prepend(data.btnNext);
-	$("#btnResultRecommend").append(data.btnResultRecommend);
-	$("#btnResultSearch").append(data.btnResultSearch);
+	$("#btnAnnotateRecommend").append(data.btnAnnotateRecommend);
+	$("#btnAnnotateSearch").append(data.btnAnnotateSearch);
 }
 
 function addButtonEvents() {
@@ -72,7 +72,7 @@ function addButtonEvents() {
 		});
 	}
 	
-	$("#btnResultRecommend").click(function() {
+	$("#btnAnnotateRecommend").click(function() {
 		//document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
@@ -82,7 +82,7 @@ function addButtonEvents() {
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#btnResultSearch").click(function() {
+	$("#btnAnnotateSearch").click(function() {
 		var query = encodeURIComponent($("#frmSearch").val());
 		document.location.href="results.html?query=" + query;
 	});

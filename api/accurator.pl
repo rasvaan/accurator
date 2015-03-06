@@ -603,19 +603,28 @@ navigation_bar -->
     html({|html||
 	<!-- Navbar -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
+		 <div class="container-fluid">
 			<div class="navbar-header">
-				 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#accuratorCollapse">
-					<span class="sr-only">Toggle navigation</span>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#accuratorCollapse">
 					<span class="icon-bar"></span>
-				 </button>
-				 <a class="navbar-brand" href="intro.html">
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="intro.html">
 					<img id="headerImage" src="img/accurator.png" alt="Accurator">
-				 </a>
+				</a>
 			</div>
 			<div class="collapse navbar-collapse" id="accuratorCollapse">
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="nav navbar-nav navbar-right userDropdown">
 				</ul>
+				<div class="navbar-form navbar-nav" id="frmGroupSearch">
+					<div class="form-group">
+						<input type="text" class="form-control" id="frmSearch">
+					</div>
+					<button id="btnAnnotateSearch" class="btn btn-default">
+					</button>
+				</div>
+				<button class="btn navbar-btn navbar-right btn-primary" id="btnAnnotateRecommend">
+				</button>
 			</div>
 		</div>
 	</nav>
