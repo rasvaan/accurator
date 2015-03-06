@@ -20,6 +20,7 @@ body {
 .introScreen {
 	overflow-x: hidden;
 	overflow-y: hidden;
+	background-color: #333;
 }
 
 .backgroundImage {
