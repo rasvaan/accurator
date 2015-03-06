@@ -244,7 +244,7 @@ function populateNavbar(userName, linkList) {
 							  ui:"http://accurator.nl/ui/generic#user_dropdown",
 							  type:"labels"})
 		.done(function(data){
-			$(".navbar-right").append(
+			$(".userDropdown").append(
 				$.el.li({'class':'dropdown'},
 					$.el.a({'href':'#',
 							'class':'dropdown-toggle',
