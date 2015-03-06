@@ -76,9 +76,9 @@ function addButtonEvents() {
 		//document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
-	$("#frmSearchInput").keypress(function(event) {
+	$("#frmSearch").keypress(function(event) {
 		if (event.which == 13) {
-			var query = encodeURIComponent($("#frmSearchInput").val());
+			var query = encodeURIComponent($("#frmSearch").val());
 			document.location.href="results.html?query=" + query;
 		}
 	});
