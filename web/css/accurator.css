@@ -24,6 +24,7 @@ body {
 		left: 0;
 		text-align: center;
 		margin: auto;
+		z-index: -1;
 	}
 }
 
