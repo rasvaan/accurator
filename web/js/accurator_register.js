@@ -97,7 +97,7 @@ function registerServer(name, user, password) {
 		error: function (request, textStatus, errorThrown) {
 			if(errorThrown == "Not Found")
 	        	setRegisterFailureText("Server did not respond.");
-	        if(request.responseText.contains("User already exists")) {
+	        if(request.responseText.indexOf("User already exists") > -1) {
 	    		setRegisterFailureText(lblUserTaken);
 	        } else {
 	        	setRegisterFailureText(lblServerError);
