@@ -462,7 +462,8 @@ get_date_value(User, Topic, Topic-DateValueDictList) :-
 %	Get the id of a user.
 get_user(_Request) :-
 	logged_on(User),
-	reply_json_dict(user{user:User}).
+	user_property(User, realname(RealName)),
+	reply_json_dict(user{user:User, real_name:RealName}).
 
 %%	get_user_settings(+Request)
 %

@@ -1,6 +1,6 @@
 /* Accurator Profile
 */
-var locale, ui, domain, user, userName;
+var locale, ui, domain, user, userName, realName;
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
 
@@ -16,6 +16,7 @@ function profileInit() {
 		setLinkLogo("profile");
 		user = loginData.user;
 		userName = getUserName(user);
+		realName = loginData.real_name;
 		populateNavbar(userName, []);
 		populateRecentlyAnnotated();
 		
@@ -62,7 +63,13 @@ function populateUI() {
 function initLabels(labels) {
 	// Add retrieved labels to html elements
 	document.title = labels.title;
-	$("#txtSlogan").prepend(labels.txtSlogan + " " + userName);
+	console.log(realName);
+	// Check if real name is available
+	if (typeof realName !== 'undefined') {
+		$("#txtSlogan").prepend(labels.txtSlogan + " " + realName + " ");
+	} else {
+		$("#txtSlogan").prepend(labels.txtSlogan);
+	}
 	$("#txtSubSlogan").prepend(labels.txtSubSlogan);
 	$("#txtStartAnnotating").append(labels.txtStartAnnotating);
 	$("#btnRecommend").append(labels.btnRecommend);
