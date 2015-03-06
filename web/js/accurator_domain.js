@@ -8,7 +8,8 @@ function domainInit() {
 	domain = "generic";
 
 	// If user is logged in go to profile page
-	onLoggedIn = function() {
+	onLoggedIn = function(loginData) {
+		setLinkLogo("profile");
 		onDomains = function(data){
 			populateDomains(data);
 			
@@ -16,6 +17,8 @@ function domainInit() {
 			onDomain = function(domainSettings) {
 				ui = getUI(domainSettings, "domain");
 				populateUI();
+				var userName = getUserName(loginData.user);
+				populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 			};
 			domainSettings(domain, onDomain);
 		};
