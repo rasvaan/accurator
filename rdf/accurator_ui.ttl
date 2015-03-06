@@ -212,7 +212,7 @@ aui:additional_info a auis:UI ;
 	aui:frmCountry "What is your counrty of residence?"@en ;
 	aui:frmCommunity "What resembles most closely the community you reside in?"@en ;
 	aui:radioCommunityUrban "Urban"@en ;
-	aui:radioCommunitySubUrban "Sub-urban"@en ;
+	aui:radioCommunitySubUrban "Suburban"@en ;
 	aui:radioCommunityRural "Rural"@en ;
 	aui:frmLanguage "What is your primary language?"@en ;
 	aui:frmEducation "What is the highest level of education you have recieved?"@en ;
