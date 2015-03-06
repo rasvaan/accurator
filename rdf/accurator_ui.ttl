@@ -118,7 +118,7 @@ aui:annotate a auis:UI ;
 	aui:btnPrevious "Vorige"@nl ;
 	aui:btnNext "Next"@en ;
 	aui:btnNext "Volgende"@nl ;
-	aui:btnResultRecommend "Recommended"@en ;
+	aui:btnResultRecommend "Recommend"@en ;
 	aui:btnResultRecommend "Aanbevolen"@nl ;
 	aui:btnResultSearch "Search"@en ;
 	aui:btnResultSearch "Zoek"@nl .
@@ -461,8 +461,13 @@ aui:results a auis:UI ;
 	dcterms:title "Accurator results UI"@en ;
 	aui:title "Results"@en ;
 	aui:title "Zoekresultaten"@nl ;
-	aui:btnSearch "Search"@en ;
-	aui:btnSearch "Zoek"@nl .
+	aui:btnResultsRecommend "Recommend"@en ;
+	aui:btnResultsRecommend "Aanbevolen"@nl ;
+	aui:btnResultsSearch "Search"@en ;
+	aui:btnResultsSearch "Zoek"@nl .
+
+aui:btnResultsRecommend a auis:UILabel .
+aui:btnResultsSearch a auis:UILabel .
 
 ##### Login Modal #####
 

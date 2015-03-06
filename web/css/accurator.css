@@ -16,6 +16,17 @@ body {
 	height: 20px;
 }
 
+@media (min-width: 768px){
+	.navbarSearch {
+		padding: 9px;
+		position: absolute;
+		width: 100%;
+		left: 0;
+		text-align: center;
+		margin: auto;
+	}
+}
+
 /* Intro page */
 .introScreen {
 	overflow-x: hidden;
@@ -75,10 +86,6 @@ body {
 
 /* Profile page */
 #rowStartChange {
-	margin-top: 20px;
-}
-
-#frmGroupSearch {
 	margin-top: 20px;
 }
 

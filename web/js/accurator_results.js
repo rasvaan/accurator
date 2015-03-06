@@ -48,10 +48,15 @@ function populateUI() {
 function initLabels(labels) {
 	// Add retrieved labels to html elements
 	document.title = labels.title;
-	$("#btnSearch").append(labels.btnSearch);
+	
+	$("#btnResultsSearch").append(labels.btnResultsSearch);
+	$("#btnResultsRecommend").append(labels.btnResultsRecommend);
 }
 
 function addButtonEvents() {
+	$("#btnResultsRecommend").click(function() {
+		//document.location.href="results.html" + "?user=" + user;
+	});
 	// Search on pressing enter
 	$("#frmSearch").keypress(function(event) {
 		if (event.which == 13) {
@@ -59,7 +64,7 @@ function addButtonEvents() {
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#btnSearch").click(function() {
+	$("#btnResultsSearch").click(function() {
 		var query = encodeURIComponent($("#frmSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
