@@ -16,16 +16,16 @@ body {
 	height: 20px;
 }
 
-@media (min-width: 768px){
-	.navbarSearch {
-		padding: 9px;
-		position: absolute;
-		width: 100%;
-		left: 0;
-		text-align: center;
-		margin: auto;
-		z-index: -1;
-	}
+@media (min-width: 768px) {
+    .navbar .navbar-nav {
+        display: inline-block;
+        float: none;
+        vertical-align: top;
+    }
+
+    .navbar .navbar-collapse {
+        text-align: center;
+    }
 }
 
 /* Intro page */
