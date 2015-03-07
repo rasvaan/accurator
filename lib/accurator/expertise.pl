@@ -7,6 +7,9 @@
 
 :- use_module(library(semweb/rdf_db)).
 
+:- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
+:- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
+
 %%	expertise_topics(+Request)
 %
 %	Retrieves a list of expertise topics.
