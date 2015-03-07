@@ -13,7 +13,6 @@
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/html_write)).
 :- use_module(user(user_db)).
-:- use_module(user(preferences)).
 
 http:location(html, cliopatria(html), []).
 http:location(img, cliopatria(img), []).
@@ -279,16 +278,6 @@ save_user_info(Request) :-
 
 save_info_pairs(_User, []).
 save_info_pairs(User, [Property-Value|Pairs]) :-
-	set_preferred_language(Property, Value),
 	InfoAtom =.. [Property, Value],
 	set_user_property(User, InfoAtom),
 	save_info_pairs(User, Pairs).
-
-%%	set_preferred_language(+Setting, +Locale)
-%
-%	Save the preferred locale, so it can be used for the annotation
-%  interface fields.
-set_preferred_language(locale, Lang) :-
-	user_preference(user:lang, literal(Lang)).
-set_preferred_language(_, _).
-
