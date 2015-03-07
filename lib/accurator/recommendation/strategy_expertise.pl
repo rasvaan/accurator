@@ -1,10 +1,10 @@
-:- module(strategy_random, [strategy_random/2]).
+:- module(strategy_expertise, [strategy_expertise/2]).
 
 
-%%      strategy_random(-Result, +Options)
+%%      strategy_expertise(-Result, +Options)
 %
 %       Assign a number of objects in a random fassion.
-strategy_random(Result, Options) :-
+strategy_expertise(Result, Options) :-
 	option(target(Target), Options),
     findall(Uri, rdf(Uri, rdf:type, Target), SourceList),
     assign_random(50, SourceList, Result).

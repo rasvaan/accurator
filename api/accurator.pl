@@ -7,6 +7,7 @@
 :- use_module(library(accurator/ui_elements)).
 :- use_module(library(accurator/annotate_page)).
 :- use_module(library(accurator/recommendation/strategy_random)).
+:- use_module(library(accurator/recommendation/strategy_expertise)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
@@ -302,16 +303,18 @@ get_recommendation_parameters(Request, Options) :-
         [strategy(Strategy,
 			  [default(random),
 			   oneof([random, expertise])]),
-         nritems(Number, [default(1)]),
-		 target(Target, [optional(true),
-						 default(edm:'ProvidedCho')])
+		 target(Target,
+			  [default('http://www.europeana.eu/schemas/edm/ProvidedCHO')])
 		]),
-    atom_number(Number,Integer),
-    Options = [strategy(Strategy), nr_items(Integer),
-			   user(User), target(Target)].
+    Options = [strategy(Strategy), user(User),
+			   target(Target)].
 
 %%	strategy(+Strategy, -Result, +Options)
 %
 %   Selects objects according to the specified strategy.
 strategy(random, Result, Options) :-
-    strategy_random(Options, Result).
+    strategy_random(Result, Options).
+
+strategy(expertise, Result, Options) :-
+    strategy_expertise(Result, Options).
+

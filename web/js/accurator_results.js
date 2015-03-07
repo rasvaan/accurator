@@ -75,5 +75,18 @@ function initiateSearch(query) {
 }
 
 function recommendItems(user) {
-	alert("Should be recommending items to  " + user);
+	$.getJSON("recommendation", {strategy:'expertise'})
+		.done(function(data){
+			console.log(data);
+//			  $("#results").children().remove();
+//			  showFilters();
+//			  processJsonResults(data);
+//			  createResultClusters();
+//			  $(document).prop('title', 'Results for ' + query);
+		})
+		.fail(function(data, textStatus){
+//			  $("#results").children().remove();
+//			  $("#results").append(errorHtml(data, textStatus));
+//			  $(document).prop('title', 'Error on ' + query);
+		});
 }
