@@ -3,6 +3,7 @@
 /** <module> Accurator
 */
 
+:- use_module(library(accurator/expertise)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
@@ -11,7 +12,6 @@
 :- use_module(library(http/http_path)).
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/html_write)).
-:- use_module(user(user_db)).
 :- use_module(user(user_db)).
 :- use_module(applications(annotation)).
 :- use_module(user(preferences)).
@@ -28,8 +28,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(domains), domains_api,  []).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
-:- http_handler(cliopatria(save_expertise_values), save_expertise_values_api,  []).
-:- http_handler(cliopatria(get_expertise_values), get_expertise_values_api,  []).
+:- http_handler(cliopatria(expertise_values), expertise_values_api,  []).
 :- http_handler(cliopatria(register_user), register_user,  []).
 :- http_handler(cliopatria(get_user), get_user,  []).
 :- http_handler(cliopatria(get_user_settings), get_user_settings,  []).
@@ -289,94 +288,46 @@ expertise_topics_api(Request) :-
 %	Retrieves an option list of parameters from the url.
 get_parameters_expertise(Request, Options) :-
     http_parameters(Request,
-        [locale(Locale, [description('Locale of language elements to retrieve'), optional(false)]),
-		taxonomy(Taxonomy, [description('Domain specific taxonomy.'), optional(false)]),
-		number_of_topics(NumberOfTopicsString, [description('The maximum number of topics to retrive'), optional(false)]),
-		top_concept(TopConcept, [description('The top concept to start searching form.'), optional(false)]),
-		number_of_children_shown(NumberOfChildrenString, [description('The number of child concepts shown in expertise screen'), optional(true), default(3)])]),
+        [locale(Locale,
+				[description('Locale of language elements to retrieve'),
+				 optional(false)]),
+		taxonomy(Taxonomy,
+				[description('Domain specific taxonomy.'),
+				 optional(false)]),
+		number_of_topics(NumberOfTopicsString,
+				[description('The maximum number of topics to retrive'),
+				 optional(false)]),
+		top_concept(TopConcept,
+				[description('The top concept to start searching form.'),
+				 optional(false)]),
+		number_of_children_shown(NumberOfChildrenString,
+				[description('The number of child concepts shown.'),
+				 optional(true),
+				 default(3)])]),
     atom_number(NumberOfTopicsString, NumberOfTopics),
 	atom_number(NumberOfChildrenString, NumberOfChildren),
-	Options = [locale(Locale), taxonomy(Taxonomy), topConcept(TopConcept), numberOfTopics(NumberOfTopics), numberOfChildren(NumberOfChildren)].
+	Options = [locale(Locale), taxonomy(Taxonomy),
+			   topConcept(TopConcept), numberOfTopics(NumberOfTopics),
+			   numberOfChildren(NumberOfChildren)].
 
-%%	expertise_topics(+Request)
+%%  expertise_values_api(+Request)
 %
-%	Retrieves a list of expertise topics.
-get_expertise_topics(Topics, Options) :-
-	option(locale(Locale), Options),
-	option(topConcept(TopConcept), Options),
-	option(numberOfTopics(Number), Options),
-	get_number_topics([TopConcept], Number, TopicUris),
-	maplist(get_info_topics(Locale, Options), TopicUris, TopicDicts),
-	Topics = expertise_topics{topics:TopicDicts}.
+%	Depending on the request either save or retrieve the user expertise
+%	values.
+expertise_values_api(Request) :-
+	member(method(get), Request),
+	logged_on(User),
+	setof(Topic, User^Expertise^
+		   (   rdf(Expertise, hoonoh:from, User),
+			   rdf(Expertise, hoonoh:toTopic, Topic)),
+		   Topics),
+	maplist(get_user_expertise(User), Topics, TopicDictPairs),
+	dict_pairs(ExpertiseDict, elements, TopicDictPairs),
+	reply_json_dict(ExpertiseDict).
 
-%%	get_number_topics(Concepts, Number, PreviousTopics, PreviousTopics)
-%
-%	Find a list of topics, smaller than the specified number. If the new
-%	number exceeds the specified number, the previous list of concepts
-%	is returned.
-get_number_topics(Concepts, Number, Topics) :-
-	maplist(get_children, Concepts, ChildrenLists),
-	append(ChildrenLists, Children),
-	length(Children, NumberChildren),
-	NumberChildren < Number,
-	get_number_topics(Children, Number, Topics).
-get_number_topics(Topics, _Number, Topics) :-
-	!.
-
-%%	get_children(+Concept, -ChildrenList)
-%
-%	Get a list of children for the concept.
-get_children(Concept, ChildrenList) :-
-	findall(Child,
-			get_narrow_child(Concept, Child),
-			ChildrenList),
-	not(length(ChildrenList, 0)), !.
-
-get_children(Concept, ChildrenList) :-
-	findall(Child,
-			get_broader_child(Concept, Child),
-			ChildrenList),
-	not(length(ChildrenList, 0)), !.
-
-get_children(_Concept, []).
-
-get_narrow_child(Concept, Child) :-
-	rdf_has(Concept, skos:narrower, Child),
-	rdf(Child, rdf:type, skos:'Concept').
-
-get_broader_child(Concept, Child) :-
-	rdf_has(Child, skos:broader, Concept),
-	rdf(Child, rdf:type, skos:'Concept').
-
-%add subproperty query
-
-get_info_topics(Locale, Options, Uri, Dict) :-
-	rdf_global_id(Uri, GlobalUri),
-	get_label(Locale, Uri, Label),
-	option(numberOfChildren(Number), Options),
-	get_childrens_labels(Uri, Locale, Number, ChildrensLabels),
-	Dict = topic{uri:GlobalUri, label:Label, childrens_labels:ChildrensLabels}.
-
-get_childrens_labels(_Uri, _Locale, 0, []) :- !.
-get_childrens_labels(Uri, Locale, MaxNumber, Labels) :-
-	get_children(Uri, Children),
-	maplist(get_label(Locale), Children, LongLabels),
-	shorten_when_needed(LongLabels, MaxNumber, Labels).
-
-shorten_when_needed(LongLabels, MaxNumber, LongLabels) :-
-	length(LongLabels, Length),
-	Length =< MaxNumber, !.
-
-shorten_when_needed(LongLabels, MaxNumber, Labels) :-
-	append(Labels, _Rest, LongLabels),
-	length(Labels, MaxNumber).
-
-
-%%  save_expertise_values_api(+Request)
-%
-%	Save a list of expertise topics as triples in the triple store.
-save_expertise_values_api(Request) :-
-	http_read_json_dict(Request, JsonIn),
+expertise_values_api(Request) :-
+	member(method(post), Request),
+	http_read_json_dict(Request, JsonIn), !,
 	atom_string(User, JsonIn.user),
 	Expertise = JsonIn.expertise,
 	dict_pairs(Expertise, elements, ExpertisePairs),
@@ -384,35 +335,6 @@ save_expertise_values_api(Request) :-
 	reply_html_page(/,
 					title('Assert expertise values'),
 						h1('Successfully asserted expertise values')).
-
-assert_expertise_relationship(User, Topic-Value) :-
-	get_time(Time),
-	format_time(atom(TimeStamp), '%FT%T%:z', Time),
-    % Create a sortable list of thing to assert
-	KeyValue0 = [
-	    po(rdf:type, hoonoh:'ExpertiseRelationship'),
-	    po(as:createdAt, literal(type(xsd:dateTime, TimeStamp))),
-	    po(hoonoh:from, User),
-	    po(hoonoh:value, literal(type(xsd:decimal, Value))),
-	    po(hoonoh:toTopic, Topic)
-	],
-	sort(KeyValue0, KeyValue),
-	rdf_global_term(KeyValue, Pairs),
-	variant_sha1(Pairs, Hash),
-	hash_uri(Hash, Expertise),
-	maplist(po2rdf(Expertise), Pairs, Triples),
-		rdf_transaction(
-	     (	 forall(member(rdf(S,P,O), Triples),
-			rdf_assert(S,P,O, User)))).
-
-hash_uri(Hash, Uri) :-
-	nonvar(Hash), Hash \= null,
-	!,
-	atomic_list_concat(['http://accurator.nl/expertise#', Hash], Uri).
-
-po2rdf(S,po(P,O),rdf(S,P,O)).
-
-
 %%	register_user(+Request)
 %
 %	Register a user using information within a json object.
@@ -431,31 +353,6 @@ register_user(Request) :-
 					title('Register user'),
 						h1('Successfully registered user'))
 	).
-
-%%  get_expertise_values_api(+Request)
-%
-%	Get a list of expertise topics linked to the give user.
-get_expertise_values_api(_Request) :-
-	logged_on(User),
-	setof(Topic, User^Expertise^
-		   (   rdf(Expertise, hoonoh:from, User),
-			   rdf(Expertise, hoonoh:toTopic, Topic)),
-		   Topics),
-	maplist(get_date_value(User), Topics, TopicDictPairs),
-	dict_pairs(ExpertiseDict, elements, TopicDictPairs),
-	reply_json_dict(ExpertiseDict).
-
-%%  get_date_value(+User, +Topic, -TopicDateValueDictList)
-%
-%	Get all values and corresponding dates based on user and topic.
-get_date_value(User, Topic, Topic-DateValueDictList) :-
-	findall(DateValueDict,
-			(	rdf(Expertise, hoonoh:from, User),
-				rdf(Expertise, hoonoh:toTopic, Topic),
-				rdf(Expertise, hoonoh:value, literal(type(xsd:decimal, Value))),
-				rdf(Expertise, accu:createdAt, literal(type(xsd:dateTime, Date))),
-				dict_pairs(DateValueDict, elements, [value-Value, date-Date])),
-			DateValueDictList).
 
 %%	get_user(+Request)
 %
@@ -509,39 +406,6 @@ save_info_pairs(User, [Property-Value|Pairs]) :-
 set_preferred_language(locale, Lang) :-
 	user_preference(user:lang, literal(Lang)).
 set_preferred_language(_, _).
-
-%%	get_label(Locale, Uri, Label)
-%
-%	Get a label for a specified uri and locale. Three different
-%	attempts:
-%
-%	* with locale specified
-%	* ignoring the type of specified locale
-%	* literals without locale specified
-%
-%	Three different label properties are tried:
-%
-%	* txn:commonName - a life sciences specific label
-%	* skos:prefLabel - skos
-%	* subproperties of skos:prefLabel
-get_label(Locale, Uri, Label) :-
-	rdf(Uri, txn:commonName, literal(lang(Locale, Label))), !.
-get_label(Locale, Uri, Label) :-
-	rdf(Uri, skos:prefLabel, literal(lang(Locale, Label))), !.
-get_label(Locale, Uri, Label) :-
-	rdf_has(Uri, skos:prefLabel, literal(lang(Locale, Label))), !.
-get_label(_Locale, Uri, Label) :-
-	rdf(Uri, txn:commonName, literal(lang(_, Label))), !.
-get_label(_Locale, Uri, Label) :-
-	rdf(Uri, skos:prefLabel, literal(lang(_, Label))), !.
-get_label(_Locale, Uri, Label) :-
-	rdf_has(Uri, skos:prefLabel, literal(lang(_, Label))), !.
-get_label(_Locale, Uri, Label) :-
-	rdf(Uri, txn:commonName, literal(Label)), !.
-get_label(_Locale, Uri, Label) :-
-	rdf(Uri, skos:prefLabel, literal(Label)), !.
-get_label(_Locale, Uri, Label) :-
-	rdf_has(Uri, skos:prefLabel, literal(Label)), !.
 
 http_image_annotation(Request) :-
 	get_annotation_parameters(Request, Options),

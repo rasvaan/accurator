@@ -132,7 +132,7 @@ function processExpertiseValues() {
 		userExpertise.expertise[topics[i].uri] = roundedValue;
 	}
 	$.ajax({type: "POST",
-		    url: "save_expertise_values",
+		    url: "expertise_values",
 			contentType: "application/json",
 			data: JSON.stringify(userExpertise),
 			success: function(){
@@ -150,7 +150,7 @@ function printArray(labelArray) {
 }
 
 function setSliderValues() {
-	$.getJSON("get_expertise_values")
+	$.getJSON("expertise_values")
 	.done(function(expertValues){
 		var uris = Object.keys(expertValues);
 
