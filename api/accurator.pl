@@ -6,6 +6,7 @@
 :- use_module(library(accurator/expertise)).
 :- use_module(library(accurator/ui_elements)).
 :- use_module(library(accurator/annotate_page)).
+:- use_module(library(accurator/recommendation/strategy_random)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
@@ -31,6 +32,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(get_user), get_user,  []).
 :- http_handler(cliopatria(get_user_settings), get_user_settings,  []).
 :- http_handler(cliopatria(save_user_info), save_user_info,  []).
+:- http_handler(cliopatria(recommendation), recommendation_api, []).
 
 :- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
 :- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
@@ -281,3 +283,35 @@ save_info_pairs(User, [Property-Value|Pairs]) :-
 	InfoAtom =.. [Property, Value],
 	set_user_property(User, InfoAtom),
 	save_info_pairs(User, Pairs).
+
+%%  recommendation_api(+Request)
+%
+%
+recommendation_api(Request) :-
+    get_recommendation_parameters(Request, Options),
+    option(strategy(Strategy), Options),
+    strategy(Strategy, Result, Options),
+    reply_json(Result).
+
+%%	get_parameters(+Request, -Parameters)
+%
+%   Retrieves an option object of parameters from the url.
+get_recommendation_parameters(Request, Options) :-
+	logged_on(User),
+    http_parameters(Request,
+        [strategy(Strategy,
+			  [default(random),
+			   oneof([random, expertise])]),
+         nritems(Number, [default(1)]),
+		 target(Target, [optional(true),
+						 default(edm:'ProvidedCho')])
+		]),
+    atom_number(Number,Integer),
+    Options = [strategy(Strategy), nr_items(Integer),
+			   user(User), target(Target)].
+
+%%	strategy(+Strategy, -Result, +Options)
+%
+%   Selects objects according to the specified strategy.
+strategy(random, Result, Options) :-
+    strategy_random(Options, Result).
