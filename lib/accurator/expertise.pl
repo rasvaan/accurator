@@ -10,7 +10,7 @@
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
 :- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
 
-%%	expertise_topics(+Request)
+%%	get_expertise_topics(+Request)
 %
 %	Retrieves a list of expertise topics, starting from the top concept.
 get_expertise_topics(Topics, Options) :-
