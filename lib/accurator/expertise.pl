@@ -1,16 +1,19 @@
 :- module(expertise, [get_expertise_topics/2,
+					  get_domain_topics/2,
 					  assert_expertise_relationship/2,
-					  get_user_expertise/3]).
+					  get_user_expertise/3,
+					  get_user_expertise_domain/2]).
 
 /** <module> Expertise
 */
 
 :- use_module(library(semweb/rdf_db)).
 
+:- rdf_register_prefix(as, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
 :- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
 
-%%	get_expertise_topics(+Request)
+%%	get_expertise_topics(-Topics, +Options)
 %
 %	Retrieves a list of expertise topics, starting from the top concept.
 get_expertise_topics(Topics, Options) :-
@@ -20,6 +23,18 @@ get_expertise_topics(Topics, Options) :-
 	get_number_topics([TopConcept], Number, TopicUris),
 	maplist(get_info_topics(Locale, Options), TopicUris, TopicDicts),
 	Topics = expertise_topics{topics:TopicDicts}.
+
+%%	get_domain_topics(+Domain, -Topics)
+%
+%	Retrieves a list of expertise topics, starting from the top concept.
+get_domain_topics(Domain, Topics) :-
+	rdf(DomainUri, rdf:type, as:'Domain'),
+	rdf(DomainUri, rdfs:label, literal(Domain)),
+	rdf(DomainUri, skos:hasTopConcept, TopConcept),
+	rdf(DomainUri, as:hasMaximumExpertiseTopics, literal(NumberLiteral)),
+	atom_number(NumberLiteral, Number),
+	get_number_topics([TopConcept], Number, Topics).
+
 
 %%	get_number_topics(Concepts, Number, PreviousTopics, PreviousTopics)
 %
@@ -167,4 +182,10 @@ get_label(_Locale, Uri, Label) :-
 get_label(_Locale, Uri, Label) :-
 	rdf_has(Uri, skos:prefLabel, literal(Label)), !.
 
+%%	get_user_expertise_domain(-ExpertiseValues, +Options)
+%
+%	Retrieves a list of expertise values based on user and domain.
+get_user_expertise_domain(_ExpertiseValues, Options) :-
+	option(user(_User), Options),
+	option(domain(_Domain), Options).
 
