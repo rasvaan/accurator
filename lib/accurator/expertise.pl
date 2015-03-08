@@ -163,7 +163,9 @@ get_latest_user_expertise(User, Topic, Topic-Value) :-
 			DateValuePairs),
 	keysort(DateValuePairs, SortedPairs),
 	reverse(SortedPairs, ReversePairs),
-	member(Date-Value, ReversePairs).
+	member(Date-Value, ReversePairs),
+	!.
+get_latest_user_expertise(_User, Topic, Topic-no_value).
 
 %%	get_label(Locale, Uri, Label)
 %
