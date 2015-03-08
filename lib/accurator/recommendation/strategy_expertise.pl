@@ -14,6 +14,12 @@ strategy_expertise(_Result, _Options) :-
 	atom_string(Domain, DomainString),
 	set_expertise_agenda(5, _Agenda, [user(User), domain(Domain)]).
 
+
+%%	set_expertise_agenda(+MaxNumber, -Agenda, +Options)
+%
+%	Set the agenda by retrieving all the expertise values of user given
+%	a domain, sort based on the values and pick the highest values with
+%	a maximum number.
 set_expertise_agenda(MaxNumber, Agenda, Options) :-
 	get_user_expertise_domain(ExpertiseValues, Options),
 	transpose_pairs(ExpertiseValues, SortedExpertiseValues),

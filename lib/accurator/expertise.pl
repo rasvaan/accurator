@@ -9,7 +9,6 @@
 */
 
 :- use_module(library(semweb/rdf_db)).
-:- use_module(library(pairs)).
 
 :- rdf_register_prefix(as, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
