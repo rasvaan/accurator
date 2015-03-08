@@ -12,7 +12,7 @@
 
 %%	expertise_topics(+Request)
 %
-%	Retrieves a list of expertise topics.
+%	Retrieves a list of expertise topics, starting from the top concept.
 get_expertise_topics(Topics, Options) :-
 	option(locale(Locale), Options),
 	option(topConcept(TopConcept), Options),
@@ -62,6 +62,9 @@ get_broader_child(Concept, Child) :-
 
 %add subproperty query
 
+%%	get_info_topics(+Locale, +Options, +Uri, -Dict)
+%
+%	Get label of topics and when specified the children of topics.
 get_info_topics(Locale, Options, Uri, Dict) :-
 	rdf_global_id(Uri, GlobalUri),
 	get_label(Locale, Uri, Label),
@@ -69,6 +72,9 @@ get_info_topics(Locale, Options, Uri, Dict) :-
 	get_childrens_labels(Uri, Locale, Number, ChildrensLabels),
 	Dict = topic{uri:GlobalUri, label:Label, childrens_labels:ChildrensLabels}.
 
+%%	get_childrens_labels(+Uri, +Locale, +MaxNumber, -Labels)
+%
+%	Retrieve the labels of child nodes.
 get_childrens_labels(_Uri, _Locale, 0, []) :- !.
 get_childrens_labels(Uri, Locale, MaxNumber, Labels) :-
 	get_children(Uri, Children),
@@ -116,7 +122,7 @@ hash_uri(Hash, Uri) :-
 
 po2rdf(S,po(P,O),rdf(S,P,O)).
 
-%%  get_user_expertise(+User, +Topic, -TopicDateValueDictList)
+%%  get_user_expertise(+User, ?Topic, -TopicDateValueDictList)
 %
 %	Get all values and corresponding dates based on user and topic.
 get_user_expertise(User, Topic, Topic-DateValueDictList) :-
