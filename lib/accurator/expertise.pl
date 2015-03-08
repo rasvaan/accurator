@@ -2,12 +2,14 @@
 					  get_domain_topics/2,
 					  assert_expertise_relationship/2,
 					  get_user_expertise/3,
-					  get_user_expertise_domain/2]).
+					  get_user_expertise_domain/2,
+					  get_latest_user_expertise/3]).
 
 /** <module> Expertise
 */
 
 :- use_module(library(semweb/rdf_db)).
+:- use_module(library(pairs)).
 
 :- rdf_register_prefix(as, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
@@ -149,6 +151,20 @@ get_user_expertise(User, Topic, Topic-DateValueDictList) :-
 				dict_pairs(DateValueDict, elements, [value-Value, date-Date])),
 			DateValueDictList).
 
+%%  get_latest_user_expertise(+User, +Topic, -TopicValuePair)
+%
+%	Get latest value based on user and topic.
+get_latest_user_expertise(User, Topic, Topic-Value) :-
+	findall(Date-DatedValue,
+	    ( rdf(Expertise, hoonoh:from, User),
+		  rdf(Expertise, hoonoh:toTopic, Topic),
+		  rdf(Expertise, hoonoh:value, literal(type(xsd:decimal, DatedValue))),
+		  rdf(Expertise, accu:createdAt, literal(type(xsd:dateTime, Date)))),
+			DateValuePairs),
+	keysort(DateValuePairs, SortedPairs),
+	reverse(SortedPairs, ReversePairs),
+	member(Date-Value, ReversePairs).
+
 %%	get_label(Locale, Uri, Label)
 %
 %	Get a label for a specified uri and locale. Three different
@@ -185,7 +201,9 @@ get_label(_Locale, Uri, Label) :-
 %%	get_user_expertise_domain(-ExpertiseValues, +Options)
 %
 %	Retrieves a list of expertise values based on user and domain.
-get_user_expertise_domain(_ExpertiseValues, Options) :-
-	option(user(_User), Options),
-	option(domain(_Domain), Options).
+get_user_expertise_domain(ExpertiseValues, Options) :-
+	option(user(User), Options),
+	option(domain(Domain), Options),
+	get_domain_topics(Domain, Topics),
+	maplist(get_latest_user_expertise(User), Topics, ExpertiseValues).
 
