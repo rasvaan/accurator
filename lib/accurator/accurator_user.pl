@@ -90,7 +90,9 @@ save_user_info(Request) :-
 						h1('Additional info successfuly saved.')).
 
 save_info_pairs(_User, []).
-save_info_pairs(User, [Property-Value|Pairs]) :-
+save_info_pairs(User, [PropertyString-ValueString|Pairs]) :-
+	atom_string(Property, PropertyString),
+	atom_string(Value, ValueString),
 	InfoAtom =.. [Property, Value],
 	set_user_property(User, InfoAtom),
 	save_info_pairs(User, Pairs).
