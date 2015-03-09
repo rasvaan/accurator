@@ -17,30 +17,10 @@ strategy_expertise(Clusters, _Options) :-
 	User = 'http://accurator.nl/user#kip',
 	get_domain(User, DomainString),
 	atom_string(Domain, DomainString),
-	set_expertise_agenda(20, Agenda, [user(User), domain(Domain)]),
+	set_expertise_agenda(40, Agenda, [user(User), domain(Domain)]),
     cluster_recommender(Agenda, State, [target('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions).
-
-cluster_recommender(Agenda, State, Options) :-
-	option(target(Target), Options),
-	filter_to_goal([type(Target)], R, Goal, Options),
-	%unbound steps for now
-	Steps = -1,
-	%constructed search goal
-	TargetCond = target_goal(Goal, R),
-	%define edges used
-	Expand = rdf_backward_search:edge,
-	%add that to options
-	SearchOptions = [expand_node(Expand), graphOutput(spo)],
-	%init search state
-	rdf_init_state(TargetCond, State, SearchOptions),
-	%start the search with set agenda (instead of keyword)
-	rdf_start_search(Agenda, State),
-	%do the steps
-	steps(0, Steps, State),
-	%prune the graph
-	prune(State, []).
 
 %%	set_expertise_agenda(+MaxNumber, -Agenda, +Options)
 %
@@ -62,6 +42,28 @@ number_of_items(NumberExpertise, Number0, NumberExpertise) :-
 number_of_items(_NumberExpertise, Number0, Number0).
 
 pair_single(_Left-Right, Right).
+
+cluster_recommender(Agenda, State, Options) :-
+	option(target(Target), Options),
+	filter_to_goal([type(Target)], R, Goal, Options),
+	%unbound steps for now
+	Steps = -1,
+	%constructed search goal
+	TargetCond = target_goal(Goal, R),
+	%define edges used
+	Expand = rdf_backward_search:edge,
+	%add that to options
+	SearchOptions = [expand_node(Expand), graphOutput(spo)],
+	%init search state
+	rdf_init_state(TargetCond, State, SearchOptions),
+	%start the search with set agenda (instead of keyword)
+	rdf_start_search(Agenda, State),
+	%do the steps
+	steps(0, Steps, State),
+	%prune the graph
+	prune(State, []).
+
+
 
 
 
