@@ -153,27 +153,14 @@ function setSliderValues() {
 	$.getJSON("expertise_values")
 	.done(function(expertValues){
 		var uris = Object.keys(expertValues);
-
 		for(i=0; i<uris.length; i++){
 			// Generate id based on uri
 			var uri = uris[i];
 			var id = generateIdFromUri(uri);
-			
-			// Check if element exists on page
-			if(!($("#"+id) === [])) {
-				var valueList = expertValues[uri];
-				
-				// Sort the value list on date
-				valueList.sort(function(a,b){
-					return new Date(b.date) - new Date(a.date);
-				});
-				
-				// Get the most recent value and scale back
-				var value = Number(valueList[0].value);
-				var descaledValue = (value * 4) + 1;
-				// Set corresponding slider
-				$("#"+id).slider('setValue', descaledValue);
-			}
+			var value = Number(expertValues[uris[i]]);
+			var descaledValue = (value * 4) + 1;
+			// Set slider value
+			$("#"+id).slider('setValue', descaledValue);
 		}
 	});
 }

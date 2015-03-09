@@ -2,7 +2,7 @@
 					  get_domain_topics/2,
 					  assert_expertise_relationship/2,
 					  get_user_expertise/3,
-					  get_user_expertise_domain/2,
+					  get_user_expertise_domain/3,
 					  get_latest_user_expertise/3]).
 
 /** <module> Expertise
@@ -202,9 +202,7 @@ get_label(_Locale, Uri, Label) :-
 %%	get_user_expertise_domain(-ExpertiseValues, +Options)
 %
 %	Retrieves a list of expertise values based on user and domain.
-get_user_expertise_domain(ExpertiseValues, Options) :-
-	option(user(User), Options),
-	option(domain(Domain), Options),
+get_user_expertise_domain(User, Domain, ExpertiseValues) :-
 	get_domain_topics(Domain, Topics),
 	maplist(get_latest_user_expertise(User), Topics, ExpertiseValues).
 

@@ -152,12 +152,9 @@ get_parameters_expertise(Request, Options) :-
 expertise_values_api(Request) :-
 	member(method(get), Request),
 	logged_on(User),
-	setof(Topic, User^Expertise^
-		   (   rdf(Expertise, hoonoh:from, User),
-			   rdf(Expertise, hoonoh:toTopic, Topic)),
-		   Topics),
-	maplist(get_user_expertise(User), Topics, TopicDictPairs),
-	dict_pairs(ExpertiseDict, elements, TopicDictPairs),
+	get_domain(User, Domain),
+	get_user_expertise_domain(User, Domain, ExpertiseValues),
+	dict_pairs(ExpertiseDict, elements, ExpertiseValues),
 	reply_json_dict(ExpertiseDict).
 
 expertise_values_api(Request) :-
