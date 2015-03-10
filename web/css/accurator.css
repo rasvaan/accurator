@@ -129,6 +129,10 @@ body {
 	padding-bottom: 10px;
 }
 
+#commitLogo {
+	text-align: right;
+}
+
 #aboutButtons {
 	margin-top: 20px;
 	margin-bottom: 20px;
