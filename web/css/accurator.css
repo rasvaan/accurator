@@ -112,8 +112,9 @@ body {
 }
 
 /* Expertise page */
-#rowExpertise {
+.rowExpertise {
 	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #rowButtonsExpertise {

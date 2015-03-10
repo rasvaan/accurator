@@ -3,7 +3,8 @@
 var locale, ui, user, domain, domainSettings;
 var topics;
 var userExpertise = {};
-var sldALot, sldNothing;
+var sldALot, sldNothing, txtChangeAll, lblDomain;
+var sliderIds = [];
 
 function expertiseInit() {
 	locale = getLocale();
@@ -15,6 +16,7 @@ function expertiseInit() {
 		
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
+			console.log(domainData);
 			ui = domainData.ui + "expertise";
 			populateUI(domainData);
 			user = loginData.user;
@@ -30,7 +32,7 @@ function expertiseInit() {
 function populateUI(domainData) {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
-		registerButtonEvent();
+		registerEvents();
 		initLabels(data);
 		initExpertiseTopics(domainData);});
 }
@@ -43,15 +45,17 @@ function initLabels(data) {
 	$("#btnSkip").append(data.btnSkip);
 	sldALot = data.sldALot;
 	sldNothing = data.sldNothing;
+	lblDomain = data.lblDomain;
+	txtChangeAll = data.txtChangeAll;
 }
 
-function registerButtonEvent() {
+function registerEvents() {
 	$("#btnSubmit").click(function() {
 		processExpertiseValues();
 	});
 	$("#btnSkip").click(function() {
 		document.location.href="profile.html";
-	});	
+	});
 }
 
 function initExpertiseTopics(domainData) {
@@ -66,7 +70,9 @@ function initExpertiseTopics(domainData) {
 	.done(function(data){
 		topics = generateIds(data.topics);
 		var halfTheTopics = parseInt(topics.length/2, 10);
-
+		
+		addMasterSlider();
+		
 		for(var i=0; i<halfTheTopics; i++) {
 			$("#frmExpertiseLeft").append(
 				$.el.div({'class':'row'},
@@ -81,6 +87,7 @@ function initExpertiseTopics(domainData) {
 									expertiseSlider(topics[i].id),
 							$.el.small({'class':'sliderLabel'}, sldALot))));
 			initSlider(topics[i].id);
+			sliderIds[i] = topics[i].id;
 		}
 		for(var i=halfTheTopics; i<topics.length; i++) {
 			$("#frmExpertiseRight").append(
@@ -96,6 +103,7 @@ function initExpertiseTopics(domainData) {
 						expertiseSlider(topics[i].id),
 						$.el.small({'class':'sliderLabel'}, sldALot))));
 			initSlider(topics[i].id);
+			sliderIds[i] = topics[i].id;
 		}
 		setSliderValues();
 	});
@@ -161,6 +169,29 @@ function setSliderValues() {
 			var descaledValue = (value * 4) + 1;
 			// Set slider value
 			$("#"+id).slider('setValue', descaledValue);
+		}
+	});
+}
+
+function addMasterSlider() {
+	$("#frmExpertiseMaster").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-md-10 col-md-offset-1'},
+				$.el.h4({'id':'expertiseLabel'},
+					domain + ' '  + lblDomain + ' ',
+					$.el.small(txtChangeAll)))));
+	$("#frmExpertiseMaster").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-md-10 col-md-offset-1'},
+				$.el.small({'class':'sliderLabel'}, sldNothing),
+							expertiseSlider("master"),
+					$.el.small({'class':'sliderLabel'}, sldALot))));
+	$("#master").slider();
+	
+	//Change all values on using master slider
+	$("#master").on("slide", function(slideEvt) {
+		for(i=0; i<sliderIds.length; i++) {
+			$("#" + sliderIds[i]).slider('setValue', slideEvt.value);
 		}
 	});
 }

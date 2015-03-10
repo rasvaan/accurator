@@ -140,17 +140,23 @@ aui:expertise a auis:UI ;
 	aui:btnSubmit "Submit"@en ;
 	aui:sldALot "a lot"@en ;
 	aui:sldNothing "nothing"@en ;
+	aui:txtChangeAll "change all values at once"@en ;
+	aui:lblDomain "domain"@en ;
 	aui:txtHeader "Expertise"@nl ;
 	aui:txtSubHeader "hoeveel weet u af van de volgende onderwerpen?"@nl ;
 	aui:btnSkip "of sla deze stap over"@nl ;
 	aui:btnSubmit "Bevestig"@nl ;
 	aui:sldALot "veel"@nl ;
-	aui:sldNothing "weinig"@nl .
+	aui:sldNothing "weinig"@nl ;
+	aui:txtChangeAll "verander alle waardes tegelijk"@nl ;
+	aui:lblDomain "domein"@nl .
 
 aui:txtSubHeader a auis:UILabel .
 aui:btnSubmit a auis:UILabel .
 aui:sldALot a auis:UILabel .
 aui:sldNothing a auis:UILabel .
+aui:txtChangeAll a auis:UILabel .
+aui:lblDomain a auis:UILabel .
 
 ##### Profile Screen #####
 
