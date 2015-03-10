@@ -12,12 +12,10 @@
 %%      strategy_expertise(-Result, +Options)
 %
 %       Assign a number of objects in a random fassion.
-strategy_expertise(Clusters, _Options) :-
-	%Remove line below
-	User = 'http://accurator.nl/user#kip',
-	get_domain(User, DomainString),
-	atom_string(Domain, DomainString),
-	set_expertise_agenda(40, Agenda, [user(User), domain(Domain)]),
+strategy_expertise(Clusters, Options) :-
+	option(user(User), Options),
+	get_domain(User, Domain),
+	set_expertise_agenda(10, Agenda, [domain(Domain) | Options]),
     cluster_recommender(Agenda, State, [target('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions).

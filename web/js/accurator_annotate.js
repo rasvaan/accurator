@@ -73,7 +73,7 @@ function addButtonEvents() {
 	}
 	
 	$("#btnAnnotateRecommend").click(function() {
-		//document.location.href="results.html" + "?user=" + user;
+		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
 	$("#frmSearch").keypress(function(event) {

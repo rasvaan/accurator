@@ -1,6 +1,6 @@
 /* Accurator Results
 */
-var locale, ui, userName;
+var locale, ui, userName, realName;
 
 displayOptions = {
 	numberDisplayedItems: 4,
@@ -16,6 +16,7 @@ function resultsInit() {
 		setLinkLogo("profile");
 		user = data.user;
 		userName = getUserName(user);
+		realName = data.real_name;
 		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 		var query = getParameterByName("query");
 		var userParam = getParameterByName("user");
@@ -55,7 +56,7 @@ function initLabels(labels) {
 
 function addButtonEvents() {
 	$("#btnResultsRecommend").click(function() {
-		//document.location.href="results.html" + "?user=" + user;
+		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
 	$("#frmSearch").keypress(function(event) {
@@ -75,18 +76,19 @@ function initiateSearch(query) {
 }
 
 function recommendItems(user) {
-	$.getJSON("recommendation", {strategy:'expertise'})
+	$.getJSON("recommendation", {strategy:'expertise',
+								 user:user})
 		.done(function(data){
 			console.log(data);
-//			  $("#results").children().remove();
-//			  showFilters();
-//			  processJsonResults(data);
-//			  createResultClusters();
-//			  $(document).prop('title', 'Results for ' + query);
+			  $("#results").children().remove();
+			  showFilters();
+			  processJsonResults(data);
+			  createResultClusters();
+			  $(document).prop('title', 'Recommendations for ' + realName);
 		})
 		.fail(function(data, textStatus){
-//			  $("#results").children().remove();
-//			  $("#results").append(errorHtml(data, textStatus));
-//			  $(document).prop('title', 'Error on ' + query);
+			  $("#results").children().remove();
+			  $("#results").append(errorHtml(data, textStatus));
+			  $(document).prop('title', 'Error on ' + query);
 		});
 }
