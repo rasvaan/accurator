@@ -1,5 +1,6 @@
 :- module(strategy_random, [strategy_random/2]).
 
+:- use_module(library(semweb/rdf_db)).
 
 %%      strategy_random(-Result, +Options)
 %

@@ -4,8 +4,14 @@
 :- use_module(library(accurator/expertise)).
 :- use_module(library(cluster_search/cs_filter)).
 :- use_module(library(cluster_search/rdf_search)).
+:- use_module(library(cluster_search/owl_ultra_lite)).
 :- use_module(api(cluster_search)).
 :- use_module(library(semweb/rdfs)).
+:- use_module(library(semweb/rdf_db)).
+
+
+:- multifile
+	cluster_search:predicate_weight/2.
 
 %strategy_expertise(Result, []).
 
