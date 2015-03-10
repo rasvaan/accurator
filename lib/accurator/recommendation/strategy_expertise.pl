@@ -16,7 +16,7 @@ strategy_expertise(Clusters, Options0) :-
 	option(user(User), Options0),
 	get_domain(User, Domain),
 	Options = [domain(Domain) | Options0],
-	set_expertise_agenda(10, Agenda, Options),
+	set_expertise_agenda(3, Agenda, Options),
     cluster_recommender(Agenda, State, [target('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions).
@@ -53,8 +53,9 @@ cluster_recommender(Agenda, State, Options) :-
 	TargetCond = target_goal(Goal, R),
 	%define edges used
 	Expand = rdf_backward_search:edge,
-	%add that to options
-	SearchOptions = [expand_node(Expand), graphOutput(spo)],
+	%add that to options, set threshold low to enable graph traphersal
+	SearchOptions = [edge_limit(30), threshold(0.0001),
+					 expand_node(Expand), graphOutput(spo)],
 	%init search state
 	rdf_init_state(TargetCond, State, SearchOptions),
 	%start the search with set agenda (instead of keyword)
@@ -63,21 +64,6 @@ cluster_recommender(Agenda, State, Options) :-
 	steps(0, Steps, State),
 	%prune the graph
 	prune(State, []).
-
-
-
-
-
-
-
-
-prune(State, Options) :-
-    rdf_prune_search(State, Options),
-    rdf_search_property(State, graph_size(Nodes)),
-    debug(rdf_search, 'After prune: ~D nodes in graph', [Nodes]).
-
-
-
 
 steps(Steps, Steps, _) :- !.
 steps(I, Steps, Graph) :-
@@ -96,6 +82,11 @@ steps(I, Steps, Graph) :-
 
 debug_property(target_count(_)).
 debug_property(graph_size(_)).
+
+prune(State, Options) :-
+    rdf_prune_search(State, Options),
+    rdf_search_property(State, graph_size(Nodes)),
+    debug(rdf_search, 'After prune: ~D nodes in graph', [Nodes]).
 
 
 %%	edge(+Node, +Score, -Link) is nondet.
@@ -169,10 +160,7 @@ predicate_weight(P, 1) :-
 	rdf_equal(P, skos:exactMatch), !.
 predicate_weight(P, 0) :-
 	rdfs_subproperty_of(P, rdfs:comment), !.
-/*
-predicate_weight(_, Weight) :-
-	catch(cliopatria:default_weight(Weight), _, fail).
-*/
+
 subject_weight(S, _, 1) :-
 	rdf_is_bnode(S), !.
 subject_weight(_, Count, W) :-
