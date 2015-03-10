@@ -145,9 +145,16 @@ body {
 
 /* Annotate page */
 #navigation {
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
+#path {
+	text-align: center;
+}
+
+#path h4 {
+	margin-top: 2px;
+}
 #frmSearchAnnotate {
 	text-align: center;
 }

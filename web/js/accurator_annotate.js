@@ -1,6 +1,6 @@
 /* Accurator Annotate
 */
-var locale, domain, ui, uri;
+var query, locale, domain, user, ui, uri;
 
 displayOptions = {
 	showAnnotations: true,
@@ -20,6 +20,7 @@ function annotateInit() {
 		onDomain = function(domainData) {
 			ui = domainData.ui + "annotate";
 			populateUI();
+			user = loginData.user;
 			var userName = getUserName(loginData.user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 		};
@@ -35,6 +36,7 @@ function populateUI() {
 	.done(function(labels){
 		document.title = labels.title;
 		initLabels(labels);
+		addPath();
 		addButtonEvents();
 	});
 	console.log(uri);
@@ -46,6 +48,12 @@ function initLabels(data) {
 	$("#btnNext").prepend(data.btnNext);
 	$("#btnAnnotateRecommend").append(data.btnAnnotateRecommend);
 	$("#btnAnnotateSearch").append(data.btnAnnotateSearch);
+}
+
+function addPath() {
+	query = localStorage.getItem("query");
+	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
+	$("#path").append(pathHtmlElements(cluster.path));
 }
 
 function addButtonEvents() {

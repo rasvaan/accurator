@@ -56,6 +56,7 @@ reply_page(Options) :-
 		   \login_modal,
 		   \annotate_javascript,
 		   \html_requires(css('bootstrap.min.css')),
+		   \html_requires(css('search.css')),
 		   \html_requires(css('accurator.css'))])]).
 
 get_annotation_ui(User, UI) :-
@@ -106,6 +107,7 @@ annotate_javascript -->
 	<script type="text/javascript" src="js/accurator.laconic.js"></script>
 	<script type="text/javascript" src="js/pengines.js"></script>
 	<script type="text/javascript" src="js/result.js"></script>
+	<script type="text/javascript" src="js/search.js"></script>
 	<script type="text/javascript" src="js/accurator_utilities.js"></script>
 	<script type="text/javascript" src="js/accurator_annotate.js"></script>
 	<script>annotateInit()</script>
@@ -119,16 +121,7 @@ navigation -->
 		        <span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
 		</div>
-		<div class="col-md-8">
-			<div class="form-inline" id="frmSearchAnnotate">
-		        <button class="btn btn-primary navButton" id="btnResultRecommend">
-				</button>
-				<div class="form-group">
-				    <input class="form-control" id="frmSearch" type="text">
-				</div>
-				<button id="btnResultSearch" class="btn btn-default navButton">
-				</button>
-			</div>
+		<div class="col-md-8" id="path">
 		</div>
 		<div class="col-md-2" id="btnAlignRight">
 			<button class="btn btn-default navButton" id="btnNext">
