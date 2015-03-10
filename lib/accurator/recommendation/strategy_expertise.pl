@@ -12,10 +12,11 @@
 %%      strategy_expertise(-Result, +Options)
 %
 %       Assign a number of objects in a random fassion.
-strategy_expertise(Clusters, Options) :-
-	option(user(User), Options),
+strategy_expertise(Clusters, Options0) :-
+	option(user(User), Options0),
 	get_domain(User, Domain),
-	set_expertise_agenda(10, Agenda, [domain(Domain) | Options]),
+	Options = [domain(Domain) | Options0],
+	set_expertise_agenda(10, Agenda, Options),
     cluster_recommender(Agenda, State, [target('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions).
@@ -26,7 +27,9 @@ strategy_expertise(Clusters, Options) :-
 %	a domain, sort based on the values and pick the highest values with
 %	a maximum number.
 set_expertise_agenda(MaxNumber, Agenda, Options) :-
-	get_user_expertise_domain(ExpertiseValues, Options),
+	option(user(User), Options),
+	option(domain(Domain), Options),
+	get_user_expertise_domain(User, Domain, ExpertiseValues),
 	transpose_pairs(ExpertiseValues, SortedExpertiseValues),
 	reverse(SortedExpertiseValues, TransposedExpertiseValues),
 	length(TransposedExpertiseValues, NumberExpertise),
