@@ -115,18 +115,18 @@ annotate_javascript -->
 navigation -->
 	html({|html||
 	<!-- Navigation -->
-	<div class="row" id="navigation">
-	    <div class="col-md-2">
+	<div class="row">
+	    <div class="navigationButton col-md-2 col-xs-6">
 			<button class="btn btn-default navButton" id="btnPrevious">
 		        <span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
 		</div>
-		<div class="col-md-8" id="path">
-		</div>
-		<div class="col-md-2" id="btnAlignRight">
+		<div class="navigationButton col-md-2 col-xs-6 col-md-push-8" id="btnAlignRight">
 			<button class="btn btn-default navButton" id="btnNext">
 		        <span class="glyphicon glyphicon-chevron-right"></span>
 			</button>
+		</div>
+		<div class="col-md-8 col-md-pull-2" id="path">
 		</div>
 	</div>
 	|}).
