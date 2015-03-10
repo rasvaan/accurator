@@ -78,17 +78,17 @@ function initiateSearch(query) {
 function recommendItems(user) {
 	$.getJSON("recommendation", {strategy:'expertise',
 								 user:user})
-		.done(function(data){
-			console.log(data);
-			  $("#results").children().remove();
-			  showFilters();
-			  processJsonResults(data);
-			  createResultClusters();
-			  $(document).prop('title', 'Recommendations for ' + realName);
-		})
-		.fail(function(data, textStatus){
-			  $("#results").children().remove();
-			  $("#results").append(errorHtml(data, textStatus));
-			  $(document).prop('title', 'Error on ' + query);
-		});
+	.done(function(data){
+		query = "expertise values";
+		$("#results").children().remove();
+		showFilters();
+		processJsonResults(data);
+		createResultClusters();
+		$(document).prop('title', 'Recommendations for ' + realName);
+	})
+	.fail(function(data, textStatus){
+		$("#results").children().remove();
+		$("#results").append(errorHtml(data, textStatus));
+		$(document).prop('title', 'Error on ' + query);
+	});
 }
