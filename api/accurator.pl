@@ -10,6 +10,7 @@
 :- use_module(library(accurator/recommendation/strategy_random)).
 :- use_module(library(accurator/recommendation/strategy_expertise)).
 :- use_module(library(accurator/ui_elements)).
+:- use_module(api(cluster_search)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
@@ -177,8 +178,7 @@ expertise_values_api(Request) :-
 recommendation_api(Request) :-
     get_recommendation_parameters(Request, Options),
     option(strategy(Strategy), Options),
-    strategy(Strategy, Result, Options),
-    reply_json(Result).
+    strategy(Strategy, Options).
 
 %%	get_parameters(+Request, -Parameters)
 %
@@ -195,12 +195,14 @@ get_recommendation_parameters(Request, Options) :-
     Options = [strategy(Strategy), user(User),
 			   target(Target)].
 
-%%	strategy(+Strategy, -Result, +Options)
+%%	strategy(+Strategy, +Options)
 %
 %   Selects objects according to the specified strategy.
-strategy(random, Result, Options) :-
-    strategy_random(Result, Options).
+strategy(random, Options) :-
+    strategy_random(Result, Options),
+	reply_json_dict(Result).
 
-strategy(expertise, Result, Options) :-
-    strategy_expertise(Result, Options).
+strategy(expertise, Options) :-
+    strategy_expertise(Clusters, Options),
+	reply_clusters(Clusters).
 
