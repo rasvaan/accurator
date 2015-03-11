@@ -144,7 +144,7 @@ function processExpertiseValues() {
 			contentType: "application/json",
 			data: JSON.stringify(userExpertise),
 			success: function(){
-				       document.location.href="profile.html";
+				       document.location.href="results.html";
 			}
 	});
 }
