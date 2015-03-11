@@ -84,7 +84,6 @@ function initiateSearch(query) {
 }
 
 function recommendItems(user) {
-console.log("target", target);
 	$.getJSON("recommendation", {strategy:'expertise',
 								 user:user,
 								 target:target})

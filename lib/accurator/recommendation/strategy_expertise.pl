@@ -23,7 +23,7 @@ strategy_expertise(Clusters, Options0) :-
 	get_domain(User, Domain),
 	Options = [domain(Domain) | Options0],
 	set_expertise_agenda(3, Agenda, Options),
-    cluster_recommender(Agenda, State, [target('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
+    cluster_recommender(Agenda, State, Options),
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions).
 
