@@ -80,7 +80,6 @@ function addButtonEvents() {
 }
 
 function initiateSearch(query, target) {
-target = "a";
 	search(query, target);
 }
 
