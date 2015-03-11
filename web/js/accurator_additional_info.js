@@ -104,6 +104,7 @@ function initCheckboxes(data) {
 	$("#chkSocialNone").after(data.chkSocialNone);
 	$("#chkTagSiteFlickr").after(data.chkTagSiteFlickr);
 	$("#chkTagSiteDelicious").after(data.chkTagSiteDelicious);
+	$("#chkTagSiteFacebook").after(data.chkTagSiteFacebook);
 	$("#chkTagSiteOther").after(data.chkTagSiteOther);
 	$("#chkTagNone").after(data.chkTagNone);
 }
@@ -283,12 +284,16 @@ function getInputTaggingSite() {
 	if($("#chkTagNone").is(":checked")) {
 		info.flickr = false;
 		info.delicious = false;
+		info.tag_facebook = false;
 		info.other = false;
 	} else {
 		if ($("#chkTagSiteFlickr").is(":checked"))
 			info.flickr = true;
 		if ($("#chkTagSiteDelicious").is(":checked"))
 			info.delicious = true;
+		if ($("#chkTagSiteFacebook").is(":checked"))
+			info.tag_facebook = true;
+		
 		//Set tagsite to true
 		if ($("#chkTagSiteOther").is(":checked")) {
 			if (!($("#addTagSite").val() === undefined) && !($("#addTagSite").val() === "")) {

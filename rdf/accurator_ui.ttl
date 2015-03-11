@@ -243,6 +243,7 @@ aui:additional_info a auis:UI ;
 	aui:frmTagSite "Did you tag on one of these websites?"@en ;
 	aui:chkTagSiteFlickr "Flickr"@en ;
 	aui:chkTagSiteDelicious "Delicious"@en ;
+	aui:chkTagSiteFacebook "Facebook"@en ;
 	aui:chkTagSiteOther "Other site"@en ;
 	aui:chkTagNone "None of these"@en ;
 	aui:frmTagSiteOpen "Which other tagging site(s)?"@en ;
@@ -280,6 +281,7 @@ aui:additional_info a auis:UI ;
 	aui:frmTagSite "Welke van de volgende websites heeft u weleens gebruikt om te taggen?"@nl ;
 	aui:chkTagSiteFlickr "Flickr"@nl ;
 	aui:chkTagSiteDelicious "Delicious"@nl ;
+	aui:chkTagSiteFacebook "Facebook"@nl ;
 	aui:chkTagSiteOther "Andere site"@nl ;
 	aui:chkTagNone "Geen van deze"@nl ;
 	aui:frmTagSiteOpen "Welke andere tag site(s)?"@nl .
@@ -319,6 +321,7 @@ aui:frmTaggingExperienceLevel a auis:UILabel .
 aui:frmTagSite a auis:UILabel .
 aui:chkTagSiteFlickr a auis:UILabel .
 aui:chkTagSiteDelicious a auis:UILabel .
+aui:chkTagSiteFacebook a auis:UILabel .
 aui:chkTagSiteOther a auis:UILabel .
 aui:chkTagNone a auis:UILabel .
 aui:frmTagSiteOpen a auis:UILabel .
