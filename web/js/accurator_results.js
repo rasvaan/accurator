@@ -1,6 +1,6 @@
 /* Accurator Results
 */
-var query, locale, ui, userName, realName, target;
+var locale, ui, userName, realName;
 
 displayOptions = {
 	numberDisplayedItems: 4,
@@ -18,25 +18,25 @@ function resultsInit() {
 		userName = getUserName(user);
 		realName = loginData.real_name;
 		var userParam = getParameterByName("user");
-		query = getParameterByName("query");
+		var query = getParameterByName("query");
 		
 		populateNavbar(userName, [{link:"profile.html",							   name:"Profile"}]);
 		
 		onDomain = function(domainData) {
 			ui = domainData.ui + "results";
-			target = domainData.target;
+			var target = domainData.target;
 			populateUI();
 			addButtonEvents();
 			
 			//Provide results based on query or recommend something. In case of no in put recommend based on retrieved user.
 			if(query != "") {
-				initiateSearch(query);
+				initiateSearch(query, target);
 			} else if(userParam != "") {
 				query = "expertise values";
-				recommendItems(userParam);
+				recommendItems(userParam, query, target);
 			} else {
 				query = "expertise values";
-				recommendItems(user);
+				recommendItems(user, query, target);
 			}
 			localStorage.setItem("query", query);
 		};
@@ -79,11 +79,12 @@ function addButtonEvents() {
 	});
 }
 
-function initiateSearch(query) {
-	search(query);
+function initiateSearch(query, target) {
+target = "a";
+	search(query, target);
 }
 
-function recommendItems(user) {
+function recommendItems(user, query, target) {
 	$.getJSON("recommendation", {strategy:'expertise',
 								 user:user,
 								 target:target})
