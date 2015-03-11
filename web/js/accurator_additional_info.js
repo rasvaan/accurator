@@ -37,7 +37,7 @@ function populateUI() {
 		addButtonEvents();
 		initLabels(data);
 		addFormEvents();
-		$("#frmAge").focus();});
+	});
 }
 
 function addButtonEvents() {
@@ -51,6 +51,8 @@ function addButtonEvents() {
 
 function initLabels(data) {
 	document.title = data.title;
+	$("#pnlInternetUsage").append(data.pnlInternetUsage);
+	$("#pnlPersonalInfo").append(data.pnlPersonalInfo);
 	frmTwitterId = data.frmTwitterId;
 	frmTagSiteOpen = data.frmTagSiteOpen;
 	frmSocialSiteOpen = data.frmSocialSiteOpen;

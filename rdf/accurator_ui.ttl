@@ -207,6 +207,8 @@ aui:additional_info a auis:UI ;
 	dcterms:title "Accurator additional info UI"@en  ;
 	aui:title "Additional info"@en ;
 	aui:title "Aanvullende informatie"@nl ;
+	aui:pnlInternetUsage "Internet usage"@en ;
+	aui:pnlPersonalInfo "Personal info"@en ;
 	aui:txtHeader "Additional Info"@en ;
 	aui:txtHeaderSub "it would help us a lot if you would provide us with the following information"@en ;
 	aui:btnAddInfo "Add Additional Info"@en ;
@@ -247,6 +249,8 @@ aui:additional_info a auis:UI ;
 	aui:chkTagSiteOther "Other site"@en ;
 	aui:chkTagNone "None of these"@en ;
 	aui:frmTagSiteOpen "Which other tagging site(s)?"@en ;
+	aui:pnlInternetUsage "Internet gebruik"@nl ;
+	aui:pnlPersonalInfo "Persoonlijke informatie"@nl ;
 	aui:txtHeader "Aanvullende informatie"@nl ;
 	aui:txtHeaderSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
 	aui:btnAddInfo "Bevestig"@nl ;
@@ -286,6 +290,8 @@ aui:additional_info a auis:UI ;
 	aui:chkTagNone "Geen van deze"@nl ;
 	aui:frmTagSiteOpen "Welke andere tag site(s)?"@nl .
 
+aui:pnlInternetUsage a auis:UILabel .
+aui:pnlPersonalInfo a auis:UILabel .
 aui:txtHeader a auis:UILabel .
 aui:txtHeaderSub a auis:UILabel .
 aui:btnAddInfo a auis:UILabel .

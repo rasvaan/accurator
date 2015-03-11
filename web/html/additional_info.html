@@ -41,162 +41,176 @@
 		
 		<!-- Form -->
 		<div class="row">
-			<div class="col-md-10 col-md-offset-1">			
-				<form class="form-horizontal">
-					<!-- Activity on social networking sites -->
-					<div class="form-group" id="frmGroupSocialNetwork">
-						<label for="addSocialNetwork" id="frmSocialNetwork" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkSocialFacebook" value="facebook">
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkSocialLinkedIn" value="linked in">
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkSocialTwitter" value="twitter">
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkSocialOther" value="none">
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkSocialNone" value="none">
-							</label>
-						</div>
+			<div class="col-md-10 col-md-offset-1">
+				<!-- Internet usage panel -->
+				<div class="panel panel-default">
+					<div class="panel-heading"  id="pnlInternetUsage"></div>
+					<div class="panel-body">
+						<form class="form-horizontal">
+							<!-- Activity on social networking sites -->
+							<div class="form-group" id="frmGroupSocialNetwork">
+								<label for="addSocialNetwork" id="frmSocialNetwork" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkSocialFacebook" value="facebook">
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkSocialLinkedIn" value="linked in">
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkSocialTwitter" value="twitter">
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkSocialOther" value="none">
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkSocialNone" value="none">
+									</label>
+								</div>
+							</div>
+							<!-- Internet usage -->
+		 					<div class="form-group">
+								<label for="addInternetUsage" id="frmInternetUsage" class="col-sm-5 control-label">							
+								</label>
+								<div class="col-sm-5">
+									<select class="form-control" id="sltInternet">
+									</select>
+								</div>
+							</div>
+							<!-- Tagging sites -->
+		 					<div class="form-group" id="frmGroupTaggingSite">
+								<label for="addTagSites" id="frmTagSite" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkTagSiteFlickr" value="flickr">
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkTagSiteDelicious" value="delicious">
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkTagSiteFacebook" value="facebook">
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkTagSiteOther" value="other">
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="chkTagNone" value="none">
+									</label>
+								</div>
+							</div>
+							<!-- Level of tagging experience -->
+		 					<div class="form-group">
+								<label for="addTaggingExperienceLevel" id="frmTaggingExperienceLevel" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<label class="radio-inline">
+										<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingNone" value="none">
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingNovice" value="novice">
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingIntermediate" value="intermediate">
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingExpert" value="expert">
+									</label>
+								</div>
+							</div>
+							<!-- Email -->
+		 					<div class="form-group">
+								<label for="addMail" id="frmMail" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<input type="email" id="addMail" class="form-control">
+								</div>
+							</div>
+						</form>
 					</div>
-					<!-- Internet usage -->
- 					<div class="form-group">
-						<label for="addInternetUsage" id="frmInternetUsage" class="col-sm-5 control-label">							
-						</label>
-						<div class="col-sm-5">
-							<select class="form-control" id="sltInternet">
-							</select>
-						</div>
+				</div>
+			
+				<!-- Personal info panel -->
+				<div class="panel panel-default">
+					<div class="panel-heading" id="pnlPersonalInfo"></div>
+					<div class="panel-body">
+						<form class="form-horizontal">
+							<!-- Museum visits -->
+		 					<div class="form-group">
+								<label for="addMuseumVisits" id="frmMuseumVisits" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-2">
+									<input type="number" id="addMuseumVisits" class="form-control">
+								</div>
+							</div>
+							<!-- Country -->
+							<div class="form-group">
+								<label for="sltCountry" id="frmCountry" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<select class="form-control" id="sltCountry">
+									</select>
+								</div>
+							</div>
+							<!-- Language -->
+		 					<div class="form-group">
+								<label for="sltLanguage"  id="frmLanguage" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<select class="form-control" id="sltLanguage">
+									</select>
+								</div>
+							</div>
+							<!-- Community -->
+							<div class="form-group">
+								<label for="addCommunity" id="frmCommunity" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<label class="radio-inline">
+										<input type="radio" name="communityRadio" id="radioCommunityUrban" value="urban">
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="communityRadio" id="radioCommunitySubUrban" value="sub urban">
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="communityRadio" id="radioCommunityRural" value="rural">
+									</label>
+								</div>
+							</div>
+							<!-- Level of education -->
+		 					<div class="form-group">
+								<label for="sltEducation"  id="frmEducation" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<select class="form-control" id="sltEducation">
+									</select>
+								</div>
+							</div>
+							<!-- Gender -->
+							<div class="form-group">
+								<label for="addGender" id="frmGender" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-5">
+									<label class="radio-inline">
+										<input type="radio" name="genderRadio" id="radioGenderMale" value="male">
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="genderRadio" id="radioGenderFemale" value="female">
+									</label>
+								</div>
+							</div>
+							<!-- Age -->
+							<div class="form-group">
+								<label for="addAge" id="frmAge" class="col-sm-5 control-label">
+								</label>
+								<div class="col-sm-2">
+									<input type="number" id="addAge" class="form-control" min="0" max="120">
+								</div>
+							</div>
+						</form>
 					</div>
-					<!-- Tagging sites -->
- 					<div class="form-group" id="frmGroupTaggingSite">
-						<label for="addTagSites" id="frmTagSite" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkTagSiteFlickr" value="flickr">
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkTagSiteDelicious" value="delicious">
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkTagSiteFacebook" value="facebook">
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkTagSiteOther" value="other">
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="chkTagNone" value="none">
-							</label>
-						</div>
-					</div>
-					<!-- Level of tagging experience -->
- 					<div class="form-group">
-						<label for="addTaggingExperienceLevel" id="frmTaggingExperienceLevel" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<label class="radio-inline">
-								<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingNone" value="none">
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingNovice" value="novice">
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingIntermediate" value="intermediate">
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingExpert" value="expert">
-							</label>
-						</div>
-					</div>
-					<!-- Email -->
- 					<div class="form-group">
-						<label for="addMail" id="frmMail" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<input type="email" id="addMail" class="form-control">
-						</div>
-					</div>
-					
-					<!-- Museum visits -->
- 					<div class="form-group">
-						<label for="addMuseumVisits" id="frmMuseumVisits" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-2">
-							<input type="number" id="addMuseumVisits" class="form-control">
-						</div>
-					</div>
-					<!-- Country -->
-					<div class="form-group">
-						<label for="sltCountry" id="frmCountry" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<select class="form-control" id="sltCountry">
-							</select>
-						</div>
-					</div>
-					<!-- Language -->
- 					<div class="form-group">
-						<label for="sltLanguage"  id="frmLanguage" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<select class="form-control" id="sltLanguage">
-							</select>
-						</div>
-					</div>
-					<!-- Community -->
-					<div class="form-group">
-						<label for="addCommunity" id="frmCommunity" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<label class="radio-inline">
-								<input type="radio" name="communityRadio" id="radioCommunityUrban" value="urban">
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="communityRadio" id="radioCommunitySubUrban" value="sub urban">
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="communityRadio" id="radioCommunityRural" value="rural">
-							</label>
-						</div>
-					</div>
-					<!-- Level of education -->
- 					<div class="form-group">
-						<label for="sltEducation"  id="frmEducation" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<select class="form-control" id="sltEducation">
-							</select>
-						</div>
-					</div>
-					<!-- Gender -->
-					<div class="form-group">
-						<label for="addGender" id="frmGender" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-5">
-							<label class="radio-inline">
-								<input type="radio" name="genderRadio" id="radioGenderMale" value="male">
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="genderRadio" id="radioGenderFemale" value="female">
-							</label>
-						</div>
-					</div>
-					<!-- Age -->
-					<div class="form-group">
-						<label for="addAge" id="frmAge" class="col-sm-5 control-label">
-						</label>
-						<div class="col-sm-2">
-							<input type="number" id="addAge" class="form-control" min="0" max="120">
-						</div>
-					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 		
