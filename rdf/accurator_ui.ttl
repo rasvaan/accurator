@@ -36,7 +36,7 @@ aui:about a auis:UI ;
 	aui:txtAboutSlogan "Over Accurator"@nl ;
 	aui:btnGoBackHome "Back"@en ;
 	aui:btnGoBackHome "Terug"@nl ;
-	aui:txtAboutAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be the	annotation of the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
+	aui:txtAboutAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be tagging the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
 	aui:txtAboutAccurator "Accurator is een platform dat gebruikers in staat stelt hun expertise te delen met museum professionals bij het beschrijven van museumstukken. Dit kan, bijvoorbeeld, het voorzien van informatie zijn van dieren of planten prenten. Naast het verrijken van beschrijvingen van de museumstukken helpt dit proces ook de online toegankelijkheid van de collectie."@nl ;
 	aui:txtSealincMediaSlogan "SEALINCMedia"@en ;
 	aui:txtSealincMediaSlogan "SEALINCMedia"@nl ;
@@ -44,7 +44,7 @@ aui:about a auis:UI ;
 	aui:txtAboutSealincMedia "De ontwikkeling van Accurator maakt deel uit van het SEALINCMedia project. Het samenwerkingsverband bestaat uit de Vrije Universiteit Amsterdam, de Technische Universiteit Delf, Centrum Wiskunde en Informatica, Rijksmuseum Amsterdam, Naturalis en de Koninklijke Bibliotheek. SEALINCMedia maakt onderdeel uit van het COMMIT/ project wat onderzoek en (non-)profit organisaties samenbrengt om ICT uitdagingen op te lossen."@nl ;
 	aui:txtSealincResearchSlogan "Accurator for research"@en ;
 	aui:txtSealincResearchSlogan "Accurator en onderzoek"@nl ;
-	aui:txtAboutSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the annotation of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the annotations and annotators using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator."@en ;
+	aui:txtAboutSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the tagging of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the tags and taggers using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator."@en ;
 	aui:txtAboutSealincResearch "De onderzoeks uitdagingen zijn: het vinden de niche van experts en hen motiveren om informatie bij te dragen aan kunstwerken; experts de kunstwerken tonen waar overeenkomend met hun expertise; de bijdragen evalueren met behulp van algoritmen en deze aspecten presenteren in een passende interface. Om deze hypothesen te testen is Accurator continu in ontwikkeling."@nl .
 
 aui:title a auis:UILabel .
@@ -111,8 +111,8 @@ aui:txtTitle a auis:UILabel .
 ##### Annotate Screen #####
 
 aui:annotate a auis:UI ;
-	dcterms:title "Accurator annotate UI"@en ;
-	aui:title "Annotate image "@en ;
+	dcterms:title "Accurator tag UI"@en ;
+	aui:title "Tag image "@en ;
 	aui:title "Voeg informatie toe aan "@nl ;
 	aui:btnPrevious "Previous"@en ;
 	aui:btnPrevious "Vorige"@nl ;
@@ -165,14 +165,14 @@ aui:profile a auis:UI ;
 	aui:title "Profile"@en ;
 	aui:title "Profiel"@nl ;
 	aui:txtSlogan "Welcome "@en ;
-	aui:txtSubSlogan "start annotating or change your personal info"@en ;
-	aui:txtStartAnnotating "To start annotating you can choose to search for specific works or to get works recommended."@en ;
+	aui:txtSubSlogan "start tagging or change your personal info"@en ;
+	aui:txtStartAnnotating "To start tagging you can choose to search for specific works or to get works recommended."@en ;
 	aui:txtDomain "The current domain is the "@en ;
 	aui:btnRecommend "Recommended works"@en ;
 	aui:btnSearch "Search"@en ;
 	aui:btnChangeExpertise "Change expertise levels"@en ;
 	aui:btnDomain "Change domain"@en ;
-	aui:lblLastAnnotated "Artworks you recently annotated"@en ;
+	aui:lblLastAnnotated "Artworks you recently tagged"@en ;
 	aui:frmChangeLocale "Change the language of the interface"@en ;
 	aui:radioLocaleEn "English"@en ;
 	aui:radioLocaleNl "Dutch"@en ;
