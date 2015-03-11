@@ -78,8 +78,6 @@ function initFormQuestions(data) {
 	$("#frmSocialNetwork").append(data.frmSocialNetwork);
 	$("#frmInternetUsage").append(data.frmInternetUsage);
 	$("#frmMuseumVisits").append(data.frmMuseumVisits);
-	$("#frmEmployee").append(data.frmEmployee);	
-	$("#frmTaggingExperience").append(data.frmTaggingExperience);
 	$("#frmTaggingExperienceLevel").append(data.frmTaggingExperienceLevel);
 	$("#frmTagSite").append(data.frmTagSite);
 }
@@ -90,10 +88,7 @@ function initRadioButtons(data) {
 	$("#radioCommunityUrban").after(data.radioCommunityUrban);
 	$("#radioCommunitySubUrban").after(data.radioCommunitySubUrban);
 	$("#radioCommunityRural").after(data.radioCommunityRural);
-	$("#radioEmployeeYes").after(data.radioEmployeeYes);
-	$("#radioEmployeeNo").after(data.radioEmployeeNo);
-	$("#radioTaggingYes").after(data.radioTaggingYes);
-	$("#radioTaggingNo").after(data.radioTaggingNo);
+	$("#radioTaggingNone").after(data.radioTaggingNone);
 	$("#radioTaggingNovice").after(data.radioTaggingNovice);
 	$("#radioTaggingIntermediate").after(data.radioTaggingIntermediate);
 	$("#radioTaggingExpert").after(data.radioTaggingExpert);
@@ -228,10 +223,6 @@ function getInputRadioButtons() {
 		info.gender = $("input[name='genderRadio']:checked").val();
 	if(!($("input[name='communityRadio']:checked").val() === undefined))
 		info.community = $("input[name='communityRadio']:checked").val();
-	if(!($("input[name='employeeRadio']:checked").val() === undefined))
-		info.museum_employee = $("input[name='employeeRadio']:checked").val();
-	if(!($("input[name='taggingExperienceRadio']:checked").val() === undefined))
-		info.tagging_experience = $("input[name='taggingExperienceRadio']:checked").val();
 	if(!($("input[name='taggingExperienceLevelRadio']:checked").val() === undefined))
 		info.tagging_experience_level = $("input[name='taggingExperienceLevelRadio']:checked").val();
 }

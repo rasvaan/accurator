@@ -233,13 +233,8 @@ aui:additional_info a auis:UI ;
 	aui:frmInternetUsage "How often do you make use of the internet?"@en ;
 	auis:hasSelect aui:internetOptions ;
 	aui:frmMuseumVisits "How many times a year do you visit a museum on average?"@en ;
-	aui:frmEmployee "Are you employed by a museum?"@en ;
-	aui:radioEmployeeYes "Yes"@en ;
-	aui:radioEmployeeNo "No"@en ;
-	aui:frmTaggingExperience "Do you have any tagging experience?"@en ;
-	aui:radioTaggingYes "Yes"@en ;
-	aui:radioTaggingNo "No"@en ;
 	aui:frmTaggingExperienceLevel "How would you describe your level of tagging experience?"@en ;
+	aui:radioTaggingNone "No experience"@en ;
 	aui:radioTaggingNovice "Novice"@en ;
 	aui:radioTaggingIntermediate "Intermediate"@en ;
 	aui:radioTaggingExpert "Expert"@en ;
@@ -273,13 +268,8 @@ aui:additional_info a auis:UI ;
 	aui:frmTwitterId "Wat is uw Twitter id?"@nl  ;
 	aui:frmInternetUsage "Hoe vaak gebruikt u het internet?"@nl ;
 	aui:frmMuseumVisits "Hoe vaak per jaar bezoekt u gemiddeld een museum?"@nl ;
-	aui:frmEmployee "Bent u een museum medewerker?"@nl ;
-	aui:radioEmployeeYes "Ja"@nl ;
-	aui:radioEmployeeNo "Nee"@nl ;
-	aui:frmTaggingExperience "Heeft u ervaring met het toevoegen van informatie aan media?"@nl ;
-	aui:radioTaggingYes "Ja"@nl ;
-	aui:radioTaggingNo "Nee"@nl;
 	aui:frmTaggingExperienceLevel "Hoe zou u uw tag ervaringsniveau omschrijven?"@nl ;
+	aui:radioTaggingNone "Geen ervaring"@nl ;
 	aui:radioTaggingNovice "Beginner"@nl ;
 	aui:radioTaggingIntermediate "Gemiddeld"@nl ;
 	aui:radioTaggingExpert "Expert"@nl ;
@@ -314,12 +304,7 @@ aui:chkSocialNone a auis:UILabel .
 aui:frmTwitterId a auis:UILabel .
 aui:frmInternetUsage a auis:UILabel .
 aui:frmMuseumVisits a auis:UILabel .
-aui:frmEmployee a auis:UILabel .
-aui:radioEmployeeYes a auis:UILabel .
-aui:radioEmployeeNo a auis:UILabel .
-aui:frmTaggingExperience a auis:UILabel .
-aui:radioTaggingYes a auis:UILabel .
-aui:radioTaggingNo a auis:UILabel .
+aui:radioTaggingNone a auis:UILabel .
 aui:radioTaggingNovice a auis:UILabel .
 aui:radioTaggingIntermediate a auis:UILabel .
 aui:radioTaggingExpert a auis:UILabel .
