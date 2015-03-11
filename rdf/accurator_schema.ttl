@@ -20,6 +20,10 @@ accu:DesciptiveImage a rdfs:Class ;
 	rdfs:comment "Image that illustrates a resource"@en ;
 	rdfs:subClassOf dctypes:StillImage.
 
+accu:hasTarget a rdf:Property;
+	rdfs:label "Has target class"@en ;
+	rdfs:comment "The class that is targeted for annotation."@en .
+
 accu:hasUI a rdf:Property ;
 	rdfs:label "Has user interface specification"@en ;
 	rdfs:comment "Property linking a domain to a user interface specification."@en ;
