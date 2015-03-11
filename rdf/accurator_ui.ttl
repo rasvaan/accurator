@@ -228,7 +228,9 @@ aui:additional_info a auis:UI ;
 	aui:chkSocialFacebook "Facebook"@en ;
 	aui:chkSocialLinkedIn "LinkedIn"@en ;
 	aui:chkSocialTwitter "Twitter"@en ;
+	aui:chkSocialOther "Other"@en ;
 	aui:chkSocialNone "None of these"@en ;
+	aui:frmSocialSiteOpen "Which other social network site(s)?"@en ;
 	aui:frmTwitterId "What is your Twitter id?"@en  ;
 	aui:frmInternetUsage "How often do you make use of the internet?"@en ;
 	auis:hasSelect aui:internetOptions ;
@@ -265,6 +267,8 @@ aui:additional_info a auis:UI ;
 	aui:chkSocialLinkedIn "LinkedIn"@nl ;
 	aui:chkSocialTwitter "Twitter"@nl ;
 	aui:chkSocialNone "Geen van deze"@nl ;
+	aui:chkSocialOther "Ander platform"@nl ;
+	aui:frmSocialSiteOpen "Welke andere social media site(s)?"@nl ;
 	aui:frmTwitterId "Wat is uw Twitter id?"@nl  ;
 	aui:frmInternetUsage "Hoe vaak gebruikt u het internet?"@nl ;
 	aui:frmMuseumVisits "Hoe vaak per jaar bezoekt u gemiddeld een museum?"@nl ;
@@ -301,6 +305,9 @@ aui:chkSocialFacebook a auis:UILabel .
 aui:chkSocialLinkedIn a auis:UILabel .
 aui:chkSocialTwitter a auis:UILabel .
 aui:chkSocialNone a auis:UILabel .
+aui:chkSocialOther a auis:UILabel .
+aui:frmSocialSiteOpen a auis:UILabel .
+aui:frmTagSiteOpen a auis:UILabel .
 aui:frmTwitterId a auis:UILabel .
 aui:frmInternetUsage a auis:UILabel .
 aui:frmMuseumVisits a auis:UILabel .

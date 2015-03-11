@@ -7,7 +7,8 @@ var educationOptions,  internetOptions;
 var info = {};
 var twitterFieldAdded = false;
 var tagsiteFieldAdded = false;
-var frmTwitterId, frmTagSiteOpen;
+var socialFieldAdded = false;
+var frmTwitterId, frmTagSiteOpen, frmSocialSiteOpen;
 
 function additionalInfoInit() {
 	locale = getLocale();
@@ -52,6 +53,7 @@ function initLabels(data) {
 	document.title = data.title;
 	frmTwitterId = data.frmTwitterId;
 	frmTagSiteOpen = data.frmTagSiteOpen;
+	frmSocialSiteOpen = data.frmSocialSiteOpen;
 	$("#txtHeader").prepend(data.txtHeader);
 	$("#txtHeaderSub").append(data.txtHeaderSub);
 	initFormQuestions(data);
@@ -98,6 +100,7 @@ function initCheckboxes(data) {
 	$("#chkSocialFacebook").after(data.chkSocialFacebook);
 	$("#chkSocialLinkedIn").after(data.chkSocialLinkedIn);
 	$("#chkSocialTwitter").after(data.chkSocialTwitter);
+	$("#chkSocialOther").after(data.chkSocialOther);
 	$("#chkSocialNone").after(data.chkSocialNone);
 	$("#chkTagSiteFlickr").after(data.chkTagSiteFlickr);
 	$("#chkTagSiteDelicious").after(data.chkTagSiteDelicious);
@@ -106,6 +109,21 @@ function initCheckboxes(data) {
 }
 
 function addFormEvents() {
+	$("#chkSocialOther").click(function() {
+		if(!socialFieldAdded) {
+			$("#frmGroupSocialNetwork").after(
+				$.el.div({'class':'form-group'},
+						$.el.label({'for':'addSocialSite',
+									'id':'frmSocialOpen',
+									'class':'col-sm-5 control-label'},
+									frmSocialSiteOpen),
+						$.el.div({'class':'col-sm-5'},
+								 $.el.input({'type':'text',
+									 		 'id':'addSocialSite',
+									 		 'class':'form-control'}))));
+			socialFieldAdded = true;
+		}
+	});
 	$("#chkSocialTwitter").click(function() {
 		if(!twitterFieldAdded) {
 			$("#frmGroupSocialNetwork").after(
@@ -248,6 +266,14 @@ function getInputSocialNetwork() {
 				info.twitter = $("#addTwitterId").val();
 			} else {
 				info.twitter = true;
+			}
+		}
+		//Set social to true
+		if ($("#chkSocialOther").is(":checked")) {
+			if (!($("#addSocialSite").val() === undefined) && !($("#addSocialSite").val() === "")) {
+				info.other_social_site = $("#addSocialSite").val();
+			} else {
+				info.other_social_site = true;
 			}
 		}
 	}
