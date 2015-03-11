@@ -135,7 +135,7 @@ aui:expertise a auis:UI ;
 	aui:title "Expertise"@en ;
 	aui:title "Expertise"@nl ;
 	aui:txtHeader "Expertise"@en ;
-	aui:txtSubHeader "how much do you know about the following topics?"@en ;
+	aui:txtSubHeader "tell us know much you know about the following topics."@en ;
 	aui:btnSkip "or skip this step"@en ;
 	aui:btnSubmit "Submit"@en ;
 	aui:sldALot "a lot"@en ;
@@ -205,8 +205,8 @@ aui:radioLocaleNl a auis:UILabel .
 
 aui:additional_info a auis:UI ;
 	dcterms:title "Accurator additional info UI"@en  ;
-	aui:title "Additional info"@en ;
-	aui:title "Aanvullende informatie"@nl ;
+	aui:title "Info"@en ;
+	aui:title "Informatie"@nl ;
 	aui:pnlInternetUsage "Internet usage"@en ;
 	aui:pnlPersonalInfo "Personal info"@en ;
 	aui:txtHeader "Additional Info"@en ;
