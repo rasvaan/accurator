@@ -31,6 +31,7 @@ get_domain_settings(Dic, _Options) :-
 %	Create a dictionary filled with information about the domain.
 get_domain_dic(DomainUri, Domain, Dic) :-
 	rdf(DomainUri, dcterms:requires, Taxonomy),
+	rdf(DomainUri, accu:hasTarget, Target),
 	rdf(DomainUri, skos:hasTopConcept, TopConcept),
 	rdf(DomainUri, accu:hasMaximumExpertiseTopics, literal(MaxTopics)),
 	rdf(DomainUri, accu:hasMaximumChildren, literal(MaxChildren)),
@@ -39,6 +40,7 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
 	rdf(Image, accu:brightness, literal(Brightness)),
 	Dic = domain{domain:Domain,
+				 target:Target,
 				 taxonomy:Taxonomy,
 				 top_concept:TopConcept,
 				 number_of_topics:MaxTopics,

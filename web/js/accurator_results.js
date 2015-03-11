@@ -1,6 +1,6 @@
 /* Accurator Results
 */
-var query, locale, ui, userName, realName;
+var query, locale, ui, userName, realName, target;
 
 displayOptions = {
 	numberDisplayedItems: 4,
@@ -12,31 +12,33 @@ function resultsInit() {
 	locale = getLocale();
 	domain = getDomain();
 	
-	onLoggedIn = function(data){
+	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
-		user = data.user;
+		user = loginData.user;
 		userName = getUserName(user);
-		realName = data.real_name;
-		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
-		query = getParameterByName("query");
+		realName = loginData.real_name;
 		var userParam = getParameterByName("user");
+		query = getParameterByName("query");
 		
-		//Provide results based on query or recommend something. In case of no in put recommend based on retrieved user.
-		if(query != "") {
-			initiateSearch(query);
-		} else if(userParam != "") {
-			query = "expertise values";
-			recommendItems(userParam);
-		} else {
-			query = "expertise values";
-			recommendItems(user);
-		}
-		localStorage.setItem("query", query);
+		populateNavbar(userName, [{link:"profile.html",							   name:"Profile"}]);
 		
 		onDomain = function(domainData) {
 			ui = domainData.ui + "results";
+			target = domainData.target;
 			populateUI();
 			addButtonEvents();
+			
+			//Provide results based on query or recommend something. In case of no in put recommend based on retrieved user.
+			if(query != "") {
+				initiateSearch(query);
+			} else if(userParam != "") {
+				query = "expertise values";
+				recommendItems(userParam);
+			} else {
+				query = "expertise values";
+				recommendItems(user);
+			}
+			localStorage.setItem("query", query);
 		};
 		domainSettings(domain, onDomain);
 	};
@@ -45,7 +47,8 @@ function resultsInit() {
 }
 
 function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
+	$.getJSON("ui_elements", {locale:locale, ui:ui,
+							  type:"labels"})
 	.done(function(labels){
 		initLabels(labels);
 	});
@@ -81,8 +84,10 @@ function initiateSearch(query) {
 }
 
 function recommendItems(user) {
+console.log("target", target);
 	$.getJSON("recommendation", {strategy:'expertise',
-								 user:user})
+								 user:user,
+								 target:target})
 	.done(function(data){
 		$("#results").children().remove();
 		showFilters();
