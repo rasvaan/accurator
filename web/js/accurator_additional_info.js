@@ -3,7 +3,7 @@
 var locale, domain, ui;
 var countries = [];
 var languages = [];
-var educationOptions, incomeOptions, internetOptions;
+var educationOptions,  internetOptions;
 var info = {};
 var twitterFieldAdded = false;
 var tagsiteFieldAdded = false;
@@ -63,8 +63,6 @@ function initLabels(data) {
 	initLanguagesSelector();
 	educationOptions = data.educationOptions;
 	initEducationSelector();
-	incomeOptions = data.incomeOptions;
-	initIncomeSelector(data.incomeOptions);
 	internetOptions = data.internetOptions;
 	initInternetSelector(data.internetOptions);
 }
@@ -76,7 +74,6 @@ function initFormQuestions(data) {
 	$("#frmCommunity").append(data.frmCommunity);
 	$("#frmLanguage").append(data.frmLanguage);
 	$("#frmEducation").append(data.frmEducation);
-	$("#frmIncome").append(data.frmIncome);
 	$("#frmMail").append(data.frmMail);
 	$("#frmSocialNetwork").append(data.frmSocialNetwork);
 	$("#frmInternetUsage").append(data.frmInternetUsage);
@@ -193,18 +190,6 @@ function initEducationSelector() {
 	$("#sltEducation").append($.el.option(educationOptions.optionUknown.label));
 }
 
-function initIncomeSelector() {
-	$("#sltIncome").append($.el.option(""));
-	$("#sltIncome").append($.el.option(incomeOptions.income20.label));
-	$("#sltIncome").append($.el.option(incomeOptions.income20to35.label));
-	$("#sltIncome").append($.el.option(incomeOptions.income35to50.label));
-	$("#sltIncome").append($.el.option(incomeOptions.income50to75.label));
-	$("#sltIncome").append($.el.option(incomeOptions.income75to100.label));
-	$("#sltIncome").append($.el.option(incomeOptions.income100to150.label));
-	$("#sltIncome").append($.el.option(incomeOptions.income150to200.label));
-	$("#sltIncome").append($.el.option(incomeOptions.income200.label));
-}
-
 function initInternetSelector(optionList) {
 	$("#sltInternet").append($.el.option(""));
 	$("#sltInternet").append($.el.option(internetOptions.internetAlways.label));
@@ -305,8 +290,6 @@ function getInputDropdownMenus() {
 		info.language = getLanguageCode($("#sltLanguage").val());
 	if (!($("#sltEducation").val() === ""))
 		info.education = getOptionId(educationOptions, $("#sltEducation").val());
-	if (!($("#sltIncome").val() === ""))
-		info.income = getOptionId(incomeOptions, $("#sltIncome").val());
 	if (!($("#sltInternet").val() === ""))
 		info.internet_use = getOptionId(internetOptions, $("#sltInternet").val());
 }

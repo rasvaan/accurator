@@ -223,8 +223,6 @@ aui:additional_info a auis:UI ;
 	aui:frmLanguage "What is your primary language?"@en ;
 	aui:frmEducation "What is the highest level of education you have recieved?"@en ;
 	auis:hasSelect aui:educationOptions ;
-	aui:frmIncome "What is your household income?"@en ;
-	auis:hasSelect aui:incomeOptions ;
 	aui:frmMail "Email"@en ;
 	aui:frmSocialNetwork "On which social network sites are you active?"@en  ;
 	aui:chkSocialFacebook "Facebook"@en ;
@@ -266,7 +264,6 @@ aui:additional_info a auis:UI ;
 	aui:radioCommunityRural "Platteland"@nl ;
 	aui:frmLanguage "Welke taal beheerst u het beste?"@nl ;
 	aui:frmEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
-	aui:frmIncome "Wat is het gemiddelde jaarlijkse netto inkomen van uw huishouden?"@nl ;
 	aui:frmMail "Email"@nl ;
 	aui:frmSocialNetwork "Op welke sociale media bent u actief?"@nl ;
 	aui:chkSocialFacebook "Facebook"@nl ;
@@ -308,7 +305,6 @@ aui:radioCommunitySubUrban a auis:UILabel .
 aui:radioCommunityRural a auis:UILabel .
 aui:frmLanguage a auis:UILabel .
 aui:frmEducation a auis:UILabel .
-aui:frmIncome a auis:UILabel .
 aui:frmMail a auis:UILabel .
 aui:frmSocialNetwork a auis:UILabel .
 aui:chkSocialFacebook a auis:UILabel .
@@ -378,56 +374,6 @@ aui:optionUknown a auis:SelectOption ;
 	skos:notation "unknown" ;
 	skos:prefLabel "Unknown"@en ;
 	skos:prefLabel "Onbekend"@nl .
-
-aui:incomeOptions a auis:SelectField ;
-	auis:hasSelectOption aui:income20 ;
-	auis:hasSelectOption aui:income20to35 ;
-	auis:hasSelectOption aui:income35to50 ;
-	auis:hasSelectOption aui:income50to75 ;
-	auis:hasSelectOption aui:income75to100 ;
-	auis:hasSelectOption aui:income100to150 ;
-	auis:hasSelectOption aui:income150to200 ;
-	auis:hasSelectOption aui:income200 .
-
-aui:income20 a auis:SelectOption ;
-	skos:notation "income_20" ;
-	skos:prefLabel "Less than $20,000"@en ;
-	skos:prefLabel "Minder dan \u20AC 20,000"@nl ; .
-
-aui:income20to35 a auis:SelectOption ;
-	skos:notation "income_20_to_35" ;
-	skos:prefLabel "$20,000 to $34,999"@en ;
-	skos:prefLabel "\u20AC20.000 tot \u20AC34.999"@nl .
-
-aui:income35to50 a auis:SelectOption ;
-	skos:notation "income_35_to_50" ;
-	skos:prefLabel "$35,000 to $49,999"@en ;
-	skos:prefLabel "\u20AC35.000 tot \u20AC49.999"@nl .
-
-aui:income50to75 a auis:SelectOption ;
-	skos:notation "income_50_to_75" ;
-	skos:prefLabel "$50,000 to $74,999"@en ;
-	skos:prefLabel "\u20AC50.000 tot \u20AC74.999"@nl .
-
-aui:income75to100 a auis:SelectOption ;
-	skos:notation "income_75_to_100" ;
-	skos:prefLabel "$75,000 to $99,999"@en ;
-	skos:prefLabel "\u20AC75.000 tot \u20AC99.999"@nl .
-
-aui:income100to150 a auis:SelectOption ;
-	skos:notation "income_100_to_150" ;
-	skos:prefLabel "$100,000 to $149,999"@en ;
-	skos:prefLabel "\u20AC100.000 tot \u20AC149.999"@nl .
-
-aui:income150to200 a auis:SelectOption ;
-	skos:notation "income_150_to_200" ;
-	skos:prefLabel "$150,000 to $199,999"@en ;
-	skos:prefLabel "\u20AC150.000 tot \u20AC199.999"@nl .
-
-aui:income200 a auis:SelectOption ;
-	skos:notation "income_200" ;
-	skos:prefLabel "$200,000 or more"@en ;
-	skos:prefLabel "\u20AC200.000 of meer"@nl .
 
 aui:internetOptions a auis:SelectField ;
 	auis:hasSelectOption aui:internetAlways ;
