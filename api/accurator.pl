@@ -10,6 +10,7 @@
 :- use_module(library(accurator/recommendation/strategy_random)).
 :- use_module(library(accurator/recommendation/strategy_expertise)).
 :- use_module(library(accurator/ui_elements)).
+:- use_module(library(accurator/subset_selection)).
 :- use_module(api(cluster_search)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
