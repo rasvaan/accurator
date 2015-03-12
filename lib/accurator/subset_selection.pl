@@ -7,6 +7,7 @@
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_open)).
 :- use_module(library(http/http_ssl_plugin)).
+:- use_module(library(thread)).
 :- use_module(library(oa_annotation)).
 
 :- rdf_register_prefix(accu, 'http://accurator.nl/schema#').
@@ -22,9 +23,8 @@ target_iconclass_code(Class, TargetType, Campaign) :-
 			  targetter('http://accurator.nl/user#ICScanner')],
 	%find all works with class or sublcass of specified class
 	findall(Work,
-			subject_subclass_of(Work, Class),
-			%(	subject_subclass_of(Work, Class),
-			%	has_image(Work)),
+			(	subject_subclass_of(Work, Class),
+				has_image(Work)),
 			ClassWorks),
 	length(ClassWorks, NumberClassWorks),
 	debug(tag_works, 'Number of works with ~p or lower: ~p',
@@ -46,8 +46,8 @@ target_prefix(Prefix, TargetType, Campaign) :-
 	Options = [target_type(TargetType), campaign(Campaign),
 			  targetter('http://accurator.nl/user#PrefixScanner')],
 	findall(Work,
-			subject_has_prefix(Work, Prefix),
-			has_image(Work),
+			(	subject_has_prefix(Work, Prefix),
+				has_image(Work)),
 			PrefixBirdWorks),
 	length(PrefixBirdWorks, NumberPrefixBirds),
 	debug(tag_works, 'Number of works with ~p in prefix: ~p',
@@ -81,7 +81,7 @@ text_contains_label(LabelPredicate, Wildcards, TargetType, Campaign) :-
 	findall(Label,
 			rdf(_Concept, LabelPredicate, literal(lang(nl, Label))),
 			Labels0),
-	Labels = [Wildcards | Labels0],
+	append(Wildcards, Labels0, Labels),
 	debug(tag_works, '~p', [Labels]),
 	maplist(scan_text_for_birdname(Labels, Options), AllWorks).
 
@@ -90,9 +90,11 @@ text_contains_label(LabelPredicate, Wildcards, TargetType, Campaign) :-
 %	Scan the title and description field for the precense of labels and
 %	nominate and annotate when possible.
 scan_text_for_birdname(Labels, Options, Work) :-
-	maplist(scan_title(Work, Options), Labels),
-	maplist(scan_description(Work, Options), Labels).
-
+	% Check if it has an image, otherwise don't bother
+	has_image(Work), !,
+	concurrent_maplist(scan_title(Work, Options), Labels),
+	concurrent_maplist(scan_description(Work, Options), Labels).
+scan_text_for_birdname(_Labels, _Options, _Work).
 
 %%	scan_title(+Work, +Options, +Label)
 %
@@ -121,19 +123,20 @@ add_annotation(_Work, Label, Options) :-
 	%Don't add annotation if in wildcards
 	member(Label, Wildcards),
 	!.
-
 add_annotation(Work, Label, Options) :-
 	option(targetter(Targetter), Options),
 	atomic_list_concat(['Substring match by ', Targetter, ' in title.'],
 					   Motivation),
 	get_common_label_uri(Label, Body, Options),
-	Options = [user(Targetter),
-			   field(dcterms:subject),
-			   graph(Targetter),
-			   motivatedBy(Motivation),
-			   body(Body),
-			   target(Work)],
-	rdf_add_annotation(Options, _Annotation).
+	AnnotationOptions = [user(Targetter),
+						 field(dcterms:subject),
+						 graph(Targetter),
+						 motivatedBy(Motivation),
+						 body(_{'@id':Body}),
+						 target([_{'@id':Work}]),
+						 label(Label)],
+	rdf_add_annotation(AnnotationOptions, _Annotation),
+	debug(add_annotation, 'Added ~p to ~p by ~p', [Label, Work, Targetter]).
 
 %%  get_common_label_uri(+Label, -Uri, +Options)
 %
