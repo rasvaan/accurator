@@ -23,12 +23,13 @@ target_iconclass_code(Class, TargetType, Campaign) :-
 	%find all works with class or sublcass of specified class
 	findall(Work,
 			subject_subclass_of(Work, Class),
-			has_image(Work),
+			%(	subject_subclass_of(Work, Class),
+			%	has_image(Work)),
 			ClassWorks),
 	length(ClassWorks, NumberClassWorks),
 	debug(tag_works, 'Number of works with ~p or lower: ~p',
 		  [Class, NumberClassWorks]),
-	maplist(campaign_nomination(Options), Work).
+	maplist(campaign_nomination(Options), ClassWorks).
 
 %%	subject_subclass_of(+Work, +Class)
 %
@@ -51,7 +52,7 @@ target_prefix(Prefix, TargetType, Campaign) :-
 	length(PrefixBirdWorks, NumberPrefixBirds),
 	debug(tag_works, 'Number of works with ~p in prefix: ~p',
 		  [Prefix, NumberPrefixBirds]),
-	maplist(campaign_nomination(Options), Work).
+	maplist(campaign_nomination(Options), PrefixBirdWorks).
 
 %%	subject_has_prefix(+Work, +Prefix)
 %
@@ -173,8 +174,9 @@ campaign_nomination(Options, Work) :-
 campaign_nomination(Options, Work) :-
 	option(target_type(TargetType), Options),
 	option(targetter(Targetter), Options),
+	option(campaign(Campaign), Options),
 	rdf_assert(Work, rdf:type, TargetType, Campaign),
-	rdf(Work, accu:targetedBy, Targetter, Campaign).
+	rdf_assert(Work, accu:targetedBy, Targetter, Campaign).
 
 %%	has_image(+Work)
 %
@@ -184,7 +186,8 @@ has_image(Work) :-
 	rdf(Aggregation, edm:isShownBy, ImageURL),
 	https_header_response(ImageURL, Status),
 	sleep(0.2),
-    Status == 200.
+    Status == 200,
+	debug(has_image, '~p has image.', [Work]).
 
 %%	https_header_response(+URL, -Status)
 %
