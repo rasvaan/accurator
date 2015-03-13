@@ -90,8 +90,6 @@ text_contains_label(LabelPredicate, Wildcards, TargetType, Campaign) :-
 %	Scan the title and description field for the precense of labels and
 %	nominate and annotate when possible.
 scan_text_for_birdname(Labels, Options, Work) :-
-	% Check if it has an image, otherwise don't bother
-	has_image(Work), !,
 	concurrent_maplist(scan_title(Work, Options), Labels),
 	concurrent_maplist(scan_description(Work, Options), Labels).
 scan_text_for_birdname(_Labels, _Options, _Work).
@@ -109,6 +107,8 @@ scan_title(Work, Options0, Label) :-
 	atom_string(Title, TitleString),
 	string_lower(TitleString, TitleLower),
 	sub_string(TitleLower, _Before, _Length, _After, LabelLower),
+	% Check if it has an image, otherwise don't bother
+	has_image(Work),
 	!,
 	add_annotation(Work, Label, Options),
 	campaign_nomination(Options, Work),
@@ -158,6 +158,8 @@ scan_description(Work, Options0, Label) :-
 	atom_string(Description, DescriptionString),
 	string_lower(DescriptionString, DescriptionLower),
 	sub_string(DescriptionLower, _Before, _Length, _After, LabelLower),
+	% Check if it has an image, otherwise don't bother
+	has_image(Work),
 	!,
 	add_annotation(Work, Label, Options),
 	campaign_nomination(Options, Work),
@@ -187,9 +189,10 @@ campaign_nomination(Options, Work) :-
 has_image(Work) :-
 	rdf(Aggregation, edm:aggregatedCHO, Work),
 	rdf(Aggregation, edm:isShownBy, ImageURL),
+	debug(has_image, 'Checking ~p ', [Work]),
 	https_header_response(ImageURL, Status),
 	sleep(0.2),
-    Status == 200,
+	Status == 200,
 	debug(has_image, '~p has image.', [Work]).
 
 %%	https_header_response(+URL, -Status)
