@@ -84,10 +84,12 @@ function initiateSearch(query, target) {
 }
 
 function recommendItems(user, query, target) {
+	console.log("QUERY: ", query);
 	$.getJSON("recommendation", {strategy:'expertise',
 								 user:user,
 								 target:target})
 	.done(function(data){
+		setGlobalQuery(query)
 		$("#results").children().remove();
 		showFilters();
 		processJsonResults(data);
