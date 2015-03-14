@@ -188,10 +188,12 @@ get_recommendation_parameters(Request, Options) :-
 		    [default(random),
 			 oneof([random, expertise])]),
 		 target(Target,
-			[default('http://www.europeana.eu/schemas/edm/ProvidedCHO')])
+			[default('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
+		 number(Number,
+			[integer, default(20)])
 		]),
     Options = [strategy(Strategy), user(User),
-			   target(Target)].
+			   target(Target), number(Number)].
 
 %%	strategy(+Strategy, +Options)
 %

@@ -7,8 +7,9 @@
 %       Assign a number of objects in a random fassion.
 strategy_random(Result, Options) :-
 	option(target(Target), Options),
+	option(number(Number), Options),
     findall(Uri, rdf(Uri, rdf:type, Target), SourceList),
-    assign_random(50, SourceList, Result).
+    assign_random(Number, SourceList, Result).
 
 
 assign_random(0, _SourceList, []).

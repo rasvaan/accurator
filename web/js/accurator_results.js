@@ -94,10 +94,36 @@ function recommendItems(user, query, target) {
 		processJsonResults(data);
 		createResultClusters();
 		$(document).prop('title', 'Recommendations for ' + realName);
+		//Also get a row of random items not yet annotated
+		populateRandom(target, data.clusters.length);
 	})
 	.fail(function(data, textStatus){
 		$("#results").children().remove();
 		$("#results").append(errorHtml(data, textStatus));
 		$(document).prop('title', 'Error on ' + query);
+	});
+}
+
+function populateRandom(target, clusterIndex) {
+	$("#results").append(clusterContainer(clusterIndex));
+	$.getJSON("recommendation", {strategy:'random',
+								 number:20,
+								 target:target})
+	.done(function(data){
+		var numberOfItems = data.length;
+		var items = [];
+
+		for (var i=0; i<numberOfItems; i++) {
+			var uri = data[i];
+			items[i] = new item(uri);
+		}
+		initialClusters[clusterIndex] = new cluster([], items);
+		enrichedClusters[clusterIndex] = new cluster([], 'undefined');
+		console.log(initialClusters);
+		$("#cluster"+clusterIndex).prepend(
+			$.el.h4(
+				$.el.span({'class':'path-label path-literal'},
+					"random objects")));
+		addItems(clusterIndex);
 	});
 }
