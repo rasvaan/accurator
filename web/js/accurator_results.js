@@ -119,7 +119,6 @@ function populateRandom(target, clusterIndex) {
 		}
 		initialClusters[clusterIndex] = new cluster([], items);
 		enrichedClusters[clusterIndex] = new cluster([], 'undefined');
-		console.log(initialClusters);
 		$("#cluster"+clusterIndex).prepend(
 			$.el.h4(
 				$.el.span({'class':'path-label path-literal'},
