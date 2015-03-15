@@ -37,18 +37,43 @@ set_expertise_agenda(MaxNumber, Agenda, Options) :-
 	option(domain(Domain), Options),
 	get_user_expertise_domain(User, Domain, ExpertiseValues),
 	transpose_pairs(ExpertiseValues, SortedExpertiseValues),
-	reverse(SortedExpertiseValues, TransposedExpertiseValues),
-	length(TransposedExpertiseValues, NumberExpertise),
+	%determine the number of expertise levels to be picked
+	length(SortedExpertiseValues, NumberExpertise),
 	number_of_items(NumberExpertise, MaxNumber, NumberItems),
-	length(AgendaPairs, NumberItems),
-	append(AgendaPairs, _, TransposedExpertiseValues),
-	maplist(pair_single, AgendaPairs, Agenda).
+	group_pairs_by_key(SortedExpertiseValues, ReverseGroupedValues),
+	reverse(ReverseGroupedValues, GroupedValues),
+	expertise_from_bins(GroupedValues, 0, NumberItems, Agenda).
 
+%%	expertise_from_bins(+Bins, +Counter,+ MaxN, -Agenda)
+%
+%	Determine the agenda by picking expertise values from bins. When a
+%	bin has multiple expertise areas, pick one at random from that bin.
+expertise_from_bins(_Bins, MaxN, MaxN, []).
+expertise_from_bins(Bins, N0, MaxN, [Expertise|List]) :-
+	N is N0 + 1,
+	random_from_bin(Bins, NewBins, Expertise),
+	expertise_from_bins(NewBins, N, MaxN, List).
+
+%%	random_from_bin(+Bins, +NewBins, -Expertise)
+%
+%	Get a random value from the bin. If the bin is empty aftwerwards,
+%	remove from bins, otherwise only remove the value from the bin.
+random_from_bin([Value-Bin|Bins], NewBins, Expertise) :-
+	length(Bin, Number0),
+	Number is Number0-1,
+	random_between(0, Number, Index),
+	nth0(Index, Bin, Expertise, Rest),
+	(  Rest == []
+	-> NewBins = Bins
+	;  NewBins = [Value-Rest|Bins]
+	).
+
+%%	number_of_items(+NumberExpertise, +Number0, -NumberExpertise)
+%
+%	Determine the maximum number of agenda items.
 number_of_items(NumberExpertise, Number0, NumberExpertise) :-
 	NumberExpertise < Number0, !.
 number_of_items(_NumberExpertise, Number0, Number0).
-
-pair_single(_Left-Right, Right).
 
 cluster_recommender(Agenda, State, Options) :-
 	option(target(Target), Options),
