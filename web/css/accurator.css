@@ -11,6 +11,10 @@ body {
 	margin-bottom: 20px;
 }
 
+#alertMessage {
+	margin-top: 20px;
+}
+
 /* Navbar */
 #headerImage {
 	height: 20px;

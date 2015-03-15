@@ -105,6 +105,24 @@ function getUI(domainSettings, page) {
 	}
 }
 
+function alertMessage(title, text, type) {
+	console.log("Should be adding message");
+	$(".container").prepend(
+		$.el.div({'class':'row',
+				  'id':'alertMessage'},
+			$.el.div({'class':'col-md-12'},
+				$.el.div({'class':'alert alert-success alert-dismissible',
+						  'role':'alert'},
+					$.el.button({'type':'button',
+								 'class':'close',
+								 'data-dismiss':'alert',
+								 'aria-label':'Close'},
+						$.el.span({'aria-hidden':'true'},
+							"x")),
+					$.el.h3(title),
+					$.el.p(text)))));
+}
+
 //User
 function userLoggedIn(onLoggedIn, onNotLoggedIn) {
 	//see if user is logged in

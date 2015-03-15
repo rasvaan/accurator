@@ -1,6 +1,7 @@
 /* Accurator Annotate
 */
 var query, locale, domain, user, ui, uri;
+var vntFirstTitle, vntFirstText;
 
 displayOptions = {
 	showAnnotations: true,
@@ -23,6 +24,7 @@ function annotateInit() {
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+			events();
 		};
 		domainSettings = domainSettings(domain, onDomain);
 	};
@@ -48,6 +50,18 @@ function initLabels(data) {
 	$("#btnNext").prepend(data.btnNext);
 	$("#btnAnnotateRecommend").append(data.btnAnnotateRecommend);
 	$("#btnAnnotateSearch").append(data.btnAnnotateSearch);
+	vntFirstTitle = data.vntFirstTitle;
+	vntFirstText = data.vntFirstText;
+}
+
+function events() {
+	$.getJSON("recently_annotated", {user:user})
+	.done(function(annotations){
+		uris = annotations.uris;
+		if(uris.length===0) {
+			alertMessage(vntFirstTitle, vntFirstText, 'success');
+		}
+	});
 }
 
 function addPath() {
