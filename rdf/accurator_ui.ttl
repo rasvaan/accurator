@@ -423,10 +423,16 @@ aui:results a auis:UI ;
 	aui:btnResultsRecommend "Recommend works"@en ;
 	aui:btnResultsRecommend "Aanbevolen werken"@nl ;
 	aui:btnResultsSearch "Search"@en ;
-	aui:btnResultsSearch "Zoek"@nl .
-
+	aui:btnResultsSearch "Zoek"@nl ;
+	aui:txtRecTitle "Recommendations for "@en ;
+	aui:txtRecTitle "Aanbevelingen voor "@nl ;
+	aui:vntFirstTitle "What do you want to tag?"@en ;
+	aui:vntFirstTitle "Aan welk werk wilt u informatie toevoegen?"@nl ;
+	aui:vntFirstText "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en ;
+	aui:vntFirstText "Hier kunt u selecteren aan welke werken u informatie wilt toevoegen. U kunt terugkeren naar dit scherm wanneer u op aanbevelingen klikt of zoekt naar specifieke onderwerpen."@nl .
 aui:btnResultsRecommend a auis:UILabel .
 aui:btnResultsSearch a auis:UILabel .
+aui:txtRecTitle a auis:UILabel .
 
 ##### Login Modal #####
 

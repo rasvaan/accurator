@@ -24,7 +24,6 @@ function annotateInit() {
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
-			events();
 		};
 		domainSettings = domainSettings(domain, onDomain);
 	};
@@ -40,6 +39,7 @@ function populateUI() {
 		initLabels(labels);
 		addPath();
 		addButtonEvents();
+		events();
 	});
 	console.log(uri);
 	showResult(uri);

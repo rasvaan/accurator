@@ -1,6 +1,7 @@
 /* Accurator Results
 */
 var locale, ui, userName, realName;
+var txtRecTitle, vntFirstTitle, vntFirstText;
 
 displayOptions = {
 	numberDisplayedItems: 4,
@@ -51,6 +52,7 @@ function populateUI() {
 							  type:"labels"})
 	.done(function(labels){
 		initLabels(labels);
+		events();
 	});
 }
 
@@ -60,6 +62,9 @@ function initLabels(labels) {
 	
 	$("#btnResultsSearch").append(labels.btnResultsSearch);
 	$("#btnResultsRecommend").append(labels.btnResultsRecommend);
+	txtRecTitle = labels.txtRecTitle;
+	vntFirstTitle = labels.vntFirstTitle;
+	vntFirstText = labels.vntFirstText;
 }
 
 function addButtonEvents() {
@@ -79,6 +84,16 @@ function addButtonEvents() {
 	});
 }
 
+function events() {
+	$.getJSON("recently_annotated", {user:user})
+	.done(function(annotations){
+		uris = annotations.uris;
+		if(uris.length===0) {
+			alertMessage(vntFirstTitle, vntFirstText, 'success');
+		}
+	});
+}
+
 function initiateSearch(query, target) {
 	search(query, target);
 }
@@ -93,7 +108,7 @@ function recommendItems(user, query, target) {
 		showFilters();
 		processJsonResults(data);
 		createResultClusters();
-		$(document).prop('title', 'Recommendations for ' + realName);
+		$(document).prop('title', txtRecTitle + realName);
 		//Also get a row of random items not yet annotated
 		populateRandom(target, data.clusters.length);
 	})

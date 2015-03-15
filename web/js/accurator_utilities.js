@@ -107,7 +107,7 @@ function getUI(domainSettings, page) {
 
 function alertMessage(title, text, type) {
 	console.log("Should be adding message");
-	$(".container").prepend(
+	$("#events").prepend(
 		$.el.div({'class':'row',
 				  'id':'alertMessage'},
 			$.el.div({'class':'col-md-12'},
