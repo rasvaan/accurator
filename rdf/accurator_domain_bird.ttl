@@ -13,7 +13,7 @@
 abir:domain a accu:Domain ;
 	rdfs:label "bird";
 	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
-	accu:hasTarget <http://www.europeana.eu/schemas/edm/ProvidedCHO> ;
+	accu:hasTarget <http://accurator.nl/bird#Target> ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
 	accu:hasAnnotationUI aabir:smallBirdDemoUi ;
