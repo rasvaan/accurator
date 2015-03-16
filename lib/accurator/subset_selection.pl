@@ -1,6 +1,7 @@
 :- module(subset_selection, [target_iconclass_code/3,
 							 target_prefix/3,
-							 text_contains_label/4]).
+							 text_contains_label/4,
+							target_koekkoek/0]).
 
 /** <module> Subset selection for annotation
 */
@@ -214,3 +215,23 @@ https_header_response(URL, Status) :-
 ssl_verify(_SSL, _ProblemCertificate,
 		   _AllCertificates, _FirstCertificate,
 		   _Error).
+
+%%	target_koekkoek
+%
+%	Targets edm works which have an iconclass code which is similair or
+%	a subclass to Code and that have an image.
+% target_iconclass_code('http://iconclass.org/25F3','http://accurator.nl/bird#Target','http://accurator.nl/bird#Campaign').
+target_koekkoek :-
+	TargetType = 'http://accurator.nl/bird#Target',
+	Campaign = 'http://accurator.nl/bird#Campaign',
+	Options = [target_type(TargetType), campaign(Campaign),
+			  targetter('http://accurator.nl/user#CollectionScanner')],
+	%find all works with class or sublcass of specified class
+	findall(Work,
+			rdf(Work, rdf:type, edm:'ProvidedCHO',
+				'http://purl.org/collections/nl/naturalis/naturalis_koekkoek.ttl'),
+			ClassWorks),
+	length(ClassWorks, NumberClassWorks),
+	debug(tag_works, 'Number in Koekkoek: ~p',
+		  [NumberClassWorks]),
+	maplist(campaign_nomination(Options), ClassWorks).
