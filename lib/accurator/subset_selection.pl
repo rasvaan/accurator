@@ -1,7 +1,9 @@
 :- module(subset_selection, [target_iconclass_code/3,
 							 target_prefix/3,
 							 text_contains_label/4,
-							target_koekkoek/0]).
+							 target_koekkoek/0,
+							 target_description_scanner/0,
+							 target_title_scanner/0]).
 
 /** <module> Subset selection for annotation
 */
@@ -11,6 +13,7 @@
 :- use_module(library(thread)).
 :- use_module(library(oa_annotation)).
 
+:- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
 :- rdf_register_prefix(accu, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
 
@@ -233,5 +236,35 @@ target_koekkoek :-
 			ClassWorks),
 	length(ClassWorks, NumberClassWorks),
 	debug(tag_works, 'Number in Koekkoek: ~p',
+		  [NumberClassWorks]),
+	maplist(campaign_nomination(Options), ClassWorks).
+
+target_title_scanner :-
+	Targetter = 'http://accurator.nl/user#TitleScanner',
+	TargetType = 'http://accurator.nl/bird#Target',
+	Campaign = 'http://accurator.nl/bird#Campaign',
+	Options = [target_type(TargetType), campaign(Campaign),
+			  targetter(Targetter)],
+	findall(Work,
+			(	rdf(Annotation, oa:annotatedBy, Targetter),
+				rdf(Annotation, oa:hasTarget, Work) ),
+			ClassWorks),
+	length(ClassWorks, NumberClassWorks),
+	debug(tag_works, 'Number scanned: ~p',
+		  [NumberClassWorks]),
+	maplist(campaign_nomination(Options), ClassWorks).
+
+target_description_scanner :-
+	Targetter = 'http://accurator.nl/user#DescriptionScanner',
+	TargetType = 'http://accurator.nl/bird#Target',
+	Campaign = 'http://accurator.nl/bird#Campaign',
+	Options = [target_type(TargetType), campaign(Campaign),
+			  targetter(Targetter)],
+	findall(Work,
+			(	rdf(Annotation, oa:annotatedBy, Targetter),
+				rdf(Annotation, oa:hasTarget, Work) ),
+			ClassWorks),
+	length(ClassWorks, NumberClassWorks),
+	debug(tag_works, 'Number scanned: ~p',
 		  [NumberClassWorks]),
 	maplist(campaign_nomination(Options), ClassWorks).
