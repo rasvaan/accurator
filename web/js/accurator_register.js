@@ -88,8 +88,7 @@ function registerServer(name, user, password) {
 		contentType: "application/json",
 		data: JSON.stringify(json),
 		success: function(){
-			// Clear domain and locale
-			clearLocalStorage("locale");
+			// Clear domain (since a new account is made)
 			clearLocalStorage("domain");
 			// Login new user
 		   loginServer(user, password, function(){document.location.href="additional_info.html";})
