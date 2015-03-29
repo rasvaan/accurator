@@ -219,7 +219,7 @@ aui:additional_info a auis:UI ;
 	aui:txtHeaderSub "it would help us a lot if you would provide us with the following information"@en ;
 	aui:btnAddInfo "Add Additional Info"@en ;
 	aui:btnSkip "or skip this step"@en ;
-	aui:frmAge "Age"@en ;
+	aui:frmBirthDate "Date of birth"@en ;
 	aui:frmGender "Gender"@en ;
 	aui:radioGenderMale "Male"@en ;
 	aui:radioGenderFemale "Female"@en ;
@@ -232,6 +232,7 @@ aui:additional_info a auis:UI ;
 	aui:frmEducation "What is the highest level of education you have recieved?"@en ;
 	auis:hasSelect aui:educationOptions ;
 	aui:frmMail "Email"@en ;
+	aui:frmMailCheck "Keep me posted about Accurator"@en ;
 	aui:frmSocialNetwork "On which social network sites are you active?"@en  ;
 	aui:chkSocialFacebook "Facebook"@en ;
 	aui:chkSocialLinkedIn "LinkedIn"@en ;
@@ -263,7 +264,7 @@ aui:additional_info a auis:UI ;
 	aui:txtHeaderSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
 	aui:btnAddInfo "Bevestig"@nl ;
 	aui:btnSkip "of sla deze stap over"@nl ;
-	aui:frmAge "Leeftijd"@nl ;
+	aui:frmBirthDate "Geboortedatum"@nl ;
 	aui:frmGender "Geslacht"@nl ;
 	aui:radioGenderMale "Man"@nl ;
 	aui:radioGenderFemale "Vrouw"@nl ;
@@ -275,6 +276,7 @@ aui:additional_info a auis:UI ;
 	aui:frmLanguage "Welke taal beheerst u het beste?"@nl ;
 	aui:frmEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
 	aui:frmMail "E-mail"@nl ;
+	aui:frmMailCheck "Hou me op de hoogte over ontikkelingen omtrent Accurator"@nl ;
 	aui:frmSocialNetwork "Op welke sociale media bent u actief?"@nl ;
 	aui:chkSocialFacebook "Facebook"@nl ;
 	aui:chkSocialLinkedIn "LinkedIn"@nl ;
@@ -306,7 +308,7 @@ aui:txtHeader a auis:UILabel .
 aui:txtHeaderSub a auis:UILabel .
 aui:btnAddInfo a auis:UILabel .
 aui:btnSkip a auis:UILabel .
-aui:frmAge a auis:UILabel .
+aui:frmBirthDate a auis:UILabel .
 aui:frmGender a auis:UILabel .
 aui:frmCountry a auis:UILabel .
 aui:frmCommunity a auis:UILabel .
@@ -318,6 +320,7 @@ aui:radioCommunityRural a auis:UILabel .
 aui:frmLanguage a auis:UILabel .
 aui:frmEducation a auis:UILabel .
 aui:frmMail a auis:UILabel .
+aui:frmMailCheck a auis:UILabel .
 aui:frmSocialNetwork a auis:UILabel .
 aui:chkSocialFacebook a auis:UILabel .
 aui:chkSocialLinkedIn a auis:UILabel .

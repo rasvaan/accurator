@@ -76,13 +76,14 @@ function initLabels(labels) {
 }
 
 function initFormQuestions(data) {
-	$("#frmAge").append(data.frmAge);
+	$("#frmBirthDate").append(data.frmBirthDate);
 	$("#frmGender").append(data.frmGender);
 	$("#frmCountry").append(data.frmCountry);
 	$("#frmCommunity").append(data.frmCommunity);
 	$("#frmLanguage").append(data.frmLanguage);
 	$("#frmEducation").append(data.frmEducation);
 	$("#frmMail").append(data.frmMail);
+	$("#frmMailCheck").append(data.frmMailCheck);
 	$("#frmSocialNetwork").append(data.frmSocialNetwork);
 	$("#frmInternetUsage").append(data.frmInternetUsage);
 	$("#frmMuseumVisits").append(data.frmMuseumVisits);
@@ -231,7 +232,6 @@ function getInput() {
 	getInputRadioButtons();
 	getInputCheckboxes();
 	getInputDropdownMenus();
-	return info;
 }
 
 function getInputTextFields() {
@@ -255,6 +255,7 @@ function getInputRadioButtons() {
 function getInputCheckboxes() {
 	getInputSocialNetwork();
 	getInputTaggingSite();
+	getInputEmailCheck();
 }
 
 function getInputSocialNetwork() {
@@ -308,6 +309,14 @@ function getInputTaggingSite() {
 				info.other_tag_site = true;
 			}
 		}
+	}
+}
+
+function getInputEmailCheck() {
+	if($("#chkEmail").is(":checked")) {
+		info.accurator_email = true;
+	} else {
+		info.accurator_email = false;
 	}
 }
 

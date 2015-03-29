@@ -54,6 +54,11 @@ body {
 	margin-top: 50px;
 }
 
+/* Additional info page */
+#chkEmail {
+	margin-top: 10px;
+}
+
 /* Domain page */
 .domainScreen {
 	background-color: #333;
