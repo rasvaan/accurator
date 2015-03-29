@@ -170,6 +170,10 @@ function loginButtonEvent(onSuccess, onDismissal) {
 		if (event.which == 13)
 			login(onSuccess);
 	});
+	$("#inputUsername").keypress(function(event) {
+		if (event.which == 13)
+			login(onSuccess);
+	});
 	$("#modalLogin").on('hidden.bs.modal', function (e) {
 		onDismissal();
 	});
