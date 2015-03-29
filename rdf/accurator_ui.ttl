@@ -272,7 +272,7 @@ aui:additional_info a auis:UI ;
 	aui:radioCommunityRural "Platteland"@nl ;
 	aui:frmLanguage "Welke taal beheerst u het beste?"@nl ;
 	aui:frmEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
-	aui:frmMail "Email"@nl ;
+	aui:frmMail "E-mail"@nl ;
 	aui:frmSocialNetwork "Op welke sociale media bent u actief?"@nl ;
 	aui:chkSocialFacebook "Facebook"@nl ;
 	aui:chkSocialLinkedIn "LinkedIn"@nl ;
