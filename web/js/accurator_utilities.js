@@ -111,7 +111,7 @@ function alertMessage(title, text, type) {
 		$.el.div({'class':'row',
 				  'id':'alertMessage'},
 			$.el.div({'class':'col-md-12'},
-				$.el.div({'class':'alert alert-success alert-dismissible',
+				$.el.div({'class':'alert alert-' + type + ' alert-dismissible',
 						  'role':'alert'},
 					$.el.button({'type':'button',
 								 'class':'close',
@@ -119,7 +119,7 @@ function alertMessage(title, text, type) {
 								 'aria-label':'Close'},
 						$.el.span({'aria-hidden':'true'},
 							"x")),
-					$.el.h3(title),
+					$.el.h4(title),
 					$.el.p(text)))));
 }
 

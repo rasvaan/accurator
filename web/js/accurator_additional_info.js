@@ -9,6 +9,7 @@ var twitterFieldAdded = false;
 var tagsiteFieldAdded = false;
 var socialFieldAdded = false;
 var frmTwitterId, frmTagSiteOpen, frmSocialSiteOpen;
+var txtDisclaimer, txtDisclaimerTitle;
 
 function additionalInfoInit() {
 	locale = getLocale();
@@ -37,6 +38,7 @@ function populateUI() {
 		addButtonEvents();
 		initLabels(data);
 		addFormEvents();
+		alertMessage(txtDisclaimerTitle, txtDisclaimer, 'info');
 	});
 }
 
@@ -49,26 +51,28 @@ function addButtonEvents() {
 	});	
 }
 
-function initLabels(data) {
-	document.title = data.title;
-	$("#pnlInternetUsage").append(data.pnlInternetUsage);
-	$("#pnlPersonalInfo").append(data.pnlPersonalInfo);
-	frmTwitterId = data.frmTwitterId;
-	frmTagSiteOpen = data.frmTagSiteOpen;
-	frmSocialSiteOpen = data.frmSocialSiteOpen;
-	$("#txtHeader").prepend(data.txtHeader);
-	$("#txtHeaderSub").append(data.txtHeaderSub);
-	initFormQuestions(data);
-	$("#btnAddInfo").append(data.btnAddInfo);
-	$("#btnSkip").append(data.btnSkip);
-	initRadioButtons(data);
-	initCheckboxes(data);
+function initLabels(labels) {
+	document.title = labels.title;
+	$("#pnlInternetUsage").append(labels.pnlInternetUsage);
+	$("#pnlPersonalInfo").append(labels.pnlPersonalInfo);
+	frmTwitterId = labels.frmTwitterId;
+	frmTagSiteOpen = labels.frmTagSiteOpen;
+	frmSocialSiteOpen = labels.frmSocialSiteOpen;
+	$("#txtHeader").prepend(labels.txtHeader);
+	$("#txtHeaderSub").append(labels.txtHeaderSub);
+	initFormQuestions(labels);
+	$("#btnAddInfo").append(labels.btnAddInfo);
+	$("#btnSkip").append(labels.btnSkip);
+	initRadioButtons(labels);
+	initCheckboxes(labels);
 	initCountriesSelector();
 	initLanguagesSelector();
-	educationOptions = data.educationOptions;
+	educationOptions = labels.educationOptions;
 	initEducationSelector();
-	internetOptions = data.internetOptions;
-	initInternetSelector(data.internetOptions);
+	internetOptions = labels.internetOptions;
+	initInternetSelector(labels.internetOptions);
+	txtDisclaimer = labels.txtDisclaimer;
+	txtDisclaimerTitle = labels.txtDisclaimerTitle;
 }
 
 function initFormQuestions(data) {
