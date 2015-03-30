@@ -45,8 +45,8 @@
 	void:subset <accurator-ui-countries> ;
 	void:subset <accurator-ui-languages> ;
 	dcterms:title "Accurator configuration for bird domain" ;
-	void:dataDump <accurator_domain_bird.ttl> ;
-	void:dataDump <accurator_ui_bird.ttl> .
+	void:dataDump <domain_bird/accurator_domain_bird.ttl> ;
+	void:dataDump <domain_bird/accurator_ui_bird.ttl> .
 
 <accurator-bible-domain>
 	a void:Dataset ;
@@ -56,8 +56,10 @@
 	void:subset <accurator-ui-countries> ;
 	void:subset <accurator-ui-languages> ;
 	dcterms:title "Accurator configuration for bible domain" ;
-	void:dataDump <accurator_domain_bible.ttl> ;
-	void:dataDump <accurator_ui_bible.ttl> .
+	void:dataDump <domain_bible/accurator_domain_bible.ttl> ;
+	void:dataDump <domain_bible/accurator_ui_bible.ttl> ;
+	void:dataDump <domain_bible/concept_scheme_bible_figure.ttl> ;
+	void:dataDump <domain_bible/concept_scheme_bible_theme.ttl> .
 
 [ vann:preferredNamespacePrefix "accu" ;
 vann:preferredNamespaceUri "http://accurator.nl/schema#"
