@@ -1,7 +1,7 @@
 :- module(subset_selection, [target_iconclass_code/3,
 							 target_prefix/3,
 							 text_contains_label/4,
-							 target_koekkoek/0,
+							 target_graph/3,
 							 target_description_scanner/0,
 							 target_title_scanner/0]).
 
@@ -219,23 +219,19 @@ ssl_verify(_SSL, _ProblemCertificate,
 		   _AllCertificates, _FirstCertificate,
 		   _Error).
 
-%%	target_koekkoek
+%%	target_graph(+TargetType, +TargetCampaign, +TargetGraph)
 %
-%	Targets edm works which have an iconclass code which is similair or
-%	a subclass to Code and that have an image.
-% target_iconclass_code('http://iconclass.org/25F3','http://accurator.nl/bird#Target','http://accurator.nl/bird#Campaign').
-target_koekkoek :-
-	TargetType = 'http://accurator.nl/bird#Target',
-	Campaign = 'http://accurator.nl/bird#Campaign',
+%	Make the works in a graph targets.
+% target_graph('http://accurator.nl/bible#Target', 'http://accurator.nl/bible#Campaign','http://purl.org/collections/nl/ubvu/ubvu_bibles.ttl')
+target_graph(TargetType, Campaign, Graph) :-
 	Options = [target_type(TargetType), campaign(Campaign),
 			  targetter('http://accurator.nl/user#CollectionScanner')],
 	%find all works with class or sublcass of specified class
 	findall(Work,
-			rdf(Work, rdf:type, edm:'ProvidedCHO',
-				'http://purl.org/collections/nl/naturalis/naturalis_koekkoek.ttl'),
+			rdf(Work, rdf:type, edm:'ProvidedCHO', Graph),
 			ClassWorks),
 	length(ClassWorks, NumberClassWorks),
-	debug(tag_works, 'Number in Koekkoek: ~p',
+	debug(tag_works, 'Number of objects in graph: ~p',
 		  [NumberClassWorks]),
 	maplist(campaign_nomination(Options), ClassWorks).
 
