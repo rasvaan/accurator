@@ -160,6 +160,7 @@ function printArray(labelArray) {
 function setSliderValues() {
 	$.getJSON("expertise_values")
 	.done(function(expertValues){
+		console.log(expertValues);
 		var uris = Object.keys(expertValues);
 		for(i=0; i<uris.length; i++){
 			// Generate id based on uri
@@ -167,6 +168,10 @@ function setSliderValues() {
 			var id = generateIdFromUri(uri);
 			var value = Number(expertValues[uris[i]]);
 			var descaledValue = (value * 4) + 1;
+			
+			if(expertValues[uris[i]] === "no_value")
+				descaledValue = 3;
+				
 			// Set slider value
 			$("#"+id).slider('setValue', descaledValue);
 		}
