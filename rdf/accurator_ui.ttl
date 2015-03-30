@@ -13,12 +13,12 @@ aui:intro a auis:UI ;
 	aui:txtSubSlogan "Help us add information to artworks"@en ;
 	aui:btnRegister "Register"@en ;
 	aui:btnLogin "or Log in"@en ;
-	aui:lnkAbout "About"@en ;
+	aui:lnkAbout "About Accurator"@en ;
 	aui:txtSlogan "Accurate Kunst Beschrijvingen"@nl ;
 	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken"@nl ;
 	aui:btnRegister "Registreer"@nl ;
 	aui:btnLogin "of Log in"@nl ;
-	aui:lnkAbout "Informatie"@nl .
+	aui:lnkAbout "Informatie over Accurator"@nl .
 
 aui:txtSlogan a auis:UILabel .
 aui:txtSubSlogan a auis:UILabel .
