@@ -183,14 +183,13 @@ function addMasterSlider() {
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
 				$.el.h4({'id':'expertiseLabel'},
-					domain + ' '  + lblDomain + ' ',
-					$.el.small(txtChangeAll)))));
+					txtChangeAll))));
 	$("#frmExpertiseMaster").append(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
-				$.el.small({'class':'sliderLabel'}, sldNothing),
-							expertiseSlider("master"),
-					$.el.small({'class':'sliderLabel'}, sldALot))));
+				$.el.span({'id':'masterLabelLeft'}, sldNothing),
+				expertiseSlider("master"),
+				$.el.span({'id':'masterLabelRight'}, sldALot))));
 	$("#master").slider();
 	
 	//Change all values on using master slider

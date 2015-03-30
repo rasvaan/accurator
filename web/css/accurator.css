@@ -133,6 +133,15 @@ body {
 #expertiseLabel {
 	line-height: 150%;
 }
+
+#masterLabelLeft {
+	 padding-right: 10px;
+}
+
+#masterLabelRight {
+	 padding-left: 10px;
+}
+
 /* About page */
 .footerLogo {
 	height: 40px;
