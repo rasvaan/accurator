@@ -1,9 +1,13 @@
-:- module(concept_scheme_selection, [iconclass_code_concept_scheme/3]).
+:- module(concept_scheme_selection, [iconclass_code_concept_scheme/3,
+									 type_concept_scheme/3]).
 
 /** <module> Concept scheme selection for auto completion
 */
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_turtle_write)).
+
+:- rdf_register_prefix(bibleontology, 'http://bibleontology.com/resource/').
+
 
 %%	iconclass_code_concept_scheme(+Code, +ConceptScheme, +FileName)
 %
@@ -25,6 +29,26 @@ find_codes(ICCode, Codes) :-
 	length(Codes, NumberCodes),
 	debug(concept_scheme, 'Number of codes of ~p or lower: ~p',
 		  [ICCode, NumberCodes]).
+
+%%	type_concept_scheme(+Type, +ConceptScheme, +FileName)
+%
+%	Adds the specified type to a concept scheme.
+%type_concept_scheme('http://bibleontology.com/class/Biblical_Figures', 'http://accurator.nl/bible#BiblicalFigureConceptScheme', 'concept_scheme_bible_figure.ttl').
+type_concept_scheme(Type, ConceptScheme, FileName) :-
+	%find all works with class or sublcass of specified code
+	find_type(Type, Uris),
+	save_concept_scheme(Uris, ConceptScheme, FileName).
+
+%%	find_type(+Type, -Uris)
+%
+%	Retrieve all uris of type Type
+find_type(Type, Uris) :-
+	findall(Uri,
+			rdf(Uri, rdf:type, Type),
+			Uris),
+	length(Uris, NumberUris),
+	debug(concept_scheme, 'Number of uris of type ~p: ~p',
+		  [Type, NumberUris]).
 
 %%	save_concept_scheme(Uris, ConceptScheme, FileName)
 %
