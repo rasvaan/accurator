@@ -68,6 +68,7 @@ function addPath() {
 	query = localStorage.getItem("query");
 	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
 	$("#path").append(pathHtmlElements(cluster.path));
+	unfoldPathEvent("#path", cluster.path);
 }
 
 function addButtonEvents() {
