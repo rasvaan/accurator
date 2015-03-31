@@ -16,7 +16,6 @@ function expertiseInit() {
 		
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
-			console.log(domainData);
 			ui = domainData.ui + "expertise";
 			populateUI(domainData);
 			user = loginData.user;
@@ -59,7 +58,6 @@ function registerEvents() {
 }
 
 function initExpertiseTopics(domainData) {
-	console.log(domainData.number_of_children_shown);
 	$.getJSON("expertise_topics", {
 		locale:locale,
 		taxonomy:domainData.taxonomy,
@@ -160,7 +158,6 @@ function printArray(labelArray) {
 function setSliderValues() {
 	$.getJSON("expertise_values")
 	.done(function(expertValues){
-		console.log(expertValues);
 		var uris = Object.keys(expertValues);
 		for(i=0; i<uris.length; i++){
 			// Generate id based on uri

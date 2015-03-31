@@ -50,7 +50,8 @@ reply_page(Options) :-
     ],
 	[\navigation_bar,
 	  div([ class('container')],
-		  [\annotation_page_body(AnnotationOptions),
+		  [\events,
+		   \annotation_page_body(AnnotationOptions),
 		   \navigation,
 		   \metadata,
 		   \login_modal,
@@ -130,6 +131,13 @@ navigation -->
 		</div>
 	</div>
 	|}).
+events -->
+	html({|html||
+	<!-- Events -->
+	<div class="container" id="events">
+	</div>
+	|}).
+
 metadata -->
 	html({|html||
 	<!-- Metadata -->
