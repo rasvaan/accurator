@@ -106,7 +106,6 @@ function getUI(domainSettings, page) {
 }
 
 function alertMessage(title, text, type) {
-	console.log("Should be adding message");
 	$("#events").prepend(
 		$.el.div({'class':'row',
 				  'id':'alertMessage'},
@@ -140,7 +139,9 @@ function logUserIn(onLoggedIn, onDismissal) {
 
 function loginModal(onSuccess, onDismissal) {
 	var ui = "http://accurator.nl/ui/bird#login_modal";
-	$.getJSON("ui_elements", {locale:getLocale(), ui:ui, type:"labels"})
+	$.getJSON("ui_elements", {locale:getLocale(),
+							  ui:ui,
+							  type:"labels"})
 		.done(function(data){
 			loginButtonEvent(onSuccess, onDismissal);
 			initModalLabels(data);

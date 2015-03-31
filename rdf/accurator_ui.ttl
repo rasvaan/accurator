@@ -101,10 +101,10 @@ aui:lblServerError a auis:UILabel .
 
 aui:domain a auis:UI ;
 	dcterms:title "Accurator domain UI"@en ;
-	aui:title "Select Domain"@en ;
+	aui:title "Select the domain"@en ;
 	aui:title "Selecteer Domein"@nl ;
-	aui:txtTitle "Select your desired domain"@en ;
-	aui:txtTitle "Selecteer het gewenste domein"@nl .
+	aui:txtTitle "In which domain do you want to start tagging?"@en ;
+	aui:txtTitle "Aan welk domein wilt u informatie bijdragen?"@nl .
 
 aui:txtTitle a auis:UILabel .
 
@@ -112,8 +112,8 @@ aui:txtTitle a auis:UILabel .
 
 aui:annotate a auis:UI ;
 	dcterms:title "Accurator tag UI"@en ;
-	aui:title "Tag image "@en ;
-	aui:title "Voeg informatie toe aan "@nl ;
+	aui:title "Tag image"@en ;
+	aui:title "Voeg informatie toe aan object"@nl ;
 	aui:btnPrevious "Previous"@en ;
 	aui:btnPrevious "Vorige"@nl ;
 	aui:btnNext "Next"@en ;

@@ -63,7 +63,6 @@ function populateUI() {
 function initLabels(labels) {
 	// Add retrieved labels to html elements
 	document.title = labels.title;
-	console.log(realName);
 	// Check if real name is available
 	if (typeof realName !== 'undefined') {
 		$("#txtSlogan").prepend(labels.txtSlogan + " " + realName + " ");
