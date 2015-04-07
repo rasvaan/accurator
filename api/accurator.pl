@@ -26,6 +26,7 @@ http:location(img, cliopatria(img), []).
 user:file_search_path(html, web(html)).
 user:file_search_path(img, web(img)).
 
+:- http_handler(root('.'), redirect_to_home, []).
 :- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
 :- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
@@ -49,6 +50,12 @@ user:file_search_path(img, web(img)).
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
 :- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
 :- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
+
+%%	ui_elements_api(+Request)
+%
+%	Redirect to the intro page.
+redirect_to_home(Request) :-
+	http_redirect(moved_temporary, 'intro.html', Request).
 
 %%	ui_elements_api(+Request)
 %
