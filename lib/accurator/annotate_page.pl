@@ -54,6 +54,7 @@ reply_page(Options) :-
 		   \annotation_page_body(AnnotationOptions),
 		   \navigation,
 		   \metadata,
+		   \footer,
 		   \login_modal,
 		   \annotate_javascript,
 		   \html_requires(css('bootstrap.min.css')),
@@ -178,3 +179,41 @@ login_modal -->
 		</div>
 	</div>
 	|}).
+
+footer  -->
+    html({|html||
+		<!-- Logos -->
+		<div class="footerRelative">
+			<div class="logo col-md-2 col-xs-4">
+				<a href="http://commit-nl.nl/">
+					<img src="img/logos/commit.png" class="footerLogo" id="commitFooterLogo" alt="Logo of " />
+
+				</a>
+			</div>
+			<div class="logo col-md-2 col-xs-4">
+				<a href="http://www.cwi.nl">
+					<img src="img/logos/cwi.png" class="footerLogo" alt="Logo of CWI" />
+				</a>
+			</div>
+			<div class="logo col-md-2 col-xs-4">
+				<a href="http://www.tudelft.nl">
+					<img src="img/logos/tud.png" class="footerLogo" alt="Logo of TU Delft" />
+				</a>
+			</div>
+			<div class="logo col-md-2 col-xs-4">
+				<a href="http://vu.nl/">
+					<img src="img/logos/vu.png" class="footerLogo" alt="Logo of VU University Amsterdam" />
+				</a>
+			</div>
+			<div class="logo col-md-2 col-xs-4">
+				<a href="http://rijksmuseum.nl">
+					<img src="img/logos/rma.png" class="footerLogo" id="rijksmuseumLogo" alt="Logo of Rijksmuseum" />
+				</a>
+			</div>
+			<div class="logo col-md-2 col-xs-4">
+				<a href="http://www.naturalis.nl/">
+					<img src="img/logos/naturalis.png" class="footerLogo" alt="Logo of Naturalis" />
+				</a>
+			</div>
+		</div>
+		 |}).
