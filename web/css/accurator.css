@@ -27,6 +27,11 @@ body {
 	height: 35px;
 }
 
+.footerRelative {
+	height: 35px;
+	margin-top: 35px;
+}
+
 .footerLogo {
 	height: 25px;
 	margin-bottom: 5px;
