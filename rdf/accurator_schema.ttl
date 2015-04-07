@@ -32,7 +32,11 @@ accu:hasUI a rdf:Property ;
 
 accu:hasAnnotationUI a rdf:Property ;
 	rdfs:label "Has annotation interface specification"@en ;
-	rdfs:comment "Property linking a domain to a annotation interface specification."@en .
+	rdfs:comment "Property linking a domain to an annotation interface specification."@en .
+
+accu:hasTopConcept a rdf:Property ;
+	rdfs:label "Top concept"@en ;
+	rdfs:comment "The concept from which the taxonomy is decended to get expertise topics."@en .
 
 accu:hasMaximumExpertiseTopics a rdf:Property ;
 	rdfs:label "Has maximum number of expertise topics"@en ;
@@ -41,7 +45,6 @@ accu:hasMaximumExpertiseTopics a rdf:Property ;
 accu:hasMaximumChildren a rdf:Property ;
 	rdfs:label "Has maximum number of children"@en ;
 	rdfs:comment "The number of child concepts shown in expertise screen"@en .
-
 
 accu:hasFilePath a rdf:Property ;
 	rdfs:label "Has file path"@en ;
