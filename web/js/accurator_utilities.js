@@ -82,6 +82,8 @@ function setLocaleToBrowserLanguage() {
 	var language = window.navigator.userLanguage || window.navigator.language;
 	var languageCode = language.substr(0,2);
 	localStorage.setItem("locale", languageCode);
+	var onSuccess = function(){};
+	save_user_info({"locale":languageCode}, onSuccess);
 }
 
 function setLocale(languageCode, onSuccess) {
