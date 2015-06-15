@@ -74,11 +74,11 @@ body {
 
 .backgroundImage {
 	min-width: 125%;
-	max-width: 125%;	
+	max-width: 125%;
 }
 
 .introText {
-	position: absolute; 
+	position: absolute;
 	top: 75px;
 }
 
@@ -192,6 +192,10 @@ body {
 /* Annotate page */
 .navigationButton {
 	margin-top: 10px;
+}
+
+.annotorious-annotationlayer {
+	max-width: 100%;
 }
 
 #path {
