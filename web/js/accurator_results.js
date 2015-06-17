@@ -6,13 +6,15 @@ var txtRecTitle, vntFirstTitle, vntFirstText;
 displayOptions = {
 	numberDisplayedItems: 4,
 	showFilters: false,
-	imageFilter: 'onlyImages'
+	imageFilter: 'onlyImages',
+	//Indicate whether the result link points to annotation view or regular result view
+	annotateLink: true
 }
 
 function resultsInit() {
 	locale = getLocale();
 	domain = getDomain();
-	
+
 	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
 		user = loginData.user;
@@ -20,15 +22,15 @@ function resultsInit() {
 		realName = loginData.real_name;
 		var userParam = getParameterByName("user");
 		var query = getParameterByName("query");
-		
+
 		populateNavbar(userName, [{link:"profile.html",							   name:"Profile"}]);
-		
+
 		onDomain = function(domainData) {
 			ui = domainData.ui + "results";
 			var target = domainData.target;
 			populateUI();
 			addButtonEvents();
-			
+
 			//Provide results based on query or recommend something. In case of no in put recommend based on retrieved user.
 			if(query != "") {
 				initiateSearch(query, target);
@@ -59,7 +61,7 @@ function populateUI() {
 function initLabels(labels) {
 	// Add retrieved labels to html elements
 	document.title = labels.title;
-	
+
 	$("#btnResultsSearch").append(labels.btnResultsSearch);
 	$("#btnResultsRecommend").append(labels.btnResultsRecommend);
 	txtRecTitle = labels.txtRecTitle;

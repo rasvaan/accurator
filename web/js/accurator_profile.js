@@ -5,7 +5,9 @@ var recentItems;
 var initialClusters, enrichedClusters, clusters;
 
 displayOptions = {
-		numberDisplayedItems: 6,
+	numberDisplayedItems: 6,
+	//Indicate whether the result link points to annotation view or regular result view
+	annotateLink: true
 }
 
 function profileInit() {
