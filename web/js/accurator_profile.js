@@ -11,7 +11,7 @@ displayOptions = {
 function profileInit() {
 	locale = getLocale();
 	domain = getDomain();
-	
+
 	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
 		user = loginData.user;
@@ -19,7 +19,7 @@ function profileInit() {
 		realName = loginData.real_name;
 		populateNavbar(userName, []);
 		populateRecentlyAnnotated();
-		
+
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
 			ui = domainData.ui + "profile";
@@ -83,7 +83,7 @@ function initLabels(labels) {
 
 function initLocaleRadio() {
 	var onSuccess = function(){location.reload();};
-	
+
 	if (locale === "en") {
 		$("#radioLocaleEn").trigger('click');
 	} else {
@@ -109,7 +109,7 @@ function initDomains(labels) {
 
 function populateDomains(domainLabels, labels) {
 	// Get domain settings for all the domains
-	for(i=0; i<domainLabels.length; i++) {
+	for(var i=0; i<domainLabels.length; i++) {
 		var currentDomain = domainLabels[i];
 		var processDomain = function(currentDomain, labels){
 			// Add title current domain or option to change to domain

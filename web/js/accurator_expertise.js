@@ -9,11 +9,11 @@ var sliderIds = [];
 function expertiseInit() {
 	locale = getLocale();
 	domain = getDomain();
-	
+
 	// Make sure user is logged in
 	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
-		
+
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
 			ui = domainData.ui + "expertise";
@@ -68,9 +68,9 @@ function initExpertiseTopics(domainData) {
 	.done(function(data){
 		topics = generateIds(data.topics);
 		var halfTheTopics = parseInt(topics.length/2, 10);
-		
+
 		addMasterSlider();
-		
+
 		for(var i=0; i<halfTheTopics; i++) {
 			$("#frmExpertiseLeft").append(
 				$.el.div({'class':'row'},
@@ -108,7 +108,7 @@ function initExpertiseTopics(domainData) {
 }
 
 function generateIds(topics) {
-	for(i=0; i<topics.length; i++) {
+	for(var i=0; i<topics.length; i++) {
 		topics[i].id = generateIdFromUri(topics[i].uri);
 	}
 	return topics;
@@ -121,7 +121,7 @@ function expertiseSlider(id) {
 						'data-slider-min':'1',
 						'data-slider-max':'5',
 						'data-slider-step':'0.1',
-						'data-slider-value':'3'});	
+						'data-slider-value':'3'});
 }
 
 function initSlider(id) {
@@ -159,16 +159,16 @@ function setSliderValues() {
 	$.getJSON("expertise_values")
 	.done(function(expertValues){
 		var uris = Object.keys(expertValues);
-		for(i=0; i<uris.length; i++){
+		for(var i=0; i<uris.length; i++){
 			// Generate id based on uri
 			var uri = uris[i];
 			var id = generateIdFromUri(uri);
 			var value = Number(expertValues[uris[i]]);
 			var descaledValue = (value * 4) + 1;
-			
+
 			if(expertValues[uris[i]] === "no_value")
 				descaledValue = 3;
-				
+
 			// Set slider value
 			$("#"+id).slider('setValue', descaledValue);
 		}
@@ -188,17 +188,11 @@ function addMasterSlider() {
 				expertiseSlider("master"),
 				$.el.span({'id':'masterLabelRight'}, sldALot))));
 	$("#master").slider();
-	
+
 	//Change all values on using master slider
 	$("#master").on("slide", function(slideEvt) {
-		for(i=0; i<sliderIds.length; i++) {
+		for(var i=0; i<sliderIds.length; i++) {
 			$("#" + sliderIds[i]).slider('setValue', slideEvt.value);
 		}
 	});
 }
-
-
-
-
-
-

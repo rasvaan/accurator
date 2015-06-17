@@ -12,7 +12,7 @@ function domainInit() {
 		setLinkLogo("profile");
 		onDomains = function(data){
 			populateDomains(data);
-			
+
 			// Get generic domain settings before populating ui
 			onDomain = function(domainSettings) {
 				ui = getUI(domainSettings, "domain");
@@ -39,9 +39,9 @@ function populateUI() {
 
 function populateDomains(domainLabels) {
 	var row;
-	
+
 	// Get domain settings for all the domains
-	for(i=0; i<domainLabels.length; i++) {
+	for(var i=0; i<domainLabels.length; i++) {
 		if(!(i%2===0)) {
 			row = parseInt((i/2) + 0.5);
 			// Add a new row for every two domains
@@ -49,7 +49,7 @@ function populateDomains(domainLabels) {
 				$.el.div({'class':'row',
 						  'id':'domain' + row}));
 		}
-		
+
 		// Add domain specific html to rows
 		$.getJSON("domains", {domain:domainLabels[i]})
 			.done(function(data){
@@ -89,6 +89,3 @@ function addDomainEvent(domain) {
 		setDomain(domain, onSuccess);
 	});
 }
-
-
-

@@ -17,7 +17,7 @@ function getDomain() {
 		setDomainToGenericOrParameter();
 	}
 	var domainParameter = getParameterByName("domain");
-	
+
 	//Domain parameter
 	if(!(domainParameter === "")){
 		setDomain(domainParameter);
@@ -66,7 +66,7 @@ function getAvailableDomains(onDomains) {
 //Locale
 function getLocale() {
 	var paramLocale = getParameterByName("locale");
-	
+
 	if(!(paramLocale === "")) {
 		setLocale(paramLocale);
 	}
@@ -189,7 +189,7 @@ function loginButtonEvent(onSuccess, onDismissal) {
 function login(onSuccess) {
 	var user = getUserUriBase() + $("#inputUsername").val();
 	var password = $("#inputPassword").val();
-	
+
 	if(user == "" || password == "") {
 		$(".modal-body").append($.el.p({'class':'text-danger'}, loginIncomplete));
 	} else {
@@ -199,7 +199,7 @@ function login(onSuccess) {
 
 function loginServer(user, password, onSuccess) {
 	dataLogin = {"user":user, "password":password};
-	
+
 	$.ajax({type: "POST",
 		    url: "user/login",
 		    data: dataLogin,
@@ -250,7 +250,7 @@ function save_user_info(info, onSuccess) {
 	//get the user id and post information
 	if(typeof onSuccess == 'undefined')
 		onSuccess = function(){console.log("No success function")};
-		
+
 	$.getJSON("get_user")
 	.done(function(data){
 		info.user = data.user;
@@ -297,7 +297,7 @@ function populateNavbar(userName, linkList) {
 function addLinks(linkList, labels) {
 	var links = [];
 
-	for(i=0; i<linkList.length; i++){
+	for(var i=0; i<linkList.length; i++){
 		links[i] = $.el.li($.el.a({'href':linkList[i].link},
 			localizedPageName(linkList, labels)
 		));
