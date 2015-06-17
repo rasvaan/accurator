@@ -297,19 +297,20 @@ function populateNavbar(userName, linkList) {
 function addLinks(linkList, labels) {
 	var links = [];
 
+	// Populate the list of additional links in the navbar dropdown
 	for(var i=0; i<linkList.length; i++){
 		links[i] = $.el.li($.el.a({'href':linkList[i].link},
-			localizedPageName(linkList, labels)
+			localizedPageName(linkList, labels, i)
 		));
 	}
 	return links;
 }
 
-function localizedPageName(linkList, labels) {
-	if(linkList[i].name === "Profile") {
+function localizedPageName(linkList, labels, counter) {
+	if(linkList[counter].name === "Profile") {
 		return labels.ddProfile;
 	} else {
-		return linkList[i].name;
+		return linkList[counter].name;
 	}
 }
 
