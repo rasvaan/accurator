@@ -6,7 +6,7 @@ var lblRegistrationFailed, lblPasswordsMatchFail, lblUserTaken, lblServerError;
 function registerInit() {
 	locale = getLocale();
 	domain = getDomain();
-	
+
 	var onDomain = function(domainSettings) {
 		ui = getUI(domainSettings, "register");
 		populateUI();
@@ -56,7 +56,7 @@ function registerEvent() {
 
 function setRegisterFailureText(text) {
 	alertWell = $.el.div({'class':'registerMessage'},
-			$.el.h5({'class':'text-danger'}, text)); 
+			$.el.h5({'class':'text-danger'}, text));
 	// clear the current
 	$("#messageWell").empty();
 	$("#messageWell").append(alertWell);
@@ -65,23 +65,26 @@ function setRegisterFailureText(text) {
 function register() {
 	// Get and check initial form input
 	var name = $("#regRealName").val();
-	var user = getUserUriBase() + $("#regUsername").val();
+	var user = $("#regUsername").val();
+	var userUri = getUserUriBase() + user;
 	var password = $("#regPassword").val();
 	var passwordRepeat = $("#regPasswordRepeat").val();
-	
+
 	if((name == "") || (user == "") || (password == "") || (passwordRepeat == "")){
 		setRegisterFailureText(lblRegistrationFailed);
+	} else if (checkUsername(user)) {
+		setRegisterFailureText("Username incorrect!");
 	} else if (password != passwordRepeat){
 		setRegisterFailureText(lblPasswordsMatchFail);
 	} else {
 		// Attempt registration
-		registerServer(name, user, password);
+		registerServer(name, userUri, password);
 	}
 }
 
 function registerServer(name, user, password) {
 	var json = {"name":name, "user":user, "password":password};
-	
+
 	$.ajax({
 		type: "POST",
 		url: "register_user",
@@ -103,4 +106,14 @@ function registerServer(name, user, password) {
 	        }
 		}
 	});
+}
+
+function checkUsername(user) {
+	var illegalChars = /\W/; // allow letters, numbers and underscores
+
+	if (illegalChars.test(user)) {
+		return true;
+	} else {
+		return false;
+	}
 }
