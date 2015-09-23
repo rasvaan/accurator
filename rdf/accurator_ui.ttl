@@ -71,6 +71,7 @@ aui:register a auis:UI ;
 	aui:btnGoBack "or go back to previous page"@en ;
 	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
 	aui:lblUserTaken "Username already exists."@en ;
+	aui:lblUsernameFail "Username should contain only letters, numbers and underscores."@en ;
 	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
 	aui:lblServerError "Server error"@en ;
 	aui:txtHeader "Maak uw Accurator-account"@nl ;
@@ -82,6 +83,7 @@ aui:register a auis:UI ;
 	aui:btnGoBack "of ga terug naar de vorige pagina"@nl ;
 	aui:lblRegistrationFailed "Registratie mislukt, vul alle velden in."@nl ;
 	aui:lblUserTaken "Gebruikersnaam bestaat al."@nl ;
+	aui:lblUsernameFail "Gebruikersnaam kan enkel bestaan uit woorden, nummer en underscores."@nl ;
 	aui:lblPasswordsMatchFail "De wachtwoorden komen niet overeen."@nl ;
 	aui:lblServerError "Server fout"@nl .
 
@@ -93,6 +95,7 @@ aui:frmPasswordRepeat a auis:UILabel .
 aui:btnGoBack a auis:UILabel .
 aui:lblRegistrationFailed a auis:UILabel .
 aui:lblUserTaken a auis:UILabel .
+aui:lblUsernameFail a auis:UILabel .
 aui:lblPasswordsMatchFail a auis:UILabel .
 aui:lblUserTaken a auis:UILabel .
 aui:lblServerError a auis:UILabel .
@@ -479,4 +482,3 @@ aui:user_dropdown a auis:UI ;
 aui:ddLogOut a auis:UILabel .
 aui:ddAbout a auis:UILabel .
 aui:ddProfile a auis:UILabel .
-

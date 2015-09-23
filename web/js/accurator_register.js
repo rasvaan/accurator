@@ -1,7 +1,7 @@
 /* Accurator Register
 */
 var locale, domain, ui;
-var lblRegistrationFailed, lblPasswordsMatchFail, lblUserTaken, lblServerError;
+var lblRegistrationFailed, lblUsernameFail, lblPasswordsMatchFail, lblUserTaken, lblServerError;
 
 function registerInit() {
 	locale = getLocale();
@@ -34,6 +34,7 @@ function initLabels(labels) {
 	$("#btnGoBack").append(labels.btnGoBack);
 	// Set text variables for possible later use
 	lblRegistrationFailed = labels.lblRegistrationFailed;
+	lblUsernameFail = labels.lblUsernameFail;
 	lblPasswordsMatchFail = labels.lblPasswordsMatchFail;
 	lblUserTaken = labels.lblUserTaken;
 	lblServerError = labels.lblServerError
@@ -73,7 +74,7 @@ function register() {
 	if((name == "") || (user == "") || (password == "") || (passwordRepeat == "")){
 		setRegisterFailureText(lblRegistrationFailed);
 	} else if (checkUsername(user)) {
-		setRegisterFailureText("Username incorrect!");
+		setRegisterFailureText(lblUsernameFail);
 	} else if (password != passwordRepeat){
 		setRegisterFailureText(lblPasswordsMatchFail);
 	} else {
