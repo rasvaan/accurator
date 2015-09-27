@@ -85,6 +85,7 @@ function register() {
 
 function registerServer(name, user, password) {
 	var json = {"name":name, "user":user, "password":password};
+	var domain = "generic";
 
 	$.ajax({
 		type: "POST",
@@ -92,10 +93,16 @@ function registerServer(name, user, password) {
 		contentType: "application/json",
 		data: JSON.stringify(json),
 		success: function(){
-			// Clear domain (since a new account is made)
-			clearLocalStorage("domain");
-			// Login new user
-		   loginServer(user, password, function(){document.location.href="additional_info.html";})
+			// login user upon registering
+			loginServer(user, password, function(){
+				// reset locale since it was updated (incorrectly) by login
+				localStorage.setItem("locale", locale);
+				localStorage.setItem("domain", domain);
+				// save current info
+				save_user_info({"locale":locale,"domain":domain}, function(){
+					document.location.href="additional_info.html";
+				});
+			});
 		},
 		error: function (request, textStatus, errorThrown) {
 			if(errorThrown == "Not Found")

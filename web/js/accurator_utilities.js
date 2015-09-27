@@ -65,11 +65,14 @@ function getAvailableDomains(onDomains) {
 
 //Locale
 function getLocale() {
+	// check url for locale parameter
 	var paramLocale = getParameterByName("locale");
 
+	// if parameter is given, set locale accordingly
 	if(!(paramLocale === "")) {
 		setLocale(paramLocale);
 	}
+	// if there is no locale in local storage, set according to browser language
 	if(localStorage.getItem("locale") === null ||
 	   localStorage.getItem("locale") === ""){
 		console.log("No locale set");
@@ -247,10 +250,10 @@ function setUserSettingsLocal(dataLogin, onSuccess){
 }
 
 function save_user_info(info, onSuccess) {
-	//get the user id and post information
 	if(typeof onSuccess == 'undefined')
 		onSuccess = function(){console.log("No success function")};
 
+	//get the user id and post information
 	$.getJSON("get_user")
 	.done(function(data){
 		info.user = data.user;
