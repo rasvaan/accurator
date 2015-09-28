@@ -129,15 +129,15 @@ function alertMessage(title, text, type) {
 
 //User
 function userLoggedIn(onLoggedIn, onNotLoggedIn) {
-	//see if user is logged in
-	$.getJSON("get_user")
+	//see if user is logged in (random for unique request)
+	$.getJSON("get_user?time=" + Math.random())
 		.done(onLoggedIn)
 		.fail(onNotLoggedIn);
 }
 
 function logUserIn(onLoggedIn, onDismissal) {
-	//make sure user is logged in
-	$.getJSON("get_user")
+	//make sure user is logged in (random for unique request)
+	$.getJSON("get_user?time=" + Math.random())
 		.done(function(data){onLoggedIn(data)})
 		.fail(function(){loginModal(onLoggedIn, onDismissal)});
 }
