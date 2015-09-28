@@ -12,11 +12,11 @@ function annotateInit() {
 	locale = getLocale();
 	domain = getDomain();
 	uri = getParameterByName("uri");
-	
+
 	// Make sure user is logged in
 	onLoggedIn = function(loginData) {
 		setLinkLogo("profile");
-		
+
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
 			ui = domainData.ui + "annotate";
@@ -41,7 +41,6 @@ function populateUI() {
 		addButtonEvents();
 		events();
 	});
-	console.log(uri);
 	showResult(uri);
 }
 
@@ -75,8 +74,7 @@ function addButtonEvents() {
 	var index = parseInt(localStorage.getItem("itemIndex"));
 	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
 	var items = cluster.items;
-	
-	console.log(index, items.length);
+
 	if(index === 0) {
 		$("#btnPrevious").attr("disabled", "disabled");
 	} else {
@@ -85,7 +83,7 @@ function addButtonEvents() {
 			document.location.href= "annotate_image.html?uri=" + items[index -1].uri;
 		});
 	}
-	
+
 	if(index === items.length-1) {
 		$("#btnNext").attr("disabled", "disabled");
 	} else {
@@ -94,7 +92,7 @@ function addButtonEvents() {
 			document.location.href= "annotate_image.html?uri=" + items[index + 1].uri;
 		});
 	}
-	
+
 	$("#btnAnnotateRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});

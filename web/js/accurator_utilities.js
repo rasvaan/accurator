@@ -13,7 +13,7 @@ function getDomain() {
 	//No domain
 	if(localStorage.getItem("domain") === null ||
 	   localStorage.getItem("domain") === "") {
-		console.log("No domain given");
+		// console.log("No domain given");
 		setDomainToGenericOrParameter();
 	}
 	var domainParameter = getParameterByName("domain");
@@ -21,7 +21,7 @@ function getDomain() {
 	//Domain parameter
 	if(!(domainParameter === "")){
 		setDomain(domainParameter);
-		console.log("Domain parameter set to " + domainParameter);
+		// console.log("Domain parameter set to " + domainParameter);
 	}
 	return localStorage.getItem("domain");
 }
@@ -75,7 +75,7 @@ function getLocale() {
 	// if there is no locale in local storage, set according to browser language
 	if(localStorage.getItem("locale") === null ||
 	   localStorage.getItem("locale") === ""){
-		console.log("No locale set");
+		// console.log("No locale set");
 		setLocaleToBrowserLanguage();
 	}
 	return localStorage.getItem("locale");
@@ -251,7 +251,7 @@ function setUserSettingsLocal(dataLogin, onSuccess){
 
 function save_user_info(info, onSuccess) {
 	if(typeof onSuccess == 'undefined')
-		onSuccess = function(){console.log("No success function")};
+		onSuccess = function(){};
 
 	//get the user id and post information
 	$.getJSON("get_user")
