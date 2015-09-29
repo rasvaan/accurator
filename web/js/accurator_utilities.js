@@ -336,6 +336,14 @@ function populateFlags(locale) {
 		)
 	);
 
+	var onLoggedIn = function() {saveFlagLocale();};
+	var onNotLoggedIn = function() {setFlagLocale();};
+
+	userLoggedIn(onLoggedIn, onNotLoggedIn);
+}
+
+// if the user is logged in, set local storage and also save in users.db
+function saveFlagLocale() {
 	var onSuccess = function(){location.reload();};
 
 	$("#flagEn").click(function() {
@@ -344,6 +352,19 @@ function populateFlags(locale) {
 	$("#flagNl").click(function() {
 		setLocale("nl", onSuccess);
 	});
+}
+
+// if the user is not logged in only set the local storage
+function setFlagLocale() {
+	$("#flagEn").click(function() {
+		localStorage.setItem("locale", "en");
+		location.reload();
+	});
+	$("#flagNl").click(function() {
+		localStorage.setItem("locale", "nl");
+		location.reload();
+	});
+
 }
 
 function getInitialFlag(locale) {
