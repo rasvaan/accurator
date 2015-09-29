@@ -85,7 +85,9 @@ navigation_bar -->
 				</a>
 			</div>
 			<div class="collapse navbar-collapse" id="accuratorCollapse">
-				<ul class="nav navbar-nav navbar-right userDropdown">
+			        <ul class="nav navbar-nav navbar-right flagDropdown">
+				</ul>
+	                        <ul class="nav navbar-nav navbar-right userDropdown">
 				</ul>
 				<div class="navbar-form navbar-nav" id="frmGroupSearch">
 					<div class="form-group">

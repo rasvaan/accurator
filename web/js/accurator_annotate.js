@@ -13,7 +13,7 @@ function annotateInit() {
 	domain = getDomain();
 	uri = getParameterByName("uri");
 
-	//populateFlags(locale);
+	populateFlags(locale);
 
 	// Make sure user is logged in
 	onLoggedIn = function(loginData) {
