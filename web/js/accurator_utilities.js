@@ -282,7 +282,7 @@ function populateNavbar(userName, linkList) {
 							userName + " ",
 							$.el.span({'class':'caret'})),
 					$.el.ul({'class':'dropdown-menu',
-							'role':'menu'},
+									'role':'menu'},
 							$.el.li($.el.a({'href':'#',
 											'id':'btnLogout'},
 											data.ddLogOut)),
@@ -316,6 +316,47 @@ function localizedPageName(linkList, labels, counter) {
 		return linkList[counter].name;
 	}
 }
+
+// Navbar flags
+function populateFlags(locale) {
+	$(".flagDropdown").append(
+		$.el.li({'class':'dropdown'},
+				 getInitialFlag(locale),
+			$.el.ul({'class':'dropdown-menu',
+					'role':'menu'},
+					$.el.li($.el.a({'href':'#',
+									'id':'flagEn'},
+									$.el.span({'class':'flag-icon flag-icon-en'}),
+									" English")),
+					$.el.li($.el.a({'href':'#',
+									'id':'flagNl'},
+									$.el.span({'class':'flag-icon flag-icon-nl'}),
+									" Nederlands"))
+			)
+		)
+	);
+
+	var onSuccess = function(){location.reload();};
+
+	$("#flagEn").click(function() {
+		setLocale("en", onSuccess);
+	});
+	$("#flagNl").click(function() {
+		setLocale("nl", onSuccess);
+	});
+}
+
+function getInitialFlag(locale) {
+	return $.el.a({'href':'#',
+				   'class':'dropdown-toggle',
+				   'data-toggle':'dropdown',
+				   'role':'button'},
+				   $.el.span({'class':'flag-icon flag-icon-' + locale}),
+				   " ",
+				   $.el.span({'class':'caret'})
+	)
+}
+
 
 // Url parameters
 function getParameterByName(name) {

@@ -5,7 +5,7 @@ var locale, domain;
 function aboutInit() {
 	locale = getLocale();
 	domain = getDomain();
-	
+
 	// Domain settings are needed
 	var onDomain = function(domainSettings) {
 		populateUI(domainSettings);
@@ -15,6 +15,7 @@ function aboutInit() {
 		userName = getUserName(userData.user);
 		populateNavbar(userName,
 			[{link:"profile.html", name:"Profile"}]);
+		populateFlags(locale);
 		domainSettings = domainSettings(domain, onDomain);
 	};
 	var onNotLoggedIn = function(){
