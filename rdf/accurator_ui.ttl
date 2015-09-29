@@ -182,9 +182,6 @@ aui:profile a auis:UI ;
 	aui:btnChangeExpertise "Change expertise levels"@en ;
 	aui:btnDomain "Change domain"@en ;
 	aui:lblLastAnnotated "Artworks you recently tagged"@en ;
-	aui:frmChangeLocale "Change the language of the interface"@en ;
-	aui:radioLocaleEn "English"@en ;
-	aui:radioLocaleNl "Dutch"@en ;
 	aui:txtSlogan "Welkom "@nl ;
 	aui:txtSubSlogan "begin met het toevoegen van informatie of verander uw instellingen"@nl ;
 	aui:txtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
@@ -193,10 +190,7 @@ aui:profile a auis:UI ;
 	aui:btnSearch "Zoek"@nl ;
 	aui:btnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:btnDomain "Verander domein"@nl ;
-	aui:lblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl ;
-	aui:frmChangeLocale "Verander de taal van de interface"@nl;
-	aui:radioLocaleEn "Engels"@nl ;
-	aui:radioLocaleNl "Nederlands"@nl .
+	aui:lblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl .
 
 aui:txtStartAnnotating a auis:UILabel .
 aui:txtDomain a auis:UILabel .
@@ -206,9 +200,6 @@ aui:btnChangeExpertise a auis:UILabel .
 aui:btnDomain a auis:UILabel .
 aui:btnChangeInfo a auis:UILabel .
 aui:lblLastAnnotated a auis:UILabel .
-aui:frmChangeLocale a auis:UILabel .
-aui:radioLocaleEn a auis:UILabel .
-aui:radioLocaleNl a auis:UILabel .
 
 ##### Additional Info Screen #####
 

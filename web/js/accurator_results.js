@@ -15,6 +15,8 @@ function resultsInit() {
 	locale = getLocale();
 	domain = getDomain();
 
+	populateFlags(locale);
+
 	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
 		user = loginData.user;

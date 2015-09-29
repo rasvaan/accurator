@@ -5,7 +5,9 @@ var locale, domain, ui, domainSettings;
 function introInit() {
 	locale = getLocale();
 	domain = getDomain();
-	
+
+	populateFlags(locale);
+
 	// If user is logged in go to profile page
 	onLoggedIn = function() {
 		document.location.href="profile.html";
@@ -26,7 +28,7 @@ function introInit() {
 
 function setBackground(backgroundUrl, imageBrightness) {
 	$(".backgroundImage").attr("src", backgroundUrl);
-	
+
 	if (imageBrightness === "dark") {
 	   // Make font lighter to make it readable
 	   $("#txtSlogan").css('color', '#FFFFFF');

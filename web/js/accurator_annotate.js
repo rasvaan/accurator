@@ -13,6 +13,8 @@ function annotateInit() {
 	domain = getDomain();
 	uri = getParameterByName("uri");
 
+	//populateFlags(locale);
+
 	// Make sure user is logged in
 	onLoggedIn = function(loginData) {
 		setLinkLogo("profile");

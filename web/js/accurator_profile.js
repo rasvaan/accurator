@@ -14,6 +14,8 @@ function profileInit() {
 	locale = getLocale();
 	domain = getDomain();
 
+	populateFlags(locale);
+
 	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
 		user = loginData.user;
@@ -58,7 +60,6 @@ function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(labels){
 		initLabels(labels);
-		initLocaleRadio();
 		initDomains(labels);});
 }
 
@@ -78,28 +79,6 @@ function initLabels(labels) {
 	$("#btnSearch").append(labels.btnSearch);
 	$("#btnDomain").prepend(labels.btnDomain);
 	$("#lblLastAnnotated").append(labels.lblLastAnnotated);
-	$("#frmChangeLocale").append(labels.frmChangeLocale);
-	$("#radioLocaleEn").after(labels.radioLocaleEn);
-	$("#radioLocaleNl").after(labels.radioLocaleNl);
-}
-
-function initLocaleRadio() {
-	var onSuccess = function(){location.reload();};
-
-	if (locale === "en") {
-		$("#radioLocaleEn").trigger('click');
-	} else {
-		$("#radioLocaleEn").click(function() {
-			setLocale("en", onSuccess);
-		});
-	}
-	if (locale === "nl") {
-		$("#radioLocaleNl").trigger('click');
-	} else {
-		$("#radioLocaleNl").click(function() {
-			setLocale("nl", onSuccess);
-		});
-	}
 }
 
 function initDomains(labels) {

@@ -15,10 +15,12 @@ function additionalInfoInit() {
 	locale = getLocale();
 	domain = getDomain();
 
+	populateFlags(locale);
+
 	// Make sure user is logged in
 	onLoggedIn = function(loginData){
 		setLinkLogo("profile");
-		
+
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
 			ui = domainData.ui + "additional_info";
@@ -48,7 +50,7 @@ function addButtonEvents() {
 	});
 	$("#btnSkip").click(function() {
 		document.location.href="domain.html";
-	});	
+	});
 }
 
 function initLabels(labels) {
@@ -171,11 +173,11 @@ function initCountriesSelector() {
 			countries[key] = {"name":data[key].name, "country_code":data[key].country_code};
 		}
 		countries.sort(function(a,b) { return a.name.localeCompare(b.name) });
-		
+
 		$("#sltCountry").append($.el.option(""));
 		for (var i=0; i<countries.length; i++) {
 			$("#sltCountry").append($.el.option(countries[i].name));
-		}  
+		}
 	})
 	.fail(function(data, textStatus){
 		$("#sltLanguage").append($.el.option("No countries found on server"));
@@ -189,11 +191,11 @@ function initLanguagesSelector() {
 			languages[key] = {"iso_code":data[key].iso_code, "name":data[key].name};
 		}
 		languages.sort(function(a,b) { return a.name.localeCompare(b.name) });
-		
+
 		$("#sltLanguage").append($.el.option(""));
 		for (var i=0; i<languages.length; i++) {
 			$("#sltLanguage").append($.el.option(languages[i].name));
-		}  
+		}
 	})
 	.fail(function(data, textStatus){
 		$("#sltLanguage").append($.el.option("No languages found on server"));
@@ -300,7 +302,7 @@ function getInputTaggingSite() {
 			info.delicious = true;
 		if ($("#chkTagSiteFacebook").is(":checked"))
 			info.tag_facebook = true;
-		
+
 		//Set tagsite to true
 		if ($("#chkTagSiteOther").is(":checked")) {
 			if (!($("#addTagSite").val() === undefined) && !($("#addTagSite").val() === "")) {
@@ -354,5 +356,3 @@ function getOptionId(optionList, name) {
 			return optionList[key].id;
 	}
 }
-
-

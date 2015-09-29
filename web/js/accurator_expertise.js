@@ -10,6 +10,8 @@ function expertiseInit() {
 	locale = getLocale();
 	domain = getDomain();
 
+	populateFlags(locale);
+
 	// Make sure user is logged in
 	onLoggedIn = function(loginData){
 		setLinkLogo("profile");

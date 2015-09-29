@@ -7,6 +7,8 @@ function registerInit() {
 	locale = getLocale();
 	domain = getDomain();
 
+	populateFlags(locale);
+
 	var onDomain = function(domainSettings) {
 		ui = getUI(domainSettings, "register");
 		populateUI();

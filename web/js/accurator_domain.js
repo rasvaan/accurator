@@ -7,6 +7,8 @@ function domainInit() {
 	// Be domain agnostic on domain selection screen
 	domain = "generic";
 
+	populateFlags(locale);
+
 	// If user is logged in go to profile page
 	onLoggedIn = function(loginData) {
 		setLinkLogo("profile");
