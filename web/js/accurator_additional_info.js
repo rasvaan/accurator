@@ -1,6 +1,6 @@
 /* Accurator Additional Info
 */
-var locale, domain, ui;
+var locale, domain, experiment, ui;
 var countries = [];
 var languages = [];
 var educationOptions,  internetOptions;
@@ -14,6 +14,7 @@ var txtDisclaimer, txtDisclaimerTitle;
 function additionalInfoInit() {
 	locale = getLocale();
 	domain = getDomain();
+	experiment = getExperiment();
 
 	populateFlags(locale);
 

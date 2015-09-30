@@ -1,6 +1,6 @@
 /* Accurator Results
 */
-var locale, ui, userName, realName;
+var locale, experiment, ui, userName, realName;
 var txtRecTitle, vntFirstTitle, vntFirstText;
 
 displayOptions = {
@@ -14,6 +14,7 @@ displayOptions = {
 function resultsInit() {
 	locale = getLocale();
 	domain = getDomain();
+	experiment = getExperiment();
 
 	populateFlags(locale);
 

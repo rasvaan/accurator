@@ -1,6 +1,6 @@
 /* Accurator Expertise
 */
-var locale, ui, user, domain, domainSettings;
+var locale, ui, user, domain, experiment, domainSettings;
 var topics;
 var userExpertise = {};
 var sldALot, sldNothing, txtChangeAll, lblDomain;
@@ -9,6 +9,7 @@ var sliderIds = [];
 function expertiseInit() {
 	locale = getLocale();
 	domain = getDomain();
+	experiment = getExperiment();
 
 	populateFlags(locale);
 

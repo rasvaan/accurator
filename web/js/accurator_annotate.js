@@ -1,6 +1,6 @@
 /* Accurator Annotate
 */
-var query, locale, domain, user, ui, uri;
+var query, locale, experiment, domain, user, ui, uri;
 var vntFirstTitle, vntFirstText;
 
 displayOptions = {
@@ -11,6 +11,7 @@ displayOptions = {
 function annotateInit() {
 	locale = getLocale();
 	domain = getDomain();
+	experiment = getExperiment();
 	uri = getParameterByName("uri");
 
 	populateFlags(locale);

@@ -1,11 +1,12 @@
 /* Accurator Domain
 */
-var locale, domain, ui;
+var locale, domain, experiment, ui;
 
 function domainInit() {
 	locale = getLocale();
 	// Be domain agnostic on domain selection screen
 	domain = "generic";
+	experiment = getExperiment();
 
 	populateFlags(locale);
 
