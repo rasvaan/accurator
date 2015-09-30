@@ -5,6 +5,7 @@ Functions used by multiple javascript files. Topics include:
 - Settings
 - Annotation domain
 - Locale
+- Experiment
 - User interface
 - User management
 - Uri
@@ -191,7 +192,7 @@ function saveFlagLocale() {
 	});
 }
 
-function setFlagLocale()
+function setFlagLocale() {
 	// if the user is not logged in only set the local storage
 	$("#flagEn").click(function() {
 		localStorage.setItem("locale", "en");
@@ -201,7 +202,6 @@ function setFlagLocale()
 		localStorage.setItem("locale", "nl");
 		location.reload();
 	});
-
 }
 
 function getInitialFlag(locale) {
@@ -215,6 +215,28 @@ function getInitialFlag(locale) {
 				   $.el.span({'class':'caret'})
 	)
 }
+
+/*******************************************************************************
+Experiment
+Functionallity for running an experiment with Accurator. Settings regarding
+which experiment and whether we are running setting A or B can be retrieved.
+*******************************************************************************/
+function getExperiment() {
+	// get experiment url parameter
+	var experimentParameter = getParameterByName("experiment");
+
+	// set experiment to url parameter or none if empty parameter and localStorage
+	if(!(experimentParameter === "")) {
+		// set experiment setting to parameter if available
+		localStorage.setItem("experiment", experimentParameter);
+	} else if(localStorage.getItem("experiment") === null ||
+			  localStorage.getItem("experiment") === "") {
+		// if no parameter set to none and return value
+		localStorage.setItem("experiment", "none");
+	}
+	return localStorage.getItem("experiment");
+}
+
 
 /*******************************************************************************
 User Interface
