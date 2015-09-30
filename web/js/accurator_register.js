@@ -1,11 +1,12 @@
 /* Accurator Register
 */
-var locale, domain, ui;
+var locale, domain, experiment, ui;
 var lblRegistrationFailed, lblUsernameFail, lblPasswordsMatchFail, lblUserTaken, lblServerError;
 
 function registerInit() {
 	locale = getLocale();
 	domain = getDomain();
+	experiment = getExperiment();
 
 	populateFlags(locale);
 
@@ -66,6 +67,9 @@ function setRegisterFailureText(text) {
 }
 
 function register() {
+	// We are doing research you know
+	flipABCoin();
+
 	// Get and check initial form input
 	var name = $("#regRealName").val();
 	var user = $("#regUsername").val();
@@ -126,4 +130,17 @@ function checkUsername(user) {
 	} else {
 		return false;
 	}
+}
+
+function flipABCoin() {
+	var aBArray;
+
+	// Get an array with A or B for the specified experiment
+	if(experiment === "recommender") {
+		aBArray = ["random","recommend"];
+	}
+	var randomIndex = Math.floor(Math.random() * aBArray.length);
+
+	// Set the A or B setting to the randomly chosen index
+	setAOrB(aBArray[randomIndex]);
 }

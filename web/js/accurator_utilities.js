@@ -237,6 +237,15 @@ function getExperiment() {
 	return localStorage.getItem("experiment");
 }
 
+function getAOrB() {
+	// return the a or b setting from local storage
+	return localStorage.getItem("ab");
+}
+
+function setAOrB(ab) {
+	// set the a or b setting in local storage
+	localStorage.setItem("ab", ab);
+}
 
 /*******************************************************************************
 User Interface
