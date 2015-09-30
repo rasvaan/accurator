@@ -277,12 +277,20 @@ function alertMessage(title, text, type) {
 }
 
 function populateNavbar(userName, linkList) {
+	// Only popluate navbar when no experiment is running
+	if(experiment==="none") {
+		populateUserDropdown(userName, linkList);
+	}
+}
+
+function populateUserDropdown(userName, linkList) {
+	// Add a user drop down based on the user and listed links
 	$.getJSON("ui_elements", {locale:locale,
 							  ui:"http://accurator.nl/ui/generic#user_dropdown",
 							  type:"labels"})
-		.done(function(data){
-			$(".userDropdown").append(
-				$.el.li({'class':'dropdown'},
+	.done(function(data){
+		$(".userDropdown").append(
+			$.el.li({'class':'dropdown'},
 					$.el.a({'href':'#',
 							'class':'dropdown-toggle',
 							'data-toggle':'dropdown',
@@ -291,19 +299,21 @@ function populateNavbar(userName, linkList) {
 							userName + " ",
 							$.el.span({'class':'caret'})),
 					$.el.ul({'class':'dropdown-menu',
-									'role':'menu'},
-							$.el.li($.el.a({'href':'#',
-											'id':'btnLogout'},
-											data.ddLogOut)),
-							addLinks(linkList, data),
-							$.el.li({'class':'divider'}),
-							$.el.li($.el.a({'href':'about.html'},
-											data.ddAbout))))
-			)
-			$("#btnLogout").click(function() {
-				logout();
-			});
+						 	 'role':'menu'},
+						 	 $.el.li($.el.a({'href':'#',
+								         	 'id':'btnLogout'},
+										 	 data.ddLogOut)),
+							 // Add links based on array
+							 addLinks(linkList, data),
+						 	 $.el.li({'class':'divider'}),
+						 	 $.el.li($.el.a({'href':'about.html'},
+								 	 data.ddAbout))))
+		)
+		// Add logout event to menu item
+		$("#btnLogout").click(function() {
+			logout();
 		});
+	});
 }
 
 function addLinks(linkList, labels) {
