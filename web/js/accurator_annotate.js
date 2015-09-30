@@ -27,6 +27,7 @@ function annotateInit() {
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+			obscureExperiment();
 		};
 		domainSettings = domainSettings(domain, onDomain);
 	};
@@ -40,7 +41,9 @@ function populateUI() {
 	.done(function(labels){
 		document.title = labels.title;
 		initLabels(labels);
-		addPath();
+		// Only show path when cluster is available
+		if(localStorage.getItem("currentCluster") !== null)
+			addPath();
 		addButtonEvents();
 		events();
 	});
@@ -71,9 +74,27 @@ function addPath() {
 	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
 	$("#path").append(pathHtmlElements(cluster.path));
 	unfoldPathEvent("#path", cluster.path);
+	addClusterNavigationButtonEvents();
 }
 
 function addButtonEvents() {
+	$("#btnAnnotateRecommend").click(function() {
+		document.location.href="results.html" + "?user=" + user;
+	});
+	// Search on pressing enter
+	$("#frmSearch").keypress(function(event) {
+		if (event.which == 13) {
+			var query = encodeURIComponent($("#frmSearch").val());
+			document.location.href="results.html?query=" + query;
+		}
+	});
+	$("#btnAnnotateSearch").click(function() {
+		var query = encodeURIComponent($("#frmSearch").val());
+		document.location.href="results.html?query=" + query;
+	});
+}
+
+function addClusterNavigationButtonEvents() {
 	var index = parseInt(localStorage.getItem("itemIndex"));
 	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
 	var items = cluster.items;
@@ -95,19 +116,12 @@ function addButtonEvents() {
 			document.location.href= "annotate_image.html?uri=" + items[index + 1].uri;
 		});
 	}
+}
 
-	$("#btnAnnotateRecommend").click(function() {
-		document.location.href="results.html" + "?user=" + user;
-	});
-	// Search on pressing enter
-	$("#frmSearch").keypress(function(event) {
-		if (event.which == 13) {
-			var query = encodeURIComponent($("#frmSearch").val());
-			document.location.href="results.html?query=" + query;
-		}
-	});
-	$("#btnAnnotateSearch").click(function() {
-		var query = encodeURIComponent($("#frmSearch").val());
-		document.location.href="results.html?query=" + query;
-	});
+function obscureExperiment() {
+	// Hide some elements during an experiment
+	if(experiment!=="none") {
+		// Hide path if on annotate page
+		$("#clusterNavigation").hide();
+	}
 }

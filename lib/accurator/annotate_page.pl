@@ -119,7 +119,7 @@ annotate_javascript -->
 navigation -->
 	html({|html||
 	<!-- Navigation -->
-	<div class="row">
+	<div class="row" id="clusterNavigation">
 	    <div class="navigationButton col-md-2 col-xs-6">
 			<button class="btn btn-default navButton" id="btnPrevious">
 		        <span class="glyphicon glyphicon-chevron-left"></span>
