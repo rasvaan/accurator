@@ -1,6 +1,6 @@
 /* Accurator Profile
 */
-var locale, ui, domain, user, userName, realName;
+var locale, ui, domain, experiment, user, userName, realName;
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
 
@@ -13,6 +13,7 @@ displayOptions = {
 function profileInit() {
 	locale = getLocale();
 	domain = getDomain();
+	experiment = getExperiment();
 
 	populateFlags(locale);
 
