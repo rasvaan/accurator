@@ -1,19 +1,73 @@
-/* Accurator Utilities
-*/
+/*******************************************************************************
+Accurator Utilities
+Functions used by multiple javascript files. Topics include:
+
+- Settings
+- Annotation domain
+- Locale
+- User interface
+- User management
+- Uri
+*******************************************************************************/
+
 var loginWarning, loginIncomplete;
 
-//Settings
+/*******************************************************************************
+Settings
+General setting management.
+*******************************************************************************/
 function clearLocalStorage(setting) {
-	// Remove a setting from local storage
+	// remove a setting from local storage
 	localStorage.removeItem(setting);
 }
 
-//Domain
+function setUserSettingsLocal(dataLogin, onSuccess){
+	// set user settings upon loggin in (called by loginServer)
+	$.getJSON("get_user_settings")
+	.done(function(data){
+		localStorage.setItem("locale", data.locale);
+		localStorage.setItem("domain", data.domain);
+		onSuccess(dataLogin);
+	});
+}
+
+function save_user_info(info, onSuccess) {
+	// save user settings to user.db of Cliopatria
+
+	if(typeof onSuccess == 'undefined')
+		onSuccess = function(){};
+
+	// get the user id and post information
+	$.getJSON("get_user")
+	.done(function(data){
+		info.user = data.user;
+		$.ajax({type: "POST",
+				url: "save_user_info",
+				contentType: "application/json",
+				data: JSON.stringify(info),
+				success: onSuccess()
+		});
+	});
+}
+
+function getParameterByName(name) {
+	// retrieve information from url parameters (often settings)
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	results = regex.exec(location.search);
+	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+/*******************************************************************************
+Annotation Domain
+Functionallity to change the annotation domain (e.g. bird or bible). Functions
+include the retrieval and storage of the domain setting and the information
+related to the domain (e.g. taxonomies, instances, illustrative image url)
+*******************************************************************************/
 function getDomain() {
 	//No domain
 	if(localStorage.getItem("domain") === null ||
 	   localStorage.getItem("domain") === "") {
-		// console.log("No domain given");
 		setDomainToGenericOrParameter();
 	}
 	var domainParameter = getParameterByName("domain");
@@ -21,7 +75,6 @@ function getDomain() {
 	//Domain parameter
 	if(!(domainParameter === "")){
 		setDomain(domainParameter);
-		// console.log("Domain parameter set to " + domainParameter);
 	}
 	return localStorage.getItem("domain");
 }
@@ -63,7 +116,10 @@ function getAvailableDomains(onDomains) {
 	});
 }
 
-//Locale
+/*******************************************************************************
+Locale
+Functionallity to addapt to the desired locale.
+*******************************************************************************/
 function getLocale() {
 	// check url for locale parameter
 	var paramLocale = getParameterByName("locale");
@@ -75,15 +131,17 @@ function getLocale() {
 	// if there is no locale in local storage, set according to browser language
 	if(localStorage.getItem("locale") === null ||
 	   localStorage.getItem("locale") === ""){
-		// console.log("No locale set");
 		setLocaleToBrowserLanguage();
 	}
 	return localStorage.getItem("locale");
 }
 
 function setLocaleToBrowserLanguage() {
+	// retrieve locale from browser
 	var language = window.navigator.userLanguage || window.navigator.language;
 	var languageCode = language.substr(0,2);
+
+	// save locale to localStorage and user.db
 	localStorage.setItem("locale", languageCode);
 	var onSuccess = function(){};
 	save_user_info({"locale":languageCode}, onSuccess);
@@ -94,14 +152,74 @@ function setLocale(languageCode, onSuccess) {
 	save_user_info({"locale":languageCode}, onSuccess);
 }
 
-//UI
-function setLinkLogo(page) {
-	if(page === "profile")
-	   $(".navbar-brand").attr('href', "profile.html");
-	if(page === "intro")
-		$(".navbar-brand").attr('href', "intro.html");
+
+function populateFlags(locale) {
+	// code to add flags to navbar allowing to change the locale
+	$(".flagDropdown").append(
+		$.el.li({'class':'dropdown'},
+				 getInitialFlag(locale),
+			$.el.ul({'class':'dropdown-menu',
+					'role':'menu'},
+					$.el.li($.el.a({'href':'#',
+									'id':'flagEn'},
+									$.el.span({'class':'flag-icon flag-icon-en'}),
+									" English")),
+					$.el.li($.el.a({'href':'#',
+									'id':'flagNl'},
+									$.el.span({'class':'flag-icon flag-icon-nl'}),
+									" Nederlands"))
+			)
+		)
+	);
+
+	// action added on flag click should depend on whether user is logged in
+	var onLoggedIn = function() {saveFlagLocale();};
+	var onNotLoggedIn = function() {setFlagLocale();};
+
+	userLoggedIn(onLoggedIn, onNotLoggedIn);
 }
 
+function saveFlagLocale() {
+	// if the user is logged in, set local storage and also save in users.db
+	var onSuccess = function(){location.reload();};
+
+	$("#flagEn").click(function() {
+		setLocale("en", onSuccess);
+	});
+	$("#flagNl").click(function() {
+		setLocale("nl", onSuccess);
+	});
+}
+
+function setFlagLocale()
+	// if the user is not logged in only set the local storage
+	$("#flagEn").click(function() {
+		localStorage.setItem("locale", "en");
+		location.reload();
+	});
+	$("#flagNl").click(function() {
+		localStorage.setItem("locale", "nl");
+		location.reload();
+	});
+
+}
+
+function getInitialFlag(locale) {
+	// set the flag to be shown in the navbar
+	return $.el.a({'href':'#',
+				   'class':'dropdown-toggle',
+				   'data-toggle':'dropdown',
+				   'role':'button'},
+				   $.el.span({'class':'flag-icon flag-icon-' + locale}),
+				   " ",
+				   $.el.span({'class':'caret'})
+	)
+}
+
+/*******************************************************************************
+User Interface
+Functionallity making the ui adapt
+*******************************************************************************/
 function getUI(domainSettings, page) {
 	if(typeof domainSettings != 'undefined') {
 		return domainSettings.ui + page
@@ -127,7 +245,67 @@ function alertMessage(title, text, type) {
 					$.el.p(text)))));
 }
 
-//User
+function populateNavbar(userName, linkList) {
+	$.getJSON("ui_elements", {locale:locale,
+							  ui:"http://accurator.nl/ui/generic#user_dropdown",
+							  type:"labels"})
+		.done(function(data){
+			$(".userDropdown").append(
+				$.el.li({'class':'dropdown'},
+					$.el.a({'href':'#',
+							'class':'dropdown-toggle',
+							'data-toggle':'dropdown',
+							'role':'button',
+							'aria-expanded':'false'},
+							userName + " ",
+							$.el.span({'class':'caret'})),
+					$.el.ul({'class':'dropdown-menu',
+									'role':'menu'},
+							$.el.li($.el.a({'href':'#',
+											'id':'btnLogout'},
+											data.ddLogOut)),
+							addLinks(linkList, data),
+							$.el.li({'class':'divider'}),
+							$.el.li($.el.a({'href':'about.html'},
+											data.ddAbout))))
+			)
+			$("#btnLogout").click(function() {
+				logout();
+			});
+		});
+}
+
+function addLinks(linkList, labels) {
+	var links = [];
+
+	// Populate the list of additional links in the navbar dropdown
+	for(var i=0; i<linkList.length; i++){
+		links[i] = $.el.li($.el.a({'href':linkList[i].link},
+			localizedPageName(linkList, labels, i)
+		));
+	}
+	return links;
+}
+
+function localizedPageName(linkList, labels, counter) {
+	if(linkList[counter].name === "Profile") {
+		return labels.ddProfile;
+	} else {
+		return linkList[counter].name;
+	}
+}
+
+function setLinkLogo(page) {
+	if(page === "profile")
+	   $(".navbar-brand").attr('href', "profile.html");
+	if(page === "intro")
+		$(".navbar-brand").attr('href', "intro.html");
+}
+
+/*******************************************************************************
+User
+User management code.
+*******************************************************************************/
 function userLoggedIn(onLoggedIn, onNotLoggedIn) {
 	//see if user is logged in (random for unique request)
 	$.getJSON("get_user?time=" + Math.random())
@@ -211,7 +389,7 @@ function loginServer(user, password, onSuccess) {
 					$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
 				} else if (data.indexOf("Login ok") != -1) {
 					setUserSettingsLocal(dataLogin, onSuccess);
-					//Remove event listener and hide modal
+					// remove event listener and hide modal
 					$("#modalLogin").off('hidden.bs.modal');
 					$("#modalLogin").modal('hide');
 				}
@@ -227,168 +405,27 @@ function logout() {
 			}});
 }
 
-function getUserUriBase() {
-	// Return the base of the user uri, username should be added
-	return "http://accurator.nl/user#";
-}
-
-function getUserName(userUri) {
-	return userUri.replace(getUserUriBase(),"");
-}
-
+/*******************************************************************************
+Uri
+Code for working with Uris
+*******************************************************************************/
 function getUserUri(userName) {
+	// concatenate proper user uri (e.g. )
 	return getUserUriBase() + userName;
 }
 
-function setUserSettingsLocal(dataLogin, onSuccess){
-	$.getJSON("get_user_settings")
-	.done(function(data){
-		localStorage.setItem("locale", data.locale);
-		localStorage.setItem("domain", data.domain);
-		onSuccess(dataLogin);
-	});
+function getUserName(userUri) {
+	// retrieve user name from uri
+	return userUri.replace(getUserUriBase(),"");
 }
 
-function save_user_info(info, onSuccess) {
-	if(typeof onSuccess == 'undefined')
-		onSuccess = function(){};
-
-	//get the user id and post information
-	$.getJSON("get_user")
-	.done(function(data){
-		info.user = data.user;
-		$.ajax({type: "POST",
-				url: "save_user_info",
-				contentType: "application/json",
-				data: JSON.stringify(info),
-				success: onSuccess()
-		});
-	});
+function getUserUriBase() {
+	// return the base of the user uri, username should be added
+	return "http://accurator.nl/user#";
 }
 
-// Navbar
-function populateNavbar(userName, linkList) {
-	$.getJSON("ui_elements", {locale:locale,
-							  ui:"http://accurator.nl/ui/generic#user_dropdown",
-							  type:"labels"})
-		.done(function(data){
-			$(".userDropdown").append(
-				$.el.li({'class':'dropdown'},
-					$.el.a({'href':'#',
-							'class':'dropdown-toggle',
-							'data-toggle':'dropdown',
-							'role':'button',
-							'aria-expanded':'false'},
-							userName + " ",
-							$.el.span({'class':'caret'})),
-					$.el.ul({'class':'dropdown-menu',
-									'role':'menu'},
-							$.el.li($.el.a({'href':'#',
-											'id':'btnLogout'},
-											data.ddLogOut)),
-							addLinks(linkList, data),
-							$.el.li({'class':'divider'}),
-							$.el.li($.el.a({'href':'about.html'},
-											data.ddAbout))))
-			)
-			$("#btnLogout").click(function() {
-				logout();
-			});
-		});
-}
-
-function addLinks(linkList, labels) {
-	var links = [];
-
-	// Populate the list of additional links in the navbar dropdown
-	for(var i=0; i<linkList.length; i++){
-		links[i] = $.el.li($.el.a({'href':linkList[i].link},
-			localizedPageName(linkList, labels, i)
-		));
-	}
-	return links;
-}
-
-function localizedPageName(linkList, labels, counter) {
-	if(linkList[counter].name === "Profile") {
-		return labels.ddProfile;
-	} else {
-		return linkList[counter].name;
-	}
-}
-
-// Navbar flags
-function populateFlags(locale) {
-	$(".flagDropdown").append(
-		$.el.li({'class':'dropdown'},
-				 getInitialFlag(locale),
-			$.el.ul({'class':'dropdown-menu',
-					'role':'menu'},
-					$.el.li($.el.a({'href':'#',
-									'id':'flagEn'},
-									$.el.span({'class':'flag-icon flag-icon-en'}),
-									" English")),
-					$.el.li($.el.a({'href':'#',
-									'id':'flagNl'},
-									$.el.span({'class':'flag-icon flag-icon-nl'}),
-									" Nederlands"))
-			)
-		)
-	);
-
-	var onLoggedIn = function() {saveFlagLocale();};
-	var onNotLoggedIn = function() {setFlagLocale();};
-
-	userLoggedIn(onLoggedIn, onNotLoggedIn);
-}
-
-// if the user is logged in, set local storage and also save in users.db
-function saveFlagLocale() {
-	var onSuccess = function(){location.reload();};
-
-	$("#flagEn").click(function() {
-		setLocale("en", onSuccess);
-	});
-	$("#flagNl").click(function() {
-		setLocale("nl", onSuccess);
-	});
-}
-
-// if the user is not logged in only set the local storage
-function setFlagLocale() {
-	$("#flagEn").click(function() {
-		localStorage.setItem("locale", "en");
-		location.reload();
-	});
-	$("#flagNl").click(function() {
-		localStorage.setItem("locale", "nl");
-		location.reload();
-	});
-
-}
-
-function getInitialFlag(locale) {
-	return $.el.a({'href':'#',
-				   'class':'dropdown-toggle',
-				   'data-toggle':'dropdown',
-				   'role':'button'},
-				   $.el.span({'class':'flag-icon flag-icon-' + locale}),
-				   " ",
-				   $.el.span({'class':'caret'})
-	)
-}
-
-
-// Url parameters
-function getParameterByName(name) {
-	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	results = regex.exec(location.search);
-	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-// Uri
 function generateIdFromUri(uri) {
+	// create a html id from a uri (jquery doesn't play well with full uri's)
 	var pathArray = uri.split('/');
 	return pathArray[pathArray.length - 1];
 }
