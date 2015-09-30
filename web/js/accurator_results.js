@@ -26,7 +26,7 @@ function resultsInit() {
 		var userParam = getParameterByName("user");
 		var query = getParameterByName("query");
 
-		populateNavbar(userName, [{link:"profile.html",							   name:"Profile"}]);
+		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}]);
 
 		onDomain = function(domainData) {
 			ui = domainData.ui + "results";

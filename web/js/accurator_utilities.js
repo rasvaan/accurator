@@ -280,6 +280,13 @@ function populateNavbar(userName, linkList) {
 	// Only popluate navbar when no experiment is running
 	if(experiment==="none") {
 		populateUserDropdown(userName, linkList);
+	} else {
+		// Hide recommendations button if experiment is running
+		$("#btnRecommend").hide();
+		$("#btnAnnotateRecommend").hide();
+		$("#btnResultsRecommend").hide();
+		// Remove link from logo if experiment is running
+		$(".navbar-brand").attr('href', "#");
 	}
 }
 
