@@ -1,10 +1,11 @@
 /* Accurator Intro
 */
-var locale, domain, ui, domainSettings;
+var locale, domain, experiment, ui, domainSettings;
 
 function introInit() {
 	locale = getLocale();
 	domain = getDomain();
+	experiment = getExperiment();
 
 	populateFlags(locale);
 
