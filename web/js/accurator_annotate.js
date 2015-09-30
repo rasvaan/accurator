@@ -4,6 +4,7 @@ var query, locale, experiment, domain, user, ui, uri;
 var vntFirstTitle, vntFirstText;
 
 displayOptions = {
+	showMetadata: true,
 	showAnnotations: true,
 	metadataLinkBase: 'results.html?query='
 }
@@ -22,12 +23,12 @@ function annotateInit() {
 
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
+			obscureExperiment();
 			ui = domainData.ui + "annotate";
 			populateUI();
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
-			obscureExperiment();
 		};
 		domainSettings = domainSettings(domain, onDomain);
 	};
@@ -47,6 +48,7 @@ function populateUI() {
 		addButtonEvents();
 		events();
 	});
+	// Use cluster_search_ui result.js code to show the result
 	showResult(uri);
 }
 
@@ -123,5 +125,9 @@ function obscureExperiment() {
 	if(experiment!=="none") {
 		// Hide path if on annotate page
 		$("#clusterNavigation").hide();
+		// Don't show metadata
+		displayOptions.showMetadata = false;
+		// Don't show annotations of others
+		displayOptions.showAnnotations = false;
 	}
 }
