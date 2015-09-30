@@ -285,6 +285,8 @@ function populateNavbar(userName, linkList) {
 		$("#btnRecommend").hide();
 		$("#btnAnnotateRecommend").hide();
 		$("#btnResultsRecommend").hide();
+		// Hide search form
+		$("#frmGroupSearch").hide();
 		// Remove link from logo if experiment is running
 		$(".navbar-brand").attr('href', "#");
 	}
