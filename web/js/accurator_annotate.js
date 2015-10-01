@@ -1,5 +1,9 @@
-/* Accurator Annotate
-*/
+/*******************************************************************************
+Accurator Annotate
+Code for extending functionallity annotation page. Most of the content and
+javascript of this page is generated based on the image_annotation.pl code and
+the other halve comes from the result.js of cluster_search_ui.
+*******************************************************************************/
 var query, locale, experiment, domain, user, ui, uri;
 var vntFirstTitle, vntFirstText;
 
@@ -21,13 +25,14 @@ function annotateInit() {
 	onLoggedIn = function(loginData) {
 		setLinkLogo("profile");
 
-		//Get domain settings before populating ui
+		// Get domain settings before populating ui
 		onDomain = function(domainData) {
-			obscureExperiment();
-			ui = domainData.ui + "annotate";
-			populateUI();
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
+			ui = domainData.ui + "annotate";
+
+			maybeRunExperiment();
+			populateUI();
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
 		};
 		domainSettings = domainSettings(domain, onDomain);
@@ -59,6 +64,8 @@ function initLabels(data) {
 	$("#btnAnnotateSearch").append(data.btnAnnotateSearch);
 	vntFirstTitle = data.vntFirstTitle;
 	vntFirstText = data.vntFirstText;
+	// Add next to optional experiment navigation
+	$("#btnExperimentNext").prepend(data.btnNext);
 }
 
 function events() {
@@ -120,14 +127,52 @@ function addClusterNavigationButtonEvents() {
 	}
 }
 
-function obscureExperiment() {
+function maybeRunExperiment() {
 	// Hide some elements during an experiment
-	if(experiment!=="none") {
+	if(experiment !== "none") {
 		// Hide path if on annotate page
 		$("#clusterNavigation").hide();
 		// Don't show metadata
 		displayOptions.showMetadata = false;
 		// Don't show annotations of others
 		displayOptions.showAnnotations = false;
+		// Add big next button
+		addExperimentNavigation();
 	}
+}
+
+function addExperimentNavigation() {
+	$("#metadata").before(
+		$.el.div({'class':'row',
+				  'id':'experimentNavigation'},
+			$.el.button({'class':'btn btn-primary',
+						 'id':'btnExperimentNext'})
+		)
+	);
+
+	// Get the number of objects annotated
+	$.getJSON("recently_annotated", {user:user})
+	.done(function(annotations){
+		var numberAnnotated = annotations.uris.length;
+
+		// Switch AB setting after 10 annotations
+		if(numberAnnotated == 10) {
+			var AorB = getAOrB();
+
+			if(AorB === "recommend")
+				setAOrB("random");
+			if(AorB === "random")
+				setAOrB("recommend")
+		}
+
+		// Add click event to navigation button
+		$("#btnExperimentNext").click(function() {
+			// Go to thank you page after 20 annotations else results
+			if(numberAnnotated == 20) {
+				document.location.href="end.html";
+			} else {
+				document.location.href="results.html" + "?user=" + user;
+			}
+		});
+	});
 }
