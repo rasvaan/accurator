@@ -1,5 +1,7 @@
-/* Accurator Additional Info
-*/
+/*******************************************************************************
+Accurator Additional Info
+Code for rendering fields used for elliciting information about user.
+*******************************************************************************/
 var locale, domain, experiment, ui;
 var countries = [];
 var languages = [];
@@ -15,7 +17,6 @@ function additionalInfoInit() {
 	locale = getLocale();
 	domain = getDomain();
 	experiment = getExperiment();
-
 	populateFlags(locale);
 
 	// Make sure user is logged in
@@ -35,6 +36,15 @@ function additionalInfoInit() {
 	logUserIn(onLoggedIn, onDismissal);
 }
 
+function nextPage() {
+	// Determine which page will be shown next
+	if(experiment === "recommender") {
+		return function(){document.location.href="expertise.html"};
+	} else {
+		return function(){document.location.href="domain.html"};
+	}
+}
+
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
@@ -50,7 +60,8 @@ function addButtonEvents() {
 		processFormFields();
 	});
 	$("#btnSkip").click(function() {
-		document.location.href="domain.html";
+		// Get function for next page and execute
+		nextPage()();
 	});
 }
 
@@ -225,8 +236,7 @@ function initInternetSelector(optionList) {
 
 function processFormFields() {
 	getInput();
-	var onSuccess = function(){				       document.location.href="domain.html";
-	}
+	var onSuccess = nextPage();
 	save_user_info(info, onSuccess);
 }
 
