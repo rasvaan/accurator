@@ -142,7 +142,7 @@ function setLocaleToBrowserLanguage() {
 	var language = window.navigator.userLanguage || window.navigator.language;
 	var languageCode = language.substr(0,2);
 
-	// save locale to localStorage and user.db
+	// Save locale to localStorage and user.db
 	localStorage.setItem("locale", languageCode);
 	var onSuccess = function(){};
 	save_user_info({"locale":languageCode}, onSuccess);
@@ -155,7 +155,7 @@ function setLocale(languageCode, onSuccess) {
 
 
 function populateFlags(locale) {
-	// code to add flags to navbar allowing to change the locale
+	// Code to add flags to navbar allowing to change the locale
 	$(".flagDropdown").append(
 		$.el.li({'class':'dropdown'},
 				 getInitialFlag(locale),
@@ -173,7 +173,7 @@ function populateFlags(locale) {
 		)
 	);
 
-	// action added on flag click should depend on whether user is logged in
+	// Action added on flag click should depend on whether user is logged in
 	var onLoggedIn = function() {saveFlagLocale();};
 	var onNotLoggedIn = function() {setFlagLocale();};
 
@@ -181,7 +181,7 @@ function populateFlags(locale) {
 }
 
 function saveFlagLocale() {
-	// if the user is logged in, set local storage and also save in users.db
+	// If the user is logged in, set local storage and also save in users.db
 	var onSuccess = function(){location.reload();};
 
 	$("#flagEn").click(function() {
@@ -193,7 +193,7 @@ function saveFlagLocale() {
 }
 
 function setFlagLocale() {
-	// if the user is not logged in only set the local storage
+	// If the user is not logged in only set the local storage
 	$("#flagEn").click(function() {
 		localStorage.setItem("locale", "en");
 		location.reload();
@@ -438,6 +438,7 @@ function loginServer(user, password, onSuccess) {
 				if(data.indexOf("Login failed") != -1) {
 					$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
 				} else if (data.indexOf("Login ok") != -1) {
+
 					setUserSettingsLocal(dataLogin, onSuccess);
 					// remove event listener and hide modal
 					$("#modalLogin").off('hidden.bs.modal');
