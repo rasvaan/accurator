@@ -1,8 +1,12 @@
-/* Accurator Results
-*/
+/*******************************************************************************
+Accurator Results
+Page showing overview of recommender/search results. Uses a lot of code from
+cluster_search_ui (search.js pagination.js and thumbnail.js)
+*******************************************************************************/
 var locale, experiment, ui, userName, realName;
 var txtRecTitle, vntFirstTitle, vntFirstText;
 
+// Options provided for cluster_search_ui__search.js
 displayOptions = {
 	numberDisplayedItems: 4,
 	showFilters: false,
@@ -38,11 +42,9 @@ function resultsInit() {
 			if(query != "") {
 				initiateSearch(query, target);
 			} else if(userParam != "") {
-				query = "expertise values";
-				recommendItems(userParam, query, target);
+				recommendItems(userParam, target);
 			} else {
-				query = "expertise values";
-				recommendItems(user, query, target);
+				recommendItems(user, target);
 			}
 			localStorage.setItem("query", query);
 		};
@@ -103,7 +105,18 @@ function initiateSearch(query, target) {
 	search(query, target);
 }
 
-function recommendItems(user, query, target) {
+function recommendItems(user, target) {
+	if(experiment === "recommender") {
+		// If running an recommender experiment choose A or B
+		randomOrRecommended(user, query, target);
+	} else {
+		// Business as usual
+		query = "expertise values";
+		recommendExpertiseItems(user, query, target);
+	}
+}
+
+function recommendExpertiseItems(user, query, target) {
 	$.getJSON("recommendation", {strategy:'expertise',
 								 user:user,
 								 target:target})
@@ -144,5 +157,126 @@ function populateRandom(target, clusterIndex) {
 				$.el.span({'class':'path-label path-literal'},
 					"random objects")));
 		addItems(clusterIndex);
+	});
+}
+
+function randomOrRecommended(user, query, target) {
+	// Consider recommendation AB setting
+	var AOrB = getAOrB();
+	if(AOrB === "recommend") {
+		query = "expertise";
+		console.log("recommend based on expertise");
+	} else if(AOrB === "random") {
+		query = "random";
+		console.log("some random shit");
+		randomResults(user, query, target);
+	}
+}
+
+function randomResults(user, query, target) {
+	console.log(user, query, target);
+	$.getJSON("recommendation", {strategy:'random',
+								 number:20,
+								 target:target})
+	.done(function(data){
+		var numberOfItems = data.length;
+		var items = [];
+
+		for (var i=0; i<numberOfItems; i++) {
+			var uri = data[i];
+			items[i] = new item(uri);
+		}
+
+		addItemList(items);
+	});
+}
+
+/*******************************************************************************
+Result List
+*******************************************************************************/
+function addItemList(items) {
+	var itemUris = [];
+	for(var i=0;i<items.length;i++)
+		itemUris[i] = items[i].uri;
+
+	// Get item enrichments from server, on success add pagination and thumbnails
+	new Pengine({server: 'pengine',
+				 application: 'enrichment',
+				 ask: 'maplist(enrich_item,' + Pengine.stringify(itemUris, {string:'atom'}) + ', Items),!',
+				 onsuccess: function () {
+					enrichedItems = processListEnrichment(this.data);
+					thumbnailList(enrichedItems);
+					// Clone cluster to enable filtering without losing information.
+					// clusters[clusterId] = clone(enrichedClusters[clusterId]);
+					// filterCluster(clusters[clusterId]);
+					// if(clusters[clusterId].items.length==0) {
+					// 	$("#cluster"+clusterId).append(noFilterResultsHtml());
+					// } else {
+					// 	var pages = determineNumberOfPages(clusterId);
+					// 	$("#cluster"+clusterId).append(pagination(pages, clusterId));
+					// 	thumbnails(clusterId);
+					// }
+	}});
+}
+
+function processListEnrichment(data) {
+	var sourceItems = data[0].Items;
+	var numberOfItems = sourceItems.length;
+	var items = [];
+
+	// console.log("display", displayOptions.annotateLink);
+	for (var i=0; i<numberOfItems; i++) {
+		var uri = sourceItems[i].uri;
+		var thumb = sourceItems[i].thumb;
+		var link = "annotate_image.html?uri=" + uri;
+ 		var title = truncate(sourceItems[i].title, 60);
+		items[i] = new item(uri, thumb, link, title);
+	}
+	return items;
+}
+
+function thumbnailList(items) {
+	var rowLength = 4;
+	bootstrapWidth = parseInt(12/rowLength, 10);
+	var numberOfRows = items.length/rowLength;
+	var itemsAdded = 0;
+
+	for(var i=1; i<=numberOfRows; i++) {
+		// Add row for thumbnails
+		$("#results").append(
+			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
+
+		//Determine where to stop adding
+		var stop = i * rowLength;
+		if(items.length<stop){
+			stop = items.length;
+		}
+
+		for (var j=itemsAdded; j<stop; j++) {
+			id = getId(items[j].uri);
+
+			$("#thumbnailRow" + i).append(
+				$.el.div({'class':'col-md-' + bootstrapWidth},
+					$.el.div({'class':'thumbnail',
+							  'id':id},
+						$.el.img({'src':items[j].thumb,
+						          'class':'img-responsive',
+								  'alt':''}),
+							$.el.div({'class':'caption'},
+								 thumbnailTitle(j, items, bootstrapWidth))))
+			);
+			addListClickEvent(id, items[j].link, i, j);
+			itemsAdded++;
+		}
+	}
+}
+
+function addListClickEvent(id, link, rowId, index) {
+	//Add thumbnail click event
+	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
+		//Add info to local storage to be able to save context
+		localStorage.setItem("itemIndex", index);
+		localStorage.setItem("row", rowId);
+		document.location.href=link;
 	});
 }
