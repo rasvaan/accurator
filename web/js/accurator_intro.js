@@ -1,12 +1,16 @@
-/* Accurator Intro
-*/
+/*******************************************************************************
+Accurator Intro
+Code for showing the welcom page, adapts to the domain and locale setting.
+*******************************************************************************/
 var locale, domain, experiment, ui, domainSettings;
 
 function introInit() {
+	// Get settings
 	locale = getLocale();
 	domain = getDomain();
 	experiment = getExperiment();
 
+	// Add language switch to navbar
 	populateFlags(locale);
 
 	// If user is logged in go to profile page
@@ -15,7 +19,7 @@ function introInit() {
 	};
 	// If user is not logged in populate intro page
 	onNotLoggedIn = function() {
-		//Get domain settings before populating ui
+		// Get domain settings before populating ui
 		onDomain = function(domainSettings) {
 			ui = getUI(domainSettings, "intro");
 			setBackground(domainSettings.image,
@@ -50,7 +54,7 @@ function addButtonEvents() {
 		document.location.href="register.html";
 	});
 	$("#btnLogin").click(function() {
-		//Show login modal and on success go to profile
+		// Show login modal and on success go to profile
 		onSuccess = function() {
 			document.location.href="profile.html";
 		};
