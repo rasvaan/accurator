@@ -1,5 +1,8 @@
-/* Accurator Expertise
-*/
+/*******************************************************************************
+Accurator Expertise
+Show expertise topics for the selected domain. Expertise topics are retrieved
+from triple store and sliders are used for providing values.
+*******************************************************************************/
 var locale, ui, user, domain, experiment, domainSettings;
 var topics;
 var userExpertise = {};
@@ -7,10 +10,12 @@ var sldALot, sldNothing, txtChangeAll, lblDomain;
 var sliderIds = [];
 
 function expertiseInit() {
+	// Get settings
 	locale = getLocale();
 	domain = getDomain();
 	experiment = getExperiment();
 
+	// Add language switch to navbar
 	populateFlags(locale);
 
 	// Make sure user is logged in
@@ -31,6 +36,10 @@ function expertiseInit() {
 	logUserIn(onLoggedIn, onDismissal);
 }
 
+function nextPage() {
+	return function(){document.location.href="results.html"};
+}
+
 function populateUI(domainData) {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(data){
@@ -42,7 +51,6 @@ function populateUI(domainData) {
 function initLabels(data) {
 	$("#txtHeader").prepend(data.txtHeader);
 	$("#txtSubHeader").prepend(data.txtSubHeader);
-	$("#frmRealName").append(data.frmRealName);
 	$("#btnSubmit").append(data.btnSubmit);
 	$("#btnSkip").append(data.btnSkip);
 	sldALot = data.sldALot;
@@ -52,12 +60,8 @@ function initLabels(data) {
 }
 
 function registerEvents() {
-	$("#btnSubmit").click(function() {
-		processExpertiseValues();
-	});
-	$("#btnSkip").click(function() {
-		document.location.href="profile.html";
-	});
+	$("#btnSubmit").click(function() {processExpertiseValues();});
+	$("#btnSkip").click(nextPage());
 }
 
 function initExpertiseTopics(domainData) {
@@ -67,7 +71,7 @@ function initExpertiseTopics(domainData) {
 		top_concept:domainData.top_concept,
 		number_of_topics:domainData.number_of_topics,
 		number_of_children_shown:domainData.number_of_children_shown
-								   })
+	})
 	.done(function(data){
 		topics = generateIds(data.topics);
 		var halfTheTopics = parseInt(topics.length/2, 10);
@@ -144,9 +148,7 @@ function processExpertiseValues() {
 		    url: "expertise_values",
 			contentType: "application/json",
 			data: JSON.stringify(userExpertise),
-			success: function(){
-				       document.location.href="results.html";
-			}
+			success: nextPage()
 	});
 }
 
