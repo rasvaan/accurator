@@ -1,13 +1,17 @@
-/* Accurator Register
-*/
+/*******************************************************************************
+Accurator Register
+Code for registering new user. After registering
+*******************************************************************************/
 var locale, domain, experiment, ui;
 var lblRegistrationFailed, lblUsernameFail, lblPasswordsMatchFail, lblUserTaken, lblServerError;
 
 function registerInit() {
+	// Get settings
 	locale = getLocale();
 	domain = getDomain();
 	experiment = getExperiment();
 
+	// Add language switch to navbar
 	populateFlags(locale);
 
 	var onDomain = function(domainSettings) {
@@ -15,6 +19,17 @@ function registerInit() {
 		populateUI();
 	}
 	domainSettings = domainSettings(domain, onDomain);
+}
+
+function nextPage() {
+	// Determine which page will be shown next
+	if(experiment === "recommender") {
+		return function(){console.log("going to additiona info page")};
+		return function(){document.location.href="additional_info.html"};
+	} else {
+		return function(){console.log("going to domain page")};
+		return function(){document.location.href="domain.html"};
+	}
 }
 
 function populateUI() {
@@ -25,6 +40,7 @@ function populateUI() {
 		initLabels(labels);
 		$("#frmRealName").focus();});
 }
+
 function initLabels(labels) {
 	// Add retrieved labels to html elements
 	document.title = labels.title;
@@ -67,9 +83,6 @@ function setRegisterFailureText(text) {
 }
 
 function register() {
-	// We are doing research you know
-	flipABCoin();
-
 	// Get and check initial form input
 	var name = $("#regRealName").val();
 	var user = $("#regUsername").val();
@@ -91,7 +104,6 @@ function register() {
 
 function registerServer(name, user, password) {
 	var json = {"name":name, "user":user, "password":password};
-	var domain = "generic";
 
 	$.ajax({
 		type: "POST",
@@ -99,16 +111,11 @@ function registerServer(name, user, password) {
 		contentType: "application/json",
 		data: JSON.stringify(json),
 		success: function(){
-			// login user upon registering
-			loginServer(user, password, function(){
-				// reset locale since it was updated (incorrectly) by login
-				localStorage.setItem("locale", locale);
-				localStorage.setItem("domain", domain);
-				// save current info
-				save_user_info({"locale":locale,"domain":domain}, function(){
-					document.location.href="additional_info.html";
-				});
-			});
+			// We are sometimes doing research you know
+			if(experiment !== "none")
+				flipAOrB();
+			// Login user upon succesful register
+			firstLogin(user, password);
 		},
 		error: function (request, textStatus, errorThrown) {
 			if(errorThrown == "Not Found")
@@ -122,8 +129,24 @@ function registerServer(name, user, password) {
 	});
 }
 
+function firstLogin(user, password) {
+	// loginServer from utilities is not used because it resets settings upon
+	// retrieving non existent settings from user.db (hence, firstLogin)
+	$.ajax({type: "POST",
+			url: "user/login",
+			data: {"user":user, "password":password},
+			success: function(data) {
+				// Save the locale and domain currently in local storage
+				save_user_info({"locale":locale,"domain":domain}, function(){
+					nextPage()();
+				});
+		   }
+	});
+}
+
 function checkUsername(user) {
-	var illegalChars = /\W/; // allow letters, numbers and underscores
+	// Only allow letters, numbers and underscores in username
+	var illegalChars = /\W/;
 
 	if (illegalChars.test(user)) {
 		return true;
@@ -132,12 +155,14 @@ function checkUsername(user) {
 	}
 }
 
-function flipABCoin() {
-	var aBArray;
+function flipAOrB() {
+	var aBArray = [];
 
 	// Get an array with A or B for the specified experiment
 	if(experiment === "recommender") {
 		aBArray = ["random","recommend"];
+	} else {
+		aBArray = ["a","b"];
 	}
 	var randomIndex = Math.floor(Math.random() * aBArray.length);
 
