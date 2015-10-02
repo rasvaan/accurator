@@ -1,4 +1,4 @@
-:- module(strategy_expertise, [strategy_expertise/2]).
+:- module(strategy_expertise, [strategy_expertise/2, cluster_recommender/3]).
 
 :- use_module(library(accurator/accurator_user)).
 :- use_module(library(accurator/expertise)).
@@ -15,9 +15,9 @@
 
 %strategy_expertise(Result, []).
 
-%%      strategy_expertise(-Result, +Options)
+%%	strategy_expertise(-Result, +Options)
 %
-%       Assign a number of objects in a random fassion.
+%	Recommend items based on user expertise.
 strategy_expertise(Clusters, Options0) :-
 	option(user(User), Options0),
 	get_domain(User, Domain),

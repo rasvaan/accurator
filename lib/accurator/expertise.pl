@@ -9,6 +9,9 @@
 */
 
 :- use_module(library(semweb/rdf_db)).
+:- use_module(library(accurator/recommendation/strategy_expertise)).
+:- use_module(api(cluster_search)).
+:- use_module(library(accurator/accurator_user)).
 
 :- rdf_register_prefix(as, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
@@ -16,18 +19,21 @@
 
 %%	get_expertise_topics(-Topics, +Options)
 %
-%	Retrieves a list of expertise topics, starting from the top concept.
+%	Retrieves a list of expertise topics (e.g. bird orders), starting
+%	from the top concept.
 get_expertise_topics(Topics, Options) :-
 	option(locale(Locale), Options),
 	option(topConcept(TopConcept), Options),
 	option(numberOfTopics(Number), Options),
-	get_number_topics([TopConcept], Number, TopicUris),
+	get_number_topics([TopConcept], Number, TopicUris1),
+	filter_topics(TopicUris1, TopicUris, Options),
 	maplist(get_info_topics(Locale, Options), TopicUris, TopicDicts),
 	Topics = expertise_topics{topics:TopicDicts}.
 
 %%	get_domain_topics(+Domain, -Topics)
 %
-%	Retrieves a list of expertise topics, starting from the top concept.
+%	Retrieves a list of domain topics (e.g. bird or bible), starting
+%	from the top concept.
 get_domain_topics(Domain, Topics) :-
 	rdf(DomainUri, rdf:type, as:'Domain'),
 	rdf(DomainUri, rdfs:label, literal(Domain)),
@@ -77,6 +83,27 @@ get_broader_child(Concept, Child) :-
 	rdf(Child, rdf:type, skos:'Concept').
 
 %add subproperty query
+
+%%	filter_topics(+Topics, -FilteredTopics, +Options)
+%
+%	Filter the list of topics.
+filter_topics([], [], _Options) :- !.
+filter_topics([Topic|Topics], [Topic|FilteredTopics], Options) :-
+	check_topic(Topic, Options), !,
+	filter_topics(Topics, FilteredTopics, Options).
+filter_topics([_Topic|Topics], FilteredTopics, Options) :-
+	filter_topics(Topics, FilteredTopics, Options).
+
+%%	check_topic(+Topic)
+%
+%	See if topic has results.
+check_topic(Topic, Options) :-
+	cluster_recommender(Topic, State, Options),
+	get_target_count(State, Targets),
+	Targets > 0.
+
+% get the number of targets found from state
+get_target_count(state(_,_,_,Count,_,_,_,_,_,_,_), Count).
 
 %%	get_info_topics(+Locale, +Options, +Uri, -Dict)
 %

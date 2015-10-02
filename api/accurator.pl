@@ -124,7 +124,11 @@ get_parameters_domain(Request, Options) :-
 %
 %	Retrieves a list of expertise topics.
 expertise_topics_api(Request) :-
-    get_parameters_expertise(Request, Options),
+    get_parameters_expertise(Request, Options0),
+	logged_on(User),
+	Options1 = [user(User) | Options0],
+	get_domain(User, Domain),
+	Options = [domain(Domain) | Options1],
 	get_expertise_topics(Dic, Options),
 	reply_json_dict(Dic).
 
@@ -136,6 +140,8 @@ get_parameters_expertise(Request, Options) :-
         [locale(Locale,
 		    [description('Locale of language elements to retrieve'),
 			 optional(false)]),
+		target(Target,
+			[default('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
 		taxonomy(Taxonomy,
 			[description('Domain specific taxonomy.'),
 			 optional(false)]),
@@ -151,7 +157,7 @@ get_parameters_expertise(Request, Options) :-
 			 default(3)])]),
     atom_number(NumberOfTopicsString, NumberOfTopics),
 	atom_number(NumberOfChildrenString, NumberOfChildren),
-	Options = [locale(Locale), taxonomy(Taxonomy),
+	Options = [locale(Locale), target(Target), taxonomy(Taxonomy),
 			   topConcept(TopConcept), numberOfTopics(NumberOfTopics),
 			   numberOfChildren(NumberOfChildren)].
 
