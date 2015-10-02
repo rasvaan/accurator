@@ -24,10 +24,8 @@ function registerInit() {
 function nextPage() {
 	// Determine which page will be shown next
 	if(experiment === "recommender") {
-		return function(){console.log("going to additiona info page")};
 		return function(){document.location.href="additional_info.html"};
 	} else {
-		return function(){console.log("going to domain page")};
 		return function(){document.location.href="domain.html"};
 	}
 }
