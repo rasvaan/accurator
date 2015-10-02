@@ -165,16 +165,13 @@ function randomOrRecommended(user, query, target) {
 	var AOrB = getAOrB();
 	if(AOrB === "recommend") {
 		query = "expertise";
-		console.log("recommend based on expertise");
 	} else if(AOrB === "random") {
 		query = "random";
-		console.log("some random shit");
 		randomResults(user, query, target);
 	}
 }
 
 function randomResults(user, query, target) {
-	console.log(user, query, target);
 	$.getJSON("recommendation", {strategy:'random',
 								 number:20,
 								 target:target})
