@@ -1,5 +1,8 @@
-/* Accurator Domain
-*/
+/*******************************************************************************
+Accurator Domain
+This code loads domain options into the page, where the options depend on the
+domains loaded in the triple store.
+*******************************************************************************/
 var locale, domain, experiment, ui;
 
 function domainInit() {
@@ -8,9 +11,9 @@ function domainInit() {
 	domain = "generic";
 	experiment = getExperiment();
 
+	// Add language switch to navbar
 	populateFlags(locale);
 
-	// If user is logged in go to profile page
 	onLoggedIn = function(loginData) {
 		setLinkLogo("profile");
 		onDomains = function(data){
@@ -25,11 +28,16 @@ function domainInit() {
 			};
 			domainSettings(domain, onDomain);
 		};
+		// Get a list of the available domain (utilities function)
 		getAvailableDomains(onDomains);
 	};
 	// If user is not logged go to intro page
 	onDismissal = function(){document.location.href="intro.html";};
 	logUserIn(onLoggedIn, onDismissal);
+}
+
+function nextPage() {
+	return function(){document.location.href="expertise.html"};
 }
 
 function populateUI() {
@@ -65,9 +73,10 @@ function populateDomains(domainLabels) {
 
 function domainHtml(domainData, row) {
 	var domain = domainData.domain;
-	$.getJSON("ui_elements", {locale:locale,
-							  ui:domainData.ui + "domain",
-							  type:"labels"})
+	$.getJSON("ui_elements",
+			  {locale:locale,
+			   ui:domainData.ui + "domain",
+			   type:"labels"})
 		.done(function(data){
 			$("#domain" + row).append(
 				$.el.div({'class':'noPadding col-md-6'},
@@ -84,11 +93,10 @@ function domainHtml(domainData, row) {
 }
 
 function addDomainEvent(domain) {
-	var onSuccess = function(){document.location.href="expertise.html"};
 	$("#image"+domain).click(function() {
-		setDomain(domain, onSuccess);
+		setDomain(domain, nextPage());
 	});
 	$("#text"+domain).click(function() {
-		setDomain(domain, onSuccess);
+		setDomain(domain, nextPage());
 	});
 }
