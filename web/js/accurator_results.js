@@ -206,16 +206,6 @@ function addItemList(items) {
 				 onsuccess: function () {
 					enrichedItems = processListEnrichment(this.data);
 					thumbnailList(enrichedItems);
-					// Clone cluster to enable filtering without losing information.
-					// clusters[clusterId] = clone(enrichedClusters[clusterId]);
-					// filterCluster(clusters[clusterId]);
-					// if(clusters[clusterId].items.length==0) {
-					// 	$("#cluster"+clusterId).append(noFilterResultsHtml());
-					// } else {
-					// 	var pages = determineNumberOfPages(clusterId);
-					// 	$("#cluster"+clusterId).append(pagination(pages, clusterId));
-					// 	thumbnails(clusterId);
-					// }
 	}});
 }
 
