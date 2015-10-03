@@ -187,15 +187,7 @@ edge(O, S, P, W) :-
 % annotation edge hack: translate the connection between object and
 % subject through an annotation into a dc:subject predicate.
 i_edge(O, S, P) :-
-	rdf(Annotation, oa:hasBody, O),
-        rdf(Annotation, oa:hasTarget, S),
-	rdf_equal(P, dc:subject).
-
-
-i_edge(O, S, P) :-
-	rdf(S, P, O),
-	% ignore annotations connected by hasTarget
-	\+ rdf_equal(S, oa:hasTarget).
+	rdf(S, P, O).
 i_edge(O, S, P) :-
 	rdf(O, P0, S),
 	atom(S),
@@ -203,9 +195,29 @@ i_edge(O, S, P) :-
 	->  true
 	;   predicate_weight(P0, 1)
 	->  P = P0
-	),
+	).
+
+%EXPERIMENT: do not consider annotations
+%i_edge(O, S, P) :-
+%	rdf(Annotation, oa:hasBody, O),
+%        rdf(Annotation, oa:hasTarget, S),
+%	rdf_equal(P, dc:subject).
+
+
+%i_edge(O, S, P) :-
+%	rdf(S, P, O),
 	% ignore annotations connected by hasTarget
-	\+ rdf_equal(S, oa:hasTarget).
+%	\+ rdf_equal(S, oa:hasTarget).
+%i_edge(O, S, P) :-
+%	rdf(O, P0, S),
+%	atom(S),
+%	(   owl_ultra_lite:inverse_predicate(P0, P)
+%	->  true
+%	;   predicate_weight(P0, 1)
+%	->  P = P0
+%	),
+	% ignore annotations connected by hasTarget
+%	\+ rdf_equal(S, oa:hasTarget).
 
 %%	predicate_weight(+Predicate, -Weight) is semidet.
 %
