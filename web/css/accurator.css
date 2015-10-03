@@ -227,6 +227,18 @@ body {
 	text-align: center;
 }
 
+/* End page */
+.endScreen {
+	overflow-x: hidden;
+	overflow-y: hidden;
+	background-color: #333;
+}
+
+.endText {
+	position: absolute;
+	top: 75px;
+}
+
 /* Sliders */
 slider.slider-horizontal {
 	height: 15px;
