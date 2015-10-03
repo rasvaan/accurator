@@ -18,14 +18,52 @@
 %%	strategy_expertise(-Result, +Options)
 %
 %	Recommend items based on user expertise.
-strategy_expertise(Clusters, Options0) :-
+strategy_expertise(Result, Options0) :-
 	option(user(User), Options0),
 	get_domain(User, Domain),
 	Options = [domain(Domain) | Options0],
 	set_expertise_agenda(3, Agenda, Options),
     cluster_recommender(Agenda, State, Options),
+	option(output_format(OutputFormat), Options),
+	cluster_or_list(OutputFormat, State, Result, Options).
+
+
+cluster_or_list(cluster, State, Clusters, _Options) :-
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions).
+
+cluster_or_list(list, State, FilteredList, Options) :-
+	OrganizeOptions = [groupBy(path)],
+    organize_resources(State, Clusters, OrganizeOptions),
+	merge_in_list(Clusters, List, Options),
+	length(List, LengthList),
+	option(filter(Filter), Options),
+	debug(filter, 'length list ~p', [LengthList]),
+	filter(Filter, List, FilteredList, Options),
+	length(FilteredList, FilterLengthList),
+	debug(filter, 'length filtered list ~p', [FilterLengthList]).
+
+merge_in_list(clusters(Clusters), ElementsList, _Options) :-
+	get_elements_list(Clusters, ElementsList).
+
+get_elements_list([], []) :- !.
+get_elements_list([_Path-ElementsDirty|Clusters], ElementsList) :-
+	get_elements(ElementsDirty, Elements),
+	append(Elements, ElementsList0, ElementsList),
+	get_elements_list(Clusters, ElementsList0).
+
+get_elements([], []) :- !.
+get_elements([_Score-Item-_Path|Elements], [Item|Items]):-
+	get_elements(Elements, Items).
+
+%%	filter(+FilterOption, +Uris, -FilteredUris, +Options)
+%
+%	Filter the potential candidates.
+filter(annotated, SourceList, FilteredUris, Options) :-
+	option(user(User), Options),
+	get_annotated_user(User, AnnotatedUris),
+	subtract(SourceList, AnnotatedUris, FilteredUris).
+filter(none, SourceList, SourceList, _Options).
 
 %%	set_expertise_agenda(+MaxNumber, -Agenda, +Options)
 %
@@ -59,9 +97,11 @@ expertise_from_bins(Bins, N0, MaxN, [Expertise|List]) :-
 %	Get a random value from the bin. If the bin is empty aftwerwards,
 %	remove from bins, otherwise only remove the value from the bin.
 random_from_bin([Value-Bin|Bins], NewBins, Expertise) :-
-	length(Bin, Number0),
-	Number is Number0-1,
-	random_between(0, Number, Index),
+	%EXPERIMENT: not so random for now..
+	%length(Bin, Number0),
+	%Number is Number0-1,
+	%random_between(0, Number, Index),
+	Index = 0,
 	nth0(Index, Bin, Expertise, Rest),
 	(  Rest == []
 	-> NewBins = Bins
