@@ -56,6 +56,11 @@ abirui:results a aui:UI ;
 abirui:annotate a aui:UI ;
 	rdfs:subClassOf aui:annotate .
 
+###### Bird End Screen #####
+
+abirui:end a auis:UI ;
+	rdfs:subClassOf aui:end .
+
 ##### Bird Additional Info Screen #####
 
 abirui:additional_info a auis:UI ;
