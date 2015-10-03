@@ -18,30 +18,47 @@
 %%	strategy_expertise(-Result, +Options)
 %
 %	Recommend items based on user expertise.
-strategy_expertise(Result, Options0) :-
+strategy_expertise(Result, Options) :-
+	option(output_format(OutputFormat), Options),
+	strategy_expertise(OutputFormat, Result, 3, Options).
+
+strategy_expertise(cluster, Clusters, AgendaSize, Options0) :-
 	option(user(User), Options0),
 	get_domain(User, Domain),
 	Options = [domain(Domain) | Options0],
-	set_expertise_agenda(3, Agenda, Options),
+	set_expertise_agenda(AgendaSize, Agenda, Options),
     cluster_recommender(Agenda, State, Options),
-	option(output_format(OutputFormat), Options),
-	cluster_or_list(OutputFormat, State, Result, Options).
-
-
-cluster_or_list(cluster, State, Clusters, _Options) :-
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions).
 
-cluster_or_list(list, State, FilteredList, Options) :-
+strategy_expertise(list, Result, AgendaSize, Options) :-
+	strategy_expertise_list([], Result, AgendaSize, Options).
+
+strategy_expertise_list(List, ShortList, AgendaSize, Options) :-
+	option(number(Number), Options),
+	length(List, Length),
+	debug(numbers, 'Agenda ~p Length list ~p', [AgendaSize, Length]),
+	%Stop extending the agenda when the Length is longer than Number
+	Length > Number,
+	%Should in the end add a check for empty agenda
+	!,
+	%Shorten the list to number
+	append(ShortList, _Tail, List),
+	length(ShortList, Number).
+
+strategy_expertise_list(_Result, FinalResult, AgendaSize, Options0) :-
+	option(user(User), Options0),
+	get_domain(User, Domain),
+	Options = [domain(Domain) | Options0],
+	set_expertise_agenda(AgendaSize, Agenda, Options),
+    cluster_recommender(Agenda, State, Options),
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions),
 	merge_in_list(Clusters, List, Options),
-	length(List, LengthList),
 	option(filter(Filter), Options),
-	debug(filter, 'length list ~p', [LengthList]),
 	filter(Filter, List, FilteredList, Options),
-	length(FilteredList, FilterLengthList),
-	debug(filter, 'length filtered list ~p', [FilterLengthList]).
+	NewAgendaSize is AgendaSize + 1,
+	strategy_expertise_list(FilteredList, FinalResult, NewAgendaSize, Options0).
 
 merge_in_list(clusters(Clusters), ElementsList, _Options) :-
 	get_elements_list(Clusters, ElementsList).

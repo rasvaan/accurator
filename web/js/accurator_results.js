@@ -171,7 +171,7 @@ function recommendExpertiseList(target) {
 	query = "expertise";
 
 	$.getJSON("recommendation", {strategy:'expertise',
-								 number:20,
+								 number:12,
 								 target:target,
 							 	 output_format:'list'})
 	.done(function(data){
@@ -194,10 +194,10 @@ function recommendExpertiseList(target) {
 
 function randomResults(target) {
 	query = "random";
-	console.log(target);
+
 	// Populate a list of random items
 	$.getJSON("recommendation", {strategy:'random',
-								 number:20,
+								 number:12,
 								 target:target})
 	.done(function(data){
 		var numberOfItems = data.length;
