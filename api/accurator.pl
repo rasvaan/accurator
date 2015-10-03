@@ -207,11 +207,14 @@ get_recommendation_parameters(Request, Options) :-
 			[integer, default(20)]),
 		 filter(Filter,
 		    [default(annotated),
-			 oneof([none, annotated])])
+			 oneof([none, annotated])]),
+		 output_format(OutputFormat,
+		    [default(cluster),
+			 oneof([cluster, list])])
 		]),
     Options = [strategy(Strategy), user(User),
 			   target(Target), number(Number),
-			   filter(Filter)].
+			   filter(Filter), output_format(OutputFormat)].
 
 %%	strategy(+Strategy, +Options)
 %
@@ -221,6 +224,12 @@ strategy(random, Options) :-
 	reply_json_dict(Result).
 
 strategy(expertise, Options) :-
-    strategy_expertise(Clusters, Options),
+    strategy_expertise(Results, Options),
+	option(output_format(OutputFormat), Options),
+	reply_expertise_results(OutputFormat, Results).
+
+reply_expertise_results(cluster, Clusters) :-
 	reply_clusters(Clusters).
 
+reply_expertise_results(list, List) :-
+	reply_json_dict(List).
