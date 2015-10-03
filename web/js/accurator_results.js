@@ -41,10 +41,9 @@ function resultsInit() {
 			//Provide results based on query or recommend something. In case of no in put recommend based on retrieved user.
 			if(query != "") {
 				initiateSearch(query, target);
-			} else if(userParam != "") {
-				recommendItems(userParam, target);
 			} else {
-				recommendItems(user, target);
+				console.log("1.b recommend items");
+				recommendItems(target);
 			}
 			localStorage.setItem("query", query);
 		};
@@ -105,22 +104,26 @@ function initiateSearch(query, target) {
 	search(query, target);
 }
 
-function recommendItems(user, target) {
+function recommendItems(target) {
+	console.log("2. see if experiment");
 	if(experiment === "recommender") {
+		console.log("2.a experiment");
 		// If running an recommender experiment choose A or B
-		randomOrRecommended(user, query, target);
+		randomOrRecommended(target);
 	} else {
+		console.log("2.b no experiment");
 		// Business as usual
-		query = "expertise values";
-		recommendExpertiseItems(user, query, target);
+		recommendExpertiseItems(target);
 	}
 }
 
-function recommendExpertiseItems(user, query, target) {
+function recommendExpertiseItems(target) {
+	query = "expertise values";
+	console.log("3.a recommend as usual");
 	$.getJSON("recommendation", {strategy:'expertise',
-								 user:user,
 								 target:target})
 	.done(function(data){
+		console.log("4. process data", data);
 		setGlobalQuery(query)
 		$("#results").children().remove();
 		showFilters();
@@ -160,18 +163,36 @@ function populateRandom(target, clusterIndex) {
 	});
 }
 
-function randomOrRecommended(user, query, target) {
+function randomOrRecommended(target) {
 	// Consider recommendation AB setting
 	var AOrB = getAOrB();
 	if(AOrB === "recommend") {
-		query = "expertise";
+		recommendExpertiseList(query, target);
 	} else if(AOrB === "random") {
-		query = "random";
-		randomResults(user, query, target);
+		randomResults(query, target);
 	}
 }
 
-function randomResults(user, query, target) {
+function recommendExpertiseList(target) {
+	query = "expertise";
+	console.log("3.b recommend a list");
+	$.getJSON("recommendation", {strategy:'expertise',
+								 target:target})
+	.done(function(data){
+		// setGlobalQuery(query)
+		console.log	(data);
+	})
+	.fail(function(data, textStatus){
+		$("#results").children().remove();
+		$("#results").append(errorHtml(data, textStatus));
+		$(document).prop('title', 'Error on ' + query);
+	});
+}
+
+function randomResults(target) {
+	query = "random";
+	console.log("3.c random list");
+	// Populate a list of random items
 	$.getJSON("recommendation", {strategy:'random',
 								 number:20,
 								 target:target})
@@ -183,7 +204,6 @@ function randomResults(user, query, target) {
 			var uri = data[i];
 			items[i] = new item(uri);
 		}
-
 		addItemList(items);
 	});
 }
