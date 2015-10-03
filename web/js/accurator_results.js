@@ -3,7 +3,7 @@ Accurator Results
 Page showing overview of recommender/search results. Uses a lot of code from
 cluster_search_ui (search.js pagination.js and thumbnail.js)
 *******************************************************************************/
-var locale, experiment, ui, userName, realName;
+var locale, experiment, ui, typeRec, userName, realName;
 var txtRecTitle, vntFirstTitle, vntFirstText;
 
 // Options provided for cluster_search_ui__search.js
@@ -43,6 +43,7 @@ function resultsInit() {
 				initiateSearch(query, target);
 			} else {
 				recommendItems(target);
+				query = typeRec;
 			}
 			localStorage.setItem("query", query);
 		};
@@ -114,7 +115,7 @@ function recommendItems(target) {
 }
 
 function recommendExpertiseItems(target) {
-	setGlobalQuery("expertise values");
+	typeRec = "expertise values";
 
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
@@ -168,7 +169,7 @@ function randomOrRecommended(target) {
 }
 
 function recommendExpertiseList(target) {
-	setGlobalQuery("recommend");
+	typeRec = "expertise";
 
 	$.getJSON("recommendation", {strategy:'expertise',
 								 number:12,
@@ -192,7 +193,7 @@ function recommendExpertiseList(target) {
 }
 
 function randomResults(target) {
-	setGlobalQuery("random");
+	typeRec = "random";
 
 	// Populate a list of random items
 	$.getJSON("recommendation", {strategy:'random',
