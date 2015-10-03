@@ -114,11 +114,11 @@ function recommendItems(target) {
 }
 
 function recommendExpertiseItems(target) {
-	query = "expertise values";
+	setGlobalQuery("expertise values");
+
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
 	.done(function(data){
-		setGlobalQuery(query)
 		$("#results").children().remove();
 		showFilters();
 		processJsonResults(data);
@@ -168,14 +168,13 @@ function randomOrRecommended(target) {
 }
 
 function recommendExpertiseList(target) {
-	query = "expertise";
+	setGlobalQuery("recommend");
 
 	$.getJSON("recommendation", {strategy:'expertise',
 								 number:12,
 								 target:target,
 							 	 output_format:'list'})
 	.done(function(data){
-		// setGlobalQuery(query)
 		var numberOfItems = data.length;
 		var items = [];
 
@@ -193,7 +192,7 @@ function recommendExpertiseList(target) {
 }
 
 function randomResults(target) {
-	query = "random";
+	setGlobalQuery("random");
 
 	// Populate a list of random items
 	$.getJSON("recommendation", {strategy:'random',
