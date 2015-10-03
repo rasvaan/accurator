@@ -155,8 +155,8 @@ function addExperimentNavigation() {
 	.done(function(annotations){
 		var numberAnnotated = annotations.uris.length;
 
-		// Switch AB setting after 10 annotations
-		if(numberAnnotated == 10) {
+		// Switch AB setting after 5 annotations
+		if(numberAnnotated == 5) {
 			var AorB = getAOrB();
 
 			if(AorB === "recommend")
@@ -168,7 +168,7 @@ function addExperimentNavigation() {
 		// Add click event to navigation button
 		$("#btnExperimentNext").click(function() {
 			// Go to thank you page after 20 annotations else results
-			if(numberAnnotated == 20) {
+			if(numberAnnotated == 10) {
 				document.location.href="end.html";
 			} else {
 				document.location.href="results.html" + "?user=" + user;
