@@ -1,5 +1,6 @@
 :- module(strategy_random, [strategy_random/2]).
 
+:- use_module(library(accurator/accurator_user)).
 :- use_module(library(semweb/rdf_db)).
 
 %%      strategy_random(-Result, +Options)
@@ -8,8 +9,20 @@
 strategy_random(Result, Options) :-
 	option(target(Target), Options),
 	option(number(Number), Options),
+	option(filter(Filter), Options),
+	% Get list of all targets
     findall(Uri, rdf(Uri, rdf:type, Target), SourceList),
-    assign_random(Number, SourceList, Result).
+	filter(Filter, SourceList, FilteredList, Options),
+    assign_random(Number, FilteredList, Result).
+
+%%	filter(+FilterOption, +Uris, -FilteredUris, +Options)
+%
+%	Filter the potential candidates.
+filter(annotated, SourceList, FilteredUris, Options) :-
+	option(user(User), Options),
+	get_annotated_user(User, AnnotatedUris),
+	subtract(SourceList, AnnotatedUris, FilteredUris).
+filter(none, SourceList, SourceList, _Options).
 
 
 assign_random(0, _SourceList, []).

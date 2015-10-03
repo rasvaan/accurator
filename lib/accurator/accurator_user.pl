@@ -1,10 +1,11 @@
 :- module(accurator_user, [get_annotated/2,
-				 get_domain/2,
-				 get_locale/2,
-			     register_user/1,
-				 get_user/1,
-				 get_user_settings/1,
-				 save_user_info/1]).
+						   get_annotated_user/2,
+						   get_domain/2,
+						   get_locale/2,
+						   register_user/1,
+						   get_user/1,
+						   get_user_settings/1,
+						   save_user_info/1]).
 
 /** <module> Domain
 */
@@ -18,19 +19,23 @@
 
 %%	get_annotated(-Dic, +Options)
 %
-%	Query for a list of artworks the user recently annotated.
+%	Query for a list of artworks the user recently annotated and return
+%	dict
 get_annotated(Dic, Options) :-
 	option(user(User), Options),
-	setof(Uri, Annotation^User^
-		  (	  rdf(Annotation, oa:annotatedBy, User),
-			  rdf(Annotation, oa:hasTarget, Uri),
-			  rdf(Uri, rdf:type, edm:'ProvidedCHO')),
-		  Uris),
-	!,
+	get_annotated_user(User, Uris),
 	Dic = artworks{uris:Uris}.
 
-get_annotated(Dic, _Options) :-
-	Dic = artworks{uris:[]}.
+%%	get_annotated(+User, -AnnotatedUris)
+%
+%	Query for a list of artworks the user recently annotated.
+get_annotated_user(User, Uris) :-
+	setof(Uri, Annotation^User^
+		  (	    rdf(Annotation, oa:annotatedBy, User),
+				rdf(Annotation, oa:hasTarget, Uri),
+				rdf(Uri, rdf:type, edm:'ProvidedCHO')),
+		  Uris), !.
+get_annotated_user(_User, []).
 
 %%	register_user(+Request)
 %
