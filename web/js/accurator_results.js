@@ -42,7 +42,6 @@ function resultsInit() {
 			if(query != "") {
 				initiateSearch(query, target);
 			} else {
-				console.log("1.b recommend items");
 				recommendItems(target);
 			}
 			localStorage.setItem("query", query);
@@ -105,13 +104,10 @@ function initiateSearch(query, target) {
 }
 
 function recommendItems(target) {
-	console.log("2. see if experiment");
 	if(experiment === "recommender") {
-		console.log("2.a experiment");
 		// If running an recommender experiment choose A or B
 		randomOrRecommended(target);
 	} else {
-		console.log("2.b no experiment");
 		// Business as usual
 		recommendExpertiseItems(target);
 	}
@@ -119,11 +115,9 @@ function recommendItems(target) {
 
 function recommendExpertiseItems(target) {
 	query = "expertise values";
-	console.log("3.a recommend as usual");
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
 	.done(function(data){
-		console.log("4. process data", data);
 		setGlobalQuery(query)
 		$("#results").children().remove();
 		showFilters();
@@ -175,12 +169,21 @@ function randomOrRecommended(target) {
 
 function recommendExpertiseList(target) {
 	query = "expertise";
-	console.log("3.b recommend a list");
+
 	$.getJSON("recommendation", {strategy:'expertise',
-								 target:target})
+								 number:20,
+								 target:target,
+							 	 output_format:'list'})
 	.done(function(data){
 		// setGlobalQuery(query)
-		console.log	(data);
+		var numberOfItems = data.length;
+		var items = [];
+
+		for (var i=0; i<numberOfItems; i++) {
+			var uri = data[i];
+			items[i] = new item(uri);
+		}
+		addItemList(items);
 	})
 	.fail(function(data, textStatus){
 		$("#results").children().remove();
@@ -191,7 +194,7 @@ function recommendExpertiseList(target) {
 
 function randomResults(target) {
 	query = "random";
-	console.log("3.c random list");
+
 	// Populate a list of random items
 	$.getJSON("recommendation", {strategy:'random',
 								 number:20,
