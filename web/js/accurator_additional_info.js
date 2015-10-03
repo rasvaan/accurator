@@ -38,7 +38,7 @@ function additionalInfoInit() {
 
 function nextPage() {
 	// Determine which page will be shown next
-	if(experiment === "recommender") {
+	if(experiment === "true") {
 		return function(){document.location.href="expertise.html"};
 	} else {
 		return function(){document.location.href="domain.html"};

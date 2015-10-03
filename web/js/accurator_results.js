@@ -104,7 +104,7 @@ function initiateSearch(query, target) {
 }
 
 function recommendItems(target) {
-	if(experiment === "recommender") {
+	if(experiment === "true") {
 		// If running an recommender experiment choose A or B
 		randomOrRecommended(target);
 	} else {

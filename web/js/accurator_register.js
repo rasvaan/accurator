@@ -23,7 +23,7 @@ function registerInit() {
 
 function nextPage() {
 	// Determine which page will be shown next
-	if(experiment === "recommender") {
+	if(experiment === "true") {
 		return function(){document.location.href="additional_info.html"};
 	} else {
 		return function(){document.location.href="domain.html"};
@@ -157,7 +157,7 @@ function flipAOrB() {
 	var aBArray = [];
 
 	// Get an array with A or B for the specified experiment
-	if(experiment === "recommender") {
+	if(experiment === "true") {
 		aBArray = ["random","recommend"];
 	} else {
 		aBArray = ["a","b"];
