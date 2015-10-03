@@ -18,21 +18,31 @@
 %%	strategy_expertise(-Result, +Options)
 %
 %	Recommend items based on user expertise.
-strategy_expertise(Result, Options) :-
-	option(output_format(OutputFormat), Options),
+strategy_expertise(Result, Options0) :-
+	option(output_format(OutputFormat), Options0),
+	option(user(User), Options0),
+	get_domain(User, Domain),
+	Options1 = [domain(Domain) | Options0],
+	%set initial max agenda
+	Options = [max_agenda(100) | Options1],
 	strategy_expertise(OutputFormat, Result, 3, Options).
 
 strategy_expertise(cluster, Clusters, AgendaSize, Options0) :-
-	option(user(User), Options0),
-	get_domain(User, Domain),
-	Options = [domain(Domain) | Options0],
-	set_expertise_agenda(AgendaSize, Agenda, Options),
+	set_expertise_agenda(AgendaSize, Agenda, Options0, Options),
     cluster_recommender(Agenda, State, Options),
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions).
 
 strategy_expertise(list, Result, AgendaSize, Options) :-
 	strategy_expertise_list([], Result, AgendaSize, Options).
+
+strategy_expertise_list(List, List, AgendaSize, Options) :-
+	%see if agenda can be extended
+	option(max_agenda(Max), Options),
+	debug(numbers, 'Agenda ~p Max ~p', [AgendaSize, Max]),
+	%stop extending agenda if size extends max
+	AgendaSize > Max,
+	!.
 
 strategy_expertise_list(List, ShortList, AgendaSize, Options) :-
 	option(number(Number), Options),
@@ -47,10 +57,7 @@ strategy_expertise_list(List, ShortList, AgendaSize, Options) :-
 	length(ShortList, Number).
 
 strategy_expertise_list(_Result, FinalResult, AgendaSize, Options0) :-
-	option(user(User), Options0),
-	get_domain(User, Domain),
-	Options = [domain(Domain) | Options0],
-	set_expertise_agenda(AgendaSize, Agenda, Options),
+	set_expertise_agenda(AgendaSize, Agenda, Options0, Options),
     cluster_recommender(Agenda, State, Options),
 	OrganizeOptions = [groupBy(path)],
     organize_resources(State, Clusters, OrganizeOptions),
@@ -58,7 +65,7 @@ strategy_expertise_list(_Result, FinalResult, AgendaSize, Options0) :-
 	option(filter(Filter), Options),
 	filter(Filter, List, FilteredList, Options),
 	NewAgendaSize is AgendaSize + 1,
-	strategy_expertise_list(FilteredList, FinalResult, NewAgendaSize, Options0).
+	strategy_expertise_list(FilteredList, FinalResult, NewAgendaSize, Options).
 
 merge_in_list(clusters(Clusters), ElementsList, _Options) :-
 	get_elements_list(Clusters, ElementsList).
@@ -82,18 +89,20 @@ filter(annotated, SourceList, FilteredUris, Options) :-
 	subtract(SourceList, AnnotatedUris, FilteredUris).
 filter(none, SourceList, SourceList, _Options).
 
-%%	set_expertise_agenda(+MaxNumber, -Agenda, +Options)
+%%	set_expertise_agenda(+MaxNumber, -NumberExpertise, -Agenda,
+%	+Options, -NewOptions)
 %
 %	Set the agenda by retrieving all the expertise values of user given
 %	a domain, sort based on the values and pick the highest values with
 %	a maximum number.
-set_expertise_agenda(MaxNumber, Agenda, Options) :-
-	option(user(User), Options),
-	option(domain(Domain), Options),
+set_expertise_agenda(MaxNumber, Agenda, [max_agenda(_)|Options0], Options) :-
+	option(user(User), Options0),
+	option(domain(Domain), Options0),
 	get_user_expertise_domain(User, Domain, ExpertiseValues),
 	transpose_pairs(ExpertiseValues, SortedExpertiseValues),
 	%determine the number of expertise levels to be picked
 	length(SortedExpertiseValues, NumberExpertise),
+	Options = [max_agenda(NumberExpertise) | Options0],
 	number_of_items(NumberExpertise, MaxNumber, NumberItems),
 	group_pairs_by_key(SortedExpertiseValues, ReverseGroupedValues),
 	reverse(ReverseGroupedValues, GroupedValues),
