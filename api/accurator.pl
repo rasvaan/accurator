@@ -204,10 +204,14 @@ get_recommendation_parameters(Request, Options) :-
 		 target(Target,
 			[default('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
 		 number(Number,
-			[integer, default(20)])
+			[integer, default(20)]),
+		 filter(Filter,
+		    [default(annotated),
+			 oneof([none, annotated])])
 		]),
     Options = [strategy(Strategy), user(User),
-			   target(Target), number(Number)].
+			   target(Target), number(Number),
+			   filter(Filter)].
 
 %%	strategy(+Strategy, +Options)
 %
