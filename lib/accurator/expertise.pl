@@ -10,8 +10,6 @@
 
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(accurator/recommendation/strategy_expertise)).
-:- use_module(api(cluster_search)).
-:- use_module(library(accurator/accurator_user)).
 
 :- rdf_register_prefix(as, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
@@ -191,7 +189,8 @@ get_latest_user_expertise(User, Topic, Topic-Value) :-
 	reverse(SortedPairs, ReversePairs),
 	member(Date-Value, ReversePairs),
 	!.
-get_latest_user_expertise(_User, Topic, Topic-no_value).
+% Set value to -1 if not provided
+get_latest_user_expertise(_User, Topic, Topic-"-1").
 
 %%	get_label(Locale, Uri, Label)
 %
