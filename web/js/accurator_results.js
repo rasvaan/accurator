@@ -161,9 +161,9 @@ function randomOrRecommended(target) {
 	// Consider recommendation AB setting
 	var AOrB = getAOrB();
 	if(AOrB === "recommend") {
-		recommendExpertiseList(query, target);
+		recommendExpertiseList(target);
 	} else if(AOrB === "random") {
-		randomResults(query, target);
+		randomResults(target);
 	}
 }
 
@@ -194,7 +194,7 @@ function recommendExpertiseList(target) {
 
 function randomResults(target) {
 	query = "random";
-
+	console.log(target);
 	// Populate a list of random items
 	$.getJSON("recommendation", {strategy:'random',
 								 number:20,
