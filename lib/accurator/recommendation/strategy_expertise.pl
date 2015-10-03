@@ -125,7 +125,7 @@ cluster_recommender(Agenda, State, Options) :-
 	%define edges used
 	Expand = rdf_backward_search:edge,
 	%add that to options, set threshold low to enable graph traphersal
-	SearchOptions = [edge_limit(500), threshold(0.0000001),
+	SearchOptions = [edge_limit(100), threshold(0.0001),
 					 expand_node(Expand), graphOutput(spo)],
 	%init search state
 	rdf_init_state(TargetCond, State, SearchOptions),
