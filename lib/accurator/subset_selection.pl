@@ -1,6 +1,6 @@
 :- module(subset_selection, [target_iconclass_code/3,
 							 target_prefix/3,
-							 text_contains_label/4,
+							 text_contains_label/5,
 							 target_graph/3,
 							 target_description_scanner/0,
 							 target_title_scanner/0]).
@@ -67,20 +67,20 @@ subject_has_prefix(Work, Prefix) :-
 	atom_prefix(Subject, Prefix).
 
 %%	text_contains_label(+LabelPredicate, +Wildcards, +TargetType,
-%	+Campaign)
+%	+Campaign, +Graph)
 %
 %	Retrieves a list of labels linked using the LabelPredicate and
 %	checks for every title and description whether the label is present.
 %	Wildcards are atoms which can also be scanned for but have no
 %	concept assosiated to them.
 %
-%	text_contains_label('http://lod.taxonconcept.org/ontology/txn.owl#commonName', ['vogel', 'vogels'], 'http://accurator.nl/bird#Target','http://accurator.nl/bird#Campaign').
+%	text_contains_label('http://lod.taxonconcept.org/ontology/txn.owl#commonName', ['vogel', 'vogels'], 'http://accurator.nl/bird#Target','http://accurator.nl/bird#Campaign', 'http://purl.org/collections/nl/rma/rma-edm-bird-selection.ttl').
 
-text_contains_label(LabelPredicate, Wildcards, TargetType, Campaign) :-
+text_contains_label(LabelPredicate, Wildcards, TargetType, Campaign, Graph) :-
 	Options = [label_predicate(LabelPredicate), wildcards(Wildcards),
 			   target_type(TargetType), campaign(Campaign)],
 	findall(Work,
-			rdf(Work, rdf:type, edm:'ProvidedCHO'),
+			rdf(Work, rdf:type, edm:'ProvidedCHO', Graph),
 			AllWorks),
 	findall(Label,
 			rdf(_Concept, LabelPredicate, literal(lang(nl, Label))),
@@ -94,6 +94,7 @@ text_contains_label(LabelPredicate, Wildcards, TargetType, Campaign) :-
 %	Scan the title and description field for the precense of labels and
 %	nominate and annotate when possible.
 scan_text_for_birdname(Labels, Options, Work) :-
+	debug(tag_works, 'Scanning ~p', [Work]),
 	concurrent_maplist(scan_title(Work, Options), Labels),
 	concurrent_maplist(scan_description(Work, Options), Labels).
 scan_text_for_birdname(_Labels, _Options, _Work).
@@ -111,6 +112,7 @@ scan_title(Work, Options0, Label) :-
 	atom_string(Title, TitleString),
 	string_lower(TitleString, TitleLower),
 	sub_string(TitleLower, _Before, _Length, _After, LabelLower),
+	debug(tag_works, 'Title: ~p Label: ~p', [TitleLower, LabelLower]),
 	% Check if it has an image, otherwise don't bother
 	has_image(Work),
 	!,
@@ -138,7 +140,8 @@ add_annotation(Work, Label, Options) :-
 						 motivatedBy(Motivation),
 						 body(_{'@id':Body}),
 						 target([_{'@id':Work}]),
-						 label(Label)],
+						 label(Label),
+						 reached_object_with('iteration')],
 	rdf_add_annotation(AnnotationOptions, _Annotation),
 	debug(add_annotation, 'Added ~p to ~p by ~p', [Label, Work, Targetter]).
 
