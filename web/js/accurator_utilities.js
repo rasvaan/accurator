@@ -149,10 +149,18 @@ function setLocaleToBrowserLanguage() {
 }
 
 function setLocale(languageCode, onSuccess) {
-	localStorage.setItem("locale", languageCode);
-	save_user_info({"locale":languageCode}, onSuccess);
-}
+	// Action should depend on whether user is logged in
+	var onLoggedIn = function() {
+		localStorage.setItem("locale", languageCode);
+		save_user_info({"locale":languageCode}, onSuccess);
+	};
+	var onNotLoggedIn = function() {
+		localStorage.setItem("locale", languageCode);
+		onSuccess();
+	};
 
+	userLoggedIn(onLoggedIn, onNotLoggedIn);
+}
 
 function populateFlags(locale) {
 	// Code to add flags to navbar allowing to change the locale
@@ -172,16 +180,11 @@ function populateFlags(locale) {
 			)
 		)
 	);
-
-	// Action added on flag click should depend on whether user is logged in
-	var onLoggedIn = function() {saveFlagLocale();};
-	var onNotLoggedIn = function() {setFlagLocale();};
-
-	userLoggedIn(onLoggedIn, onNotLoggedIn);
+	// Add flag events
+	flagEvents();
 }
 
-function saveFlagLocale() {
-	// If the user is logged in, set local storage and also save in users.db
+function flagEvents() {
 	var onSuccess = function(){location.reload();};
 
 	$("#flagEn").click(function() {
@@ -189,18 +192,6 @@ function saveFlagLocale() {
 	});
 	$("#flagNl").click(function() {
 		setLocale("nl", onSuccess);
-	});
-}
-
-function setFlagLocale() {
-	// If the user is not logged in only set the local storage
-	$("#flagEn").click(function() {
-		localStorage.setItem("locale", "en");
-		location.reload();
-	});
-	$("#flagNl").click(function() {
-		localStorage.setItem("locale", "nl");
-		location.reload();
 	});
 }
 
