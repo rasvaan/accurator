@@ -84,7 +84,7 @@ function register() {
 	// Get and check initial form input
 	var name = $("#regRealName").val();
 	var user = $("#regUsername").val();
-	var userUri = getUserUriBase() + user;
+	var userUri = getUserUri(user);
 	var password = $("#regPassword").val();
 	var passwordRepeat = $("#regPasswordRepeat").val();
 

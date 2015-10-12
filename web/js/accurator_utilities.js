@@ -418,7 +418,7 @@ function loginButtonEvent(onSuccess, onDismissal) {
 
 
 function login(onSuccess) {
-	var user = getUserUriBase() + $("#inputUsername").val();
+	var user = getUserUri($("#inputUsername").val());
 	var password = $("#inputPassword").val();
 
 	if(user == "" || password == "") {
@@ -462,7 +462,7 @@ Code for working with Uris
 *******************************************************************************/
 function getUserUri(userName) {
 	// concatenate proper user uri (e.g. )
-	return getUserUriBase() + userName;
+	return getUserUriBase() + userName.toLowerCase();
 }
 
 function getUserName(userUri) {
