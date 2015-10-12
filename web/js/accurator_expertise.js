@@ -171,7 +171,8 @@ function setSliderValues() {
 			var value = Number(expertValues[uris[i]]);
 			var descaledValue = (value * 4) + 1;
 
-			if(expertValues[uris[i]] === "no_value")
+			// if no expertise value is given, set the default to 3
+			if(expertValues[uris[i]] === "-1")
 				descaledValue = 3;
 
 			// Set slider value
