@@ -269,7 +269,7 @@ function alertMessage(title, text, type) {
 
 function populateNavbar(userName, linkList) {
 	// Only popluate navbar when no experiment is running
-	if(experiment==="none") {
+	if(typeof experiment === "undefined" || experiment === "none") {
 		populateUserDropdown(userName, linkList);
 	} else {
 		// Hide recommendations button if experiment is running
