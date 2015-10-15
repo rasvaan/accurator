@@ -455,6 +455,29 @@ aui:txtSubSlogan a auis:UILabel .
 aui:btnContinue a auis:UILabel .
 aui:lnkAbout a auis:UILabel .
 
+##### Register Modal #####
+
+aui:login_modal a auis:UI ;
+	aui:mdlTxtTitle "Log in"@en ;
+	aui:mdlFrmUsername "Username"@en ;
+	aui:mdlFrmPassword "Password"@en ;
+	aui:mdlBtnLogin "Log in"@en ;
+	aui:loginWarning "Log in unsuccessful"@en ;
+	aui:loginIncomplete "Please add both your username and password"@en ;
+	aui:mdlTxtTitle "Inloggen"@nl ;
+	aui:mdlFrmUsername "Gebruikersnaam"@nl ;
+	aui:mdlFrmPassword "Wachtwoord"@nl ;
+	aui:mdlBtnLogin "Log in"@nl ;
+	aui:loginWarning "Inloggen mislukt"@nl ;
+	aui:loginIncomplete "Voer zowel een gebruikersnaam als wachtwoord in"@nl .
+
+aui:mdlTxtTitle a auis:UILabel .
+aui:mdlFrmUsername a auis:UILabel .
+aui:mdlFrmPassword a auis:UILabel .
+aui:mdlBtnLogin a auis:UILabel .
+aui:loginWarning a auis:UILabel .
+aui:loginIncomplete a auis:UILabel .
+
 ##### Login Modal #####
 
 aui:login_modal a auis:UI ;

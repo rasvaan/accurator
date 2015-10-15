@@ -448,6 +448,25 @@ function logout() {
 }
 
 /*******************************************************************************
+User registration
+Code for registering a new user
+*******************************************************************************/
+function registerModal(onSuccess, onDismissal) {
+	var ui = "http://accurator.nl/ui/generic#register_modal";
+	$.getJSON("ui_elements", {locale:getLocale(),
+							  ui:ui,
+							  type:"labels"})
+		.done(function(data){
+			// loginButtonEvent(onSuccess, onDismissal);
+			// initModalLabels(data);
+			// $("#modalLogin").modal();
+			// $("#inputUsername").focus();
+	});
+}
+
+
+
+/*******************************************************************************
 Uri
 Code for working with Uris
 *******************************************************************************/
