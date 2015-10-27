@@ -61,7 +61,7 @@ function getParameterByName(name) {
 
 /*******************************************************************************
 Annotation Domain
-Functionallity to change the annotation domain (e.g. bird or bible). Functions
+Functionality to change the annotation domain (e.g. bird or bible). Functions
 include the retrieval and storage of the domain setting and the information
 related to the domain (e.g. taxonomies, instances, illustrative image url)
 *******************************************************************************/
@@ -118,8 +118,8 @@ function getAvailableDomains(onDomains) {
 }
 
 /*******************************************************************************
-Locale
-Functionallity to addapt to the desired locale.
+Locale and language flags
+Functionallity to adapt to the desired locale.
 *******************************************************************************/
 function getLocale() {
 	// check url for locale parameter
@@ -502,7 +502,7 @@ function registerButtonEvent(onDismissal) {
 		register();
 	});
 	// register on pressing enter
-	$("#regPasswordRepeat").keypress(function(event) {
+	$("#inputPasswordRepeatRegister").keypress(function(event) {
 		if (event.which == 13) {
 			register();
 		}
