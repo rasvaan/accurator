@@ -51,7 +51,10 @@ function populateUI() {
 
 function addButtonEvents() {
 	$("#btnRegister").click(function() {
-		document.location.href="register.html";
+		onDismissal = function() {
+			$("#modalRegister").modal('hide');
+		};
+		registerModal(onDismissal);
 	});
 	$("#btnLogin").click(function() {
 		// Show login modal and on success go to profile
