@@ -1,0 +1,17 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix abirui: <http://accurator.nl/ui/bird#> .
+
+###### Bird Domain #####
+abirui:domain a auis:UI ;
+	aui:domainLabel "Vogel domein"@nl .
+
+###### Bird Intro Screen #####
+
+abirui:intro a auis:UI ;
+	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met vogel afbeeldingen"@nl .
+
+##### Bird Expertise Screen #####
+
+abirui:expertise a auis:UI ;
+	aui:txtSubHeader "vertel ons over welke vogelsoorten u veel weet, dan baseren wij de werken die we aanraden hierop"@nl .

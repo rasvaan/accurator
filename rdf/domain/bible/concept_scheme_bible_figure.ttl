@@ -1,0 +1,1391 @@
+@prefix          skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bibleontology: <http://bibleontology.com/resource/> .
+@prefix          abib: <http://accurator.nl/bible#> .
+
+# Named toplevel resources (462)
+
+bibleontology:Aaron
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abia
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abigail
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abihail
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abihu
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abijah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abimael
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abimelech
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abinadab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abishua
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abital
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abiud
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abner
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Abraham
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Absolom
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Adah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Adam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Addi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Addon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Adiel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Adino
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Adnah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Adonijah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Agag
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Agee
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahaz
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahaziah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahaziah_Son_of_Jehoram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahiam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahimaaz
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahinoam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahio
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahitub
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahitub_by_Amariah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ahoah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Akim
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Allon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Almodad
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amariah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amariah_son_of_Azariah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amasa
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amaziah_Son_of_Joash
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ammiel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amminadab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ammon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amorites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amos_Son_of_Nahum
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amos_the_prophet
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amoz
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Amram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Anak
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Anamites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Angels
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Aram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Arba
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Arioch
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Arkites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Arphaxad
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Arvadites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Asa
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Asher
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ashkenaz
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Asshur_Son_of_Shem
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ater
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Avim
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Azariah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Azariah_Son_of_Hilkiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Azariah_son_of_Ahimaaz
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Azariah_son_of_Johanan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Azor
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Barak
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Bathsheba
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Bedan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Benjamin
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Bethuel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Bigthana
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Bildad
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Bilhah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Boas
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Bukki
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Bunah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Buzi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Cain
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Caleb
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Canaan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Caphtorites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Casluhites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Cosam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Cush
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Dan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Daniel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Daniel_son_of_David
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Darius
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:David
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Deborah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Dedan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Delilah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Diklah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Dinah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eber
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eglah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eglon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ehud
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Elam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eleazar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eleazar_Son_of_Eliud
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eli
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliakim
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliakim_Son_of_Melea
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliakim_son_of_Hilkiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliezer_Son_of_Jorim
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliezer_Son_of_Moses
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Elijah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Elimelech
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliphaz
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Elishah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Elisheba
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eliud
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Elkanah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Elmadam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Elon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Enoch_Son_of_Cain
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Enoch_Son_of_Jared
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Enosh
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Er
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Esau
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Esli
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Esther
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ethni
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Eve
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ezekiel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ezra
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ezra_Son_of_Seraiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gad
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gad_the_prophet
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gaddi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gaddiel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gera
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gershom
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gershon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gether
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Geuel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gideon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gilead
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Girgashites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Goliath
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gomer
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Gomer_Son_of_Japheth
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Habakkuk
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hadoram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hagar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Haggai
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Haggith
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ham
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Haman
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hamathites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hamor
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hananiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hannah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hanun
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Haran
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Havilah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Havilah_Son_0f_Jokdan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hazarmaveth
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hazelelponi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hebron_Son_of_Levi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Heli
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hezekiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hezron
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hilkiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hiram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hittites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hivites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hosea
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hoshea
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Hul
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ibzan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Igal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Irad
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Isaac
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Isaiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Iscah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ishbak
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ishvi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ismael
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Issachar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ithamar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ithream
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Izhar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jabal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jabez
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jacob
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jacob_Son_of_Matthan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jadon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jair
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jakin
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jannai
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Japheth
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jared
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Javan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jebusites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jeconiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jehaleleel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jehoram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jehoshaphat
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jehozadak
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jephthah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jerah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jeremiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jeroboam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jesse
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jesus
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jethro
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jezebel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jezreel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joanan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joash
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Job
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jobab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jochebed
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joda
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Johanan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jokshan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joktan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jonah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jonam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jonathan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jorim
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Josech
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joseph
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joseph_Husband_of_Maria
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joseph_Son_of_Jonam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joseph_Son_of_Mattathias
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joshua
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joshua_Son_of_Eliezer
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Joshua_Son_of_Jehozadak
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Josiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jotham
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Jubal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Judah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Judah_Son_of_Joseph
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Judas_Iscariot
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Kenan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Kenaz
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Keturah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Kileab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Kilion
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Kish
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Kittim
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Kohath
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Laban
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Lamech_Son_of_Methuselah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Lamech_Son_of_Methushael
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Leah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Lehabites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Levi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Levi_Son_of_Melki
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Levi_Son_of_Simeon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Lo-Ammi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Lo-Ruhamah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Lot
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Lud
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ludites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Maacah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Maath
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Madai
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Magog
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mahalalel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mahlon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Malachi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Malki-Shua
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Manasseh
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Maria
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mary_Mother_of_Jesus
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mattatha
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mattathias
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mattathias_Son_of_Amos
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Matthan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Matthat
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Matthat_Son_of_Levi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Medan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mehujael
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Melchizedek
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Melea
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Melki
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Melki_Son_of_Jannai
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Menna
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Meraioth
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Merari
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mesha
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Meshech
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Meshech_Son_of_Japheth
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Methuselah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Methushael
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Micah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Michal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Midian_Son_of_Keturah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Milcah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Miriam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mishael
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mizraim
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Mordecai
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Moses
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Naamah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Naamah_sister_of_Tubal-Cain
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Naaman
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nabal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Naboth
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nadab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Naggai
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nahbi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nahor
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nahor_Son_of_Serug
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nahshon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nahum
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nahum_Son_of_Esli
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Naomi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Naphtali
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Naphtuhites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nathan_Son_of_David
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nathan_the_prophet
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nebuchadnezzar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nehemiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Neri
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nethanel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Nimrod
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Noah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Obadiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Obal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Obed
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Omri
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ophir
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Orpah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Othniel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ozem
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Pahath-moab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Palal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Palti
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Pathrusites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Peleg
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Peninnah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Perez
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Pharaoh
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Phinehas
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Phut
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Piram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Potiphar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Put
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Raamah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Rachel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Raddai
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Rahab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Rama
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Rebekah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Rehabiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Rehoboam
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Reu
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Reuben
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Rhesa
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Riphath
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Rodanim
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ruth
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sabtah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sabteca
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Salmon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Samson
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Samuel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sarah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Saul
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Seba
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Semein
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Seraiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Serug
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Seth
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sethur
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shallum
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shalmaneser
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shamgar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shammua_son_of_David
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shaphat
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shealtiel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shealtiel_Son_of__Neri
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sheba
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sheba_Son_of_Jokdan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shechem
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shelah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sheleph
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shem
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shephatiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shimea
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shimeah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shobab
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shuah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Shubael
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sidon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Simeon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Simeon_Son_of_Judah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Sinites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Solomon
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Tamal_related_with_Judah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Tamar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Tamer_wife_of_Perez
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Tarshish
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Terah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Teresh
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Tiras
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Togarmah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Tola
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Tubal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Tubal-Cain
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Uriah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Uz_Son_of_Aram
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Uzai
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Uzal
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Uzzah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Uzzi
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Uzziah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Uzziel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Yael
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zabad
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zadok
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zadok_grandson_of_Amariah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zadok_son_of_Ahitub
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zaham
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zebul
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zebulun
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zechariah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zemarites
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zephaniah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zerah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zerahiah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zerubbabel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zerubbabel_Son_of_Shealtiel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zillah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zilpah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zimran
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Ziph
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zipporah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zophar
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zuph
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:Zur
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Adam_and_Eve
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Eber
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Enosh
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Jared
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Kenan
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Lamech
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Mahalalel
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Methuselah
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Nahor
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Peleg
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Reu
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Serug
+	skos:inScheme abib:BiblicalFigureConceptScheme .
+
+bibleontology:and_others_by_Seth
+	skos:inScheme abib:BiblicalFigureConceptScheme .

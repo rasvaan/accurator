@@ -1,0 +1,29 @@
+@prefix accu:   <http://accurator.nl/schema#> .
+@prefix abib:   <http://accurator.nl/bible#> .
+@prefix abibui: <http://accurator.nl/ui/bible#> .
+@prefix aabib:  <http://accurator.nl/ui/annotation/bible#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix ic:     <http://iconclass.org/> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix dctypes:<http://purl.org/dc/dcmitype/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+abib:domain a accu:Domain ;
+	rdfs:label "bible" ;
+	dcterms:requires <file:///Users/rasvaan/git/iconclass/iconclass.20121019.structure.ttl> ;
+	accu:hasTarget <http://accurator.nl/bible#Target> ;
+	skos:hasTopConcept ic:7 ;
+	accu:hasUI abibui: ;
+	accu:hasAnnotationUI aabib:smallBibleUi ;
+	accu:hasDesciptiveImage abib:jeremia ;
+	accu:hasLastImage abib:jeremia ;
+	accu:hasMaximumExpertiseTopics "50" ;
+	accu:hasMaximumChildren "0" .
+
+<http://iconclass.org/> a skos:ConceptScheme .
+
+abib:jeremia a dctypes:StillImage ;
+	accu:hasFilePath "img/background/bible.jpg" ;
+	accu:brightness "dark" .
