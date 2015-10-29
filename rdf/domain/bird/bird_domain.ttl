@@ -1,0 +1,33 @@
+@prefix accu:   <http://accurator.nl/schema#> .
+@prefix abir:   <http://accurator.nl/bird#> .
+@prefix abirui: <http://accurator.nl/ui/bird#> .
+@prefix aabir:  <http://accurator.nl/ui/annotation/bird#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix birds:	<http://purl.org/collections/birds/> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix dctypes:<http://purl.org/dc/dcmitype/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+abir:domain a accu:Domain ;
+	rdfs:label "bird";
+	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
+	accu:hasTarget <http://accurator.nl/bird#Target> ;
+	skos:hasTopConcept birds:class-aves ;
+	accu:hasUI abirui: ;
+	accu:hasAnnotationUI aabir:smallBirdDemoUi ;
+	accu:hasDesciptiveImage abir:bird ;
+	accu:hasLastImage abir:bird_end ;
+	accu:hasMaximumExpertiseTopics "50" ;
+	accu:hasMaximumChildren "2" .
+
+<http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
+
+abir:bird a dctypes:StillImage ;
+	accu:hasFilePath "img/background/bird.jpg" ;
+	accu:brightness "light" .
+
+abir:bird_end a dctypes:StillImage ;
+	accu:hasFilePath "img/background/bird-end.jpg" ;
+	accu:brightness "light" .
