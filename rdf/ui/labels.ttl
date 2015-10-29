@@ -116,6 +116,92 @@ aui:btnDomain a auis:UILabel .
 aui:btnChangeInfo a auis:UILabel .
 aui:lblLastAnnotated a auis:UILabel .
 
+##### Results Screen #####
+
+aui:results a auis:UI ;
+	dcterms:title "Accurator results UI"@en ;
+	aui:title "Results"@en ;
+	aui:btnResultsRecommend "Recommend works"@en ;
+	aui:btnResultsSearch "Search"@en ;
+	aui:txtRecTitle "Recommendations for "@en ;
+	aui:vntFirstTitle "What do you want to tag?"@en ;
+	aui:vntFirstText "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
+
+aui:btnResultsRecommend a auis:UILabel .
+aui:btnResultsSearch a auis:UILabel .
+aui:txtRecTitle a auis:UILabel .
+
+###### End Screen #####
+
+aui:end a auis:UI ;
+	dcterms:title "Accurator end UI"@en ;
+	aui:txtSlogan "Thank you for participating!"@en ;
+	aui:txtSubSlogan "You can now start adding information to the Rijksmuseum collection"@en ;
+	aui:btnContinue "Continue"@en ;
+	aui:lnkAbout "About Accurator"@en .
+
+aui:txtSlogan a auis:UILabel .
+aui:txtSubSlogan a auis:UILabel .
+aui:btnContinue a auis:UILabel .
+aui:lnkAbout a auis:UILabel .
+
+##### Register Modal #####
+
+aui:registerModal a auis:UI ;
+	dcterms:title "Accurator register UI"@en ;
+	aui:mdlTitleRegister "Create your Accurator account"@en ;
+	aui:mdlFrmFullNameRegister "Full name"@en ;
+	aui:mdlFrmUsernameRegister "Username"@en ;
+	aui:mdlFrmPasswordRegister "Password"@en ;
+	aui:mdlFrmPasswordRepeatRegister "Confirm your password"@en ;
+	aui:mdlBtnRegister "Register"@en ;
+	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
+	aui:lblUserTaken "Username already exists."@en ;
+	aui:lblUsernameFail "Username should contain only letters, numbers and underscores."@en ;
+	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
+	aui:lblServerError "Server error"@en .
+
+aui:mdlTitleRegister a auis:UILabel .
+aui:mdlFrmFullNameRegister a auis:UILabel .
+aui:mdlFrmUsernameRegister a auis:UILabel .
+aui:mdlFrmPasswordRegister a auis:UILabel .
+aui:mdlFrmPasswordRepeatRegister a auis:UILabel .
+aui:mdlBtnRegister a auis:UILabel .
+aui:lblRegistrationFailed a auis:UILabel .
+aui:lblUserTaken a auis:UILabel .
+aui:lblUsernameFail a auis:UILabel .
+aui:lblPasswordsMatchFail a auis:UILabel .
+aui:lblUserTaken a auis:UILabel .
+aui:lblServerError a auis:UILabel .
+
+##### Login Modal #####
+
+aui:loginModal a auis:UI ;
+	aui:mdlTxtTitle "Log in"@en ;
+	aui:mdlFrmUsername "Username"@en ;
+	aui:mdlFrmPassword "Password"@en ;
+	aui:mdlBtnLogin "Log in"@en ;
+	aui:loginWarning "Log in unsuccessful"@en ;
+	aui:loginIncomplete "Please add both your username and password"@en .
+
+aui:mdlTxtTitle a auis:UILabel .
+aui:mdlFrmUsername a auis:UILabel .
+aui:mdlFrmPassword a auis:UILabel .
+aui:mdlBtnLogin a auis:UILabel .
+aui:loginWarning a auis:UILabel .
+aui:loginIncomplete a auis:UILabel .
+
+##### User Navbar Dropdown #####
+
+aui:user_dropdown a auis:UI ;
+	aui:ddLogOut "Logout"@en ;
+	aui:ddAbout "About Accurator"@en ;
+	aui:ddProfile "Profile"@en .
+
+aui:ddLogOut a auis:UILabel .
+aui:ddAbout a auis:UILabel .
+aui:ddProfile a auis:UILabel .
+
 ##### Additional Info Screen #####
 
 aui:additional_info a auis:UI ;
@@ -274,89 +360,3 @@ aui:internet1to2 a auis:SelectOption ;
 aui:internetLessThan1 a auis:SelectOption ;
 	skos:notation "internet_less_than_1_a_week" ;
 	skos:prefLabel "Less than 1 day per week"@en .
-
-##### Results Screen #####
-
-aui:results a auis:UI ;
-	dcterms:title "Accurator results UI"@en ;
-	aui:title "Results"@en ;
-	aui:btnResultsRecommend "Recommend works"@en ;
-	aui:btnResultsSearch "Search"@en ;
-	aui:txtRecTitle "Recommendations for "@en ;
-	aui:vntFirstTitle "What do you want to tag?"@en ;
-	aui:vntFirstText "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
-
-aui:btnResultsRecommend a auis:UILabel .
-aui:btnResultsSearch a auis:UILabel .
-aui:txtRecTitle a auis:UILabel .
-
-###### End Screen #####
-
-aui:end a auis:UI ;
-	dcterms:title "Accurator end UI"@en ;
-	aui:txtSlogan "Thank you for participating!"@en ;
-	aui:txtSubSlogan "You can now start adding information to the Rijksmuseum collection"@en ;
-	aui:btnContinue "Continue"@en ;
-	aui:lnkAbout "About Accurator"@en .
-
-aui:txtSlogan a auis:UILabel .
-aui:txtSubSlogan a auis:UILabel .
-aui:btnContinue a auis:UILabel .
-aui:lnkAbout a auis:UILabel .
-
-##### Register Modal #####
-
-aui:registerModal a auis:UI ;
-	dcterms:title "Accurator register UI"@en ;
-	aui:mdlTitleRegister "Create your Accurator account"@en ;
-	aui:mdlFrmFullNameRegister "Full name"@en ;
-	aui:mdlFrmUsernameRegister "Username"@en ;
-	aui:mdlFrmPasswordRegister "Password"@en ;
-	aui:mdlFrmPasswordRepeatRegister "Confirm your password"@en ;
-	aui:mdlBtnRegister "Register"@en ;
-	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
-	aui:lblUserTaken "Username already exists."@en ;
-	aui:lblUsernameFail "Username should contain only letters, numbers and underscores."@en ;
-	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
-	aui:lblServerError "Server error"@en .
-
-aui:mdlTitleRegister a auis:UILabel .
-aui:mdlFrmFullNameRegister a auis:UILabel .
-aui:mdlFrmUsernameRegister a auis:UILabel .
-aui:mdlFrmPasswordRegister a auis:UILabel .
-aui:mdlFrmPasswordRepeatRegister a auis:UILabel .
-aui:mdlBtnRegister a auis:UILabel .
-aui:lblRegistrationFailed a auis:UILabel .
-aui:lblUserTaken a auis:UILabel .
-aui:lblUsernameFail a auis:UILabel .
-aui:lblPasswordsMatchFail a auis:UILabel .
-aui:lblUserTaken a auis:UILabel .
-aui:lblServerError a auis:UILabel .
-
-##### Login Modal #####
-
-aui:login_modal a auis:UI ; # modify the name to camel case!
-	aui:mdlTxtTitle "Log in"@en ;
-	aui:mdlFrmUsername "Username"@en ;
-	aui:mdlFrmPassword "Password"@en ;
-	aui:mdlBtnLogin "Log in"@en ;
-	aui:loginWarning "Log in unsuccessful"@en ;
-	aui:loginIncomplete "Please add both your username and password"@en .
-
-aui:mdlTxtTitle a auis:UILabel .
-aui:mdlFrmUsername a auis:UILabel .
-aui:mdlFrmPassword a auis:UILabel .
-aui:mdlBtnLogin a auis:UILabel .
-aui:loginWarning a auis:UILabel .
-aui:loginIncomplete a auis:UILabel .
-
-##### User Navbar Dropdown #####
-
-aui:user_dropdown a auis:UI ;
-	aui:ddLogOut "Logout"@en ;
-	aui:ddAbout "About Accurator"@en ;
-	aui:ddProfile "Profile"@en .
-
-aui:ddLogOut a auis:UILabel .
-aui:ddAbout a auis:UILabel .
-aui:ddProfile a auis:UILabel .
