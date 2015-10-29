@@ -11,12 +11,12 @@
 
 <accurator-ui-schema>
 	a void:Dataset ;
-	dcterms:title "Accurator UI configuration file";
+	dcterms:title "Accurator UI configuration file" ;
 	void:dataDump <accurator_ui_schema.ttl> .
 
 <accurator-ui>
 	a void:Dataset ;
-	dcterms:title "Domain agnositc Accurator UI instance";
+	dcterms:title "Domain agnostic Accurator UI instance" ;
 	void:dataDump <accurator_ui.ttl> .
 
 <accurator-ui-countries>
