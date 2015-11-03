@@ -11,12 +11,12 @@
 
 <accurator-ui-schema>
 	a void:Dataset ;
-	dcterms:title "Accurator UI configuration file" ;
+	dcterms:title "Accurator UI Schema file" ;
 	void:dataDump <ui/labels_schema.ttl> .
 
 <accurator-ui>
 	a void:Dataset ;
-	dcterms:title "Domain agnostic Accurator UI instance" ;
+	dcterms:title "Locale and domain agnostic Accurator UI instance" ;
 	void:dataDump <ui/labels.ttl> .
 
 <accurator-ui-countries>
@@ -31,6 +31,7 @@
 
 <accurator-generic>
 	a void:Dataset ;
+	void:subset <accurator-schema> ;
 	void:subset <accurator-ui-schema> ;
 	void:subset <accurator-ui> ;
 	void:subset <accurator-ui-countries> ;
@@ -40,21 +41,12 @@
 
 <accurator-bird-domain>
 	a void:Dataset ;
-	void:subset <accurator-ui-schema> ;
-	void:subset <accurator-ui> ;
-	void:subset <accurator-ui-countries> ;
-	void:subset <accurator-ui-languages> ;
 	dcterms:title "Accurator configuration for bird domain" ;
 	void:dataDump <domain/bird/bird_domain.ttl> ;
 	void:dataDump <domain/bird/ui/labels.ttl> .
 
 <accurator-bible-domain>
 	a void:Dataset ;
-	void:subset <accurator-schema> ;
-	void:subset <accurator-ui-schema> ;
-	void:subset <accurator-ui> ;
-	void:subset <accurator-ui-countries> ;
-	void:subset <accurator-ui-languages> ;
 	dcterms:title "Accurator configuration for bible domain" ;
 	void:dataDump <domain/bible/bible_domain.ttl> ;
 	void:dataDump <domain/bible/ui/labels.ttl> ;
