@@ -5,7 +5,21 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 auis:uiLabel a rdf:Property;
+	rdfs:domain auis:UI ;
+	rdfs:domain xsd:Literal ;
 	rdfs:label "Super-property of all labels"@en .
+
+auis:textLabel a rdf:Property;
+	rdfs:label "Property connecting UI to text"@en ;
+	rdfs:subPropertyOf auis:uiLabel .
+
+auis:buttonLabel a rdf:Property;
+	rdfs:label "Property connecting UI to label for button"@en  ;
+	rdfs:subPropertyOf auis:uiLabel .
+
+auis:linkLabel a rdf:Property;
+	rdfs:label "Property connecting UI to label for link"@en  ;
+	rdfs:subPropertyOf auis:uiLabel .
 
 auis:UILabel a rdfs:Class;
 	rdfs:label "Super-class of all labels"@en .
