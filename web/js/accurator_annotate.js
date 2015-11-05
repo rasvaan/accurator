@@ -1,8 +1,9 @@
 /*******************************************************************************
 Accurator Annotate
 Code for extending functionallity annotation page. Most of the content and
-javascript of this page is generated based on the image_annotation.pl code and
-the other halve comes from the result.js of cluster_search_ui.
+javascript of this page is generated based on the image_annotation/applications/
+annotation.pl code and the other halve comes from the result.js of
+cluster_search_ui.
 *******************************************************************************/
 var query, locale, experiment, domain, user, ui, uri;
 var vntFirstTitle, vntFirstText;
