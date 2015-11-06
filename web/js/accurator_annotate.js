@@ -48,6 +48,7 @@ function populateUI() {
 	.done(function(labels){
 		document.title = labels.title;
 		initLabels(labels);
+		initImage();
 		// Only show path when cluster is available
 		if(localStorage.getItem("currentCluster") !== null)
 			addPath();
@@ -67,6 +68,14 @@ function initLabels(data) {
 	vntFirstText = data.vntFirstText;
 	// Add next to optional experiment navigation
 	$("#btnExperimentNext").prepend(data.btnNext);
+}
+
+function initImage() {
+	$.getJSON("metadata", {uri:uri})
+	.done(function(metadata){
+		console.log(metadata);
+		$(".annotationImage").attr("src", metadata.image_link);
+	});
 }
 
 function events() {

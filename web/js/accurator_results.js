@@ -238,7 +238,8 @@ function processListEnrichment(data) {
 	for (var i=0; i<numberOfItems; i++) {
 		var uri = sourceItems[i].uri;
 		var thumb = sourceItems[i].thumb;
-		var link = "annotate_image.html?uri=" + uri;
+		//var link = "annotate_image.html?uri=" + uri;
+		var link = "annotate.html?uri=" + uri;
  		var title = truncate(sourceItems[i].title, 60);
 		items[i] = new item(uri, thumb, link, title);
 	}
