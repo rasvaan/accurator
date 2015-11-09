@@ -24,10 +24,40 @@ abir:domain a accu:Domain ;
 
 <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
 
+abir:snipeQuery a accu:QueryExample ;
+	dcterms:title "Search for Snipe"@en ,
+                  "Zoek naar snip"@nl ;
+	accu:hasDesciptiveImage abir:snipeImage ;
+	accu:action "results?query=snipe" .
+
+abir:songbirdQuery a accu:QueryExample ;
+	dcterms:title "Search for song birds"@en ,
+                  "Zoek naar zangvogels"@nl ;
+	accu:hasDesciptiveImage abir:songbirdImage ;
+	accu:action "results?query=song-birds" .
+
+abir:hondecoeterQuery a accu:QueryExample ;
+	dcterms:title "Search for Hondecoeter"@en ,
+                  "Zoek naar Hondecoeter"@nl ;
+	accu:hasDesciptiveImage abir:hondecoeterImage ;
+	accu:action "results?query=hondecoeter" .
+
 abir:bird a dctypes:StillImage ;
 	accu:hasFilePath "img/background/bird.jpg" ;
 	accu:brightness "light" .
 
 abir:bird_end a dctypes:StillImage ;
 	accu:hasFilePath "img/background/bird-end.jpg" ;
+	accu:brightness "light" .
+
+abir:snipeImage a dctypes:StillImage ;
+	accu:hasFilePath "img/background/snipe.jpg" ;
+	accu:brightness "light" .
+
+abir:songbirdImage a dctypes:StillImage ;
+	accu:hasFilePath "img/background/songbird.jpg" ;
+	accu:brightness "light" .
+
+abir:hondecoeterImage a dctypes:StillImage ;
+	accu:hasFilePath "img/background/hondecoeter.jpg" ;
 	accu:brightness "light" .
