@@ -16,28 +16,33 @@ function thumbnails(clusterId) {
 	$("#cluster"+clusterId).append(
 		$.el.div({'class':'row', 'id':'thumbnailRow'+clusterId}));
 
-	for (var i=0;i<stop;i++) {
+	for (var i=0; i<stop; i++) {
 		id = getId(items[i].uri);
-//		console.log("Cluster items title: " + items[i].title);
-		$("#thumbnailRow"+clusterId).append(
-			$.el.div({'class':'col-md-' + bootstrapWidth},
-				$.el.div({'class':'thumbnail',
-						  'id':id},
-					$.el.img({'src':items[i].thumb,
-					          'class':'img-responsive',
-							  'alt':''}),
-						$.el.div({'class':'caption'},
-							 thumbnailTitle(i, items, bootstrapWidth)))));
+		$("#thumbnailRow" + clusterId).append(thumbnail(items[i]));
 		addClickEvent(id, items[i].link, clusterId, i);
 	}
-	return thumbnails;
 }
 
-function thumbnailTitle(i, items) {
+function thumbnail(item) {
+	var bootstrapWidth = parseInt(12/displayOptions.numberDisplayedItems, 10);
+	var id = getId(item.uri);
+
+	return $.el.div({'class':'col-md-' + bootstrapWidth},
+				$.el.div({'class':'thumbnail',
+						  'id':id},
+					$.el.img({'src':item.thumb,
+							  'class':'img-responsive',
+							  'alt':''}),
+						$.el.div({'class':'caption'},
+							 thumbnailTitle(item, bootstrapWidth))));
+}
+
+function thumbnailTitle(item, bootstrapWidth) {
+	//Make header depent on size thumbnail
 	if(bootstrapWidth < 4)
-		return $.el.h5(items[i].title);
+		return $.el.h5(item.title);
 	if(bootstrapWidth >= 4)
-		return $.el.h4(items[i].title);
+		return $.el.h4(item.title);
 }
 
 function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {

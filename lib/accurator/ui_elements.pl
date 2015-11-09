@@ -164,6 +164,7 @@ metadata(thumbnail, Uri, EnrichedItem) :-
     get_title(Uri, Title),
     EnrichedItem = _{uri:Uri,thumb:ThumbnailUrl,title:Title}.
 
+
 %%	image_url(+Uri, -ImageUrl) is det.
 %
 %	* Check if image is present, if so, return request url.

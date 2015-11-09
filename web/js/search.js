@@ -7,8 +7,6 @@ displayOptions = {
 	numberDisplayedItems: 4,
 	showFilters: true,
 	imageFilter: 'onlyImages',
-	//Indicate whether the result link points to annotation view or regular result view
-	annotateLink: false
 }
 
 function search(keyword, target) {
@@ -212,44 +210,41 @@ function unfoldPathEvent(id, path) {
 
 function addItems(clusterId) {
 	var items = initialClusters[clusterId].items;
-	var itemUris = [];
-	for(var i=0;i<items.length;i++)
-		itemUris[i] = items[i].uri;
+	var uris = [];
+	var enrichedItems = [];
 
-	// Get item enrichments from server, on success add pagination and thumbnails
-	new Pengine({server: 'pengine',
-				 application: 'enrichment',
-				 ask: 'maplist(enrich_item,' + Pengine.stringify(itemUris, {string:'atom'}) + ', Items),!',
-				 onsuccess: function () {
-					processEnrichment(this.data, clusterId);
-					// Clone cluster to enable filtering without losing information.
-					clusters[clusterId] = clone(enrichedClusters[clusterId]);
-					filterCluster(clusters[clusterId]);
-					if(clusters[clusterId].items.length==0) {
-						$("#cluster"+clusterId).append(noFilterResultsHtml());
-					} else {
-						var pages = determineNumberOfPages(clusterId);
-						$("#cluster"+clusterId).append(pagination(pages, clusterId));
-						thumbnails(clusterId);
-					}
-	}});
+	for(var i=0; i<items.length; i++)
+		uris[i] = items[i].uri;
+
+	var json = {"uris":uris};
+	$.ajax({type: "POST",
+			url: "metadata",
+			contentType: "application/json",
+			data: JSON.stringify(json),
+			success: function(data) {
+				processEnrichment(data, clusterId);
+				// Clone cluster to enable filtering without losing information.
+				clusters[clusterId] = clone(enrichedClusters[clusterId]);
+				filterCluster(clusters[clusterId]);
+				if(clusters[clusterId].items.length==0) {
+					$("#cluster"+clusterId).append(noFilterResultsHtml());
+				} else {
+					var pages = determineNumberOfPages(clusterId);
+					$("#cluster"+clusterId).append(pagination(pages, clusterId));
+					thumbnails(clusterId);
+				}
+		   }
+	});
 }
 
 function processEnrichment(data, clusterId) {
-	var sourceItems = data[0].Items;
-	var numberOfItems = sourceItems.length;
 	var items = [];
-	// console.log("display", displayOptions.annotateLink);
-	for (var i=0; i<numberOfItems; i++) {
-		var uri = sourceItems[i].uri;
-		var thumb = sourceItems[i].thumb;
-		if(displayOptions.annotateLink){
-			//var link = "annotate_image.html?uri=" + uri;
-			var link = "annotate.html?uri=" + uri;
-		} else {
-			var link = "item?uri=" +uri;
-		}
-		var title = truncate(sourceItems[i].title, 60);
+
+	for(var i=0; i<data.length; i++) {
+		var uri = data[i].uri;
+		var thumb = data[i].thumb;
+		var link = "annotate.html?uri=" + uri;
+		var title = truncate(data[i].title, 60);
 		items[i] = new item(uri, thumb, link, title);
 	}
 	// Add items to enrichedClusters for future reference

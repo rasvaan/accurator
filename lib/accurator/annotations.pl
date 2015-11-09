@@ -23,10 +23,10 @@ annotations(object, Uri, Annotations) :-
 	get_title(Uri, DisplayTitle),
 	Annotations = annotations{title:DisplayTitle, annotations:FoundAnnotations}.
 annotations(user, UserUri, ObjectUris) :-
-    setof(Object, AnnotationHash^Selector^
+    setof(Object, AnnotationHash^
 	    (	rdf_has(AnnotationHash, oa:annotatedBy, UserUri),
-			rdf_has(AnnotationHash, oa:hasTarget, Selector),
-			rdf_has(Selector, oa:hasSource, Object)	    ),
+			rdf_has(AnnotationHash, oa:hasTarget, Object),
+			rdf(Object, rdf:type, edm:'ProvidedCHO')	    ),
 	    ObjectUris).
 
 get_annotation(Uri, AnnotationBody, AnnotationHash) :-

@@ -1,13 +1,14 @@
-/* Accurator Profile
-*/
+/*******************************************************************************
+Accurator Intro
+Code for showing statistical elements on the profile page and allowing the user
+to change settings.
+*******************************************************************************/
 var locale, ui, domain, experiment, user, userName, realName;
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
 
 displayOptions = {
 	numberDisplayedItems: 6,
-	//Indicate whether the result link points to annotation view or regular result view
-	annotateLink: true
 }
 
 function profileInit() {
@@ -38,18 +39,20 @@ function profileInit() {
 }
 
 function populateRecentlyAnnotated() {
-	$.getJSON("recently_annotated", {user:user})
-	.done(function(data){
-		var numberOfItems = data.uris.length;
+	$.getJSON("annotations", {uri:user, type:"user"})
+	.done(function(uris){
+		var numberOfItems = uris.length;
 		var items = [];
 
 		if(numberOfItems === 0) {
+			//Hide if nothing is annotated
 			$("#rowLastAnnotated").hide();
 		} else {
 			for (var i=0; i<numberOfItems; i++) {
-				var uri = data.uris[i];
+				var uri = uris[i];
 				items[i] = new item(uri);
 			}
+			//Create clusters for easy adding based on search.js code
 			initialClusters[0] = new cluster([], items);
 			enrichedClusters[0] = new cluster([], 'undefined');
 			addItems(0);

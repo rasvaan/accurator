@@ -110,6 +110,13 @@ get_parameters_domain(Request, Options) :-
 %	Retrieves the metadata for a specific uri, the type to be retrieved
 %	is full on default.
 metadata_api(Request) :-
+	http_read_json_dict(Request, JsonIn), !,
+	UriStrings = JsonIn.uris,
+	maplist(atom_string, Uris, UriStrings),
+	maplist(metadata(thumbnail), Uris, EnrichedUris),
+    reply_json_dict(EnrichedUris).
+
+metadata_api(Request) :-
     get_parameters_metadata(Request, Options),
     option(uri(Uri), Options),
 	option(type(Type), Options),
