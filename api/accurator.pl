@@ -4,16 +4,15 @@
 */
 
 :- use_module(library(accurator/accurator_user)).
-:- use_module(library(accurator/annotate_page)).
 :- use_module(library(accurator/domain)).
 :- use_module(library(accurator/expertise)).
 :- use_module(library(accurator/recommendation/strategy_random)).
 :- use_module(library(accurator/recommendation/strategy_expertise)).
 :- use_module(library(accurator/ui_elements)).
+:- use_module(library(accurator/annotation_statistics)).
 :- use_module(library(accurator/subset_selection)).
 :- use_module(library(accurator/concept_scheme_selection)).
 :- use_module(api(cluster_search)).
-:- use_module(library(cluster_search_ui/metadata)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
