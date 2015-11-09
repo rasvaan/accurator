@@ -194,6 +194,10 @@ body {
 	margin-top: 10px;
 }
 
+.annotationImage {
+	max-width: 100%;
+}
+
 .annotorious-annotationlayer {
 	max-width: 100%;
 }

@@ -1,8 +1,9 @@
 /*******************************************************************************
 Accurator Annotate
 Code for extending functionallity annotation page. Most of the content and
-javascript of this page is generated based on the image_annotation.pl code and
-the other halve comes from the result.js of cluster_search_ui.
+javascript of this page is generated based on the image_annotation/applications/
+annotation.pl code and the other halve comes from the result.js of
+cluster_search_ui.
 *******************************************************************************/
 var query, locale, experiment, domain, user, ui, uri;
 var vntFirstTitle, vntFirstText;
@@ -47,6 +48,7 @@ function populateUI() {
 	.done(function(labels){
 		document.title = labels.title;
 		initLabels(labels);
+		initImage();
 		// Only show path when cluster is available
 		if(localStorage.getItem("currentCluster") !== null)
 			addPath();
@@ -66,6 +68,14 @@ function initLabels(data) {
 	vntFirstText = data.vntFirstText;
 	// Add next to optional experiment navigation
 	$("#btnExperimentNext").prepend(data.btnNext);
+}
+
+function initImage() {
+	$.getJSON("metadata", {uri:uri})
+	.done(function(metadata){
+		console.log(metadata);
+		$(".annotationImage").attr("src", metadata.image_link);
+	});
 }
 
 function events() {

@@ -13,6 +13,7 @@
 :- use_module(library(accurator/subset_selection)).
 :- use_module(library(accurator/concept_scheme_selection)).
 :- use_module(api(cluster_search)).
+:- use_module(library(cluster_search_ui/metadata)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
@@ -29,9 +30,10 @@ user:file_search_path(img, web(img)).
 :- http_handler(root('.'), redirect_to_home, []).
 :- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
-:- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
+% :- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
 :- http_handler(cliopatria(domains), domains_api,  []).
+:- http_handler(cliopatria(metadata), metadata_api,  []).
 :- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
 :- http_handler(cliopatria(expertise_values), expertise_values_api,  []).
@@ -102,7 +104,7 @@ get_parameters_annotated(Request, Options) :-
         [user(User, [description('The user'), optional(false)])]),
     Options = [user(User)].
 
-%%	domain_settings_api(+Request)
+%%     domains_api(+Request)
 %
 %	Retrieves the settings specific to a domain.
 domains_api(Request) :-
@@ -119,6 +121,26 @@ get_parameters_domain(Request, Options) :-
 		    [description('The domain'),
 			 optional(true)])]),
     Options = [domain(Domain)].
+
+%%	metadata_api(+Request)
+%
+%	Retrieves the metadata for a specific uri.
+metadata_api(Request) :-
+    get_parameters_metadata(Request, Options),
+    option(uri(Uri), Options),
+    metadata(Uri, Metadata),
+    reply_json_dict(Metadata).
+
+%%	get_parameters_metadata(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_metadata(Request, Options) :-
+    http_parameters(Request,
+        [uri(Uri,
+		    [description('The URI'),
+			 optional(false)])]),
+    Options = [uri(Uri)].
+
 
 %%	expertise_topics_api(+Request)
 %
