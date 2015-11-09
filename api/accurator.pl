@@ -123,11 +123,13 @@ get_parameters_domain(Request, Options) :-
 
 %%	metadata_api(+Request)
 %
-%	Retrieves the metadata for a specific uri.
+%	Retrieves the metadata for a specific uri, the type to be retrieved
+%	is full on default.
 metadata_api(Request) :-
     get_parameters_metadata(Request, Options),
     option(uri(Uri), Options),
-    metadata(Uri, Metadata),
+	option(type(Type), Options),
+    metadata(Type, Uri, Metadata),
     reply_json_dict(Metadata).
 
 %%	get_parameters_metadata(+Request, -Options)
@@ -137,8 +139,12 @@ get_parameters_metadata(Request, Options) :-
     http_parameters(Request,
         [uri(Uri,
 		    [description('The URI'),
-			 optional(false)])]),
-    Options = [uri(Uri)].
+			 optional(false)]),
+		 type(Type,
+			[description('Type of elements to retrieve'),
+			 default(full),
+			 optional(type)])]),
+    Options = [uri(Uri), type(Type)].
 
 
 %%	expertise_topics_api(+Request)

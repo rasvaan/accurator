@@ -2,8 +2,7 @@
 			  get_title/2,
 			  uri_label/2,
 			  get_elements/3,
-			  metadata/2,
-			  metadata_thumbnail/2
+			  metadata/3
 		  ]).
 
 /** <module> Accurator UI elements
@@ -36,10 +35,8 @@ uri_label(Uri, Label) :-
 %	Determine which type of UI elements to query for.
 get_elements(labels, Dic, Options) :-
 	get_text_elements(Dic, Options).
-
 get_elements(countries, Dic, Options) :-
 	get_countries(Dic, Options).
-
 get_elements(languages, Dic, Options) :-
 	get_languages(Dic, Options).
 
@@ -128,7 +125,6 @@ get_selector(UI, Select, SelectLabel) :-
 	rdf(SuperUI, auis:hasSelect, Select),
 	rdf(Select, rdf:type, auis:'SelectField'),
 	iri_xml_namespace(Select, _, SelectLabel).
-
 get_selector(UI, Select, SelectLabel) :-
 	rdf(UI, auis:hasSelect, Select),
 	rdf(Select, rdf:type, auis:'SelectField'),
@@ -145,10 +141,11 @@ get_selector_labels(Selector, Locale, LiteralDict) :-
 			LiteralArray),
 	dict_pairs(LiteralDict, elements, LiteralArray).
 
-%%	metadata(+Uri, -Metadata)
+%%	metadata(+Type, +Uri, -Metadata)
 %
-%	Get all properties and subjects attached to a Uri
-metadata(Uri, Metadata) :-
+%	Get all properties and subjects attached to a Uri, or get them for a
+%	thumbnail.
+metadata(full, Uri, Metadata) :-
     findall(property_pair{
 				predicate_label:PredicateLabel,
 				object_label:ObjectLabel},
@@ -162,6 +159,10 @@ metadata(Uri, Metadata) :-
 	Metadata = metadata{title:DisplayTitle,
 						image:ImageLink,
 						properties:Properties}.
+metadata(thumbnail, Uri, EnrichedItem) :-
+    thumbnail_url(Uri, ThumbnailUrl),
+    get_title(Uri, Title),
+    EnrichedItem = _{uri:Uri,thumb:ThumbnailUrl,title:Title}.
 
 %%	image_url(+Uri, -ImageUrl) is det.
 %
@@ -212,16 +213,6 @@ check_if_local(ImageUrl, ImageUrl).
 image_link(Image, ThumbUrl) :-
 	concat('cache/original?uri=', Image, RequestUrl),
     http_absolute_location(root(RequestUrl), ThumbUrl, []).
-
-%%	metadata_thumbnail(+Uri, -Metadata)
-%
-%	Add a url of the thumbnail and the title to an item.
-metadata_thumbnail(Uri, EnrichedItem) :-
-    thumbnail_url(Uri, ThumbnailUrl),
-    get_title(Uri, Title),
-    EnrichedItem = _{uri:Uri,thumb:ThumbnailUrl,title:Title},
-    debug(enrich_item, 'Uri: ~p ThumbnailUrl: ~p Title: ~p',
-	  [Uri,ThumbnailUrl,Title]).
 
 %%	thumbnail_url(+Uri, -ThumbUrl)
 %
