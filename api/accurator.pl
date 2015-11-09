@@ -9,7 +9,7 @@
 :- use_module(library(accurator/recommendation/strategy_random)).
 :- use_module(library(accurator/recommendation/strategy_expertise)).
 :- use_module(library(accurator/ui_elements)).
-:- use_module(library(accurator/annotation_statistics)).
+:- use_module(library(accurator/annotations)).
 :- use_module(library(accurator/subset_selection)).
 :- use_module(library(accurator/concept_scheme_selection)).
 :- use_module(api(cluster_search)).
@@ -33,7 +33,7 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
 :- http_handler(cliopatria(domains), domains_api,  []).
 :- http_handler(cliopatria(metadata), metadata_api,  []).
-:- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
+:- http_handler(cliopatria(annotations), annotations_api,  []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
 :- http_handler(cliopatria(expertise_values), expertise_values_api,  []).
 :- http_handler(cliopatria(register_user), register_user,  []).
@@ -87,22 +87,6 @@ get_parameters_elements(Request, Options) :-
 	]),
     Options = [ui(UI), locale(Locale), type(Type)].
 
-%%	recently_annotated_api(+Request)
-%
-%	Retrieves a list of artworks the user recently annotated.
-recently_annotated_api(Request) :-
-    get_parameters_annotated(Request, Options),
-	get_annotated(Dic, Options),
-	reply_json_dict(Dic).
-
-%%	get_parameters_annotated(+Request, -Options)
-%
-%	Retrieves an option list of parameters from the url.
-get_parameters_annotated(Request, Options) :-
-    http_parameters(Request,
-        [user(User, [description('The user'), optional(false)])]),
-    Options = [user(User)].
-
 %%     domains_api(+Request)
 %
 %	Retrieves the settings specific to a domain.
@@ -146,6 +130,31 @@ get_parameters_metadata(Request, Options) :-
 			 optional(type)])]),
     Options = [uri(Uri), type(Type)].
 
+
+%%	annotations_api(+Request)
+%
+%	Retrieves the metadata for a specific uri, the type to be retrieved
+%	is full on default.
+annotations_api(Request) :-
+    get_parameters_annotations(Request, Options),
+    option(uri(Uri), Options),
+	option(type(Type), Options),
+    annotations(Type, Uri, Metadata),
+    reply_json_dict(Metadata).
+
+%%	get_parameters_annotations(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_annotations(Request, Options) :-
+    http_parameters(Request,
+        [uri(Uri,
+		    [description('The URI of the object of user'),
+			 optional(false)]),
+		 type(Type,
+			[description('Type of elements to retrieve'),
+			 default(full),
+			 optional(type)])]),
+    Options = [uri(Uri), type(Type)].
 
 %%	expertise_topics_api(+Request)
 %
