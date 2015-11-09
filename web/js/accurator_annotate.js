@@ -157,7 +157,7 @@ function appendMetadataWell(metadata) {
 		$("#metadataList").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
-					    'href':displayOptions.metadataLinkBase +
+					    'href':'results.html?query=' +
 							   metadata.properties[i].object_label},
 					metadata.properties[i].object_label)));
 	}
@@ -172,15 +172,6 @@ function annotations() {
 				$("#metadata").append(annotationWell(annotations));
 			}
 		});
-		// new Pengine({server: 'pengine',
-		// 			application: 'enrichment',
-		// 			ask: 'object_annotations(' + Pengine.stringify(uri, {string:'atom'}) + ', Annotations),!',
-		// 			onsuccess: function () {
-		// 				if(this.data[0].Annotations.annotations.length > 0){
-		// 					   $("#metadata").append(annotationWell(this.data));
-		// 				}
-		// 			}
-		// });
 	}
 }
 
@@ -200,7 +191,7 @@ function annotationWell(annotations) {
 		$("#annotationList").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
-					    'href':displayOptions.metadataLinkBase +
+					    'href':'results.html?query=' +
 							   annotations.annotations[i].body},
 					annotations.annotations[i].body)));
 	}
