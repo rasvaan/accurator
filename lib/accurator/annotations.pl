@@ -21,7 +21,7 @@ annotations(object, Uri, Annotations) :-
 	    ),
 	    FoundAnnotations),
 	get_title(Uri, DisplayTitle),
-	Annotations = annotations{display_title:DisplayTitle, annotations:FoundAnnotations}.
+	Annotations = annotations{title:DisplayTitle, annotations:FoundAnnotations}.
 annotations(user, UserUri, ObjectUris) :-
     setof(Object, AnnotationHash^Selector^
 	    (	rdf_has(AnnotationHash, oa:annotatedBy, UserUri),

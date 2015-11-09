@@ -1,9 +1,6 @@
 /*******************************************************************************
 Accurator Annotate
-Code for extending functionallity annotation page. Most of the content and
-javascript of this page is generated based on the image_annotation/applications/
-annotation.pl code and the other halve comes from the result.js of
-cluster_search_ui.
+Code for extending functionallity annotation page.
 *******************************************************************************/
 var query, locale, experiment, domain, user, ui, uri;
 var vntFirstTitle, vntFirstText;
@@ -11,7 +8,6 @@ var vntFirstTitle, vntFirstText;
 displayOptions = {
 	showMetadata: true,
 	showAnnotations: true,
-	metadataLinkBase: 'results.html?query='
 }
 
 function annotateInit() {
@@ -55,8 +51,8 @@ function populateUI() {
 		addButtonEvents();
 		events();
 	});
-	// Use cluster_search_ui result.js code to show the result
-	showResult(uri);
+	metadata();
+	annotations();
 }
 
 function initLabels(data) {
@@ -73,16 +69,15 @@ function initLabels(data) {
 function initImage() {
 	$.getJSON("metadata", {uri:uri})
 	.done(function(metadata){
-		console.log(metadata);
-		$(".annotationImage").attr("src", metadata.image_link);
+		$(".annotationImage").attr("src", metadata.image);
 	});
 }
 
 function events() {
-	$.getJSON("recently_annotated", {user:user})
+	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
-		uris = annotations.uris;
-		if(uris.length===0) {
+		uris = annotations;
+		if(annotations.length===0) {
 			alertMessage(vntFirstTitle, vntFirstText, 'success');
 		}
 	});
@@ -137,6 +132,80 @@ function addClusterNavigationButtonEvents() {
 	}
 }
 
+function metadata() {
+	if(displayOptions.showMetadata){
+		// Get metadata from server
+		$.getJSON("metadata", {uri:uri})
+		.done(function(metadata){
+			appendMetadataWell(metadata);
+		});
+	}
+}
+
+function appendMetadataWell(metadata) {
+	$("#metadata").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-md-10 col-md-offset-1'},
+				$.el.div({'class':'well well-sm'},
+				  $.el.h4('Showing metadata for ' + metadata.title),
+					$.el.dl({'class':'dl-horizontal',
+							 'id':'metadataList'})))));
+
+	for(var i=0; i<metadata.properties.length; i++) {
+		$("#metadataList").append(
+			$.el.dt(metadata.properties[i].predicate_label));
+		$("#metadataList").append(
+			$.el.dd(
+				$.el.a({'class':'r_undef',
+					    'href':displayOptions.metadataLinkBase +
+							   metadata.properties[i].object_label},
+					metadata.properties[i].object_label)));
+	}
+}
+
+function annotations() {
+	// Get annotations from server
+	if(displayOptions.showAnnotations){
+		$.getJSON("annotations", {uri:uri, type:"object"})
+		.done(function(annotations){
+			if(annotations.annotations.length > 0){
+				$("#metadata").append(annotationWell(annotations));
+			}
+		});
+		// new Pengine({server: 'pengine',
+		// 			application: 'enrichment',
+		// 			ask: 'object_annotations(' + Pengine.stringify(uri, {string:'atom'}) + ', Annotations),!',
+		// 			onsuccess: function () {
+		// 				if(this.data[0].Annotations.annotations.length > 0){
+		// 					   $("#metadata").append(annotationWell(this.data));
+		// 				}
+		// 			}
+		// });
+	}
+}
+
+function annotationWell(annotations) {
+	$("#metadata").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-md-10 col-md-offset-1'},
+				$.el.div({'class':'well well-sm'},
+				  $.el.h4('Annotations for ' + annotations.title),
+					$.el.dl({'class':'dl-horizontal',
+							 'id':'annotationList'})))));
+
+
+	for(var i=0; i<annotations.annotations.length; i++) {
+		$("#annotationList").append(
+			$.el.dt(annotations.annotations[i].field));
+		$("#annotationList").append(
+			$.el.dd(
+				$.el.a({'class':'r_undef',
+					    'href':displayOptions.metadataLinkBase +
+							   annotations.annotations[i].body},
+					annotations.annotations[i].body)));
+	}
+}
+
 function maybeRunExperiment() {
 	// Hide some elements during an experiment
 	if(experiment !== "none") {
@@ -161,9 +230,9 @@ function addExperimentNavigation() {
 	);
 
 	// Get the number of objects annotated
-	$.getJSON("recently_annotated", {user:user})
+	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
-		var numberAnnotated = annotations.uris.length;
+		var numberAnnotated = annotations.length;
 
 		// Switch AB setting after 5 annotations
 		if(numberAnnotated == 5) {
