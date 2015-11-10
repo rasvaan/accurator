@@ -6,13 +6,11 @@ cluster_search_ui (search.js pagination.js and thumbnail.js)
 var locale, experiment, ui, typeRec, userName, realName;
 var txtRecTitle, vntFirstTitle, vntFirstText;
 
-// Options provided for cluster_search_ui__search.js
+// Options provided for search.js
 displayOptions = {
 	numberDisplayedItems: 4,
 	showFilters: false,
-	imageFilter: 'onlyImages',
-	//Indicate whether the result link points to annotation view or regular result view
-	annotateLink: true
+	imageFilter: 'onlyImages'
 }
 
 function resultsInit() {
@@ -91,10 +89,9 @@ function addButtonEvents() {
 }
 
 function events() {
-	$.getJSON("recently_annotated", {user:user})
+	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
-		uris = annotations.uris;
-		if(uris.length===0) {
+		if(annotations.length===0) {
 			alertMessage(vntFirstTitle, vntFirstText, 'success');
 		}
 	});
