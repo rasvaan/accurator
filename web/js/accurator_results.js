@@ -102,7 +102,7 @@ function initiateSearch(query, target) {
 }
 
 function recommendItems(target) {
-	if(experiment === "true") {
+	if(experiment === "recommender") {
 		// If running an recommender experiment choose A or B
 		randomOrRecommended(target);
 	} else {
@@ -158,6 +158,7 @@ function populateRandom(target, clusterIndex) {
 function randomOrRecommended(target) {
 	// Consider recommendation AB setting
 	var AOrB = getAOrB();
+
 	if(AOrB === "recommend") {
 		recommendExpertiseList(target);
 	} else if(AOrB === "random") {
@@ -217,17 +218,38 @@ function addItemList(items) {
 		itemUris[i] = items[i].uri;
 
 	// Get item enrichments from server, on success add pagination and thumbnails
-	new Pengine({server: 'pengine',
-				 application: 'enrichment',
-				 ask: 'maplist(enrich_item,' + Pengine.stringify(itemUris, {string:'atom'}) + ', Items),!',
-				 onsuccess: function () {
-					enrichedItems = processListEnrichment(this.data);
-					thumbnailList(enrichedItems);
-	}});
+	var json = {"uris":itemUris};
+	$.ajax({type: "POST",
+			url: "metadata",
+			contentType: "application/json",
+			data: JSON.stringify(json),
+			success: function(data) {
+				enrichedItems = processListEnrichment(data);
+				thumbnailList(enrichedItems);
+				// processEnrichment(data, clusterId);
+				// // Clone cluster to enable filtering without losing information.
+				// clusters[clusterId] = clone(enrichedClusters[clusterId]);
+				// filterCluster(clusters[clusterId]);
+				// if(clusters[clusterId].items.length==0) {
+				// 	$("#cluster"+clusterId).append(noFilterResultsHtml());
+				// } else {
+				// 	var pages = determineNumberOfPages(clusterId);
+				// 	$("#cluster"+clusterId).append(pagination(pages, clusterId));
+				// 	thumbnails(clusterId);
+				// }
+		   }
+	});
+
+	// new Pengine({server: 'pengine',
+	// 			 application: 'enrichment',
+	// 			 ask: 'maplist(enrich_item,' + Pengine.stringify(itemUris, {string:'atom'}) + ', Items),!',
+	// 			 onsuccess: function () {
+	// 				enrichedItems = processListEnrichment(this.data);
+	// 				thumbnailList(enrichedItems);
+	// }});
 }
 
-function processListEnrichment(data) {
-	var sourceItems = data[0].Items;
+function processListEnrichment(sourceItems) {
 	var numberOfItems = sourceItems.length;
 	var items = [];
 
