@@ -33,12 +33,15 @@
 
 http:location(html, cliopatria(html), []).
 http:location(img, cliopatria(img), []).
+http:location(fonts, cliopatria(fonts), []).
 user:file_search_path(html, web(html)).
 user:file_search_path(img, web(img)).
+user:file_search_path(fonts, web(fonts)).
 
 :- http_handler(root('.'), redirect_to_home, []).
 :- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
+:- http_handler(fonts('.'), serve_files_in_directory(fonts), [prefix]).
 % :- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
 :- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
 :- http_handler(cliopatria(domains), domains_api,  []).
