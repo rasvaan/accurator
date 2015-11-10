@@ -107,14 +107,12 @@ get_parameters_domain(Request, Options) :-
 
 %%	metadata_api(+Request)
 %
-%	Retrieves the metadata for a specific uri, the type to be retrieved
-%	is full on default.
+%	Retrieves the metadata for a list of uris or a specific uri, the
+%	type to be retrieved can be specified but is full on default.
 metadata_api(Request) :-
 	http_read_json_dict(Request, JsonIn), !,
-	UriStrings = JsonIn.uris,
-	maplist(atom_string, Uris, UriStrings),
-	maplist(metadata(thumbnail), Uris, EnrichedUris),
-    reply_json_dict(EnrichedUris).
+	metadata_list(JsonIn, Results),
+    reply_json_dict(Results).
 
 metadata_api(Request) :-
     get_parameters_metadata(Request, Options),
@@ -122,6 +120,22 @@ metadata_api(Request) :-
 	option(type(Type), Options),
     metadata(Type, Uri, Metadata),
     reply_json_dict(Metadata).
+
+%%	metadata_list(+JsonDict, -Results)
+%
+%	Processes a json dict with uris, retrieving either labels or
+%	thumbnail information
+metadata_list(JsonIn, Results) :-
+	get_dict(type, JsonIn, Type),
+	Type == "label", !,
+	UriStrings = JsonIn.uris,
+	maplist(atom_string, Uris, UriStrings),
+	maplist(uri_label, Uris, Results).
+
+metadata_list(JsonIn, Results) :-
+	UriStrings = JsonIn.uris,
+	maplist(atom_string, Uris, UriStrings),
+	maplist(metadata(thumbnail), Uris, Results).
 
 %%	get_parameters_metadata(+Request, -Options)
 %

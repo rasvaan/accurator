@@ -128,20 +128,23 @@ function addPath(clusterId) {
 	enrichedClusters[clusterId] = new cluster('undefined', 'undefined');
 
 	// Get labels from server
-	new Pengine({server: 'pengine',
-				 application: 'enrichment',
-				 ask: 'maplist(uri_label,' + Pengine.stringify(pathUris, {string:'atom'}) + ', Labels),!',
-				 onsuccess: function () {
-					var path = [];
-					for(var i=0; i<pathUris.length; i++)
-						path[i] = {uri:pathUris[i], label:this.data[0].Labels[i]};
+	var json = {"uris":pathUris, "type":"label"};
+	$.ajax({type: "POST",
+			url: "metadata",
+			contentType: "application/json",
+			data: JSON.stringify(json),
+			success: function(labels) {
+				var path = [];
 
-					// Add path to enrichedClusters for future reference
-					path.reverse();
-					enrichedClusters[clusterId].path = path;
-					$("#cluster"+clusterId).prepend(pathHtmlElements(path));
-					unfoldPathEvent("#cluster"+clusterId, path);
-				}
+				for(var i=0; i<pathUris.length; i++)
+					path[i] = {uri:pathUris[i], label:labels[i]};
+
+				// Add path to enrichedClusters for future reference
+				path.reverse();
+				enrichedClusters[clusterId].path = path;
+				$("#cluster"+clusterId).prepend(pathHtmlElements(path));
+				unfoldPathEvent("#cluster"+clusterId, path);
+		   }
 	});
 }
 
