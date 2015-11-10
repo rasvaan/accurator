@@ -44,23 +44,33 @@
     	<div class="container" id="events">
     	</div>
 
-		<img src="" class="annotationImage" alt="" />
+		<!-- Navigation -->
+		<div class="row" id="clusterNavigation">
+			<div class="navigationButton col-md-2 col-xs-6">
+				<button class="btn btn-default navButton" id="btnPrevious">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</button>
+			</div>
+			<div class="navigationButton col-md-2 col-xs-6 col-md-push-8" id="btnAlignRight">
+				<button class="btn btn-default navButton" id="btnNext">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</button>
+			</div>
+			<div class="col-md-8 col-md-pull-2" id="path">
+			</div>
+		</div>
 
-        <!-- Navigation -->
-    	<div class="row" id="clusterNavigation">
-    	    <div class="navigationButton col-md-2 col-xs-6">
-    			<button class="btn btn-default navButton" id="btnPrevious">
-    		        <span class="glyphicon glyphicon-chevron-left"></span>
-    			</button>
-    		</div>
-    		<div class="navigationButton col-md-2 col-xs-6 col-md-push-8" id="btnAlignRight">
-    			<button class="btn btn-default navButton" id="btnNext">
-    		        <span class="glyphicon glyphicon-chevron-right"></span>
-    			</button>
-    		</div>
-    		<div class="col-md-8 col-md-pull-2" id="path">
-    		</div>
-    	</div>
+		<!-- Annotation field(s) -->
+		<div class="row" id="annotation">
+			<form class="form-inline">
+			  <div class="form-group">
+			    <label for="annotateLblPageType">Page type</label>
+			    <input type="text" class="form-control" id="annotateLblPageType">
+			  </div>
+			</form>
+		</div>
+
+		<img src="" class="annotationImage" alt="" />
 
         <!-- Metadata -->
     	<div id="metadata"></div>

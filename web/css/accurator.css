@@ -270,6 +270,11 @@ body {
 	text-align: right;
 }
 
+#annotation {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
 #metadata {
 	margin-top: 10px;
 }
