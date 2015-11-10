@@ -55,6 +55,9 @@ user:file_search_path(fonts, web(fonts)).
 :- http_handler(cliopatria(save_user_info), save_user_info,  []).
 :- http_handler(cliopatria(recommendation), recommendation_api, []).
 
+:- set_setting_default(thumbnail:thumbnail_size, size(350,300)).
+:- set_setting_default(thumbnail:medium_size, size(1280,1024)).
+
 %%	ui_elements_api(+Request)
 %
 %	Redirect to the intro page.
