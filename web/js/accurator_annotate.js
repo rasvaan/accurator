@@ -118,7 +118,7 @@ function addClusterNavigationButtonEvents() {
 	} else {
 		$("#btnPrevious").click(function() {
 			localStorage.setItem("itemIndex", index - 1);
-			document.location.href= "annotate_image.html?uri=" + items[index -1].uri;
+			document.location.href= "annotate.html?uri=" + items[index -1].uri;
 		});
 	}
 
@@ -127,7 +127,7 @@ function addClusterNavigationButtonEvents() {
 	} else {
 		$("#btnNext").click(function() {
 			localStorage.setItem("itemIndex", index + 1);
-			document.location.href= "annotate_image.html?uri=" + items[index + 1].uri;
+			document.location.href= "annotate.html?uri=" + items[index + 1].uri;
 		});
 	}
 }
