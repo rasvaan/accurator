@@ -73,8 +73,9 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 			headerType = "h5";
 		if(bootstrapWidth >= 4)
 			headerType = "h4";
+
 		$("#cluster" + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
-				thumbnailTitle(i, items));
+				thumbnailTitle(items[i], bootstrapWidth));
 
 		// Replace id element and add new listener
 		id = getId(items[i].uri)
