@@ -152,13 +152,13 @@ function appendMetadataWell(metadata) {
 							 'id':'metadataList'})))));
 
 	for(var i=0; i<metadata.properties.length; i++) {
+		var encodedQuery = encodeURIComponent(metadata.properties[i].object_label);
 		$("#metadataList").append(
 			$.el.dt(metadata.properties[i].predicate_label));
 		$("#metadataList").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
-					    'href':'results.html?query=' +
-							   metadata.properties[i].object_label},
+					    'href':'results.html?query=' + encodedQuery},
 					metadata.properties[i].object_label)));
 	}
 }
@@ -186,13 +186,13 @@ function annotationWell(annotations) {
 
 
 	for(var i=0; i<annotations.annotations.length; i++) {
+		var encodedQuery = encodeURIComponent(annotations.annotations[i].body);
 		$("#annotationList").append(
 			$.el.dt(annotations.annotations[i].field));
 		$("#annotationList").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
-					    'href':'results.html?query=' +
-							   annotations.annotations[i].body},
+					    'href':'results.html?query=' + encodedQuery},
 					annotations.annotations[i].body)));
 	}
 }
