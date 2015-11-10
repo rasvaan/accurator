@@ -2,6 +2,17 @@
 
 /** <module> Accurator
 */
+:- use_module(library(semweb/rdf_db)).
+:- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
+:- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
+:- rdf_register_prefix(ausr, 'http://accurator.nl/user#').
+:- rdf_register_prefix(as, 'http://accurator.nl/schema#').
+:- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
+:- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
+:- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
+:- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
+:- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
+:- rdf_register_prefix(ann_ui,'http://semanticweb.cs.vu.nl/annotate/ui/').
 
 :- use_module(library(accurator/accurator_user)).
 :- use_module(library(accurator/domain)).
@@ -13,7 +24,6 @@
 :- use_module(library(accurator/subset_selection)).
 :- use_module(library(accurator/concept_scheme_selection)).
 :- use_module(api(cluster_search)).
-:- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
 :- use_module(library(http/http_json)).
@@ -41,17 +51,6 @@ user:file_search_path(img, web(img)).
 :- http_handler(cliopatria(get_user_settings), get_user_settings,  []).
 :- http_handler(cliopatria(save_user_info), save_user_info,  []).
 :- http_handler(cliopatria(recommendation), recommendation_api, []).
-
-:- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
-:- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
-:- rdf_register_prefix(ausr, 'http://accurator.nl/user#').
-:- rdf_register_prefix(as, 'http://accurator.nl/schema#').
-:- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
-:- rdf_register_prefix(gn, 'http://www.geonames.org/ontology#').
-:- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
-:- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
-:- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
-:- rdf_register_prefix(ann_ui,'http://semanticweb.cs.vu.nl/annotate/ui/').
 
 %%	ui_elements_api(+Request)
 %
