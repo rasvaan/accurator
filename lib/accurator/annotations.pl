@@ -27,7 +27,8 @@ annotations(user, UserUri, ObjectUris) :-
 	    (	rdf_has(AnnotationHash, oa:annotatedBy, UserUri),
 			rdf_has(AnnotationHash, oa:hasTarget, Object),
 			rdf(Object, rdf:type, edm:'ProvidedCHO')	    ),
-	    ObjectUris).
+	    ObjectUris), !.
+annotations(user, _UserUri, []).
 
 get_annotation(Uri, AnnotationBody, AnnotationHash) :-
 	rdf(AnnotationHash, oa:hasTarget, Uri),
