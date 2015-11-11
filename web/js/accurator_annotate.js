@@ -51,6 +51,7 @@ function populateUI() {
 		addButtonEvents();
 		events();
 	});
+	annotationFields();
 	metadata();
 	annotations();
 }
@@ -132,6 +133,23 @@ function addClusterNavigationButtonEvents() {
 	}
 }
 
+function annotationFields() {
+	var id = "PageType";
+	var label = "Page type";
+
+	$("#annotationFields").append(annotationField(id, label));
+}
+
+function annotationField(id, label) {
+	return	$.el.div({'class':'form-group'},
+				$.el.label({'for':'annotateInp' + id,
+							'id':'annotateLbl' + id},
+						   label),
+				$.el.input({'type':'text',
+						    'class':'form-control',
+							'id':'annotateInp' + id})
+	);
+}
 function metadata() {
 	if(displayOptions.showMetadata){
 		// Get metadata from server
@@ -196,46 +214,6 @@ function annotationWell(annotations) {
 					annotations.annotations[i].body)));
 	}
 }
-
-var substringMatcher = function(strs) {
-	return function findMatches(q, cb) {
-		var matches, substringRegex;
-
-		// an array that will be populated with substring matches
-		matches = [];
-
-		// regex used to determine if a string contains the substring `q`
-		substrRegex = new RegExp(q, 'i');
-
-		// iterate through the pool of strings and for any string that
-		// contains the substring `q`, add it to the `matches` array
-		$.each(strs, function(i, str) {
-			if (substrRegex.test(str)) {
-				matches.push(str);
-			}
-		});
-
-		cb(matches);
-	};
-};
-
-var pageType = ['Full page illustration',
-	'Page that contains part of an illustration that is printed on more than one page',
-	'Page that contains both text and small illustrations',
-	'Page that contains both text and illuminated capitals',
-	'Page that contains exclusively text',
-	'Page that contains neither illustrations nor text'
-];
-
-$('#annotations .typeahead').typeahead({
-	hint: true,
-	highlight: true,
-	minLength: 1
-},
-{
-	name: 'pageType',
-	source: substringMatcher(pageType)
-});
 
 function maybeRunExperiment() {
 	// Hide some elements during an experiment
