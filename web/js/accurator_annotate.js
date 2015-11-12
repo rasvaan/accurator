@@ -46,7 +46,7 @@ function populateUI() {
 		initLabels(labels);
 		initImage();
 		// Only show path when cluster is available
-		if(localStorage.getItem("currentCluster") !== null)
+		if((localStorage.getItem("currentCluster") !== null) && !(experiment === "random"))
 			addPath();
 		addButtonEvents();
 		events();
@@ -354,10 +354,13 @@ function addExperimentNavigation() {
 		// Add click event to navigation button
 		$("#btnExperimentNext").click(function() {
 			// Go to thank you page after 20 annotations else results
-			if(numberAnnotated == 10) {
+			if(numberAnnotated == 500) {
 				document.location.href="end.html";
 			} else {
-				document.location.href="results.html" + "?user=" + user;
+				var items = JSON.parse(localStorage.getItem("currentCluster"));
+				var index = items.indexOf(uri);
+				var next = index + 1;
+				document.location.href="annotate.html" + "?uri=" + items[next];
 			}
 		});
 	});

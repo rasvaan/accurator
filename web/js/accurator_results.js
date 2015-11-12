@@ -105,6 +105,9 @@ function recommendItems(target) {
 	if(experiment === "recommender") {
 		// If running an recommender experiment choose A or B
 		randomOrRecommended(target);
+	} else if (experiment === "random"){
+		// Lets do random stuff
+		randomItems(target);
 	} else {
 		// Business as usual
 		recommendExpertiseItems(target);
@@ -164,6 +167,27 @@ function randomOrRecommended(target) {
 	} else if(AOrB === "random") {
 		randomResults(target);
 	}
+}
+
+function randomItems(target) {
+	typeRec = "random";
+
+	// Populate a list of random items
+	$.getJSON("recommendation", {strategy:'random',
+								 number:250,
+								 target:target})
+	.done(function(data){
+		// Set retrieved uris as current cluster
+		localStorage.setItem("currentCluster", JSON.stringify(data));
+		var numberOfItems = data.length;
+		var items = [];
+
+		for (var i=0; i<numberOfItems; i++) {
+			var uri = data[i];
+			items[i] = new item(uri);
+		}
+		addItemList(items);
+	});
 }
 
 function recommendExpertiseList(target) {
@@ -226,27 +250,8 @@ function addItemList(items) {
 			success: function(data) {
 				enrichedItems = processListEnrichment(data);
 				thumbnailList(enrichedItems);
-				// processEnrichment(data, clusterId);
-				// // Clone cluster to enable filtering without losing information.
-				// clusters[clusterId] = clone(enrichedClusters[clusterId]);
-				// filterCluster(clusters[clusterId]);
-				// if(clusters[clusterId].items.length==0) {
-				// 	$("#cluster"+clusterId).append(noFilterResultsHtml());
-				// } else {
-				// 	var pages = determineNumberOfPages(clusterId);
-				// 	$("#cluster"+clusterId).append(pagination(pages, clusterId));
-				// 	thumbnails(clusterId);
-				// }
 		   }
 	});
-
-	// new Pengine({server: 'pengine',
-	// 			 application: 'enrichment',
-	// 			 ask: 'maplist(enrich_item,' + Pengine.stringify(itemUris, {string:'atom'}) + ', Items),!',
-	// 			 onsuccess: function () {
-	// 				enrichedItems = processListEnrichment(this.data);
-	// 				thumbnailList(enrichedItems);
-	// }});
 }
 
 function processListEnrichment(sourceItems) {
