@@ -242,45 +242,11 @@ function submitAnnotation(target, body, label, graph) {
 			   	   graph:graph,
 			   	   field:field},
 			success: function(){
-				console.log(WHOOPWHOOP);
+				//TODO: Insert code for adding labels
 			}
 	});
 }
 
-// Y.io(this.get("store.add"), {
-// 	method: "POST",
-// 	data:{
-// 	field:this.get("field"),
-// 	hasTarget:targetString,
-// 	hasBody:bodyString,
-// 	label:label,
-// 	typing_time: timing,
-// 	reached_object_with: context,
-// 	motivatedBy: motiv,
-// 	graph: graph
-// 	},
-// 	on:{success: function(e,o) {
-// 	var response = Y.JSON.parse(o.responseText);
-// 	var r = response.annotation;
-// 	if (motiv == Annotation.MOTIVATION.tagging) {
-// 		tags.add(r);
-// 		oSelf.addTagFragment(r, false); // add but do not update open editor
-// 	} else {
-// 		var values = tags.getValuesByKey('annotation');
-// 		var index = values.indexOf(target);
-// 		if (!myMetaTags[target]) myMetaTags[target] = {}
-// 		if (motiv == Annotation.MOTIVATION.moderating) {
-// 		myMetaTags[target][label] = r;
-// 		} else if (motiv == Annotation.MOTIVATION.commenting) {
-// 		myMetaTags[target][motiv] = r;
-// 		}
-// 		oSelf.set('myMetaTags', myMetaTags);
-// 		var record = tags.getRecordByIndex(index);
-// 		tags.update(record, index);
-// 	}
-// 	}
-// 	   }
-// });
 
 function metadata() {
 	if(displayOptions.showMetadata){
