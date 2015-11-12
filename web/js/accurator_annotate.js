@@ -208,11 +208,19 @@ var substringMatcher = function(strs) {
 		});
 
 		cb(matches);
-	};
-};
+	}
+}
 
 function getInputAnnotationField(id, alternatives) {
 	$('#annotateInp' + id).bind('typeahead:select', function(ev, suggestion) {
+		$("#annotationFieldsSelected").append(
+			$.el.span({'id':'annotateLblSelected' + id,
+					   'class':"label label-danger"},
+						suggestion,
+						$.el.span({'class':"glyphicon glyphicon-remove"}
+						))
+			);
+		//$("#annotateLblSelected").html("test");
 		saveAnnotation(suggestion, alternatives);
 	});
 }
