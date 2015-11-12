@@ -64,8 +64,14 @@
 <accurator-page>
 	a void:Dataset ;
 	dcterms:title "Page type tasks" ;
-	void:dataDump <domain_page/accurator_ui_page.ttl> ;
-	void:dataDump <domain_page/accurator_domain_page_chris.ttl> .
+	void:dataDump <domain_page/accurator_ui_page_leon.ttl> ,
+				  <domain_page/accurator_ui_page_cristina.ttl> ,
+				  <domain_page/accurator_ui_page_sebastien.ttl> ,
+				  <domain_page/accurator_ui_page_chris.ttl> ,
+	              <domain_page/accurator_domain_page_leon.ttl> ,
+				  <domain_page/accurator_domain_page_cristina.ttl> ,
+				  <domain_page/accurator_domain_page_sebastien.ttl> ,
+	              <domain_page/accurator_domain_page_chris.ttl> .
 
 [ vann:preferredNamespacePrefix "accu" ;
 vann:preferredNamespaceUri "http://accurator.nl/schema#"
