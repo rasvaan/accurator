@@ -1,0 +1,59 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix apagui: <http://accurator.nl/ui/page#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+###### Page Domain #####
+apagui:domain a auis:UI;
+	aui:domainLabel "Page domain"@en ;
+	aui:domainLabel "Pagina domein"@nl .
+
+aui:domainLabel a auis:UILabel .
+
+###### Page Intro Screen #####
+
+apagui:intro a auis:UI ;
+	rdfs:subClassOf aui:intro .
+
+###### Page About Screen #####
+
+apagui:about a auis:UI ;
+	rdfs:subClassOf aui:about .
+
+##### Page Register Screen #####
+
+apagui:register a aui:UI ;
+	rdfs:subClassOf aui:register .
+
+##### Page Expertise Screen #####
+
+apagui:expertise a auis:UI ;
+	rdfs:subClassOf aui:expertise .
+
+##### Page Profile Screen #####
+
+apagui:profile a aui:UI ;
+	rdfs:subClassOf aui:profile .
+
+##### Page Results Screen #####
+
+apagui:results a aui:UI ;
+	rdfs:subClassOf aui:results .
+
+##### Page Annotate Screen #####
+
+apagui:annotate a aui:UI ;
+	rdfs:subClassOf aui:annotate .
+
+##### Page Additional Info Screen #####
+
+apagui:additional_info a auis:UI ;
+	rdfs:subClassOf aui:additional_info .
+
+##### Page Login Modal #####
+
+apagui:login_modal a auis:UI ;
+	rdfs:subClassOf aui:login_modal .

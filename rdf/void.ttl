@@ -61,6 +61,12 @@
 	void:dataDump <domain_bible/concept_scheme_bible_figure.ttl> ;
 	void:dataDump <domain_bible/concept_scheme_bible_theme.ttl> .
 
+<accurator-page>
+	a void:Dataset ;
+	dcterms:title "Page type tasks" ;
+	void:dataDump <domain_page/accurator_ui_page.ttl> ;
+	void:dataDump <domain_page/accurator_domain_page_chris.ttl> .
+
 [ vann:preferredNamespacePrefix "accu" ;
 vann:preferredNamespaceUri "http://accurator.nl/schema#"
 ] .
