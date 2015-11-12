@@ -217,10 +217,11 @@ function getInputAnnotationField(id, alternatives) {
 			$.el.span({'id':'annotateLblSelected' + id,
 					   'class':"label label-danger"},
 						suggestion,
-						$.el.span({'class':"glyphicon glyphicon-remove"}
-						))
+						$.el.span({'class':"glyphicon glyphicon-remove",
+									'font-size':"1.5em"})
+					),
+			"&nbsp;"
 			);
-		//$("#annotateLblSelected").html("test");
 		saveAnnotation(suggestion, alternatives);
 	});
 }
@@ -238,7 +239,7 @@ function saveAnnotation(annotationLabel, alternatives){
 function submitAnnotation(target, body, label, graph) {
 	if (!graph)
 		graph = target;
-	var targetList = JSON.stringify([{'@id':target, 'hasSource':target}]);
+	var targetList = JSON.stringify([{'@id':target}]);
 	var field = "page type";
 
 	console.log("target:", target, "hasbody:", body, "label", label)
