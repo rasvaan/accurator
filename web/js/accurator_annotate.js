@@ -230,14 +230,15 @@ function saveAnnotation(annotationLabel, alternatives){
 function submitAnnotation(target, body, label, graph) {
 	if (!graph)
 		graph = target;
-	var targetList = JSON.stringify([{'@id':target, 'hasSource':target}]);
+	var targetJson = JSON.stringify([{'@id':target}]);
+	var bodyJson = JSON.stringify({'@value':body});
 	var field = "page type";
 
 	console.log("target:", target, "hasbody:", body, "label", label)
 	$.ajax({type: "POST",
 			url: "api/annotation/add",
-			data: {hasTarget:targetList,
-				   hasBody:body,
+			data: {hasTarget:targetJson,
+				   hasBody:bodyJson,
 			   	   graph:graph,
 			   	   field:field},
 			success: function(){
