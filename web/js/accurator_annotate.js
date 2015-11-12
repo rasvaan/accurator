@@ -1,6 +1,6 @@
 /*******************************************************************************
 Accurator Annotate
-Code for extending functionallity annotation page.
+Code for extending functionality annotation page.
 *******************************************************************************/
 var query, locale, experiment, domain, user, ui, uri;
 var vntFirstTitle, vntFirstText;
@@ -152,6 +152,7 @@ function annotationFields() {
 	.done(function(alternatives){
 		// Add typeahead
 		addTypeAhead(id, alternatives);
+		getInputAnnotationField(id);
 	});
 }
 
@@ -209,6 +210,16 @@ var substringMatcher = function(strs) {
 		cb(matches);
 	};
 };
+
+function getInputAnnotationField(id) {
+	$('#annotateInp' + id).bind('typeahead:select', function(ev, suggestion) {
+		saveAnnotation(suggestion);
+	});
+}
+
+function saveAnnotation(suggestion){
+	console.log('Selection: ' + suggestion);
+}
 
 function metadata() {
 	if(displayOptions.showMetadata){
