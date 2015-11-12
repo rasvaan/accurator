@@ -152,7 +152,7 @@ function annotationFields() {
 	.done(function(alternatives){
 		// Add typeahead
 		addTypeAhead(id, alternatives);
-		getInputAnnotationField(id);
+		getInputAnnotationField(id, alternatives);
 	});
 }
 
@@ -169,7 +169,7 @@ function annotationField(id, label) {
 
 function addTypeAhead(id, alternatives){
 	var array = getAlternativeArray(alternatives.results);
-	console.log(array);
+
 	$('#annotateInp' + id).typeahead({
 		hint: true,
 		highlight: true,
@@ -211,14 +211,14 @@ var substringMatcher = function(strs) {
 	};
 };
 
-function getInputAnnotationField(id) {
+function getInputAnnotationField(id, alternatives) {
 	$('#annotateInp' + id).bind('typeahead:select', function(ev, suggestion) {
-		saveAnnotation(suggestion);
+		saveAnnotation(suggestion, alternatives);
 	});
 }
 
-function saveAnnotation(suggestion){
-	console.log('Selection: ' + suggestion);
+function saveAnnotation(suggestion, alternatives){
+
 }
 
 function metadata() {
