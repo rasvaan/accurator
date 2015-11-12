@@ -364,7 +364,7 @@ slider.slider-horizontal {
 /* Annotate page: Typeahead functionality */
 /* source: http://twitter.github.io/typeahead.js/examples/ */
 
-#annotations {
+#annotationFields {
 	text-align: center;
 	margin-bottom: 10px;
 }
