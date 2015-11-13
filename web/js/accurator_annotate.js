@@ -213,50 +213,47 @@ var substringMatcher = function(strs) {
 
 function getInputAnnotationField(id, alternatives) {
 	//should allow elements with the same annotation to be added only once
-	$('#annotateInp' + id).bind('typeahead:select', function(ev, suggestion) {
-		$("#annotationFieldsSelected").append(
-			$.el.span({'id':'annotateLblSelected' + id,
-					   'class':"label label-danger"},
-						suggestion,
-						$.el.span({'class':"glyphicon glyphicon-remove",
-									'font-size':"1.5em")})
-									//'onClick':removeAnnotation($('#annotateLblSelected' + id))})
-					),
-			"&nbsp;"
-			);
-		//saveAnnotation(suggestion, alternatives);
+	$('#annotateInp' + id).bind('typeahead:select', function(ev, annotationLabel) {
+		var annotationUri = "";
+
+		for(var i=0; i<alternatives.results.length; i++) {
+			if(annotationLabel.toLowerCase() === alternatives.results[i].label.toLowerCase())
+				annotationUri = alternatives.results[i].uri;
+		}
+		console.log("Adding", annotationUri);
+		submitAnnotation(uri, annotationUri, annotationLabel, id);
 	});
 }
 
-function saveAnnotation(annotationLabel, alternatives){
-	// var annotationUri = "";
-	//
-	// for(var i=0; i<alternatives.results.length; i++) {
-	// 	if(annotationLabel.toLowerCase() === alternatives.results[i].label.toLowerCase())
-	// 		annotationUri = alternatives.results[i].uri;
-	// }
-	// submitAnnotation(uri, annotationUri, annotationLabel);
-}
+function submitAnnotation(target, body, label, id, graph) {
+	if (!graph)
+		graph = target;
 
-function submitAnnotation(target, body, label, graph) {
-// 	if (!graph)
-// 		graph = target;
-//
-// 	var targetJson = JSON.stringify([{'@id':target}]);
-// 	var bodyJson = JSON.stringify({'@value':body});
-// 	var field = "page type";
-//
-// 	console.log("target:", target, "hasbody:", body, "label", label)
-// 	$.ajax({type: "POST",
-// 			url: "api/annotation/add",
-// 			data: {hasTarget:targetJson,
-// 				   hasBody:bodyJson,
-// 			   	   graph:graph,
-// 			   	   field:field},
-// 			success: function(){
-// 				//TODO: Insert code for adding labels
-// 			}
-// 	});
+	var targetJson = JSON.stringify([{'@id':target}]);
+	var bodyJson = JSON.stringify({'@value':body});
+	var field = "page type";
+
+	console.log("target:", target, "hasbody:", body, "label", label)
+	$.ajax({type: "POST",
+			url: "api/annotation/add",
+			data: {hasTarget:targetJson,
+				   hasBody:bodyJson,
+			   	   graph:graph,
+			   	   field:field},
+			success: function(){
+				//Add label indicating in the UI what has been added
+				$("#annotationFieldsSelected").append(
+					$.el.span({'id':'annotateLblSelected' + id,
+							   'class':"label label-danger"},
+								label
+								//Leave out the remove button for now
+								//$.el.span({'class':"glyphicon glyphicon-remove", 'font-size':"1.5em"})
+								//'onClick':removeAnnotation($('#annotateLblSelected' + id))})
+							),
+					"&nbsp;"
+					);
+			}
+	});
 }
 
 function removeAnotation(annotationLabel) {
