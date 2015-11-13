@@ -30,6 +30,8 @@
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/html_write)).
 :- use_module(user(user_db)).
+:- use_module(library(thumbnail)).
+
 
 http:location(html, cliopatria(html), []).
 http:location(img, cliopatria(img), []).

@@ -223,7 +223,6 @@ function getInputAnnotationField(id, alternatives) {
 			if(annotationLabel.toLowerCase() === alternatives.results[i].label.toLowerCase())
 				annotationUri = alternatives.results[i].uri;
 		}
-		console.log("Adding", annotationUri);
 		submitAnnotation(uri, annotationUri, annotationLabel, id);
 	});
 }
@@ -233,10 +232,9 @@ function submitAnnotation(target, body, label, id, graph) {
 		graph = target;
 
 	var targetJson = JSON.stringify([{'@id':target}]);
-	var bodyJson = JSON.stringify({'@value':body});
+	var bodyJson = JSON.stringify({'@id':body});
 	var field = "page type";
 
-	console.log("target:", target, "hasbody:", body, "label", label)
 	$.ajax({type: "POST",
 			url: "api/annotation/add",
 			data: {hasTarget:targetJson,
@@ -260,7 +258,7 @@ function submitAnnotation(target, body, label, id, graph) {
 }
 
 function removeAnotation(annotationLabel) {
-	console.log(annotationLabel);
+	// console.log(annotationLabel);
 }
 
 function metadata() {
