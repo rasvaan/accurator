@@ -279,6 +279,13 @@ body {
 	text-align: center;
 }
 
+#annotationFieldsRow {
+	margin-top: 10px;
+}
+
+.annotateLbl {
+	margin-right: 10px;
+}
 /* End page */
 .endScreen {
 	overflow-x: hidden;

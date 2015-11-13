@@ -153,12 +153,15 @@ function annotationFields() {
 		// Add typeahead
 		addTypeAhead(id, alternatives);
 		getInputAnnotationField(id, alternatives);
+		// Add focus to field
+		$("#annotateInp" + id).focus();
 	});
 }
 
 function annotationField(id, label) {
 	return	$.el.div({'class':'form-group'},
-				$.el.label({'for':'annotateInp' + id,
+				$.el.label({'class':'annotateLbl',
+							'for':'annotateInp' + id,
 							'id':'annotateLbl' + id},
 						   label),
 				$.el.input({'type':'text',
