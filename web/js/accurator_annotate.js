@@ -212,83 +212,56 @@ var substringMatcher = function(strs) {
 }
 
 function getInputAnnotationField(id, alternatives) {
+	//should allow elements with the same annotation to be added only once
 	$('#annotateInp' + id).bind('typeahead:select', function(ev, suggestion) {
 		$("#annotationFieldsSelected").append(
 			$.el.span({'id':'annotateLblSelected' + id,
 					   'class':"label label-danger"},
 						suggestion,
 						$.el.span({'class':"glyphicon glyphicon-remove",
-									'font-size':"1.5em"})
+									'font-size':"1.5em")})
+									//'onClick':removeAnnotation($('#annotateLblSelected' + id))})
 					),
 			"&nbsp;"
 			);
-		saveAnnotation(suggestion, alternatives);
+		//saveAnnotation(suggestion, alternatives);
 	});
 }
 
 function saveAnnotation(annotationLabel, alternatives){
-	var annotationUri = "";
-
-	for(var i=0; i<alternatives.results.length; i++) {
-		if(annotationLabel.toLowerCase() === alternatives.results[i].label.toLowerCase())
-			annotationUri = alternatives.results[i].uri;
-	}
-	submitAnnotation(uri, annotationUri, annotationLabel);
+	// var annotationUri = "";
+	//
+	// for(var i=0; i<alternatives.results.length; i++) {
+	// 	if(annotationLabel.toLowerCase() === alternatives.results[i].label.toLowerCase())
+	// 		annotationUri = alternatives.results[i].uri;
+	// }
+	// submitAnnotation(uri, annotationUri, annotationLabel);
 }
 
 function submitAnnotation(target, body, label, graph) {
-	if (!graph)
-		graph = target;
-	var targetList = JSON.stringify([{'@id':target}]);
-	var field = "page type";
-
-	console.log("target:", target, "hasbody:", body, "label", label)
-	$.ajax({type: "POST",
-			url: "api/annotation/add",
-			data: {hasTarget:targetList,
-				   hasBody:body,
-			   	   graph:graph,
-			   	   field:field},
-			success: function(){
-				console.log(WHOOPWHOOP);
-			}
-	});
+// 	if (!graph)
+// 		graph = target;
+//
+// 	var targetJson = JSON.stringify([{'@id':target}]);
+// 	var bodyJson = JSON.stringify({'@value':body});
+// 	var field = "page type";
+//
+// 	console.log("target:", target, "hasbody:", body, "label", label)
+// 	$.ajax({type: "POST",
+// 			url: "api/annotation/add",
+// 			data: {hasTarget:targetJson,
+// 				   hasBody:bodyJson,
+// 			   	   graph:graph,
+// 			   	   field:field},
+// 			success: function(){
+// 				//TODO: Insert code for adding labels
+// 			}
+// 	});
 }
 
-// Y.io(this.get("store.add"), {
-// 	method: "POST",
-// 	data:{
-// 	field:this.get("field"),
-// 	hasTarget:targetString,
-// 	hasBody:bodyString,
-// 	label:label,
-// 	typing_time: timing,
-// 	reached_object_with: context,
-// 	motivatedBy: motiv,
-// 	graph: graph
-// 	},
-// 	on:{success: function(e,o) {
-// 	var response = Y.JSON.parse(o.responseText);
-// 	var r = response.annotation;
-// 	if (motiv == Annotation.MOTIVATION.tagging) {
-// 		tags.add(r);
-// 		oSelf.addTagFragment(r, false); // add but do not update open editor
-// 	} else {
-// 		var values = tags.getValuesByKey('annotation');
-// 		var index = values.indexOf(target);
-// 		if (!myMetaTags[target]) myMetaTags[target] = {}
-// 		if (motiv == Annotation.MOTIVATION.moderating) {
-// 		myMetaTags[target][label] = r;
-// 		} else if (motiv == Annotation.MOTIVATION.commenting) {
-// 		myMetaTags[target][motiv] = r;
-// 		}
-// 		oSelf.set('myMetaTags', myMetaTags);
-// 		var record = tags.getRecordByIndex(index);
-// 		tags.update(record, index);
-// 	}
-// 	}
-// 	   }
-// });
+function removeAnotation(annotationLabel) {
+	console.log(annotationLabel);
+}
 
 function metadata() {
 	if(displayOptions.showMetadata){
