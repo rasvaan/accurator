@@ -244,6 +244,8 @@ body {
 
 .annotationImage {
 	max-width: 100%;
+	/*TEMP for looking at complete image*/
+	height: 600px;
 }
 
 .annotorious-annotationlayer {
