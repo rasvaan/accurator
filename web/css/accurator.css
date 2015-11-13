@@ -242,6 +242,10 @@ body {
 	margin-top: 10px;
 }
 
+#imageRow {
+	text-align: center;
+}
+
 .annotationImage {
 	max-width: 100%;
 	/*TEMP for looking at complete image*/

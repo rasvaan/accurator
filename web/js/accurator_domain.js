@@ -37,6 +37,10 @@ function domainInit() {
 }
 
 function nextPage() {
+	// We do not need expertise to do random stuff
+	if(experiment === "random")
+		return function(){document.location.href="results.html"};
+
 	return function(){document.location.href="expertise.html"};
 }
 
