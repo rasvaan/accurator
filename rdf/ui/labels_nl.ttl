@@ -39,8 +39,8 @@ aui:annotate a auis:UI ;
 	aui:title "Voeg informatie toe aan object"@nl ;
 	aui:btnPrevious "Vorige"@nl ;
 	aui:btnNext "Volgende"@nl ;
-	aui:btnAnnotateRecommend "Aanbevolen werken"@nl ;
-	aui:btnAnnotateSearch "Zoek"@nl ;
+	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
+	aui:navbarBtnSearch "Zoek"@nl ;
 	aui:vntFirstTitle "De eerste keer informatie toevoegen!"@nl ;
 	aui:vntFirstText "Begin met het tekenen van een  kader om informatie toe te voegen. U krijgt hierop verschillende velden om in te vullen, probeer hierbij zo precies mogelijk te zijn. Om naar een volgende afbeeldingen te gaan kunt u op volgende klikken, zoeken of nieuwe aanbevelingen bekijken."@nl .
 
@@ -65,8 +65,8 @@ aui:profile a auis:UI ;
 	aui:txtSubSlogan "begin met het toevoegen van informatie of verander uw instellingen"@nl ;
 	aui:txtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
 	aui:txtDomain "Het huidige domein is het "@nl ;
-	aui:btnRecommend "Aanbevolen werken"@nl ;
-	aui:btnSearch "Zoek"@nl ;
+	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
+	aui:navbarBtnSearch "Zoek"@nl ;
 	aui:btnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:btnDomain "Verander domein"@nl ;
 	aui:lblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl .
@@ -75,7 +75,7 @@ aui:profile a auis:UI ;
 
 aui:results a auis:UI ;
 	aui:title "Zoekresultaten"@nl ;
-	aui:btnResultsRecommend "Aanbevolen werken"@nl ;
+	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
 	aui:btnResultsSearch "Zoek"@nl ;
 	aui:txtRecTitle "Aanbevelingen voor "@nl ;
 	aui:vntFirstTitle "Aan welk werk wilt u informatie toevoegen?"@nl ;
@@ -117,8 +117,8 @@ aui:loginModal a auis:UI ;
 ##### User Navbar Dropdown #####
 
 aui:user_dropdown a auis:UI ;
-	aui:ddLogOut "Afmelden"@nl ;
-	aui:ddAbout "Over Accurator"@nl ;
+	aui:navbarLblLogout "Afmelden"@nl ;
+	aui:navbarLblAbout "Over Accurator"@nl ;
 	aui:ddProfile "Profiel"@nl .
 
 ##### Additional Info Screen #####

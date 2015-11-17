@@ -74,14 +74,14 @@ ui_predicate(UI, Predicate) :-
 %	super class will be queried.
 get_text_element(UI, Locale, Predicate, Label-Literal) :-
 	rdf(UI, Predicate, literal(lang(Locale, Literal))),
-	rdf(Predicate, rdf:type, auis:'UILabel'),
+	rdf(Predicate, rdfs:subPropertyOf, auis:uiLabel),
 	!,
 	iri_xml_namespace(Predicate, _, Label).
 
 get_text_element(UI, Locale, Predicate, Label-Literal) :-
 	rdf(UI, rdfs:subClassOf, SuperUI),
 	rdf(SuperUI, Predicate, literal(lang(Locale, Literal))),
-	rdf(Predicate, rdf:type, auis:'UILabel'),
+	rdf(Predicate,rdfs:subPropertyOf, auis:uiLabel),
 	iri_xml_namespace(Predicate, _, Label).
 
 %%	get_selector_options(UI, Locale, SelectorFields)

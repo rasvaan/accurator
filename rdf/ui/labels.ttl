@@ -15,11 +15,11 @@ aui:intro a auis:UI ;
 	aui:buttonLogin "or Log in"@en ;
 	aui:linkAbout "About Accurator"@en .
 
-aui:headerSlogan rdfs:subPropertyOf auis:headerLabel .
-aui:headerSubSlogan rdfs:subPropertyOf auis:headerLabel .
-aui:buttonRegister rdfs:subPropertyOf auis:buttonLabel .
-aui:buttonLogin rdfs:subPropertyOf auis:buttonLabel .
-aui:linkAbout rdfs:subPropertyOf auis:linkLabel .
+aui:headerSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:headerSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:buttonRegister rdfs:subPropertyOf auis:uiLabel .
+aui:buttonLogin rdfs:subPropertyOf auis:uiLabel .
+aui:linkAbout rdfs:subPropertyOf auis:uiLabel .
 
 ###### About Screen #####
 
@@ -59,15 +59,15 @@ aui:annotate a auis:UI ;
 	aui:title "Tag image"@en ;
 	aui:btnPrevious "Previous"@en ;
 	aui:btnNext "Next"@en ;
-	aui:btnAnnotateRecommend "Recommended works"@en ;
-	aui:btnAnnotateSearch "Search"@en ;
+	aui:navbarBtnRecommend "Recommended works"@en ;
+	aui:navbarBtnSearch "Search"@en ;
 	aui:vntFirstTitle "Your first tag!"@en ;
 	aui:vntFirstText "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en .
 
 aui:btnPrevious a auis:UILabel .
 aui:btnNext a auis:UILabel .
-aui:btnAnnotateRecommend a auis:UILabel .
-aui:btnAnnotateSearch a auis:UILabel .
+aui:navbarBtnRecommend a auis:UILabel .
+aui:navbarBtnSearch a auis:UILabel .
 aui:vntFirstTitle a auis:UILabel .
 aui:vntFirstText a auis:UILabel .
 
@@ -101,16 +101,16 @@ aui:profile a auis:UI ;
 	aui:txtSubSlogan "start tagging or change your personal info"@en ;
 	aui:txtStartAnnotating "To start tagging you can choose to search for specific works or to get works recommended."@en ;
 	aui:txtDomain "The current domain is the "@en ;
-	aui:btnRecommend "Recommended works"@en ;
-	aui:btnSearch "Search"@en ;
+	aui:navbarBtnRecommend "Recommended works"@en ;
+	aui:navbarBtnSearch "Search"@en ;
 	aui:btnChangeExpertise "Change expertise levels"@en ;
 	aui:btnDomain "Change domain"@en ;
 	aui:lblLastAnnotated "Artworks you recently tagged"@en .
 
 aui:txtStartAnnotating a auis:UILabel .
 aui:txtDomain a auis:UILabel .
-aui:btnRecommend a auis:UILabel .
-aui:btnSearch a auis:UILabel .
+aui:navbarBtnRecommend a auis:UILabel .
+aui:navbarBtnSearch a auis:UILabel .
 aui:btnChangeExpertise a auis:UILabel .
 aui:btnDomain a auis:UILabel .
 aui:btnChangeInfo a auis:UILabel .
@@ -121,13 +121,13 @@ aui:lblLastAnnotated a auis:UILabel .
 aui:results a auis:UI ;
 	dcterms:title "Accurator results UI"@en ;
 	aui:title "Results"@en ;
-	aui:btnResultsRecommend "Recommend works"@en ;
+	aui:navbarBtnRecommend "Recommend works"@en ;
 	aui:btnResultsSearch "Search"@en ;
 	aui:txtRecTitle "Recommendations for "@en ;
 	aui:vntFirstTitle "What do you want to tag?"@en ;
 	aui:vntFirstText "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
 
-aui:btnResultsRecommend a auis:UILabel .
+aui:navbarBtnRecommend a auis:UILabel .
 aui:btnResultsSearch a auis:UILabel .
 aui:txtRecTitle a auis:UILabel .
 
@@ -194,12 +194,12 @@ aui:loginIncomplete a auis:UILabel .
 ##### User Navbar Dropdown #####
 
 aui:user_dropdown a auis:UI ;
-	aui:ddLogOut "Logout"@en ;
-	aui:ddAbout "About Accurator"@en ;
+	aui:navbarLblLogout "Logout"@en ;
+	aui:navbarLblAbout "About Accurator"@en ;
 	aui:ddProfile "Profile"@en .
 
-aui:ddLogOut a auis:UILabel .
-aui:ddAbout a auis:UILabel .
+aui:navbarLblLogout a auis:UILabel .
+aui:navbarLblAbout a auis:UILabel .
 aui:ddProfile a auis:UILabel .
 
 ##### Additional Info Screen #####

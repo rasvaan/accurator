@@ -10,15 +10,15 @@
 abirui:domain a auis:UI ;
 	aui:domainLabel "Bird domain"@en .
 
-aui:domainLabel a auis:UILabel .
+aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
 
 ###### Bird Intro Screen #####
 
 abirui:intro a auis:UI ;
 	rdfs:subClassOf aui:intro;
-	aui:txtSubSlogan "Help us add information to artworks depicting birds"@en .
+	aui:headerSubSlogan "Help us add information to artworks depicting birds"@en .
 
-abirui:txtSubSlogan a auis:UILabel .
+aui:headerSubSlogan rdfs:subPropertyOf auis:uiLabel .
 
 ###### Bird About Screen #####
 

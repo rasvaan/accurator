@@ -60,8 +60,8 @@ function populateUI() {
 function initLabels(data) {
 	$("#btnPrevious").append(data.btnPrevious);
 	$("#btnNext").prepend(data.btnNext);
-	$("#btnAnnotateRecommend").append(data.btnAnnotateRecommend);
-	$("#btnAnnotateSearch").append(data.btnAnnotateSearch);
+	$("#navbarBtnRecommend").append(data.navbarBtnRecommend);
+	$("#navbarBtnSearch").append(data.navbarBtnSearch);
 	vntFirstTitle = data.vntFirstTitle;
 	vntFirstText = data.vntFirstText;
 	// Add next to optional experiment navigation
@@ -87,18 +87,18 @@ function addPath() {
 }
 
 function addButtonEvents() {
-	$("#btnAnnotateRecommend").click(function() {
+	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
-	$("#frmSearch").keypress(function(event) {
+	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
-			var query = encodeURIComponent($("#frmSearch").val());
+			var query = encodeURIComponent($("#navbarInpSearch").val());
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#btnAnnotateSearch").click(function() {
-		var query = encodeURIComponent($("#frmSearch").val());
+	$("#navbarBtnSearch").click(function() {
+		var query = encodeURIComponent($("#navbarInpSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
 }

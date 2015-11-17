@@ -75,9 +75,9 @@ function initLabels(labels) {
 	}
 	$("#txtSubSlogan").prepend(labels.txtSubSlogan);
 	$("#txtStartAnnotating").append(labels.txtStartAnnotating);
-	$("#btnRecommend").append(labels.btnRecommend);
+	$("#navbarBtnRecommend").append(labels.navbarBtnRecommend);
 	$("#btnChangeExpertise").append(labels.btnChangeExpertise);
-	$("#btnSearch").append(labels.btnSearch);
+	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
 	$("#btnDomain").prepend(labels.btnDomain);
 	$("#lblLastAnnotated").append(labels.lblLastAnnotated);
 }
@@ -146,18 +146,18 @@ function addDomainEvent(domain) {
 }
 
 function addButtonEvents() {
-	$("#btnRecommend").click(function() {
+	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
-	$("#frmSearch").keypress(function(event) {
+	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
-			var query = encodeURIComponent($("#frmSearch").val());
+			var query = encodeURIComponent($("#navbarInpSearch").val());
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#btnSearch").click(function() {
-		var query = encodeURIComponent($("#frmSearch").val());
+	$("#navbarBtnSearch").click(function() {
+		var query = encodeURIComponent($("#navbarInpSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
 	$("#btnChangeExpertise").click(function() {

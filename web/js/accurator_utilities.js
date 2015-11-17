@@ -164,17 +164,17 @@ function setLocale(languageCode, onSuccess) {
 
 function populateFlags(locale) {
 	// Code to add flags to navbar allowing to change the locale
-	$(".flagDropdown").append(
+	$(".navbarLstFlag").append(
 		$.el.li({'class':'dropdown'},
 				 getInitialFlag(locale),
 			$.el.ul({'class':'dropdown-menu',
 					'role':'menu'},
 					$.el.li($.el.a({'href':'#',
-									'id':'flagEn'},
+									'id':'navbarLnkEn'},
 									$.el.span({'class':'flag-icon flag-icon-en'}),
 									" English")),
 					$.el.li($.el.a({'href':'#',
-									'id':'flagNl'},
+									'id':'navbarLnkNl'},
 									$.el.span({'class':'flag-icon flag-icon-nl'}),
 									" Nederlands"))
 			)
@@ -187,10 +187,10 @@ function populateFlags(locale) {
 function flagEvents() {
 	var onSuccess = function(){location.reload();};
 
-	$("#flagEn").click(function() {
+	$("#navbarLnkEn").click(function() {
 		setLocale("en", onSuccess);
 	});
-	$("#flagNl").click(function() {
+	$("#navbarLnkNl").click(function() {
 		setLocale("nl", onSuccess);
 	});
 }
@@ -285,26 +285,24 @@ function alertMessage(title, text, type) {
 function populateNavbar(userName, linkList) {
 	// Only popluate navbar when no experiment is running
 	if(typeof experiment === "undefined" || experiment === "none") {
-		populateUserDropdown(userName, linkList);
+		populateNavbarUser(userName, linkList);
 	} else {
 		// Hide recommendations button if experiment is running
-		$("#btnRecommend").hide();
-		$("#btnAnnotateRecommend").hide();
-		$("#btnResultsRecommend").hide();
+		$("#navbarBtnRecommend").hide();
 		// Hide search form
-		$("#frmGroupSearch").hide();
+		$("#navbarFrmSearch").hide();
 		// Remove link from logo if experiment is running
 		$(".navbar-brand").attr('href', "#");
 	}
 }
 
-function populateUserDropdown(userName, linkList) {
+function populateNavbarUser(userName, linkList) {
 	// Add a user drop down based on the user and listed links
 	$.getJSON("ui_elements", {locale:locale,
 							  ui:"http://accurator.nl/ui/generic#user_dropdown",
 							  type:"labels"})
 	.done(function(data){
-		$(".userDropdown").append(
+		$(".navbarLstUser").append(
 			$.el.li({'class':'dropdown'},
 					$.el.a({'href':'#',
 							'class':'dropdown-toggle',
@@ -316,16 +314,16 @@ function populateUserDropdown(userName, linkList) {
 					$.el.ul({'class':'dropdown-menu',
 						 	 'role':'menu'},
 						 	 $.el.li($.el.a({'href':'#',
-								         	 'id':'btnLogout'},
-										 	 data.ddLogOut)),
+								         	 'id':'navbarLnkLogout'},
+										 	 data.navbarLblLogout)),
 							 // Add links based on array
 							 addLinks(linkList, data),
 						 	 $.el.li({'class':'divider'}),
 						 	 $.el.li($.el.a({'href':'about.html'},
-								 	 data.ddAbout))))
+								 	 data.navbarLblAbout))))
 		)
 		// Add logout event to menu item
-		$("#btnLogout").click(function() {
+		$("#navbarLnkLogout").click(function() {
 			logout();
 		});
 	});

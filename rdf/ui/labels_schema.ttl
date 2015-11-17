@@ -6,7 +6,6 @@
 
 auis:uiLabel a rdf:Property;
 	rdfs:domain auis:UI ;
-	rdfs:domain xsd:Literal ;
 	rdfs:label "Super-property of all labels"@en .
 
 auis:textLabel a rdf:Property;

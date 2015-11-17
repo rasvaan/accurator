@@ -48,8 +48,10 @@ body {
 	height: 20px;
 }
 
-/* Navbar */
-#headerImage {
+/*******************************************************************************
+Navbar
+*******************************************************************************/
+#navbarImgLogo {
 	height: 20px;
 }
 
@@ -206,7 +208,7 @@ body {
 	margin-top: 12px;
 }
 
-#frmSearchAnnotate {
+#navbarFrmSearch{
 	text-align: center;
 }
 

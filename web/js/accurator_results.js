@@ -67,25 +67,25 @@ function initLabels(labels) {
 	document.title = labels.title;
 
 	$("#btnResultsSearch").append(labels.btnResultsSearch);
-	$("#btnResultsRecommend").append(labels.btnResultsRecommend);
+	$("#navbarBtnRecommend").append(labels.navbarBtnRecommend);
 	txtRecTitle = labels.txtRecTitle;
 	vntFirstTitle = labels.vntFirstTitle;
 	vntFirstText = labels.vntFirstText;
 }
 
 function addButtonEvents() {
-	$("#btnResultsRecommend").click(function() {
+	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
-	$("#frmSearch").keypress(function(event) {
+	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
-			var query = encodeURIComponent($("#frmSearch").val());
+			var query = encodeURIComponent($("#navbarInpSearch").val());
 			document.location.href="results.html?query=" + query;
 		}
 	});
 	$("#btnResultsSearch").click(function() {
-		var query = encodeURIComponent($("#frmSearch").val());
+		var query = encodeURIComponent($("#navbarInpSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
 }
