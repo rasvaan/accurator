@@ -11,10 +11,6 @@ apaguicr:domain a auis:UI;
 	aui:domainLabel "Page domain Cristina"@en ;
 	aui:domainLabel "Pagina domein Cristina"@nl .
 
-apaguicr:domain_sebastien a auis:UI;
-	aui:domainLabel "Page domain Sebastien"@en ;
-	aui:domainLabel "Pagina domein Sebastien"@nl .
-
 aui:domainLabel a auis:UILabel .
 
 ###### Page Intro Screen #####
