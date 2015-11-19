@@ -8,11 +8,11 @@
 ###### Intro Screen #####
 
 aui:intro a auis:UI ;
-	aui:txtSlogan "Accurate Kunst Beschrijvingen"@nl ;
-	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken"@nl ;
-	aui:btnRegister "Registreer"@nl ;
-	aui:btnLogin "of Log in"@nl ;
-	aui:lnkAbout "Informatie over Accurator"@nl .
+	aui:introHdrSlogan "Accurate Kunst Beschrijvingen"@nl ;
+	aui:introHdrSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken"@nl ;
+	aui:introBtnRegister "Registreer"@nl ;
+	aui:introBtnLogin "of Log in"@nl ;
+	aui:introLnkAbout "Informatie over Accurator"@nl .
 
 ###### About Screen #####
 

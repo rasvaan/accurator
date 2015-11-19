@@ -32,12 +32,12 @@ function introInit() {
 }
 
 function setBackground(backgroundUrl, imageBrightness) {
-	$(".backgroundImage").attr("src", backgroundUrl);
+	$(".introImgBackground").attr("src", backgroundUrl);
 
 	if (imageBrightness === "dark") {
 	   // Make font lighter to make it readable
-	   $("#txtSlogan").css('color', '#FFFFFF');
-	   $("#btnLogin").css('color', '#BBBBBB');
+	   $("#introHdrSlogan").css('color', '#FFFFFF');
+	   $("#introBtnLogin").css('color', '#BBBBBB');
 	}
 }
 
@@ -50,13 +50,13 @@ function populateUI() {
 }
 
 function addButtonEvents() {
-	$("#btnRegister").click(function() {
+	$("#introBtnRegister").click(function() {
 		onDismissal = function() {
 			$("#modalRegister").modal('hide');
 		};
 		registerModal(onDismissal);
 	});
-	$("#btnLogin").click(function() {
+	$("#introBtnLogin").click(function() {
 		// Show login modal and on success go to profile
 		onSuccess = function() {
 			document.location.href="profile.html";
@@ -70,9 +70,9 @@ function addButtonEvents() {
 
 function initLabels(labels) {
 	// Add retrieved labels to html elements
-	$("#txtSlogan").prepend(labels.txtSlogan);
-	$("#txtSubSlogan").prepend(labels.txtSubSlogan);
-	$("#btnRegister").append(labels.btnRegister);
-	$("#btnLogin").append(labels.btnLogin);
+	$("#introHdrSlogan").prepend(labels.introHdrSlogan);
+	$("#introHdrSubSlogan").prepend(labels.introHdrSubSlogan);
+	$("#introBtnRegister").append(labels.introBtnRegister);
+	$("#introBtnLogin").append(labels.introBtnLogin);
 	$("#lnkAbout").append(labels.lnkAbout);
 }

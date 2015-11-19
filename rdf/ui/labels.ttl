@@ -9,17 +9,17 @@
 
 aui:intro a auis:UI ;
 	dcterms:title "Accurator intro UI"@en ;
-	aui:headerSlogan "Accurate Art Annotations"@en ;
-	aui:headerSubSlogan "Help us add information to artworks"@en ;
-	aui:buttonRegister "Register"@en ;
-	aui:buttonLogin "or Log in"@en ;
-	aui:linkAbout "About Accurator"@en .
+	aui:introHdrSlogan "Accurate Art Annotations"@en ;
+	aui:introHdrSubSlogan "Help us add information to artworks"@en ;
+	aui:introBtnRegister "Register"@en ;
+	aui:introBtnLogin "or Log in"@en ;
+	aui:introLnkAbout "About Accurator"@en .
 
-aui:headerSlogan rdfs:subPropertyOf auis:uiLabel .
-aui:headerSubSlogan rdfs:subPropertyOf auis:uiLabel .
-aui:buttonRegister rdfs:subPropertyOf auis:uiLabel .
-aui:buttonLogin rdfs:subPropertyOf auis:uiLabel .
-aui:linkAbout rdfs:subPropertyOf auis:uiLabel .
+aui:introHdrSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:introBtnRegister rdfs:subPropertyOf auis:uiLabel .
+aui:introBtnLogin rdfs:subPropertyOf auis:uiLabel .
+aui:introLnkAbout rdfs:subPropertyOf auis:uiLabel .
 
 ###### About Screen #####
 
