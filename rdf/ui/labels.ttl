@@ -121,16 +121,19 @@ aui:lblLastAnnotated a auis:UILabel .
 
 aui:results a auis:UI ;
 	dcterms:title "Accurator results UI"@en ;
-	aui:title "Results"@en ;
-	aui:navbarBtnRecommend "Recommend works"@en ;
-	aui:btnResultsSearch "Search"@en ;
-	aui:txtRecTitle "Recommendations for "@en ;
-	aui:vntFirstTitle "What do you want to tag?"@en ;
-	aui:vntFirstText "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
+	aui:resultsHdrTitle "Results"@en ;
+	aui:resultsBtnRecommend "Recommend works"@en ;
+	aui:resultsBtnSearch "Search"@en ;
+	aui:resultsTxtRecommendationsFor "Recommendations for "@en ;
+	aui:resultsHdrFirst "What do you want to tag?"@en ;
+	aui:resultsTxtFirst "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
 
-aui:navbarBtnRecommend a auis:UILabel .
-aui:btnResultsSearch a auis:UILabel .
-aui:txtRecTitle a auis:UILabel .
+aui:resultsHdrTitle rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnRecommend rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnSearch rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtRecommendationsFor rdfs:subPropertyOf auis:uiLabel .
+aui:resultsHdrFirst rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtFirst rdfs:subPropertyOf auis:uiLabel .
 
 ###### End Screen #####
 

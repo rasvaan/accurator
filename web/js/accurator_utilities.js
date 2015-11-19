@@ -266,7 +266,7 @@ function getUI(domainSettings, page) {
 }
 
 function alertMessage(title, text, type) {
-	$("#events").prepend(
+	$("#eventsDiv").prepend(
 		$.el.div({'class':'row',
 				  'id':'alertMessage'},
 			$.el.div({'class':'col-md-12'},
