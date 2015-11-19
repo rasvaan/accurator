@@ -94,9 +94,9 @@ aui:end a auis:UI ;
 aui:registerModal a auis:UI ;
 	aui:mdlTitleRegister "Maak uw Accurator-account"@nl ;
 	aui:mdlFrmFullNameRegister "Volledige naam"@nl ;
-	aui:mdlFrmUsernameRegister "Kies een gebruikersnaam"@nl ;
-	aui:mdlFrmPasswordRegister "Wachtwoord"@nl ;
-	aui:mdlFrmPasswordRepeatRegister "Bevestig uw wachtwoord"@nl ;
+	aui:loginLblUsernameRegister "Kies een gebruikersnaam"@nl ;
+	aui:loginLblPasswordRegister "Wachtwoord"@nl ;
+	aui:loginLblPasswordRepeatRegister "Bevestig uw wachtwoord"@nl ;
 	aui:mdlBtnRegister "Registreer"@nl ;
 	aui:lblRegistrationFailed "Registratie mislukt, vul alle velden in."@nl ;
 	aui:lblUserTaken "Gebruikersnaam bestaat al."@nl ;
@@ -107,10 +107,10 @@ aui:registerModal a auis:UI ;
 ##### Login Modal #####
 
 aui:loginModal a auis:UI ;
-	aui:mdlTxtTitle "Inloggen"@nl ;
-	aui:mdlFrmUsername "Gebruikersnaam"@nl ;
-	aui:mdlFrmPassword "Wachtwoord"@nl ;
-	aui:mdlBtnLogin "Log in"@nl ;
+	aui:loginHdrTitle "Inloggen"@nl ;
+	aui:loginLblUsername "Gebruikersnaam"@nl ;
+	aui:loginLblPassword "Wachtwoord"@nl ;
+	aui:loginBtnLogin "Log in"@nl ;
 	aui:loginWarning "Inloggen mislukt"@nl ;
 	aui:loginIncomplete "Voer zowel een gebruikersnaam als wachtwoord in"@nl .
 

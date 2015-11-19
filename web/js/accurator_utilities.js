@@ -382,47 +382,47 @@ function loginModal(onSuccess, onDismissal) {
 		.done(function(data){
 			loginButtonEvent(onSuccess, onDismissal);
 			initModalLabels(data);
-			$("#modalLogin").modal();
-			$("#inputUsername").focus();
+			$("#loginDivLogin").modal();
+			$("#loginInpUsername").focus();
 	});
 }
 
 function initModalLabels(data) {
-	$("#mdlTxtTitle").html(data.mdlTxtTitle);
-	$("#mdlBtnLogin").html(data.mdlBtnLogin);
-	$("#mdlFrmUsername").html(data.mdlFrmUsername);
-	$("#mdlFrmPassword").html(data.mdlFrmPassword);
+	$("#loginHdrTitle").html(data.loginHdrTitle);
+	$("#loginBtnLogin").html(data.loginBtnLogin);
+	$("#loginLblUsername").html(data.loginLblUsername);
+	$("#loginLblPassword").html(data.loginLblPassword);
 	loginWarning = data.loginWarning;
 	loginIncomplete = data.loginIncomplete;
 	$("body").on('shown.bs.modal', '.modal', function () {
-		$("#inputUsername").focus();
+		$("#loginInpUsername").focus();
 	})
 }
 
 function loginButtonEvent(onSuccess, onDismissal) {
-	$("#mdlBtnLogin").click(function() {
+	$("#loginBtnLogin").click(function() {
 		login(onSuccess);
 	});
 	// Login on pressing enter
-	$("#inputPassword").keypress(function(event) {
+	$("#loginInpPassword").keypress(function(event) {
 		if (event.which == 13)
 			login(onSuccess);
 	});
-	$("#inputUsername").keypress(function(event) {
+	$("#loginInpUsername").keypress(function(event) {
 		if (event.which == 13)
 			login(onSuccess);
 	});
-	$("#modalLogin").on('hidden.bs.modal', function (e) {
+	$("#loginDivLogin").on('hidden.bs.modal', function (e) {
 		onDismissal();
 	});
-	$("#mdlBtnClose").click(function() {
+	$("#loginBtnClose").click(function() {
 		onDismissal();
 	});
 }
 
 function login(onSuccess) {
-	var user = getUserUri($("#inputUsername").val());
-	var password = $("#inputPassword").val();
+	var user = getUserUri($("#loginInpUsername").val());
+	var password = $("#loginInpPassword").val();
 
 	if(user == "" || password == "") {
 		$(".modal-body").append($.el.p({'class':'text-danger'}, loginIncomplete));
@@ -444,8 +444,8 @@ function loginServer(user, password, onSuccess) {
 
 					setUserSettingsLocal(dataLogin, onSuccess);
 					// remove event listener and hide modal
-					$("#modalLogin").off('hidden.bs.modal');
-					$("#modalLogin").modal('hide');
+					$("#loginDivLogin").off('hidden.bs.modal');
+					$("#loginDivLogin").modal('hide');
 				}
 		   }
 	});
@@ -480,9 +480,9 @@ function initRegisterModalLabels(labels) {
 	// Add retrieved labels to html elements
 	$("#mdlTitleRegister").html(labels.mdlTitleRegister);
 	$("#mdlFrmFullNameRegister").html(labels.mdlFrmFullNameRegister);
-	$("#mdlFrmUsernameRegister").html(labels.mdlFrmUsernameRegister);
-	$("#mdlFrmPasswordRegister").html(labels.mdlFrmPasswordRegister);
-	$("#mdlFrmPasswordRepeatRegister").html(labels.mdlFrmPasswordRepeatRegister);
+	$("#loginLblUsernameRegister").html(labels.loginLblUsernameRegister);
+	$("#loginLblPasswordRegister").html(labels.loginLblPasswordRegister);
+	$("#loginLblPasswordRepeatRegister").html(labels.loginLblPasswordRepeatRegister);
 	$("#mdlBtnRegister").html(labels.mdlBtnRegister);
 	// Set text variables for possible later use
 	lblRegistrationFailed = labels.lblRegistrationFailed;
@@ -500,7 +500,7 @@ function registerButtonEvent(onDismissal) {
 		register();
 	});
 	// register on pressing enter
-	$("#inputPasswordRepeatRegister").keypress(function(event) {
+	$("#loginInpPasswordRepeatRegister").keypress(function(event) {
 		if (event.which == 13) {
 			register();
 		}
@@ -508,7 +508,7 @@ function registerButtonEvent(onDismissal) {
 	$("#modalRegister").on('hidden.bs.modal', function (e) {
 		onDismissal();
 	});
-	$("#mdlBtnCloseRegister").click(function() {
+	$("#loginBtnCloseRegister").click(function() {
 		onDismissal();
 	});
 }
@@ -516,10 +516,10 @@ function registerButtonEvent(onDismissal) {
 function register() {
 	// Get and check initial form input
 	var name = $("#inputFullNameRegister").val();
-	var user = $("#inputUsernameRegister").val();
+	var user = $("#loginInpUsernameRegister").val();
 	var userUri = getUserUri(user);
-	var password = $("#inputPasswordRegister").val();
-	var passwordRepeat = $("#inputPasswordRepeatRegister").val();
+	var password = $("#loginInpPasswordRegister").val();
+	var passwordRepeat = $("#loginInpPasswordRepeatRegister").val();
 
 	if((name == "") || (user == "") || (password == "") || (passwordRepeat == "")){
 		setRegisterFailureText(lblRegistrationFailed);

@@ -151,9 +151,9 @@ aui:registerModal a auis:UI ;
 	dcterms:title "Accurator register UI"@en ;
 	aui:mdlTitleRegister "Create your Accurator account"@en ;
 	aui:mdlFrmFullNameRegister "Full name"@en ;
-	aui:mdlFrmUsernameRegister "Username"@en ;
-	aui:mdlFrmPasswordRegister "Password"@en ;
-	aui:mdlFrmPasswordRepeatRegister "Confirm your password"@en ;
+	aui:loginLblUsernameRegister "Username"@en ;
+	aui:loginLblPasswordRegister "Password"@en ;
+	aui:loginLblPasswordRepeatRegister "Confirm your password"@en ;
 	aui:mdlBtnRegister "Register"@en ;
 	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
 	aui:lblUserTaken "Username already exists."@en ;
@@ -163,9 +163,9 @@ aui:registerModal a auis:UI ;
 
 aui:mdlTitleRegister a auis:UILabel .
 aui:mdlFrmFullNameRegister a auis:UILabel .
-aui:mdlFrmUsernameRegister a auis:UILabel .
-aui:mdlFrmPasswordRegister a auis:UILabel .
-aui:mdlFrmPasswordRepeatRegister a auis:UILabel .
+aui:loginLblUsernameRegister a auis:UILabel .
+aui:loginLblPasswordRegister a auis:UILabel .
+aui:loginLblPasswordRepeatRegister a auis:UILabel .
 aui:mdlBtnRegister a auis:UILabel .
 aui:lblRegistrationFailed a auis:UILabel .
 aui:lblUserTaken a auis:UILabel .
@@ -177,17 +177,17 @@ aui:lblServerError a auis:UILabel .
 ##### Login Modal #####
 
 aui:loginModal a auis:UI ;
-	aui:mdlTxtTitle "Log in"@en ;
-	aui:mdlFrmUsername "Username"@en ;
-	aui:mdlFrmPassword "Password"@en ;
-	aui:mdlBtnLogin "Log in"@en ;
+	aui:loginHdrTitle "Log in"@en ;
+	aui:loginLblUsername "Username"@en ;
+	aui:loginLblPassword "Password"@en ;
+	aui:loginBtnLogin "Log in"@en ;
 	aui:loginWarning "Log in unsuccessful"@en ;
 	aui:loginIncomplete "Please add both your username and password"@en .
 
-aui:mdlTxtTitle a auis:UILabel .
-aui:mdlFrmUsername a auis:UILabel .
-aui:mdlFrmPassword a auis:UILabel .
-aui:mdlBtnLogin a auis:UILabel .
+aui:loginHdrTitle a auis:UILabel .
+aui:loginLblUsername a auis:UILabel .
+aui:loginLblPassword a auis:UILabel .
+aui:loginBtnLogin a auis:UILabel .
 aui:loginWarning a auis:UILabel .
 aui:loginIncomplete a auis:UILabel .
 

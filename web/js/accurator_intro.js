@@ -62,7 +62,7 @@ function addButtonEvents() {
 			document.location.href="profile.html";
 		};
 		onDismissal = function() {
-			$("#modalLogin").modal('hide');
+			$("#loginDivLogin").modal('hide');
 		};
 		loginModal(onSuccess, onDismissal);
 	});

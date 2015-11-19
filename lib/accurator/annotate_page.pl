@@ -149,32 +149,32 @@ metadata -->
 login_modal -->
     html({|html||
 	<!-- Login modal -->
-	<div class="modal fade" id="modalLogin">
+	<div class="modal fade" id="loginDivLogin">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" id="mdlBtnClose">&times;</button>
-					<h4 id="mdlTxtTitle">
+					<button type="button" class="close" id="loginBtnClose">&times;</button>
+					<h4 id="loginHdrTitle">
 					</h4>
 				</div>
 				<div class="modal-body">
 					<form role="form">
 						<div class="form-group">
-							<label id="mdlFrmUsername" for="inputUsername">
+							<label id="loginLblUsername" for="loginInpUsername">
 							</label>
-							<input type="text" class="form-control" id="inputUsername">
+							<input type="text" class="form-control" id="loginInpUsername">
 						</div>
 						<div class="form-group">
-							<label id="mdlFrmPassword" for="password">
+							<label id="loginLblPassword" for="password">
 							</label>
-							<input type="password" class="form-control" id="inputPassword">
+							<input type="password" class="form-control" id="loginInpPassword">
 						</div>
-						<p class="text-warning" id="mdlLblLogin">
+						<p class="text-warning" id="loginTxtWarning">
 						</p>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" id="mdlBtnLogin">
+					<button class="btn btn-primary" id="loginBtnLogin">
 					</button>
 				</div>
 			</div>
