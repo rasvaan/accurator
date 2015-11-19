@@ -1,19 +1,19 @@
 /*******************************************************************************
-Accurator Additional Info
+Accurator Form
 Code for rendering fields used for elliciting information about user.
 *******************************************************************************/
 var locale, domain, experiment, ui;
 var countries = [];
 var languages = [];
-var educationOptions,  internetOptions;
+var formOptsEducation,  formOptsInternet;
 var info = {};
 var twitterFieldAdded = false;
 var tagsiteFieldAdded = false;
 var socialFieldAdded = false;
-var frmTwitterId, frmTagSiteOpen, frmSocialSiteOpen;
-var txtDisclaimer, txtDisclaimerTitle;
+var formLblTwitterId, formLblTagSiteOpen, formLblSocialSiteOpen;
+var formTxtDisclaimer, formHdrDisclaimer;
 
-function additionalInfoInit() {
+function formInit() {
 	locale = getLocale();
 	domain = getDomain();
 	experiment = getExperiment();
@@ -25,7 +25,7 @@ function additionalInfoInit() {
 
 		//Get domain settings before populating ui
 		onDomain = function(domainData) {
-			ui = domainData.ui + "additional_info";
+			ui = domainData.ui + "form";
 			populateUI();
 			var userName = getUserName(loginData.user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
@@ -51,15 +51,15 @@ function populateUI() {
 		addButtonEvents();
 		initLabels(data);
 		addFormEvents();
-		alertMessage(txtDisclaimerTitle, txtDisclaimer, 'info');
+		alertMessage(formHdrDisclaimer, formTxtDisclaimer, 'info');
 	});
 }
 
 function addButtonEvents() {
-	$("#btnAddInfo").click(function() {
+	$("#formBtnAdd").click(function() {
 		processFormFields();
 	});
-	$("#btnSkip").click(function() {
+	$("#formBtnSkip").click(function() {
 		// Get function for next page and execute
 		nextPage()();
 	});
@@ -67,78 +67,78 @@ function addButtonEvents() {
 
 function initLabels(labels) {
 	document.title = labels.title;
-	$("#pnlInternetUsage").append(labels.pnlInternetUsage);
-	$("#pnlPersonalInfo").append(labels.pnlPersonalInfo);
-	frmTwitterId = labels.frmTwitterId;
-	frmTagSiteOpen = labels.frmTagSiteOpen;
-	frmSocialSiteOpen = labels.frmSocialSiteOpen;
-	$("#txtHeader").prepend(labels.txtHeader);
-	$("#txtHeaderSub").append(labels.txtHeaderSub);
+	$("#formHdrInternetUsage").append(labels.formHdrInternetUsage);
+	$("#formHdrPersonalInfo").append(labels.formHdrPersonalInfo);
+	formLblTwitterId = labels.formLblTwitterId;
+	formLblTagSiteOpen = labels.formLblTagSiteOpen;
+	formLblSocialSiteOpen = labels.formLblSocialSiteOpen;
+	$("#formHdrInfo").prepend(labels.formHdrInfo);
+	$("#formHdrInfoSub").append(labels.formHdrInfoSub);
 	initFormQuestions(labels);
-	$("#btnAddInfo").append(labels.btnAddInfo);
-	$("#btnSkip").append(labels.btnSkip);
+	$("#formBtnAdd").append(labels.formBtnAdd);
+	$("#formBtnSkip").append(labels.formBtnSkip);
 	initRadioButtons(labels);
 	initCheckboxes(labels);
 	initCountriesSelector();
 	initLanguagesSelector();
-	educationOptions = labels.educationOptions;
+	formOptsEducation = labels.formOptsEducation;
 	initEducationSelector();
-	internetOptions = labels.internetOptions;
-	initInternetSelector(labels.internetOptions);
-	txtDisclaimer = labels.txtDisclaimer;
-	txtDisclaimerTitle = labels.txtDisclaimerTitle;
+	formOptsInternet = labels.formOptsInternet;
+	initInternetSelector(labels.formOptsInternet);
+	formTxtDisclaimer = labels.formTxtDisclaimer;
+	formHdrDisclaimer = labels.formHdrDisclaimer;
 }
 
 function initFormQuestions(data) {
-	$("#frmBirthDate").append(data.frmBirthDate);
-	$("#frmGender").append(data.frmGender);
-	$("#frmCountry").append(data.frmCountry);
-	$("#frmCommunity").append(data.frmCommunity);
-	$("#frmLanguage").append(data.frmLanguage);
-	$("#frmEducation").append(data.frmEducation);
-	$("#frmMail").append(data.frmMail);
-	$("#frmMailCheck").append(data.frmMailCheck);
-	$("#frmSocialNetwork").append(data.frmSocialNetwork);
-	$("#frmInternetUsage").append(data.frmInternetUsage);
-	$("#frmMuseumVisits").append(data.frmMuseumVisits);
-	$("#frmTaggingExperienceLevel").append(data.frmTaggingExperienceLevel);
-	$("#frmTagSite").append(data.frmTagSite);
+	$("#formLblBirthDate").append(data.formLblBirthDate);
+	$("#formLblGender").append(data.formLblGender);
+	$("#formLblCountry").append(data.formLblCountry);
+	$("#formLblCommunity").append(data.formLblCommunity);
+	$("#formLblLanguage").append(data.formLblLanguage);
+	$("#formLblEducation").append(data.formLblEducation);
+	$("#formLblMail").append(data.formLblMail);
+	$("#formLblMailCheck").append(data.formLblMailCheck);
+	$("#formLblSocialNetwork").append(data.formLblSocialNetwork);
+	$("#formLblInternetUsage").append(data.formLblInternetUsage);
+	$("#formLblMuseumVisits").append(data.formLblMuseumVisits);
+	$("#formLblTaggingExperience").append(data.formLblTaggingExperience);
+	$("#formLblTagSite").append(data.formLblTagSite);
 }
 
 function initRadioButtons(data) {
-	$("#radioGenderMale").after(data.radioGenderMale);
-	$("#radioGenderFemale").after(data.radioGenderFemale);
-	$("#radioCommunityUrban").after(data.radioCommunityUrban);
-	$("#radioCommunitySubUrban").after(data.radioCommunitySubUrban);
-	$("#radioCommunityRural").after(data.radioCommunityRural);
-	$("#radioTaggingNone").after(data.radioTaggingNone);
-	$("#radioTaggingNovice").after(data.radioTaggingNovice);
-	$("#radioTaggingIntermediate").after(data.radioTaggingIntermediate);
-	$("#radioTaggingExpert").after(data.radioTaggingExpert);
+	$("#formRbtnMale").after(data.formRbtnMale);
+	$("#formRbtnFemale").after(data.formRbtnFemale);
+	$("#formRbtnUrban").after(data.formRbtnUrban);
+	$("#formRbtnSubUrban").after(data.formRbtnSubUrban);
+	$("#formRbtnRural").after(data.formRbtnRural);
+	$("#formRbtnNone").after(data.formRbtnNone);
+	$("#formRbtnNovice").after(data.formRbtnNovice);
+	$("#formRbtnIntermediate").after(data.formRbtnIntermediate);
+	$("#formRbtnExpert").after(data.formRbtnExpert);
 }
 
 function initCheckboxes(data) {
-	$("#chkSocialFacebook").after(data.chkSocialFacebook);
-	$("#chkSocialLinkedIn").after(data.chkSocialLinkedIn);
-	$("#chkSocialTwitter").after(data.chkSocialTwitter);
-	$("#chkSocialOther").after(data.chkSocialOther);
-	$("#chkSocialNone").after(data.chkSocialNone);
-	$("#chkTagSiteFlickr").after(data.chkTagSiteFlickr);
-	$("#chkTagSiteDelicious").after(data.chkTagSiteDelicious);
-	$("#chkTagSiteFacebook").after(data.chkTagSiteFacebook);
-	$("#chkTagSiteOther").after(data.chkTagSiteOther);
-	$("#chkTagNone").after(data.chkTagNone);
+	$("#formChkFacebook").after(data.formChkFacebook);
+	$("#formChkLinkedIn").after(data.formChkLinkedIn);
+	$("#formChkTwitter").after(data.formChkTwitter);
+	$("#formChkOther").after(data.formChkOther);
+	$("#formChkNone").after(data.formChkNone);
+	$("#formChkTagFlickr").after(data.formChkTagFlickr);
+	$("#formChkTagDelicious").after(data.formChkTagDelicious);
+	$("#formChkTagFacebook").after(data.formChkTagFacebook);
+	$("#formChkTagOther").after(data.formChkTagOther);
+	$("#formChkTagNone").after(data.formChkTagNone);
 }
 
 function addFormEvents() {
-	$("#chkSocialOther").click(function() {
+	$("#formChkOther").click(function() {
 		if(!socialFieldAdded) {
 			$("#frmGroupSocialNetwork").after(
 				$.el.div({'class':'form-group'},
 						$.el.label({'for':'addSocialSite',
 									'id':'frmSocialOpen',
 									'class':'col-sm-5 control-label'},
-									frmSocialSiteOpen),
+									formLblSocialSiteOpen),
 						$.el.div({'class':'col-sm-5'},
 								 $.el.input({'type':'text',
 									 		 'id':'addSocialSite',
@@ -146,14 +146,14 @@ function addFormEvents() {
 			socialFieldAdded = true;
 		}
 	});
-	$("#chkSocialTwitter").click(function() {
+	$("#formChkTwitter").click(function() {
 		if(!twitterFieldAdded) {
 			$("#frmGroupSocialNetwork").after(
 				$.el.div({'class':'form-group'},
 						$.el.label({'for':'addTwitterId',
-									'id':'frmTwitterId',
+									'id':'formLblTwitterId',
 									'class':'col-sm-5 control-label'},
-									frmTwitterId),
+									formLblTwitterId),
 						$.el.div({'class':'col-sm-5'},
 								 $.el.input({'type':'text',
 									 		 'id':'addTwitterId',
@@ -161,14 +161,14 @@ function addFormEvents() {
 			twitterFieldAdded = true;
 		}
 	});
-	$("#chkTagSiteOther").click(function() {
+	$("#formChkTagOther").click(function() {
 		if(!tagsiteFieldAdded) {
 			$("#frmGroupTaggingSite").after(
 				$.el.div({'class':'form-group'},
 					$.el.label({'for':'addTagSite',
-							    'id':'frmTagSite',
+							    'id':'formLblTagSite',
 								'class':'col-sm-5 control-label'},
-								frmTagSiteOpen),
+								formLblTagSiteOpen),
 					$.el.div({'class':'col-sm-5'},
 							 $.el.input({'type':'text',
 										 'id':'addTagSite',
@@ -186,13 +186,13 @@ function initCountriesSelector() {
 		}
 		countries.sort(function(a,b) { return a.name.localeCompare(b.name) });
 
-		$("#sltCountry").append($.el.option(""));
+		$("#formSltCountry").append($.el.option(""));
 		for (var i=0; i<countries.length; i++) {
-			$("#sltCountry").append($.el.option(countries[i].name));
+			$("#formSltCountry").append($.el.option(countries[i].name));
 		}
 	})
 	.fail(function(data, textStatus){
-		$("#sltLanguage").append($.el.option("No countries found on server"));
+		$("#formSltLanguage").append($.el.option("No countries found on server"));
 	});
 }
 
@@ -204,34 +204,34 @@ function initLanguagesSelector() {
 		}
 		languages.sort(function(a,b) { return a.name.localeCompare(b.name) });
 
-		$("#sltLanguage").append($.el.option(""));
+		$("#formSltLanguage").append($.el.option(""));
 		for (var i=0; i<languages.length; i++) {
-			$("#sltLanguage").append($.el.option(languages[i].name));
+			$("#formSltLanguage").append($.el.option(languages[i].name));
 		}
 	})
 	.fail(function(data, textStatus){
-		$("#sltLanguage").append($.el.option("No languages found on server"));
+		$("#formSltLanguage").append($.el.option("No languages found on server"));
 	});
 }
 
 function initEducationSelector() {
-	$("#sltEducation").append($.el.option(""));
-	$("#sltEducation").append($.el.option(educationOptions.optionPrimarySchool.label));
-	$("#sltEducation").append($.el.option(educationOptions.optionHighSchool.label));
-	$("#sltEducation").append($.el.option(educationOptions.optionCollege.label));
-	$("#sltEducation").append($.el.option(educationOptions.optionBachelor.label));
-	$("#sltEducation").append($.el.option(educationOptions.optionMaster.label));
-	$("#sltEducation").append($.el.option(educationOptions.optionDoctorate.label));
-	$("#sltEducation").append($.el.option(educationOptions.optionUknown.label));
+	$("#formSltEducation").append($.el.option(""));
+	$("#formSltEducation").append($.el.option(formOptsEducation.formOptPrimarySchool.label));
+	$("#formSltEducation").append($.el.option(formOptsEducation.formOptHighSchool.label));
+	$("#formSltEducation").append($.el.option(formOptsEducation.formOptCollege.label));
+	$("#formSltEducation").append($.el.option(formOptsEducation.formOptBachelor.label));
+	$("#formSltEducation").append($.el.option(formOptsEducation.formOptMaster.label));
+	$("#formSltEducation").append($.el.option(formOptsEducation.formOptDoctorate.label));
+	$("#formSltEducation").append($.el.option(formOptsEducation.formOptUnkown.label));
 }
 
 function initInternetSelector(optionList) {
-	$("#sltInternet").append($.el.option(""));
-	$("#sltInternet").append($.el.option(internetOptions.internetAlways.label));
-	$("#sltInternet").append($.el.option(internetOptions.internetOnceADay.label));
-	$("#sltInternet").append($.el.option(internetOptions.internet3to5.label));
-	$("#sltInternet").append($.el.option(internetOptions.internet1to2.label));
-	$("#sltInternet").append($.el.option(internetOptions.internetLessThan1.label));
+	$("#formSltInternet").append($.el.option(""));
+	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternetAlways.label));
+	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternetOnceADay.label));
+	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternet3to5.label));
+	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternet1to2.label));
+	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternetLessThan1.label));
 }
 
 function processFormFields() {
@@ -272,17 +272,17 @@ function getInputCheckboxes() {
 }
 
 function getInputSocialNetwork() {
-	if($("#chkSocialNone").is(":checked")) {
+	if($("#formChkNone").is(":checked")) {
 		info.facebook = false;
 		info.linked_in = false;
 		info.twitter = false;
 	} else {
-		if ($("#chkSocialFacebook").is(":checked"))
+		if ($("#formChkFacebook").is(":checked"))
 			info.facebook = true;
-		if ($("#chkSocialLinkedIn").is(":checked"))
+		if ($("#formChkLinkedIn").is(":checked"))
 			info.linked_in = true;
 		//Set twitter to true when no id is given but box is checked
-		if ($("#chkSocialTwitter").is(":checked")) {
+		if ($("#formChkTwitter").is(":checked")) {
 			if (!($("#addTwitterId").val() === undefined) && !($("#addTwitterId").val() === "")) {
 				info.twitter = $("#addTwitterId").val();
 			} else {
@@ -290,7 +290,7 @@ function getInputSocialNetwork() {
 			}
 		}
 		//Set social to true
-		if ($("#chkSocialOther").is(":checked")) {
+		if ($("#formChkOther").is(":checked")) {
 			if (!($("#addSocialSite").val() === undefined) && !($("#addSocialSite").val() === "")) {
 				info.other_social_site = $("#addSocialSite").val();
 			} else {
@@ -301,21 +301,21 @@ function getInputSocialNetwork() {
 }
 
 function getInputTaggingSite() {
-	if($("#chkTagNone").is(":checked")) {
+	if($("#formChkTagNone").is(":checked")) {
 		info.flickr = false;
 		info.delicious = false;
 		info.tag_facebook = false;
 		info.other = false;
 	} else {
-		if ($("#chkTagSiteFlickr").is(":checked"))
+		if ($("#formChkTagFlickr").is(":checked"))
 			info.flickr = true;
-		if ($("#chkTagSiteDelicious").is(":checked"))
+		if ($("#formChkTagDelicious").is(":checked"))
 			info.delicious = true;
-		if ($("#chkTagSiteFacebook").is(":checked"))
+		if ($("#formChkTagFacebook").is(":checked"))
 			info.tag_facebook = true;
 
 		//Set tagsite to true
-		if ($("#chkTagSiteOther").is(":checked")) {
+		if ($("#formChkTagOther").is(":checked")) {
 			if (!($("#addTagSite").val() === undefined) && !($("#addTagSite").val() === "")) {
 				info.other_tag_site = $("#addTagSite").val();
 			} else {
@@ -334,14 +334,14 @@ function getInputEmailCheck() {
 }
 
 function getInputDropdownMenus() {
-	if (!($("#sltCountry").val() === ""))
-		info.country = getCountryId($("#sltCountry").val());
-	if (!($("#sltLanguage").val() === ""))
-		info.language = getLanguageCode($("#sltLanguage").val());
-	if (!($("#sltEducation").val() === ""))
-		info.education = getOptionId(educationOptions, $("#sltEducation").val());
-	if (!($("#sltInternet").val() === ""))
-		info.internet_use = getOptionId(internetOptions, $("#sltInternet").val());
+	if (!($("#formSltCountry").val() === ""))
+		info.country = getCountryId($("#formSltCountry").val());
+	if (!($("#formSltLanguage").val() === ""))
+		info.language = getLanguageCode($("#formSltLanguage").val());
+	if (!($("#formSltEducation").val() === ""))
+		info.education = getOptionId(formOptsEducation, $("#formSltEducation").val());
+	if (!($("#formSltInternet").val() === ""))
+		info.internet_use = getOptionId(formOptsInternet, $("#formSltInternet").val());
 }
 
 function getCountryId(name) {

@@ -207,159 +207,162 @@ aui:navbarLblProfile rdfs:subPropertyOf auis:uiLabel .
 
 ##### Form Screen #####
 
-aui:additionalInfo a auis:UI ;
+aui:form a auis:UI ;
 	dcterms:title "Accurator additional info UI"@en  ;
 	aui:formPageTitle "Info"@en ;
-	aui:pnlInternetUsage "Internet usage"@en ;
-	aui:txtHeader "Tell us about yourself"@en ;
-	aui:txtHeaderSub "it would help us a lot if you would provide us with the following information"@en ;
-	aui:btnAddInfo "Add Additional Info"@en ;
-	aui:btnSkip "or skip this step"@en ;
-	aui:frmBirthDate "Date of birth"@en ;
-	aui:frmGender "Gender"@en ;
-	aui:radioGenderMale "Male"@en ;
-	aui:radioGenderFemale "Female"@en ;
-	aui:frmCountry "What is your counrty of residence?"@en ;
-	aui:frmCommunity "What resembles most closely the community you reside in?"@en ;
-	aui:radioCommunityUrban "Urban"@en ;
-	aui:radioCommunitySubUrban "Suburban"@en ;
-	aui:radioCommunityRural "Rural"@en ;
-	aui:frmLanguage "What is your primary language?"@en ;
-	aui:frmEducation "What is the highest level of education you have recieved?"@en ;
-	auis:hasSelect aui:educationOptions ;
-	aui:frmMail "Email"@en ;
-	aui:frmMailCheck "Keep me posted about Accurator"@en ;
-	aui:frmSocialNetwork "On which social network sites are you active?"@en  ;
-	aui:chkSocialFacebook "Facebook"@en ;
-	aui:chkSocialLinkedIn "LinkedIn"@en ;
-	aui:chkSocialTwitter "Twitter"@en ;
-	aui:chkSocialOther "Other"@en ;
-	aui:chkSocialNone "None of these"@en ;
-	aui:frmSocialSiteOpen "Which other social network site(s)?"@en ;
-	aui:frmTwitterId "What is your Twitter id?"@en  ;
-	aui:frmInternetUsage "How often do you make use of the internet?"@en ;
-	auis:hasSelect aui:internetOptions ;
-	aui:frmMuseumVisits "How many times a year do you visit a museum on average?"@en ;
-	aui:frmTaggingExperienceLevel "How would you describe your level of tagging experience?"@en ;
-	aui:radioTaggingNone "No experience"@en ;
-	aui:radioTaggingNovice "Novice"@en ;
-	aui:radioTaggingIntermediate "Intermediate"@en ;
-	aui:radioTaggingExpert "Expert"@en ;
-	aui:frmTagSite "Did you tag (add information to image) on one of these websites?"@en ;
-	aui:chkTagSiteFlickr "Flickr"@en ;
-	aui:chkTagSiteDelicious "Delicious"@en ;
-	aui:chkTagSiteFacebook "Facebook"@en ;
-	aui:chkTagSiteOther "Other site"@en ;
-	aui:chkTagNone "None of these"@en ;
-	aui:frmTagSiteOpen "Which other tagging site(s)?"@en ;
-	aui:txtDisclaimerTitle "Disclaimer"@en ;
-	aui:txtDisclaimer "The information you provide to SEALINCMedia is being handled with the utmost care. Personal information is exclusively used for scientific purposes and will not be shared with other parties. SEALINCMedia is committed to the Dutch Law on the protection of personal information (Wet Bescherming Persoonsgegevens)."@en .
+	aui:formHdrInternetUsage "Internet usage"@en ;
+	aui:formHdrPersonalInfo "Personal info"@en ;
+	aui:formHdrInfo "Tell us about yourself"@en ;
+	aui:formHdrInfoSub "it would help us a lot if you would provide us with the following information"@en ;
+	aui:formBtnAdd "Add Additional Info"@en ;
+	aui:formBtnSkip "or skip this step"@en ;
+	aui:formLblBirthDate "Date of birth"@en ;
+	aui:formLblGender "Gender"@en ;
+	aui:formRbtnMale "Male"@en ;
+	aui:formRbtnFemale "Female"@en ;
+	aui:formLblCountry "What is your counrty of residence?"@en ;
+	aui:formLblCommunity "What resembles most closely the community you reside in?"@en ;
+	aui:formRbtnUrban "Urban"@en ;
+	aui:formRbtnSubUrban "Suburban"@en ;
+	aui:formRbtnRural "Rural"@en ;
+	aui:formLblLanguage "What is your primary language?"@en ;
+	aui:formLblEducation "What is the highest level of education you have recieved?"@en ;
+	auis:hasSelect aui:formOptsEducation ;
+	aui:formLblMail "Email"@en ;
+	aui:formLblMailCheck "Keep me posted about Accurator"@en ;
+	aui:formLblSocialNetwork "On which social network sites are you active?"@en  ;
+	aui:formChkFacebook "Facebook"@en ;
+	aui:formChkLinkedIn "LinkedIn"@en ;
+	aui:formChkTwitter "Twitter"@en ;
+	aui:formChkOther "Other"@en ;
+	aui:formChkNone "None of these"@en ;
+	aui:formLblSocialSiteOpen "Which other social network site(s)?"@en ;
+	aui:formLblTwitterId "What is your Twitter id?"@en  ;
+	aui:formLblInternetUsage "How often do you make use of the internet?"@en ;
+	auis:hasSelect aui:formOptsInternet ;
+	aui:formLblMuseumVisits "How many times a year do you visit a museum on average?"@en ;
+	aui:formLblTaggingExperience "How would you describe your level of tagging experience?"@en ;
+	aui:formRbtnNone "No experience"@en ;
+	aui:formRbtnNovice "Novice"@en ;
+	aui:formRbtnIntermediate "Intermediate"@en ;
+	aui:formRbtnExpert "Expert"@en ;
+	aui:formLblTagSite "Did you tag (add information to image) on one of these websites?"@en ;
+	aui:formChkTagFlickr "Flickr"@en ;
+	aui:formChkTagDelicious "Delicious"@en ;
+	aui:formChkTagFacebook "Facebook"@en ;
+	aui:formChkTagOther "Other site"@en ;
+	aui:formChkTagNone "None of these"@en ;
+	aui:formLblTagSiteOpen "Which other tagging site(s)?"@en ;
+	aui:formHdrDisclaimer "Disclaimer"@en ;
+	aui:formTxtDisclaimer "The information you provide to SEALINCMedia is being handled with the utmost care. Personal information is exclusively used for scientific purposes and will not be shared with other parties. SEALINCMedia is committed to the Dutch Law on the protection of personal information (Wet Bescherming Persoonsgegevens)."@en .
 
-aui:pnlInternetUsage a auis:UILabel .
-aui:pnlPersonalInfo a auis:UILabel .
-aui:txtHeader a auis:UILabel .
-aui:txtHeaderSub a auis:UILabel .
-aui:btnAddInfo a auis:UILabel .
-aui:btnSkip a auis:UILabel .
-aui:frmBirthDate a auis:UILabel .
-aui:frmGender a auis:UILabel .
-aui:frmCountry a auis:UILabel .
-aui:frmCommunity a auis:UILabel .
-aui:radioGenderMale a auis:UILabel .
-aui:radioGenderFemale a auis:UILabel .
-aui:radioCommunityUrban a auis:UILabel .
-aui:radioCommunitySubUrban a auis:UILabel .
-aui:radioCommunityRural a auis:UILabel .
-aui:frmLanguage a auis:UILabel .
-aui:frmEducation a auis:UILabel .
-aui:frmMail a auis:UILabel .
-aui:frmMailCheck a auis:UILabel .
-aui:frmSocialNetwork a auis:UILabel .
-aui:chkSocialFacebook a auis:UILabel .
-aui:chkSocialLinkedIn a auis:UILabel .
-aui:chkSocialTwitter a auis:UILabel .
-aui:chkSocialNone a auis:UILabel .
-aui:chkSocialOther a auis:UILabel .
-aui:frmSocialSiteOpen a auis:UILabel .
-aui:frmTagSiteOpen a auis:UILabel .
-aui:frmTwitterId a auis:UILabel .
-aui:frmInternetUsage a auis:UILabel .
-aui:frmMuseumVisits a auis:UILabel .
-aui:radioTaggingNone a auis:UILabel .
-aui:radioTaggingNovice a auis:UILabel .
-aui:radioTaggingIntermediate a auis:UILabel .
-aui:radioTaggingExpert a auis:UILabel .
-aui:frmTaggingExperienceLevel a auis:UILabel .
-aui:frmTagSite a auis:UILabel .
-aui:chkTagSiteFlickr a auis:UILabel .
-aui:chkTagSiteDelicious a auis:UILabel .
-aui:chkTagSiteFacebook a auis:UILabel .
-aui:chkTagSiteOther a auis:UILabel .
-aui:chkTagNone a auis:UILabel .
-aui:frmTagSiteOpen a auis:UILabel .
-aui:txtDisclaimer a auis:UILabel .
-aui:txtDisclaimerTitle a auis:UILabel .
+aui:formPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrInternetUsage rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrInternetUsage a auis:UILabel .
+aui:formHdrPersonalInfo rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrInfo rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrInfoSub rdfs:subPropertyOf auis:uiLabel .
+aui:formBtnAdd rdfs:subPropertyOf auis:uiLabel .
+aui:formBtnSkip rdfs:subPropertyOf auis:uiLabel .
+aui:formLblBirthDate rdfs:subPropertyOf auis:uiLabel .
+aui:formLblGender rdfs:subPropertyOf auis:uiLabel .
+aui:formLblCountry rdfs:subPropertyOf auis:uiLabel .
+aui:formLblCommunity rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnMale rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnFemale rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnUrban rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnSubUrban rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnRural rdfs:subPropertyOf auis:uiLabel .
+aui:formLblLanguage rdfs:subPropertyOf auis:uiLabel .
+aui:formLblEducation rdfs:subPropertyOf auis:uiLabel .
+aui:formLblMail rdfs:subPropertyOf auis:uiLabel .
+aui:formLblMailCheck rdfs:subPropertyOf auis:uiLabel .
+aui:formLblSocialNetwork rdfs:subPropertyOf auis:uiLabel .
+aui:formChkFacebook rdfs:subPropertyOf auis:uiLabel .
+aui:formChkLinkedIn rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTwitter rdfs:subPropertyOf auis:uiLabel .
+aui:formChkNone rdfs:subPropertyOf auis:uiLabel .
+aui:formChkOther rdfs:subPropertyOf auis:uiLabel .
+aui:formLblSocialSiteOpen rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTagSiteOpen rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTwitterId rdfs:subPropertyOf auis:uiLabel .
+aui:formLblInternetUsage rdfs:subPropertyOf auis:uiLabel .
+aui:formLblMuseumVisits rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnNone rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnNovice rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnIntermediate rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnExpert rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTaggingExperience rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTagSite rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagFlickr rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagDelicious rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagFacebook rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagOther rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagNone rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTagSiteOpen rdfs:subPropertyOf auis:uiLabel .
+aui:formTxtDisclaimer rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrDisclaimer rdfs:subPropertyOf auis:uiLabel .
 
-aui:educationOptions a auis:SelectField ;
-	auis:hasSelectOption aui:optionPrimarySchool ;
-	auis:hasSelectOption aui:optionHighSchool ;
-	auis:hasSelectOption aui:optionCollege ;
-	auis:hasSelectOption aui:optionBachelor ;
-	auis:hasSelectOption aui:optionMaster ;
-	auis:hasSelectOption aui:optionDoctorate ;
-	auis:hasSelectOption aui:optionUknown .
+aui:formOptsEducation a auis:SelectField ;
+	auis:hasSelectOption aui:formOptPrimarySchool ;
+	auis:hasSelectOption aui:formOptHighSchool ;
+	auis:hasSelectOption aui:formOptCollege ;
+	auis:hasSelectOption aui:formOptBachelor ;
+	auis:hasSelectOption aui:formOptMaster ;
+	auis:hasSelectOption aui:formOptDoctorate ;
+	auis:hasSelectOption aui:formOptUnkown .
 
-aui:optionPrimarySchool a auis:SelectOption ;
+aui:formOptPrimarySchool a auis:SelectOption ;
 	skos:notation "primary_school" ;
 	skos:prefLabel "Primary school"@en .
 
-aui:optionHighSchool a auis:SelectOption ;
+aui:formOptHighSchool a auis:SelectOption ;
 	skos:notation  "high_school" ;
 	skos:prefLabel "High school"@en .
 
-aui:optionCollege a auis:SelectOption ;
+aui:formOptCollege a auis:SelectOption ;
 	skos:notation "college" ;
 	skos:prefLabel "College"@en .
 
-aui:optionBachelor a auis:SelectOption ;
+aui:formOptBachelor a auis:SelectOption ;
 	skos:notation "bachelor" ;
 	skos:prefLabel "Bachelor"@en .
 
-aui:optionMaster a auis:SelectOption ;
+aui:formOptMaster a auis:SelectOption ;
 	skos:notation "master" ;
 	skos:prefLabel "Master"@en .
 
-aui:optionDoctorate a auis:SelectOption ;
+aui:formOptDoctorate a auis:SelectOption ;
 	skos:notation "doctorate" ;
 	skos:prefLabel "Doctorate"@en .
 
-aui:optionUknown a auis:SelectOption ;
+aui:formOptUnkown a auis:SelectOption ;
 	skos:notation "unknown" ;
 	skos:prefLabel "Unknown"@en .
 
-aui:internetOptions a auis:SelectField ;
-	auis:hasSelectOption aui:internetAlways ;
-	auis:hasSelectOption aui:internetOnceADay ;
-	auis:hasSelectOption aui:internet3to5 ;
-	auis:hasSelectOption aui:internet1to2 ;
-	auis:hasSelectOption aui:internetLessThan1 .
+aui:formOptsInternet a auis:SelectField ;
+	auis:hasSelectOption aui:formOptInternetAlways ;
+	auis:hasSelectOption aui:formOptInternetOnceADay ;
+	auis:hasSelectOption aui:formOptInternet3to5 ;
+	auis:hasSelectOption aui:formOptInternet1to2 ;
+	auis:hasSelectOption aui:formOptInternetLessThan1 .
 
-aui:internetAlways a auis:SelectOption ;
+aui:formOptInternetAlways a auis:SelectOption ;
 	skos:notation "internet_always" ;
 	skos:prefLabel "Always online"@en .
 
-aui:internetOnceADay a auis:SelectOption ;
+aui:formOptInternetOnceADay a auis:SelectOption ;
 	skos:notation "internet_once_a_day" ;
 	skos:prefLabel "Once a day"@en .
 
-aui:internet3to5 a auis:SelectOption ;
+aui:formOptInternet3to5 a auis:SelectOption ;
 	skos:notation "internet_3_to_5_a_week" ;
 	skos:prefLabel "3-5 days per week"@en .
 
-aui:internet1to2 a auis:SelectOption ;
+aui:formOptInternet1to2 a auis:SelectOption ;
 	skos:notation "internet_1_to_2_a_week" ;
 	skos:prefLabel "1-2 days per week"@en .
 
-aui:internetLessThan1 a auis:SelectOption ;
+aui:formOptInternetLessThan1 a auis:SelectOption ;
 	skos:notation "internet_less_than_1_a_week" ;
 	skos:prefLabel "Less than 1 day per week"@en .

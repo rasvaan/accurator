@@ -34,7 +34,7 @@
 		<!-- Header -->
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
-				<h2 id="txtHeader">
+				<h2 id="formHdrInfo">
 					<small id="txtHeaderSub">
 					</small>
 				</h2>
@@ -43,7 +43,7 @@
 
 			<!-- Events -->
 		<div class="row">
-			<div id="events" class="col-md-10 col-md-offset-1">
+			<div id="formDivEvents" class="col-md-10 col-md-offset-1">
 			</div>
 		</div>
 
@@ -52,84 +52,84 @@
 			<div class="col-md-10 col-md-offset-1">
 				<!-- Internet usage panel -->
 				<div class="panel panel-default">
-					<div class="panel-heading"  id="pnlInternetUsage"></div>
+					<div class="panel-heading"  id="formHdrInternetUsage"></div>
 					<div class="panel-body">
 						<form class="form-horizontal">
 							<!-- Activity on social networking sites -->
 							<div class="form-group" id="frmGroupSocialNetwork">
-								<label for="addSocialNetwork" id="frmSocialNetwork" class="col-sm-5 control-label">
+								<label for="addSocialNetwork" id="formLblSocialNetwork" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkSocialFacebook" value="facebook">
+										<input type="checkbox" id="formChkFacebook" value="facebook">
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkSocialLinkedIn" value="linked in">
+										<input type="checkbox" id="formChkLinkedIn" value="linked in">
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkSocialTwitter" value="twitter">
+										<input type="checkbox" id="formChkTwitter" value="twitter">
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkSocialOther" value="none">
+										<input type="checkbox" id="formChkOther" value="none">
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkSocialNone" value="none">
+										<input type="checkbox" id="formChkNone" value="none">
 									</label>
 								</div>
 							</div>
 							<!-- Internet usage -->
 		 					<div class="form-group">
-								<label for="addInternetUsage" id="frmInternetUsage" class="col-sm-5 control-label">
+								<label for="addInternetUsage" id="formLblInternetUsage" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
-									<select class="form-control" id="sltInternet">
+									<select class="form-control" id="formSltInternet">
 									</select>
 								</div>
 							</div>
 							<!-- Tagging sites -->
 		 					<div class="form-group" id="frmGroupTaggingSite">
-								<label for="addTagSites" id="frmTagSite" class="col-sm-5 control-label">
+								<label for="addTagSites" id="formLblTagSite" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkTagSiteFlickr" value="flickr">
+										<input type="checkbox" id="formChkTagFlickr" value="flickr">
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkTagSiteDelicious" value="delicious">
+										<input type="checkbox" id="formChkTagDelicious" value="delicious">
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkTagSiteFacebook" value="facebook">
+										<input type="checkbox" id="formChkTagFacebook" value="facebook">
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkTagSiteOther" value="other">
+										<input type="checkbox" id="formChkTagOther" value="other">
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" id="chkTagNone" value="none">
+										<input type="checkbox" id="formChkTagNone" value="none">
 									</label>
 								</div>
 							</div>
 							<!-- Level of tagging experience -->
 		 					<div class="form-group">
-								<label for="addTaggingExperienceLevel" id="frmTaggingExperienceLevel" class="col-sm-5 control-label">
+								<label for="addTaggingExperienceLevel" id="formLblTaggingExperience" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
 									<label class="radio-inline">
-										<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingNone" value="none">
+										<input type="radio" name="taggingExperienceLevelRadio" id="formRbtnNone" value="none">
 									</label>
 									<label class="radio-inline">
-										<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingNovice" value="novice">
+										<input type="radio" name="taggingExperienceLevelRadio" id="formRbtnNovice" value="novice">
 									</label>
 									<label class="radio-inline">
-										<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingIntermediate" value="intermediate">
+										<input type="radio" name="taggingExperienceLevelRadio" id="formRbtnIntermediate" value="intermediate">
 									</label>
 									<label class="radio-inline">
-										<input type="radio" name="taggingExperienceLevelRadio" id="radioTaggingExpert" value="expert">
+										<input type="radio" name="taggingExperienceLevelRadio" id="formRbtnExpert" value="expert">
 									</label>
 								</div>
 							</div>
 							<!-- Email -->
 		 					<div class="form-group">
-								<label for="addMail" id="frmMail" class="col-sm-5 control-label">
+								<label for="addMail" id="formLblMail" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
 									<input type="email" id="addMail" class="form-control">
@@ -137,7 +137,7 @@
 							</div>
 							<!-- Email check -->
 							<div class="form-group">
-								<label for="addMailCheck" id="frmMailCheck" class="col-sm-5 control-label">
+								<label for="addMailCheck" id="formLblMailCheck" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
 										<input type="checkbox" id="chkEmail">
@@ -149,12 +149,12 @@
 
 				<!-- Personal info panel -->
 				<div class="panel panel-default">
-					<div class="panel-heading" id="pnlPersonalInfo"></div>
+					<div class="panel-heading" id="formHdrPersonalInfo"></div>
 					<div class="panel-body">
 						<form class="form-horizontal">
 							<!-- Museum visits -->
 		 					<div class="form-group">
-								<label for="addMuseumVisits" id="frmMuseumVisits" class="col-sm-5 control-label">
+								<label for="addMuseumVisits" id="formLblMuseumVisits" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-2">
 									<input type="number" id="addMuseumVisits" class="form-control" min="0" max="9999">
@@ -162,63 +162,63 @@
 							</div>
 							<!-- Country -->
 							<div class="form-group">
-								<label for="sltCountry" id="frmCountry" class="col-sm-5 control-label">
+								<label for="formSltCountry" id="formLblCountry" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
-									<select class="form-control" id="sltCountry">
+									<select class="form-control" id="formSltCountry">
 									</select>
 								</div>
 							</div>
 							<!-- Language -->
 		 					<div class="form-group">
-								<label for="sltLanguage"  id="frmLanguage" class="col-sm-5 control-label">
+								<label for="formSltLanguage"  id="formLblLanguage" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
-									<select class="form-control" id="sltLanguage">
+									<select class="form-control" id="formSltLanguage">
 									</select>
 								</div>
 							</div>
 							<!-- Community -->
 							<div class="form-group">
-								<label for="addCommunity" id="frmCommunity" class="col-sm-5 control-label">
+								<label for="addCommunity" id="formLblCommunity" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
 									<label class="radio-inline">
-										<input type="radio" name="communityRadio" id="radioCommunityUrban" value="urban">
+										<input type="radio" name="communityRadio" id="formRbtnUrban" value="urban">
 									</label>
 									<label class="radio-inline">
-										<input type="radio" name="communityRadio" id="radioCommunitySubUrban" value="sub urban">
+										<input type="radio" name="communityRadio" id="formRbtnSubUrban" value="sub urban">
 									</label>
 									<label class="radio-inline">
-										<input type="radio" name="communityRadio" id="radioCommunityRural" value="rural">
+										<input type="radio" name="communityRadio" id="formRbtnRural" value="rural">
 									</label>
 								</div>
 							</div>
 							<!-- Level of education -->
 		 					<div class="form-group">
-								<label for="sltEducation"  id="frmEducation" class="col-sm-5 control-label">
+								<label for="formSltEducation"  id="formLblEducation" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
-									<select class="form-control" id="sltEducation">
+									<select class="form-control" id="formSltEducation">
 									</select>
 								</div>
 							</div>
 							<!-- Gender -->
 							<div class="form-group">
-								<label for="addGender" id="frmGender" class="col-sm-5 control-label">
+								<label for="addGender" id="formLblGender" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-5">
 									<label class="radio-inline">
-										<input type="radio" name="genderRadio" id="radioGenderMale" value="male">
+										<input type="radio" name="genderRadio" id="formRbtnMale" value="male">
 									</label>
 									<label class="radio-inline">
-										<input type="radio" name="genderRadio" id="radioGenderFemale" value="female">
+										<input type="radio" name="genderRadio" id="formRbtnFemale" value="female">
 									</label>
 								</div>
 							</div>
 							<!-- Age -->
 							<div class="form-group">
-								<label for="addAge" id="frmBirthDate" class="col-sm-5 control-label">
+								<label for="addAge" id="formLblBirthDate" class="col-sm-5 control-label">
 								</label>
 								<div class="col-sm-3">
 									<input type="date" id="addAge" class="form-control">
@@ -233,9 +233,9 @@
 		<!-- Buttons -->
 		<div class="row bottomButtons">
 			<div class="col-md-10 col-md-offset-1">
-				<button class="btn btn-primary" id="btnAddInfo">
+				<button class="btn btn-primary" id="formBtnAdd">
 				</button>
-				<button class="btn btn-link" id="btnSkip">
+				<button class="btn btn-link" id="formBtnSkip">
 				</button>
 			</div>
 		</div>
@@ -320,7 +320,7 @@
 	<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/accurator.laconic.js"></script>
 	<script type="text/javascript" src="js/accurator_utilities.js"></script>
-	<script type="text/javascript" src="js/accurator_additional_info.js"></script>
-	<script>additionalInfoInit();</script>
+	<script type="text/javascript" src="js/accurator_form.js"></script>
+	<script>formInit();</script>
 </body>
 </html>

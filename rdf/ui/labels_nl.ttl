@@ -120,86 +120,86 @@ aui:userDropdown a auis:UI ;
 	aui:navbarLblAbout "Over Accurator"@nl ;
 	aui:navbarLblProfile "Profiel"@nl .
 
-##### Additional Info Screen #####
+##### Form Screen #####
 
-aui:additional_info a auis:UI ;
-	aui:title "Informatie"@nl ;
-	aui:pnlInternetUsage "Internet gebruik"@nl ;
-	aui:pnlPersonalInfo "Persoonlijke informatie"@nl ;
-	aui:txtHeader "Vertel iets over uzelf"@nl ;
-	aui:txtHeaderSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
-	aui:btnAddInfo "Bevestig"@nl ;
-	aui:btnSkip "of sla deze stap over"@nl ;
-	aui:frmBirthDate "Geboortedatum"@nl ;
-	aui:frmGender "Geslacht"@nl ;
-	aui:radioGenderMale "Man"@nl ;
-	aui:radioGenderFemale "Vrouw"@nl ;
-	aui:frmCountry "In welk land woont u?"@nl ;
-	aui:frmCommunity "Hoe zou u uw leefomgeving omschrijven?"@nl ;
-	aui:radioCommunityUrban "Stedelijk"@nl ;
-	aui:radioCommunitySubUrban "Voorstedelijk"@nl ;
-	aui:radioCommunityRural "Platteland"@nl ;
-	aui:frmLanguage "Welke taal beheerst u het beste?"@nl ;
-	aui:frmEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
-	aui:frmMail "E-mail"@nl ;
-	aui:frmMailCheck "Hou me op de hoogte over ontikkelingen omtrent Accurator"@nl ;
-	aui:frmSocialNetwork "Op welke sociale media bent u actief?"@nl ;
-	aui:chkSocialFacebook "Facebook"@nl ;
-	aui:chkSocialLinkedIn "LinkedIn"@nl ;
-	aui:chkSocialTwitter "Twitter"@nl ;
-	aui:chkSocialNone "Geen van deze"@nl ;
-	aui:chkSocialOther "Ander platform"@nl ;
-	aui:frmSocialSiteOpen "Welke andere social media site(s)?"@nl ;
-	aui:frmTwitterId "Wat is uw Twitter id?"@nl  ;
-	aui:frmInternetUsage "Hoe vaak gebruikt u het internet?"@nl ;
-	aui:frmMuseumVisits "Hoe vaak per jaar bezoekt u gemiddeld een museum?"@nl ;
-	aui:frmTaggingExperienceLevel "Hoe zou u uw tag ervaringsniveau omschrijven?"@nl ;
-	aui:radioTaggingNone "Geen ervaring"@nl ;
-	aui:radioTaggingNovice "Beginner"@nl ;
-	aui:radioTaggingIntermediate "Gemiddeld"@nl ;
-	aui:radioTaggingExpert "Expert"@nl ;
-	aui:frmTagSite "Welke van de volgende websites heeft u weleens gebruikt om te taggen (informatie toevoegen aan afbeeldingen)?"@nl ;
-	aui:chkTagSiteFlickr "Flickr"@nl ;
-	aui:chkTagSiteDelicious "Delicious"@nl ;
-	aui:chkTagSiteFacebook "Facebook"@nl ;
-	aui:chkTagSiteOther "Andere site"@nl ;
-	aui:chkTagNone "Geen van deze"@nl ;
-	aui:frmTagSiteOpen "Welke andere tag site(s)?"@nl ;
-	aui:txtDisclaimerTitle "Disclaimer"@nl ;
-	aui:txtDisclaimer "Gegevens die u aan SEALINCMedia verstrekt worden zorgvuldig en vertrouwelijk behandeld. Persoonsgegevens worden uitsluitend gebruikt voor wetenschappelijke doeleinden en worden niet verstrekt aan derden. SEALINCMedia conformeert zich aan de Wet Bescherming Persoonsgegevens."@nl .
+aui:form a auis:UI ;
+	aui:formPageTitle "Informatie"@nl ;
+	aui:formHdrInternetUsage "Internet gebruik"@nl ;
+	aui:formHdrPersonalInfo "Persoonlijke informatie"@nl ;
+	aui:formHdrInfo "Vertel iets over uzelf"@nl ;
+	aui:formHdrInfoSub "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
+	aui:formBtnAdd "Bevestig"@nl ;
+	aui:formBtnSkip "of sla deze stap over"@nl ;
+	aui:formLblBirthDate "Geboortedatum"@nl ;
+	aui:formLblGender "Geslacht"@nl ;
+	aui:formRbtnMale "Man"@nl ;
+	aui:formRbtnFemale "Vrouw"@nl ;
+	aui:formLblCountry "In welk land woont u?"@nl ;
+	aui:formLblCommunity "Hoe zou u uw leefomgeving omschrijven?"@nl ;
+	aui:formRbtnUrban "Stedelijk"@nl ;
+	aui:formRbtnSubUrban "Voorstedelijk"@nl ;
+	aui:formRbtnRural "Platteland"@nl ;
+	aui:formLblLanguage "Welke taal beheerst u het beste?"@nl ;
+	aui:formLblEducation "Wat is de hoogste vorm van onderwijs die u heeft genoten?"@nl ;
+	aui:formLblMail "E-mail"@nl ;
+	aui:formLblMailCheck "Hou me op de hoogte over ontikkelingen omtrent Accurator"@nl ;
+	aui:formLblSocialNetwork "Op welke sociale media bent u actief?"@nl ;
+	aui:formChkFacebook "Facebook"@nl ;
+	aui:formChkLinkedIn "LinkedIn"@nl ;
+	aui:formChkTwitter "Twitter"@nl ;
+	aui:formChkNone "Geen van deze"@nl ;
+	aui:formChkOther "Ander platform"@nl ;
+	aui:formLblSocialSiteOpen "Welke andere social media site(s)?"@nl ;
+	aui:formLblTwitterId "Wat is uw Twitter id?"@nl  ;
+	aui:formLblInternetUsage "Hoe vaak gebruikt u het internet?"@nl ;
+	aui:formLblMuseumVisits "Hoe vaak per jaar bezoekt u gemiddeld een museum?"@nl ;
+	aui:formLblTaggingExperience "Hoe zou u uw tag ervaringsniveau omschrijven?"@nl ;
+	aui:formRbtnNone "Geen ervaring"@nl ;
+	aui:formRbtnNovice "Beginner"@nl ;
+	aui:formRbtnIntermediate "Gemiddeld"@nl ;
+	aui:formRbtnExpert "Expert"@nl ;
+	aui:formLblTagSite "Welke van de volgende websites heeft u weleens gebruikt om te taggen (informatie toevoegen aan afbeeldingen)?"@nl ;
+	aui:formChkTagFlickr "Flickr"@nl ;
+	aui:formChkTagDelicious "Delicious"@nl ;
+	aui:formChkTagFacebook "Facebook"@nl ;
+	aui:formChkTagOther "Andere site"@nl ;
+	aui:formChkTagNone "Geen van deze"@nl ;
+	aui:formLblTagSiteOpen "Welke andere tag site(s)?"@nl ;
+	aui:formHdrDisclaimer "Disclaimer"@nl ;
+	aui:formTxtDisclaimer "Gegevens die u aan SEALINCMedia verstrekt worden zorgvuldig en vertrouwelijk behandeld. Persoonsgegevens worden uitsluitend gebruikt voor wetenschappelijke doeleinden en worden niet verstrekt aan derden. SEALINCMedia conformeert zich aan de Wet Bescherming Persoonsgegevens."@nl .
 
-aui:optionPrimarySchool a auis:SelectOption ;
+aui:formOptPrimarySchool a auis:SelectOption ;
 	skos:prefLabel "Geen opleiding of enkel lager onderwijs"@nl .
 
-aui:optionHighSchool a auis:SelectOption ;
+aui:formOptHighSchool a auis:SelectOption ;
 	skos:prefLabel  "VMBO / MAVO / MULO / LBO  / VBO"@nl .
 
-aui:optionCollege a auis:SelectOption ;
+aui:formOptCollege a auis:SelectOption ;
 	skos:prefLabel "HAVO / VWO / HBS"@nl .
 
-aui:optionBachelor a auis:SelectOption ;
+aui:formOptBachelor a auis:SelectOption ;
 	skos:prefLabel "HBO / HTS / Bachelor"@nl .
 
-aui:optionMaster a auis:SelectOption ;
+aui:formOptMaster a auis:SelectOption ;
 	skos:prefLabel "WO / Master (MBA)"@nl .
 
-aui:optionDoctorate a auis:SelectOption ;
+aui:formOptDoctorate a auis:SelectOption ;
 	skos:prefLabel "Doctoraal"@nl .
 
-aui:optionUknown a auis:SelectOption ;
+aui:formOptUnkown a auis:SelectOption ;
 	skos:prefLabel "Onbekend"@nl .
 
-aui:internetAlways a auis:SelectOption ;
+aui:formOptInternetAlways a auis:SelectOption ;
 	skos:prefLabel "Altijd online"@nl ; .
 
-aui:internetOnceADay a auis:SelectOption ;
+aui:formOptInternetOnceADay a auis:SelectOption ;
 	skos:prefLabel "Elke dag"@nl .
 
-aui:internet3to5 a auis:SelectOption ;
+aui:formOptInternet3to5 a auis:SelectOption ;
 	skos:prefLabel "3 tot 5 dagen per week"@nl .
 
-aui:internet1to2 a auis:SelectOption ;
+aui:formOptInternet1to2 a auis:SelectOption ;
 	skos:prefLabel "1 tot 2 dagen per week"@nl .
 
-aui:internetLessThan1 a auis:SelectOption ;
+aui:formOptInternetLessThan1 a auis:SelectOption ;
 	skos:prefLabel "Minder dan een dag per week"@nl .
