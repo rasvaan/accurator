@@ -17,15 +17,14 @@ aui:intro a auis:UI ;
 ###### About Screen #####
 
 aui:about a auis:UI ;
-	aui:title "Informatie over Accurator"@nl ;
-	aui:txtAboutSlogan "Over Accurator"@nl ;
-	aui:btnGoBackHome "Terug"@nl ;
-	aui:txtAboutAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be tagging the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
-	aui:txtAboutAccurator "Accurator is een platform dat gebruikers in staat stelt hun expertise te delen met museum professionals bij het beschrijven van museumstukken. Dit kan, bijvoorbeeld, het voorzien van informatie zijn van dieren of planten prenten. Naast het verrijken van beschrijvingen van de museumstukken helpt dit proces ook de online toegankelijkheid van de collectie."@nl ;
-	aui:txtSealincMediaSlogan "SEALINCMedia"@nl ;
-	aui:txtAboutSealincMedia "De ontwikkeling van Accurator maakt deel uit van het <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia project</a>. Het samenwerkingsverband bestaat uit de <a href=\"http://vu.nl/nl/\">Vrije Universiteit Amsterdam</a>, de <a href=\"http://www.tudelft.nl\">Technische Universiteit Delf</a>, <a href=\"http://www.cwi.nl\">Centrum Wiskunde en Informatica</a>, <a href=\"http://rijksmuseum.nl\">Rijksmuseum Amsterdam</a>, <a href=\"http://www.naturalis.nl/nl/\">Naturalis</a> en de <a href=\"http://www.kb.nl\">Koninklijke Bibliotheek</a>. <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia</a> maakt onderdeel uit van het <a href=\"http://commit-nl.nl/\">COMMIT/</a> project wat onderzoek en (non-)profit organisaties samenbrengt om ICT uitdagingen op te lossen."@nl ;
-	aui:txtSealincResearchSlogan "Accurator en onderzoek"@nl ;
-	aui:txtAboutSealincResearch "De onderzoeks uitdagingen zijn: het vinden de niche van experts en hen motiveren om informatie bij te dragen aan kunstwerken; experts de kunstwerken tonen waar overeenkomend met hun expertise; de bijdragen evalueren met behulp van algoritmen en deze aspecten presenteren in een passende interface. Om deze hypothesen te testen is Accurator continu in ontwikkeling. De code is open source en beschikbaar op <a href=\"https://github.com/rasvaan/accurator\">GitHub</a>."@nl .
+	aui:aboutHdrTitle "Informatie over Accurator"@nl ;
+	aui:aboutHdrAccuratorSlogan "Over Accurator"@nl ;
+	aui:aboutBtnGoBackHome "Terug"@nl ;
+	aui:aboutTxtAccurator "Accurator is een platform dat gebruikers in staat stelt hun expertise te delen met museum professionals bij het beschrijven van museumstukken. Dit kan, bijvoorbeeld, het voorzien van informatie zijn van dieren of planten prenten. Naast het verrijken van beschrijvingen van de museumstukken helpt dit proces ook de online toegankelijkheid van de collectie."@nl ;
+	aui:aboutHdrSealincMediaSlogan "SEALINCMedia"@nl ;
+	aui:aboutTxtSealincMedia "De ontwikkeling van Accurator maakt deel uit van het <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia project</a>. Het samenwerkingsverband bestaat uit de <a href=\"http://vu.nl/nl/\">Vrije Universiteit Amsterdam</a>, de <a href=\"http://www.tudelft.nl\">Technische Universiteit Delf</a>, <a href=\"http://www.cwi.nl\">Centrum Wiskunde en Informatica</a>, <a href=\"http://rijksmuseum.nl\">Rijksmuseum Amsterdam</a>, <a href=\"http://www.naturalis.nl/nl/\">Naturalis</a> en de <a href=\"http://www.kb.nl\">Koninklijke Bibliotheek</a>. <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia</a> maakt onderdeel uit van het <a href=\"http://commit-nl.nl/\">COMMIT/</a> project wat onderzoek en (non-)profit organisaties samenbrengt om ICT uitdagingen op te lossen."@nl ;
+	aui:aboutHdrSealincResearchSlogan "Accurator en onderzoek"@nl ;
+	aui:aboutTxtSealincResearch "De onderzoeks uitdagingen zijn: het vinden de niche van experts en hen motiveren om informatie bij te dragen aan kunstwerken; experts de kunstwerken tonen waar overeenkomend met hun expertise; de bijdragen evalueren met behulp van algoritmen en deze aspecten presenteren in een passende interface. Om deze hypothesen te testen is Accurator continu in ontwikkeling. De code is open source en beschikbaar op <a href=\"https://github.com/rasvaan/accurator\">GitHub</a>."@nl .
 
 ##### Domain Screen #####
 

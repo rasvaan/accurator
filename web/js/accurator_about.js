@@ -36,17 +36,17 @@ function populateUI(domainSettins) {
 
 function initLabels(labels) {
 	document.title = labels.title;
-	$("#txtAboutSlogan").append(labels.txtAboutSlogan);
-	$("#txtAboutAccurator").append(labels.txtAboutAccurator);
-	$("#txtSealincMediaSlogan").append(labels.txtSealincMediaSlogan);
-	$("#txtAboutSealincMedia").append(labels.txtAboutSealincMedia);
-	$("#txtSealincResearchSlogan").append(labels.txtSealincResearchSlogan);
-	$("#txtAboutSealincResearch").append(labels.txtAboutSealincResearch);
-	$("#btnGoBackHome").append(labels.btnGoBackHome);
+	$("#aboutHdrAccuratorSlogan").append(labels.aboutHdrAccuratorSlogan);
+	$("#aboutTxtAccurator").append(labels.aboutTxtAccurator);
+	$("#aboutHdrSealincMediaSlogan").append(labels.aboutHdrSealincMediaSlogan);
+	$("#aboutTxtSealincMedia").append(labels.aboutTxtSealincMedia);
+	$("#aboutHdrSealincResearchSlogan").append(labels.aboutHdrSealincResearchSlogan);
+	$("#aboutTxtSealincResearch").append(labels.aboutTxtSealincResearch);
+	$("#aboutBtnGoBackHome").append(labels.aboutBtnGoBackHome);
 }
 
 function addButtonEvents() {
-	$("#btnGoBackHome").click(function() {
+	$("#aboutBtnGoBackHome").click(function() {
 		document.location.href="intro.html";
 	});
 }
