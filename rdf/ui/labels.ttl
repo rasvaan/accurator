@@ -135,15 +135,15 @@ aui:txtRecTitle a auis:UILabel .
 
 aui:end a auis:UI ;
 	dcterms:title "Accurator end UI"@en ;
-	aui:txtSlogan "Thank you for participating!"@en ;
-	aui:txtSubSlogan "You can now start adding information to the Rijksmuseum collection"@en ;
-	aui:btnContinue "Continue"@en ;
-	aui:navbarLnkAbout "About Accurator"@en .
+	aui:endTxtSlogan "Thank you for participating!"@en ;
+	aui:endTxtSubSlogan "You can now start adding information to the Rijksmuseum collection"@en ;
+	aui:endBtnContinue "Continue"@en ;
+	aui:endLnkAbout "About Accurator"@en .
 
-aui:txtSlogan a auis:UILabel .
-aui:txtSubSlogan a auis:UILabel .
-aui:btnContinue a auis:UILabel .
-aui:navbarLnkAbout a auis:UILabel .
+aui:endTxtSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:endTxtSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:endBtnContinue rdfs:subPropertyOf auis:uiLabel .
+aui:endLnkAbout rdfs:subPropertyOf auis:uiLabel .
 
 ##### Register Modal #####
 

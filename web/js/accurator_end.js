@@ -31,12 +31,11 @@ function endInit() {
 }
 
 function setBackground(backgroundUrl, imageBrightness) {
-	$(".backgroundImage").attr("src", backgroundUrl);
+	$(".endImgBackground").attr("src", backgroundUrl);
 
 	if (imageBrightness === "dark") {
 	   // Make font lighter to make it readable
-	   $("#txtSlogan").css('color', '#FFFFFF');
-	   $("#btnLogin").css('color', '#BBBBBB');
+	   $("#endTxtSlogan").css('color', '#FFFFFF');
 	}
 }
 
@@ -49,15 +48,15 @@ function populateUI() {
 }
 
 function addButtonEvents() {
-	$("#btnContinue").click(function() {
+	$("#endBtnContinue").click(function() {
 		window.location.href="http://annotate.accurator.nl";
 	});
 }
 
 function initLabels(labels) {
 	// Add retrieved labels to html elements
-	$("#txtSlogan").prepend(labels.txtSlogan);
-	$("#txtSubSlogan").prepend(labels.txtSubSlogan);
-	$("#btnContinue").append(labels.btnContinue);
-	$("#navbarLnkAbout").append(labels.navbarLnkAbout);
+	$("#endTxtSlogan").prepend(labels.endTxtSlogan);
+	$("#endTxtSubSlogan").prepend(labels.endTxtSubSlogan);
+	$("#endBtnContinue").append(labels.endBtnContinue);
+	$("#endLnkAbout").append(labels.endLnkAbout);
 }
