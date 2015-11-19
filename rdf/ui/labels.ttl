@@ -205,11 +205,11 @@ aui:navbarLblLogout rdfs:subPropertyOf auis:uiLabel .
 aui:navbarLblAbout rdfs:subPropertyOf auis:uiLabel .
 aui:navbarLblProfile rdfs:subPropertyOf auis:uiLabel .
 
-##### Additional Info Screen #####
+##### Form Screen #####
 
-aui:additional_info a auis:UI ;
+aui:additionalInfo a auis:UI ;
 	dcterms:title "Accurator additional info UI"@en  ;
-	aui:title "Info"@en ;
+	aui:formPageTitle "Info"@en ;
 	aui:pnlInternetUsage "Internet usage"@en ;
 	aui:txtHeader "Tell us about yourself"@en ;
 	aui:txtHeaderSub "it would help us a lot if you would provide us with the following information"@en ;
