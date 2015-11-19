@@ -74,5 +74,5 @@ function initLabels(labels) {
 	$("#txtSubSlogan").prepend(labels.txtSubSlogan);
 	$("#btnRegister").append(labels.btnRegister);
 	$("#btnLogin").append(labels.btnLogin);
-	$("#lnkAbout").append(labels.lnkAbout);
+	$("#navbarLnkAbout").append(labels.navbarLnkAbout);
 }

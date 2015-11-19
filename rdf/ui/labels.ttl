@@ -138,12 +138,12 @@ aui:end a auis:UI ;
 	aui:txtSlogan "Thank you for participating!"@en ;
 	aui:txtSubSlogan "You can now start adding information to the Rijksmuseum collection"@en ;
 	aui:btnContinue "Continue"@en ;
-	aui:lnkAbout "About Accurator"@en .
+	aui:navbarLnkAbout "About Accurator"@en .
 
 aui:txtSlogan a auis:UILabel .
 aui:txtSubSlogan a auis:UILabel .
 aui:btnContinue a auis:UILabel .
-aui:lnkAbout a auis:UILabel .
+aui:navbarLnkAbout a auis:UILabel .
 
 ##### Register Modal #####
 

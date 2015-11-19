@@ -12,7 +12,7 @@ aui:intro a auis:UI ;
 	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken"@nl ;
 	aui:btnRegister "Registreer"@nl ;
 	aui:btnLogin "of Log in"@nl ;
-	aui:lnkAbout "Informatie over Accurator"@nl .
+	aui:navbarLnkAbout "Informatie over Accurator"@nl .
 
 ###### About Screen #####
 
@@ -87,7 +87,7 @@ aui:end a auis:UI ;
 	aui:txtSlogan "Bedankt voor uw deelname!"@nl ;
 	aui:txtSubSlogan "U kunt doorgaan met het toevoegen van informatie aan de Rijksmuesum collectie"@nl ;
 	aui:btnContinue "Ga verder"@nl ;
-	aui:lnkAbout "Informatie over Accurator"@nl .
+	aui:navbarLnkAbout "Informatie over Accurator"@nl .
 
 ##### Register Modal #####
 
