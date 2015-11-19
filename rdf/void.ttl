@@ -17,7 +17,8 @@
 <accurator-ui>
 	a void:Dataset ;
 	dcterms:title "Locale and domain agnostic Accurator UI instance" ;
-	void:dataDump <ui/labels.ttl> .
+	void:dataDump <ui/labels.ttl> ,
+	 			  <ui/labels_nl.ttl> .
 
 <accurator-ui-countries>
 	a void:Dataset ;
@@ -43,15 +44,27 @@
 	a void:Dataset ;
 	dcterms:title "Accurator configuration for bird domain" ;
 	void:dataDump <domain/bird/bird_domain.ttl> ;
-	void:dataDump <domain/bird/ui/labels.ttl> .
+	void:subset <accurator-ui-bird> .
+
+<accurator-ui-bird>
+	a void:Dataset ;
+	dcterms:title "Locale and domain agnostic Accurator UI instance for bird" ;
+	void:dataDump <domain/bird/ui/labels.ttl> ,
+	 			  <domain/bird/ui/labels_nl.ttl> .
 
 <accurator-bible-domain>
 	a void:Dataset ;
 	dcterms:title "Accurator configuration for bible domain" ;
 	void:dataDump <domain/bible/bible_domain.ttl> ;
-	void:dataDump <domain/bible/ui/labels.ttl> ;
 	void:dataDump <domain/bible/concept_scheme_bible_figure.ttl> ;
-	void:dataDump <domain/bible/concept_scheme_bible_theme.ttl> .
+	void:dataDump <domain/bible/concept_scheme_bible_theme.ttl> ;
+	void:subset <accurator-ui-bible> .
+
+<accurator-ui-bible>
+	a void:Dataset ;
+	dcterms:title "Locale and domain agnostic Accurator UI instance for bible" ;
+	void:dataDump <domain/bible/ui/labels.ttl> ,
+				  <domain/bible/ui/labels_nl.ttl> .
 
 [ vann:preferredNamespacePrefix "accu" ;
 vann:preferredNamespaceUri "http://accurator.nl/schema#"
