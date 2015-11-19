@@ -9,7 +9,7 @@ abibui:domain a auis:UI;
 ###### Bible Intro Screen #####
 
 abibui:intro a auis:UI ;
-	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met bijbelse themas"@nl .
+	aui:introHdrSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met bijbelse themas"@nl .
 
 ##### Bible Expertise Screen #####
 

@@ -10,15 +10,15 @@
 abibui:domain a auis:UI;
 	aui:domainLabel "Bible domain"@en .
 
-aui:domainLabel a auis:UILabel .
+aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
 
 ###### Bible Intro Screen #####
 
 abibui:intro a auis:UI ;
 	rdfs:subClassOf aui:intro;
-	aui:txtSubSlogan "Help us add information to artworks with biblical scenes"@en .
+	aui:introHdrSubSlogan "Help us add information to artworks with biblical scenes"@en .
 
-abibui:txtSubSlogan a auis:UILabel .
+abibui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
 
 ###### Bible About Screen #####
 

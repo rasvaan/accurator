@@ -16,9 +16,9 @@ aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
 
 abirui:intro a auis:UI ;
 	rdfs:subClassOf aui:intro;
-	aui:headerSubSlogan "Help us add information to artworks depicting birds"@en .
+	aui:introHdrSubSlogan "Help us add information to artworks depicting birds"@en .
 
-aui:headerSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
 
 ###### Bird About Screen #####
 

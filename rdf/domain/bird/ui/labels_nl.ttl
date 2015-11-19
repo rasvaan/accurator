@@ -9,7 +9,7 @@ abirui:domain a auis:UI ;
 ###### Bird Intro Screen #####
 
 abirui:intro a auis:UI ;
-	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met vogel afbeeldingen"@nl .
+	aui:introHdrSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met vogel afbeeldingen"@nl .
 
 ##### Bird Expertise Screen #####
 
