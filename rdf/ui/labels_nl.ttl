@@ -98,11 +98,11 @@ aui:registerModal a auis:UI ;
 	aui:registerLblPassword "Wachtwoord"@nl ;
 	aui:registerLblPasswordRepeat "Bevestig uw wachtwoord"@nl ;
 	aui:registerBtnRegister "Registreer"@nl ;
-	aui:lblRegistrationFailed "Registratie mislukt, vul alle velden in."@nl ;
-	aui:lblUserTaken "Gebruikersnaam bestaat al."@nl ;
-	aui:lblUsernameFail "Gebruikersnaam kan enkel bestaan uit woorden, nummer en underscores."@nl ;
-	aui:lblPasswordsMatchFail "De wachtwoorden komen niet overeen."@nl ;
-	aui:lblServerError "Server fout"@nl .
+	aui:registerTxtRegistrationFailed "Registratie mislukt, vul alle velden in."@nl ;
+	aui:registerTxtUserTaken "Gebruikersnaam bestaat al."@nl ;
+	aui:registerTxtUsernameFail "Gebruikersnaam kan enkel bestaan uit woorden, nummer en underscores."@nl ;
+	aui:registerTxtPasswordsMatchFail "De wachtwoorden komen niet overeen."@nl ;
+	aui:registerTxtServerError "Server fout"@nl .
 
 ##### Login Modal #####
 
@@ -111,15 +111,15 @@ aui:loginModal a auis:UI ;
 	aui:loginLblUsername "Gebruikersnaam"@nl ;
 	aui:loginLblPassword "Wachtwoord"@nl ;
 	aui:loginBtnLogin "Log in"@nl ;
-	aui:loginWarning "Inloggen mislukt"@nl ;
-	aui:loginIncomplete "Voer zowel een gebruikersnaam als wachtwoord in"@nl .
+	aui:loginTxtWarning "Inloggen mislukt"@nl ;
+	aui:loginTxtIncomplete "Voer zowel een gebruikersnaam als wachtwoord in"@nl .
 
 ##### User Navbar Dropdown #####
 
-aui:user_dropdown a auis:UI ;
+aui:userDropdown a auis:UI ;
 	aui:navbarLblLogout "Afmelden"@nl ;
 	aui:navbarLblAbout "Over Accurator"@nl ;
-	aui:ddProfile "Profiel"@nl .
+	aui:navbarLblProfile "Profiel"@nl .
 
 ##### Additional Info Screen #####
 

@@ -60,5 +60,5 @@ abibui:additional_info a auis:UI ;
 
 ##### Bible Login Modal #####
 
-abibui:login_modal a auis:UI ;
-	rdfs:subClassOf aui:login_modal .
+abibui:loginModal a auis:UI ;
+	rdfs:subClassOf aui:loginModal .

@@ -65,5 +65,5 @@ abirui:additional_info a auis:UI ;
 
 ##### Bird Login Modal #####
 
-abirui:login_modal a auis:UI ;
-	rdfs:subClassOf aui:login_modal .
+abirui:loginModal a auis:UI ;
+	rdfs:subClassOf aui:loginModal .

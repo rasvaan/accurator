@@ -155,24 +155,23 @@ aui:registerModal a auis:UI ;
 	aui:registerLblPassword "Password"@en ;
 	aui:registerLblPasswordRepeat "Confirm your password"@en ;
 	aui:registerBtnRegister "Register"@en ;
-	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
-	aui:lblUserTaken "Username already exists."@en ;
-	aui:lblUsernameFail "Username should contain only letters, numbers and underscores."@en ;
-	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
-	aui:lblServerError "Server error"@en .
+	aui:registerTxtRegistrationFailed "Registration failed, please fill in all fields."@en ;
+	aui:registerTxtUserTaken "Username already exists."@en ;
+	aui:registerTxtUsernameFail "Username should contain only letters, numbers and underscores."@en ;
+	aui:registerTxtPasswordsMatchFail "The passwords do not match."@en ;
+	aui:registerTxtServerError "Server error"@en .
 
-aui:registerHdrTitle a auis:UILabel .
-aui:registerLblFullName a auis:UILabel .
-aui:registerLblUsername a auis:UILabel .
-aui:registerLblPassword a auis:UILabel .
-aui:registerLblPasswordRepeat a auis:UILabel .
-aui:registerBtnRegister a auis:UILabel .
-aui:lblRegistrationFailed a auis:UILabel .
-aui:lblUserTaken a auis:UILabel .
-aui:lblUsernameFail a auis:UILabel .
-aui:lblPasswordsMatchFail a auis:UILabel .
-aui:lblUserTaken a auis:UILabel .
-aui:lblServerError a auis:UILabel .
+aui:registerHdrTitle rdfs:subPropertyOf auis:uiLabel .
+aui:registerLblFullName rdfs:subPropertyOf auis:uiLabel .
+aui:registerLblUsername rdfs:subPropertyOf auis:uiLabel .
+aui:registerLblPassword rdfs:subPropertyOf auis:uiLabel .
+aui:registerLblPasswordRepeat rdfs:subPropertyOf auis:uiLabel .
+aui:registerBtnRegister rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtRegistrationFailed rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtUserTaken rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtUsernameFail rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtPasswordsMatchFail rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtServerError rdfs:subPropertyOf auis:uiLabel .
 
 ##### Login Modal #####
 
@@ -181,26 +180,26 @@ aui:loginModal a auis:UI ;
 	aui:loginLblUsername "Username"@en ;
 	aui:loginLblPassword "Password"@en ;
 	aui:loginBtnLogin "Log in"@en ;
-	aui:loginWarning "Log in unsuccessful"@en ;
-	aui:loginIncomplete "Please add both your username and password"@en .
+	aui:loginTxtWarning "Log in unsuccessful"@en ;
+	aui:loginTxtIncomplete "Please add both your username and password"@en .
 
-aui:loginHdrTitle a auis:UILabel .
-aui:loginLblUsername a auis:UILabel .
-aui:loginLblPassword a auis:UILabel .
-aui:loginBtnLogin a auis:UILabel .
-aui:loginWarning a auis:UILabel .
-aui:loginIncomplete a auis:UILabel .
+aui:loginHdrTitle rdfs:subPropertyOf auis:uiLabel .
+aui:loginLblUsername rdfs:subPropertyOf auis:uiLabel .
+aui:loginLblPassword rdfs:subPropertyOf auis:uiLabel .
+aui:loginBtnLogin rdfs:subPropertyOf auis:uiLabel .
+aui:loginTxtWarning rdfs:subPropertyOf auis:uiLabel .
+aui:loginTxtIncomplete rdfs:subPropertyOf auis:uiLabel .
 
 ##### User Navbar Dropdown #####
 
-aui:user_dropdown a auis:UI ;
+aui:userDropdown a auis:UI ;
 	aui:navbarLblLogout "Logout"@en ;
 	aui:navbarLblAbout "About Accurator"@en ;
-	aui:ddProfile "Profile"@en .
+	aui:navbarLblProfile "Profile"@en .
 
-aui:navbarLblLogout a auis:UILabel .
-aui:navbarLblAbout a auis:UILabel .
-aui:ddProfile a auis:UILabel .
+aui:navbarLblLogout rdfs:subPropertyOf auis:uiLabel .
+aui:navbarLblAbout rdfs:subPropertyOf auis:uiLabel .
+aui:navbarLblProfile rdfs:subPropertyOf auis:uiLabel .
 
 ##### Additional Info Screen #####
 

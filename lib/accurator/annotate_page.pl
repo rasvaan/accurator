@@ -55,7 +55,7 @@ reply_page(Options) :-
 		   \navigation,
 		   \metadata,
 		   \footer,
-		   \login_modal,
+		   \loginModal,
 		   \annotate_javascript,
 		   \html_requires(css('bootstrap.min.css')),
 		   \html_requires(css('search.css')),
@@ -146,7 +146,7 @@ metadata -->
 	<!-- Metadata -->
 	<div id="metadata"></div>
 	|}).
-login_modal -->
+loginModal -->
     html({|html||
 	<!-- Login modal -->
 	<div class="modal fade" id="loginDivLogin">

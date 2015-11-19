@@ -11,7 +11,7 @@ Functions used by multiple javascript files. Topics include:
 - Uri
 *******************************************************************************/
 
-var loginWarning, loginIncomplete;
+var loginTxtWarning, loginTxtIncomplete;
 
 /*******************************************************************************
 Settings
@@ -299,7 +299,7 @@ function populateNavbar(userName, linkList) {
 function populateNavbarUser(userName, linkList) {
 	// Add a user drop down based on the user and listed links
 	$.getJSON("ui_elements", {locale:locale,
-							  ui:"http://accurator.nl/ui/generic#user_dropdown",
+							  ui:"http://accurator.nl/ui/generic#userDropdown",
 							  type:"labels"})
 	.done(function(data){
 		$(".navbarLstUser").append(
@@ -343,7 +343,7 @@ function addLinks(linkList, labels) {
 
 function localizedPageName(linkList, labels, counter) {
 	if(linkList[counter].name === "Profile") {
-		return labels.ddProfile;
+		return labels.navbarLblProfile;
 	} else {
 		return linkList[counter].name;
 	}
@@ -375,7 +375,7 @@ function logUserIn(onLoggedIn, onDismissal) {
 }
 
 function loginModal(onSuccess, onDismissal) {
-	var ui = "http://accurator.nl/ui/generic#login_modal";
+	var ui = "http://accurator.nl/ui/generic#loginModal";
 	$.getJSON("ui_elements", {locale:getLocale(),
 							  ui:ui,
 							  type:"labels"})
@@ -392,8 +392,8 @@ function initModalLabels(data) {
 	$("#loginBtnLogin").html(data.loginBtnLogin);
 	$("#loginLblUsername").html(data.loginLblUsername);
 	$("#loginLblPassword").html(data.loginLblPassword);
-	loginWarning = data.loginWarning;
-	loginIncomplete = data.loginIncomplete;
+	loginTxtWarning = data.loginTxtWarning;
+	loginTxtIncomplete = data.loginTxtIncomplete;
 	$("body").on('shown.bs.modal', '.modal', function () {
 		$("#loginInpUsername").focus();
 	})
@@ -425,7 +425,7 @@ function login(onSuccess) {
 	var password = $("#loginInpPassword").val();
 
 	if(user == "" || password == "") {
-		$(".modal-body").append($.el.p({'class':'text-danger'}, loginIncomplete));
+		$(".modal-body").append($.el.p({'class':'text-danger'}, loginTxtIncomplete));
 	} else {
 		loginServer(user, password, onSuccess);
 	}
@@ -439,7 +439,7 @@ function loginServer(user, password, onSuccess) {
 		    data: dataLogin,
 		    success: function(data) {
 				if(data.indexOf("Login failed") != -1) {
-					$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
+					$(".modal-body").append($.el.p({'class':'text-danger'}, loginTxtWarning));
 				} else if (data.indexOf("Login ok") != -1) {
 
 					setUserSettingsLocal(dataLogin, onSuccess);
@@ -486,11 +486,11 @@ function initRegisterModalLabels(labels) {
 	$("#registerBtnRegister").html(labels.registerBtnRegister);
 
 	// Set text variables for possible later use
-	lblRegistrationFailed = labels.lblRegistrationFailed;
-	lblUsernameFail = labels.lblUsernameFail;
-	lblPasswordsMatchFail = labels.lblPasswordsMatchFail;
-	lblUserTaken = labels.lblUserTaken;
-	lblServerError = labels.lblServerError;
+	registerTxtRegistrationFailed = labels.registerTxtRegistrationFailed;
+	registerTxtUsernameFail = labels.registerTxtUsernameFail;
+	registerTxtPasswordsMatchFail = labels.registerTxtPasswordsMatchFail;
+	registerTxtUserTaken = labels.registerTxtUserTaken;
+	registerTxtServerError = labels.registerTxtServerError;
 	$("body").on('shown.bs.modal', '.modal', function () {
 		$("#registerInpFullName").focus();
 	})
@@ -523,11 +523,11 @@ function register() {
 	var passwordRepeat = $("#registerInpPasswordRepeat").val();
 
 	if((name == "") || (user == "") || (password == "") || (passwordRepeat == "")){
-		setRegisterFailureText(lblRegistrationFailed);
+		setRegisterFailureText(registerTxtRegistrationFailed);
 	} else if (checkUsername(user)) {
-		setRegisterFailureText(lblUsernameFail);
+		setRegisterFailureText(registerTxtUsernameFail);
 	} else if (password != passwordRepeat){
-		setRegisterFailureText(lblPasswordsMatchFail);
+		setRegisterFailureText(registerTxtPasswordsMatchFail);
 	} else {
 		// Attempt registration
 		registerServer(name, userUri, password);
@@ -572,9 +572,9 @@ function registerServer(name, user, password) {
 			if(errorThrown == "Not Found")
 	        	setRegisterFailureText("Server did not respond.");
 	        if(request.responseText.indexOf("User already exists") > -1) {
-	    		setRegisterFailureText(lblUserTaken);
+	    		setRegisterFailureText(registerTxtUserTaken);
 	        } else {
-	        	setRegisterFailureText(lblServerError);
+	        	setRegisterFailureText(registerTxtServerError);
 	        }
 		}
 	});
