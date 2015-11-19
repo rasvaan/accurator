@@ -25,23 +25,23 @@ aui:introLnkAbout rdfs:subPropertyOf auis:uiLabel .
 
 aui:about a auis:UI ;
 	dcterms:title "Accurator about UI"@en ;
-	aui:title "About Accurator"@en ;
-	aui:txtAboutSlogan "About Accurator"@en ;
-	aui:btnGoBackHome "Back"@en ;
-	aui:txtAboutAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be tagging the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
-	aui:txtSealincMediaSlogan "SEALINCMedia"@en ;
-	aui:txtAboutSealincMedia "Accurator is developed as part of the <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia project</a>. The collaborating institutions are <a href=\"http://vu.nl/en/\">VU University	Amsterdam</a>, <a href=\"http://www.tudelft.nl/en/\">Technical University Delft</a>, <a href=\"http://www.cwi.nl\">Centrum Wiskunde and Informatica</a>, <a href=\"https://www.rijksmuseum.nl/en\">Rijksmuseum Amsterdam</a>, <a href=\"http://www.naturalis.nl/en/\">Naturalis</a> and the <a href=\"http://www.kb.nl/en\">National Library of The Netherlands</a>. <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia</a> is part of the <a href=\"http://commit-nl.nl/\">COMMIT/</a> project which brings together academic research and (non-)profit organizations to solve challenges in ICT."@en ;
-	aui:txtSealincResearchSlogan "Accurator for research"@en ;
-	aui:txtAboutSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the tagging of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the tags and taggers using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator. The code is open source and available at <a href=\"https://github.com/rasvaan/accurator\">GitHub</a>."@en .
+	aui:aboutHdrTitle "About Accurator"@en ;
+	aui:aboutHdrAccuratorSlogan "About Accurator"@en ;
+	aui:aboutBtnGoBackHome "Back"@en ;
+	aui:aboutTxtAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be tagging the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
+	aui:aboutHdrSealincMediaSlogan "SEALINCMedia"@en ;
+	aui:aboutTxtSealincMedia "Accurator is developed as part of the <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia project</a>. The collaborating institutions are <a href=\"http://vu.nl/en/\">VU University	Amsterdam</a>, <a href=\"http://www.tudelft.nl/en/\">Technical University Delft</a>, <a href=\"http://www.cwi.nl\">Centrum Wiskunde and Informatica</a>, <a href=\"https://www.rijksmuseum.nl/en\">Rijksmuseum Amsterdam</a>, <a href=\"http://www.naturalis.nl/en/\">Naturalis</a> and the <a href=\"http://www.kb.nl/en\">National Library of The Netherlands</a>. <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia</a> is part of the <a href=\"http://commit-nl.nl/\">COMMIT/</a> project which brings together academic research and (non-)profit organizations to solve challenges in ICT."@en ;
+	aui:aboutHdrSealincResearchSlogan "Accurator for research"@en ;
+	aui:aboutTxtSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the tagging of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the tags and taggers using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator. The code is open source and available at <a href=\"https://github.com/rasvaan/accurator\">GitHub</a>."@en .
 
-aui:title a auis:UILabel .
-aui:txtAboutSlogan a auis:UILabel .
-aui:txtAboutAccurator a auis:UILabel .
-aui:txtSealincMediaSlogan a auis:UILabel .
-aui:txtAboutSealincMedia a auis:UILabel .
-aui:txtSealincResearchSlogan a auis:UILabel .
-aui:txtAboutSealincResearch a auis:UILabel .
-aui:btnGoBackHome a auis:UILabel .
+aui:aboutHdrTitle rdfs:subPropertyOf auis:uiLabel .
+aui:aboutHdrAccuratorSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:aboutTxtAccurator rdfs:subPropertyOf auis:uiLabel .
+aui:aboutHdrSealincMediaSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:aboutTxtSealincMedia rdfs:subPropertyOf auis:uiLabel .
+aui:aboutHdrSealincResearchSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:aboutTxtSealincResearch rdfs:subPropertyOf auis:uiLabel .
+aui:aboutBtnGoBackHome rdfs:subPropertyOf auis:uiLabel .
 
 ##### Domain Screen #####
 
