@@ -20,7 +20,7 @@ body {
 	text-align: bottom;
 }
 
-.footer {
+.footerDiv {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -32,18 +32,18 @@ body {
 	margin-top: 20px;
 }
 
-.footerLogo {
+.footerImgLogo {
 	height: 25px;
 	margin-bottom: 5px;
 	margin-top: 5px;
 }
 
-#rijksmuseumLogo {
+#footerImgRijksmuseumLogo {
 	margin-top: 13px;
 	height: 17px;
 }
 
-#commitFooterLogo {
+#footerImgCommitLogo {
 	margin-top: 10px;
 	height: 20px;
 }

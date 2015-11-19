@@ -188,33 +188,33 @@ footer  -->
 		<div class="footerRelative">
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://commit-nl.nl/">
-					<img src="img/logos/commit.png" class="footerLogo" id="commitFooterLogo" alt="Logo of " />
+					<img src="img/logos/commit.png" class="footerImgLogo" id="footerImgCommitLogo" alt="Logo of " />
 
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://www.cwi.nl">
-					<img src="img/logos/cwi.png" class="footerLogo" alt="Logo of CWI" />
+					<img src="img/logos/cwi.png" class="footerImgLogo" alt="Logo of CWI" />
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://www.tudelft.nl">
-					<img src="img/logos/tud.png" class="footerLogo" alt="Logo of TU Delft" />
+					<img src="img/logos/tud.png" class="footerImgLogo" alt="Logo of TU Delft" />
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://vu.nl/">
-					<img src="img/logos/vu.png" class="footerLogo" alt="Logo of VU University Amsterdam" />
+					<img src="img/logos/vu.png" class="footerImgLogo" alt="Logo of VU University Amsterdam" />
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://rijksmuseum.nl">
-					<img src="img/logos/rma.png" class="footerLogo" id="rijksmuseumLogo" alt="Logo of Rijksmuseum" />
+					<img src="img/logos/rma.png" class="footerImgLogo" id="footerImgRijksmuseumLogo" alt="Logo of Rijksmuseum" />
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://www.naturalis.nl/">
-					<img src="img/logos/naturalis.png" class="footerLogo" alt="Logo of Naturalis" />
+					<img src="img/logos/naturalis.png" class="footerImgLogo" alt="Logo of Naturalis" />
 				</a>
 			</div>
 		</div>
