@@ -92,12 +92,12 @@ aui:end a auis:UI ;
 ##### Register Modal #####
 
 aui:registerModal a auis:UI ;
-	aui:mdlTitleRegister "Maak uw Accurator-account"@nl ;
-	aui:mdlFrmFullNameRegister "Volledige naam"@nl ;
-	aui:mdlFrmUsernameRegister "Kies een gebruikersnaam"@nl ;
-	aui:mdlFrmPasswordRegister "Wachtwoord"@nl ;
-	aui:mdlFrmPasswordRepeatRegister "Bevestig uw wachtwoord"@nl ;
-	aui:mdlBtnRegister "Registreer"@nl ;
+	aui:registerHdrTitle "Maak uw Accurator-account"@nl ;
+	aui:registerLblFullName "Volledige naam"@nl ;
+	aui:registerLblUsername "Kies een gebruikersnaam"@nl ;
+	aui:registerLblPassword "Wachtwoord"@nl ;
+	aui:registerLblPasswordRepeat "Bevestig uw wachtwoord"@nl ;
+	aui:registerBtnRegister "Registreer"@nl ;
 	aui:lblRegistrationFailed "Registratie mislukt, vul alle velden in."@nl ;
 	aui:lblUserTaken "Gebruikersnaam bestaat al."@nl ;
 	aui:lblUsernameFail "Gebruikersnaam kan enkel bestaan uit woorden, nummer en underscores."@nl ;

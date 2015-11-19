@@ -471,19 +471,19 @@ function registerModal(onDismissal) {
 		.done(function(data){
 			registerButtonEvent(onDismissal);
 			initRegisterModalLabels(data);
-			$("#modalRegister").modal();
-			$("#inputFullNameRegister").focus();
+			$("#registerDivRegister").modal();
+			$("#registerInpFullName").focus();
 	});
 }
 
 function initRegisterModalLabels(labels) {
 	// Add retrieved labels to html elements
-	$("#mdlTitleRegister").html(labels.mdlTitleRegister);
-	$("#mdlFrmFullNameRegister").html(labels.mdlFrmFullNameRegister);
-	$("#mdlFrmUsernameRegister").html(labels.mdlFrmUsernameRegister);
-	$("#mdlFrmPasswordRegister").html(labels.mdlFrmPasswordRegister);
-	$("#mdlFrmPasswordRepeatRegister").html(labels.mdlFrmPasswordRepeatRegister);
-	$("#mdlBtnRegister").html(labels.mdlBtnRegister);
+	$("#registerHdrTitle").html(labels.registerHdrTitle);
+	$("#registerLblFullName").html(labels.registerLblFullName);
+	$("#registerLblUsername").html(labels.registerLblUsername);
+	$("#registerLblPassword").html(labels.registerLblPassword);
+	$("#registerLblPasswordRepeat").html(labels.registerLblPasswordRepeat);
+	$("#registerBtnRegister").html(labels.registerBtnRegister);
 	// Set text variables for possible later use
 	lblRegistrationFailed = labels.lblRegistrationFailed;
 	lblUsernameFail = labels.lblUsernameFail;
@@ -491,35 +491,35 @@ function initRegisterModalLabels(labels) {
 	lblUserTaken = labels.lblUserTaken;
 	lblServerError = labels.lblServerError;
 	$("body").on('shown.bs.modal', '.modal', function () {
-		$("#inputFullNameRegister").focus();
+		$("#registerInpFullName").focus();
 	})
 }
 
 function registerButtonEvent(onDismissal) {
-	$("#mdlBtnRegister").click(function() {
+	$("#registerBtnRegister").click(function() {
 		register();
 	});
 	// register on pressing enter
-	$("#inputPasswordRepeatRegister").keypress(function(event) {
+	$("#registerInpPasswordRepeat").keypress(function(event) {
 		if (event.which == 13) {
 			register();
 		}
 	});
-	$("#modalRegister").on('hidden.bs.modal', function (e) {
+	$("#registerDivRegister").on('hidden.bs.modal', function (e) {
 		onDismissal();
 	});
-	$("#mdlBtnCloseRegister").click(function() {
+	$("#registerBtnClose").click(function() {
 		onDismissal();
 	});
 }
 
 function register() {
 	// Get and check initial form input
-	var name = $("#inputFullNameRegister").val();
-	var user = $("#inputUsernameRegister").val();
+	var name = $("#registerInpFullName").val();
+	var user = $("#registerInpUsername").val();
 	var userUri = getUserUri(user);
-	var password = $("#inputPasswordRegister").val();
-	var passwordRepeat = $("#inputPasswordRepeatRegister").val();
+	var password = $("#registerInpPassword").val();
+	var passwordRepeat = $("#registerInpPasswordRepeat").val();
 
 	if((name == "") || (user == "") || (password == "") || (passwordRepeat == "")){
 		setRegisterFailureText(lblRegistrationFailed);
@@ -537,8 +537,8 @@ function setRegisterFailureText(text) {
 	alertMessage = $.el.div({'class':'registerMessage'},
 			$.el.h5({'class':'text-danger'}, text));
 	// clear the current
-	$("#mdlLblRegister").empty();
-	$("#mdlLblRegister").append(alertMessage);
+	$("#registerTxtWarning").empty();
+	$("#registerTxtWarning").append(alertMessage);
 }
 
 function checkUsername(user) {

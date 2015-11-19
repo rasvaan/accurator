@@ -149,24 +149,24 @@ aui:navbarLnkAbout a auis:UILabel .
 
 aui:registerModal a auis:UI ;
 	dcterms:title "Accurator register UI"@en ;
-	aui:mdlTitleRegister "Create your Accurator account"@en ;
-	aui:mdlFrmFullNameRegister "Full name"@en ;
-	aui:mdlFrmUsernameRegister "Username"@en ;
-	aui:mdlFrmPasswordRegister "Password"@en ;
-	aui:mdlFrmPasswordRepeatRegister "Confirm your password"@en ;
-	aui:mdlBtnRegister "Register"@en ;
+	aui:registerHdrTitle "Create your Accurator account"@en ;
+	aui:registerLblFullName "Full name"@en ;
+	aui:registerLblUsername "Username"@en ;
+	aui:registerLblPassword "Password"@en ;
+	aui:registerLblPasswordRepeat "Confirm your password"@en ;
+	aui:registerBtnRegister "Register"@en ;
 	aui:lblRegistrationFailed "Registration failed, please fill in all fields."@en ;
 	aui:lblUserTaken "Username already exists."@en ;
 	aui:lblUsernameFail "Username should contain only letters, numbers and underscores."@en ;
 	aui:lblPasswordsMatchFail "The passwords do not match."@en ;
 	aui:lblServerError "Server error"@en .
 
-aui:mdlTitleRegister a auis:UILabel .
-aui:mdlFrmFullNameRegister a auis:UILabel .
-aui:mdlFrmUsernameRegister a auis:UILabel .
-aui:mdlFrmPasswordRegister a auis:UILabel .
-aui:mdlFrmPasswordRepeatRegister a auis:UILabel .
-aui:mdlBtnRegister a auis:UILabel .
+aui:registerHdrTitle a auis:UILabel .
+aui:registerLblFullName a auis:UILabel .
+aui:registerLblUsername a auis:UILabel .
+aui:registerLblPassword a auis:UILabel .
+aui:registerLblPasswordRepeat a auis:UILabel .
+aui:registerBtnRegister a auis:UILabel .
 aui:lblRegistrationFailed a auis:UILabel .
 aui:lblUserTaken a auis:UILabel .
 aui:lblUsernameFail a auis:UILabel .

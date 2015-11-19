@@ -52,7 +52,7 @@ function populateUI() {
 function addButtonEvents() {
 	$("#introBtnRegister").click(function() {
 		onDismissal = function() {
-			$("#modalRegister").modal('hide');
+			$("#registerDivRegister").modal('hide');
 		};
 		registerModal(onDismissal);
 	});
