@@ -35,7 +35,7 @@ function populateUI(domainSettins) {
 }
 
 function initLabels(labels) {
-	document.title = labels.title;
+	document.title = labels.aboutPageTitle;
 	$("#aboutHdrAccuratorSlogan").append(labels.aboutHdrAccuratorSlogan);
 	$("#aboutTxtAccurator").append(labels.aboutTxtAccurator);
 	$("#aboutHdrSealincMediaSlogan").append(labels.aboutHdrSealincMediaSlogan);

@@ -185,7 +185,7 @@ loginModal -->
 footer  -->
     html({|html||
 		<!-- Logos -->
-		<div class="footerRelative">
+		<div class="footerDivRelative">
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://commit-nl.nl/">
 					<img src="img/logos/commit.png" class="footerImgLogo" id="footerImgCommitLogo" alt="Logo of " />

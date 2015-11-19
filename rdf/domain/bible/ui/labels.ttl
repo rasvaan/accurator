@@ -53,11 +53,6 @@ abibui:results a aui:UI ;
 abibui:annotate a aui:UI ;
 	rdfs:subClassOf aui:annotate .
 
-###### Bible End Screen #####
-
-abibui:end a auis:UI ;
-	rdfs:subClassOf aui:end .
-
 ##### Bible Additional Info Screen #####
 
 abibui:additional_info a auis:UI ;

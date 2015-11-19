@@ -25,7 +25,7 @@ aui:introLnkAbout rdfs:subPropertyOf auis:uiLabel .
 
 aui:about a auis:UI ;
 	dcterms:title "Accurator about UI"@en ;
-	aui:aboutHdrTitle "About Accurator"@en ;
+	aui:aboutPageTitle "About Accurator"@en ;
 	aui:aboutHdrAccuratorSlogan "About Accurator"@en ;
 	aui:aboutBtnGoBackHome "Back"@en ;
 	aui:aboutTxtAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be tagging the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
@@ -34,7 +34,7 @@ aui:about a auis:UI ;
 	aui:aboutHdrSealincResearchSlogan "Accurator for research"@en ;
 	aui:aboutTxtSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the tagging of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the tags and taggers using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator. The code is open source and available at <a href=\"https://github.com/rasvaan/accurator\">GitHub</a>."@en .
 
-aui:aboutHdrTitle rdfs:subPropertyOf auis:uiLabel .
+aui:aboutPageTitle rdfs:subPropertyOf auis:uiLabel .
 aui:aboutHdrAccuratorSlogan rdfs:subPropertyOf auis:uiLabel .
 aui:aboutTxtAccurator rdfs:subPropertyOf auis:uiLabel .
 aui:aboutHdrSealincMediaSlogan rdfs:subPropertyOf auis:uiLabel .
@@ -47,10 +47,11 @@ aui:aboutBtnGoBackHome rdfs:subPropertyOf auis:uiLabel .
 
 aui:domain a auis:UI ;
 	dcterms:title "Accurator domain UI"@en ;
-	aui:title "Select the domain"@en ;
-	aui:txtTitle "In which domain do you want to start tagging?"@en .
+	aui:domainPageTitle "Select the domain"@en ;
+	aui:domainTxtTitle "In which domain do you want to start tagging?"@en .
 
-aui:txtTitle a auis:UILabel .
+aui:domainPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:domainTxtTitle rdfs:subPropertyOf auis:uiLabel .
 
 ##### Annotate Screen #####
 

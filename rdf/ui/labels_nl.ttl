@@ -17,7 +17,7 @@ aui:intro a auis:UI ;
 ###### About Screen #####
 
 aui:about a auis:UI ;
-	aui:aboutHdrTitle "Informatie over Accurator"@nl ;
+	aui:aboutPageTitle "Informatie over Accurator"@nl ;
 	aui:aboutHdrAccuratorSlogan "Over Accurator"@nl ;
 	aui:aboutBtnGoBackHome "Terug"@nl ;
 	aui:aboutTxtAccurator "Accurator is een platform dat gebruikers in staat stelt hun expertise te delen met museum professionals bij het beschrijven van museumstukken. Dit kan, bijvoorbeeld, het voorzien van informatie zijn van dieren of planten prenten. Naast het verrijken van beschrijvingen van de museumstukken helpt dit proces ook de online toegankelijkheid van de collectie."@nl ;
@@ -29,8 +29,8 @@ aui:about a auis:UI ;
 ##### Domain Screen #####
 
 aui:domain a auis:UI ;
-	aui:title "Selecteer Domein"@nl ;
-	aui:txtTitle "Aan welk domein wilt u informatie bijdragen?"@nl .
+	aui:domainPageTitle "Selecteer Domein"@nl ;
+	aui:domainTxtTitle "Aan welk domein wilt u informatie bijdragen?"@nl .
 
 ##### Annotate Screen #####
 

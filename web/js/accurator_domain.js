@@ -43,8 +43,8 @@ function nextPage() {
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(labels){
-			document.title = labels.title;
-			$("#txtTitle").append(labels.txtTitle);
+			document.title = labels.domainPageTitle;
+			$("#domainTxtTitle").append(labels.domainTxtTitle);
 		});
 }
 
@@ -56,7 +56,7 @@ function populateDomains(domainLabels) {
 		if(!(i%2===0)) {
 			row = parseInt((i/2) + 0.5);
 			// Add a new row for every two domains
-			$(".domains").append(
+			$(".domainDiv").append(
 				$.el.div({'class':'row',
 						  'id':'domain' + row}));
 		}

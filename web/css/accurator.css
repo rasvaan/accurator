@@ -27,7 +27,7 @@ body {
 	height: 35px;
 }
 
-.footerRelative {
+.footerDivRelative {
 	height: 35px;
 	margin-top: 20px;
 }
@@ -96,8 +96,10 @@ Intro
 	margin-top: 10px;
 }
 
-/* Domain page */
-.domainScreen {
+/*******************************************************************************
+Domain page
+*******************************************************************************/
+.domainDiv {
 	background-color: #333;
 }
 
@@ -106,7 +108,7 @@ Intro
 	cursor: pointer;
 }
 
-#txtTitle {
+#domainTxtTitle {
 	text-align: center;
 	color: #fff;
 	padding-bottom: 10px;
@@ -179,12 +181,9 @@ Intro
 	 padding-left: 10px;
 }
 
-/* About page */
-#commitLogo {
-	height: 40px;
-	text-align: right;
-}
-
+/*******************************************************************************
+About page
+*******************************************************************************/
 #aboutDivButtons {
 	margin-top: 20px;
 }
