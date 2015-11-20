@@ -59,16 +59,16 @@ aui:expertise a auis:UI ;
 ##### Profile Screen #####
 
 aui:profile a auis:UI ;
-	aui:title "Profiel"@nl ;
-	aui:txtSlogan "Welkom "@nl ;
-	aui:txtSubSlogan "begin met het toevoegen van informatie of verander uw instellingen"@nl ;
-	aui:txtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
-	aui:txtDomain "Het huidige domein is het "@nl ;
+	aui:profilePageTitle "Profiel"@nl ;
+	aui:profileHdrSlogan "Welkom "@nl ;
+	aui:profileTxtSubSlogan "begin met het toevoegen van informatie of verander uw instellingen"@nl ;
+	aui:profileTxtStartAnnotating "Om met het toevoegen van informatie te beginnen kunt u er voor kiezen specifieke werken te zoeken of te beginnen met werken die wij u aanbevelen."@nl ;
+	aui:profileTxtDomain "Het huidige domein is het "@nl ;
+	aui:profileBtnDomain "Verander domein"@nl ;
 	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
 	aui:navbarBtnSearch "Zoek"@nl ;
-	aui:btnChangeExpertise "Verander expertise niveaus"@nl ;
-	aui:btnDomain "Verander domein"@nl ;
-	aui:lblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl .
+	aui:profileBtnChangeExpertise "Verander expertise niveaus"@nl ;
+	aui:profileLblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl .
 
 ##### Results Screen #####
 

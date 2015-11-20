@@ -97,25 +97,27 @@ aui:lblDomain a auis:UILabel .
 
 aui:profile a auis:UI ;
 	dcterms:title "Accurator profile UI"@en ;
-	aui:title "Profile"@en ;
-	aui:txtSlogan "Welcome "@en ;
-	aui:txtSubSlogan "start tagging or change your personal info"@en ;
-	aui:txtStartAnnotating "To start tagging you can choose to search for specific works or to get works recommended."@en ;
-	aui:txtDomain "The current domain is the "@en ;
+	aui:profilePageTitle "Profile"@en ;
+	aui:profileHdrSlogan "Welcome "@en ;
+	aui:profileTxtSubSlogan "start tagging or change your personal info"@en ;
+	aui:profileTxtStartAnnotating "To start tagging you can choose to search for specific works or to get works recommended."@en ;
+	aui:profileTxtDomain "The current domain is the "@en ;
+	aui:profileBtnDomain "Change domain"@en ;
 	aui:navbarBtnRecommend "Recommended works"@en ;
 	aui:navbarBtnSearch "Search"@en ;
-	aui:btnChangeExpertise "Change expertise levels"@en ;
-	aui:btnDomain "Change domain"@en ;
-	aui:lblLastAnnotated "Artworks you recently tagged"@en .
+	aui:profileBtnChangeExpertise "Change expertise levels"@en ;
+	aui:profileLblLastAnnotated "Artworks you recently tagged"@en .
 
-aui:txtStartAnnotating a auis:UILabel .
-aui:txtDomain a auis:UILabel .
-aui:navbarBtnRecommend a auis:UILabel .
-aui:navbarBtnSearch a auis:UILabel .
-aui:btnChangeExpertise a auis:UILabel .
-aui:btnDomain a auis:UILabel .
-aui:btnChangeInfo a auis:UILabel .
-aui:lblLastAnnotated a auis:UILabel .
+aui:profilePageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:profileHdrSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:profileTxtSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:profileTxtStartAnnotating rdfs:subPropertyOf auis:uiLabel .
+aui:profileTxtDomain rdfs:subPropertyOf auis:uiLabel .
+aui:profileBtnDomain rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnRecommend rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
+aui:profileBtnChangeExpertise rdfs:subPropertyOf auis:uiLabel .
+aui:profileLblLastAnnotated rdfs:subPropertyOf auis:uiLabel .
 
 ##### Results Screen #####
 

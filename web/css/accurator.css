@@ -135,8 +135,10 @@ Domain page
    overflow: hidden;
 }
 
-/* Profile page */
-#rowStartChange {
+/*******************************************************************************
+Profile page
+*******************************************************************************/
+#profileDivStartChange {
 	margin-top: 20px;
 }
 
@@ -145,11 +147,11 @@ Domain page
 	margin-bottom: 20px;
 }
 
-#rowLastAnnotated {
+#profileDivLastAnnotated {
 	margin-top: 20px;
 }
 
-#txtDomain {
+#profileTxtDomain {
 	margin-bottom: 20px;
 }
 
