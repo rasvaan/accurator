@@ -76,22 +76,25 @@ aui:vntFirstText a auis:UILabel .
 
 aui:expertise a auis:UI ;
 	dcterms:title "Accurator expertise form UI"@en ;
-	aui:title "Expertise"@en ;
-	aui:txtHeader "Expertise"@en ;
-	aui:txtSubHeader "tell us which of these topics you know much about, so we can recommend interesting works to add information to"@en ;
-	aui:btnSkip "or skip this step"@en ;
-	aui:btnSubmit "Submit"@en ;
-	aui:sldALot "a lot"@en ;
-	aui:sldNothing "nothing"@en ;
-	aui:txtChangeAll "Change all values at once"@en ;
-	aui:lblDomain "domain"@en .
+	aui:expertisePageTitle "Expertise"@en ;
+	aui:expertiseTxtHeader "Expertise"@en ;
+	aui:expertiseTxtSubHeader "tell us which of these topics you know much about, so we can recommend interesting works to add information to"@en ;
+	aui:expertiseBtnSkip "or skip this step"@en ;
+	aui:expertiseBtnSubmit "Submit"@en ;
+	aui:expertiseSldALot "a lot"@en ;
+	aui:expertiseSldNothing "nothing"@en ;
+	aui:expertiseTxtChangeAll "Change all values at once"@en ;
+	aui:expertiseLblDomain "domain"@en .
 
-aui:txtSubHeader a auis:UILabel .
-aui:btnSubmit a auis:UILabel .
-aui:sldALot a auis:UILabel .
-aui:sldNothing a auis:UILabel .
-aui:txtChangeAll a auis:UILabel .
-aui:lblDomain a auis:UILabel .
+aui:expertisePageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseTxtHeader rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseTxtSubHeader rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseBtnSkip rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseBtnSubmit rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseSldALot rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseSldNothing  rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseTxtChangeAll rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseLblDomain rdfs:subPropertyOf auis:uiLabel .
 
 ##### Profile Screen #####
 

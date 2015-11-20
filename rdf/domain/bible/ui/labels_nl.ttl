@@ -14,4 +14,4 @@ abibui:intro a auis:UI ;
 ##### Bible Expertise Screen #####
 
 abibui:expertise a auis:UI ;
-	aui:txtSubHeader "vertel ons over welke bijbelse thema's u veel weet, hierop basseren we de werken die we aanraden om informatie aan toe te voegen"@nl .
+	aui:expertiseTxtSubHeader "vertel ons over welke bijbelse thema's u veel weet, hierop basseren we de werken die we aanraden om informatie aan toe te voegen"@nl .

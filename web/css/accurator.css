@@ -163,25 +163,27 @@ Profile page
 	cursor: pointer;
 }
 
-/* Expertise page */
-.rowExpertise {
+/*******************************************************************************
+Expertise page
+*******************************************************************************/
+.expertiseDiv {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-#rowButtonsExpertise {
+#expertiseDivButtonsExpertise {
 	margin-top: 10px;
 }
 
-#expertiseLabel {
+#expertiseLblExpertise {
 	line-height: 150%;
 }
 
-#masterLabelLeft {
+#expertiseLblMasterLeft {
 	 padding-right: 10px;
 }
 
-#masterLabelRight {
+#expertiseMasterLabelRight {
 	 padding-left: 10px;
 }
 

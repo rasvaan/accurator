@@ -14,4 +14,4 @@ abirui:intro a auis:UI ;
 ##### Bird Expertise Screen #####
 
 abirui:expertise a auis:UI ;
-	aui:txtSubHeader "vertel ons over welke vogelsoorten u veel weet, dan baseren wij de werken die we aanraden hierop"@nl .
+	aui:expertiseTxtSubHeader "vertel ons over welke vogelsoorten u veel weet, dan baseren wij de werken die we aanraden hierop"@nl .
