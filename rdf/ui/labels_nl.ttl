@@ -116,8 +116,8 @@ aui:loginModal a auis:UI ;
 ##### User Navbar Dropdown #####
 
 aui:userDropdown a auis:UI ;
-	aui:navbarLnkLogout "Afmelden"@nl ;
-	aui:navbarLnkAbout "Over Accurator"@nl ;
+	aui:navbarLblLogout "Afmelden"@nl ;
+	aui:navbarLblAbout "Over Accurator"@nl ;
 	aui:navbarLblProfile "Profiel"@nl .
 
 ##### Form Screen #####

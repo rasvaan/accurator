@@ -36,7 +36,7 @@ abirui:expertise a auis:UI ;
 	rdfs:subClassOf aui:expertise ;
 	aui:expertiseTxtSubHeader "tell us which of these bird species you know much about, so we can recommend interesting works to add information to"@en .
 
-abirui:expertiseTxtSubHeader rdf:subPropertyOf auis:uiLabel .
+abirui:expertiseTxtSubHeader erdf:subPropertyOf auis:uiLabel .
 
 ##### Bird Profile Screen #####
 
