@@ -88,9 +88,9 @@ function initExpertiseTopics(domainData) {
 			$("#expertiseDivExpertiseLeft").append(
 				$.el.div({'class':'row'},
 					$.el.div({'class':'col-md-10 col-md-offset-1'},
-						$.el.small({'class':'sliderLabel'}, sldNothing),
+						$.el.small({'class':'expertiseLblSlider'}, sldNothing),
 									expertiseSlider(topics[i].id),
-							$.el.small({'class':'sliderLabel'}, sldALot))));
+							$.el.small({'class':'expertiseLblSlider'}, sldALot))));
 			initSlider(topics[i].id);
 			sliderIds[i] = topics[i].id;
 		}
@@ -104,9 +104,9 @@ function initExpertiseTopics(domainData) {
 			$("#expertiseDivExpertiseRight").append(
 				$.el.div({'class':'row'},
 					$.el.div({'class':'col-md-10 col-md-offset-1'},
-						$.el.small({'class':'sliderLabel'}, sldNothing),
+						$.el.small({'class':'expertiseLblSlider'}, sldNothing),
 						expertiseSlider(topics[i].id),
-						$.el.small({'class':'sliderLabel'}, sldALot))));
+						$.el.small({'class':'expertiseLblSlider'}, sldALot))));
 			initSlider(topics[i].id);
 			sliderIds[i] = topics[i].id;
 		}
