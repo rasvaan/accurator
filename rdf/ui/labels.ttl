@@ -202,12 +202,12 @@ aui:loginTxtIncomplete rdfs:subPropertyOf auis:uiLabel .
 ##### User Navbar Dropdown #####
 
 aui:userDropdown a auis:UI ;
-	aui:navbarLblLogout "Logout"@en ;
-	aui:navbarLblAbout "About Accurator"@en ;
+	aui:navbarLnkLogout "Logout"@en ;
+	aui:navbarLnkAbout "About Accurator"@en ;
 	aui:navbarLblProfile "Profile"@en .
 
-aui:navbarLblLogout rdfs:subPropertyOf auis:uiLabel .
-aui:navbarLblAbout rdfs:subPropertyOf auis:uiLabel .
+aui:navbarLnkLogout rdfs:subPropertyOf auis:uiLabel .
+aui:navbarLnkAbout rdfs:subPropertyOf auis:uiLabel .
 aui:navbarLblProfile rdfs:subPropertyOf auis:uiLabel .
 
 ##### Form Screen #####
