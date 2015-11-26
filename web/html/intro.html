@@ -8,119 +8,119 @@
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 </head>
 
-<body class="introScreen">
+<body class="intro">
 	<!-- Navbar -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#accuratorCollapse">
+				 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarDivMenu">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 				 </button>
 				 <a class="navbar-brand" href="intro.html">
-				 	<img id="headerImage" src="img/accurator.png" alt="Accurator">
+				 	<img id="navbarImgLogo" src="img/accurator.png" alt="Accurator">
 				 </a>
 			</div>
-			<div class="collapse navbar-collapse" id="accuratorCollapse">
-				<ul class="nav navbar-nav navbar-right flagDropdown">
+			<div class="collapse navbar-collapse" id="navbarDivMenu">
+				<ul class="nav navbar-nav navbar-right navbarLstFlag">
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="about.html" id="lnkAbout"></a></li>
+					<li><a href="about.html" id="introLnkAbout"></a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
 	<!-- Background -->
-	<img class="backgroundImage" src=""></img>
+	<img class="introImgBackground" src=""></img>
 
 	<!-- Text and Buttons-->
-	<div class="introText container">
+	<div class="introDivContainer container">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<h2 id="txtSlogan">
-					<small id ="txtSubSlogan">
+				<h2 id="introHdrSlogan">
+					<small id ="introHdrSubSlogan">
 					</small>
 				</h2>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<button class="btn btn-transparent" id="btnRegister">
+				<button class="btn btn-transparent" id="introBtnRegister">
 				</button>
-				<button class="btn btn-link" id="btnLogin">
+				<button class="btn btn-link" id="introBtnLogin">
 				</button>
 			</div>
 		</div>
 	</div>
 
 	<!-- Logos -->
-	<div class="footer container">
+	<div class="footerDiv container">
 		<div class="logo col-md-2">
 			<a href="http://commit-nl.nl/">
-				<img src="img/logos/commit.png" class="footerLogo" id="commitFooterLogo" alt="Logo of ">
+				<img src="img/logos/commit.png" class="footerImgLogo" id="footerImgCommitLogo" alt="Logo of ">
 				</img>
 			</a>
 		</div>
       	<div class="logo col-md-2">
 			<a href="http://www.cwi.nl">
-				<img src="img/logos/cwi.png" class="footerLogo" alt="Logo of CWI">
+				<img src="img/logos/cwi.png" class="footerImgLogo" alt="Logo of CWI">
 				</img>
 			</a>
 		</div>
 		<div class="logo col-md-2">
 			<a href="http://www.tudelft.nl">
-				<img src="img/logos/tud.png" class="footerLogo" alt="Logo of TU Delft">
+				<img src="img/logos/tud.png" class="footerImgLogo" alt="Logo of TU Delft">
 				</img>
 			</a>
 		</div>
 		<div class="logo col-md-2">
 			<a href="http://vu.nl/">
-				<img src="img/logos/vu.png" class="footerLogo" alt="Logo of VU University Amsterdam">
+				<img src="img/logos/vu.png" class="footerImgLogo" alt="Logo of VU University Amsterdam">
 				</img>
 			</a>
 		</div>
 		<div class="logo col-md-2">
 			<a href="http://rijksmuseum.nl">
-				<img src="img/logos/rma.png" class="footerLogo" id="rijksmuseumLogo" alt="Logo of Rijksmuseum">
+				<img src="img/logos/rma.png" class="footerImgLogo" id="footerImgRijksmuseumLogo" alt="Logo of Rijksmuseum">
 				</img>
 			</a>
 		</div>
 		<div class="logo col-md-2">
 			<a href="http://www.naturalis.nl/">
-				<img src="img/logos/naturalis.png" class="footerLogo" alt="Logo of Naturalis">
+				<img src="img/logos/naturalis.png" class="footerImgLogo" alt="Logo of Naturalis">
 				</img>
 			</a>
 		</div>
 	</div>
 
 	<!-- Login modal -->
-	<div class="modal fade" id="modalLogin">
+	<div class="modal fade" id="loginDivLogin">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" id="mdlBtnClose">&times;</button>
-					<h4 id="mdlTxtTitle">
+					<button type="button" class="close" id="loginBtnClose">&times;</button>
+					<h4 id="loginHdrTitle">
 					</h4>
 				</div>
  				<div class="modal-body">
 					<form role="form">
 						<div class="form-group">
-							<label id="mdlFrmUsername" for="inputUsername">
+							<label id="loginLblUsername" for="loginInpUsername">
 							</label>
-							<input type="text" class="form-control" id="inputUsername">
+							<input type="text" class="form-control" id="loginInpUsername">
 						</div>
 						<div class="form-group">
-							<label id="mdlFrmPassword" for="password">
+							<label id="loginLblPassword" for="loginInpPassword">
 							</label>
-							<input type="password" class="form-control" id="inputPassword">
+							<input type="password" class="form-control" id="loginInpPassword">
 						</div>
-						<p class="text-warning" id="mdlLblLogin">
+						<p class="text-warning" id="loginTxtWarning">
 						</p>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" id="mdlBtnLogin">
+					<button class="btn btn-primary" id="loginBtnLogin">
 					</button>
 				</div>
 			</div>
@@ -128,42 +128,42 @@
 	</div>
 
 	<!-- Register modal -->
-	<div class="modal fade" id="modalRegister">
+	<div class="modal fade" id="registerDivRegister">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" id="mdlBtnCloseRegister">&times;</button>
-					<h4 id="mdlTitleRegister">
+					<button type="button" class="close" id="registerBtnClose">&times;</button>
+					<h4 id="registerHdrTitle">
 					</h4>
 				</div>
  				<div class="modal-body">
 					<form role="form">
 						<div class="form-group">
-							<label id="mdlFrmFullNameRegister" for="inputFullNameRegister">
+							<label id="registerLblFullName" for="registerInpFullName">
 							</label>
-							<input type="text" class="form-control" id="inputFullNameRegister">
+							<input type="text" class="form-control" id="registerInpFullName">
 						</div>
 						<div class="form-group">
-							<label id="mdlFrmUsernameRegister" for="inputUsernameRegister">
+							<label id="registerLblUsername" for="registerInpUsername">
 							</label>
-							<input type="text" class="form-control" id="inputUsernameRegister">
+							<input type="text" class="form-control" id="registerInpUsername">
 						</div>
 						<div class="form-group">
-							<label id="mdlFrmPasswordRegister" for="inputPasswordRegister">
+							<label id="registerLblPassword" for="registerInpPassword">
 							</label>
-							<input type="password" class="form-control" id="inputPasswordRegister">
+							<input type="password" class="form-control" id="registerInpPassword">
 						</div>
 						<div class="form-group">
-							<label id="mdlFrmPasswordRepeatRegister" for="inputPasswordRepeatRegister">
+							<label id="registerLblPasswordRepeat" for="registerInpPasswordRepeat">
 							</label>
-							<input type="password" class="form-control" id="inputPasswordRepeatRegister">
+							<input type="password" class="form-control" id="registerInpPasswordRepeat">
 						</div>
-						<p class="text-warning" id="mdlLblRegister">
+						<p class="text-warning" id="registerTxtWarning">
 						</p>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" id="mdlBtnRegister">
+					<button class="btn btn-primary" id="registerBtnRegister">
 					</button>
 				</div>
 			</div>

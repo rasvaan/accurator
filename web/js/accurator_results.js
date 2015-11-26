@@ -4,7 +4,7 @@ Page showing overview of recommender/search results. Uses a lot of code from
 cluster_search_ui (search.js pagination.js and thumbnail.js)
 *******************************************************************************/
 var locale, experiment, ui, typeRec, userName, realName;
-var txtRecTitle, vntFirstTitle, vntFirstText;
+var resultsTxtRecommendationsFor, resultsHdrFirst, resultsTxtFirst;
 
 // Options provided for cluster_search_ui__search.js
 displayOptions = {
@@ -66,26 +66,26 @@ function initLabels(labels) {
 	// Add retrieved labels to html elements
 	document.title = labels.title;
 
-	$("#btnResultsSearch").append(labels.btnResultsSearch);
-	$("#btnResultsRecommend").append(labels.btnResultsRecommend);
-	txtRecTitle = labels.txtRecTitle;
-	vntFirstTitle = labels.vntFirstTitle;
-	vntFirstText = labels.vntFirstText;
+	$("#resultsBtnSearch").append(labels.resultsBtnSearch);
+	$("#resultsBtnRecommend").append(labels.resultsBtnRecommend);
+	resultsTxtRecommendationsFor = labels.resultsTxtRecommendationsFor;
+	resultsHdrFirst = labels.resultsHdrFirst;
+	resultsTxtFirst = labels.resultsTxtFirst;
 }
 
 function addButtonEvents() {
-	$("#btnResultsRecommend").click(function() {
+	$("#resultsBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
-	$("#frmSearch").keypress(function(event) {
+	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
-			var query = encodeURIComponent($("#frmSearch").val());
+			var query = encodeURIComponent($("#navbarInpSearch").val());
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#btnResultsSearch").click(function() {
-		var query = encodeURIComponent($("#frmSearch").val());
+	$("#resultsBtnSearch").click(function() {
+		var query = encodeURIComponent($("#navbarInpSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
 }
@@ -95,7 +95,7 @@ function events() {
 	.done(function(annotations){
 		uris = annotations.uris;
 		if(uris.length===0) {
-			alertMessage(vntFirstTitle, vntFirstText, 'success');
+			alertMessage(resultsHdrFirst, vntFirstText, 'success');
 		}
 	});
 }
@@ -124,7 +124,7 @@ function recommendExpertiseItems(target) {
 		showFilters();
 		processJsonResults(data);
 		createResultClusters();
-		$(document).prop('title', txtRecTitle + realName);
+		$(document).prop('title', resultsTxtRecommendationsFor + realName);
 		//Also get a row of random items not yet annotated
 		populateRandom(target, data.clusters.length);
 	})

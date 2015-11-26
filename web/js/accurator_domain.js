@@ -43,8 +43,8 @@ function nextPage() {
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 		.done(function(labels){
-			document.title = labels.title;
-			$("#txtTitle").append(labels.txtTitle);
+			document.title = labels.domainPageTitle;
+			$("#domainTxtTitle").append(labels.domainTxtTitle);
 		});
 }
 
@@ -56,7 +56,7 @@ function populateDomains(domainLabels) {
 		if(!(i%2===0)) {
 			row = parseInt((i/2) + 0.5);
 			// Add a new row for every two domains
-			$(".domains").append(
+			$(".domainDiv").append(
 				$.el.div({'class':'row',
 						  'id':'domain' + row}));
 		}
@@ -80,23 +80,23 @@ function domainHtml(domainData, row) {
 		.done(function(data){
 			$("#domain" + row).append(
 				$.el.div({'class':'noPadding col-md-6'},
-					$.el.h3({'class':'domainTitle',
-							 'id':'text' + domain},
+					$.el.h3({'class':'domainHdr',
+							 'id':'domainTxt' + domain},
 							 data.domainLabel),
-					$.el.img({'class':'domainImage',
-							  'id':'image' + domain,
+					$.el.img({'class':'domainImg',
+							  'id':'domainImg' + domain,
 							  'src':domainData.image})));
 			if(domainData.image_brightness === "dark")
-				$("#text" + domainData.domain).css('color', '#fff');
+				$("#domainTxt" + domainData.domain).css('color', '#fff');
 			addDomainEvent(domain);
 		});
 }
 
 function addDomainEvent(domain) {
-	$("#image"+domain).click(function() {
+	$("#domainImg"+domain).click(function() {
 		setDomain(domain, nextPage());
 	});
-	$("#text"+domain).click(function() {
+	$("#domainTxt"+domain).click(function() {
 		setDomain(domain, nextPage());
 	});
 }

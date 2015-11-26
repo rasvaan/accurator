@@ -9,7 +9,7 @@
 %
 %	Determine which type of UI elements to query for.
 get_elements(labels, Dic, Options) :-
-	get_text_elements(Dic, Options).
+	get_labels(Dic, Options).
 
 get_elements(countries, Dic, Options) :-
 	get_countries(Dic, Options).
@@ -45,11 +45,11 @@ get_languages(DictArray, _Options) :-
 				LanguageDict = LanguageDict1.put(name, LanguageName)),
 			DictArray).
 
-%%	get_text_elements(-TextDic, +Options)
+%%	get_labels(-TextDic, +Options)
 %
 %	Retrieves text elements according to the ui and locale specified in
 %	Options.
-get_text_elements(TextDic, Options) :-
+get_labels(TextDic, Options) :-
 	option(locale(Locale), Options),
 	option(ui(UI), Options),
 	% get all the predicates off this and possible super ui
@@ -61,10 +61,10 @@ get_text_elements(TextDic, Options) :-
 
 ui_predicate(UI, Predicate) :-
 	rdf(UI, Predicate, _Object),
-	rdf(Predicate, rdf:type, auis:'UILabel').
+	rdf_reachable(Predicate, rdfs:subPropertyOf, auis:uiLabel).
 ui_predicate(UI, Predicate) :-
 	rdf(UI, rdfs:subClassOf, SuperUI),
-	rdf(Predicate, rdf:type, auis:'UILabel'),
+	rdf_reachable(Predicate, rdfs:subPropertyOf, auis:uiLabel),
 	rdf(SuperUI, Predicate, _Object).
 
 %%	get_text_element(-Label, -Literal, +UI, +Locale)
@@ -74,14 +74,14 @@ ui_predicate(UI, Predicate) :-
 %	super class will be queried.
 get_text_element(UI, Locale, Predicate, Label-Literal) :-
 	rdf(UI, Predicate, literal(lang(Locale, Literal))),
-	rdf(Predicate, rdf:type, auis:'UILabel'),
+	rdf(Predicate, rdfs:subPropertyOf, auis:uiLabel),
 	!,
 	iri_xml_namespace(Predicate, _, Label).
 
 get_text_element(UI, Locale, Predicate, Label-Literal) :-
 	rdf(UI, rdfs:subClassOf, SuperUI),
 	rdf(SuperUI, Predicate, literal(lang(Locale, Literal))),
-	rdf(Predicate, rdf:type, auis:'UILabel'),
+	rdf(Predicate,rdfs:subPropertyOf, auis:uiLabel),
 	iri_xml_namespace(Predicate, _, Label).
 
 %%	get_selector_options(UI, Locale, SelectorFields)

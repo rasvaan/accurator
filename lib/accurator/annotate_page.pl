@@ -55,7 +55,7 @@ reply_page(Options) :-
 		   \navigation,
 		   \metadata,
 		   \footer,
-		   \login_modal,
+		   \loginModal,
 		   \annotate_javascript,
 		   \html_requires(css('bootstrap.min.css')),
 		   \html_requires(css('search.css')),
@@ -76,27 +76,27 @@ navigation_bar -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		 <div class="container-fluid">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#accuratorCollapse">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarDivMenu">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="intro.html">
-					<img id="headerImage" src="img/accurator.png" alt="Accurator">
+					<img id="navbarImgLogo" src="img/accurator.png" alt="Accurator">
 				</a>
 			</div>
-			<div class="collapse navbar-collapse" id="accuratorCollapse">
-			        <ul class="nav navbar-nav navbar-right flagDropdown">
+			<div class="collapse navbar-collapse" id="navbarDivMenu">
+			        <ul class="nav navbar-nav navbar-right navbarLstFlag">
 				</ul>
-	                        <ul class="nav navbar-nav navbar-right userDropdown">
+	                        <ul class="nav navbar-nav navbar-right navbarLstUser">
 				</ul>
-				<div class="navbar-form navbar-nav" id="frmGroupSearch">
+				<div class="navbar-form navbar-nav" id="navbarFrmSearch">
 					<div class="form-group">
-						<input type="text" class="form-control" id="frmSearch">
+						<input type="text" class="form-control" id="navbarInpSearch">
 					</div>
-					<button id="btnAnnotateSearch" class="btn btn-default">
+					<button id="navbarBtnSearch" class="btn btn-default">
 					</button>
 				</div>
-				<button class="btn navbar-btn navbar-right btn-primary" id="btnAnnotateRecommend">
+				<button class="btn navbar-btn navbar-right btn-primary" id="navbarBtnRecommend">
 				</button>
 			</div>
 		</div>
@@ -146,35 +146,35 @@ metadata -->
 	<!-- Metadata -->
 	<div id="metadata"></div>
 	|}).
-login_modal -->
+loginModal -->
     html({|html||
 	<!-- Login modal -->
-	<div class="modal fade" id="modalLogin">
+	<div class="modal fade" id="loginDivLogin">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" id="mdlBtnClose">&times;</button>
-					<h4 id="mdlTxtTitle">
+					<button type="button" class="close" id="loginBtnClose">&times;</button>
+					<h4 id="loginHdrTitle">
 					</h4>
 				</div>
 				<div class="modal-body">
 					<form role="form">
 						<div class="form-group">
-							<label id="mdlFrmUsername" for="inputUsername">
+							<label id="loginLblUsername" for="loginInpUsername">
 							</label>
-							<input type="text" class="form-control" id="inputUsername">
+							<input type="text" class="form-control" id="loginInpUsername">
 						</div>
 						<div class="form-group">
-							<label id="mdlFrmPassword" for="password">
+							<label id="loginLblPassword" for="password">
 							</label>
-							<input type="password" class="form-control" id="inputPassword">
+							<input type="password" class="form-control" id="loginInpPassword">
 						</div>
-						<p class="text-warning" id="mdlLblLogin">
+						<p class="text-warning" id="loginTxtWarning">
 						</p>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" id="mdlBtnLogin">
+					<button class="btn btn-primary" id="loginBtnLogin">
 					</button>
 				</div>
 			</div>
@@ -185,36 +185,36 @@ login_modal -->
 footer  -->
     html({|html||
 		<!-- Logos -->
-		<div class="footerRelative">
+		<div class="footerDivRelative">
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://commit-nl.nl/">
-					<img src="img/logos/commit.png" class="footerLogo" id="commitFooterLogo" alt="Logo of " />
+					<img src="img/logos/commit.png" class="footerImgLogo" id="footerImgCommitLogo" alt="Logo of " />
 
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://www.cwi.nl">
-					<img src="img/logos/cwi.png" class="footerLogo" alt="Logo of CWI" />
+					<img src="img/logos/cwi.png" class="footerImgLogo" alt="Logo of CWI" />
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://www.tudelft.nl">
-					<img src="img/logos/tud.png" class="footerLogo" alt="Logo of TU Delft" />
+					<img src="img/logos/tud.png" class="footerImgLogo" alt="Logo of TU Delft" />
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://vu.nl/">
-					<img src="img/logos/vu.png" class="footerLogo" alt="Logo of VU University Amsterdam" />
+					<img src="img/logos/vu.png" class="footerImgLogo" alt="Logo of VU University Amsterdam" />
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://rijksmuseum.nl">
-					<img src="img/logos/rma.png" class="footerLogo" id="rijksmuseumLogo" alt="Logo of Rijksmuseum" />
+					<img src="img/logos/rma.png" class="footerImgLogo" id="footerImgRijksmuseumLogo" alt="Logo of Rijksmuseum" />
 				</a>
 			</div>
 			<div class="logo col-md-2 col-xs-4">
 				<a href="http://www.naturalis.nl/">
-					<img src="img/logos/naturalis.png" class="footerLogo" alt="Logo of Naturalis" />
+					<img src="img/logos/naturalis.png" class="footerImgLogo" alt="Logo of Naturalis" />
 				</a>
 			</div>
 		</div>

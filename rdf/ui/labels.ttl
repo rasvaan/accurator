@@ -1,0 +1,373 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+###### Intro Screen #####
+
+aui:intro a auis:UI ;
+	dcterms:title "Accurator intro UI"@en ;
+	aui:introHdrSlogan "Accurate Art Annotations"@en ;
+	aui:introHdrSubSlogan "Help us add information to artworks"@en ;
+	aui:introBtnRegister "Register"@en ;
+	aui:introBtnLogin "or Log in"@en ;
+	aui:introLnkAbout "About Accurator"@en .
+
+aui:introHdrSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:introBtnRegister rdfs:subPropertyOf auis:uiLabel .
+aui:introBtnLogin rdfs:subPropertyOf auis:uiLabel .
+aui:introLnkAbout rdfs:subPropertyOf auis:uiLabel .
+
+###### About Screen #####
+
+aui:about a auis:UI ;
+	dcterms:title "Accurator about UI"@en ;
+	aui:aboutPageTitle "About Accurator"@en ;
+	aui:aboutHdrAccuratorSlogan "About Accurator"@en ;
+	aui:aboutBtnGoBackHome "Back"@en ;
+	aui:aboutTxtAccurator "Accurator is a platform that enables users to help museum professionals with describing museum collection items by providing expert knowledge. This could, for example, be tagging the depicted species of an animal or a plant. Apart from enhancing the descriptions of the collection items, this information can be used to facilitate searching the museum's collection."@en ;
+	aui:aboutHdrSealincMediaSlogan "SEALINCMedia"@en ;
+	aui:aboutTxtSealincMedia "Accurator is developed as part of the <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia project</a>. The collaborating institutions are <a href=\"http://vu.nl/en/\">VU University	Amsterdam</a>, <a href=\"http://www.tudelft.nl/en/\">Technical University Delft</a>, <a href=\"http://www.cwi.nl\">Centrum Wiskunde and Informatica</a>, <a href=\"https://www.rijksmuseum.nl/en\">Rijksmuseum Amsterdam</a>, <a href=\"http://www.naturalis.nl/en/\">Naturalis</a> and the <a href=\"http://www.kb.nl/en\">National Library of The Netherlands</a>. <a href=\"https://sealincmedia.wordpress.com/\">SEALINCMedia</a> is part of the <a href=\"http://commit-nl.nl/\">COMMIT/</a> project which brings together academic research and (non-)profit organizations to solve challenges in ICT."@en ;
+	aui:aboutHdrSealincResearchSlogan "Accurator for research"@en ;
+	aui:aboutTxtSealincResearch "The research challenges of the project are: to identify the niche of relevant experts and to motivate them to contribute to the tagging of artworks; developing the personalization mechanisms to make sure that the experts are shown items that correspond	to their expertise; evaluating the quality of the tags and taggers using trust algorithms and to present all these aspects in an appropriate interface. To test our hypotheses, we continuously develop and evaluate Accurator. The code is open source and available at <a href=\"https://github.com/rasvaan/accurator\">GitHub</a>."@en .
+
+aui:aboutPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:aboutHdrAccuratorSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:aboutTxtAccurator rdfs:subPropertyOf auis:uiLabel .
+aui:aboutHdrSealincMediaSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:aboutTxtSealincMedia rdfs:subPropertyOf auis:uiLabel .
+aui:aboutHdrSealincResearchSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:aboutTxtSealincResearch rdfs:subPropertyOf auis:uiLabel .
+aui:aboutBtnGoBackHome rdfs:subPropertyOf auis:uiLabel .
+
+##### Domain Screen #####
+
+aui:domain a auis:UI ;
+	dcterms:title "Accurator domain UI"@en ;
+	aui:domainPageTitle "Select the domain"@en ;
+	aui:domainTxtTitle "In which domain do you want to start tagging?"@en .
+
+aui:domainPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:domainTxtTitle rdfs:subPropertyOf auis:uiLabel .
+
+##### Annotate Screen #####
+
+aui:annotate a auis:UI ;
+	dcterms:title "Accurator tag UI"@en ;
+	aui:title "Tag image"@en ;
+	aui:btnPrevious "Previous"@en ;
+	aui:btnNext "Next"@en ;
+	aui:navbarBtnRecommend "Recommended works"@en ;
+	aui:navbarBtnSearch "Search"@en ;
+	aui:vntFirstTitle "Your first tag!"@en ;
+	aui:vntFirstText "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en .
+
+aui:btnPrevious a auis:UILabel .
+aui:btnNext a auis:UILabel .
+aui:navbarBtnRecommend a auis:UILabel .
+aui:navbarBtnSearch a auis:UILabel .
+aui:vntFirstTitle a auis:UILabel .
+aui:vntFirstText a auis:UILabel .
+
+##### Expertise Screen #####
+
+aui:expertise a auis:UI ;
+	dcterms:title "Accurator expertise form UI"@en ;
+	aui:expertisePageTitle "Expertise"@en ;
+	aui:expertiseTxtHeader "Expertise"@en ;
+	aui:expertiseTxtSubHeader "tell us which of these topics you know much about, so we can recommend interesting works to add information to"@en ;
+	aui:expertiseBtnSkip "or skip this step"@en ;
+	aui:expertiseBtnSubmit "Submit"@en ;
+	aui:expertiseSldALot "a lot"@en ;
+	aui:expertiseSldNothing "nothing"@en ;
+	aui:expertiseTxtChangeAll "Change all values at once"@en ;
+	aui:expertiseLblDomain "domain"@en .
+
+aui:expertisePageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseTxtHeader rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseTxtSubHeader rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseBtnSkip rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseBtnSubmit rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseSldALot rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseSldNothing  rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseTxtChangeAll rdfs:subPropertyOf auis:uiLabel .
+aui:expertiseLblDomain rdfs:subPropertyOf auis:uiLabel .
+
+##### Profile Screen #####
+
+aui:profile a auis:UI ;
+	dcterms:title "Accurator profile UI"@en ;
+	aui:profilePageTitle "Profile"@en ;
+	aui:profileHdrSlogan "Welcome "@en ;
+	aui:profileTxtSubSlogan "start tagging or change your personal info"@en ;
+	aui:profileTxtStartAnnotating "To start tagging you can choose to search for specific works or to get works recommended."@en ;
+	aui:profileTxtDomain "The current domain is the "@en ;
+	aui:profileBtnDomain "Change domain"@en ;
+	aui:navbarBtnRecommend "Recommended works"@en ;
+	aui:navbarBtnSearch "Search"@en ;
+	aui:profileBtnChangeExpertise "Change expertise levels"@en ;
+	aui:profileLblLastAnnotated "Artworks you recently tagged"@en .
+
+aui:profilePageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:profileHdrSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:profileTxtSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:profileTxtStartAnnotating rdfs:subPropertyOf auis:uiLabel .
+aui:profileTxtDomain rdfs:subPropertyOf auis:uiLabel .
+aui:profileBtnDomain rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnRecommend rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
+aui:profileBtnChangeExpertise rdfs:subPropertyOf auis:uiLabel .
+aui:profileLblLastAnnotated rdfs:subPropertyOf auis:uiLabel .
+
+##### Results Screen #####
+
+aui:results a auis:UI ;
+	dcterms:title "Accurator results UI"@en ;
+	aui:resultsHdrTitle "Results"@en ;
+	aui:resultsBtnRecommend "Recommend works"@en ;
+	aui:resultsBtnSearch "Search"@en ;
+	aui:resultsTxtRecommendationsFor "Recommendations for "@en ;
+	aui:resultsHdrFirst "What do you want to tag?"@en ;
+	aui:resultsTxtFirst "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
+
+aui:resultsHdrTitle rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnRecommend rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnSearch rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtRecommendationsFor rdfs:subPropertyOf auis:uiLabel .
+aui:resultsHdrFirst rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtFirst rdfs:subPropertyOf auis:uiLabel .
+
+###### End Screen #####
+
+aui:end a auis:UI ;
+	dcterms:title "Accurator end UI"@en ;
+	aui:endTxtSlogan "Thank you for participating!"@en ;
+	aui:endTxtSubSlogan "You can now start adding information to the Rijksmuseum collection"@en ;
+	aui:endBtnContinue "Continue"@en ;
+	aui:endLnkAbout "About Accurator"@en .
+
+aui:endTxtSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:endTxtSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:endBtnContinue rdfs:subPropertyOf auis:uiLabel .
+aui:endLnkAbout rdfs:subPropertyOf auis:uiLabel .
+
+##### Register Modal #####
+
+aui:registerModal a auis:UI ;
+	dcterms:title "Accurator register UI"@en ;
+	aui:registerHdrTitle "Create your Accurator account"@en ;
+	aui:registerLblFullName "Full name"@en ;
+	aui:registerLblUsername "Username"@en ;
+	aui:registerLblPassword "Password"@en ;
+	aui:registerLblPasswordRepeat "Confirm your password"@en ;
+	aui:registerBtnRegister "Register"@en ;
+	aui:registerTxtRegistrationFailed "Registration failed, please fill in all fields."@en ;
+	aui:registerTxtUserTaken "Username already exists."@en ;
+	aui:registerTxtUsernameFail "Username should contain only letters, numbers and underscores."@en ;
+	aui:registerTxtPasswordsMatchFail "The passwords do not match."@en ;
+	aui:registerTxtServerError "Server error"@en .
+
+aui:registerHdrTitle rdfs:subPropertyOf auis:uiLabel .
+aui:registerLblFullName rdfs:subPropertyOf auis:uiLabel .
+aui:registerLblUsername rdfs:subPropertyOf auis:uiLabel .
+aui:registerLblPassword rdfs:subPropertyOf auis:uiLabel .
+aui:registerLblPasswordRepeat rdfs:subPropertyOf auis:uiLabel .
+aui:registerBtnRegister rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtRegistrationFailed rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtUserTaken rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtUsernameFail rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtPasswordsMatchFail rdfs:subPropertyOf auis:uiLabel .
+aui:registerTxtServerError rdfs:subPropertyOf auis:uiLabel .
+
+##### Login Modal #####
+
+aui:loginModal a auis:UI ;
+	aui:loginHdrTitle "Log in"@en ;
+	aui:loginLblUsername "Username"@en ;
+	aui:loginLblPassword "Password"@en ;
+	aui:loginBtnLogin "Log in"@en ;
+	aui:loginTxtWarning "Log in unsuccessful"@en ;
+	aui:loginTxtIncomplete "Please add both your username and password"@en .
+
+aui:loginHdrTitle rdfs:subPropertyOf auis:uiLabel .
+aui:loginLblUsername rdfs:subPropertyOf auis:uiLabel .
+aui:loginLblPassword rdfs:subPropertyOf auis:uiLabel .
+aui:loginBtnLogin rdfs:subPropertyOf auis:uiLabel .
+aui:loginTxtWarning rdfs:subPropertyOf auis:uiLabel .
+aui:loginTxtIncomplete rdfs:subPropertyOf auis:uiLabel .
+
+##### User Navbar Dropdown #####
+
+aui:userDropdown a auis:UI ;
+	aui:navbarLnkLogout "Logout"@en ;
+	aui:navbarLnkAbout "About Accurator"@en ;
+	aui:navbarLblProfile "Profile"@en .
+
+aui:navbarLnkLogout rdfs:subPropertyOf auis:uiLabel .
+aui:navbarLnkAbout rdfs:subPropertyOf auis:uiLabel .
+aui:navbarLblProfile rdfs:subPropertyOf auis:uiLabel .
+
+##### Form Screen #####
+
+aui:form a auis:UI ;
+	dcterms:title "Accurator additional info UI"@en  ;
+	aui:formPageTitle "Info"@en ;
+	aui:formHdrInternetUsage "Internet usage"@en ;
+	aui:formHdrPersonalInfo "Personal info"@en ;
+	aui:formHdrSlogan "Tell us about yourself"@en ;
+	aui:formHdrSubSlogan "it would help us a lot if you would provide us with the following information"@en ;
+	aui:formBtnAdd "Add Additional Info"@en ;
+	aui:formBtnSkip "or skip this step"@en ;
+	aui:formLblBirthDate "Date of birth"@en ;
+	aui:formLblGender "Gender"@en ;
+	aui:formRbtnMale "Male"@en ;
+	aui:formRbtnFemale "Female"@en ;
+	aui:formLblCountry "What is your counrty of residence?"@en ;
+	aui:formLblCommunity "What resembles most closely the community you reside in?"@en ;
+	aui:formRbtnUrban "Urban"@en ;
+	aui:formRbtnSubUrban "Suburban"@en ;
+	aui:formRbtnRural "Rural"@en ;
+	aui:formLblLanguage "What is your primary language?"@en ;
+	aui:formLblEducation "What is the highest level of education you have recieved?"@en ;
+	auis:hasSelect aui:formOptsEducation ;
+	aui:formLblMail "Email"@en ;
+	aui:formLblEmailCheck "Keep me posted about Accurator"@en ;
+	aui:formLblSocialNetwork "On which social network sites are you active?"@en  ;
+	aui:formChkFacebook "Facebook"@en ;
+	aui:formChkLinkedIn "LinkedIn"@en ;
+	aui:formChkTwitter "Twitter"@en ;
+	aui:formChkOther "Other"@en ;
+	aui:formChkNone "None of these"@en ;
+	aui:formLblSocialSiteOpen "Which other social network site(s)?"@en ;
+	aui:formLblTwitterId "What is your Twitter id?"@en  ;
+	aui:formLblInternetUsage "How often do you make use of the internet?"@en ;
+	auis:hasSelect aui:formOptsInternet ;
+	aui:formLblMuseumVisits "How many times a year do you visit a museum on average?"@en ;
+	aui:formLblTaggingExperience "How would you describe your level of tagging experience?"@en ;
+	aui:formRbtnNone "No experience"@en ;
+	aui:formRbtnNovice "Novice"@en ;
+	aui:formRbtnIntermediate "Intermediate"@en ;
+	aui:formRbtnExpert "Expert"@en ;
+	aui:formLblTagSite "Did you tag (add information to image) on one of these websites?"@en ;
+	aui:formChkTagFlickr "Flickr"@en ;
+	aui:formChkTagDelicious "Delicious"@en ;
+	aui:formChkTagFacebook "Facebook"@en ;
+	aui:formChkTagOther "Other site"@en ;
+	aui:formChkTagNone "None of these"@en ;
+	aui:formLblTagSiteOpen "Which other tagging site(s)?"@en ;
+	aui:formHdrDisclaimer "Disclaimer"@en ;
+	aui:formTxtDisclaimer "The information you provide to SEALINCMedia is being handled with the utmost care. Personal information is exclusively used for scientific purposes and will not be shared with other parties. SEALINCMedia is committed to the Dutch Law on the protection of personal information (Wet Bescherming Persoonsgegevens)."@en .
+
+aui:formPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrInternetUsage rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrInternetUsage a auis:UILabel .
+aui:formHdrPersonalInfo rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:formBtnAdd rdfs:subPropertyOf auis:uiLabel .
+aui:formBtnSkip rdfs:subPropertyOf auis:uiLabel .
+aui:formLblBirthDate rdfs:subPropertyOf auis:uiLabel .
+aui:formLblGender rdfs:subPropertyOf auis:uiLabel .
+aui:formLblCountry rdfs:subPropertyOf auis:uiLabel .
+aui:formLblCommunity rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnMale rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnFemale rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnUrban rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnSubUrban rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnRural rdfs:subPropertyOf auis:uiLabel .
+aui:formLblLanguage rdfs:subPropertyOf auis:uiLabel .
+aui:formLblEducation rdfs:subPropertyOf auis:uiLabel .
+aui:formLblMail rdfs:subPropertyOf auis:uiLabel .
+aui:formLblEmailCheck rdfs:subPropertyOf auis:uiLabel .
+aui:formLblSocialNetwork rdfs:subPropertyOf auis:uiLabel .
+aui:formChkFacebook rdfs:subPropertyOf auis:uiLabel .
+aui:formChkLinkedIn rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTwitter rdfs:subPropertyOf auis:uiLabel .
+aui:formChkNone rdfs:subPropertyOf auis:uiLabel .
+aui:formChkOther rdfs:subPropertyOf auis:uiLabel .
+aui:formLblSocialSiteOpen rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTagSiteOpen rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTwitterId rdfs:subPropertyOf auis:uiLabel .
+aui:formLblInternetUsage rdfs:subPropertyOf auis:uiLabel .
+aui:formLblMuseumVisits rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnNone rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnNovice rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnIntermediate rdfs:subPropertyOf auis:uiLabel .
+aui:formRbtnExpert rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTaggingExperience rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTagSite rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagFlickr rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagDelicious rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagFacebook rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagOther rdfs:subPropertyOf auis:uiLabel .
+aui:formChkTagNone rdfs:subPropertyOf auis:uiLabel .
+aui:formLblTagSiteOpen rdfs:subPropertyOf auis:uiLabel .
+aui:formTxtDisclaimer rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrDisclaimer rdfs:subPropertyOf auis:uiLabel .
+
+aui:formOptsEducation a auis:SelectField ;
+	auis:hasSelectOption aui:formOptPrimarySchool ;
+	auis:hasSelectOption aui:formOptHighSchool ;
+	auis:hasSelectOption aui:formOptCollege ;
+	auis:hasSelectOption aui:formOptBachelor ;
+	auis:hasSelectOption aui:formOptMaster ;
+	auis:hasSelectOption aui:formOptDoctorate ;
+	auis:hasSelectOption aui:formOptUnkown .
+
+aui:formOptPrimarySchool a auis:SelectOption ;
+	skos:notation "primary_school" ;
+	skos:prefLabel "Primary school"@en .
+
+aui:formOptHighSchool a auis:SelectOption ;
+	skos:notation  "high_school" ;
+	skos:prefLabel "High school"@en .
+
+aui:formOptCollege a auis:SelectOption ;
+	skos:notation "college" ;
+	skos:prefLabel "College"@en .
+
+aui:formOptBachelor a auis:SelectOption ;
+	skos:notation "bachelor" ;
+	skos:prefLabel "Bachelor"@en .
+
+aui:formOptMaster a auis:SelectOption ;
+	skos:notation "master" ;
+	skos:prefLabel "Master"@en .
+
+aui:formOptDoctorate a auis:SelectOption ;
+	skos:notation "doctorate" ;
+	skos:prefLabel "Doctorate"@en .
+
+aui:formOptUnkown a auis:SelectOption ;
+	skos:notation "unknown" ;
+	skos:prefLabel "Unknown"@en .
+
+aui:formOptsInternet a auis:SelectField ;
+	auis:hasSelectOption aui:formOptInternetAlways ;
+	auis:hasSelectOption aui:formOptInternetOnceADay ;
+	auis:hasSelectOption aui:formOptInternet3to5 ;
+	auis:hasSelectOption aui:formOptInternet1to2 ;
+	auis:hasSelectOption aui:formOptInternetLessThan1 .
+
+aui:formOptInternetAlways a auis:SelectOption ;
+	skos:notation "internet_always" ;
+	skos:prefLabel "Always online"@en .
+
+aui:formOptInternetOnceADay a auis:SelectOption ;
+	skos:notation "internet_once_a_day" ;
+	skos:prefLabel "Once a day"@en .
+
+aui:formOptInternet3to5 a auis:SelectOption ;
+	skos:notation "internet_3_to_5_a_week" ;
+	skos:prefLabel "3-5 days per week"@en .
+
+aui:formOptInternet1to2 a auis:SelectOption ;
+	skos:notation "internet_1_to_2_a_week" ;
+	skos:prefLabel "1-2 days per week"@en .
+
+aui:formOptInternetLessThan1 a auis:SelectOption ;
+	skos:notation "internet_less_than_1_a_week" ;
+	skos:prefLabel "Less than 1 day per week"@en .
