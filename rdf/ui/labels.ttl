@@ -12,14 +12,12 @@ aui:intro a auis:UI ;
 	aui:introHdrSlogan "Accurate Art Annotations"@en ;
 	aui:introHdrSubSlogan "Help us add information to artworks"@en ;
 	aui:introBtnRegister "Register"@en ;
-	aui:introBtnLogin "or Log in"@en ;
-	aui:introLnkAbout "About Accurator"@en .
+	aui:introBtnLogin "or Log in"@en .
 
 aui:introHdrSlogan rdfs:subPropertyOf auis:uiLabel .
 aui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
 aui:introBtnRegister rdfs:subPropertyOf auis:uiLabel .
 aui:introBtnLogin rdfs:subPropertyOf auis:uiLabel .
-aui:introLnkAbout rdfs:subPropertyOf auis:uiLabel .
 
 ###### About Screen #####
 
@@ -202,12 +200,12 @@ aui:loginTxtIncomplete rdfs:subPropertyOf auis:uiLabel .
 ##### User Navbar Dropdown #####
 
 aui:userDropdown a auis:UI ;
-	aui:navbarLblLogout "Logout"@en ;
-	aui:navbarLblAbout "About Accurator"@en ;
+	aui:navbarLnkLogout "Logout"@en ;
+	aui:navbarLnkAbout "About Accurator"@en ;
 	aui:navbarLblProfile "Profile"@en .
 
-aui:navbarLblLogout rdfs:subPropertyOf auis:uiLabel .
-aui:navbarLblAbout rdfs:subPropertyOf auis:uiLabel .
+aui:navbarLnkLogout rdfs:subPropertyOf auis:uiLabel .
+aui:navbarLnkAbout rdfs:subPropertyOf auis:uiLabel .
 aui:navbarLblProfile rdfs:subPropertyOf auis:uiLabel .
 
 ##### Form Screen #####
