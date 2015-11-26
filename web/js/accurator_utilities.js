@@ -591,7 +591,7 @@ function firstLogin(user, password) {
 				save_user_info({"locale":locale,"domain":domain}, function(){
 					// Determine which page will be shown next
 					if(experiment === "true") {
-						document.location.href="additional_info.html";
+						document.location.href="form.html";
 					} else {
 						document.location.href="domain.html";
 					}

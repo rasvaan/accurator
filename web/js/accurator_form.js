@@ -66,14 +66,14 @@ function addButtonEvents() {
 }
 
 function initLabels(labels) {
-	document.title = labels.title;
+	document.title = labels.formPageTitle;
 	$("#formHdrInternetUsage").append(labels.formHdrInternetUsage);
 	$("#formHdrPersonalInfo").append(labels.formHdrPersonalInfo);
 	formLblTwitterId = labels.formLblTwitterId;
 	formLblTagSiteOpen = labels.formLblTagSiteOpen;
 	formLblSocialSiteOpen = labels.formLblSocialSiteOpen;
-	$("#formHdrInfo").prepend(labels.formHdrInfo);
-	$("#formHdrInfoSub").append(labels.formHdrInfoSub);
+	$("#formHdrSlogan").prepend(labels.formHdrSlogan);
+	$("#formHdrSubSlogan").append(labels.formHdrSubSlogan);
 	initFormQuestions(labels);
 	$("#formBtnAdd").append(labels.formBtnAdd);
 	$("#formBtnSkip").append(labels.formBtnSkip);
@@ -97,7 +97,7 @@ function initFormQuestions(data) {
 	$("#formLblLanguage").append(data.formLblLanguage);
 	$("#formLblEducation").append(data.formLblEducation);
 	$("#formLblMail").append(data.formLblMail);
-	$("#formLblMailCheck").append(data.formLblMailCheck);
+	$("#formLblEmailCheck").append(data.formLblEmailCheck);
 	$("#formLblSocialNetwork").append(data.formLblSocialNetwork);
 	$("#formLblInternetUsage").append(data.formLblInternetUsage);
 	$("#formLblMuseumVisits").append(data.formLblMuseumVisits);
@@ -133,7 +133,7 @@ function initCheckboxes(data) {
 function addFormEvents() {
 	$("#formChkOther").click(function() {
 		if(!socialFieldAdded) {
-			$("#frmGroupSocialNetwork").after(
+			$("#formDivSocialNetwork").after(
 				$.el.div({'class':'form-group'},
 						$.el.label({'for':'addSocialSite',
 									'id':'frmSocialOpen',
@@ -148,7 +148,7 @@ function addFormEvents() {
 	});
 	$("#formChkTwitter").click(function() {
 		if(!twitterFieldAdded) {
-			$("#frmGroupSocialNetwork").after(
+			$("#formDivSocialNetwork").after(
 				$.el.div({'class':'form-group'},
 						$.el.label({'for':'addTwitterId',
 									'id':'formLblTwitterId',
@@ -163,7 +163,7 @@ function addFormEvents() {
 	});
 	$("#formChkTagOther").click(function() {
 		if(!tagsiteFieldAdded) {
-			$("#frmGroupTaggingSite").after(
+			$("#formDivTaggingSite").after(
 				$.el.div({'class':'form-group'},
 					$.el.label({'for':'addTagSite',
 							    'id':'formLblTagSite',
@@ -248,21 +248,21 @@ function getInput() {
 }
 
 function getInputTextFields() {
-	if (!($("#addAge").val() === ""))
-		info.age = $("#addAge").val();
-	if (!($("#addMail").val() === ""))
-		info.mail = $("#addMail").val();
-	if (!($("#addMuseumVisits").val() === ""))
-		info.museum_visits = $("#addMuseumVisits").val();
+	if (!($("#formInpAddAge").val() === ""))
+		info.age = $("#formInpAddAge").val();
+	if (!($("#formInpAddMail").val() === ""))
+		info.mail = $("#formInpAddMail").val();
+	if (!($("#formInpAddMuseumVisits").val() === ""))
+		info.museum_visits = $("#formInpAddMuseumVisits").val();
 }
 
 function getInputRadioButtons() {
-	if(!($("input[name='genderRadio']:checked").val() === undefined))
-		info.gender = $("input[name='genderRadio']:checked").val();
+	if(!($("input[name='formRbtnsGender']:checked").val() === undefined))
+		info.gender = $("input[name='formRbtnsGender']:checked").val();
 	if(!($("input[name='communityRadio']:checked").val() === undefined))
 		info.community = $("input[name='communityRadio']:checked").val();
-	if(!($("input[name='taggingExperienceLevelRadio']:checked").val() === undefined))
-		info.tagging_experience_level = $("input[name='taggingExperienceLevelRadio']:checked").val();
+	if(!($("input[name='formRbtnsTaggingExperience']:checked").val() === undefined))
+		info.tagging_experience_level = $("input[name='formRbtnsTaggingExperience']:checked").val();
 }
 
 function getInputCheckboxes() {
@@ -326,7 +326,7 @@ function getInputTaggingSite() {
 }
 
 function getInputEmailCheck() {
-	if($("#chkEmail").is(":checked")) {
+	if($("#formChkEmail").is(":checked")) {
 		info.accurator_email = true;
 	} else {
 		info.accurator_email = false;

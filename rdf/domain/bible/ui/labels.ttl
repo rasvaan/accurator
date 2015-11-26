@@ -53,10 +53,10 @@ abibui:results a aui:UI ;
 abibui:annotate a aui:UI ;
 	rdfs:subClassOf aui:annotate .
 
-##### Bible Additional Info Screen #####
+##### Bible Form Screen #####
 
-abibui:additional_info a auis:UI ;
-	rdfs:subClassOf aui:additional_info .
+abibui:form a auis:UI ;
+	rdfs:subClassOf aui:form .
 
 ##### Bible Login Modal #####
 

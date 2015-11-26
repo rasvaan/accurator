@@ -58,10 +58,10 @@ abirui:annotate a aui:UI ;
 abirui:end a auis:UI ;
 	rdfs:subClassOf aui:end .
 
-##### Bird Additional Info Screen #####
+##### Bird Form Screen #####
 
-abirui:additional_info a auis:UI ;
-	rdfs:subClassOf aui:additional_info .
+abirui:form a auis:UI ;
+	rdfs:subClassOf aui:form .
 
 ##### Bird Login Modal #####
 

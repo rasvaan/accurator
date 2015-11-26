@@ -217,8 +217,8 @@ aui:form a auis:UI ;
 	aui:formPageTitle "Info"@en ;
 	aui:formHdrInternetUsage "Internet usage"@en ;
 	aui:formHdrPersonalInfo "Personal info"@en ;
-	aui:formHdrInfo "Tell us about yourself"@en ;
-	aui:formHdrInfoSub "it would help us a lot if you would provide us with the following information"@en ;
+	aui:formHdrSlogan "Tell us about yourself"@en ;
+	aui:formHdrSubSlogan "it would help us a lot if you would provide us with the following information"@en ;
 	aui:formBtnAdd "Add Additional Info"@en ;
 	aui:formBtnSkip "or skip this step"@en ;
 	aui:formLblBirthDate "Date of birth"@en ;
@@ -234,7 +234,7 @@ aui:form a auis:UI ;
 	aui:formLblEducation "What is the highest level of education you have recieved?"@en ;
 	auis:hasSelect aui:formOptsEducation ;
 	aui:formLblMail "Email"@en ;
-	aui:formLblMailCheck "Keep me posted about Accurator"@en ;
+	aui:formLblEmailCheck "Keep me posted about Accurator"@en ;
 	aui:formLblSocialNetwork "On which social network sites are you active?"@en  ;
 	aui:formChkFacebook "Facebook"@en ;
 	aui:formChkLinkedIn "LinkedIn"@en ;
@@ -265,8 +265,8 @@ aui:formPageTitle rdfs:subPropertyOf auis:uiLabel .
 aui:formHdrInternetUsage rdfs:subPropertyOf auis:uiLabel .
 aui:formHdrInternetUsage a auis:UILabel .
 aui:formHdrPersonalInfo rdfs:subPropertyOf auis:uiLabel .
-aui:formHdrInfo rdfs:subPropertyOf auis:uiLabel .
-aui:formHdrInfoSub rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:formHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
 aui:formBtnAdd rdfs:subPropertyOf auis:uiLabel .
 aui:formBtnSkip rdfs:subPropertyOf auis:uiLabel .
 aui:formLblBirthDate rdfs:subPropertyOf auis:uiLabel .
@@ -281,7 +281,7 @@ aui:formRbtnRural rdfs:subPropertyOf auis:uiLabel .
 aui:formLblLanguage rdfs:subPropertyOf auis:uiLabel .
 aui:formLblEducation rdfs:subPropertyOf auis:uiLabel .
 aui:formLblMail rdfs:subPropertyOf auis:uiLabel .
-aui:formLblMailCheck rdfs:subPropertyOf auis:uiLabel .
+aui:formLblEmailCheck rdfs:subPropertyOf auis:uiLabel .
 aui:formLblSocialNetwork rdfs:subPropertyOf auis:uiLabel .
 aui:formChkFacebook rdfs:subPropertyOf auis:uiLabel .
 aui:formChkLinkedIn rdfs:subPropertyOf auis:uiLabel .
