@@ -101,11 +101,11 @@ Form page
 /*******************************************************************************
 Domain page
 *******************************************************************************/
-.domainDiv {
+.domain {
 	background-color: #333;
 }
 
-.domainImage {
+.domainImg {
 	max-width: 100%;
 	cursor: pointer;
 }
@@ -116,7 +116,7 @@ Domain page
 	padding-bottom: 10px;
 }
 
-.domainTitle {
+.domainHdr {
 	position: absolute;
 	top: 50px;
 	left: 50px;
