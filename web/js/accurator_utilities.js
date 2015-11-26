@@ -320,7 +320,7 @@ function populateNavbarUser(userName, linkList) {
 							 addLinks(linkList, data),
 						 	 $.el.li({'class':'divider'}),
 						 	 $.el.li($.el.a({'href':'about.html'},
-								 	 data.navbarLblAbout))))
+								 	 data.introLnkAbout))))
 		)
 		// Add logout event to menu item
 		$("#navbarLnkLogout").click(function() {
