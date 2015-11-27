@@ -27,7 +27,6 @@ function resultsInit() {
 		realName = loginData.real_name;
 		var userParam = getParameterByName("user");
 		var query = getParameterByName("query");
-
 		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}]);
 
 		onDomain = function(domainData) {
@@ -65,14 +64,14 @@ function initLabels(labels) {
 	document.title = labels.title;
 
 	$("#resultsBtnSearch").append(labels.resultsBtnSearch);
-	$("#resultsBtnRecommend").append(labels.resultsBtnRecommend);
+	$("#navbarBtnRecommend").append(labels.resultsBtnRecommend);
 	resultsTxtRecommendationsFor = labels.resultsTxtRecommendationsFor;
 	resultsHdrFirst = labels.resultsHdrFirst;
 	resultsTxtFirst = labels.resultsTxtFirst;
 }
 
 function addButtonEvents() {
-	$("#resultsBtnRecommend").click(function() {
+	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
@@ -91,10 +90,8 @@ function addButtonEvents() {
 function events() {
 	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
-		uris = annotations.uris;
-		if(uris.length===0) {
+		if(annotations.length===0)
 			alertMessage(resultsHdrFirst, vntFirstText, 'success');
-		}
 	});
 }
 
@@ -227,27 +224,8 @@ function addItemList(items) {
 			success: function(data) {
 				enrichedItems = processListEnrichment(data);
 				thumbnailList(enrichedItems);
-				// processEnrichment(data, clusterId);
-				// // Clone cluster to enable filtering without losing information.
-				// clusters[clusterId] = clone(enrichedClusters[clusterId]);
-				// filterCluster(clusters[clusterId]);
-				// if(clusters[clusterId].items.length==0) {
-				// 	$("#cluster"+clusterId).append(noFilterResultsHtml());
-				// } else {
-				// 	var pages = determineNumberOfPages(clusterId);
-				// 	$("#cluster"+clusterId).append(pagination(pages, clusterId));
-				// 	thumbnails(clusterId);
-				// }
 		   }
 	});
-
-	// new Pengine({server: 'pengine',
-	// 			 application: 'enrichment',
-	// 			 ask: 'maplist(enrich_item,' + Pengine.stringify(itemUris, {string:'atom'}) + ', Items),!',
-	// 			 onsuccess: function () {
-	// 				enrichedItems = processListEnrichment(this.data);
-	// 				thumbnailList(enrichedItems);
-	// }});
 }
 
 function processListEnrichment(sourceItems) {
