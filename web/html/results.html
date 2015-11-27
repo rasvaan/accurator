@@ -12,34 +12,34 @@
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#accuratorCollapse">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarDivMenu">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="intro.html">
-					<img id="headerImage" src="img/accurator.png" alt="Accurator">
+					<img id="navbarImgLogo" src="img/accurator.png" alt="Accurator">
 				</a>
 			</div>
-			<div class="collapse navbar-collapse" id="accuratorCollapse">
-				<ul class="nav navbar-nav navbar-right flagDropdown">
+			<div class="collapse navbar-collapse" id="navbarDivMenu">
+				<ul class="nav navbar-nav navbar-right navbarLstFlag">
 				</ul>
-				<ul class="nav navbar-nav navbar-right userDropdown">
+				<ul class="nav navbar-nav navbar-right navbarLstUser">
 				</ul>
-				<div class="navbar-form navbar-nav" id="frmGroupSearch">
+				<div class="navbar-form navbar-nav" id="navbarInpSearch">
 					<div class="form-group">
-						<input type="text" autocomplete="off" class="form-control" id="frmSearch">
+						<input type="text" autocomplete="off" class="form-control" id="navbarInpSearch">
 					</div>
-					<button id="btnResultsSearch" class="btn btn-default">
+					<button id="resultsBtnSearch" class="btn btn-default">
 					</button>
 				</div>
-				<button class="btn navbar-btn navbar-right btn-primary" id="btnResultsRecommend">
+				<button class="btn navbar-btn navbar-right btn-primary" id="navbarBtnRecommend">
 				</button>
 			</div>
 		</div>
 	</nav>
 
 	<!-- Events -->
-	<div class="container" id="events">
+	<div class="container" id="eventsDiv">
 	</div>
 
 	<!-- Results -->
@@ -47,32 +47,32 @@
 	</div>
 
 	<!-- Login modal -->
-	<div class="modal fade" id="modalLogin">
+	<div class="modal fade" id="loginDivLogin">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" id="mdlBtnClose">&times;</button>
-					<h4 id="mdlTxtTitle">
+					<button type="button" class="close" id="loginBtnClose">&times;</button>
+					<h4 id="loginHdrTitle">
 					</h4>
 				</div>
 				<div class="modal-body">
 					<form role="form">
 						<div class="form-group">
-							<label id="mdlFrmUsername" for="inputUsername">
+							<label id="loginLblUsername" for="loginInpUsername">
 							</label>
-							<input type="text" class="form-control" id="inputUsername">
+							<input type="text" class="form-control" id="loginInpUsername">
 								</div>
 						<div class="form-group">
-							<label id="mdlFrmPassword" for="password">
+							<label id="loginLblPassword" for="password">
 							</label>
-							<input type="password" class="form-control" id="inputPassword">
+							<input type="password" class="form-control" id="loginInpPassword">
 								</div>
-						<p class="text-warning" id="mdlLblLogin">
+						<p class="text-warning" id="loginTxtWarning">
 						</p>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" id="mdlBtnLogin">
+					<button class="btn btn-primary" id="loginBtnLogin">
 					</button>
 					<button class="btn btn-link" id="mdlBtnIntro">
 					</button>

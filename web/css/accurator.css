@@ -20,36 +20,38 @@ body {
 	text-align: bottom;
 }
 
-.footer {
+.footerDiv {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 	height: 35px;
 }
 
-.footerRelative {
+.footerDivRelative {
 	height: 35px;
 	margin-top: 20px;
 }
 
-.footerLogo {
+.footerImgLogo {
 	height: 25px;
 	margin-bottom: 5px;
 	margin-top: 5px;
 }
 
-#rijksmuseumLogo {
+#footerImgRijksmuseumLogo {
 	margin-top: 13px;
 	height: 17px;
 }
 
-#commitFooterLogo {
+#footerImgCommitLogo {
 	margin-top: 10px;
 	height: 20px;
 }
 
-/* Navbar */
-#headerImage {
+/*******************************************************************************
+Navbar
+*******************************************************************************/
+#navbarImgLogo {
 	height: 20px;
 }
 
@@ -65,45 +67,56 @@ body {
     }
 }
 
-/* Intro page */
-.introScreen {
+/*******************************************************************************
+Intro
+*******************************************************************************/
+.intro {
 	overflow-x: hidden;
 	overflow-y: hidden;
 	background-color: #333;
 }
 
-.backgroundImage {
+.introImgBackground {
 	min-width: 125%;
 	max-width: 125%;
 }
 
-.introText {
+.introDivContainer {
 	position: absolute;
 	top: 75px;
 }
 
-/* Additional info page */
-#chkEmail {
+/* Register page */
+.registerMessage {
+	margin-top: 50px;
+}
+
+/*******************************************************************************
+Form page
+*******************************************************************************/
+#formChkEmail {
 	margin-top: 10px;
 }
 
-/* Domain page */
-.domainScreen {
+/*******************************************************************************
+Domain page
+*******************************************************************************/
+.domain {
 	background-color: #333;
 }
 
-.domainImage {
+.domainImg {
 	max-width: 100%;
 	cursor: pointer;
 }
 
-#txtTitle {
+#domainTxtTitle {
 	text-align: center;
 	color: #fff;
 	padding-bottom: 10px;
 }
 
-.domainTitle {
+.domainHdr {
 	position: absolute;
 	top: 50px;
 	left: 50px;
@@ -122,8 +135,10 @@ body {
    overflow: hidden;
 }
 
-/* Profile page */
-#rowStartChange {
+/*******************************************************************************
+Profile page
+*******************************************************************************/
+#profileDivStartChange {
 	margin-top: 20px;
 }
 
@@ -132,11 +147,11 @@ body {
 	margin-bottom: 20px;
 }
 
-#rowLastAnnotated {
+#profileDivLastAnnotated {
 	margin-top: 20px;
 }
 
-#txtDomain {
+#profileTxtDomain {
 	margin-bottom: 20px;
 }
 
@@ -148,35 +163,34 @@ body {
 	cursor: pointer;
 }
 
-/* Expertise page */
-.rowExpertise {
+/*******************************************************************************
+Expertise page
+*******************************************************************************/
+.expertiseDiv {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-#rowButtonsExpertise {
+#expertiseDivButtonsExpertise {
 	margin-top: 10px;
 }
 
-#expertiseLabel {
+#expertiseLblExpertise {
 	line-height: 150%;
 }
 
-#masterLabelLeft {
+#expertiseLblMasterLeft {
 	 padding-right: 10px;
 }
 
-#masterLabelRight {
+#expertiseMasterLabelRight {
 	 padding-left: 10px;
 }
 
-/* About page */
-#commitLogo {
-	height: 40px;
-	text-align: right;
-}
-
-#aboutButtons {
+/*******************************************************************************
+About page
+*******************************************************************************/
+#aboutDivButtons {
 	margin-top: 20px;
 }
 
@@ -258,7 +272,7 @@ body {
 	margin-top: 12px;
 }
 
-#frmSearchAnnotate {
+#navbarFrmSearch{
 	text-align: center;
 }
 
@@ -286,7 +300,7 @@ body {
 	background-color: #333;
 }
 
-.endText {
+.endDiv {
 	position: absolute;
 	top: 75px;
 }
@@ -302,7 +316,7 @@ slider.slider-horizontal {
   	height: 15px;
 }
 
-.sliderLabel {
+.expertiseLblSlider {
 	padding: 0px 15px 0px 15px;
 }
 

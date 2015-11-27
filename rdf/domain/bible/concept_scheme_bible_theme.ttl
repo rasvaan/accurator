@@ -1,7 +1,8 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix abib: <http://accurator.nl/bible#> .
 
-# Named toplevel resources (5,954)
+# File used in the cpack image_annotation for autocompletion of fields:
+# concepts identified to be used in a particular domain or setting
 
 <http://iconclass.org/7>
 	skos:inScheme abib:BiblicalThemeConceptScheme .
