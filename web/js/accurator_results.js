@@ -63,7 +63,7 @@ function initLabels(labels) {
 	// Add retrieved labels to html elements
 	document.title = labels.title;
 
-	$("#resultsBtnSearch").append(labels.resultsBtnSearch);
+	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
 	$("#navbarBtnRecommend").append(labels.resultsBtnRecommend);
 	resultsTxtRecommendationsFor = labels.resultsTxtRecommendationsFor;
 	resultsHdrFirst = labels.resultsHdrFirst;
@@ -81,7 +81,7 @@ function addButtonEvents() {
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#resultsBtnSearch").click(function() {
+	$("#navbarBtnSearch").click(function() {
 		var query = encodeURIComponent($("#navbarInpSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
@@ -91,7 +91,7 @@ function events() {
 	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
 		if(annotations.length===0)
-			alertMessage(resultsHdrFirst, vntFirstText, 'success');
+			alertMessage(resultsHdrFirst, annotateTxtFirst, 'success');
 	});
 }
 

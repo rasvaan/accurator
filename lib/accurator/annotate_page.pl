@@ -119,14 +119,14 @@ annotate_javascript -->
 navigation -->
 	html({|html||
 	<!-- Navigation -->
-	<div class="row" id="clusterNavigation">
-	    <div class="navigationButton col-md-2 col-xs-6">
-			<button class="btn btn-default navButton" id="btnPrevious">
+	<div class="row" id="annotateDivNavigation">
+	    <div class="annotateDivNavigationButton col-md-2 col-xs-6">
+			<button class="btn btn-default annotateBtnNavigation" id="annotateBtnPrevious">
 		        <span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
 		</div>
-		<div class="navigationButton col-md-2 col-xs-6 col-md-push-8" id="btnAlignRight">
-			<button class="btn btn-default navButton" id="btnNext">
+		<div class="annotateDivNavigationButton col-md-2 col-xs-6 col-md-push-8" id="btnAlignRight">
+			<button class="btn btn-default annotateBtnNavigation" id="annotateBtnNext">
 		        <span class="glyphicon glyphicon-chevron-right"></span>
 			</button>
 		</div>

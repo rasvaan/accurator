@@ -58,19 +58,20 @@ aui:domainTxtTitle rdfs:subPropertyOf auis:uiLabel .
 aui:annotate a auis:UI ;
 	dcterms:title "Accurator tag UI"@en ;
 	aui:title "Tag image"@en ;
-	aui:btnPrevious "Previous"@en ;
-	aui:btnNext "Next"@en ;
+	aui:annotateBtnPrevious "Previous"@en ;
+	aui:annotateBtnNext "Next"@en ;
 	aui:navbarBtnRecommend "Recommended works"@en ;
 	aui:navbarBtnSearch "Search"@en ;
-	aui:vntFirstTitle "Your first tag!"@en ;
-	aui:vntFirstText "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en .
+	aui:annotateHdrFirst "Your first tag!"@en ;
+	aui:annotateTxtFirst "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en .
 
-aui:btnPrevious a auis:UILabel .
-aui:btnNext a auis:UILabel .
-aui:navbarBtnRecommend a auis:UILabel .
-aui:navbarBtnSearch a auis:UILabel .
-aui:vntFirstTitle a auis:UILabel .
-aui:vntFirstText a auis:UILabel .
+aui:title rdfs:subPropertyOf auis:uiLabel .
+aui:annotateBtnPrevious rdfs:subPropertyOf auis:uiLabel .
+aui:annotateBtnNext rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnRecommend rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
+aui:annotateHdrFirst rdfs:subPropertyOf auis:uiLabel .
+aui:annotateTxtFirst rdfs:subPropertyOf auis:uiLabel .
 
 ##### Expertise Screen #####
 
@@ -128,14 +129,14 @@ aui:results a auis:UI ;
 	dcterms:title "Accurator results UI"@en ;
 	aui:resultsHdrTitle "Results"@en ;
 	aui:resultsBtnRecommend "Recommend works"@en ;
-	aui:resultsBtnSearch "Search"@en ;
+	aui:navbarBtnSearch "Search"@en ;
 	aui:resultsTxtRecommendationsFor "Recommendations for "@en ;
 	aui:resultsHdrFirst "What do you want to tag?"@en ;
 	aui:resultsTxtFirst "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
 
 aui:resultsHdrTitle rdfs:subPropertyOf auis:uiLabel .
 aui:resultsBtnRecommend rdfs:subPropertyOf auis:uiLabel .
-aui:resultsBtnSearch rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtRecommendationsFor rdfs:subPropertyOf auis:uiLabel .
 aui:resultsHdrFirst rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtFirst rdfs:subPropertyOf auis:uiLabel .

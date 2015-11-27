@@ -3,7 +3,7 @@ Accurator Annotate
 Code for extending functionallity annotation page.
 *******************************************************************************/
 var query, locale, experiment, domain, user, ui, uri;
-var vntFirstTitle, vntFirstText;
+var annotateHdrFirst, annotateTxtFirst;
 
 displayOptions = {
 	showMetadata: true,
@@ -56,14 +56,14 @@ function populateUI() {
 }
 
 function initLabels(data) {
-	$("#btnPrevious").append(data.btnPrevious);
-	$("#btnNext").prepend(data.btnNext);
+	$("#annotateBtnPrevious").append(data.annotateBtnPrevious);
+	$("#annotateBtnNext").prepend(data.annotateBtnNext);
 	$("#navbarBtnRecommend").append(data.navbarBtnRecommend);
 	$("#navbarBtnSearch").append(data.navbarBtnSearch);
-	vntFirstTitle = data.vntFirstTitle;
-	vntFirstText = data.vntFirstText;
+	annotateHdrFirst = data.annotateHdrFirst;
+	annotateTxtFirst = data.annotateTxtFirst;
 	// Add next to optional experiment navigation
-	$("#btnExperimentNext").prepend(data.btnNext);
+	$("#annotateBtnExperimentNext").prepend(data.annotateBtnNext);
 }
 
 function initImage() {
@@ -78,7 +78,7 @@ function events() {
 	.done(function(annotations){
 		uris = annotations;
 		if(annotations.length===0) {
-			alertMessage(vntFirstTitle, vntFirstText, 'success');
+			alertMessage(annotateHdrFirst, annotateTxtFirst, 'success');
 		}
 	});
 }
@@ -114,18 +114,18 @@ function addClusterNavigationButtonEvents() {
 	var items = cluster.items;
 
 	if(index === 0) {
-		$("#btnPrevious").attr("disabled", "disabled");
+		$("#annotateBtnPrevious").attr("disabled", "disabled");
 	} else {
-		$("#btnPrevious").click(function() {
+		$("#annotateBtnPrevious").click(function() {
 			localStorage.setItem("itemIndex", index - 1);
 			document.location.href= "annotate_image.html?uri=" + items[index -1].uri;
 		});
 	}
 
 	if(index === items.length-1) {
-		$("#btnNext").attr("disabled", "disabled");
+		$("#annotateBtnNext").attr("disabled", "disabled");
 	} else {
-		$("#btnNext").click(function() {
+		$("#annotateBtnNext").click(function() {
 			localStorage.setItem("itemIndex", index + 1);
 			document.location.href= "annotate_image.html?uri=" + items[index + 1].uri;
 		});
@@ -143,18 +143,18 @@ function metadata() {
 }
 
 function appendMetadataWell(metadata) {
-	$("#metadata").append(
+	$("#annotateDivMetadata").append(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
 				$.el.div({'class':'well well-sm'},
 				  $.el.h4('Showing metadata for ' + metadata.title),
 					$.el.dl({'class':'dl-horizontal',
-							 'id':'metadataList'})))));
+							 'id':'annotateLstMetadata'})))));
 
 	for(var i=0; i<metadata.properties.length; i++) {
-		$("#metadataList").append(
+		$("#annotateLstMetadata").append(
 			$.el.dt(metadata.properties[i].predicate_label));
-		$("#metadataList").append(
+		$("#annotateLstMetadata").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
 					    'href':'results.html?query=' +
@@ -169,26 +169,26 @@ function annotations() {
 		$.getJSON("annotations", {uri:uri, type:"object"})
 		.done(function(annotations){
 			if(annotations.annotations.length > 0){
-				$("#metadata").append(annotationWell(annotations));
+				annotationWell(annotations);
 			}
 		});
 	}
 }
 
 function annotationWell(annotations) {
-	$("#metadata").append(
+	$("#annotateDivMetadata").append(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
 				$.el.div({'class':'well well-sm'},
 				  $.el.h4('Annotations for ' + annotations.title),
 					$.el.dl({'class':'dl-horizontal',
-							 'id':'annotationList'})))));
+							 'id':'annotateLstAnnotations'})))));
 
 
 	for(var i=0; i<annotations.annotations.length; i++) {
-		$("#annotationList").append(
+		$("#annotateLstAnnotations").append(
 			$.el.dt(annotations.annotations[i].field));
-		$("#annotationList").append(
+		$("#annotateLstAnnotations").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
 					    'href':'results.html?query=' +
@@ -201,7 +201,7 @@ function maybeRunExperiment() {
 	// Hide some elements during an experiment
 	if(experiment !== "none") {
 		// Hide path if on annotate page
-		$("#clusterNavigation").hide();
+		$("#annotateDivNavigation").hide();
 		// Don't show metadata
 		displayOptions.showMetadata = false;
 		// Don't show annotations of others
@@ -212,11 +212,11 @@ function maybeRunExperiment() {
 }
 
 function addExperimentNavigation() {
-	$("#metadata").before(
+	$("#annotateDivMetadata").before(
 		$.el.div({'class':'row',
-				  'id':'experimentNavigation'},
+				  'id':'annotateDivExperimentNavigation'},
 			$.el.button({'class':'btn btn-primary',
-						 'id':'btnExperimentNext'})
+						 'id':'annotateBtnExperimentNext'})
 		)
 	);
 
@@ -236,7 +236,7 @@ function addExperimentNavigation() {
 		}
 
 		// Add click event to navigation button
-		$("#btnExperimentNext").click(function() {
+		$("#annotateBtnExperimentNext").click(function() {
 			// Go to thank you page after 20 annotations else results
 			if(numberAnnotated == 10) {
 				document.location.href="end.html";
