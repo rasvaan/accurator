@@ -70,6 +70,14 @@ aui:profile a auis:UI ;
 	aui:profileBtnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:profileLblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl .
 
+##### Search Screen #####
+
+aui:search a auis:UI ;
+	dcterms:title "Zoek Accurator"@nl ;
+	aui:searchPageTitle "Zoeken"@nl ;
+	aui:searchHdrSlogan "Welkom "@nl ;
+	aui:navbarBtnSearch "Zoek"@nl .
+
 ##### Results Screen #####
 
 aui:results a auis:UI ;

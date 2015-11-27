@@ -122,6 +122,18 @@ aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
 aui:profileBtnChangeExpertise rdfs:subPropertyOf auis:uiLabel .
 aui:profileLblLastAnnotated rdfs:subPropertyOf auis:uiLabel .
 
+##### Search Screen #####
+
+aui:search a auis:UI ;
+	dcterms:title "Accurator search"@en ;
+	aui:searchPageTitle "Search"@en ;
+	aui:searchHdrSlogan "Welcome "@en ;
+	aui:navbarBtnSearch "Search"@en .
+
+aui:searchPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:searchHdrSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
+
 ##### Results Screen #####
 
 aui:results a auis:UI ;
