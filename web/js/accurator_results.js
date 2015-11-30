@@ -10,9 +10,9 @@ var initialClusters = [], enrichedClusters = [], clusters = [];
 // Display options deciding how to results get rendered
 displayOptions = {
 	layout: "cluster",
+	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
-	showFilters: false,
-	imageFilter: "onlyImages"
+	showControls: true
 }
 
 function resultsInit() {
@@ -113,7 +113,7 @@ function search(query, target) {
 
 	onDone = function(data){
 		$("#results").children().remove();
-		showFilters();
+		controls();
 		processJsonResults(data);
 		createResultClusters();
 		$(document).prop('title', 'Results for ' + query);
@@ -134,20 +134,6 @@ function search(query, target) {
 		.done(onDone)
 		.fail(onFail);
 	}
-}
-
-function statusMessage(header, text){
-	$("#results").children().remove();
-	$(document).prop('title', header);
-
-	$("#results").append(
-		$.el.div({'class':'row'},
-			$.el.div({'class':'col-lg-10 col-md-offset-1'},
-				$.el.h3(header)),
-			$.el.div({'class':'row'},
-				$.el.div({'class':'col-md-10 col-md-offset-1'},
-					text)))
-	);
 }
 
 function recommendItems(target) {
@@ -237,6 +223,60 @@ function recommendExpertiseList(target) {
 	});
 }
 
+function controls() {
+	if(displayOptions.showControls) {
+		$("#results").append(
+			$.el.div({'class':'row'},
+				$.el.div({'class':'col-md-12 resultsDivControls'}))
+		);
+		resultLayoutButtons();
+	}
+}
+
+function resultLayoutButtons() {
+	$(".resultsDivControls").append(
+		$.el.div({'class':'btn-group'},
+			$.el.button({'class':'btn btn-default',
+						 'id':'resultsBtnLayout'}))
+	);
+	setLayoutButton();
+	$("#resultsBtnLayout").click(function() {
+		displayOptions.layout = (displayOptions.layout === "list") ? "cluster" : "list";
+		setLayoutButton();
+	});
+}
+
+function setLayoutButton() {
+	//TODO: localize variables
+	var resultsLblCluster = "Cluster view";
+	var resultsLblList = "List view";
+
+	if(displayOptions.layout === "list") {
+		$("#resultsBtnLayout").html(
+			$.el.span(resultsLblList + ' ',
+			$.el.span({'class':'glyphicon glyphicon-th-large'}))
+		);
+	} else {
+		$("#resultsBtnLayout").html(
+			$.el.span(resultsLblCluster + ' ',
+			$.el.span({'class':'glyphicon glyphicon-th-large'}))
+		);
+	}
+}
+
+function statusMessage(header, text){
+	$("#results").children().remove();
+	$(document).prop('title', header);
+
+	$("#results").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-lg-10 col-md-offset-1'},
+				$.el.h3(header)),
+			$.el.div({'class':'row'},
+				$.el.div({'class':'col-md-10 col-md-offset-1'},
+					text)))
+	);
+}
 
 /*******************************************************************************
 Result List

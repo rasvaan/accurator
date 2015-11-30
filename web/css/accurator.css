@@ -220,6 +220,10 @@ Search results
 	cursor: pointer;
 }
 
+.resultsDivControls {
+	padding-bottom: 10px;
+}
+
 .path-label {
 	color: rgb(255, 255, 255);
     display: inline;

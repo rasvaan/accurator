@@ -69,12 +69,12 @@ function noFilterResultsHtml() {
 							 displayOptions.imageFilter));
 }
 
-function showFilters() {
-	// console.log('Showing filters:', displayOptions.showFilters);
-	if(displayOptions.showFilters) {
-		$("#results").append(filterAndRankButtons());
-	}
-}
+// function showFilters() {
+// 	// console.log('Showing filters:', displayOptions.showFilters);
+// 	if(displayOptions.showFilters) {
+// 		$("#results").append(filterAndRankButtons());
+// 	}
+// }
 
 function processJsonResults(data) {
 	// Convert json to initialClusters array
@@ -262,12 +262,12 @@ function determineNumberOfPages (clusterId) {
 	return numberOfPages;
 }
 
-function filterAndRankButtons() {
-	return $.el.div({'class':'row'},
-					$.el.div({'class':'col-md-12 filters'},
-							 filterButtons()));
-							 //rankButtons()));
-}
+// function filterAndRankButtons() {
+// 	return $.el.div({'class':'row'},
+// 					$.el.div({'class':'col-md-12 filters'},
+// 							 filterButtons()));
+// 							 //rankButtons()));
+// }
 
 function filterButtons() {
 	return $.el.div({'class':'btn-group'},
