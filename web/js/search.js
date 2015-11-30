@@ -1,45 +1,45 @@
-var initialClusters = [];
-var enrichedClusters = [];
-var clusters = [];
-var query = "";
+// var initialClusters = [];
+// var enrichedClusters = [];
+// var clusters = [];
+// var query = "";
 
-displayOptions = {
-	numberDisplayedItems: 4,
-	showFilters: true,
-	imageFilter: 'onlyImages',
-}
+// displayOptions = {
+// 	numberDisplayedItems: 4,
+// 	showFilters: true,
+// 	imageFilter: 'onlyImages',
+// }
 
-function search(keyword, target) {
-	query  = keyword;
-	$(document).prop('title', 'Searching for ' + query);
-	$("#results").append(searchingHtml());
-
-	onDone = function(data){
-		$("#results").children().remove();
-		showFilters();
-		processJsonResults(data);
-		createResultClusters();
-		$(document).prop('title', 'Results for ' + query);
-	};
-
-	onFail = function(data, textStatus){
-		$("#results").children().remove();
-		$("#results").append(errorHtml(data, textStatus));
-		$(document).prop('title', 'Error on ' + query);
-	};
-
-	//Get and process clusters
-	if (typeof target == 'undefined') {
-		$.getJSON("cluster_search_api", {query:query})
-		.done(onDone)
-		.fail(onFail);
-	} else {
-		$.getJSON("cluster_search_api", {query:query,
-										 target:target})
-		.done(onDone)
-		.fail(onFail);
-	}
-}
+// function search(keyword, target) {
+// 	query  = keyword;
+// 	$(document).prop('title', 'Searching for ' + query);
+// 	$("#results").append(searchingHtml());
+//
+// 	onDone = function(data){
+// 		$("#results").children().remove();
+// 		showFilters();
+// 		processJsonResults(data);
+// 		createResultClusters();
+// 		$(document).prop('title', 'Results for ' + query);
+// 	};
+//
+// 	onFail = function(data, textStatus){
+// 		$("#results").children().remove();
+// 		$("#results").append(errorHtml(data, textStatus));
+// 		$(document).prop('title', 'Error on ' + query);
+// 	};
+//
+// 	//Get and process clusters
+// 	if (typeof target == 'undefined') {
+// 		$.getJSON("cluster_search_api", {query:query})
+// 		.done(onDone)
+// 		.fail(onFail);
+// 	} else {
+// 		$.getJSON("cluster_search_api", {query:query,
+// 										 target:target})
+// 		.done(onDone)
+// 		.fail(onFail);
+// 	}
+// }
 
 function searchingHtml(){
 	return $.el.div({'class':'row'},
@@ -462,90 +462,6 @@ function truncate (string, limit) {
 	return chars.join('');
 }
 
-function setGlobalQuery(keyword) {
-	query = keyword;
-}
-//if ($("#search-field").length > 0) {
-//$("#search-field").typeahead({
-//  source: autoComplete,
-//  items: 10,
-//  updater: function(item) {
-//      this.$element[0].value = item;
-//      this.$element[0].form.submit();
-//      return item;
-//  }
-//});
-//}
-
-//
-//var autoComplete = function(query, process) {
-//	//Construct the url (hardcoded the portnumber for now)
-//	var autocompleteAPI = "http://" + document.domain + ":3737/api/ac_find_literal";
-//	maxResults = 10;
-//	console.log("Url of the autocomplete api: " + autocompleteAPI);
-//	console.log("Query length: " + query.length);
-//	if(query.length>2){
-//		$.getJSON(autocompleteAPI, {
-//				query:query,
-//				maxResultsDisplayed:maxResults
-//				},
-//				function(data){
-//					var results = processJsonResults(data, query, maxResults);
-//					process(results);
-//					});
-//	}
-//};
-//
-
-
-//
-//var autoComplete = function(query, process) {
-//	//Construct the url (hardcoded the portnumber for now)
-//	var autocompleteAPI = "http://" + document.domain + ":3737/api/ac_find_literal";
-//	maxResults = 10;
-//	console.log("Url of the autocomplete api: " + autocompleteAPI);
-//	console.log("Query length: " + query.length);
-//	if(query.length>2){
-//		$.getJSON(autocompleteAPI, {
-//				query:query,
-//				maxResultsDisplayed:maxResults
-//				},
-//				function(data){
-//					var results = processJsonResults(data, query, maxResults);
-//					process(results);
-//					});
-//	}
-//};
-//
-//if ($("#search-field").length > 0) {
-//    $("#search-field").typeahead({
-//        source: autoComplete,
-//        items: 10,
-//        updater: function(item) {
-//            this.$element[0].value = item;
-//            this.$element[0].form.submit();
-//            return item;
-//        }
-//    });
-//}
-
-//function processJsonResults(data, query, maxResults) {
-//	var results = [];
-//	var numberOfResults = data.query.count;
-//	//Add query as first result (otherwise unwanted complex searches)
-//	results[0] = query;
-//	console.log("Json results: " + numberOfResults);
-//	for (var i=0; i<maxResults-1 && i<numberOfResults; i++) {
-//		label = data.results[i].label;
-//		results[i+1] = label;
-//	}
-//	console.log("Autocomplete results: " + results);
-//	return results;
-//}
-//
-//function processLabel(label) {
-//	if (label.length > 25) {
-//		label = label.substr(0,22) + "...";
-//	}
-//	return label;
-//}
+// function setGlobalQuery(keyword) {
+// 	query = keyword;
+// }

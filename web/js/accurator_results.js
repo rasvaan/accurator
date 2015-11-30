@@ -1,16 +1,18 @@
 /*******************************************************************************
 Accurator Results
 Page showing overview of recommender/search results. Uses a lot of code from
-cluster_search_ui (search.js pagination.js and thumbnail.js)
+pagination.js and thumbnail.js
 *******************************************************************************/
-var locale, experiment, ui, typeRec, userName, realName;
+var query = "", locale, experiment, ui, userName, realName;
 var resultsTxtRecommendationsFor, resultsHdrFirst, resultsTxtFirst;
+var initialClusters = [], enrichedClusters = [], clusters = [];
 
-// Options provided for search.js
+// Display options deciding how to results get rendered
 displayOptions = {
+	layout: "cluster",
 	numberDisplayedItems: 4,
 	showFilters: false,
-	imageFilter: 'onlyImages'
+	imageFilter: "onlyImages"
 }
 
 function resultsInit() {
@@ -25,7 +27,7 @@ function resultsInit() {
 		user = loginData.user;
 		userName = getUserName(user);
 		realName = loginData.real_name;
-		var userParam = getParameterByName("user");
+		var userQuery = getParameterByName("user");
 		var query = getParameterByName("query");
 		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}]);
 
@@ -36,13 +38,7 @@ function resultsInit() {
 			addButtonEvents();
 
 			//Provide results based on query or recommend something. In case of no in put recommend based on retrieved user.
-			if(query != "") {
-				initiateSearch(query, target);
-			} else {
-				recommendItems(target);
-				query = typeRec;
-			}
-			localStorage.setItem("query", query);
+			results(query, userQuery, target);
 		};
 		domainSettings(domain, onDomain);
 	};
@@ -95,22 +91,56 @@ function events() {
 	});
 }
 
-function initiateSearch(query, target) {
-	search(query, target);
+function results(query, userQuery, target) {
+	// Determine whether to recommend or give random results and set layout
+	var recommend = recommenderExperiment();
+
+	if(query) {
+		search(query);
+	} else if(recommend) {
+		recommendItems(userQuery, target);
+		query = "expertise values";
+	} else {
+		randomItems(target);
+		query = "random";
+	}
+	localStorage.setItem("query", query);
 }
 
-function recommendItems(target) {
-	if(experiment === "recommender") {
-		// If running an recommender experiment choose A or B
-		randomOrRecommended(target);
+function search(query, target) {
+	console.log("Searching for: ", query);
+	$(document).prop('title', 'Searching for ' + query);
+	$("#results").append(searchingHtml());
+
+	onDone = function(data){
+		$("#results").children().remove();
+		showFilters();
+		processJsonResults(data);
+		createResultClusters();
+		$(document).prop('title', 'Results for ' + query);
+	};
+
+	onFail = function(data, textStatus){
+		$("#results").children().remove();
+		$("#results").append(errorHtml(data, textStatus));
+		$(document).prop('title', 'Error on ' + query);
+	};
+
+	//Get and process clusters
+	if (typeof target == 'undefined') {
+		$.getJSON("cluster_search_api", {query:query})
+		.done(onDone)
+		.fail(onFail);
 	} else {
-		// Business as usual
-		recommendExpertiseItems(target);
+		$.getJSON("cluster_search_api", {query:query,
+										 target:target})
+		.done(onDone)
+		.fail(onFail);
 	}
 }
 
-function recommendExpertiseItems(target) {
-	typeRec = "expertise values";
+function recommendItems(target) {
+	console.log("Recommending items");
 
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
@@ -127,6 +157,25 @@ function recommendExpertiseItems(target) {
 		$("#results").children().remove();
 		$("#results").append(errorHtml(data, textStatus));
 		$(document).prop('title', 'Error on ' + query);
+	});
+}
+
+function randomItems(target) {
+	console.log("Providing random items");
+
+	// Populate a list of random items
+	$.getJSON("recommendation", {strategy:'random',
+								 number:12,
+								 target:target})
+	.done(function(data){
+		var numberOfItems = data.length;
+		var items = [];
+
+		for (var i=0; i<numberOfItems; i++) {
+			var uri = data[i];
+			items[i] = new item(uri);
+		}
+		addItemList(items);
 	});
 }
 
@@ -153,19 +202,8 @@ function populateRandom(target, clusterIndex) {
 	});
 }
 
-function randomOrRecommended(target) {
-	// Consider recommendation AB setting
-	var AOrB = getAOrB();
-
-	if(AOrB === "recommend") {
-		recommendExpertiseList(target);
-	} else if(AOrB === "random") {
-		randomResults(target);
-	}
-}
-
 function recommendExpertiseList(target) {
-	typeRec = "expertise";
+	console.log("Recommending list of items");
 
 	$.getJSON("recommendation", {strategy:'expertise',
 								 number:12,
@@ -188,24 +226,6 @@ function recommendExpertiseList(target) {
 	});
 }
 
-function randomResults(target) {
-	typeRec = "random";
-
-	// Populate a list of random items
-	$.getJSON("recommendation", {strategy:'random',
-								 number:12,
-								 target:target})
-	.done(function(data){
-		var numberOfItems = data.length;
-		var items = [];
-
-		for (var i=0; i<numberOfItems; i++) {
-			var uri = data[i];
-			items[i] = new item(uri);
-		}
-		addItemList(items);
-	});
-}
 
 /*******************************************************************************
 Result List

@@ -242,7 +242,7 @@ function flipAOrB() {
 	var aBArray = [];
 
 	// Get an array with A or B for the specified experiment
-	if(experiment === "true") {
+	if(experiment === "recommender") {
 		aBArray = ["random","recommend"];
 	} else {
 		aBArray = ["a","b"];
@@ -253,6 +253,23 @@ function flipAOrB() {
 	setAOrB(aBArray[randomIndex]);
 }
 
+function recommenderExperiment() {
+	// Settings for recommender experiment
+	if(experiment === "recommender") {
+		// Set interface to list view
+		displayOptions.layout = "list";
+
+		// If running an recommender experiment choose A or B
+		var AOrB = getAOrB();
+
+		if(AOrB === "recommend") {
+			return true;
+		} else if(AOrB === "random") {
+			return false;
+		}
+	}
+	return true;
+}
 /*******************************************************************************
 User Interface
 Functionallity making the ui adapt
