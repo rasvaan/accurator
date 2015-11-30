@@ -41,33 +41,27 @@
 // 	}
 // }
 
-function searchingHtml(){
-	return $.el.div({'class':'row'},
-					$.el.div({'class':'col-lg-10 col-md-offset-1'},
-							 $.el.h3('Searching for ',
-									 $.el.span({'class':'text-info'},
-											   query))));
-}
 
-function errorHtml(data, textStatus){
-	return $.el.div({'class':'row'},
-					$.el.div({'class':'col-lg-10 col-md-offset-1'},
-							 $.el.h3('Unfortunately an ',
-									 $.el.span({'class':'text-danger'},
-											   'error'),
-									 ' has occured:')),
-					$.el.div({'class':'row'},
-							 $.el.div({'class':'well well-sm col-md-10 col-md-offset-1'},
-									  data.responseText)));
-}
 
-function noResultsHtml(query) {
-	return $.el.div({'class':'row'},
-					$.el.div({'class':'col-lg-10 col-md-offset-1'},
-							 $.el.h3('No results found for ',
-									 $.el.span({'class':'text-danger'},
-											   query))));
-}
+// function errorHtml(data, textStatus){
+// 	return $.el.div({'class':'row'},
+// 					$.el.div({'class':'col-lg-10 col-md-offset-1'},
+// 							 $.el.h3('Unfortunately an ',
+// 									 $.el.span({'class':'text-danger'},
+// 											   'error'),
+// 									 ' has occured:')),
+// 					$.el.div({'class':'row'},
+// 							 $.el.div({'class':'well well-sm col-md-10 col-md-offset-1'},
+// 									  data.responseText)));
+// }
+//
+// function noResultsHtml(query) {
+// 	return $.el.div({'class':'row'},
+// 					$.el.div({'class':'col-lg-10 col-md-offset-1'},
+// 							 $.el.h3('No results found for ',
+// 									 $.el.span({'class':'text-danger'},
+// 											   query))));
+// }
 
 function noFilterResultsHtml() {
 	return $.el.h4('No results due to filter: ',

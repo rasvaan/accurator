@@ -109,8 +109,7 @@ function results(query, userQuery, target) {
 
 function search(query, target) {
 	console.log("Searching for: ", query);
-	$(document).prop('title', 'Searching for ' + query);
-	$("#results").append(searchingHtml());
+	statusMessage('Searching for ' + query);
 
 	onDone = function(data){
 		$("#results").children().remove();
@@ -120,10 +119,8 @@ function search(query, target) {
 		$(document).prop('title', 'Results for ' + query);
 	};
 
-	onFail = function(data, textStatus){
-		$("#results").children().remove();
-		$("#results").append(errorHtml(data, textStatus));
-		$(document).prop('title', 'Error on ' + query);
+	onFail = function(data){
+		statusMessage('Unfortunately an error has occured', data.responseText);
 	};
 
 	//Get and process clusters
@@ -137,6 +134,20 @@ function search(query, target) {
 		.done(onDone)
 		.fail(onFail);
 	}
+}
+
+function statusMessage(header, text){
+	$("#results").children().remove();
+	$(document).prop('title', header);
+
+	$("#results").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-lg-10 col-md-offset-1'},
+				$.el.h3(header)),
+			$.el.div({'class':'row'},
+				$.el.div({'class':'col-md-10 col-md-offset-1'},
+					text)))
+	);
 }
 
 function recommendItems(target) {
