@@ -110,11 +110,6 @@ function noFilterResultsHtml() {
 // 	}
 // }
 
-function clusterContainer(clusterId) {
-	return $.el.div({'class':'well well-sm',
-					'id':'cluster' + clusterId});
-}
-
 function addPath(clusterId) {
 	// Generate HTML cluster path
 	var pathUris = initialClusters[clusterId].path;
@@ -142,125 +137,119 @@ function addPath(clusterId) {
 	});
 }
 
-function pathHtmlElements(path) {
-	var simplePathElements = $.el.h4();
+// function pathHtmlElements(path) {
+// 	var simplePathElements = $.el.h4();
+//
+// 	//Simplified
+// 	if(path.length==0){
+// 		// Only show query in case there is no path
+// 		simplePathElements.appendChild(
+// 			$.el.span({'class':'path-label path-literal'},
+// 					  query));
+// 	} else {
+// 		simplePathElements.appendChild(
+// 			$.el.span({'class':'path-label path-property'},
+// 					  path[path.length-2].label));
+//
+// 		simplePathElements.appendChild(
+// 			$.el.span({'class':'path-label path-resource'},
+// 					  path[path.length-3].label));
+// 	}
+// 	return $.el.div({'class':'row path'},
+// 					$.el.div({'class':'col-md-12'},
+// 							 simplePathElements));
+// }
+//
+// function unfoldPathEvent(id, path) {
+// 	var pathElements = $.el.h4();
+//
+// 	if(path.length==0){
+// 		// Only show query in case there is no path
+// 		pathElements.appendChild(
+// 			$.el.span({'class':'path-label path-literal'},
+// 					  query));
+// 	} else {
+// 		for(var i=0; i<path.length; i++) {
+// 			// Label colouring
+// 			if(i==0){
+// 				pathElements.appendChild(
+// 					$.el.span({'class':'path-label path-literal'},
+// 							query));
+// 			} else if(i%2==0){
+// 				pathElements.appendChild(
+// 					$.el.span({'class':'path-label path-resource'},
+// 						path[i].label));
+// 			} else {
+// 				pathElements.appendChild(
+// 					$.el.span({'class':'path-label path-property'},
+// 						path[i].label));
+// 			}
+// 			// Add arrow if not end of path
+// 			if(!(path.length==i+1)){
+// 				pathElements.appendChild(
+// 					$.el.span({'class':'glyphicon glyphicon-arrow-right'}));
+// 			}
+// 		}
+// 	};
+//
+//
+// }
 
-	//Simplified
-	if(path.length==0){
-		// Only show query in case there is no path
-		simplePathElements.appendChild(
-			$.el.span({'class':'path-label path-literal'},
-					  query));
-	} else {
-		simplePathElements.appendChild(
-			$.el.span({'class':'path-label path-property'},
-					  path[path.length-2].label));
-
-		simplePathElements.appendChild(
-			$.el.span({'class':'path-label path-resource'},
-					  path[path.length-3].label));
-	}
-	return $.el.div({'class':'row path'},
-					$.el.div({'class':'col-md-12'},
-							 simplePathElements));
-}
-
-function unfoldPathEvent(id, path) {
-	var pathElements = $.el.h4();
-
-	if(path.length==0){
-		// Only show query in case there is no path
-		pathElements.appendChild(
-			$.el.span({'class':'path-label path-literal'},
-					  query));
-	} else {
-		for(var i=0; i<path.length; i++) {
-			// Label colouring
-			if(i==0){
-				pathElements.appendChild(
-					$.el.span({'class':'path-label path-literal'},
-							query));
-			} else if(i%2==0){
-				pathElements.appendChild(
-					$.el.span({'class':'path-label path-resource'},
-						path[i].label));
-			} else {
-				pathElements.appendChild(
-					$.el.span({'class':'path-label path-property'},
-						path[i].label));
-			}
-			// Add arrow if not end of path
-			if(!(path.length==i+1)){
-				pathElements.appendChild(
-					$.el.span({'class':'glyphicon glyphicon-arrow-right'}));
-			}
-		}
-	};
-
-	$(id + " .path-label").click(function() {
-		$(id + " .path").html(
-			$.el.div({'class':'col-md-12'},
-					pathElements)
-		);
-	});
-}
-
-function addItems(clusterId) {
-	var items = initialClusters[clusterId].items;
-	var uris = [];
-	var enrichedItems = [];
-
-	for(var i=0; i<items.length; i++)
-		uris[i] = items[i].uri;
-
-	var json = {"uris":uris};
-	$.ajax({type: "POST",
-			url: "metadata",
-			contentType: "application/json",
-			data: JSON.stringify(json),
-			success: function(data) {
-				processEnrichment(data, clusterId);
-				// Clone cluster to enable filtering without losing information.
-				clusters[clusterId] = clone(enrichedClusters[clusterId]);
-				filterCluster(clusters[clusterId]);
-				if(clusters[clusterId].items.length==0) {
-					$("#cluster"+clusterId).append(noFilterResultsHtml());
-				} else {
-					var pages = determineNumberOfPages(clusterId);
-					$("#cluster"+clusterId).append(pagination(pages, clusterId));
-					thumbnails(clusterId);
-				}
-		   }
-	});
-}
-
-function processEnrichment(data, clusterId) {
-	var items = [];
-
-	for(var i=0; i<data.length; i++) {
-		var uri = data[i].uri;
-		var thumb = data[i].thumb;
-		var link = "annotate.html?uri=" + uri;
-		var title = truncate(data[i].title, 60);
-		items[i] = new item(uri, thumb, link, title);
-	}
-	// Add items to enrichedClusters for future reference
-	enrichedClusters[clusterId].items = items;
-}
-
-function determineNumberOfPages (clusterId) {
-	var numberOfPages = 0;
-	var numberOfItems = clusters[clusterId].items.length;
-	var restPages = numberOfItems%display.numberDisplayedItems;
-
-	//Determine number of items in pagination
-	if(restPages == 0) {
-		numberOfPages = numberOfItems/display.numberDisplayedItems;
-	} else {
-		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
-	}
-	return numberOfPages;
-}
+// function addItems(clusterId) {
+// 	var items = initialClusters[clusterId].items;
+// 	var uris = [];
+// 	var enrichedItems = [];
+//
+// 	for(var i=0; i<items.length; i++)
+// 		uris[i] = items[i].uri;
+//
+// 	var json = {"uris":uris};
+// 	$.ajax({type: "POST",
+// 			url: "metadata",
+// 			contentType: "application/json",
+// 			data: JSON.stringify(json),
+// 			success: function(data) {
+// 				processEnrichment(data, clusterId);
+// 				// Clone cluster to enable filtering without losing information.
+// 				clusters[clusterId] = clone(enrichedClusters[clusterId]);
+// 				filterCluster(clusters[clusterId]);
+// 				if(clusters[clusterId].items.length==0) {
+// 					$("#cluster"+clusterId).append(noFilterResultsHtml());
+// 				} else {
+// 					var pages = determineNumberOfPages(clusterId);
+// 					$("#cluster"+clusterId).append(pagination(pages, clusterId));
+// 					thumbnails(clusterId);
+// 				}
+// 		   }
+// 	});
+// }
+//
+// function processEnrichment(data, clusterId) {
+// 	var items = [];
+//
+// 	for(var i=0; i<data.length; i++) {
+// 		var uri = data[i].uri;
+// 		var thumb = data[i].thumb;
+// 		var link = "annotate.html?uri=" + uri;
+// 		var title = truncate(data[i].title, 60);
+// 		items[i] = new item(uri, thumb, link, title);
+// 	}
+// 	// Add items to enrichedClusters for future reference
+// 	enrichedClusters[clusterId].items = items;
+// }
+// function determineNumberOfPages (clusterId) {
+// 	var numberOfPages = 0;
+// 	var numberOfItems = clusters[clusterId].items.length;
+// 	var restPages = numberOfItems%display.numberDisplayedItems;
+//
+// 	//Determine number of items in pagination
+// 	if(restPages == 0) {
+// 		numberOfPages = numberOfItems/display.numberDisplayedItems;
+// 	} else {
+// 		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
+// 	}
+// 	return numberOfPages;
+// }
 
 // function filterAndRankButtons() {
 // 	return $.el.div({'class':'row'},
@@ -436,25 +425,25 @@ function clone(obj) {
     throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 
-function truncate (string, limit) {
-	var chars;
-	var i;
-
-	chars = string.split('');
-	if (chars.length > limit) {
-		for (var i=chars.length - 1; i>-1; --i) {
-			if (i>limit) {
-				chars.length = i;
-			}
-			else if (' ' === chars[i]) {
-				chars.length = i;
-				break;
-			}
-		}
-		chars.push('...');
-	}
-	return chars.join('');
-}
+// function truncate (string, limit) {
+// 	var chars;
+// 	var i;
+//
+// 	chars = string.split('');
+// 	if (chars.length > limit) {
+// 		for (var i=chars.length - 1; i>-1; --i) {
+// 			if (i>limit) {
+// 				chars.length = i;
+// 			}
+// 			else if (' ' === chars[i]) {
+// 				chars.length = i;
+// 				break;
+// 			}
+// 		}
+// 		chars.push('...');
+// 	}
+// 	return chars.join('');
+// }
 
 // function setGlobalQuery(keyword) {
 // 	query = keyword;

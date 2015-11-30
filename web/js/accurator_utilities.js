@@ -373,6 +373,26 @@ function setLinkLogo(page) {
 		$(".navbar-brand").attr('href', "intro.html");
 }
 
+function truncate(string, limit) {
+	var chars;
+	var i;
+
+	chars = string.split('');
+	if (chars.length > limit) {
+		for (var i=chars.length - 1; i>-1; --i) {
+			if (i>limit) {
+				chars.length = i;
+			}
+			else if (' ' === chars[i]) {
+				chars.length = i;
+				break;
+			}
+		}
+		chars.push('...');
+	}
+	return chars.join('');
+}
+
 /*******************************************************************************
 User Login
 User management code.
