@@ -257,7 +257,7 @@ function recommenderExperiment() {
 	// Settings for recommender experiment
 	if(experiment === "recommender") {
 		// Set interface to list view
-		displayOptions.layout = "list";
+		display.layout = "list";
 
 		// If running an recommender experiment choose A or B
 		var AOrB = getAOrB();

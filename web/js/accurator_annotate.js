@@ -5,7 +5,7 @@ Code for extending functionallity annotation page.
 var query, locale, experiment, domain, user, ui, uri;
 var annotateHdrFirst, annotateTxtFirst;
 
-displayOptions = {
+display = {
 	showMetadata: true,
 	showAnnotations: true,
 }
@@ -133,7 +133,7 @@ function addClusterNavigationButtonEvents() {
 }
 
 function metadata() {
-	if(displayOptions.showMetadata){
+	if(display.showMetadata){
 		// Get metadata from server
 		$.getJSON("metadata", {uri:uri})
 		.done(function(metadata){
@@ -165,7 +165,7 @@ function appendMetadataWell(metadata) {
 
 function annotations() {
 	// Get annotations from server
-	if(displayOptions.showAnnotations){
+	if(display.showAnnotations){
 		$.getJSON("annotations", {uri:uri, type:"object"})
 		.done(function(annotations){
 			if(annotations.annotations.length > 0){
@@ -203,9 +203,9 @@ function maybeRunExperiment() {
 		// Hide path if on annotate page
 		$("#annotateDivNavigation").hide();
 		// Don't show metadata
-		displayOptions.showMetadata = false;
+		display.showMetadata = false;
 		// Don't show annotations of others
-		displayOptions.showAnnotations = false;
+		display.showAnnotations = false;
 		// Add big next button
 		addExperimentNavigation();
 	}

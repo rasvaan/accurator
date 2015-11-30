@@ -3,7 +3,7 @@
 // var clusters = [];
 // var query = "";
 
-// displayOptions = {
+// display = {
 // 	numberDisplayedItems: 4,
 // 	showFilters: true,
 // 	imageFilter: 'onlyImages',
@@ -12,10 +12,10 @@
 // function search(keyword, target) {
 // 	query  = keyword;
 // 	$(document).prop('title', 'Searching for ' + query);
-// 	$("#results").append(searchingHtml());
+// 	$("#resultsDiv").append(searchingHtml());
 //
 // 	onDone = function(data){
-// 		$("#results").children().remove();
+// 		$("#resultsDiv").children().remove();
 // 		showFilters();
 // 		processJsonResults(data);
 // 		createResultClusters();
@@ -23,8 +23,8 @@
 // 	};
 //
 // 	onFail = function(data, textStatus){
-// 		$("#results").children().remove();
-// 		$("#results").append(errorHtml(data, textStatus));
+// 		$("#resultsDiv").children().remove();
+// 		$("#resultsDiv").append(errorHtml(data, textStatus));
 // 		$(document).prop('title', 'Error on ' + query);
 // 	};
 //
@@ -66,49 +66,49 @@
 function noFilterResultsHtml() {
 	return $.el.h4('No results due to filter: ',
 				   $.el.span({'class':'text-danger'},
-							 displayOptions.imageFilter));
+							 display.imageFilter));
 }
 
 // function showFilters() {
-// 	// console.log('Showing filters:', displayOptions.showFilters);
-// 	if(displayOptions.showFilters) {
-// 		$("#results").append(filterAndRankButtons());
+// 	// console.log('Showing filters:', display.showFilters);
+// 	if(display.showFilters) {
+// 		$("#resultsDiv").append(filterAndRankButtons());
 // 	}
 // }
 
-function processJsonResults(data) {
-	// Convert json to initialClusters array
-	var sourceClusters = data.clusters;
-	var numberOfClusters = sourceClusters.length;
+// function processJsonResults(data) {
+// 	// Convert json to initialClusters array
+// 	var sourceClusters = data.clusters;
+// 	var numberOfClusters = sourceClusters.length;
+//
+// 	for (var i=0;i<numberOfClusters;i++) {
+// 		// Get path uris and query for the labels
+// 		var path = sourceClusters[i].path;
+// 		var numberOfItems = sourceClusters[i].results;
+// 		var items = [];
+//
+// 		for (var j=0;j<numberOfItems;j++) {
+// 			var uri = sourceClusters[i].items[j].uri;
+// 			items[j] = new item(uri);
+// 		}
+// 		initialClusters[i] = new cluster(path, items);
+// 	}
+// }
 
-	for (var i=0;i<numberOfClusters;i++) {
-		// Get path uris and query for the labels
-		var path = sourceClusters[i].path;
-		var numberOfItems = sourceClusters[i].results;
-		var items = [];
-
-		for (var j=0;j<numberOfItems;j++) {
-			var uri = sourceClusters[i].items[j].uri;
-			items[j] = new item(uri);
-		}
-		initialClusters[i] = new cluster(path, items);
-	}
-}
-
-function createResultClusters() {
-	if(initialClusters.length == 0){
-		// console.log('No results found for ', query);
-		$("#results").append(noResultsHtml(query));
-	} else {
-		for(var i=0;i<initialClusters.length;i++) {
-			$("#results").append(clusterContainer(i));
-			// Append path to cluster container
-			addPath(i);
-			// Add enriched clusters and pagination
-			addItems(i);
-		}
-	}
-}
+// function createResultClusters() {
+// 	if(initialClusters.length == 0){
+// 		// console.log('No results found for ', query);
+// 		$("#resultsDiv").append(noResultsHtml(query));
+// 	} else {
+// 		for(var i=0;i<initialClusters.length;i++) {
+// 			$("#resultsDiv").append(clusterContainer(i));
+// 			// Append path to cluster container
+// 			addPath(i);
+// 			// Add enriched clusters and pagination
+// 			addItems(i);
+// 		}
+// 	}
+// }
 
 function clusterContainer(clusterId) {
 	return $.el.div({'class':'well well-sm',
@@ -251,13 +251,13 @@ function processEnrichment(data, clusterId) {
 function determineNumberOfPages (clusterId) {
 	var numberOfPages = 0;
 	var numberOfItems = clusters[clusterId].items.length;
-	var restPages = numberOfItems%displayOptions.numberDisplayedItems;
+	var restPages = numberOfItems%display.numberDisplayedItems;
 
 	//Determine number of items in pagination
 	if(restPages == 0) {
-		numberOfPages = numberOfItems/displayOptions.numberDisplayedItems;
+		numberOfPages = numberOfItems/display.numberDisplayedItems;
 	} else {
-		numberOfPages = (numberOfItems-restPages)/displayOptions.numberDisplayedItems+1;
+		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
 	}
 	return numberOfPages;
 }
@@ -269,78 +269,78 @@ function determineNumberOfPages (clusterId) {
 // 							 //rankButtons()));
 // }
 
-function filterButtons() {
-	return $.el.div({'class':'btn-group'},
-			 	    $.el.button({'type':'button',
-								 'class':'btn btn-default dropdown-toggle',
-							     'data-toggle':'dropdown'},
-							     'Image Filter ',
-							    $.el.span({'class':'caret'})),
-				    $.el.ul({'class':'dropdown-menu',
-						     'role':'menu'},
-						     $.el.li(
-									 $.el.a({'href':'javascript:filterTrigger(\'onlyImages\')'},
-										     'Only Images'),
-									 $.el.a({'href':'javascript:filterTrigger(\'allObjects\')'},
-										     'All Objects'))));
-}
-
-function rankButtons() {
-	return $.el.div({'class':'btn-group'},
-					$.el.button({'type':'button',
-								'class':'btn btn-default dropdown-toggle',
-								'data-toggle':'dropdown'},
-								'Cluster Abstraction ',
-								$.el.span({'class':'caret'})),
-					$.el.ul({'class':'dropdown-menu',
-							 'role':'menu'},
-							 $.el.li(
-									 $.el.a({'href':'javascript:clusterAbstractionTrigger(\'instanceLevel\')'},
-											 'Instance Level'),
-									 $.el.a({'href':'javascript:clusterAbstractionTrigger(\'classLevel\')'},
-											 'Class Level'),
-									 $.el.a({'href':'javascript:clusterAbstractionTrigger(\'whatLevel\')'},
-											 'Who What Where'))));
-}
-
-function filterTrigger(type) {
-	var changeShownContent = false;
-	// console.log('Filtering type: ', type);
-	if(type == 'onlyImages' && !(displayOptions.imageFilter == 'onlyImages')) {
-		displayOptions.imageFilter = 'onlyImages';
-		changeShownContent = true;
-	}
-	if(type == 'allObjects'  && !(displayOptions.imageFilter == 'allObjects')) {
-		displayOptions.imageFilter = 'allObjects';
-		changeShownContent = true;
-	}
-	// console.log('Should change something', changeShownContent);
-	if(changeShownContent) {
-		clusters = clone(enrichedClusters);
-		filter();
-		updateClusters();
-	}
-}
-
-function clusterAbstractionTrigger(type) {
-	var changeClusterAbstraction = false;
-	if(type == 'instanceLevel' && !(displayOptions.imageFilter == 'instanceLevel')) {
-		displayOptions.imageFilter = 'instanceLevel';
-		changeClusterAbstraction = true;
-	}
-	if(type == 'classLevel'  && !(displayOptions.imageFilter == 'classLevel')) {
-		displayOptions.imageFilter = 'classLevel';
-		changeClusterAbstraction = true;
-	}
-	if(type == 'whatLevel'  && !(displayOptions.imageFilter == 'whatLevel')) {
-		displayOptions.imageFilter = 'whatLevel';
-		changeClusterAbstraction = true;
-	}
-	if(changeClusterAbstraction) {
-		// console.log("Should be changing the Cluster Abstraction Level");
-		updateClusters();
-	}
-}
+// function filterButtons() {
+// 	return $.el.div({'class':'btn-group'},
+// 			 	    $.el.button({'type':'button',
+// 								 'class':'btn btn-default dropdown-toggle',
+// 							     'data-toggle':'dropdown'},
+// 							     'Image Filter ',
+// 							    $.el.span({'class':'caret'})),
+// 				    $.el.ul({'class':'dropdown-menu',
+// 						     'role':'menu'},
+// 						     $.el.li(
+// 									 $.el.a({'href':'javascript:filterTrigger(\'onlyImages\')'},
+// 										     'Only Images'),
+// 									 $.el.a({'href':'javascript:filterTrigger(\'allObjects\')'},
+// 										     'All Objects'))));
+// }
+//
+// function rankButtons() {
+// 	return $.el.div({'class':'btn-group'},
+// 					$.el.button({'type':'button',
+// 								'class':'btn btn-default dropdown-toggle',
+// 								'data-toggle':'dropdown'},
+// 								'Cluster Abstraction ',
+// 								$.el.span({'class':'caret'})),
+// 					$.el.ul({'class':'dropdown-menu',
+// 							 'role':'menu'},
+// 							 $.el.li(
+// 									 $.el.a({'href':'javascript:clusterAbstractionTrigger(\'instanceLevel\')'},
+// 											 'Instance Level'),
+// 									 $.el.a({'href':'javascript:clusterAbstractionTrigger(\'classLevel\')'},
+// 											 'Class Level'),
+// 									 $.el.a({'href':'javascript:clusterAbstractionTrigger(\'whatLevel\')'},
+// 											 'Who What Where'))));
+// }
+//
+// function filterTrigger(type) {
+// 	var changeShownContent = false;
+// 	// console.log('Filtering type: ', type);
+// 	if(type == 'onlyImages' && !(display.imageFilter == 'onlyImages')) {
+// 		display.imageFilter = 'onlyImages';
+// 		changeShownContent = true;
+// 	}
+// 	if(type == 'allObjects'  && !(display.imageFilter == 'allObjects')) {
+// 		display.imageFilter = 'allObjects';
+// 		changeShownContent = true;
+// 	}
+// 	// console.log('Should change something', changeShownContent);
+// 	if(changeShownContent) {
+// 		clusters = clone(enrichedClusters);
+// 		filter();
+// 		updateClusters();
+// 	}
+// }
+//
+// function clusterAbstractionTrigger(type) {
+// 	var changeClusterAbstraction = false;
+// 	if(type == 'instanceLevel' && !(display.imageFilter == 'instanceLevel')) {
+// 		display.imageFilter = 'instanceLevel';
+// 		changeClusterAbstraction = true;
+// 	}
+// 	if(type == 'classLevel'  && !(display.imageFilter == 'classLevel')) {
+// 		display.imageFilter = 'classLevel';
+// 		changeClusterAbstraction = true;
+// 	}
+// 	if(type == 'whatLevel'  && !(display.imageFilter == 'whatLevel')) {
+// 		display.imageFilter = 'whatLevel';
+// 		changeClusterAbstraction = true;
+// 	}
+// 	if(changeClusterAbstraction) {
+// 		// console.log("Should be changing the Cluster Abstraction Level");
+// 		updateClusters();
+// 	}
+// }
 
 function updateClusters() {
 	for(var i=0; i<clusters.length; i++) {
@@ -360,7 +360,7 @@ function updateClusters() {
 }
 
 function filter() {
-	if(displayOptions.imageFilter == 'onlyImages') {
+	if(display.imageFilter == 'onlyImages') {
 		// console.log('Filtering out objects without image');
 		// Remove all items without an image (read: with a stub)
 		for(var i=0; i<clusters.length; i++) {
@@ -370,7 +370,7 @@ function filter() {
 }
 
 function filterCluster(cluster) {
-	if(displayOptions.imageFilter == 'onlyImages') {
+	if(display.imageFilter == 'onlyImages') {
 		// Remove all items without an image (read: with a stub)
 		var items = cluster.items;
 		// Check which items should be removed

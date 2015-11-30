@@ -5,8 +5,8 @@ var boodstrapWitdth;
 
 function thumbnails(clusterId) {
 	var items = clusters[clusterId].items;
-	var stop = displayOptions.numberDisplayedItems;
-	bootstrapWidth = parseInt(12/displayOptions.numberDisplayedItems, 10);
+	var stop = display.numberDisplayedItems;
+	bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 
 	//Check if less results available then there are to be displayed
 	if(items.length<stop){
@@ -24,7 +24,7 @@ function thumbnails(clusterId) {
 }
 
 function thumbnail(item) {
-	var bootstrapWidth = parseInt(12/displayOptions.numberDisplayedItems, 10);
+	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 	var id = getId(item.uri);
 
 	return $.el.div({'class':'col-md-' + bootstrapWidth},
@@ -47,8 +47,8 @@ function thumbnailTitle(item, bootstrapWidth) {
 
 function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 	var items = clusters[clusterId].items;
-	var start = (pageNumber - 1) * displayOptions.numberDisplayedItems;
-	var stop = start + displayOptions.numberDisplayedItems;
+	var start = (pageNumber - 1) * display.numberDisplayedItems;
+	var stop = start + display.numberDisplayedItems;
 	var remove = 0;
 	var headerType;
 
@@ -59,7 +59,7 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 		// console.log("Should make " + remove + " invisible.");
 	}
 
-	// console.log("start: " + start + " stop: " + stop + " page number: " + pageNumber + " current page: " + activePage + " cluster id: " + clusterId + " displayed: " + displayOptions.numberDisplayedItems + " remove: " + remove);
+	// console.log("start: " + start + " stop: " + stop + " page number: " + pageNumber + " current page: " + activePage + " cluster id: " + clusterId + " displayed: " + display.numberDisplayedItems + " remove: " + remove);
 	var thumbIndex = 0;
 	for (var i=start; i<stop; i++) {
 		// console.log("Replacing thumb", thumbIndex);
@@ -86,10 +86,10 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 
 	// If returning from a possible invisible situation, make everything visible again
 	if(activePage == numberOfPages) {
-		var removed = numberOfPages * displayOptions.numberDisplayedItems - items.length;
+		var removed = numberOfPages * display.numberDisplayedItems - items.length;
 		// console.log("Make " + removed + " thumbnail(s) visible again.");
-		var start = displayOptions.numberDisplayedItems - removed;
-		for(var i=start;i<displayOptions.numberDisplayedItems;i++) {
+		var start = display.numberDisplayedItems - removed;
+		for(var i=start;i<display.numberDisplayedItems;i++) {
 			$("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
 		}
 	}

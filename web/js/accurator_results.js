@@ -5,10 +5,10 @@ pagination.js and thumbnail.js
 *******************************************************************************/
 var query = "", locale, experiment, ui, userName, realName;
 var resultsTxtRecommendationsFor, resultsHdrFirst, resultsTxtFirst;
-var initialClusters = [], enrichedClusters = [], clusters = [];
+var jsonResults, initialClusters = [], enrichedClusters = [], clusters = [];
 
 // Display options deciding how to results get rendered
-displayOptions = {
+display = {
 	layout: "cluster",
 	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
@@ -108,32 +108,94 @@ function results(query, userQuery, target) {
 }
 
 function search(query, target) {
-	console.log("Searching for: ", query);
-	statusMessage('Searching for ' + query);
+	//TODO: localize variables
+	var resultsTxtSearching = "Searching for ";
+	var resultsHdrResults = "Results for ";
+	var resultsTxtError = "Unfortunately an error has occured";
 
-	onDone = function(data){
-		$("#results").children().remove();
-		controls();
-		processJsonResults(data);
-		createResultClusters();
-		$(document).prop('title', 'Results for ' + query);
-	};
+	var request = {query:query};
+	if(typeof target != 'undefined') request.target = target;
 
-	onFail = function(data){
-		statusMessage('Unfortunately an error has occured', data.responseText);
-	};
+	statusMessage(resultsTxtSearching + query);
 
-	//Get and process clusters
-	if (typeof target == 'undefined') {
-		$.getJSON("cluster_search_api", {query:query})
-		.done(onDone)
-		.fail(onFail);
-	} else {
-		$.getJSON("cluster_search_api", {query:query,
-										 target:target})
-		.done(onDone)
-		.fail(onFail);
+	$.getJSON("cluster_search_api", request)
+	.done(function(data){
+		// Make available for future changes of view
+		jsonResults = data;
+		populateResults();
+		// Change title of page
+		$(document).prop('title', resultsHdrResults + query);
+	})
+	.fail(function(data){
+		statusMessage(resultsTxtError, data.responseText)
+	});
+}
+
+function populateResults() {
+	// Clear results div
+	$("#resultsDiv").children().remove();
+	// Results layout is either cluster or list
+	if(display.layout === "cluster") {
+		populateClusters();
+	} else if(display.layout === "list") {
+		//TODO: flatten results clusters
+		populateList();
 	}
+	// Add control buttons
+	controls();
+}
+
+/*******************************************************************************
+Cluster view
+Show the results in clusters
+*******************************************************************************/
+function populateClusters() {
+	console.log(jsonResults);
+	jsonToClusters(jsonResults);
+	createResultClusters();
+}
+
+function jsonToClusters(data) {
+	console.log(data);
+	// Convert json to initialClusters array
+	var sourceClusters = data.clusters;
+	var numberOfClusters = sourceClusters.length;
+
+	for (var i=0;i<numberOfClusters;i++) {
+		// Get path uris and query for the labels
+		var path = sourceClusters[i].path;
+		var numberOfItems = sourceClusters[i].results;
+		var items = [];
+
+		for (var j=0;j<numberOfItems;j++) {
+			var uri = sourceClusters[i].items[j].uri;
+			items[j] = new item(uri);
+		}
+		initialClusters[i] = new cluster(path, items);
+	}
+}
+
+function createResultClusters() {
+	if(initialClusters.length == 0){
+		// console.log('No results found for ', query);
+		$("#resultsDiv").append(noResultsHtml(query));
+	} else {
+		for(var i=0;i<initialClusters.length;i++) {
+			$("#resultsDiv").append(clusterContainer(i));
+			// Append path to cluster container
+			addPath(i);
+			// Add enriched clusters and pagination
+			addItems(i);
+		}
+	}
+}
+
+/*******************************************************************************
+List view
+Show the results in one big list
+*******************************************************************************/
+function populateList() {
+	console.log(jsonResults);
 }
 
 function recommendItems(target) {
@@ -142,7 +204,7 @@ function recommendItems(target) {
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
 	.done(function(data){
-		$("#results").children().remove();
+		$("#resultsDiv").children().remove();
 		showFilters();
 		processJsonResults(data);
 		createResultClusters();
@@ -151,8 +213,8 @@ function recommendItems(target) {
 		populateRandom(target, data.clusters.length);
 	})
 	.fail(function(data, textStatus){
-		$("#results").children().remove();
-		$("#results").append(errorHtml(data, textStatus));
+		$("#resultsDiv").children().remove();
+		$("#resultsDiv").append(errorHtml(data, textStatus));
 		$(document).prop('title', 'Error on ' + query);
 	});
 }
@@ -177,7 +239,7 @@ function randomItems(target) {
 }
 
 function populateRandom(target, clusterIndex) {
-	$("#results").append(clusterContainer(clusterIndex));
+	$("#resultsDiv").append(clusterContainer(clusterIndex));
 	$.getJSON("recommendation", {strategy:'random',
 								 number:20,
 								 target:target})
@@ -217,15 +279,15 @@ function recommendExpertiseList(target) {
 		addItemList(items);
 	})
 	.fail(function(data, textStatus){
-		$("#results").children().remove();
-		$("#results").append(errorHtml(data, textStatus));
+		$("#resultsDiv").children().remove();
+		$("#resultsDiv").append(errorHtml(data, textStatus));
 		$(document).prop('title', 'Error on ' + query);
 	});
 }
 
 function controls() {
-	if(displayOptions.showControls) {
-		$("#results").append(
+	if(display.showControls) {
+		$("#resultsDiv").prepend(
 			$.el.div({'class':'row'},
 				$.el.div({'class':'col-md-12 resultsDivControls'}))
 		);
@@ -241,7 +303,7 @@ function resultLayoutButtons() {
 	);
 	setLayoutButton();
 	$("#resultsBtnLayout").click(function() {
-		displayOptions.layout = (displayOptions.layout === "list") ? "cluster" : "list";
+		display.layout = (display.layout === "list") ? "cluster" : "list";
 		setLayoutButton();
 	});
 }
@@ -251,7 +313,7 @@ function setLayoutButton() {
 	var resultsLblCluster = "Cluster view";
 	var resultsLblList = "List view";
 
-	if(displayOptions.layout === "list") {
+	if(display.layout === "list") {
 		$("#resultsBtnLayout").html(
 			$.el.span(resultsLblList + ' ',
 			$.el.span({'class':'glyphicon glyphicon-th-large'}))
@@ -265,10 +327,10 @@ function setLayoutButton() {
 }
 
 function statusMessage(header, text){
-	$("#results").children().remove();
+	$("#resultsDiv").children().remove();
 	$(document).prop('title', header);
 
-	$("#results").append(
+	$("#resultsDiv").append(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-lg-10 col-md-offset-1'},
 				$.el.h3(header)),
@@ -303,7 +365,7 @@ function processListEnrichment(sourceItems) {
 	var numberOfItems = sourceItems.length;
 	var items = [];
 
-	// console.log("display", displayOptions.annotateLink);
+	// console.log("display", display.annotateLink);
 	for (var i=0; i<numberOfItems; i++) {
 		var uri = sourceItems[i].uri;
 		var thumb = sourceItems[i].thumb;
@@ -323,7 +385,7 @@ function thumbnailList(items) {
 
 	for(var i=1; i<=numberOfRows; i++) {
 		// Add row for thumbnails
-		$("#results").append(
+		$("#resultsDiv").append(
 			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
 
 		//Determine where to stop adding
