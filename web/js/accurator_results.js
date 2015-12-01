@@ -3,9 +3,9 @@ Accurator Results
 Page showing overview of recommender/search results. Uses a lot of code from
 pagination.js and thumbnail.js
 *******************************************************************************/
-var query = "", locale, experiment, ui, userName, realName;
+var query = "", rows = 0, locale, experiment, ui, userName, realName;
 var resultsTxtRecommendationsFor, resultsHdrFirst, resultsTxtFirst;
-var clusters = [], list = [];
+var clusters = [];
 
 // Display options deciding how to results get rendered
 display = {
@@ -110,11 +110,11 @@ Search, Recommend or Random results
 *******************************************************************************/
 function results(query, userQuery, target) {
 	// Determine whether to recommend or give random results and set layout
-	var recommend = recommenderExperiment();
+	var recommendBoolean = recommenderExperiment();
 
 	if(query) {
 		search(query);
-	} else if(recommend) {
+	} else if(recommendBoolean) {
 		recommend(userQuery, target);
 		query = "expertise values";
 	} else {
@@ -137,10 +137,8 @@ function search(query, target) {
 
 	$.getJSON("cluster_search_api", request)
 	.done(function(data){
-		// Make available for future changes of view
 		clusters = data.clusters;
 		populateResults(query);
-		// Change title of page
 		$(document).prop('title', resultsHdrResults + query);
 	})
 	.fail(function(data){
@@ -148,20 +146,19 @@ function search(query, target) {
 	});
 }
 
-function recommend(target) {
+function recommend(userQuery, target) {
 	//TODO: localize variables
 	var resultsTxtError = "Unfortunately an error has occured";
 
+	//TODO: add userQuery ad variable
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
 	.done(function(data){
-		$("#resultsDiv").children().remove();
-		showFilters();
-		processJsonResults(data);
-		createResultClusters();
+		clusters = data.clusters;
+		populateResults("expertise");
 		$(document).prop('title', resultsTxtRecommendationsFor + realName);
 		//Also get a row of random items not yet annotated
-		populateRandom(target, data.clusters.length);
+		populateRandom(target, clusters.length);
 	})
 	.fail(function(data){
 		statusMessage(resultsTxtError, data.responseText)
@@ -193,16 +190,14 @@ function recommend(target) {
 // }
 
 function random(target) {
-	console.log("Providing random items");
-
+	var resultList = new ResultList();
 	// Get a list of random items
 	$.getJSON("recommendation", {strategy:'random',
-								 number:12,
+								 number:10,
 								 target:target})
-	.done(function(data){
+	.done(function(uris){
 		// Always populate a list if random
-		list = data;
-		populateList();
+		populateListItems(uris, resultList);
 	});
 }
 
@@ -210,28 +205,162 @@ function random(target) {
 Result population
 *******************************************************************************/
 function populateResults(query) {
+	// Clear results div and reset rows
+	$("#resultsDiv").children().remove();
+	rows = 0;
+
 	// Results layout is either cluster or list
 	if(display.layout === "cluster") {
 		populateClusters(query);
 	} else if(display.layout === "list") {
-		list = clustersToList(clusters);
-		populateList();
+		var resultList = new ResultList();
+		populateList(clusters, resultList);
 	}
 	// Add control buttons
 	controls();
 }
 
-function clustersToList(clusters){
-	var items = [];
+function populateList(clusters, resultList){
 	var index = 0;
 
 	for(var i=0; i<clusters.length; i++) {
-		for(var j=0; j<clusters[i].items.length; j++) {
-			items[index] = clusters[i].items[j].uri;
-			index++;
+		var uris = [];
+
+		for(var j=0; j<clusters[i].items.length; j++)
+			uris[j] = clusters[i].items[j].uri;
+		populateListItems(uris, resultList);
+	}
+}
+
+function populateRandom(target, clusterIndex) {
+	$.getJSON("recommendation", {strategy:'random',
+								 number:20,
+								 target:target})
+	.done(function(uris){
+		$("#cluster"+clusterIndex).prepend(
+			$.el.h4(
+				$.el.span({'class':'path-label path-literal'},
+					"random objects")));
+		addItems(uris);
+	});
+
+	$("#resultsDiv").append(
+		$.el.div({'class':'well well-sm',
+				  'id':'cluster' + clusterIndex})
+	);
+}
+
+/*******************************************************************************
+List view
+Show the results in one big list
+*******************************************************************************/
+function populateListItems(uris, resultList) {
+	// Determine indexes for adding elements in items (important since metadata
+	// call is asynchronous)
+	var start = resultList.length;
+	resultList.addUris(uris);
+	var stop = resultList.length;
+
+	// Get metedata for uris
+	$.ajax({type: "POST",
+			url: "metadata",
+			contentType: "application/json",
+			data: JSON.stringify({"uris":uris}),
+			success: function(data) {
+				// Add enriched items to items array and view
+				var index = 0;
+
+				for(var i=start; i<stop; i++) {
+					resultList.addNthItem(
+						data[index].uri,
+						data[index].thumb,
+						data[index].title,
+						i
+					);
+					index++;
+				}
+
+				populateThumbnails(start, stop, resultList);
+		   }
+	});
+}
+
+function populateThumbnails(begin, end, resultList) {
+	// Determine in which row to start adding thumbnails
+	var rowLength = display.numberDisplayedItems;
+	var startRows = parseInt(begin/rowLength, 10) + 1;
+	var stopRows = parseInt(end/rowLength, 10) + 1;
+	var itemsAdded = begin;
+	var items = resultList.items;
+	// See if additional rows need to be added
+	addRows(stopRows);
+
+	// Add the thumbnails to the rows
+	for(var i=startRows; i<=stopRows; i++) {
+		// Determine where to start adding
+		var start = parseInt(itemsAdded/rowLength, 10);
+		// Determine where to stop adding
+		var stop = i * rowLength;
+		if(end < stop) stop = end;
+
+		for (var j=itemsAdded; j<stop; j++) {
+			var id = getId(items[j].uri);
+			$("#thumbnailRow" + i).append(thumbnail(items[j]));
+
+			// addThumbnail(i, j, id, items[j], itemWidth);
+			addListClickEvent(id, items[j].link, i, j);
+			itemsAdded++;
 		}
 	}
-	return items;
+}
+
+function addRows(numberOfRows) {
+	for(var i=rows+1; i<numberOfRows+1; i++) {
+		// Add row for thumbnails
+		$("#resultsDiv").append(
+			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
+	}
+	rows = numberOfRows;
+}
+
+function addListClickEvent(id, link, rowId, index) {
+	//Add thumbnail click event
+	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
+		//Add info to local storage to be able to save context
+		localStorage.setItem("itemIndex", index);
+		localStorage.setItem("row", rowId);
+		document.location.href=link;
+	});
+}
+
+function ResultList() {
+	//Object for keeping track of list of results
+	this.uris = [];
+	this.items = [];
+	this.length = 0;
+
+	this.addUris = function(newUris) {
+		// Add items to uri list
+		for(var i=0; i<newUris.length; i++)
+			this.addUri(newUris[i]);
+	}
+
+	this.addUri = function(uri) {
+		// Add uri
+		this.uris[this.length] = uri;
+		// Update length
+		this.length++;
+	}
+
+	// Add item at nth index in the list, allows to keep order
+	this.addNthItem = function(uri, thumb, title, index) {
+		var item = {};
+		item.uri = uri;
+		item.thumb = thumb;
+		item.link = "annotate.html?uri=" + uri;
+		item.title = truncate(title, 60);
+		this.items[index] = item;
+	}
 }
 
 /*******************************************************************************
@@ -243,14 +372,15 @@ function populateClusters(query) {
 	var resultsTxtNoResults = "No results found for ";
 	var query = query || "literal";
 
-	// Clear results div
-	$("#resultsDiv").children().remove();
-
 	if(clusters.length == 0){
 		statusMessage(resultsTxtNoResults, query);
 	} else {
 		for(var i=0; i<clusters.length; i++) {
 			var cluster = clusters[i];
+			var uris = [];
+
+			for(var j=0; j<cluster.items.length; j++)
+				uris[j] = cluster.items[j].uri;
 
 			$("#resultsDiv").append(
 				$.el.div({'class':'well well-sm',
@@ -259,7 +389,7 @@ function populateClusters(query) {
 
 			addPath(i, cluster.path, query);
 			// Add enriched clusters and pagination
-			addItems(i);
+			addItems(uris, i);
 		}
 	}
 }
@@ -285,13 +415,7 @@ function addPath(clusterId, uris, query) {
 	});
 }
 
-function addItems(clusterId) {
-	var items = clusters[clusterId].items;
-	var uris = [];
-
-	for(var i=0; i<items.length; i++)
-		uris[i] = items[i].uri;
-
+function addItems(uris, clusterId) {
 	var json = {"uris":uris};
 	$.ajax({type: "POST",
 			url: "metadata",
@@ -333,76 +457,6 @@ function determineNumberOfPages (clusterId) {
 		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
 	}
 	return numberOfPages;
-}
-
-/*******************************************************************************
-List view
-Show the results in one big list
-*******************************************************************************/
-function populateList() {
-	// Clear results div
-	$("#resultsDiv").children().remove();
-	addItemList();
-}
-
-function addItemList() {
-	// Get item enrichments from server, on success add pagination and thumbnails
-	var json = {"uris":list};
-	$.ajax({type: "POST",
-			url: "metadata",
-			contentType: "application/json",
-			data: JSON.stringify(json),
-			success: function(data) {
-				var enrichedItems = processEnrichment(data, list);
-				thumbnailList(enrichedItems);
-		   }
-	});
-}
-
-function thumbnailList(items) {
-	var rowLength = 4;
-	bootstrapWidth = parseInt(12/rowLength, 10);
-	var numberOfRows = items.length/rowLength;
-	var itemsAdded = 0;
-
-	for(var i=1; i<=numberOfRows; i++) {
-		// Add row for thumbnails
-		$("#resultsDiv").append(
-			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
-
-		//Determine where to stop adding
-		var stop = i * rowLength;
-		if(items.length<stop){
-			stop = items.length;
-		}
-
-		for (var j=itemsAdded; j<stop; j++) {
-			id = getId(items[j].uri);
-
-			$("#thumbnailRow" + i).append(
-				$.el.div({'class':'col-md-' + bootstrapWidth},
-					$.el.div({'class':'thumbnail',
-							  'id':id},
-						$.el.img({'src':items[j].thumb,
-						          'class':'img-responsive',
-								  'alt':''}),
-							$.el.div({'class':'caption'},
-								 thumbnailTitle(j, items, bootstrapWidth))))
-			);
-			addListClickEvent(id, items[j].link, i, j);
-			itemsAdded++;
-		}
-	}
-}
-
-function addListClickEvent(id, link, rowId, index) {
-	//Add thumbnail click event
-	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
-		//Add info to local storage to be able to save context
-		localStorage.setItem("itemIndex", index);
-		localStorage.setItem("row", rowId);
-		document.location.href=link;
-	});
 }
 
 /*******************************************************************************
