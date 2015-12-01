@@ -9,7 +9,7 @@ var clusters = [], list = [];
 
 // Display options deciding how to results get rendered
 display = {
-	layout: "cluster",
+	layout: "list",
 	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
 	showControls: true
@@ -91,6 +91,20 @@ function events() {
 	});
 }
 
+function statusMessage(header, text){
+	$("#resultsDiv").children().remove();
+	$(document).prop('title', header);
+
+	$("#resultsDiv").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-lg-10 col-md-offset-1'},
+				$.el.h3(header)),
+			$.el.div({'class':'row'},
+				$.el.div({'class':'col-md-10 col-md-offset-1'},
+					text)))
+	);
+}
+
 /*******************************************************************************
 Search, Recommend or Random results
 *******************************************************************************/
@@ -130,12 +144,13 @@ function search(query, target) {
 		$(document).prop('title', resultsHdrResults + query);
 	})
 	.fail(function(data){
-		statusMessage(resultsTxtError, data.responseText)
+		statusMessage(resultsTxtError, data.responseText);
 	});
 }
 
 function recommend(target) {
-	console.log("Recommending items");
+	//TODO: localize variables
+	var resultsTxtError = "Unfortunately an error has occured";
 
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
@@ -148,10 +163,8 @@ function recommend(target) {
 		//Also get a row of random items not yet annotated
 		populateRandom(target, data.clusters.length);
 	})
-	.fail(function(data, textStatus){
-		$("#resultsDiv").children().remove();
-		$("#resultsDiv").append(errorHtml(data, textStatus));
-		$(document).prop('title', 'Error on ' + query);
+	.fail(function(data){
+		statusMessage(resultsTxtError, data.responseText)
 	});
 }
 
@@ -193,16 +206,32 @@ function random(target) {
 	});
 }
 
+/*******************************************************************************
+Result population
+*******************************************************************************/
 function populateResults(query) {
 	// Results layout is either cluster or list
 	if(display.layout === "cluster") {
 		populateClusters(query);
 	} else if(display.layout === "list") {
-		//TODO: flatten results clusters
+		list = clustersToList(clusters);
 		populateList();
 	}
 	// Add control buttons
 	controls();
+}
+
+function clustersToList(clusters){
+	var items = [];
+	var index = 0;
+
+	for(var i=0; i<clusters.length; i++) {
+		for(var j=0; j<clusters[i].items.length; j++) {
+			items[index] = clusters[i].items[j].uri;
+			index++;
+		}
+	}
+	return items;
 }
 
 /*******************************************************************************
@@ -212,6 +241,7 @@ Show the results in clusters
 function populateClusters(query) {
 	//TODO: localize variables
 	var resultsTxtNoResults = "No results found for ";
+	var query = query || "literal";
 
 	// Clear results div
 	$("#resultsDiv").children().remove();
@@ -399,6 +429,7 @@ function resultLayoutButtons() {
 	$("#resultsBtnLayout").click(function() {
 		display.layout = (display.layout === "list") ? "cluster" : "list";
 		setLayoutButton();
+		populateResults();
 	});
 }
 
@@ -409,27 +440,13 @@ function setLayoutButton() {
 
 	if(display.layout === "list") {
 		$("#resultsBtnLayout").html(
-			$.el.span(resultsLblList + ' ',
+			$.el.span(resultsLblCluster + ' ',
 			$.el.span({'class':'glyphicon glyphicon-th-large'}))
 		);
 	} else {
 		$("#resultsBtnLayout").html(
-			$.el.span(resultsLblCluster + ' ',
+			$.el.span(resultsLblList + ' ',
 			$.el.span({'class':'glyphicon glyphicon-th-large'}))
 		);
 	}
-}
-
-function statusMessage(header, text){
-	$("#resultsDiv").children().remove();
-	$(document).prop('title', header);
-
-	$("#resultsDiv").append(
-		$.el.div({'class':'row'},
-			$.el.div({'class':'col-lg-10 col-md-offset-1'},
-				$.el.h3(header)),
-			$.el.div({'class':'row'},
-				$.el.div({'class':'col-md-10 col-md-offset-1'},
-					text)))
-	);
 }
