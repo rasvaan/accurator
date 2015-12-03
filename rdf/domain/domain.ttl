@@ -15,7 +15,7 @@ agen:domain a accu:Domain ;
 	accu:hasTarget <http://www.europeana.eu/schemas/edm/ProvidedCHO> ;
 	skos:hasTopConcept ic:2 ;
 	accu:hasUI aui: ;
-	accu:hasDesciptiveImage agen:mountain ;
+	accu:hasDescriptiveImage agen:mountain ;
 	accu:hasLastImage agen:mountain ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2" .

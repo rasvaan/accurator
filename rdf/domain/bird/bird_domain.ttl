@@ -17,7 +17,7 @@ abir:domain a accu:Domain ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
 	accu:hasAnnotationUI aabir:smallBirdDemoUi ;
-	accu:hasDesciptiveImage abir:bird ;
+	accu:hasDescriptiveImage abir:bird ;
 	accu:hasLastImage abir:bird_end ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2" .
@@ -27,19 +27,19 @@ abir:domain a accu:Domain ;
 abir:snipeQuery a accu:QueryExample ;
 	dcterms:title "Search for Snipe"@en ,
                   "Zoek naar snip"@nl ;
-	accu:hasDesciptiveImage abir:snipeImage ;
+	accu:hasDescriptiveImage abir:snipeImage ;
 	accu:action "results?query=snipe" .
 
 abir:songbirdQuery a accu:QueryExample ;
 	dcterms:title "Search for song birds"@en ,
                   "Zoek naar zangvogels"@nl ;
-	accu:hasDesciptiveImage abir:songbirdImage ;
+	accu:hasDescriptiveImage abir:songbirdImage ;
 	accu:action "results?query=song-birds" .
 
 abir:hondecoeterQuery a accu:QueryExample ;
 	dcterms:title "Search for Hondecoeter"@en ,
                   "Zoek naar Hondecoeter"@nl ;
-	accu:hasDesciptiveImage abir:hondecoeterImage ;
+	accu:hasDescriptiveImage abir:hondecoeterImage ;
 	accu:action "results?query=hondecoeter" .
 
 abir:bird a dctypes:StillImage ;
