@@ -242,7 +242,7 @@ function flipAOrB() {
 	var aBArray = [];
 
 	// Get an array with A or B for the specified experiment
-	if(experiment === "true") {
+	if(experiment === "recommender") {
 		aBArray = ["random","recommend"];
 	} else {
 		aBArray = ["a","b"];
@@ -253,6 +253,23 @@ function flipAOrB() {
 	setAOrB(aBArray[randomIndex]);
 }
 
+function recommenderExperiment() {
+	// Settings for recommender experiment
+	if(experiment === "recommender") {
+		// Set interface to list view
+		display.layout = "list";
+
+		// If running an recommender experiment choose A or B
+		var AOrB = getAOrB();
+
+		if(AOrB === "recommend") {
+			return true;
+		} else if(AOrB === "random") {
+			return false;
+		}
+	}
+	return true;
+}
 /*******************************************************************************
 User Interface
 Functionallity making the ui adapt
@@ -354,6 +371,26 @@ function setLinkLogo(page) {
 	   $(".navbar-brand").attr('href', "profile.html");
 	if(page === "intro")
 		$(".navbar-brand").attr('href', "intro.html");
+}
+
+function truncate(string, limit) {
+	var chars;
+	var i;
+
+	chars = string.split('');
+	if (chars.length > limit) {
+		for (var i=chars.length - 1; i>-1; --i) {
+			if (i>limit) {
+				chars.length = i;
+			}
+			else if (' ' === chars[i]) {
+				chars.length = i;
+				break;
+			}
+		}
+		chars.push('...');
+	}
+	return chars.join('');
 }
 
 /*******************************************************************************

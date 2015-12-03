@@ -1,16 +1,18 @@
 /*******************************************************************************
 Accurator Results
 Page showing overview of recommender/search results. Uses a lot of code from
-cluster_search_ui (search.js pagination.js and thumbnail.js)
+pagination.js and thumbnail.js
 *******************************************************************************/
-var locale, experiment, ui, typeRec, userName, realName;
+var query = "", rows = 0, locale, experiment, ui, userName, realName;
 var resultsTxtRecommendationsFor, resultsHdrFirst, resultsTxtFirst;
+var clusters = [];
 
-// Options provided for search.js
-displayOptions = {
+// Display options deciding how to results get rendered
+display = {
+	layout: "list",
+	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
-	showFilters: false,
-	imageFilter: 'onlyImages'
+	showControls: true
 }
 
 function resultsInit() {
@@ -25,9 +27,8 @@ function resultsInit() {
 		user = loginData.user;
 		userName = getUserName(user);
 		realName = loginData.real_name;
-		var userParam = getParameterByName("user");
+		var userQuery = getParameterByName("user");
 		var query = getParameterByName("query");
-
 		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}]);
 
 		onDomain = function(domainData) {
@@ -37,13 +38,7 @@ function resultsInit() {
 			addButtonEvents();
 
 			//Provide results based on query or recommend something. In case of no in put recommend based on retrieved user.
-			if(query != "") {
-				initiateSearch(query, target);
-			} else {
-				recommendItems(target);
-				query = typeRec;
-			}
-			localStorage.setItem("query", query);
+			results(query, userQuery, target);
 		};
 		domainSettings(domain, onDomain);
 	};
@@ -64,15 +59,15 @@ function initLabels(labels) {
 	// Add retrieved labels to html elements
 	document.title = labels.title;
 
-	$("#resultsBtnSearch").append(labels.resultsBtnSearch);
-	$("#resultsBtnRecommend").append(labels.resultsBtnRecommend);
+	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
+	$("#navbarBtnRecommend").append(labels.resultsBtnRecommend);
 	resultsTxtRecommendationsFor = labels.resultsTxtRecommendationsFor;
 	resultsHdrFirst = labels.resultsHdrFirst;
 	resultsTxtFirst = labels.resultsTxtFirst;
 }
 
 function addButtonEvents() {
-	$("#resultsBtnRecommend").click(function() {
+	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
@@ -82,7 +77,7 @@ function addButtonEvents() {
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#resultsBtnSearch").click(function() {
+	$("#navbarBtnSearch").click(function() {
 		var query = encodeURIComponent($("#navbarInpSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
@@ -91,215 +86,241 @@ function addButtonEvents() {
 function events() {
 	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
-		uris = annotations.uris;
-		if(uris.length===0) {
-			alertMessage(resultsHdrFirst, vntFirstText, 'success');
-		}
+		if(annotations.length===0)
+			alertMessage(resultsHdrFirst, annotateTxtFirst, 'success');
 	});
 }
 
-function initiateSearch(query, target) {
-	search(query, target);
+function statusMessage(header, text){
+	$("#resultsDiv").children().remove();
+	$(document).prop('title', header);
+
+	$("#resultsDiv").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-lg-10 col-md-offset-1'},
+				$.el.h3(header)),
+			$.el.div({'class':'row'},
+				$.el.div({'class':'col-md-10 col-md-offset-1'},
+					text)))
+	);
 }
 
-function recommendItems(target) {
-	if(experiment === "recommender") {
-		// If running an recommender experiment choose A or B
-		randomOrRecommended(target);
+/*******************************************************************************
+Search, Recommend or Random results
+*******************************************************************************/
+function results(query, userQuery, target) {
+	// Determine whether to recommend or give random results and set layout
+	var recommendBoolean = recommenderExperiment();
+
+	if(query) {
+		search(query);
+	} else if(recommendBoolean) {
+		recommend(userQuery, target);
+		query = "expertise values";
 	} else {
-		// Business as usual
-		recommendExpertiseItems(target);
+		random(target);
+		query = "random";
 	}
+	localStorage.setItem("query", query);
 }
 
-function recommendExpertiseItems(target) {
-	typeRec = "expertise values";
+function search(query, target) {
+	//TODO: localize variables
+	var resultsTxtSearching = "Searching for ";
+	var resultsHdrResults = "Results for ";
+	var resultsTxtError = "Unfortunately an error has occured";
 
+	var request = {query:query};
+	if(typeof target != 'undefined') request.target = target;
+
+	statusMessage(resultsTxtSearching + query);
+
+	$.getJSON("cluster_search_api", request)
+	.done(function(data){
+		clusters = data.clusters;
+		populateResults(query);
+		$(document).prop('title', resultsHdrResults + query);
+	})
+	.fail(function(data){
+		statusMessage(resultsTxtError, data.responseText);
+	});
+}
+
+function recommend(userQuery, target) {
+	//TODO: localize variables
+	var resultsTxtError = "Unfortunately an error has occured";
+
+	//TODO: add userQuery ad variable
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
 	.done(function(data){
-		$("#results").children().remove();
-		showFilters();
-		processJsonResults(data);
-		createResultClusters();
+		clusters = data.clusters;
+		populateResults("expertise");
 		$(document).prop('title', resultsTxtRecommendationsFor + realName);
 		//Also get a row of random items not yet annotated
-		populateRandom(target, data.clusters.length);
+		populateRandom(target, clusters.length);
 	})
-	.fail(function(data, textStatus){
-		$("#results").children().remove();
-		$("#results").append(errorHtml(data, textStatus));
-		$(document).prop('title', 'Error on ' + query);
+	.fail(function(data){
+		statusMessage(resultsTxtError, data.responseText)
 	});
 }
 
-function populateRandom(target, clusterIndex) {
-	$("#results").append(clusterContainer(clusterIndex));
+// function recommendExpertiseList(target) {
+// 	console.log("Recommending list of items");
+//
+// 	$.getJSON("recommendation", {strategy:'expertise',
+// 								 number:12,
+// 								 target:target,
+// 							 	 output_format:'list'})
+// 	.done(function(data){
+// 		var numberOfItems = data.length;
+// 		var items = [];
+//
+// 		for (var i=0; i<numberOfItems; i++) {
+// 			var uri = data[i];
+// 			items[i] = new item(uri);
+// 		}
+// 		addItemList(items);
+// 	})
+// 	.fail(function(data, textStatus){
+// 		$("#resultsDiv").children().remove();
+// 		$("#resultsDiv").append(errorHtml(data, textStatus));
+// 		$(document).prop('title', 'Error on ' + query);
+// 	});
+// }
+
+function random(target) {
+	var resultList = new ResultList();
+	// Get a list of random items
 	$.getJSON("recommendation", {strategy:'random',
-								 number:20,
+								 number:10,
 								 target:target})
-	.done(function(data){
-		var numberOfItems = data.length;
-		var items = [];
-
-		for (var i=0; i<numberOfItems; i++) {
-			var uri = data[i];
-			items[i] = new item(uri);
-		}
-		initialClusters[clusterIndex] = new cluster([], items);
-		enrichedClusters[clusterIndex] = new cluster([], 'undefined');
-		$("#cluster"+clusterIndex).prepend(
-			$.el.h4(
-				$.el.span({'class':'path-label path-literal'},
-					"random objects")));
-		addItems(clusterIndex);
-	});
-}
-
-function randomOrRecommended(target) {
-	// Consider recommendation AB setting
-	var AOrB = getAOrB();
-
-	if(AOrB === "recommend") {
-		recommendExpertiseList(target);
-	} else if(AOrB === "random") {
-		randomResults(target);
-	}
-}
-
-function recommendExpertiseList(target) {
-	typeRec = "expertise";
-
-	$.getJSON("recommendation", {strategy:'expertise',
-								 number:12,
-								 target:target,
-							 	 output_format:'list'})
-	.done(function(data){
-		var numberOfItems = data.length;
-		var items = [];
-
-		for (var i=0; i<numberOfItems; i++) {
-			var uri = data[i];
-			items[i] = new item(uri);
-		}
-		addItemList(items);
-	})
-	.fail(function(data, textStatus){
-		$("#results").children().remove();
-		$("#results").append(errorHtml(data, textStatus));
-		$(document).prop('title', 'Error on ' + query);
-	});
-}
-
-function randomResults(target) {
-	typeRec = "random";
-
-	// Populate a list of random items
-	$.getJSON("recommendation", {strategy:'random',
-								 number:12,
-								 target:target})
-	.done(function(data){
-		var numberOfItems = data.length;
-		var items = [];
-
-		for (var i=0; i<numberOfItems; i++) {
-			var uri = data[i];
-			items[i] = new item(uri);
-		}
-		addItemList(items);
+	.done(function(uris){
+		// Always populate a list if random
+		populateListItems(uris, resultList);
 	});
 }
 
 /*******************************************************************************
-Result List
+Result population
 *******************************************************************************/
-function addItemList(items) {
-	var itemUris = [];
-	for(var i=0;i<items.length;i++)
-		itemUris[i] = items[i].uri;
+function populateResults(query) {
+	// Clear results div and reset rows
+	$("#resultsDiv").children().remove();
+	rows = 0;
 
-	// Get item enrichments from server, on success add pagination and thumbnails
-	var json = {"uris":itemUris};
+	// Results layout is either cluster or list
+	if(display.layout === "cluster") {
+		populateClusters(query);
+	} else if(display.layout === "list") {
+		var resultList = new ResultList();
+		populateList(clusters, resultList);
+	}
+	// Add control buttons
+	controls();
+}
+
+function populateList(clusters, resultList){
+	var index = 0;
+
+	for(var i=0; i<clusters.length; i++) {
+		var uris = [];
+
+		for(var j=0; j<clusters[i].items.length; j++)
+			uris[j] = clusters[i].items[j].uri;
+		populateListItems(uris, resultList);
+	}
+}
+
+function populateRandom(target, clusterIndex) {
+	$.getJSON("recommendation", {strategy:'random',
+								 number:20,
+								 target:target})
+	.done(function(uris){
+		$("#cluster"+clusterIndex).prepend(
+			$.el.h4(
+				$.el.span({'class':'path-label path-literal'},
+					"random objects")));
+		addItems(uris);
+	});
+
+	$("#resultsDiv").append(
+		$.el.div({'class':'well well-sm',
+				  'id':'cluster' + clusterIndex})
+	);
+}
+
+/*******************************************************************************
+List view
+Show the results in one big list
+*******************************************************************************/
+function populateListItems(uris, resultList) {
+	// Determine indexes for adding elements in items (important since metadata
+	// call is asynchronous)
+	var start = resultList.length;
+	resultList.addUris(uris);
+	var stop = resultList.length;
+
+	// Get metedata for uris
 	$.ajax({type: "POST",
 			url: "metadata",
 			contentType: "application/json",
-			data: JSON.stringify(json),
+			data: JSON.stringify({"uris":uris}),
 			success: function(data) {
-				enrichedItems = processListEnrichment(data);
-				thumbnailList(enrichedItems);
-				// processEnrichment(data, clusterId);
-				// // Clone cluster to enable filtering without losing information.
-				// clusters[clusterId] = clone(enrichedClusters[clusterId]);
-				// filterCluster(clusters[clusterId]);
-				// if(clusters[clusterId].items.length==0) {
-				// 	$("#cluster"+clusterId).append(noFilterResultsHtml());
-				// } else {
-				// 	var pages = determineNumberOfPages(clusterId);
-				// 	$("#cluster"+clusterId).append(pagination(pages, clusterId));
-				// 	thumbnails(clusterId);
-				// }
+				// Add enriched items to items array and view
+				var index = 0;
+
+				for(var i=start; i<stop; i++) {
+					resultList.addNthItem(
+						data[index].uri,
+						data[index].thumb,
+						data[index].title,
+						i
+					);
+					index++;
+				}
+
+				populateThumbnails(start, stop, resultList);
 		   }
 	});
-
-	// new Pengine({server: 'pengine',
-	// 			 application: 'enrichment',
-	// 			 ask: 'maplist(enrich_item,' + Pengine.stringify(itemUris, {string:'atom'}) + ', Items),!',
-	// 			 onsuccess: function () {
-	// 				enrichedItems = processListEnrichment(this.data);
-	// 				thumbnailList(enrichedItems);
-	// }});
 }
 
-function processListEnrichment(sourceItems) {
-	var numberOfItems = sourceItems.length;
-	var items = [];
+function populateThumbnails(begin, end, resultList) {
+	// Determine in which row to start adding thumbnails
+	var rowLength = display.numberDisplayedItems;
+	var startRows = parseInt(begin/rowLength, 10) + 1;
+	var stopRows = parseInt(end/rowLength, 10) + 1;
+	var itemsAdded = begin;
+	var items = resultList.items;
+	// See if additional rows need to be added
+	addRows(stopRows);
 
-	// console.log("display", displayOptions.annotateLink);
-	for (var i=0; i<numberOfItems; i++) {
-		var uri = sourceItems[i].uri;
-		var thumb = sourceItems[i].thumb;
-		//var link = "annotate_image.html?uri=" + uri;
-		var link = "annotate.html?uri=" + uri;
- 		var title = truncate(sourceItems[i].title, 60);
-		items[i] = new item(uri, thumb, link, title);
-	}
-	return items;
-}
-
-function thumbnailList(items) {
-	var rowLength = 4;
-	bootstrapWidth = parseInt(12/rowLength, 10);
-	var numberOfRows = items.length/rowLength;
-	var itemsAdded = 0;
-
-	for(var i=1; i<=numberOfRows; i++) {
-		// Add row for thumbnails
-		$("#results").append(
-			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
-
-		//Determine where to stop adding
+	// Add the thumbnails to the rows
+	for(var i=startRows; i<=stopRows; i++) {
+		// Determine where to start adding
+		var start = parseInt(itemsAdded/rowLength, 10);
+		// Determine where to stop adding
 		var stop = i * rowLength;
-		if(items.length<stop){
-			stop = items.length;
-		}
+		if(end < stop) stop = end;
 
 		for (var j=itemsAdded; j<stop; j++) {
-			id = getId(items[j].uri);
+			var id = getId(items[j].uri);
+			$("#thumbnailRow" + i).append(thumbnail(items[j]));
 
-			$("#thumbnailRow" + i).append(
-				$.el.div({'class':'col-md-' + bootstrapWidth},
-					$.el.div({'class':'thumbnail',
-							  'id':id},
-						$.el.img({'src':items[j].thumb,
-						          'class':'img-responsive',
-								  'alt':''}),
-							$.el.div({'class':'caption'},
-								 thumbnailTitle(j, items, bootstrapWidth))))
-			);
+			// addThumbnail(i, j, id, items[j], itemWidth);
 			addListClickEvent(id, items[j].link, i, j);
 			itemsAdded++;
 		}
 	}
+}
+
+function addRows(numberOfRows) {
+	for(var i=rows+1; i<numberOfRows+1; i++) {
+		// Add row for thumbnails
+		$("#resultsDiv").append(
+			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
+	}
+	rows = numberOfRows;
 }
 
 function addListClickEvent(id, link, rowId, index) {
@@ -310,4 +331,176 @@ function addListClickEvent(id, link, rowId, index) {
 		localStorage.setItem("row", rowId);
 		document.location.href=link;
 	});
+}
+
+function ResultList() {
+	//Object for keeping track of list of results
+	this.uris = [];
+	this.items = [];
+	this.length = 0;
+
+	this.addUris = function(newUris) {
+		// Add items to uri list
+		for(var i=0; i<newUris.length; i++)
+			this.addUri(newUris[i]);
+	}
+
+	this.addUri = function(uri) {
+		// Add uri
+		this.uris[this.length] = uri;
+		// Update length
+		this.length++;
+	}
+
+	// Add item at nth index in the list, allows to keep order
+	this.addNthItem = function(uri, thumb, title, index) {
+		var item = {};
+		item.uri = uri;
+		item.thumb = thumb;
+		item.link = "annotate.html?uri=" + uri;
+		item.title = truncate(title, 60);
+		this.items[index] = item;
+	}
+}
+
+/*******************************************************************************
+Cluster view
+Show the results in clusters
+*******************************************************************************/
+function populateClusters(query) {
+	//TODO: localize variables
+	var resultsTxtNoResults = "No results found for ";
+	var query = query || "literal";
+
+	if(clusters.length == 0){
+		statusMessage(resultsTxtNoResults, query);
+	} else {
+		for(var i=0; i<clusters.length; i++) {
+			var cluster = clusters[i];
+			var uris = [];
+
+			for(var j=0; j<cluster.items.length; j++)
+				uris[j] = cluster.items[j].uri;
+
+			$("#resultsDiv").append(
+				$.el.div({'class':'well well-sm',
+						  'id':'cluster' + i})
+			);
+
+			addPath(i, cluster.path, query);
+			// Add enriched clusters and pagination
+			addItems(uris, i);
+		}
+	}
+}
+
+function addPath(clusterId, uris, query) {
+	// Get labels from server
+	var json = {"uris":uris, "type":"label"};
+	$.ajax({type: "POST",
+			url: "metadata",
+			contentType: "application/json",
+			data: JSON.stringify(json),
+			success: function(labels) {
+				var pathElements = [];
+
+			    for(var i=0; i<uris.length; i++)
+			        pathElements[i] = {uri:uris[i], label:truncate(labels[i], 50)};
+
+			    pathElements.reverse();
+				var path = new Path(uris, labels, pathElements);
+				$("#cluster" + clusterId).prepend(path.htmlSimple);
+				path.unfoldEvent("#cluster" + clusterId, query);
+		   }
+	});
+}
+
+function addItems(uris, clusterId) {
+	var json = {"uris":uris};
+	$.ajax({type: "POST",
+			url: "metadata",
+			contentType: "application/json",
+			data: JSON.stringify(json),
+			success: function(data) {
+				// Replace cluster items with enriched items
+				clusters[clusterId].items = processEnrichment(data);
+				var pages = determineNumberOfPages(clusterId);
+				$("#cluster"+clusterId).append(pagination(pages, clusterId));
+				thumbnails(clusterId);
+		   }
+	});
+}
+
+function processEnrichment(data) {
+	var enrichedItems = [];
+
+	for(var i=0; i<data.length; i++) {
+		enrichedItems[i] = {};
+		var uri = data[i].uri;
+		enrichedItems[i].uri = uri;
+		enrichedItems[i].thumb = data[i].thumb;
+		enrichedItems[i].link = "annotate.html?uri=" + uri;
+		enrichedItems[i].title = truncate(data[i].title, 60);
+	}
+	return enrichedItems;
+}
+
+function determineNumberOfPages (clusterId) {
+	var numberOfPages = 0;
+	var numberOfItems = clusters[clusterId].items.length;
+	var restPages = numberOfItems%display.numberDisplayedItems;
+
+	//Determine number of items in pagination
+	if(restPages == 0) {
+		numberOfPages = numberOfItems/display.numberDisplayedItems;
+	} else {
+		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
+	}
+	return numberOfPages;
+}
+
+/*******************************************************************************
+Controls
+Code for adding buttons controlling the layout
+*******************************************************************************/
+function controls() {
+	if(display.showControls) {
+		$("#resultsDiv").prepend(
+			$.el.div({'class':'row'},
+				$.el.div({'class':'col-md-12 resultsDivControls'}))
+		);
+		resultLayoutButtons();
+	}
+}
+
+function resultLayoutButtons() {
+	$(".resultsDivControls").append(
+		$.el.div({'class':'btn-group'},
+			$.el.button({'class':'btn btn-default',
+						 'id':'resultsBtnLayout'}))
+	);
+	setLayoutButton();
+	$("#resultsBtnLayout").click(function() {
+		display.layout = (display.layout === "list") ? "cluster" : "list";
+		setLayoutButton();
+		populateResults();
+	});
+}
+
+function setLayoutButton() {
+	//TODO: localize variables
+	var resultsLblCluster = "Cluster view";
+	var resultsLblList = "List view";
+
+	if(display.layout === "list") {
+		$("#resultsBtnLayout").html(
+			$.el.span(resultsLblCluster + ' ',
+			$.el.span({'class':'glyphicon glyphicon-th-large'}))
+		);
+	} else {
+		$("#resultsBtnLayout").html(
+			$.el.span(resultsLblList + ' ',
+			$.el.span({'class':'glyphicon glyphicon-th-large'}))
+		);
+	}
 }

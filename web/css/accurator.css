@@ -198,13 +198,15 @@ About page
 	text-align: center;
 }
 
-/* Search Results */
+/*******************************************************************************
+Search results
+*******************************************************************************/
 .search-form {
 	width: 250px;
 	margin: auto;
 }
 
-#results {
+#resultsDiv {
 	padding-top: 10px;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -216,6 +218,10 @@ About page
 
 .thumbnail {
 	cursor: pointer;
+}
+
+.resultsDivControls {
+	padding-bottom: 10px;
 }
 
 .path-label {
@@ -251,8 +257,10 @@ About page
 .path-literal {background-color: rgb(100, 100, 100);}
 .path-property {background-color: rgb(66, 139, 202);}
 
-/* Annotate page */
-.navigationButton {
+/*******************************************************************************
+Annotate page
+*******************************************************************************/
+.annotateDivNavigationButton {
 	margin-top: 10px;
 }
 
@@ -276,7 +284,7 @@ About page
 	text-align: center;
 }
 
-.navButton {
+.annotateBtnNavigation {
 	width: 100px;
 }
 
@@ -284,11 +292,11 @@ About page
 	text-align: right;
 }
 
-#metadata {
+#annotateDivMetadata {
 	margin-top: 10px;
 }
 
-#experimentNavigation {
+#annotateDivExperimentNavigation {
 	margin-top: 10px;
 	text-align: center;
 }
