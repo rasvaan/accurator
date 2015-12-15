@@ -45,8 +45,8 @@ function populateUI() {
 		document.title = labels.title;
 		initLabels(labels);
 		initImage();
-		// Only show path when cluster is available
-		if((localStorage.getItem("currentCluster") !== null) && !(experiment === "random"))
+		// Only show path when cluster is available TODO: remove ugly check for undefined
+		if((localStorage.getItem("currentCluster") !== null) && (localStorage.getItem("currentCluster") !== "undefined") && !(experiment === "random"))
 			addPath();
 		addButtonEvents();
 		events();
@@ -134,28 +134,34 @@ function addClusterNavigationButtonEvents() {
 }
 
 function annotationFields() {
-	var id = "PageType";
-	var label = "Page type";
-
-	// Add field
-	$("#annotationFields").append(annotationField(id, label));
-
-	// Get autocomplete alternatives
-	var filter = JSON.stringify({scheme:"http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme"});
-	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
-	$.getJSON("api/autocomplete",
-		{q:"pag",
-		 filter:filter,
-		 labelrank:labelRank,
-		 method:"all",
-	 	 locale:locale})
-	.done(function(alternatives){
-		// Add typeahead
-		addTypeAhead(id, alternatives);
-		getInputAnnotationField(id, alternatives);
-		// Add focus to field
-		$("#annotateInp" + id).focus();
+	// Retrieve the fields that should be added (based on save_user_info)
+	$.getJSON("annotation_fields", {locale:locale, domain:domain})
+	.done(function(fields){
+		console.log(fields);
 	});
+
+	// var id = "PageType";
+	// var label = "Page type";
+	//
+	// // Add field
+	// $("#annotationFields").append(annotationField(id, label));
+	//
+	// // Get autocomplete alternatives
+	// var filter = JSON.stringify({scheme:"http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme"});
+	// var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
+	// $.getJSON("api/autocomplete",
+	// 	{q:"pag",
+	// 	 filter:filter,
+	// 	 labelrank:labelRank,
+	// 	 method:"all",
+	//  	 locale:locale})
+	// .done(function(alternatives){
+	// 	// Add typeahead
+	// 	addTypeAhead(id, alternatives);
+	// 	getInputAnnotationField(id, alternatives);
+	// 	// Add focus to field
+	// 	$("#annotateInp" + id).focus();
+	// });
 }
 
 function annotationField(id, label) {

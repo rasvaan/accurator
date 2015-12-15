@@ -1,10 +1,17 @@
-:- module(annotations, [
+:- module(annotation, [
+			  annotation_fields/2,
 			  annotations/3
 		  ]).
 
 :- use_module(library(accurator/ui_elements)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_label)).
+
+%%	annotation_fields(-Fields, +Options)
+%
+%	Retrieve the defenitions of annotation fields from the triple store
+annotation_fields(Fields, _Options) :-
+	Fields = {}.
 
 %%	annotations(+Type, +Uri, -Metadata)
 %
@@ -37,5 +44,3 @@ get_annotation(Uri, AnnotationBody, AnnotationHash) :-
 process_annotation(literal(Annotation), Annotation) :- !.
 process_annotation(Annotation, Label) :-
 	rdf_display_label(Annotation, _, Label).
-
-

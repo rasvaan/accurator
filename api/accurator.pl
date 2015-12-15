@@ -20,7 +20,7 @@
 :- use_module(library(accurator/recommendation/strategy_random)).
 :- use_module(library(accurator/recommendation/strategy_expertise)).
 :- use_module(library(accurator/ui_elements)).
-:- use_module(library(accurator/annotations)).
+:- use_module(library(accurator/annotation)).
 :- use_module(library(accurator/subset_selection)).
 :- use_module(library(accurator/concept_scheme_selection)).
 :- use_module(api(cluster_search)).
@@ -45,16 +45,17 @@ user:file_search_path(fonts, web(fonts)).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
 :- http_handler(fonts('.'), serve_files_in_directory(fonts), [prefix]).
 % :- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
-:- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
-:- http_handler(cliopatria(domains), domains_api,  []).
-:- http_handler(cliopatria(metadata), metadata_api,  []).
-:- http_handler(cliopatria(annotations), annotations_api,  []).
-:- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
-:- http_handler(cliopatria(expertise_values), expertise_values_api,  []).
-:- http_handler(cliopatria(register_user), register_user,  []).
-:- http_handler(cliopatria(get_user), get_user,  []).
-:- http_handler(cliopatria(get_user_settings), get_user_settings,  []).
-:- http_handler(cliopatria(save_user_info), save_user_info,  []).
+:- http_handler(cliopatria(ui_elements), ui_elements_api, []).
+:- http_handler(cliopatria(domains), domains_api, []).
+:- http_handler(cliopatria(metadata), metadata_api, []).
+:- http_handler(cliopatria(annotation_fields), annotation_fields_api, []).
+:- http_handler(cliopatria(annotations), annotations_api, []).
+:- http_handler(cliopatria(expertise_topics), expertise_topics_api, []).
+:- http_handler(cliopatria(expertise_values), expertise_values_api, []).
+:- http_handler(cliopatria(register_user), register_user, []).
+:- http_handler(cliopatria(get_user), get_user, []).
+:- http_handler(cliopatria(get_user_settings), get_user_settings, []).
+:- http_handler(cliopatria(save_user_info), save_user_info, []).
 :- http_handler(cliopatria(recommendation), recommendation_api, []).
 
 :- set_setting_default(thumbnail:thumbnail_size, size(350,300)).
@@ -184,6 +185,28 @@ get_parameters_annotations(Request, Options) :-
 			 default(full),
 			 optional(type)])]),
     Options = [uri(Uri), type(Type)].
+
+%%	annotation_fields_api(+Request)
+%
+%	Retrieves the fields for a specified locale and domain
+annotation_fields_api(Request) :-
+    get_parameters_annotation_fields(Request, Options),
+    annotation_fields(Fields, Options),
+    reply_json_dict(Fields).
+
+%%	get_parameters_annotations(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_annotation_fields(Request, Options) :-
+    http_parameters(Request,
+        [locale(Locale,
+				[description('Locale of field descriptions to retrieve'),
+				 optional(false)]),
+		 domain(Domain,
+				[description('Domain of field descriptions to retrieve'),
+				 optional(false)])]),
+    Options = [locale(Locale), domain(Domain)].
+
 
 %%	expertise_topics_api(+Request)
 %
