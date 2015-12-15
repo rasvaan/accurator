@@ -199,13 +199,16 @@ annotation_fields_api(Request) :-
 %	Retrieves an option list of parameters from the url.
 get_parameters_annotation_fields(Request, Options) :-
     http_parameters(Request,
-        [locale(Locale,
+        [annotation_ui(UI,
+			[description('UI for which fields are retrieved'),
+			 optional(false)]),
+		 locale(Locale,
 				[description('Locale of field descriptions to retrieve'),
 				 optional(false)]),
 		 domain(Domain,
 				[description('Domain of field descriptions to retrieve'),
 				 optional(false)])]),
-    Options = [locale(Locale), domain(Domain)].
+    Options = [annotation_ui(UI), locale(Locale), domain(Domain)].
 
 
 %%	expertise_topics_api(+Request)

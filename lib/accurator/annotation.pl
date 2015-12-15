@@ -6,12 +6,19 @@
 :- use_module(library(accurator/ui_elements)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_label)).
+:- use_module(library(semweb/rdfs)).
+:- use_module(user(user_db)).
 
 %%	annotation_fields(-Fields, +Options)
 %
-%	Retrieve the defenitions of annotation fields from the triple store
-annotation_fields(Fields, _Options) :-
-	Fields = {}.
+%	Retrieve the definitions of annotation fields from the triple store
+annotation_fields(Fields, Options) :-
+	get_annotation_fields(Fields, Options).
+
+get_annotation_fields(Fields, Options) :-
+	option(annotation_ui(UI), Options),
+	rdf_has(UI, ann_ui:fields, RdfList),
+	rdfs_list_to_prolog_list(RdfList, Fields).
 
 %%	annotations(+Type, +Uri, -Metadata)
 %

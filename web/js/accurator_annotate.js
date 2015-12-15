@@ -2,7 +2,7 @@
 Accurator Annotate
 Code for extending functionality annotation page.
 *******************************************************************************/
-var query, locale, experiment, domain, user, ui, uri;
+var query, locale, experiment, domain, user, ui, annotation_ui, uri;
 var vntFirstTitle, vntFirstText;
 
 displayOptions = {
@@ -24,9 +24,11 @@ function annotateInit() {
 
 		// Get domain settings before populating ui
 		onDomain = function(domainData) {
+			console.log(domainData);
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
 			ui = domainData.ui + "annotate";
+			annotation_ui = domainData.annotation_ui;
 
 			maybeRunExperiment();
 			populateUI();
@@ -135,7 +137,10 @@ function addClusterNavigationButtonEvents() {
 
 function annotationFields() {
 	// Retrieve the fields that should be added (based on save_user_info)
-	$.getJSON("annotation_fields", {locale:locale, domain:domain})
+	$.getJSON("annotation_fields",
+			  {locale:locale,
+			   domain:domain,
+		   	   annotation_ui:annotation_ui})
 	.done(function(fields){
 		console.log(fields);
 	});
