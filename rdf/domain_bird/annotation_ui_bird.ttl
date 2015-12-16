@@ -7,7 +7,7 @@
 
 abirui:smallBirdDemoUi a auis:AnnotationUI ;
     dc:title "Bird annotation UI"@en;
-	auis:fields (
+	auis:fragmentFields (
 	     abirui:IOCCommonNameAnnotation
 		 abirui:IOCScientificNameAnnotation
 		 abirui:Gender
@@ -16,21 +16,21 @@ abirui:smallBirdDemoUi a auis:AnnotationUI ;
 		 abirui:SymbolicField
 	 ) .
 
-abirui:IOCCommonNameAnnotation a auis:Field ;
+abirui:IOCCommonNameAnnotation a auis:DropdownField ;
 	rdfs:label "Species"@en ;
 	rdfs:label "Soortnaam"@nl ;
 	dc:comment "add common name of the species"@en ;
 	dc:comment "voeg de in Nederland gebruikelijke naam van soort toe"@nl ;
 	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://purl.org/collections/birds/IOCConceptScheme\"}&labelrank=['http://lod.taxonconcept.org/ontology/txn.owl%23commonName'-1]" .
 
-abirui:IOCScientificNameAnnotation a auis:Field ;
+abirui:IOCScientificNameAnnotation a auis:DropdownField ;
 	rdfs:label "Scientific name"@en ;
 	rdfs:label "Wetenschappelijke naam"@nl ;
 	dc:comment "add scientificly accepted species or genus name"@en ;
 	dc:comment "voeg de wetenschappelijke soortnaam toe"@nl ;
 	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://purl.org/collections/birds/IOCConceptScheme\"}&labelrank=['http://lod.taxonconcept.org/ontology/txn.owl%23scientificName'-1]" .
 
-abirui:Gender a auis:Field ;
+abirui:Gender a auis:RadioButtonField ;
 	rdfs:label "Geslacht"@nl ;
 	rdfs:label "Gender"@en ;
 	dc:comment "add gender of the species"@en ;
@@ -38,7 +38,7 @@ abirui:Gender a auis:Field ;
 	auis:source ( "male"@en "female"@en ) ;
 	auis:source ( "man"@nl "vrouw"@nl ) .
 
-abirui:StageOfLife a auis:Field ;
+abirui:StageOfLife a auis:RadioButtonField ;
 	rdfs:label "Levensfase"@nl ;
 	rdfs:label "Stage of life"@en ;
 	dc:comment "add the stage of life the species is in"@en ;
@@ -46,7 +46,7 @@ abirui:StageOfLife a auis:Field ;
 	auis:source ( "adult"@en "juvenile"@en "chick"@en) ;
 	auis:source ( "adult"@nl "juveniel"@nl "pul"@nl ) .
 
-abirui:Realism a auis:Field ;
+abirui:Realism a auis:RadioButtonField ;
 	rdfs:label "Realisme"@nl ;
 	rdfs:label "Realism"@en ;
 	dc:comment "is the depiction of the subject realistic"@en ;
@@ -54,7 +54,7 @@ abirui:Realism a auis:Field ;
 	auis:source ( "realistisch"@nl "enigzins realtisch"@nl "enigzins abstract"@nl "abstract"@nl ) ;
 	auis:source ( "realistic"@en "somewhat realistic"@en "somewhat abstract"@en "abstract"@en ) .
 
-abirui:RealOrNotAnnotation a auis:Field ;
+abirui:RealOrNotAnnotation a auis:RadioButtonField ;
 	rdfs:label "Fantasie soort"@nl ;
 	rdfs:label "Imaginary"@en ;
 	dc:comment "use when species only occurs in fiction (e.g. a dragon or unicorn)"@en ;
@@ -62,7 +62,7 @@ abirui:RealOrNotAnnotation a auis:Field ;
 	auis:source ( "fantasie"@nl "echt"@nl ) ;
 	auis:source ( "imaginairy"@en "real"@en ) .
 
-abirui:SymbolicField a auis:Field ;
+abirui:SymbolicField a auis:TextField ;
 	rdfs:label "Iconologie"@nl ;
 	rdfs:label "Iconology"@en ;
 	dc:comment "(symbolische) interpretatie, optioneel"@nl ;

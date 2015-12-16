@@ -24,12 +24,37 @@ auis:fields a rdf:Property ;
 	rdfs:label "Fields for UI"@en ;
 	rdfs:comment "Property for connecting annotation UI to included fields"@en .
 
+auis:fragmentFields a rdf:Property ;
+	rdfs:label "Fields for fragments"@en ;
+	rdfs:comment "Property for connecting fields for describing fragments of media."@en .
+
+auis:wholeFields a rdf:Property ;
+	rdfs:label "Fields for describing whole things"@en ;
+	rdfs:comment "Property for connecting annotation UI to include fields that describe whole things."@en .
+
+auis:DropdownField a rdfs:Class ;
+	rdfs:label "Dropdown"@en ;
+	rdfs:subClassOf auis:Field .
+
+auis:TextField a rdfs:Class ;
+	rdfs:label "Text field"@en ;
+	rdfs:subClassOf auis:Field .
+
+auis:RadioButtonField a rdfs:Class ;
+	rdfs:label "Radio buttons"@en ;
+	rdfs:subClassOf auis:Field .
+
+auis:CheckboxField a rdfs:Class ;
+	rdfs:label "Checkboxes"@en ;
+	rdfs:subClassOf auis:Field .
+
 auis:SelectField a rdfs:Class ;
 	rdfs:label "Select field" ;
 	rdfs:comment "Selectfield bundles possible options together."@en .
 
 auis:hasSelect a rdf:Property ;
 	rdfs:label "Has select field" ;
+	rdfs:subClassOf auis:Field ;
 	rdfs:comment "Property linking a ui and a select field"@en .
 
 auis:SelectOption a rdfs:Class ;
