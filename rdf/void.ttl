@@ -40,23 +40,25 @@
 
 <accurator-bird-domain>
 	a void:Dataset ;
+	dcterms:title "Accurator configuration for bird domain" ;
 	void:subset <accurator-ui-schema> ;
 	void:subset <accurator-ui> ;
 	void:subset <accurator-ui-countries> ;
 	void:subset <accurator-ui-languages> ;
-	dcterms:title "Accurator configuration for bird domain" ;
+	void:dataDump <domain_bird/annotation_ui_bird.ttl> ;
 	void:dataDump <domain_bird/accurator_domain_bird.ttl> ;
 	void:dataDump <domain_bird/accurator_ui_bird.ttl> .
 
 <accurator-bible-domain>
 	a void:Dataset ;
+	dcterms:title "Accurator configuration for bible domain" ;
 	void:subset <accurator-schema> ;
 	void:subset <accurator-ui-schema> ;
 	void:subset <accurator-ui> ;
 	void:subset <accurator-ui-countries> ;
 	void:subset <accurator-ui-languages> ;
-	dcterms:title "Accurator configuration for bible domain" ;
 	void:dataDump <domain_bible/accurator_domain_bible.ttl> ;
+	void:dataDump <domain_bible/annotation_ui_bible.ttl> ;
 	void:dataDump <domain_bible/accurator_ui_bible.ttl> ;
 	void:dataDump <domain_bible/concept_scheme_bible_figure.ttl> ;
 	void:dataDump <domain_bible/concept_scheme_bible_theme.ttl> .

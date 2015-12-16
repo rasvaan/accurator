@@ -4,27 +4,42 @@
 @prefix dc:     <http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-auis:uiLabel a rdf:Property;
+auis:UI a rdfs:Class ;
+	rdfs:label "Super-class of all Accurator user interfaces"@en .
+
+auis:AnnotationUI a rdfs:Class ;
+	rdfs:label "Accurator annotation interface"@en ;
+	rdfs:subClassOf auis:UI .
+
+auis:uiLabel a rdf:Property ;
 	rdfs:label "Super-property of all labels"@en .
 
-auis:UILabel a rdfs:Class;
+auis:UILabel a rdfs:Class ;
 	rdfs:label "Super-class of all labels"@en .
 
-auis:UI a rdfs:Class;
-	rdfs:label "Super-class of all Accurator user interfaces."@en .
+auis:Field a rdfs:Class ;
+	rdfs:label "Super-class of all fields"@en .
 
-auis:SelectField a rdfs:Class;
+auis:fields a rdf:Property ;
+	rdfs:label "Fields for UI"@en ;
+	rdfs:comment "Property for connecting annotation UI to included fields"@en .
+
+auis:SelectField a rdfs:Class ;
 	rdfs:label "Select field" ;
 	rdfs:comment "Selectfield bundles possible options together."@en .
 
-auis:hasSelect a rdf:Property;
+auis:hasSelect a rdf:Property ;
 	rdfs:label "Has select field" ;
 	rdfs:comment "Property linking a ui and a select field"@en .
 
-auis:SelectOption a rdfs:Class;
+auis:SelectOption a rdfs:Class ;
 	rdfs:label "Option of selector field" ;
 	rdfs:comment "Option of a selectfield with a preflabel and notation, used for language independent storage of selected values."@en .
 
-auis:hasSelectOption a rdf:Property;
+auis:hasSelectOption a rdf:Property ;
 	rdfs:label "Has select option" ;
-	rdfs:comment "Property linking a selectfield and its options"@en .
+	rdfs:comment "Property linking a selectfield and its options."@en .
+
+auis:source a rdf:Property ;
+	rdfs:label "Has source" ;
+	rdfs:comment "The source of data for an input field."@en .
