@@ -9,7 +9,7 @@ abibui:smallBibleUi a auis:AnnotationUI ;
     dc:title "Bible annotation UI"@en;
     auis:wholeFields (
 	     abibui:ICBibleTheme
-	)
+	);
 	auis:fragmentFields (
 	     abibui:ICBibleTheme
 		 abibui:BibleCharacter

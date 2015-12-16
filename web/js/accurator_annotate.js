@@ -24,7 +24,6 @@ function annotateInit() {
 
 		// Get domain settings before populating ui
 		onDomain = function(domainData) {
-			console.log(domainData);
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
 			ui = domainData.ui + "annotate";

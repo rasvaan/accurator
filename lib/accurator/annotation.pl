@@ -7,7 +7,6 @@
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_label)).
 :- use_module(library(semweb/rdfs)).
-:- use_module(user(user_db)).
 
 %%	annotation_fields(-Fields, +Options)
 %
@@ -17,8 +16,29 @@ annotation_fields(Fields, Options) :-
 
 get_annotation_fields(Fields, Options) :-
 	option(annotation_ui(UI), Options),
-	rdf_has(UI, ann_ui:fields, RdfList),
-	rdfs_list_to_prolog_list(RdfList, Fields).
+	option(locale(Locale), Options),
+	fragment_fields(Locale, UI, FragmentFields),
+	whole_fields(Locale, UI, WholeFields),
+	Fields = fields{fragment_fields:FragmentFields, whole_fields: WholeFields}.
+
+fragment_fields(Locale, UI, FragmentFields) :-
+	rdf_has(UI, auis:fragmentFields, RdfList), !,
+	rdfs_list_to_prolog_list(RdfList, FieldUris),
+	maplist(get_annotation_field(Locale), FieldUris, FragmentFields).
+fragment_fields(_Locale, _UI, []).
+
+whole_fields(Locale, UI, WholeFields) :-
+	rdf_has(UI, auis:wholeFields, RdfList),
+	rdfs_list_to_prolog_list(RdfList, FieldUris),
+	maplist(get_annotation_field(Locale), FieldUris, WholeFields).
+whole_fields(_Locale, _UI, []).
+
+get_annotation_field(Locale, Uri, Field) :-
+	%currently only handling literals (yeah, that should be better, fix the info needed about the field)
+	findall(Property-Value,
+			rdf(Uri, Property, literal(lang(Locale, Value))),
+			Properties),
+	dict_pairs(Field, elements, Properties).
 
 %%	annotations(+Type, +Uri, -Metadata)
 %
