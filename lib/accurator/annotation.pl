@@ -10,7 +10,8 @@
 
 :- rdf_meta
 	fields(r,-,-,-),
-	label_property_pair(-, r, -, -).
+	label_property_pair(-, r, -, -),
+	annotations(-,r,-).
 
 %%	annotation_fields(-Fields, +Options)
 %
