@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="img/favicon.ico">
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="css/annotorious.css" />
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 </head>
 
@@ -60,6 +61,11 @@
 			</div>
 		</div>
 
+		<!-- Image -->
+		<div class="row" id="imageRow">
+			<img src="" class="annotationImage annotatable" id="myImage" alt="" />
+		</div>
+
 		<!-- Annotation field(s) -->
 		<div class="row" id="annotationFieldsRow">
 			<div class="col-md-6" id="annotationFieldsSelector">
@@ -69,12 +75,7 @@
 			<div class="col-md-6" id="annotationFieldsSelected">
 			</div>
 		</div>
-
-		<!-- Image -->
-		<div class="row" id="imageRow">
-			<img src="" class="annotationImage" alt="" />
-		</div>
-
+		
         <!-- Metadata -->
     	<div id="metadata"></div>
 
@@ -151,6 +152,7 @@
 	<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
 	<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/accurator.laconic.js"></script>
+	<script type="text/javascript" src="js/annotorious.min.js"></script>
 	<script type="text/javascript" src="js/typeahead.js"></script>
 	<script type="text/javascript" src="js/search.js"></script>
 	<script type="text/javascript" src="js/accurator_utilities.js"></script>

@@ -72,6 +72,8 @@ function initImage() {
 	$.getJSON("metadata", {uri:uri})
 	.done(function(metadata){
 		$(".annotationImage").attr("src", metadata.image);
+		// Tell anotorious this image can be annotated
+		// anno.makeAnnotatable(document.getElementById("myImage"));
 	});
 }
 
@@ -150,7 +152,7 @@ function annotationFields() {
 			$("#annotationFields").append(annotationField(id, label, comment));
 		}
 		for(var i=0; i<fields.fragment_fields.length; i++) {
-			var id = "fragmentField_" + (i + 1);
+			var id = "fragmentField" + (i + 1);
 			var label = fields.fragment_fields[i].label;
 			var comment = fields.fragment_fields[i].comment;
 			console.log(id, label);
