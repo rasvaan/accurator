@@ -142,6 +142,20 @@ function annotationFields() {
 		   	   annotation_ui:annotation_ui})
 	.done(function(fields){
 		console.log(fields);
+		//Add fields whole image
+		for(var i=0; i<fields.whole_fields.length; i++) {
+			var id = "wholeField" + (i + 1);
+			var label = fields.whole_fields[i].label;
+			var comment = fields.whole_fields[i].comment;
+			$("#annotationFields").append(annotationField(id, label, comment));
+		}
+		for(var i=0; i<fields.fragment_fields.length; i++) {
+			var id = "fragmentField_" + (i + 1);
+			var label = fields.fragment_fields[i].label;
+			var comment = fields.fragment_fields[i].comment;
+			console.log(id, label);
+			// $("#annotationFields").append(annotationField(id, label, comment));
+		}
 	});
 
 	// var id = "PageType";
@@ -168,15 +182,22 @@ function annotationFields() {
 	// });
 }
 
-function annotationField(id, label) {
+// div([class('annotate-field'), alt(FieldDescription)],
+// 		 [ div(class('annotate-header'),
+// 			   h4([Label,
+// 				   span('  '),
+// 				   small(class('annotate-description'), FieldDescription)])),
+//<span id="helpBlock" class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
+function annotationField(id, label, comment) {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'annotateLbl',
 							'for':'annotateInp' + id,
 							'id':'annotateLbl' + id},
 						   label),
-				$.el.input({'type':'text',
-						    'class':'form-control typeahead',
-							'id':'annotateInp' + id})
+ 				$.el.input({'type':'text',
+ 						    'class':'form-control typeahead',
+ 							'id':'annotateInp' + id,
+							'placeholder':comment})
 	);
 }
 
