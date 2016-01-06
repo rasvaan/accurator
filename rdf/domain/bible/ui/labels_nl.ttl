@@ -1,0 +1,17 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix abibui: <http://accurator.nl/ui/bible#> .
+
+###### Bible Domain #####
+abibui:domain a auis:UI;
+	aui:domainLabel "Bijbel domein"@nl .
+
+###### Bible Intro Screen #####
+
+abibui:intro a auis:UI ;
+	aui:introHdrSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met bijbelse themas"@nl .
+
+##### Bible Expertise Screen #####
+
+abibui:expertise a auis:UI ;
+	aui:expertiseTxtSubHeader "vertel ons over welke bijbelse thema's u veel weet, hierop basseren we de werken die we aanraden om informatie aan toe te voegen"@nl .

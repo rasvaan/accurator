@@ -20,37 +20,43 @@ body {
 	text-align: bottom;
 }
 
-.footer {
+.footerDiv {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 	height: 35px;
 }
 
-.footerRelative {
+.footerDivRelative {
 	height: 35px;
 	margin-top: 20px;
 }
 
-.footerLogo {
+.footerImgLogo {
 	height: 25px;
 	margin-bottom: 5px;
 	margin-top: 5px;
 }
 
-#rijksmuseumLogo {
+#footerImgRijksmuseumLogo {
 	margin-top: 13px;
 	height: 17px;
 }
 
-#commitFooterLogo {
+#footerImgCommitLogo {
 	margin-top: 10px;
 	height: 20px;
 }
 
-/* Navbar */
-#headerImage {
+/*******************************************************************************
+Navbar
+*******************************************************************************/
+#navbarImgLogo {
 	height: 20px;
+}
+
+#navbarFrmSearch{
+	text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -65,45 +71,51 @@ body {
     }
 }
 
-/* Intro page */
-.introScreen {
+/*******************************************************************************
+Intro
+*******************************************************************************/
+.intro {
 	overflow-x: hidden;
 	overflow-y: hidden;
 	background-color: #333;
 }
 
-.backgroundImage {
+.introImgBackground {
 	min-width: 125%;
 	max-width: 125%;
 }
 
-.introText {
+.introDivContainer {
 	position: absolute;
 	top: 75px;
 }
 
-/* Additional info page */
-#chkEmail {
+/*******************************************************************************
+Form page
+*******************************************************************************/
+#formChkEmail {
 	margin-top: 10px;
 }
 
-/* Domain page */
-.domainScreen {
+/*******************************************************************************
+Domain page
+*******************************************************************************/
+.domain {
 	background-color: #333;
 }
 
-.domainImage {
+.domainImg {
 	max-width: 100%;
 	cursor: pointer;
 }
 
-#txtTitle {
+#domainTxtTitle {
 	text-align: center;
 	color: #fff;
 	padding-bottom: 10px;
 }
 
-.domainTitle {
+.domainHdr {
 	position: absolute;
 	top: 50px;
 	left: 50px;
@@ -122,8 +134,10 @@ body {
    overflow: hidden;
 }
 
-/* Profile page */
-#rowStartChange {
+/*******************************************************************************
+Profile page
+*******************************************************************************/
+#profileDivStartChange {
 	margin-top: 20px;
 }
 
@@ -132,11 +146,11 @@ body {
 	margin-bottom: 20px;
 }
 
-#rowLastAnnotated {
+#profileDivLastAnnotated {
 	margin-top: 20px;
 }
 
-#txtDomain {
+#profileTxtDomain {
 	margin-bottom: 20px;
 }
 
@@ -148,35 +162,34 @@ body {
 	cursor: pointer;
 }
 
-/* Expertise page */
-.rowExpertise {
+/*******************************************************************************
+Expertise page
+*******************************************************************************/
+.expertiseDiv {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-#rowButtonsExpertise {
+#expertiseDivButtonsExpertise {
 	margin-top: 10px;
 }
 
-#expertiseLabel {
+#expertiseLblExpertise {
 	line-height: 150%;
 }
 
-#masterLabelLeft {
+#expertiseLblMasterLeft {
 	 padding-right: 10px;
 }
 
-#masterLabelRight {
+#expertiseMasterLabelRight {
 	 padding-left: 10px;
 }
 
-/* About page */
-#commitLogo {
-	height: 40px;
-	text-align: right;
-}
-
-#aboutButtons {
+/*******************************************************************************
+About page
+*******************************************************************************/
+#aboutDivButtons {
 	margin-top: 20px;
 }
 
@@ -237,7 +250,9 @@ body {
 .path-literal {background-color: rgb(100, 100, 100);}
 .path-property {background-color: rgb(66, 139, 202);}
 
-/* Item page */
+/*******************************************************************************
+Item page
+*******************************************************************************/
 .itemDivNavigationButton {
 	margin-top: 10px;
 }
@@ -264,10 +279,6 @@ body {
 	margin-top: 12px;
 }
 
-/*#frmSearchAnnotate {
-	text-align: center;
-}*/
-
 .itemBtnNavigation {
 	width: 100px;
 }
@@ -292,6 +303,56 @@ body {
 .itemLbl {
 	margin-right: 10px;
 }
+
+/* Item page: Typeahead functionality */
+/* source: http://twitter.github.io/typeahead.js/examples/ */
+
+#itemFrmAnnotationFields {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+#itemLblPageType {
+  vertical-align: bottom;
+}
+
+#itemInpPageType,
+.tt-menu {
+  width: 396px;
+}
+
+.tt-menu {
+  text-align: left;
+  margin: 4px 0;
+  padding: 4px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 1px 20px;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+}
+
 /* End page */
 .endScreen {
 	overflow-x: hidden;
@@ -299,7 +360,7 @@ body {
 	background-color: #333;
 }
 
-.endText {
+.endDiv {
 	position: absolute;
 	top: 75px;
 }
@@ -315,7 +376,7 @@ slider.slider-horizontal {
   	height: 15px;
 }
 
-.sliderLabel {
+.expertiseLblSlider {
 	padding: 0px 15px 0px 15px;
 }
 
@@ -372,53 +433,4 @@ slider.slider-horizontal {
 
 .flag-icon-nl {
   background-image: url(../img/flags/nl.svg);
-}
-
-/* Item page: Typeahead functionality */
-/* source: http://twitter.github.io/typeahead.js/examples/ */
-
-#itemFrmAnnotationFields {
-	text-align: center;
-	margin-bottom: 10px;
-}
-
-#itemLblPageType {
-  vertical-align: bottom;
-}
-
-#itemInpPageType,
-.tt-menu {
-  width: 396px;
-}
-
-.tt-menu {
-  text-align: left;
-  margin: 4px 0;
-  padding: 4px 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
-  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-          box-shadow: 0 5px 10px rgba(0,0,0,.2);
-}
-
-.tt-suggestion {
-  padding: 1px 20px;
-  font-size: 13px;
-  line-height: 18px;
-}
-
-.tt-suggestion:hover {
-  cursor: pointer;
-  color: #fff;
-  background-color: #0097cf;
-}
-
-.tt-suggestion.tt-cursor {
-  color: #fff;
-  background-color: #0097cf;
 }

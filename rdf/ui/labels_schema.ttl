@@ -14,6 +14,18 @@ auis:AnnotationUI a rdfs:Class ;
 auis:uiLabel a rdf:Property ;
 	rdfs:label "Super-property of all labels"@en .
 
+auis:textLabel a rdf:Property;
+	rdfs:label "Property connecting UI to text"@en ;
+	rdfs:subPropertyOf auis:uiLabel .
+
+auis:buttonLabel a rdf:Property;
+	rdfs:label "Property connecting UI to label for button"@en  ;
+	rdfs:subPropertyOf auis:uiLabel .
+
+auis:linkLabel a rdf:Property;
+	rdfs:label "Property connecting UI to label for link"@en  ;
+	rdfs:subPropertyOf auis:uiLabel .
+
 auis:UILabel a rdfs:Class ;
 	rdfs:label "Super-class of all labels"@en .
 

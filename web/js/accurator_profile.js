@@ -1,5 +1,5 @@
 /*******************************************************************************
-Accurator Intro
+Accurator Profile
 Code for showing statistical elements on the profile page and allowing the user
 to change settings.
 *******************************************************************************/
@@ -45,8 +45,7 @@ function populateRecentlyAnnotated() {
 		var items = [];
 
 		if(numberOfItems === 0) {
-			//Hide if nothing is annotated
-			$("#rowLastAnnotated").hide();
+			$("#profileDivLastAnnotated").hide();
 		} else {
 			for (var i=0; i<numberOfItems; i++) {
 				var uri = uris[i];
@@ -69,20 +68,20 @@ function populateUI() {
 
 function initLabels(labels) {
 	// Add retrieved labels to html elements
-	document.title = labels.title;
+	document.title = labels.profilePageTitle;
 	// Check if real name is available
 	if (typeof realName !== 'undefined') {
-		$("#txtSlogan").prepend(labels.txtSlogan + " " + realName + " ");
+		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan + " " + realName + " ");
 	} else {
-		$("#txtSlogan").prepend(labels.txtSlogan);
+		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan);
 	}
-	$("#txtSubSlogan").prepend(labels.txtSubSlogan);
-	$("#txtStartAnnotating").append(labels.txtStartAnnotating);
-	$("#btnRecommend").append(labels.btnRecommend);
-	$("#btnChangeExpertise").append(labels.btnChangeExpertise);
-	$("#btnSearch").append(labels.btnSearch);
-	$("#btnDomain").prepend(labels.btnDomain);
-	$("#lblLastAnnotated").append(labels.lblLastAnnotated);
+	$("#profileTxtSubSlogan").prepend(labels.profileTxtSubSlogan);
+	$("#profileTxtStartAnnotating").append(labels.profileTxtStartAnnotating);
+	$("#navbarBtnRecommend").append(labels.navbarBtnRecommend);
+	$("#profileBtnChangeExpertise").append(labels.profileBtnChangeExpertise);
+	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
+	$("#profileBtnDomain").prepend(labels.profileBtnDomain);
+	$("#profileLblLastAnnotated").append(labels.profileLblLastAnnotated);
 }
 
 function initDomains(labels) {
@@ -120,8 +119,8 @@ function addDomainTitle(domainSettings, labels) {
 							  ui:domainSettings.ui + "domain",
 							  type:"labels"})
 	.done(function(data){
-		$("#txtDomain").append(
-			labels.txtDomain,
+		$("#profileTxtDomain").append(
+			labels.profileTxtDomain,
 			$.el.span({'class':'text-info'},
 				data.domainLabel));});
 }
@@ -132,7 +131,7 @@ function domainHtml(domainData) {
 							  ui:domainData.ui + "domain",
 							  type:"labels"})
 	.done(function(data){
-		$("#domainItems").append(
+		$("#profileLstDomainItems").append(
 			$.el.li(
 				$.el.a({'href':'#',
 						'id':domainData.domain},
@@ -149,21 +148,21 @@ function addDomainEvent(domain) {
 }
 
 function addButtonEvents() {
-	$("#btnRecommend").click(function() {
+	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
-	$("#frmSearch").keypress(function(event) {
+	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
-			var query = encodeURIComponent($("#frmSearch").val());
+			var query = encodeURIComponent($("#navbarInpSearch").val());
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#btnSearch").click(function() {
-		var query = encodeURIComponent($("#frmSearch").val());
+	$("#navbarBtnSearch").click(function() {
+		var query = encodeURIComponent($("#navbarInpSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
-	$("#btnChangeExpertise").click(function() {
+	$("#profileBtnChangeExpertise").click(function() {
 		document.location.href="expertise.html";
 	});
 }

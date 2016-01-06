@@ -2,7 +2,8 @@
 @prefix bibleontology: <http://bibleontology.com/resource/> .
 @prefix          abib: <http://accurator.nl/bible#> .
 
-# Named toplevel resources (462)
+# File used in the cpack image_annotation for autocompletion of fields:
+# concepts identified to be used in a particular domain or setting
 
 bibleontology:Aaron
 	skos:inScheme abib:BiblicalFigureConceptScheme .

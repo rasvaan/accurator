@@ -8,19 +8,17 @@
 
 ###### Bible Domain #####
 abibui:domain a auis:UI;
-	aui:domainLabel "Bible domain"@en ;
-	aui:domainLabel "Bijbel domein"@nl .
+	aui:domainLabel "Bible domain"@en .
 
-aui:domainLabel a auis:UILabel .
+aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
 
 ###### Bible Intro Screen #####
 
 abibui:intro a auis:UI ;
 	rdfs:subClassOf aui:intro;
-	aui:txtSubSlogan "Help us add information to artworks with biblical scenes"@en ;
-	aui:txtSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken met bijbelse themas"@nl .
+	aui:introHdrSubSlogan "Help us add information to artworks with biblical scenes"@en .
 
-abibui:txtSubSlogan a auis:UILabel .
+abibui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
 
 ###### Bible About Screen #####
 
@@ -36,10 +34,9 @@ abibui:register a aui:UI ;
 
 abibui:expertise a auis:UI ;
 	rdfs:subClassOf aui:expertise ;
-	aui:txtSubHeader "tell us which of these biblical themes you know much about, so we can recommend interesting works to add information to"@en ;
-	aui:txtSubHeader "vertel ons over welke bijbelse thema's u veel weet, hierop basseren we de werken die we aanraden om informatie aan toe te voegen"@nl .
+	aui:expertiseTxtSubHeader "tell us which of these biblical themes you know much about, so we can recommend interesting works to add information to"@en .
 
-abibui:txtSubHeader a auis:UILabel .
+abibui:expertiseTxtSubHeader rdfs:subPropertyOf auis:uiLabel .
 
 ##### Bible Profile Screen #####
 
@@ -56,13 +53,12 @@ abibui:results a aui:UI ;
 abibui:annotate a aui:UI ;
 	rdfs:subClassOf aui:annotate .
 
-##### Bible Additional Info Screen #####
+##### Bible Form Screen #####
 
-abibui:additional_info a auis:UI ;
-	rdfs:subClassOf aui:additional_info .
+abibui:form a auis:UI ;
+	rdfs:subClassOf aui:form .
 
 ##### Bible Login Modal #####
 
-abibui:login_modal a auis:UI ;
-	rdfs:subClassOf aui:login_modal .
-	
+abibui:loginModal a auis:UI ;
+	rdfs:subClassOf aui:loginModal .

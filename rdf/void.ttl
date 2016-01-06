@@ -11,13 +11,14 @@
 
 <accurator-ui-schema>
 	a void:Dataset ;
-	dcterms:title "Accurator UI configuration file" ;
-	void:dataDump <accurator_ui_schema.ttl> .
+	dcterms:title "Accurator UI Schema file" ;
+	void:dataDump <ui/labels_schema.ttl> .
 
 <accurator-ui>
 	a void:Dataset ;
-	dcterms:title "Domain agnostic Accurator UI instance" ;
-	void:dataDump <accurator_ui.ttl> .
+	dcterms:title "Locale and domain agnostic Accurator UI instance" ;
+	void:dataDump <ui/labels.ttl> ,
+	 			  <ui/labels_nl.ttl> .
 
 <accurator-ui-countries>
 	a void:Dataset ;
@@ -31,37 +32,41 @@
 
 <accurator-generic>
 	a void:Dataset ;
-	void:subset <accurator-ui-schema> ;
-	void:subset <accurator-ui> ;
-	void:subset <accurator-ui-countries> ;
-	void:subset <accurator-ui-languages> ;
+	void:subset <accurator-schema> ,
+				<accurator-ui-schema> ,
+				<accurator-ui> ,
+				<accurator-ui-countries> ,
+				<accurator-ui-languages> ,
 	dcterms:title "Generic Accurator configuration" ;
-	void:dataDump <accurator_domain.ttl> .
+	void:dataDump <domain/domain.ttl> .
 
 <accurator-bird-domain>
 	a void:Dataset ;
 	dcterms:title "Accurator configuration for bird domain" ;
-	void:subset <accurator-ui-schema> ;
-	void:subset <accurator-ui> ;
-	void:subset <accurator-ui-countries> ;
-	void:subset <accurator-ui-languages> ;
-	void:dataDump <domain_bird/annotation_ui_bird.ttl> ;
-	void:dataDump <domain_bird/accurator_domain_bird.ttl> ;
-	void:dataDump <domain_bird/accurator_ui_bird.ttl> .
+	void:dataDump <domain/bird/bird_domain.ttl> ;
+	void:subset <accurator-ui-bird> .
+
+<accurator-ui-bird>
+	a void:Dataset ;
+	dcterms:title "Locale and domain agnostic Accurator UI instance for bird" ;
+	void:dataDump <domain/bird/ui/labels.ttl> ,
+	 			  <domain/bird/ui/labels_nl.ttl> ,
+				  <domain/bird/ui/fields.ttl> .
 
 <accurator-bible-domain>
 	a void:Dataset ;
 	dcterms:title "Accurator configuration for bible domain" ;
-	void:subset <accurator-schema> ;
-	void:subset <accurator-ui-schema> ;
-	void:subset <accurator-ui> ;
-	void:subset <accurator-ui-countries> ;
-	void:subset <accurator-ui-languages> ;
-	void:dataDump <domain_bible/accurator_domain_bible.ttl> ;
-	void:dataDump <domain_bible/annotation_ui_bible.ttl> ;
-	void:dataDump <domain_bible/accurator_ui_bible.ttl> ;
-	void:dataDump <domain_bible/concept_scheme_bible_figure.ttl> ;
-	void:dataDump <domain_bible/concept_scheme_bible_theme.ttl> .
+	void:dataDump <domain/bible/bible_domain.ttl> ,
+				  <domain/bible/concept_scheme_bible_figure.ttl> ;
+				  <domain/bible/concept_scheme_bible_theme.ttl> ;
+	void:subset <accurator-ui-bible> .
+
+<accurator-ui-bible>
+	a void:Dataset ;
+	dcterms:title "Locale and domain agnostic Accurator UI instance for bible" ;
+	void:dataDump <domain/bible/ui/labels.ttl> ,
+				  <domain/bible/ui/labels_nl.ttl> ,
+				  <domain/bible/ui/fields.ttl> .
 
 <accurator-page>
 	a void:Dataset ;

@@ -49,19 +49,19 @@ function populateUI(domainData) {
 }
 
 function initLabels(data) {
-	$("#txtHeader").prepend(data.txtHeader);
-	$("#txtSubHeader").prepend(data.txtSubHeader);
-	$("#btnSubmit").append(data.btnSubmit);
-	$("#btnSkip").append(data.btnSkip);
-	sldALot = data.sldALot;
-	sldNothing = data.sldNothing;
-	lblDomain = data.lblDomain;
-	txtChangeAll = data.txtChangeAll;
+	$("#expertiseTxtHeader").prepend(data.expertiseTxtHeader);
+	$("#expertiseTxtSubHeader").prepend(data.expertiseTxtSubHeader);
+	$("#expertiseBtnSubmit").append(data.expertiseBtnSubmit);
+	$("#expertiseBtnSkip").append(data.expertiseBtnSkip);
+	sldALot = data.expertiseSldALot;
+	sldNothing = data.expertiseSldNothing;
+	lblDomain = data.expertiseLblDomain;
+	txtChangeAll = data.expertiseTxtChangeAll;
 }
 
 function registerEvents() {
-	$("#btnSubmit").click(function() {processExpertiseValues();});
-	$("#btnSkip").click(nextPage());
+	$("#expertiseBtnSubmit").click(function() {processExpertiseValues();});
+	$("#expertiseBtnSkip").click(nextPage());
 }
 
 function initExpertiseTopics(domainData) {
@@ -79,34 +79,34 @@ function initExpertiseTopics(domainData) {
 		addMasterSlider();
 
 		for(var i=0; i<halfTheTopics; i++) {
-			$("#frmExpertiseLeft").append(
+			$("#expertiseDivExpertiseLeft").append(
 				$.el.div({'class':'row'},
 					$.el.div({'class':'col-md-10 col-md-offset-1'},
-						$.el.h5({'id':'expertiseLabel'},
+						$.el.h5({'id':'expertiseLblExpertise'},
 							topics[i].label,
 							$.el.small(printArray(topics[i].childrens_labels))))));
-			$("#frmExpertiseLeft").append(
+			$("#expertiseDivExpertiseLeft").append(
 				$.el.div({'class':'row'},
 					$.el.div({'class':'col-md-10 col-md-offset-1'},
-						$.el.small({'class':'sliderLabel'}, sldNothing),
+						$.el.small({'class':'expertiseLblSlider'}, sldNothing),
 									expertiseSlider(topics[i].id),
-							$.el.small({'class':'sliderLabel'}, sldALot))));
+							$.el.small({'class':'expertiseLblSlider'}, sldALot))));
 			initSlider(topics[i].id);
 			sliderIds[i] = topics[i].id;
 		}
 		for(var i=halfTheTopics; i<topics.length; i++) {
-			$("#frmExpertiseRight").append(
+			$("#expertiseDivExpertiseRight").append(
 				$.el.div({'class':'row'},
 					$.el.div({'class':'col-md-10 col-md-offset-1'},
-						$.el.h5({'id':'expertiseLabel'},
+						$.el.h5({'id':'expertiseLblExpertise'},
 							topics[i].label,
 							$.el.small(printArray(topics[i].childrens_labels))))));
-			$("#frmExpertiseRight").append(
+			$("#expertiseDivExpertiseRight").append(
 				$.el.div({'class':'row'},
 					$.el.div({'class':'col-md-10 col-md-offset-1'},
-						$.el.small({'class':'sliderLabel'}, sldNothing),
+						$.el.small({'class':'expertiseLblSlider'}, sldNothing),
 						expertiseSlider(topics[i].id),
-						$.el.small({'class':'sliderLabel'}, sldALot))));
+						$.el.small({'class':'expertiseLblSlider'}, sldALot))));
 			initSlider(topics[i].id);
 			sliderIds[i] = topics[i].id;
 		}
@@ -182,17 +182,17 @@ function setSliderValues() {
 }
 
 function addMasterSlider() {
-	$("#frmExpertiseMaster").append(
+	$("#expertiseDivExpertiseMaster").append(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
-				$.el.h4({'id':'expertiseLabel'},
+				$.el.h4({'id':'expertiseLblExpertise'},
 					txtChangeAll))));
-	$("#frmExpertiseMaster").append(
+	$("#expertiseDivExpertiseMaster").append(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
-				$.el.span({'id':'masterLabelLeft'}, sldNothing),
+				$.el.span({'id':'expertiseLblMasterLeft'}, sldNothing),
 				expertiseSlider("master"),
-				$.el.span({'id':'masterLabelRight'}, sldALot))));
+				$.el.span({'id':'expertiseLblMasterRight'}, sldALot))));
 	$("#master").slider();
 
 	//Change all values on using master slider

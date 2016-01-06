@@ -11,7 +11,7 @@ Functions used by multiple javascript files. Topics include:
 - Uri
 *******************************************************************************/
 
-var loginWarning, loginIncomplete;
+var loginTxtWarning, loginTxtIncomplete;
 
 /*******************************************************************************
 Settings
@@ -164,17 +164,17 @@ function setLocale(languageCode, onSuccess) {
 
 function populateFlags(locale) {
 	// Code to add flags to navbar allowing to change the locale
-	$(".flagDropdown").append(
+	$(".navbarLstFlag").append(
 		$.el.li({'class':'dropdown'},
 				 getInitialFlag(locale),
 			$.el.ul({'class':'dropdown-menu',
 					'role':'menu'},
 					$.el.li($.el.a({'href':'#',
-									'id':'flagEn'},
+									'id':'navbarLnkEn'},
 									$.el.span({'class':'flag-icon flag-icon-en'}),
 									" English")),
 					$.el.li($.el.a({'href':'#',
-									'id':'flagNl'},
+									'id':'navbarLnkNl'},
 									$.el.span({'class':'flag-icon flag-icon-nl'}),
 									" Nederlands"))
 			)
@@ -187,10 +187,10 @@ function populateFlags(locale) {
 function flagEvents() {
 	var onSuccess = function(){location.reload();};
 
-	$("#flagEn").click(function() {
+	$("#navbarLnkEn").click(function() {
 		setLocale("en", onSuccess);
 	});
-	$("#flagNl").click(function() {
+	$("#navbarLnkNl").click(function() {
 		setLocale("nl", onSuccess);
 	});
 }
@@ -266,7 +266,7 @@ function getUI(domainSettings, page) {
 }
 
 function alertMessage(title, text, type) {
-	$("#events").prepend(
+	$("#eventsDiv").prepend(
 		$.el.div({'class':'row',
 				  'id':'alertMessage'},
 			$.el.div({'class':'col-md-12'},
@@ -285,26 +285,26 @@ function alertMessage(title, text, type) {
 function populateNavbar(userName, linkList) {
 	// Only popluate navbar when no experiment is running
 	if(typeof experiment === "undefined" || experiment === "none") {
-		populateUserDropdown(userName, linkList);
+		populateNavbarUser(userName, linkList);
 	} else {
 		// Hide recommendations button if experiment is running
 		$("#btnRecommend").hide();
 		$("#navbarBtnRecommend").hide();
 		$("#btnResultsRecommend").hide();
 		// Hide search form
-		$("#frmGroupSearch").hide();
+		$("#navbarFrmSearch").hide();
 		// Remove link from logo if experiment is running
 		$(".navbar-brand").attr('href', "#");
 	}
 }
 
-function populateUserDropdown(userName, linkList) {
+function populateNavbarUser(userName, linkList) {
 	// Add a user drop down based on the user and listed links
 	$.getJSON("ui_elements", {locale:locale,
-							  ui:"http://accurator.nl/ui/generic#user_dropdown",
+							  ui:"http://accurator.nl/ui/generic#userDropdown",
 							  type:"labels"})
 	.done(function(data){
-		$(".userDropdown").append(
+		$(".navbarLstUser").append(
 			$.el.li({'class':'dropdown'},
 					$.el.a({'href':'#',
 							'class':'dropdown-toggle',
@@ -316,16 +316,16 @@ function populateUserDropdown(userName, linkList) {
 					$.el.ul({'class':'dropdown-menu',
 						 	 'role':'menu'},
 						 	 $.el.li($.el.a({'href':'#',
-								         	 'id':'btnLogout'},
-										 	 data.ddLogOut)),
+								         	 'id':'navbarLnkLogout'},
+										 	 data.navbarLnkLogout)),
 							 // Add links based on array
 							 addLinks(linkList, data),
 						 	 $.el.li({'class':'divider'}),
 						 	 $.el.li($.el.a({'href':'about.html'},
-								 	 data.ddAbout))))
+								 	 data.navbarLnkAbout))))
 		)
 		// Add logout event to menu item
-		$("#btnLogout").click(function() {
+		$("#navbarLnkLogout").click(function() {
 			logout();
 		});
 	});
@@ -345,7 +345,7 @@ function addLinks(linkList, labels) {
 
 function localizedPageName(linkList, labels, counter) {
 	if(linkList[counter].name === "Profile") {
-		return labels.ddProfile;
+		return labels.navbarLblProfile;
 	} else {
 		return linkList[counter].name;
 	}
@@ -377,57 +377,57 @@ function logUserIn(onLoggedIn, onDismissal) {
 }
 
 function loginModal(onSuccess, onDismissal) {
-	var ui = "http://accurator.nl/ui/generic#login_modal";
+	var ui = "http://accurator.nl/ui/generic#loginModal";
 	$.getJSON("ui_elements", {locale:getLocale(),
 							  ui:ui,
 							  type:"labels"})
 		.done(function(data){
 			loginButtonEvent(onSuccess, onDismissal);
 			initModalLabels(data);
-			$("#modalLogin").modal();
-			$("#inputUsername").focus();
+			$("#loginDivLogin").modal();
+			$("#loginInpUsername").focus();
 	});
 }
 
 function initModalLabels(data) {
-	$("#mdlTxtTitle").html(data.mdlTxtTitle);
-	$("#mdlBtnLogin").html(data.mdlBtnLogin);
-	$("#mdlFrmUsername").html(data.mdlFrmUsername);
-	$("#mdlFrmPassword").html(data.mdlFrmPassword);
-	loginWarning = data.loginWarning;
-	loginIncomplete = data.loginIncomplete;
+	$("#loginHdrTitle").html(data.loginHdrTitle);
+	$("#loginBtnLogin").html(data.loginBtnLogin);
+	$("#loginLblUsername").html(data.loginLblUsername);
+	$("#loginLblPassword").html(data.loginLblPassword);
+	loginTxtWarning = data.loginTxtWarning;
+	loginTxtIncomplete = data.loginTxtIncomplete;
 	$("body").on('shown.bs.modal', '.modal', function () {
-		$("#inputUsername").focus();
+		$("#loginInpUsername").focus();
 	})
 }
 
 function loginButtonEvent(onSuccess, onDismissal) {
-	$("#mdlBtnLogin").click(function() {
+	$("#loginBtnLogin").click(function() {
 		login(onSuccess);
 	});
 	// Login on pressing enter
-	$("#inputPassword").keypress(function(event) {
+	$("#loginInpPassword").keypress(function(event) {
 		if (event.which == 13)
 			login(onSuccess);
 	});
-	$("#inputUsername").keypress(function(event) {
+	$("#loginInpUsername").keypress(function(event) {
 		if (event.which == 13)
 			login(onSuccess);
 	});
-	$("#modalLogin").on('hidden.bs.modal', function (e) {
+	$("#loginDivLogin").on('hidden.bs.modal', function (e) {
 		onDismissal();
 	});
-	$("#mdlBtnClose").click(function() {
+	$("#loginBtnClose").click(function() {
 		onDismissal();
 	});
 }
 
 function login(onSuccess) {
-	var user = getUserUri($("#inputUsername").val());
-	var password = $("#inputPassword").val();
+	var user = getUserUri($("#loginInpUsername").val());
+	var password = $("#loginInpPassword").val();
 
 	if(user == "" || password == "") {
-		$(".modal-body").append($.el.p({'class':'text-danger'}, loginIncomplete));
+		$(".modal-body").append($.el.p({'class':'text-danger'}, loginTxtIncomplete));
 	} else {
 		loginServer(user, password, onSuccess);
 	}
@@ -441,13 +441,13 @@ function loginServer(user, password, onSuccess) {
 		    data: dataLogin,
 		    success: function(data) {
 				if(data.indexOf("Login failed") != -1) {
-					$(".modal-body").append($.el.p({'class':'text-danger'}, loginWarning));
+					$(".modal-body").append($.el.p({'class':'text-danger'}, loginTxtWarning));
 				} else if (data.indexOf("Login ok") != -1) {
 
 					setUserSettingsLocal(dataLogin, onSuccess);
 					// remove event listener and hide modal
-					$("#modalLogin").off('hidden.bs.modal');
-					$("#modalLogin").modal('hide');
+					$("#loginDivLogin").off('hidden.bs.modal');
+					$("#loginDivLogin").modal('hide');
 				}
 		   }
 	});
@@ -473,62 +473,63 @@ function registerModal(onDismissal) {
 		.done(function(data){
 			registerButtonEvent(onDismissal);
 			initRegisterModalLabels(data);
-			$("#modalRegister").modal();
-			$("#inputFullNameRegister").focus();
+			$("#registerDivRegister").modal();
+			$("#registerInpFullName").focus();
 	});
 }
 
 function initRegisterModalLabels(labels) {
 	// Add retrieved labels to html elements
-	$("#mdlTitleRegister").html(labels.mdlTitleRegister);
-	$("#mdlFrmFullNameRegister").html(labels.mdlFrmFullNameRegister);
-	$("#mdlFrmUsernameRegister").html(labels.mdlFrmUsernameRegister);
-	$("#mdlFrmPasswordRegister").html(labels.mdlFrmPasswordRegister);
-	$("#mdlFrmPasswordRepeatRegister").html(labels.mdlFrmPasswordRepeatRegister);
-	$("#mdlBtnRegister").html(labels.mdlBtnRegister);
+	$("#registerHdrTitle").html(labels.registerHdrTitle);
+	$("#registerLblFullName").html(labels.registerLblFullName);
+	$("#registerLblUsername").html(labels.registerLblUsername);
+	$("#registerLblPassword").html(labels.registerLblPassword);
+	$("#registerLblPasswordRepeat").html(labels.registerLblPasswordRepeat);
+	$("#registerBtnRegister").html(labels.registerBtnRegister);
+
 	// Set text variables for possible later use
-	lblRegistrationFailed = labels.lblRegistrationFailed;
-	lblUsernameFail = labels.lblUsernameFail;
-	lblPasswordsMatchFail = labels.lblPasswordsMatchFail;
-	lblUserTaken = labels.lblUserTaken;
-	lblServerError = labels.lblServerError;
+	registerTxtRegistrationFailed = labels.registerTxtRegistrationFailed;
+	registerTxtUsernameFail = labels.registerTxtUsernameFail;
+	registerTxtPasswordsMatchFail = labels.registerTxtPasswordsMatchFail;
+	registerTxtUserTaken = labels.registerTxtUserTaken;
+	registerTxtServerError = labels.registerTxtServerError;
 	$("body").on('shown.bs.modal', '.modal', function () {
-		$("#inputFullNameRegister").focus();
+		$("#registerInpFullName").focus();
 	})
 }
 
 function registerButtonEvent(onDismissal) {
-	$("#mdlBtnRegister").click(function() {
+	$("#registerBtnRegister").click(function() {
 		register();
 	});
 	// register on pressing enter
-	$("#inputPasswordRepeatRegister").keypress(function(event) {
+	$("#registerInpPasswordRepeat").keypress(function(event) {
 		if (event.which == 13) {
 			register();
 		}
 	});
-	$("#modalRegister").on('hidden.bs.modal', function (e) {
+	$("#registerDivRegister").on('hidden.bs.modal', function (e) {
 		onDismissal();
 	});
-	$("#mdlBtnCloseRegister").click(function() {
+	$("#registerBtnClose").click(function() {
 		onDismissal();
 	});
 }
 
 function register() {
 	// Get and check initial form input
-	var name = $("#inputFullNameRegister").val();
-	var user = $("#inputUsernameRegister").val();
+	var name = $("#registerInpFullName").val();
+	var user = $("#registerInpUsername").val();
 	var userUri = getUserUri(user);
-	var password = $("#inputPasswordRegister").val();
-	var passwordRepeat = $("#inputPasswordRepeatRegister").val();
+	var password = $("#registerInpPassword").val();
+	var passwordRepeat = $("#registerInpPasswordRepeat").val();
 
 	if((name == "") || (user == "") || (password == "") || (passwordRepeat == "")){
-		setRegisterFailureText(lblRegistrationFailed);
+		setRegisterFailureText(registerTxtRegistrationFailed);
 	} else if (checkUsername(user)) {
-		setRegisterFailureText(lblUsernameFail);
+		setRegisterFailureText(registerTxtUsernameFail);
 	} else if (password != passwordRepeat){
-		setRegisterFailureText(lblPasswordsMatchFail);
+		setRegisterFailureText(registerTxtPasswordsMatchFail);
 	} else {
 		// Attempt registration
 		registerServer(name, userUri, password);
@@ -539,8 +540,8 @@ function setRegisterFailureText(text) {
 	alertMessage = $.el.div({'class':'registerMessage'},
 			$.el.h5({'class':'text-danger'}, text));
 	// clear the current
-	$("#mdlLblRegister").empty();
-	$("#mdlLblRegister").append(alertMessage);
+	$("#registerTxtWarning").empty();
+	$("#registerTxtWarning").append(alertMessage);
 }
 
 function checkUsername(user) {
@@ -573,9 +574,9 @@ function registerServer(name, user, password) {
 			if(errorThrown == "Not Found")
 	        	setRegisterFailureText("Server did not respond.");
 	        if(request.responseText.indexOf("User already exists") > -1) {
-	    		setRegisterFailureText(lblUserTaken);
+	    		setRegisterFailureText(registerTxtUserTaken);
 	        } else {
-	        	setRegisterFailureText(lblServerError);
+	        	setRegisterFailureText(registerTxtServerError);
 	        }
 		}
 	});
@@ -592,7 +593,7 @@ function firstLogin(user, password) {
 				save_user_info({"locale":locale,"domain":domain}, function(){
 					// Determine which page will be shown next
 					if(experiment === "true") {
-						document.location.href="additional_info.html";
+						document.location.href="form.html";
 					} else {
 						document.location.href="domain.html";
 					}
