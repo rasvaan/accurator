@@ -289,7 +289,7 @@ function populateNavbar(userName, linkList) {
 	} else {
 		// Hide recommendations button if experiment is running
 		$("#btnRecommend").hide();
-		$("#btnAnnotateRecommend").hide();
+		$("#navbarBtnRecommend").hide();
 		$("#btnResultsRecommend").hide();
 		// Hide search form
 		$("#frmGroupSearch").hide();

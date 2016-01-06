@@ -237,16 +237,16 @@ body {
 .path-literal {background-color: rgb(100, 100, 100);}
 .path-property {background-color: rgb(66, 139, 202);}
 
-/* Annotate page */
-.navigationButton {
+/* Item page */
+.itemDivNavigationButton {
 	margin-top: 10px;
 }
 
-#imageRow {
+#itemDivImage {
 	text-align: center;
 }
 
-.annotationImage {
+#itemImg {
 	max-width: 100%;
 	/*TEMP for looking at complete image*/
 	height: 600px;
@@ -256,40 +256,40 @@ body {
 	max-width: 100%;
 }
 
-#path {
+#itemDivPath {
 	text-align: center;
 }
 
-#path h4 {
+#itemDivPath h4 {
 	margin-top: 12px;
 }
 
-#frmSearchAnnotate {
+/*#frmSearchAnnotate {
 	text-align: center;
-}
+}*/
 
-.navButton {
+.itemBtnNavigation {
 	width: 100px;
 }
 
-#btnAlignRight {
+#itemDivAlignButton {
 	text-align: right;
 }
 
-#metadata {
+#itemDivMetadata {
 	margin-top: 10px;
 }
 
-#experimentNavigation {
+#itemDivNavigationExperiment {
 	margin-top: 10px;
 	text-align: center;
 }
 
-#annotationFieldsRow {
+#itemDivAnnotationFields {
 	margin-top: 10px;
 }
 
-.annotateLbl {
+.itemLbl {
 	margin-right: 10px;
 }
 /* End page */
@@ -374,19 +374,19 @@ slider.slider-horizontal {
   background-image: url(../img/flags/nl.svg);
 }
 
-/* Annotate page: Typeahead functionality */
+/* Item page: Typeahead functionality */
 /* source: http://twitter.github.io/typeahead.js/examples/ */
 
-#annotationFields {
+#itemFrmAnnotationFields {
 	text-align: center;
 	margin-bottom: 10px;
 }
 
-#annotateLblPageType {
+#itemLblPageType {
   vertical-align: bottom;
 }
 
-#annotateInpPageType,
+#itemInpPageType,
 .tt-menu {
   width: 396px;
 }

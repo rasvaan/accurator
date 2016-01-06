@@ -73,23 +73,23 @@ aui:annotate a auis:UI ;
 	dcterms:title "Accurator tag UI"@en ;
 	aui:title "Tag image"@en ;
 	aui:title "Voeg informatie toe aan object"@nl ;
-	aui:btnPrevious "Previous"@en ;
-	aui:btnPrevious "Vorige"@nl ;
-	aui:btnNext "Next"@en ;
-	aui:btnNext "Volgende"@nl ;
-	aui:btnAnnotateRecommend "Recommended works"@en ;
-	aui:btnAnnotateRecommend "Aanbevolen werken"@nl ;
-	aui:btnAnnotateSearch "Search"@en ;
-	aui:btnAnnotateSearch "Zoek"@nl ;
+	aui:itemBtnPrevious "Previous"@en ;
+	aui:itemBtnPrevious "Vorige"@nl ;
+	aui:itemBtnNext "Next"@en ;
+	aui:itemBtnNext "Volgende"@nl ;
+	aui:navbarBtnRecommend "Recommended works"@en ;
+	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
+	aui:navbarBtnSearch "Search"@en ;
+	aui:navbarBtnSearch "Zoek"@nl ;
 	aui:vntFirstTitle "Your first tag!"@en ;
 	aui:vntFirstTitle "De eerste keer informatie toevoegen!"@nl ;
 	aui:vntFirstText "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en ;
 	aui:vntFirstText "Begin met het tekenen van een  kader om informatie toe te voegen. U krijgt hierop verschillende velden om in te vullen, probeer hierbij zo precies mogelijk te zijn. Om naar een volgende afbeeldingen te gaan kunt u op volgende klikken, zoeken of nieuwe aanbevelingen bekijken."@nl .
 
-aui:btnPrevious a auis:UILabel .
-aui:btnNext a auis:UILabel .
-aui:btnAnnotateRecommend a auis:UILabel .
-aui:btnAnnotateSearch a auis:UILabel .
+aui:itemBtnPrevious a auis:UILabel .
+aui:itemBtnNext a auis:UILabel .
+aui:navbarBtnRecommend a auis:UILabel .
+aui:navbarBtnSearch a auis:UILabel .
 aui:vntFirstTitle a auis:UILabel .
 aui:vntFirstText a auis:UILabel .
 

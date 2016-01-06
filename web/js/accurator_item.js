@@ -58,20 +58,20 @@ function populateUI() {
 }
 
 function initLabels(data) {
-	$("#btnPrevious").append(data.btnPrevious);
-	$("#btnNext").prepend(data.btnNext);
-	$("#btnAnnotateRecommend").append(data.btnAnnotateRecommend);
-	$("#btnAnnotateSearch").append(data.btnAnnotateSearch);
+	$("#itemBtnPrevious").append(data.itemBtnPrevious);
+	$("#itemBtnNext").prepend(data.itemBtnNext);
+	$("#navbarBtnRecommend").append(data.navbarBtnRecommend);
+	$("#navbarBtnSearch").append(data.navbarBtnSearch);
 	vntFirstTitle = data.vntFirstTitle;
 	vntFirstText = data.vntFirstText;
 	// Add next to optional experiment navigation
-	$("#btnExperimentNext").prepend(data.btnNext);
+	$("#itemBtnExperimentNext").prepend(data.itemBtnNext);
 }
 
 function initImage() {
 	$.getJSON("metadata", {uri:uri})
 	.done(function(metadata){
-		$(".annotationImage").attr("src", metadata.image);
+		$("#itemImg").attr("src", metadata.image);
 		// Tell anotorious this image can be annotated
 		// anno.makeAnnotatable(document.getElementById("myImage"));
 	});
@@ -92,44 +92,44 @@ function addPath() {
 	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
 	$("#path").append(pathHtmlElements(cluster.path));
 	unfoldPathEvent("#path", cluster.path);
-	addClusterNavigationButtonEvents();
+	additemDivClusteritemDivNavigationButtonEvents();
 }
 
 function addButtonEvents() {
-	$("#btnAnnotateRecommend").click(function() {
+	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
-	$("#frmSearch").keypress(function(event) {
+	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
-			var query = encodeURIComponent($("#frmSearch").val());
+			var query = encodeURIComponent($("#navbarInpSearch").val());
 			document.location.href="results.html?query=" + query;
 		}
 	});
-	$("#btnAnnotateSearch").click(function() {
+	$("#navbarBtnSearch").click(function() {
 		var query = encodeURIComponent($("#frmSearch").val());
 		document.location.href="results.html?query=" + query;
 	});
 }
 
-function addClusterNavigationButtonEvents() {
+function additemDivClusteritemDivNavigationButtonEvents() {
 	var index = parseInt(localStorage.getItem("itemIndex"));
 	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
 	var items = cluster.items;
 
 	if(index === 0) {
-		$("#btnPrevious").attr("disabled", "disabled");
+		$("#itemBtnPrevious").attr("disabled", "disabled");
 	} else {
-		$("#btnPrevious").click(function() {
+		$("#itemBtnPrevious").click(function() {
 			localStorage.setItem("itemIndex", index - 1);
 			document.location.href= "annotate.html?uri=" + items[index -1].uri;
 		});
 	}
 
 	if(index === items.length-1) {
-		$("#btnNext").attr("disabled", "disabled");
+		$("#itemBtnNext").attr("disabled", "disabled");
 	} else {
-		$("#btnNext").click(function() {
+		$("#itemBtnNext").click(function() {
 			localStorage.setItem("itemIndex", index + 1);
 			document.location.href= "annotate.html?uri=" + items[index + 1].uri;
 		});
@@ -149,14 +149,14 @@ function annotationFields() {
 			var id = "wholeField" + (i + 1);
 			var label = fields.whole_fields[i].label;
 			var comment = fields.whole_fields[i].comment;
-			$("#annotationFields").append(annotationField(id, label, comment));
+			$("#itemFrmAnnotationFields").append(annotationField(id, label, comment));
 		}
 		for(var i=0; i<fields.fragment_fields.length; i++) {
 			var id = "fragmentField" + (i + 1);
 			var label = fields.fragment_fields[i].label;
 			var comment = fields.fragment_fields[i].comment;
 			console.log(id, label);
-			// $("#annotationFields").append(annotationField(id, label, comment));
+			// $("#itemFrmAnnotationFields").append(annotationField(id, label, comment));
 		}
 	});
 
@@ -164,7 +164,7 @@ function annotationFields() {
 	// var label = "Page type";
 	//
 	// // Add field
-	// $("#annotationFields").append(annotationField(id, label));
+	// $("#itemFrmAnnotationFields").append(annotationField(id, label));
 	//
 	// // Get autocomplete alternatives
 	// var filter = JSON.stringify({scheme:"http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme"});
@@ -180,7 +180,7 @@ function annotationFields() {
 	// 	addTypeAhead(id, alternatives);
 	// 	getInputAnnotationField(id, alternatives);
 	// 	// Add focus to field
-	// 	$("#annotateInp" + id).focus();
+	// 	$("#itemInp" + id).focus();
 	// });
 }
 
@@ -192,13 +192,13 @@ function annotationFields() {
 //<span id="helpBlock" class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
 function annotationField(id, label, comment) {
 	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'annotateLbl',
-							'for':'annotateInp' + id,
-							'id':'annotateLbl' + id},
+				$.el.label({'class':'itemLbl',
+							'for':'itemInp' + id,
+							'id':'itemLbl' + id},
 						   label),
  				$.el.input({'type':'text',
  						    'class':'form-control typeahead',
- 							'id':'annotateInp' + id,
+ 							'id':'itemInp' + id,
 							'placeholder':comment})
 	);
 }
@@ -206,7 +206,7 @@ function annotationField(id, label, comment) {
 function addTypeAhead(id, alternatives){
 	var array = getAlternativeArray(alternatives.results);
 
-	$('#annotateInp' + id).typeahead({
+	$('#itemInp' + id).typeahead({
 		hint: true,
 		highlight: true,
 		minLength: 1
@@ -249,7 +249,7 @@ var substringMatcher = function(strs) {
 
 function getInputAnnotationField(id, alternatives) {
 	//should allow elements with the same annotation to be added only once
-	$('#annotateInp' + id).bind('typeahead:select', function(ev, annotationLabel) {
+	$('#itemInp' + id).bind('typeahead:select', function(ev, annotationLabel) {
 		var annotationUri = "";
 
 		for(var i=0; i<alternatives.results.length; i++) {
@@ -276,13 +276,13 @@ function submitAnnotation(target, body, label, id, graph) {
 			   	   field:field},
 			success: function(){
 				//Add label indicating in the UI what has been added
-				$("#annotationFieldsSelected").append(
-					$.el.span({'id':'annotateLblSelected' + id,
+				$("#itemDivAnnotations").append(
+					$.el.span({'id':'itemLblSelected' + id,
 							   'class':"label label-danger"},
 								label
 								//Leave out the remove button for now
 								//$.el.span({'class':"glyphicon glyphicon-remove", 'font-size':"1.5em"})
-								//'onClick':removeAnnotation($('#annotateLblSelected' + id))})
+								//'onClick':removeAnnotation($('#itemLblSelected' + id))})
 							),
 					"&nbsp;"
 					);
@@ -305,19 +305,19 @@ function metadata() {
 }
 
 function appendMetadataWell(metadata) {
-	$("#metadata").append(
+	$("#itemDivMetadata").append(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
 				$.el.div({'class':'well well-sm'},
 				  $.el.h4('Showing metadata for ' + metadata.title),
 					$.el.dl({'class':'dl-horizontal',
-							 'id':'metadataList'})))));
+							 'id':'itemLstMetadata'})))));
 
 	for(var i=0; i<metadata.properties.length; i++) {
 		var encodedQuery = encodeURIComponent(metadata.properties[i].object_label);
-		$("#metadataList").append(
+		$("#itemLstMetadata").append(
 			$.el.dt(metadata.properties[i].predicate_label));
-		$("#metadataList").append(
+		$("#itemLstMetadata").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
 					    'href':'results.html?query=' + encodedQuery},
@@ -331,27 +331,27 @@ function annotations() {
 		$.getJSON("annotations", {uri:uri, type:"object"})
 		.done(function(annotations){
 			if(annotations.annotations.length > 0){
-				$("#metadata").append(annotationWell(annotations));
+				$("#itemDivMetadata").append(annotationWell(annotations));
 			}
 		});
 	}
 }
 
 function annotationWell(annotations) {
-	$("#metadata").append(
+	$("#itemDivMetadata").append(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
 				$.el.div({'class':'well well-sm'},
 				  $.el.h4('Annotations for ' + annotations.title),
 					$.el.dl({'class':'dl-horizontal',
-							 'id':'annotationList'})))));
+							 'id':'itemLstAnnotations'})))));
 
 
 	for(var i=0; i<annotations.annotations.length; i++) {
 		var encodedQuery = encodeURIComponent(annotations.annotations[i].body);
-		$("#annotationList").append(
+		$("#itemLstAnnotations").append(
 			$.el.dt(annotations.annotations[i].field));
-		$("#annotationList").append(
+		$("#itemLstAnnotations").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
 					    'href':'results.html?query=' + encodedQuery},
@@ -363,7 +363,7 @@ function maybeRunExperiment() {
 	// Hide some elements during an experiment
 	if(experiment !== "none") {
 		// Hide path if on annotate page
-		$("#clusterNavigation").hide();
+		$("#itemDivClusterNavigation").hide();
 		// Don't show metadata
 		displayOptions.showMetadata = false;
 		// Don't show annotations of others
@@ -374,11 +374,11 @@ function maybeRunExperiment() {
 }
 
 function addExperimentNavigation() {
-	$("#metadata").before(
+	$("#itemDivMetadata").before(
 		$.el.div({'class':'row',
-				  'id':'experimentNavigation'},
+				  'id':'itemDivNavigationExperiment'},
 			$.el.button({'class':'btn btn-primary',
-						 'id':'btnExperimentNext'})
+						 'id':'itemBtnExperimentNext'})
 		)
 	);
 
@@ -398,7 +398,7 @@ function addExperimentNavigation() {
 		}
 
 		// Add click event to navigation button
-		$("#btnExperimentNext").click(function() {
+		$("#itemBtnExperimentNext").click(function() {
 			// Go to thank you page after 20 annotations else results
 			if(numberAnnotated == 500) {
 				document.location.href="end.html";
