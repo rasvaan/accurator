@@ -10,7 +10,7 @@ displayOptions = {
 	showAnnotations: true,
 }
 
-function annotateInit() {
+function itemInit() {
 	locale = getLocale();
 	domain = getDomain();
 	experiment = getExperiment();

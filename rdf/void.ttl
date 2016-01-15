@@ -36,7 +36,7 @@
 				<accurator-ui-schema> ,
 				<accurator-ui> ,
 				<accurator-ui-countries> ,
-				<accurator-ui-languages> ,
+				<accurator-ui-languages> ;
 	dcterms:title "Generic Accurator configuration" ;
 	void:dataDump <domain/domain.ttl> .
 
@@ -57,7 +57,7 @@
 	a void:Dataset ;
 	dcterms:title "Accurator configuration for bible domain" ;
 	void:dataDump <domain/bible/bible_domain.ttl> ,
-				  <domain/bible/concept_scheme_bible_figure.ttl> ;
+				  <domain/bible/concept_scheme_bible_figure.ttl> ,
 				  <domain/bible/concept_scheme_bible_theme.ttl> ;
 	void:subset <accurator-ui-bible> .
 

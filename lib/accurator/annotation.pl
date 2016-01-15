@@ -115,7 +115,8 @@ annotations(object, Uri, Annotations) :-
 		     body:NiceBody},
 	    (	get_annotation(Uri, AnnotationBody, AnnotationHash),
 			process_annotation(AnnotationBody, NiceBody),
-			rdf(AnnotationHash, ann_ui:annotationField, FieldUri),
+			% use rdf_has to also include fragment and whole fields
+			rdf_has(AnnotationHash, auis:fields, FieldUri),
 			rdf_display_label(FieldUri, _, FieldLabel)
 	    ),
 	    FoundAnnotations),
