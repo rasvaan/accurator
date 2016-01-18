@@ -52,7 +52,6 @@ function populateUI() {
 		addButtonEvents();
 		events();
 	});
-	annotationFields();
 	metadata();
 	annotations();
 }
@@ -71,10 +70,10 @@ function initLabels(data) {
 function initImage() {
 	$.getJSON("metadata", {uri:uri})
 	.done(function(metadata){
-		console.log(metadata);
 		$(".itemImg").attr("src", metadata.image);
 		// Tell anotorious this image can be annotated
 		// anno.makeAnnotatable(document.getElementById("myImage"));
+		annotationFields();
 	});
 }
 
@@ -156,8 +155,7 @@ function annotationFields() {
 			var id = "fragmentField" + (i + 1);
 			var label = fields.fragment_fields[i].label;
 			var comment = fields.fragment_fields[i].comment;
-			console.log(id, label);
-			// $("#itemFrmAnnotationFields").append(annotationField(id, label, comment));
+			// console.log("append", id, label);
 		}
 	});
 
@@ -185,12 +183,6 @@ function annotationFields() {
 	// });
 }
 
-// div([class('annotate-field'), alt(FieldDescription)],
-// 		 [ div(class('annotate-header'),
-// 			   h4([Label,
-// 				   span('  '),
-// 				   small(class('annotate-description'), FieldDescription)])),
-//<span id="helpBlock" class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
 function annotationField(id, label, comment) {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',

@@ -265,7 +265,7 @@ Item page
 	text-align: center;
 }
 
-#itemImg {
+.itemImg {
 	max-width: 100%;
 	/*TEMP for looking at complete image*/
 	height: 600px;
