@@ -43,10 +43,10 @@ apaguic:profile a aui:UI ;
 apaguic:results a aui:UI ;
 	rdfs:subClassOf aui:results .
 
-##### Page Annotate Screen #####
+##### Page Item Screen #####
 
-apaguic:annotate a aui:UI ;
-	rdfs:subClassOf aui:annotate .
+apaguic:item a aui:UI ;
+	rdfs:subClassOf aui:item .
 
 ##### Page Additional Info Screen #####
 

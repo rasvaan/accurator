@@ -26,7 +26,7 @@ function itemInit() {
 		onDomain = function(domainData) {
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
-			ui = domainData.ui + "annotate";
+			ui = domainData.ui + "item";
 			annotation_ui = domainData.annotation_ui;
 
 			maybeRunExperiment();
@@ -71,7 +71,8 @@ function initLabels(data) {
 function initImage() {
 	$.getJSON("metadata", {uri:uri})
 	.done(function(metadata){
-		$("#itemImg").attr("src", metadata.image);
+		console.log(metadata);
+		$(".itemImg").attr("src", metadata.image);
 		// Tell anotorious this image can be annotated
 		// anno.makeAnnotatable(document.getElementById("myImage"));
 	});

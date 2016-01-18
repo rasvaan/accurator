@@ -48,10 +48,10 @@ abibui:profile a aui:UI ;
 abibui:results a aui:UI ;
 	rdfs:subClassOf aui:results .
 
-##### Bible Annotate Screen #####
+##### Bible Item Screen #####
 
-abibui:annotate a aui:UI ;
-	rdfs:subClassOf aui:annotate .
+abibui:item a aui:UI ;
+	rdfs:subClassOf aui:item .
 
 ##### Bible Form Screen #####
 
