@@ -32,7 +32,7 @@ abibui:BibleCharacter a auis:DropdownField ;
 	dcterms:comment "voeg de bijbelse persoon toe"@nl ;
 	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://accurator.nl/bible%23BiblicalFigureConceptScheme\"}&labelrank=['http://www.w3.org/2000/01/rdf-schema%23label'-1]" .
 
-abibui:Emotion a auis:DropdownField ;
+abibui:Emotion a auis:SelectField ;
 	rdfs:label "Emotie"@nl ;
 	rdfs:label "Emotion"@en ;
 	dcterms:comment "welke emotie wordt getoond"@nl ;

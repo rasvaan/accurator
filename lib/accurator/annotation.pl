@@ -49,8 +49,9 @@ field('DropdownField', Uri, Locale, Field) :-
 	get_source(Uri, Locale, Source), !,
 	dict_pairs(Field, elements, ['source'-Source|Properties]).
 field('SelectField', Uri, Locale, Field) :-
-	field_description(Uri, Locale, Properties),	!,
-	dict_pairs(Field, elements, Properties).
+	field_description(Uri, Locale, Properties),
+	get_source(Uri, Locale, Source), !,
+	dict_pairs(Field, elements, ['source'-Source|Properties]).
 field('TextField', Uri, Locale, Field) :-
 	field_description(Uri, Locale, Properties),	!,
 	dict_pairs(Field, elements, Properties).

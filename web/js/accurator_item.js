@@ -153,18 +153,18 @@ function annotationFields(imageId) {
 		// Add fields whole image
 		for(var i=0; i<fields.whole_fields.length; i++) {
 			var id = "wholeField" + (i + 1);
-			var label = fields.whole_fields[i].label;
-			var comment = fields.whole_fields[i].comment;
-			$("#itemFrmAnnotationFields").append(annotationField(id, label, comment));
+			$("#itemFrmAnnotationFields").append(
+				annotationField(id, fields.whole_fields[i])
+			);
 		}
 		// Add fields to hidden dom elements for annotorious
 		for(var i=0; i<fields.fragment_fields.length; i++) {
 			var id = "fragmentField" + (i + 1);
-			var label = fields.fragment_fields[i].label;
-			var comment = fields.fragment_fields[i].comment;
-			$("#itemDivAnnotoriousFields").append(annotationField(id, label, comment));
+			$("#itemDivAnnotoriousFields").append(
+				annotationField(id, fields.fragment_fields[i])
+			);
 		}
-		// annotorious fields are added in deniche initi
+		// annotorious fields are added in deniche init
 		anno.addPlugin("DenichePlugin", {});
 	});
 
@@ -192,20 +192,122 @@ function annotationFields(imageId) {
 	// });
 }
 
-function annotationField(id, label, comment) {
+function annotationField(id, field) {
+	var fieldType = field.type;
+	var label = field.label;
+	var comment = field.comment;
+
+	switch (field.type) {
+		case "DropdownField":
+			return dropdownField(id, label, comment);
+		case "TextField":
+			return textField(id, label, comment);
+		case "RadioButtonField":
+			return radioButtonField(id, label, comment, field.source);
+		case "CheckboxField":
+			return checkBoxField(id, label, comment, field.source);
+		case "SelectField":
+			return selectField(id, label, comment, field.source);
+	}
+}
+
+function selectField(id, label, comment, source) {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':'itemInp' + id,
 							'id':'itemLbl' + id},
 						   label),
- 				$.el.input({'type':'text',
- 						    'class':'form-control typeahead',
- 							'id':'itemInp' + id,
+				$.el.select({'class':'form-control',
+							 'id':'itemSlt' + id,
+							 'placeholder':comment},
+						 	 options(source, id))
+	);
+}
+
+function options(source, fieldId) {
+	var options = [];
+	var id = "itemOpt" + fieldId;
+
+	for(var i=0; i<source.length; i++)
+		options[i] = $.el.option(source[i]);
+	return options;
+}
+
+function dropdownField(id, label, comment) {
+	return	$.el.div({'class':'form-group'},
+				$.el.label({'class':'itemLbl',
+							'for':'itemInp' + id,
+							'id':'itemLbl' + id},
+						   label),
+				$.el.input({'type':'text',
+							'class':'form-control typeahead',
+							'id':'itemInp' + id,
 							'placeholder':comment})
 	);
 }
 
-function addTypeAhead(id, alternatives){
+function textField(id, label, comment) {
+	return	$.el.div({'class':'form-group'},
+				$.el.label({'class':'itemLbl',
+							'for':'itemInp' + id,
+							'id':'itemLbl' + id},
+						   label),
+				$.el.textarea({'type':'text',
+							   'class':'form-control',
+							   'id':'itemInp' + id,
+							   'rows':'2',
+							   'placeholder':comment})
+	);
+}
+
+function radioButtonField(id, label, comment, source) {
+	return	$.el.div({'class':'form-group'},
+				$.el.label({'class':'itemLbl',
+							'for':'itemInp' + id,
+							'id':'itemLbl' + id},
+						   label),
+				buttons(source, id, "radio")
+	);
+}
+
+function checkBoxField(id, label, comment, source) {
+	return	$.el.div({'class':'form-group'},
+				$.el.label({'class':'itemLbl',
+							'for':'itemInp' + id,
+							'id':'itemLbl' + id},
+						   label),
+				buttons(source, id, "checkbox")
+	);
+}
+
+function buttons(source, fieldId, type) {
+	var buttons = [];
+	var id = "";
+
+	if(type === "radio") {
+		id = "itemRbtn" + fieldId;
+	} else if(type === "checkbox") {
+		id = "itemChk" + fieldId;
+	}
+	var name = id + "options";
+
+	for(var i=0; i<source.length; i++){
+		buttons[i] =
+		$.el.label({'class':type + '-inline'},
+			$.el.input({'type':type,
+						'id':id + i,
+						'value':source[i]}
+			),
+			source[i]
+		);
+		// Add name attribute if type radio
+		if(type === "radio")
+			$(buttons[i]).find("input").attr("name", name);
+	}
+	return buttons;
+}
+
+function addTypeAhead(id, alternatives) {
 	var array = getAlternativeArray(alternatives.results);
 
 	$('#itemInp' + id).typeahead({
