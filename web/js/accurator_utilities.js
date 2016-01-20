@@ -623,6 +623,6 @@ function getUserUriBase() {
 
 function generateIdFromUri(uri) {
 	// create a html id from a uri (jquery doesn't play well with full uri's)
-	var pathArray = uri.split('/');
+	var pathArray = uri.split(/[/#]/);
 	return pathArray[pathArray.length - 1];
 }

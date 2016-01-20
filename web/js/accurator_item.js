@@ -152,16 +152,14 @@ function annotationFields(imageId) {
 		console.log(fields);
 		// Add fields whole image
 		for(var i=0; i<fields.whole_fields.length; i++) {
-			var id = "wholeField" + (i + 1);
 			$("#itemFrmAnnotationFields").append(
-				annotationField(id, fields.whole_fields[i])
+				annotationField(fields.whole_fields[i])
 			);
 		}
 		// Add fields to hidden dom elements for annotorious
 		for(var i=0; i<fields.fragment_fields.length; i++) {
-			var id = "fragmentField" + (i + 1);
 			$("#itemDivAnnotoriousFields").append(
-				annotationField(id, fields.fragment_fields[i])
+				annotationField(fields.fragment_fields[i])
 			);
 		}
 		// annotorious fields are added in deniche init
@@ -192,7 +190,8 @@ function annotationFields(imageId) {
 	// });
 }
 
-function annotationField(id, field) {
+function annotationField(field) {
+	var id = generateIdFromUri(field.uri);
 	var fieldType = field.type;
 	var label = field.label;
 	var comment = field.comment;

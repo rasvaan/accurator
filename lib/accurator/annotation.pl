@@ -70,7 +70,7 @@ field(_, Uri, Locale, Field) :-
 %%	field_description(+Uri, +Locale, -DescriptionList)
 %
 %	Get the label and comment textually describing the field
-field_description(Uri, Locale, ['type'-FieldType, LabelPair, CommentPair]) :-
+field_description(Uri, Locale, ['uri'-Uri, 'type'-FieldType, LabelPair, CommentPair]) :-
 	rdf(Uri, rdf:type, FieldTypeUri),
 	iri_xml_namespace(FieldTypeUri, _, FieldType),
 	label_property_pair(Uri, rdfs:label, Locale, LabelPair),
