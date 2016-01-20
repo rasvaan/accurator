@@ -4,6 +4,7 @@ Code for extending functionality annotation page.
 *******************************************************************************/
 var query, locale, experiment, domain, user, ui, annotation_ui, uri;
 var vntFirstTitle, vntFirstText;
+var annotoriousFields;
 
 displayOptions = {
 	showMetadata: true,
@@ -70,10 +71,15 @@ function initLabels(data) {
 function initImage() {
 	$.getJSON("metadata", {uri:uri})
 	.done(function(metadata){
+		// Set id image
+		var id = "itemImg" + generateIdFromUri(uri);
+		$(".itemImg").attr("id", id);
+
+		// Set location image
 		$(".itemImg").attr("src", metadata.image);
-		// Tell anotorious this image can be annotated
-		// anno.makeAnnotatable(document.getElementById("myImage"));
-		annotationFields();
+
+		// Add annotation fields for image
+		annotationFields(id);
 	});
 }
 
@@ -136,7 +142,7 @@ function additemDivClusteritemDivNavigationButtonEvents() {
 	}
 }
 
-function annotationFields() {
+function annotationFields(imageId) {
 	// Retrieve the fields that should be added (based on save_user_info)
 	$.getJSON("annotation_fields",
 			  {locale:locale,
@@ -144,19 +150,22 @@ function annotationFields() {
 		   	   annotation_ui:annotation_ui})
 	.done(function(fields){
 		console.log(fields);
-		//Add fields whole image
+		// Add fields whole image
 		for(var i=0; i<fields.whole_fields.length; i++) {
 			var id = "wholeField" + (i + 1);
 			var label = fields.whole_fields[i].label;
 			var comment = fields.whole_fields[i].comment;
 			$("#itemFrmAnnotationFields").append(annotationField(id, label, comment));
 		}
+		// Add fields to hidden dom elements for annotorious
 		for(var i=0; i<fields.fragment_fields.length; i++) {
 			var id = "fragmentField" + (i + 1);
 			var label = fields.fragment_fields[i].label;
 			var comment = fields.fragment_fields[i].comment;
-			// console.log("append", id, label);
+			$("#itemDivAnnotoriousFields").append(annotationField(id, label, comment));
 		}
+		// annotorious fields are added in deniche initi
+		anno.addPlugin("DenichePlugin", {});
 	});
 
 	// var id = "PageType";

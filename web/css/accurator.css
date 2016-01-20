@@ -308,6 +308,9 @@ Item page
 	margin-right: 10px;
 }
 
+.itemDivHidden {
+	display: none;
+}
 /* Item page: Typeahead functionality */
 /* source: http://twitter.github.io/typeahead.js/examples/ */
 
