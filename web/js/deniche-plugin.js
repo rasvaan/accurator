@@ -34,9 +34,8 @@
  *
  * */
 
-
 annotorious.plugin.DenichePlugin = function(config) {
-	/** @public **/
+    /** @public **/
 	this.currentShape = null; // Should be accessible by cpack objects
 
 	/** @private **/
@@ -44,16 +43,21 @@ annotorious.plugin.DenichePlugin = function(config) {
 	this._dirtytag = null;	// tag annotorious doesn't know yet
 	this._saveButtons = {};	 // we have multiple buttons if we have multiple images per page
 	this._cancelButtons = {};
-	// console.log(config);
-	if (config.yui_sandbox) this.Y = config.yui_sandbox;
+	// Commented yui sandbox config
+	// if (config.yui_sandbox) this.Y = config.yui_sandbox;
 }
 
 annotorious.plugin.DenichePlugin.states = { EMPTY:'empty', SOME:'some' };
 
 annotorious.plugin.DenichePlugin.prototype.onInitAnnotator = function(annotator) {
     this.annotator = annotator;
-    // move the cpack editor into the annotorious editor:
-    var el =  annotator.element;
+	var el =  annotator.element;
+
+	// remove standard textarea
+	var textArea = el.getElementsByTagName('textarea')[0];
+	textArea.parentNode.removeChild(textArea);
+
+	// move the cpack editor into the annotorious editor:
     var fieldsId = el.getElementsByTagName('img')[0].getAttribute('fields');
     var imageId  = el.getElementsByTagName('img')[0].getAttribute('id');
     var fieldsEl = document.getElementById(fieldsId);
