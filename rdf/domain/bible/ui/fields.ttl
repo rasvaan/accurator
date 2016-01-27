@@ -1,22 +1,26 @@
-@prefix abibui:  <http://accurator.nl/ui/annotation/bible#> .
+@prefix abibui: <http://accurator.nl/ui/annotation/bible#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-abibui:smallBibleUi a auis:AnnotationUI ;
+abibui:smallBibleUI a auis:AnnotationUI ;
     dcterms:title "Bible annotation UI"@en;
     auis:wholeFields (
 	     abibui:ICBibleTheme
 	);
 	auis:fragmentFields (
 		 abibui:BibleCharacter
-		 abibui:Emotion
-		 abibui:Intensity
-		 abibui:Appraisal
-		 abibui:References
 	 ) .
+
+ abibui:emotionUI a auis:AnnotationUI ;
+    dcterms:title "Emotion annotation UI"@en;
+ 	auis:fragmentFields (
+ 		 abibui:Emotion
+ 		 abibui:Intensity
+ 		 abibui:Appraisal
+ 	 ) .
 
 abibui:ICBibleTheme a auis:DropdownField ;
 	rdfs:label "Theme"@en ;
@@ -55,9 +59,3 @@ abibui:Appraisal a auis:DropdownField ;
 	dcterms:comment "what appraisal can you descern?"@en ;
 	auis:source ( "Charity (love)"@en "Courage (fortitude)"@en "Envy"@en "Faith"@en "Gluttony"@en "Greed"@en "Hope"@en "Justice"@en "Lust"@en "Pride"@en "Prudence"@en "Sloth"@en "Temperance"@en "Wrath"@en ) ;
 	auis:source ( "Naastenliefde"@nl "Moed"@nl "Afgunst"@nl "Geloof"@nl "Vraatzucht"@nl "Hebzucht"@nl "Hoop"@nl "Rechtvaardigheid"@nl "Wellust"@nl "Trots"@nl "Voorzichtigheid"@nl "Traagheid"@nl "Gematigdheid"@nl "Toorn"@nl ) .
-
-abibui:References a auis:TextField ;
-	rdfs:label "Referenties"@nl ;
-	rdfs:label "References"@en ;
-	dcterms:comment "text/url"@nl ;
-	dcterms:comment "text/url"@en .
