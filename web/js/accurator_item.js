@@ -98,7 +98,7 @@ function addPath() {
 	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
 	$("#path").append(pathHtmlElements(cluster.path));
 	unfoldPathEvent("#path", cluster.path);
-	additemDivClusteritemDivNavigationButtonEvents();
+	addNavigationButtonEvents();
 }
 
 function addButtonEvents() {
@@ -118,7 +118,7 @@ function addButtonEvents() {
 	});
 }
 
-function additemDivClusteritemDivNavigationButtonEvents() {
+function addNavigationButtonEvents() {
 	var index = parseInt(localStorage.getItem("itemIndex"));
 	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
 	var items = cluster.items;
@@ -152,18 +152,71 @@ function annotationFields(imageId) {
 		console.log(fields);
 		// Add fields whole image
 		for(var i=0; i<fields.whole_fields.length; i++) {
-			$("#itemFrmAnnotationFields").append(
-				annotationField(fields.whole_fields[i])
-			);
+			// $("#itemFrmAnnotationFields").append(
+			// 	annotationField(fields.whole_fields[i])
+			// );
 		}
 		// Add fields to hidden dom elements for annotorious
 		for(var i=0; i<fields.fragment_fields.length; i++) {
-			$("#itemDivAnnotoriousFields").append(
-				annotationField(fields.fragment_fields[i])
-			);
+			// Create new field object
+			var fld = fields.fragment_fields[i];
+			var field = new Field(fld.type, fld.label, fld.comment, fld.uri);
+			$("#itemDivAnnotoriousFields").append(field.html());
 		}
 		// annotorious fields are added in deniche init
 		anno.addPlugin("DenichePlugin", {});
+	});
+}
+
+// function annotationField(field) {
+//
+//
+//
+// 	switch (field.type) {
+// 		case "DropdownField":
+// 			var field = dropdownField(id, label, comment);
+// 			addAutocompleteDropdown(id, field);
+// 			return field;
+// 		case "TextField":
+// 			return textField(id, label, comment);
+// 		case "RadioButtonField":
+// 			return radioButtonField(id, label, comment, field.source);
+// 		case "CheckboxField":
+// 			return checkBoxField(id, label, comment, field.source);
+// 		case "SelectField":
+// 			return selectField(id, label, comment, field.source);
+// 	}
+// }
+
+// function dropdownField(id, label, comment) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				$.el.input({'type':'text',
+// 							'class':'form-control typeahead',
+// 							'id':'itemInp' + id,
+// 							'placeholder':comment})
+// 	);
+// }
+
+function addAutocompleteDropdown(id, field) {
+	var fieldId = "#itemInp" + id;
+
+	// Get autocomplete alternatives
+	var filter = JSON.stringify({scheme:"http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme"});
+	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
+	$.getJSON("api/autocomplete",
+		{q:"pag",
+		 filter:filter,
+		 labelrank:labelRank,
+		 method:"all",
+	 	 locale:locale})
+	.done(function(alternatives){
+		// Add typeahead
+		addTypeAhead(fieldId, field, alternatives);
+		getInputAnnotationField(fieldId, alternatives);
 	});
 
 	// var id = "PageType";
@@ -190,134 +243,27 @@ function annotationFields(imageId) {
 	// });
 }
 
-function annotationField(field) {
-	var id = generateIdFromUri(field.uri);
-	var fieldType = field.type;
-	var label = field.label;
-	var comment = field.comment;
-
-	switch (field.type) {
-		case "DropdownField":
-			return dropdownField(id, label, comment);
-		case "TextField":
-			return textField(id, label, comment);
-		case "RadioButtonField":
-			return radioButtonField(id, label, comment, field.source);
-		case "CheckboxField":
-			return checkBoxField(id, label, comment, field.source);
-		case "SelectField":
-			return selectField(id, label, comment, field.source);
-	}
-}
-
-function selectField(id, label, comment, source) {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				$.el.select({'class':'form-control',
-							 'id':'itemSlt' + id,
-							 'placeholder':comment},
-						 	 options(source, id))
-	);
-}
-
-function options(source, fieldId) {
-	var options = [];
-	var id = "itemOpt" + fieldId;
-
-	for(var i=0; i<source.length; i++)
-		options[i] = $.el.option(source[i]);
-	return options;
-}
-
-function dropdownField(id, label, comment) {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				$.el.input({'type':'text',
-							'class':'form-control typeahead',
-							'id':'itemInp' + id,
-							'placeholder':comment})
-	);
-}
-
-function textField(id, label, comment) {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				$.el.textarea({'type':'text',
-							   'class':'form-control',
-							   'id':'itemInp' + id,
-							   'rows':'2',
-							   'placeholder':comment})
-	);
-}
-
-function radioButtonField(id, label, comment, source) {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				buttons(source, id, "radio")
-	);
-}
-
-function checkBoxField(id, label, comment, source) {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				buttons(source, id, "checkbox")
-	);
-}
-
-function buttons(source, fieldId, type) {
-	var buttons = [];
-	var id = "";
-
-	if(type === "radio") {
-		id = "itemRbtn" + fieldId;
-	} else if(type === "checkbox") {
-		id = "itemChk" + fieldId;
-	}
-	var name = id + "options";
-
-	for(var i=0; i<source.length; i++){
-		buttons[i] =
-		$.el.label({'class':type + '-inline'},
-			$.el.input({'type':type,
-						'id':id + i,
-						'value':source[i]}
-			),
-			source[i]
-		);
-		// Add name attribute if type radio
-		if(type === "radio")
-			$(buttons[i]).find("input").attr("name", name);
-	}
-	return buttons;
-}
-
-function addTypeAhead(id, alternatives) {
+function addTypeAhead(id, field, alternatives) {
 	var array = getAlternativeArray(alternatives.results);
 
-	$('#itemInp' + id).typeahead({
-		hint: true,
-		highlight: true,
-		minLength: 1
-	},
-	{
-		name: 'alternatives',
-		source: substringMatcher(array)
+	// Select the input field and add typeahead
+	$(field).find(id).typeahead({hint: true,
+									  highlight: true,
+									  minLength: 1},
+									 {name: 'alternatives',
+									  source: substringMatcher(array)
 	});
+	// var array = getAlternativeArray(alternatives.results);
+	//
+	// $('#itemInp' + id).typeahead({
+	// 	hint: true,
+	// 	highlight: true,
+	// 	minLength: 1
+	// },
+	// {
+	// 	name: 'alternatives',
+	// 	source: substringMatcher(array)
+	// });
 }
 
 function getAlternativeArray(alternatives) {
@@ -362,6 +308,93 @@ function getInputAnnotationField(id, alternatives) {
 		submitAnnotation(uri, annotationUri, annotationLabel, id);
 	});
 }
+
+// function selectField(id, label, comment, source) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				$.el.select({'class':'form-control',
+// 							 'id':'itemSlt' + id,
+// 							 'placeholder':comment},
+// 						 	 options(source, id))
+// 	);
+// }
+//
+// function options(source, fieldId) {
+// 	var options = [];
+// 	var id = "itemOpt" + fieldId;
+//
+// 	for(var i=0; i<source.length; i++)
+// 		options[i] = $.el.option(source[i]);
+// 	return options;
+// }
+//
+//
+//
+//
+//
+// function textField(id, label, comment) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				$.el.textarea({'type':'text',
+// 							   'class':'form-control',
+// 							   'id':'itemInp' + id,
+// 							   'rows':'2',
+// 							   'placeholder':comment})
+// 	);
+// }
+//
+// function radioButtonField(id, label, comment, source) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				buttons(source, id, "radio")
+// 	);
+// }
+//
+// function checkBoxField(id, label, comment, source) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				buttons(source, id, "checkbox")
+// 	);
+// }
+//
+// function buttons(source, fieldId, type) {
+// 	var buttons = [];
+// 	var id = "";
+//
+// 	if(type === "radio") {
+// 		id = "itemRbtn" + fieldId;
+// 	} else if(type === "checkbox") {
+// 		id = "itemChk" + fieldId;
+// 	}
+// 	var name = id + "options";
+//
+// 	for(var i=0; i<source.length; i++){
+// 		buttons[i] =
+// 		$.el.label({'class':type + '-inline'},
+// 			$.el.input({'type':type,
+// 						'id':id + i,
+// 						'value':source[i]}
+// 			),
+// 			source[i]
+// 		);
+// 		// Add name attribute if type radio
+// 		if(type === "radio")
+// 			$(buttons[i]).find("input").attr("name", name);
+// 	}
+// 	return buttons;
+// }
 
 function submitAnnotation(target, body, label, id, graph) {
 	if (!graph)
