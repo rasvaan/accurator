@@ -10,38 +10,53 @@ function Field(type, label, comment, uri) {
 	this.comment = comment;
 	this.uri = uri;
 	this.id = generateIdFromUri(uri);
-	this.node = generateFieldNode();
+	this.node = this.generateFieldNode();
 }
 
-function generateFieldNode() {
+Field.prototype.listen = function() {
+	console.log("Should be broadcasting");
+	var dropId = '#itemInp' + this.id;
+	$(dropId).keyup(function(event) {
+		console.log($(dropId).val());
+		if(event.which == 13) {
+			console.log("SAVE: Enter has been pressed");
+		}
+		if(event.which == 27) {
+			console.log("CANCEL: Esc has been pressed");
+		}
+	});
+}
+
+Field.prototype.generateFieldNode = function() {
+	console.log(this.type);
 	switch (this.type) {
 		case "DropdownField":
-			return dropdownField();
+			return this.dropdownField();
 		case "TextField":
-			return textField();
+			return this.textField();
 		case "RadioButtonField":
-			return radioButtonField();
+			return this.radioButtonField();
 		case "CheckboxField":
-			return checkBoxField();
+			return this.checkBoxField();
 		case "SelectField":
-			return selectField();
+			return this.selectField();
 	}
 }
 
-function dropdownField(id, label, comment) {
+Field.prototype.dropdownField = function() {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
+							'for':'itemInp' + this.id,
+							'id':'itemLbl' + this.id},
+						   this.label),
 				$.el.input({'type':'text',
 							'class':'form-control typeahead',
-							'id':'itemInp' + id,
-							'placeholder':comment})
+							'id':'itemInp' + this.id,
+							'placeholder':this.comment})
 	);
 }
 
-function selectField(id, label, comment, source) {
+Field.prototype.selectField = function() {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':'itemInp' + id,
@@ -54,7 +69,7 @@ function selectField(id, label, comment, source) {
 	);
 }
 
-function options(source, fieldId) {
+Field.prototype.options = function() {
 	var options = [];
 	var id = "itemOpt" + fieldId;
 
@@ -63,7 +78,7 @@ function options(source, fieldId) {
 	return options;
 }
 
-function textField(id, label, comment) {
+Field.prototype.textField = function() {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':'itemInp' + id,
@@ -77,7 +92,7 @@ function textField(id, label, comment) {
 	);
 }
 
-function radioButtonField(id, label, comment, source) {
+Field.prototype.radioButtonField  = function() {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':'itemInp' + id,
@@ -87,7 +102,7 @@ function radioButtonField(id, label, comment, source) {
 	);
 }
 
-function checkBoxField(id, label, comment, source) {
+Field.prototype.checkBoxField = function() {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':'itemInp' + id,
@@ -97,7 +112,7 @@ function checkBoxField(id, label, comment, source) {
 	);
 }
 
-function buttons(source, fieldId, type) {
+Field.prototype.buttons = function() {
 	var buttons = [];
 	var id = "";
 
