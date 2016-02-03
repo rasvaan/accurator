@@ -4,20 +4,31 @@ Class of annotation fields. Fields can be of different types, such as dropdown,
 radiobuttons and textfields.
 *******************************************************************************/
 
-function Field(type, label, comment, uri) {
+function Field(type, label, comment, uri, source) {
 	this.type = type;
 	this.label = label;
 	this.comment = comment;
 	this.uri = uri;
+	this.source = source;
 	this.id = generateIdFromUri(uri);
 	this.node = this.generateFieldNode();
+	this.alternatives;
 }
 
 Field.prototype.listen = function() {
-	console.log("Should be broadcasting");
 	var dropId = '#itemInp' + this.id;
+	var _field = this; //make sure we can use this Field in $ scope
+
 	$(dropId).keyup(function(event) {
-		console.log($(dropId).val());
+		var input = $(dropId).val();
+
+		if(input.length > 1) {
+			// Retrieve alternatives
+			_field.getAlternatives(input)
+			.then(function(alternatives){
+				_field.addTypeAhead(alternatives);
+			});
+		}
 		if(event.which == 13) {
 			console.log("SAVE: Enter has been pressed");
 		}
@@ -27,19 +38,67 @@ Field.prototype.listen = function() {
 	});
 }
 
+Field.prototype.getAlternatives = function(string) {
+	console.log(string);
+	console.log(locale);
+	// Get autocomplete alternatives
+	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
+	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
+
+	// Return promise
+	return $.getJSON("api/autocomplete",
+		{q:string,
+		 filter:filter,
+		 labelrank:labelRank,
+		 method:"all",
+		 locale:locale});
+}
+
+Field.prototype.addTypeAhead = function(alternatives) {
+	this.alternatives = alternatives;
+	var dropId = '#itemInp' + this.id;
+	var _field = this; //make sure we can use this Field in $ scope
+	var array = [];
+
+	for(var i=0; i<alternatives.results.length; i++)
+		array[i] = alternatives.results[i].label;
+
+	// Select the input field and add typeahead
+	$(dropId).typeahead({hint: true,
+						 highlight: true,
+						 minLength: 1},
+			   			{name: 'alternatives',
+						 source: _field.substringMatcher(array)
+	});
+}
+
+Field.prototype.substringMatcher = function(strs) {
+	return function findMatches(q, cb) {
+		var matches, substringRegex;
+
+		// an array that will be populated with substring matches
+		matches = [];
+
+		// regex used to determine if a string contains the substring `q`
+		substrRegex = new RegExp(q, 'i');
+
+		// iterate through the pool of strings and for any string that
+		// contains the substring `q`, add it to the `matches` array
+		$.each(strs, function(i, str) {
+		  if (substrRegex.test(str)) {
+		    matches.push(str);
+		  }
+		});
+
+		cb(matches);
+	}
+}
+
 Field.prototype.generateFieldNode = function() {
 	console.log(this.type);
 	switch (this.type) {
 		case "DropdownField":
 			return this.dropdownField();
-		case "TextField":
-			return this.textField();
-		case "RadioButtonField":
-			return this.radioButtonField();
-		case "CheckboxField":
-			return this.checkBoxField();
-		case "SelectField":
-			return this.selectField();
 	}
 }
 
@@ -54,87 +113,4 @@ Field.prototype.dropdownField = function() {
 							'id':'itemInp' + this.id,
 							'placeholder':this.comment})
 	);
-}
-
-Field.prototype.selectField = function() {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				$.el.select({'class':'form-control',
-							 'id':'itemSlt' + id,
-							 'placeholder':comment},
-						 	 options(source, id))
-	);
-}
-
-Field.prototype.options = function() {
-	var options = [];
-	var id = "itemOpt" + fieldId;
-
-	for(var i=0; i<source.length; i++)
-		options[i] = $.el.option(source[i]);
-	return options;
-}
-
-Field.prototype.textField = function() {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				$.el.textarea({'type':'text',
-							   'class':'form-control',
-							   'id':'itemInp' + id,
-							   'rows':'2',
-							   'placeholder':comment})
-	);
-}
-
-Field.prototype.radioButtonField  = function() {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				buttons(source, id, "radio")
-	);
-}
-
-Field.prototype.checkBoxField = function() {
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + id,
-							'id':'itemLbl' + id},
-						   label),
-				buttons(source, id, "checkbox")
-	);
-}
-
-Field.prototype.buttons = function() {
-	var buttons = [];
-	var id = "";
-
-	if(type === "radio") {
-		id = "itemRbtn" + fieldId;
-	} else if(type === "checkbox") {
-		id = "itemChk" + fieldId;
-	}
-	var name = id + "options";
-
-	for(var i=0; i<source.length; i++){
-		buttons[i] =
-		$.el.label({'class':type + '-inline'},
-			$.el.input({'type':type,
-						'id':id + i,
-						'value':source[i]}
-			),
-			source[i]
-		);
-		// Add name attribute if type radio
-		if(type === "radio")
-			$(buttons[i]).find("input").attr("name", name);
-	}
-	return buttons;
 }

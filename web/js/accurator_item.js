@@ -160,7 +160,7 @@ function annotationFields(imageId) {
 		for(var i=0; i<fields.fragment_fields.length; i++) {
 			// Create new field object
 			var fld = fields.fragment_fields[i];
-			var field = new Field(fld.type, fld.label, fld.comment, fld.uri);
+			var field = new Field(fld.type, fld.label, fld.comment, fld.uri, fld.source);
 			$("#itemDivAnnotoriousFields").append(field.node);
 			field.listen();
 		}
