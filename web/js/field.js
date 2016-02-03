@@ -11,24 +11,31 @@ function Field(type, label, comment, uri, source) {
 	this.uri = uri;
 	this.source = source;
 	this.id = generateIdFromUri(uri);
-	this.node = this.generateFieldNode();
+	this.node;
 	this.alternatives;
+
+	switch (type) {
+		case "DropdownField":
+			this.initDropdown();
+			break;
+	}
+}
+
+Field.prototype.initDropdown = function() {
+	var _field = this; //make sure we can use this Field in $ scope
+	this.node = this.dropdownField();
+	this.getAllAlternatives()
+	.then(function(alternatives){
+		_field.addTypeAhead(alternatives);
+	});
 }
 
 Field.prototype.listen = function() {
 	var dropId = '#itemInp' + this.id;
-	var _field = this; //make sure we can use this Field in $ scope
 
 	$(dropId).keyup(function(event) {
 		var input = $(dropId).val();
 
-		if(input.length > 1) {
-			// Retrieve alternatives
-			_field.getAlternatives(input)
-			.then(function(alternatives){
-				_field.addTypeAhead(alternatives);
-			});
-		}
 		if(event.which == 13) {
 			console.log("SAVE: Enter has been pressed");
 		}
@@ -38,9 +45,21 @@ Field.prototype.listen = function() {
 	});
 }
 
+Field.prototype.getAllAlternatives = function() {
+	// Get autocomplete alternatives
+	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
+	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
+
+	// Return promise
+	return $.getJSON("api/autocomplete",
+		{q:"stub",
+		 filter:filter,
+		 labelrank:labelRank,
+		 method:"all",
+		 locale:locale});
+}
+
 Field.prototype.getAlternatives = function(string) {
-	console.log(string);
-	console.log(locale);
 	// Get autocomplete alternatives
 	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
 	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
@@ -50,7 +69,7 @@ Field.prototype.getAlternatives = function(string) {
 		{q:string,
 		 filter:filter,
 		 labelrank:labelRank,
-		 method:"all",
+		//  method:"all",
 		 locale:locale});
 }
 
@@ -91,14 +110,6 @@ Field.prototype.substringMatcher = function(strs) {
 		});
 
 		cb(matches);
-	}
-}
-
-Field.prototype.generateFieldNode = function() {
-	console.log(this.type);
-	switch (this.type) {
-		case "DropdownField":
-			return this.dropdownField();
 	}
 }
 
