@@ -10,13 +10,10 @@ function Field(type, label, comment, uri) {
 	this.comment = comment;
 	this.uri = uri;
 	this.id = generateIdFromUri(uri);
+	this.node = generateFieldNode();
 }
 
-Field.prototype.type = function() {
-	return this.type;
-}
-
-Field.prototype.html = function() {
+function generateFieldNode() {
 	switch (this.type) {
 		case "DropdownField":
 			return dropdownField();

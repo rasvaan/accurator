@@ -161,7 +161,7 @@ function annotationFields(imageId) {
 			// Create new field object
 			var fld = fields.fragment_fields[i];
 			var field = new Field(fld.type, fld.label, fld.comment, fld.uri);
-			$("#itemDivAnnotoriousFields").append(field.html());
+			$("#itemDivAnnotoriousFields").append(field.html);
 		}
 		// annotorious fields are added in deniche init
 		anno.addPlugin("DenichePlugin", {});
