@@ -13,7 +13,6 @@ function Field(type, label, comment, uri, source) {
 	this.id = generateIdFromUri(uri);
 	this.node;
 	this.alternatives;
-
 	switch (type) {
 		case "DropdownField":
 			this.initDropdown();
@@ -23,24 +22,31 @@ function Field(type, label, comment, uri, source) {
 
 Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
+
 	this.node = this.dropdownField();
 	this.getAllAlternatives()
 	.then(function(alternatives){
 		_field.addTypeAhead(alternatives);
+		_field.addDropdownListeners();
 	});
 }
 
-Field.prototype.listen = function() {
+Field.prototype.addDropdownListeners = function() {
 	var dropId = '#itemInp' + this.id;
 
-	$(dropId).keyup(function(event) {
-		var input = $(dropId).val();
+	// Eventlistener for selecting typeahead alternative
+	$(dropId).on('typeahead:select', function(event, annotationLabel) {
+		console.log(event);
+		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: " + annotationLabel);
+	});
+
+	// Action upon pressing enter
+	$(dropId).on('keyup', function(event) {
 
 		if(event.which == 13) {
-			console.log("SAVE: Enter has been pressed");
-		}
-		if(event.which == 27) {
-			console.log("CANCEL: Esc has been pressed");
+			console.log(event);
+			var annotationLabel = $(dropId).val();
+			console.log("SAVE: literal EVENT: keyup ANNOTATION: " + annotationLabel);
 		}
 	});
 }
@@ -82,35 +88,26 @@ Field.prototype.addTypeAhead = function(alternatives) {
 	for(var i=0; i<alternatives.results.length; i++)
 		array[i] = alternatives.results[i].label;
 
+	// Constructs the suggestion engine
+	var bloodHoundAlternatives = new Bloodhound({
+		datumTokenizer: Bloodhound.tokenizers.whitespace,
+		queryTokenizer: Bloodhound.tokenizers.whitespace,
+		local: array
+	});
+
 	// Select the input field and add typeahead
 	$(dropId).typeahead({hint: true,
 						 highlight: true,
 						 minLength: 1},
 			   			{name: 'alternatives',
-						 source: _field.substringMatcher(array)
+						 source: bloodHoundAlternatives,
+						 templates: {
+							 suggestion: function(data){
+								 console.log(data);
+								 return '<div>' + data + '</div>';
+							 }
+						 }
 	});
-}
-
-Field.prototype.substringMatcher = function(strs) {
-	return function findMatches(q, cb) {
-		var matches, substringRegex;
-
-		// an array that will be populated with substring matches
-		matches = [];
-
-		// regex used to determine if a string contains the substring `q`
-		substrRegex = new RegExp(q, 'i');
-
-		// iterate through the pool of strings and for any string that
-		// contains the substring `q`, add it to the `matches` array
-		$.each(strs, function(i, str) {
-		  if (substrRegex.test(str)) {
-		    matches.push(str);
-		  }
-		});
-
-		cb(matches);
-	}
 }
 
 Field.prototype.dropdownField = function() {
