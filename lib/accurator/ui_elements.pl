@@ -156,8 +156,10 @@ metadata(full, Uri, Metadata) :-
 	    Properties),
 	get_title(Uri, DisplayTitle),
 	image_url(Uri, ImageLink),
+	image_uri(Uri, ImageUri),
 	Metadata = metadata{title:DisplayTitle,
 						image:ImageLink,
+						image_uri:ImageUri,
 						properties:Properties}.
 metadata(thumbnail, Uri, EnrichedItem) :-
     thumbnail_url(Uri, ThumbnailUrl),
@@ -214,6 +216,16 @@ check_if_local(ImageUrl, ImageUrl).
 image_link(Image, ThumbUrl) :-
 	concat('cache/original?uri=', Image, RequestUrl),
     http_absolute_location(root(RequestUrl), ThumbUrl, []).
+
+%%	image_uri(+Uri, -ImageUri)
+%
+%	Get the 'original' uri of an image, not a link to a cached one.
+image_uri(Uri, ImageUri) :-
+	rdf(Aggregation, edm:aggregatedCHO, Uri),
+	rdf(Aggregation, edm:isShownBy, ImageUri), !.
+image_uri(Uri, ImageUri) :-
+	rdf(Aggregation, edm:aggregatedCHO, Uri),
+	rdf(Aggregation, edm:hasView, ImageUri), !.
 
 %%	thumbnail_url(+Uri, -ThumbUrl)
 %

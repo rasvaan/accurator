@@ -2,7 +2,6 @@
 Accurator Item
 Code for extending functionality item page.
 *******************************************************************************/
-"use_strict";
 var query, locale, experiment, domain, user, ui, annotation_ui, uri;
 var vntFirstTitle, vntFirstText;
 var annotoriousFields;
@@ -75,12 +74,11 @@ function initImage() {
 		// Set id image
 		var id = "itemImg" + generateIdFromUri(uri);
 		$(".itemImg").attr("id", id);
-
 		// Set location image
 		$(".itemImg").attr("src", metadata.image);
 
 		// Add annotation fields for image
-		annotationFields(id);
+		annotationFields(id, metadata.image_uri);
 	});
 }
 
@@ -143,7 +141,7 @@ function addNavigationButtonEvents() {
 	}
 }
 
-function annotationFields(imageId) {
+function annotationFields(imageId, targetImage) {
 	// Retrieve the fields that should be added (based on save_user_info)
 	$.getJSON("annotation_fields",
 			  {locale:locale,
@@ -160,8 +158,12 @@ function annotationFields(imageId) {
 		// Add fields to hidden dom elements for annotorious
 		for(var i=0; i<fields.fragment_fields.length; i++) {
 			// Create new field object
-			var fld = fields.fragment_fields[i];
-			var field = new Field(fld.type, fld.label, fld.comment, fld.uri, fld.source);
+			var field = new Field(
+				fields.fragment_fields[i],
+				uri,
+				targetImage,
+				user
+			);
 			$("#itemDivAnnotoriousFields").append(field.node);
 		}
 		// annotorious fields are added in deniche init

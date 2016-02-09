@@ -1,19 +1,24 @@
 /*******************************************************************************
 Field
 Class of annotation fields. Fields can be of different types, such as dropdown,
-radiobuttons and textfields.
+radiobuttons and textfields. Part of the code comes from annotate.js written by
+Jacco van Ossenbruggen
 *******************************************************************************/
 
-function Field(type, label, comment, uri, source) {
-	this.type = type;
-	this.label = label;
-	this.comment = comment;
-	this.uri = uri;
-	this.source = source;
-	this.id = generateIdFromUri(uri);
-	this.node;
-	this.alternatives;
-	switch (type) {
+function Field(defenition, target, targetImage, user) {
+	this.field = defenition.uri; // URI identifying annotation field
+	this.type = defenition.type; // type of input field (e.g. dropdown or radiobutton)
+	this.label = defenition.label; // name of the field
+	this.comment = defenition.comment; // short description of the field
+	this.source = defenition.source; // source of the alternatives shown
+	this.id = generateIdFromUri(defenition.uri); // id of the field useable by jquery
+	this.node = null; // html node representing the field
+	this.alternatives = null; // list of alternatives for dropdown
+	this.target = target; // URI of target to be annotated
+	this.targetImage = null; // URI of target's image to be annotated
+	this.user = user; // URI of the user currently annotating
+
+	switch (defenition.type) {
 		case "DropdownField":
 			this.initDropdown();
 			break;
@@ -32,12 +37,16 @@ Field.prototype.initDropdown = function() {
 }
 
 Field.prototype.addDropdownListeners = function() {
+	var _field = this; //make sure we can use this Field in $ scope
 	var dropId = '#itemInp' + this.id;
 
 	// Eventlistener for selecting typeahead alternative
 	$(dropId).on('typeahead:select', function(event, annotation) {
-		console.log(event);
 		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
+		// Submit the resource
+		_field.submitAnnotation(target, body, label, id);
+		// Code for clearing query
+		//$('input.typeahead').typeahead('setQuery', '');
 	});
 
 	// Action upon pressing enter
@@ -48,6 +57,37 @@ Field.prototype.addDropdownListeners = function() {
 			var annotation = $(dropId).val();
 			console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
 		}
+	});
+}
+
+Field.prototype.submitAnnotation = function(target, body, label, id, graph) {
+	console.log("Should be submitting", target, body, label, id, graph);
+	if (!graph)
+		graph = target;
+
+	var targetJson = JSON.stringify([{'@id':target}]);
+	var bodyJson = JSON.stringify({'@id':body});
+	var field = "page type";
+
+	$.ajax({type: "POST",
+			url: "api/annotation/add",
+			data: {hasTarget:targetJson,
+				   hasBody:bodyJson,
+			   	   graph:graph,
+			   	   field:field},
+			success: function(){
+				//Add label indicating in the UI what has been added
+				// $("#itemDivAnnotations").append(
+				// 	$.el.span({'id':'itemLblSelected' + id,
+				// 			   'class':"label label-danger"},
+				// 				label
+				// 				//Leave out the remove button for now
+				// 				//$.el.span({'class':"glyphicon glyphicon-remove", 'font-size':"1.5em"})
+				// 				//'onClick':removeAnnotation($('#itemLblSelected' + id))})
+				// 			),
+				// 	"&nbsp;"
+				// 	);
+			}
 	});
 }
 
@@ -101,8 +141,7 @@ Field.prototype.addTypeAhead = function(alternatives) {
 	});
 
 	// Create the suggestion template
-	var suggestionTemplate = function(data){
-		console.log(data);
+	var suggestionTemplate = function(data) {
 		return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
 	}
 
@@ -131,3 +170,121 @@ Field.prototype.dropdownField = function() {
 							'placeholder':this.comment})
 	);
 }
+
+
+// function annotationField(field) {
+// 	switch (field.type) {
+// 		case "DropdownField":
+// 			var field = dropdownField(id, label, comment);
+// 			addAutocompleteDropdown(id, field);
+// 			return field;
+// 		case "TextField":
+// 			return textField(id, label, comment);
+// 		case "RadioButtonField":
+// 			return radioButtonField(id, label, comment, field.source);
+// 		case "CheckboxField":
+// 			return checkBoxField(id, label, comment, field.source);
+// 		case "SelectField":
+// 			return selectField(id, label, comment, field.source);
+// 	}
+// }
+
+// function dropdownField(id, label, comment) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				$.el.input({'type':'text',
+// 							'class':'form-control typeahead',
+// 							'id':'itemInp' + id,
+// 							'placeholder':comment})
+// 	);
+// }
+
+// function selectField(id, label, comment, source) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				$.el.select({'class':'form-control',
+// 							 'id':'itemSlt' + id,
+// 							 'placeholder':comment},
+// 						 	 options(source, id))
+// 	);
+// }
+//
+// function options(source, fieldId) {
+// 	var options = [];
+// 	var id = "itemOpt" + fieldId;
+//
+// 	for(var i=0; i<source.length; i++)
+// 		options[i] = $.el.option(source[i]);
+// 	return options;
+// }
+//
+//
+//
+//
+//
+// function textField(id, label, comment) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				$.el.textarea({'type':'text',
+// 							   'class':'form-control',
+// 							   'id':'itemInp' + id,
+// 							   'rows':'2',
+// 							   'placeholder':comment})
+// 	);
+// }
+//
+// function radioButtonField(id, label, comment, source) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				buttons(source, id, "radio")
+// 	);
+// }
+//
+// function checkBoxField(id, label, comment, source) {
+// 	return	$.el.div({'class':'form-group'},
+// 				$.el.label({'class':'itemLbl',
+// 							'for':'itemInp' + id,
+// 							'id':'itemLbl' + id},
+// 						   label),
+// 				buttons(source, id, "checkbox")
+// 	);
+// }
+//
+// function buttons(source, fieldId, type) {
+// 	var buttons = [];
+// 	var id = "";
+//
+// 	if(type === "radio") {
+// 		id = "itemRbtn" + fieldId;
+// 	} else if(type === "checkbox") {
+// 		id = "itemChk" + fieldId;
+// 	}
+// 	var name = id + "options";
+//
+// 	for(var i=0; i<source.length; i++){
+// 		buttons[i] =
+// 		$.el.label({'class':type + '-inline'},
+// 			$.el.input({'type':type,
+// 						'id':id + i,
+// 						'value':source[i]}
+// 			),
+// 			source[i]
+// 		);
+// 		// Add name attribute if type radio
+// 		if(type === "radio")
+// 			$(buttons[i]).find("input").attr("name", name);
+// 	}
+// 	return buttons;
+// }
