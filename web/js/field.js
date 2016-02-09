@@ -35,9 +35,9 @@ Field.prototype.addDropdownListeners = function() {
 	var dropId = '#itemInp' + this.id;
 
 	// Eventlistener for selecting typeahead alternative
-	$(dropId).on('typeahead:select', function(event, annotationLabel) {
+	$(dropId).on('typeahead:select', function(event, annotation) {
 		console.log(event);
-		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: " + annotationLabel);
+		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
 	});
 
 	// Action upon pressing enter
@@ -45,8 +45,8 @@ Field.prototype.addDropdownListeners = function() {
 
 		if(event.which == 13) {
 			console.log(event);
-			var annotationLabel = $(dropId).val();
-			console.log("SAVE: literal EVENT: keyup ANNOTATION: " + annotationLabel);
+			var annotation = $(dropId).val();
+			console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
 		}
 	});
 }
@@ -85,8 +85,13 @@ Field.prototype.addTypeAhead = function(alternatives) {
 	var _field = this; //make sure we can use this Field in $ scope
 	var array = [];
 
-	for(var i=0; i<alternatives.results.length; i++)
-		array[i] = {value:alternatives.results[i].label};
+	// Prep the data for adding it to the suggestion engine
+	for(var i=0; i<alternatives.results.length; i++) {
+		array[i] = {
+			value:alternatives.results[i].label,
+			uri:alternatives.results[i].uri
+		};
+	}
 
 	// Constructs the suggestion engine
 	var bloodHoundAlternatives = new Bloodhound({
@@ -95,17 +100,21 @@ Field.prototype.addTypeAhead = function(alternatives) {
 		local: array
 	});
 
+	// Create the suggestion template
+	var suggestionTemplate = function(data){
+		console.log(data);
+		return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
+	}
+
 	// Select the input field and add typeahead
 	$(dropId).typeahead({hint: true,
 						 highlight: true,
 						 minLength: 1},
-			   			{name: 'alternatives',
+			   			{name:'alternatives',
+						 display:'value',
 						 source: bloodHoundAlternatives,
 						 templates: {
-							 suggestion: function(data){
-								 console.log(data);
-								 return '<div>' + data.value + '</div>';
-							 }
+							 suggestion:suggestionTemplate
 						 }
 	});
 }
