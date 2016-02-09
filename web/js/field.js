@@ -86,11 +86,11 @@ Field.prototype.addTypeAhead = function(alternatives) {
 	var array = [];
 
 	for(var i=0; i<alternatives.results.length; i++)
-		array[i] = alternatives.results[i].label;
+		array[i] = {value:alternatives.results[i].label};
 
 	// Constructs the suggestion engine
 	var bloodHoundAlternatives = new Bloodhound({
-		datumTokenizer: Bloodhound.tokenizers.whitespace,
+		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 		queryTokenizer: Bloodhound.tokenizers.whitespace,
 		local: array
 	});
@@ -104,7 +104,7 @@ Field.prototype.addTypeAhead = function(alternatives) {
 						 templates: {
 							 suggestion: function(data){
 								 console.log(data);
-								 return '<div>' + data + '</div>';
+								 return '<div>' + data.value + '</div>';
 							 }
 						 }
 	});
