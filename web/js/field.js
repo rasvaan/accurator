@@ -73,48 +73,47 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 				graph:graph
 			},
 			success: function(){
-				console.log("Saved annotation with graph: ", graph);
 				//Add annotation to list of annotations
-				_field.addAnnotation({label:label});
+				_field.addAnnotation(label);
 				_field.renderAnnotations();
-
-				//$("#itemDivAnnotations").append(
-				// 	$.el.span({'id':'itemLblSelected' + id,
-				// 			   'class':"label label-danger"},
-				// 				label
-				// 				//Leave out the remove button for now
-				// 				//$.el.span({'class':"glyphicon glyphicon-remove", 'font-size':"1.5em"})
-				// 				//'onClick':removeAnnotation($('#itemLblSelected' + id))})
-				// 			),
-				// 	"&nbsp;"
-				// 	);
 			}
 	});
 }
 
-Field.prototype.addAnnotation = function(annotation) {
+Field.prototype.getAnnotationsPromise = function() {
+	console.log("get annotations");
+	// Return promise
+	return $.getJSON("api/annotation/get",
+		{field:this.field,
+		hasTarget:this.target});
+}
+
+Field.prototype.addAnnotation = function(label, id) {
+	console.log("Adding annotation to arrary: ", label, id);
 	// Add annotation to list of annotations
-	// For know annotation object consists of label
-	this.annotations.unshift(annotation.label);
+	// For know annotation is a string (boring)
+	this.annotations.unshift({label:label, id:id});
 }
 
 Field.prototype.renderAnnotations = function() {
 	// Render the annotations related to this field
-	for (var annotation in this.annotations) {
-		var label = truncate(this.annotations[annotation], 7);
+	for (var key in this.annotations) {
+		var label = truncate(this.annotations[key].label, 7);
+		var id = this.annotations[key].id;
+
 		// Add annotation in div below field
 		$("#itemDiv" + this.id + "Annotations").append(
 			$.el.span({
 				//TODO: get proper id for annotation
-				'id':'itemLbl' + label,
+				'id':'itemLbl' + id,
 				'class':'label label-default'},
 				label
 			)
 		);
 
 		// Add event to label
-		$("#itemLbl" + label).on("click", function(){
-			console.log("label clicked");
+		$("#itemLbl" + id).on("click", function(){
+			console.log("clicked");
 		});
 	}
 }
@@ -127,6 +126,18 @@ Field.prototype.initDropdown = function() {
 	.then(function(alternatives){
 		_field.addTypeAhead(alternatives);
 		_field.addDropdownListeners();
+	});
+
+	this.getAnnotationsPromise()
+	.then(function(data){
+		// Get the annotations from the returned data
+		var annotations = data[_field.field].annotations;
+		for (key in annotations) {
+			var label = annotations[key].title;
+			var id = generateIdFromUri(annotations[key]['@id']);
+			_field.addAnnotation(label, id);
+		}
+		_field.renderAnnotations();
 	});
 }
 
