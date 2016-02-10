@@ -17,6 +17,12 @@ function Field(defenition, target, targetImage, user) {
 	this.target = target; // URI of target to be annotated
 	this.targetImage = null; // URI of target's image to be annotated
 	this.user = user; // URI of the user currently annotating
+	this._anno = anno; // Jacco hack to get to annotourious
+	this.MOTIVATION = {
+		tagging:    'http://www.w3.org/ns/oa#tagging',
+		commenting: 'http://www.w3.org/ns/oa#commenting',
+		moderating: 'http://www.w3.org/ns/oa#moderating',
+	};
 
 	switch (defenition.type) {
 		case "DropdownField":
@@ -25,55 +31,62 @@ function Field(defenition, target, targetImage, user) {
 	}
 }
 
-Field.prototype.findTarget = function(tag) {
-	//TODO: might be moved in to Tag object
-	// Return specific target of a tag or else generic target
-	var result = this.findSpecificTarget(tag);
+Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
+	if (!target) return; // annotation target is required
+	if (!body) return; // annotation in the form of text or resource is required
+	if (!label && body['@value']) label = body['@value']; // set label to value in body if not sepperately defined
+	if (!motiv) motiv = this.MOTIVATION.tagging;
+	if (!graph)	graph = target;
 
-	if (result) {
-		return result;
+	var targetObject = null;
+	if (this._anno && this._anno._deniche.currentShape) {
+		var shape = this._anno._deniche.currentShape.geometry;
+		var targetImage = this.targetImage;
+
+		if (targetImage && target != targetImage) {
+			// Another annotation on selector with existing id (target id is the selector, not the image)
+			targetObject = [{hasSource:targetImage, hasSelector:{value:shape}}, {'@id':target}];
+		} else {
+			// Annotation on new selector, id will be generated server-side
+			targetObject = [{hasSource:target, hasSelector:{value:shape}}];
+		}
 	} else {
-		return this.findGenericTarget(tag);
+		// Annotation without fragment, on entire target image
+		targetObject = [{'@id':target}];
 	}
+
+	var targetString = JSON.stringify(targetObject);
+	var bodyString = JSON.stringify(body);
+
+	console.log("Saving the following ", "field: ", this.field, "hasTarget: ", targetString, "hasBody: ", bodyString, "label: ", label, "motivatedBy: ", motiv, "graph: ", graph);
+
+	$.ajax({type: "POST",
+			url: "api/annotation/add",
+			data: {
+				field:this.field,
+				hasTarget:targetString,
+				hasBody:bodyString,
+				label:label,
+			   	motivatedBy: motiv,
+				graph:graph
+			},
+			success: function(){
+				console.log("Saved annotation with graph: ", graph);
+				//Add label indicating in the UI what has been added
+				// $("#itemDivAnnotations").append(
+				// 	$.el.span({'id':'itemLblSelected' + id,
+				// 			   'class':"label label-danger"},
+				// 				label
+				// 				//Leave out the remove button for now
+				// 				//$.el.span({'class':"glyphicon glyphicon-remove", 'font-size':"1.5em"})
+				// 				//'onClick':removeAnnotation($('#itemLblSelected' + id))})
+				// 			),
+				// 	"&nbsp;"
+				// 	);
+			}
+	});
 }
 
-Field.prototype.findGenericTarget = function(tag) {
-	//TODO: might be moved in to Tag object
-	// Returns the generic target of a tag identified with key @id
-	var targets = tag.hasTarget;
-	var target = undefined;
-
-	// Return null if no target is known
-	if (!targets)
-		return null;
-	// Return targets array if key @id is present
-	if (targets['@id'])
-		return targets;
-	// Loop through targets till key @id is found
-	for (var t in targets) {
-		target = targets[t];
-		if (target['@id'])
-			return target;
-	}
-	return null;
-}
-
-Field.prototype.findSpecificTarget = function(tag) {
-	// Returns the specific fragmet target of a tag identified by a selector
-	var targets = tag.hasTarget;
-	var target = undefined;
-
-	if (!targets)
-		return null;
-	if (targets.hasSelector)
-		return targets;
-	for (var t in targets) {
-		target = targets[t];
-		if (target.hasSelector)
-			return target;
-	}
-	return null;
-}
 
 Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
@@ -93,51 +106,31 @@ Field.prototype.addDropdownListeners = function() {
 	// Eventlistener for selecting typeahead alternative
 	$(dropId).on('typeahead:select', function(event, annotation) {
 		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
-		// Submit the resource
-		_field.submitAnnotation(target, body, label, id);
+		_field.submitAnnotation(
+			_field.MOTIVATION.tagging,
+			_field.target,
+			{'@id':annotation.uri},
+			annotation.value
+		);
 		// Code for clearing query
 		//$('input.typeahead').typeahead('setQuery', '');
 	});
 
 	// Action upon pressing enter
 	$(dropId).on('keyup', function(event) {
-
 		if(event.which == 13) {
 			console.log(event);
 			var annotation = $(dropId).val();
+
 			console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
+			_field.submitAnnotation(
+				_field.MOTIVATION.tagging,
+				_field.target,
+				{'@value':annotation},
+				annotation
+			);
+			// Clear input
 		}
-	});
-}
-
-Field.prototype.submitAnnotation = function(target, body, label, id, graph) {
-	console.log("Should be submitting", target, body, label, id, graph);
-	if (!graph)
-		graph = target;
-
-	var targetJson = JSON.stringify([{'@id':target}]);
-	var bodyJson = JSON.stringify({'@id':body});
-	var field = "page type";
-
-	$.ajax({type: "POST",
-			url: "api/annotation/add",
-			data: {hasTarget:targetJson,
-				   hasBody:bodyJson,
-			   	   graph:graph,
-			   	   field:field},
-			success: function(){
-				//Add label indicating in the UI what has been added
-				// $("#itemDivAnnotations").append(
-				// 	$.el.span({'id':'itemLblSelected' + id,
-				// 			   'class':"label label-danger"},
-				// 				label
-				// 				//Leave out the remove button for now
-				// 				//$.el.span({'class':"glyphicon glyphicon-remove", 'font-size':"1.5em"})
-				// 				//'onClick':removeAnnotation($('#itemLblSelected' + id))})
-				// 			),
-				// 	"&nbsp;"
-				// 	);
-			}
 	});
 }
 
@@ -338,3 +331,53 @@ Field.prototype.dropdownField = function() {
 // 	}
 // 	return buttons;
 // }
+
+Field.prototype.findTarget = function(tag) {
+	//TODO: might be moved in to Tag object
+	// Return specific target of a tag or else generic target
+	var result = this.findSpecificTarget(tag);
+
+	if (result) {
+		return result;
+	} else {
+		return this.findGenericTarget(tag);
+	}
+}
+
+Field.prototype.findGenericTarget = function(tag) {
+	//TODO: might be moved in to Tag object
+	// Returns the generic target of a tag identified with key @id
+	var targets = tag.hasTarget;
+	var target = undefined;
+
+	// Return null if no target is known
+	if (!targets)
+		return null;
+	// Return targets array if key @id is present
+	if (targets['@id'])
+		return targets;
+	// Loop through targets till key @id is found
+	for (var t in targets) {
+		target = targets[t];
+		if (target['@id'])
+			return target;
+	}
+	return null;
+}
+
+Field.prototype.findSpecificTarget = function(tag) {
+	// Returns the specific fragmet target of a tag identified by a selector
+	var targets = tag.hasTarget;
+	var target = undefined;
+
+	if (!targets)
+		return null;
+	if (targets.hasSelector)
+		return targets;
+	for (var t in targets) {
+		target = targets[t];
+		if (target.hasSelector)
+			return target;
+	}
+	return null;
+}
