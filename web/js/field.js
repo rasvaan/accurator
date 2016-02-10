@@ -18,6 +18,7 @@ function Field(defenition, target, targetImage, user) {
 	this.targetImage = null; // URI of target's image to be annotated
 	this.user = user; // URI of the user currently annotating
 	this._anno = anno; // Jacco hack to get to annotourious
+	this.annotations = []; // Array of annotations related to this target and field
 	this.MOTIVATION = {
 		tagging:    'http://www.w3.org/ns/oa#tagging',
 		commenting: 'http://www.w3.org/ns/oa#commenting',
@@ -32,6 +33,7 @@ function Field(defenition, target, targetImage, user) {
 }
 
 Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
+	var _field = this; //make sure we can use this Field in $ scope
 	if (!target) return; // annotation target is required
 	if (!body) return; // annotation in the form of text or resource is required
 	if (!label && body['@value']) label = body['@value']; // set label to value in body if not sepperately defined
@@ -72,8 +74,11 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 			},
 			success: function(){
 				console.log("Saved annotation with graph: ", graph);
-				//Add label indicating in the UI what has been added
-				// $("#itemDivAnnotations").append(
+				//Add annotation to list of annotations
+				_field.addAnnotation({label:label});
+				_field.renderAnnotations();
+
+				//$("#itemDivAnnotations").append(
 				// 	$.el.span({'id':'itemLblSelected' + id,
 				// 			   'class':"label label-danger"},
 				// 				label
@@ -87,6 +92,32 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 	});
 }
 
+Field.prototype.addAnnotation = function(annotation) {
+	// Add annotation to list of annotations
+	// For know annotation object consists of label
+	this.annotations.unshift(annotation.label);
+}
+
+Field.prototype.renderAnnotations = function() {
+	// Render the annotations related to this field
+	for (var annotation in this.annotations) {
+		var label = truncate(this.annotations[annotation], 7);
+		// Add annotation in div below field
+		$("#itemDiv" + this.id + "Annotations").append(
+			$.el.span({
+				//TODO: get proper id for annotation
+				'id':'itemLbl' + label,
+				'class':'label label-default'},
+				label
+			)
+		);
+
+		// Add event to label
+		$("#itemLbl" + label).on("click", function(){
+			console.log("label clicked");
+		});
+	}
+}
 
 Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
@@ -202,7 +233,8 @@ Field.prototype.addTypeAhead = function(alternatives) {
 }
 
 Field.prototype.dropdownField = function() {
-	return	$.el.div({'class':'form-group'},
+	// Return the form group and a list for the annotations
+	return	[$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':'itemInp' + this.id,
 							'id':'itemLbl' + this.id},
@@ -210,8 +242,8 @@ Field.prototype.dropdownField = function() {
 				$.el.input({'type':'text',
 							'class':'form-control typeahead',
 							'id':'itemInp' + this.id,
-							'placeholder':this.comment})
-	);
+							'placeholder':this.comment})),
+			$.el.div({'id':'itemDiv' + this.id + 'Annotations'})];
 }
 
 
