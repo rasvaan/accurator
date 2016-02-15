@@ -19,6 +19,7 @@ function Field(defenition, target, targetImage, user) {
 	this.user = user; // URI of the user currently annotating
 	this._anno = anno; // Jacco hack to get to annotourious
 	this.annotations = []; // Array of annotations related to this target and field
+	this.showAnnotations = false; // Boolean indicating whether previous annotations should be shown
 	this.MOTIVATION = {
 		tagging:    'http://www.w3.org/ns/oa#tagging',
 		commenting: 'http://www.w3.org/ns/oa#commenting',
@@ -80,16 +81,8 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 	});
 }
 
-Field.prototype.getAnnotationsPromise = function() {
-	console.log("get annotations");
-	// Return promise
-	return $.getJSON("api/annotation/get",
-		{field:this.field,
-		hasTarget:this.target});
-}
-
 Field.prototype.addAnnotation = function(label, id) {
-	console.log("Adding annotation to arrary: ", label, id);
+	// console.log("Adding annotation to arrary: ", label, id);
 	// Add annotation to list of annotations
 	// For know annotation is a string (boring)
 	this.annotations.unshift({label:label, id:id});
@@ -128,13 +121,23 @@ Field.prototype.initDropdown = function() {
 		_field.addDropdownListeners();
 	});
 
-	this.getAnnotationsPromise()
-	.then(function(data){
+	if(this.showAnnotations) this.getAnnotations();
+}
+
+Field.prototype.getAnnotations = function() {
+	var _field = this; //make sure we can use this Field in $ scope
+	var annotationPromise =
+		$.getJSON("api/annotation/get",
+			{field:this.field,
+			hasTarget:this.target});
+
+	annotationPromise.then(function(data){
 		// Get the annotations from the returned data
 		var annotations = data[_field.field].annotations;
 		for (key in annotations) {
 			var label = annotations[key].title;
 			var id = generateIdFromUri(annotations[key]['@id']);
+			// Don't render annotations for now
 			_field.addAnnotation(label, id);
 		}
 		_field.renderAnnotations();
@@ -155,23 +158,28 @@ Field.prototype.addDropdownListeners = function() {
 			annotation.value
 		);
 		// Code for clearing query
-		//$('input.typeahead').typeahead('setQuery', '');
+		// $(dropId).typeahead('setQuery', '');
 	});
 
 	// Action upon pressing enter
 	$(dropId).on('keyup', function(event) {
-		if(event.which == 13) {
-			console.log(event);
+		if (event.which == 13) {
+			// Get the text which is actually entered
+			var entered = $(dropId).siblings("pre").text();
 			var annotation = $(dropId).val();
 
-			console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
-			_field.submitAnnotation(
-				_field.MOTIVATION.tagging,
-				_field.target,
-				{'@value':annotation},
-				annotation
-			);
-			// Clear input
+			// Nasty corner case: if someone types exactly the typeahead and presses down and enter
+			// If entered does not match the value, it means autocomplete is used to select something, so literal should not be saved
+			if (entered == annotation) {
+				console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
+				_field.submitAnnotation(
+					_field.MOTIVATION.tagging,
+					_field.target,
+					{'@value':annotation},
+					annotation
+				);
+				// Clear input
+			}
 		}
 	});
 }
