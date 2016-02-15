@@ -137,7 +137,6 @@ Field.prototype.getAnnotations = function() {
 		for (key in annotations) {
 			var label = annotations[key].title;
 			var id = generateIdFromUri(annotations[key]['@id']);
-			// Don't render annotations for now
 			_field.addAnnotation(label, id);
 		}
 		_field.renderAnnotations();
@@ -150,6 +149,9 @@ Field.prototype.addDropdownListeners = function() {
 
 	// Eventlistener for selecting typeahead alternative
 	$(dropId).on('typeahead:select', function(event, annotation) {
+		// Code for clearing query
+		$(dropId).typeahead('val', '');
+
 		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
 		_field.submitAnnotation(
 			_field.MOTIVATION.tagging,
@@ -157,29 +159,23 @@ Field.prototype.addDropdownListeners = function() {
 			{'@id':annotation.uri},
 			annotation.value
 		);
-		// Code for clearing query
-		// $(dropId).typeahead('setQuery', '');
 	});
 
 	// Action upon pressing enter
 	$(dropId).on('keyup', function(event) {
-		if (event.which == 13) {
-			// Get the text which is actually entered
-			var entered = $(dropId).siblings("pre").text();
+		// Check to see if typeahead cleared the field (so autocomplete was used)
+		if ($(dropId).val() && event.which == 13) {
 			var annotation = $(dropId).val();
 
-			// Nasty corner case: if someone types exactly the typeahead and presses down and enter
-			// If entered does not match the value, it means autocomplete is used to select something, so literal should not be saved
-			if (entered == annotation) {
-				console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
-				_field.submitAnnotation(
-					_field.MOTIVATION.tagging,
-					_field.target,
-					{'@value':annotation},
-					annotation
-				);
-				// Clear input
-			}
+			console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
+			_field.submitAnnotation(
+				_field.MOTIVATION.tagging,
+				_field.target,
+				{'@value':annotation},
+				annotation
+			);
+			// Clear input
+			$(dropId).typeahead('val', '');
 		}
 	});
 }
