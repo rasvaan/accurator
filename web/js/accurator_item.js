@@ -30,6 +30,8 @@ function itemInit() {
 			ui = domainData.ui + "item";
 			annotation_ui = domainData.annotation_ui;
 
+			// Add image and then load anotorious
+			imagePromise().then(function(metadata){addAnotorious(metadata)});
 			maybeRunExperiment();
 			populateUI();
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
@@ -41,12 +43,27 @@ function itemInit() {
 	logUserIn(onLoggedIn, onDismissal);
 }
 
+function imagePromise() {
+	// Return an a promise
+	return $.getJSON("metadata", {uri:uri})
+	.done(function(metadata){
+		// Set id image
+		var id = "itemImg" + generateIdFromUri(uri);
+
+		$(".itemImg").attr("id", id);
+		// Set location image
+		$(".itemImg").attr("src", metadata.image);
+		// Return info for anotorious
+		return metadata;
+	});
+}
+
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
 	.done(function(labels){
 		document.title = labels.title;
 		initLabels(labels);
-		initImage();
+
 		// Only show path when cluster is available TODO: remove ugly check for undefined
 		if((localStorage.getItem("currentCluster") !== null) && (localStorage.getItem("currentCluster") !== "undefined") && !(experiment === "random"))
 			addPath();
@@ -66,20 +83,6 @@ function initLabels(data) {
 	vntFirstText = data.vntFirstText;
 	// Add next to optional experiment navigation
 	$("#itemBtnExperimentNext").prepend(data.itemBtnNext);
-}
-
-function initImage() {
-	$.getJSON("metadata", {uri:uri})
-	.done(function(metadata){
-		// Set id image
-		var id = "itemImg" + generateIdFromUri(uri);
-		$(".itemImg").attr("id", id);
-		// Set location image
-		$(".itemImg").attr("src", metadata.image);
-
-		// Add annotation fields for image
-		annotationFields(id, metadata.image_uri);
-	});
 }
 
 function events() {
@@ -141,7 +144,10 @@ function addNavigationButtonEvents() {
 	}
 }
 
-function annotationFields(imageId, targetImage) {
+function addAnotorious(metadata) {
+	console.log("metadata:", metadata);
+	var imageId = "itemImg" + generateIdFromUri(uri);
+
 	// Retrieve the fields that should be added (based on save_user_info)
 	$.getJSON("annotation_fields",
 			  {locale:locale,
@@ -161,13 +167,17 @@ function annotationFields(imageId, targetImage) {
 			var field = new Field(
 				fields.fragment_fields[i],
 				uri,
-				targetImage,
+				metadata.image_uri,
 				user
 			);
 			$("#itemDivAnnotoriousFields").append(field.node);
 		}
+
 		// annotorious fields are added in deniche init
 		anno.addPlugin("DenichePlugin", {});
+		// Make the image annotateable
+		console.log("Image:", document.getElementById(imageId));
+		anno.makeAnnotatable(document.getElementById(imageId));
 	});
 }
 
