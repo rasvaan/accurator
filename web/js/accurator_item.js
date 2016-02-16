@@ -53,6 +53,7 @@ function imagePromise() {
 		$(".itemImg").attr("id", id);
 		// Set location image
 		$(".itemImg").attr("src", metadata.image);
+
 		// Return info for anotorious
 		return metadata;
 	});
@@ -172,12 +173,10 @@ function addAnotorious(metadata) {
 			);
 			$("#itemDivAnnotoriousFields").append(field.node);
 		}
-
+		// Set fields attribute for annotorious deniche
+		$(".itemImg").attr("fields", "itemDivAnnotoriousFields");
 		// annotorious fields are added in deniche init
 		anno.addPlugin("DenichePlugin", {});
-		// Make the image annotateable
-		console.log("Image:", document.getElementById(imageId));
-		anno.makeAnnotatable(document.getElementById(imageId));
 	});
 }
 

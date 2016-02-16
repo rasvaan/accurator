@@ -2,7 +2,9 @@
 			  get_title/2,
 			  uri_label/2,
 			  get_elements/3,
-			  metadata/3
+			  metadata/3,
+			  image_url/2,
+			  thumbnail_url/2
 		  ]).
 
 /** <module> Accurator UI elements
