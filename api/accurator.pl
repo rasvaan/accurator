@@ -463,9 +463,7 @@ html({|html(ImageUrl)||
 </div>
 
 <!-- Annotorious Annotation field(s) -->
-<div class="itemDivHidden">
-	<div id="itemDivAnnotoriousFields"></div>
-</div>
+<div class="itemDivHidden"></div>
 
 <!-- Added Script -->
 <script type="text/javascript" src="js/accurator.jquery.min.js"></script>
