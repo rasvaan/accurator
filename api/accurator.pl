@@ -477,6 +477,7 @@ html({|html(ImageUrl)||
 <script type="text/javascript" src="js/deniche-plugin.js"></script>
 <script type="text/javascript" src="js/search.js"></script>
 <script type="text/javascript" src="js/accurator_utilities.js"></script>
+<script type="text/javascript" src="js/annotations.js"></script>
 <script type="text/javascript" src="js/field.js"></script>
 <script type="text/javascript" src="js/accurator_item.js"></script>
 <script>itemInit()</script>

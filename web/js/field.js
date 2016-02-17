@@ -18,8 +18,8 @@ function Field(defenition, target, targetImage, user) {
 	this.targetImage = null; // URI of target's image to be annotated
 	this.user = user; // URI of the user currently annotating
 	this._anno = anno; // Jacco hack to get to annotourious
-	this.annotations = []; // Array of annotations related to this target and field
-	this.showAnnotations = false; // Boolean indicating whether previous annotations should be shown
+	this.annotationList = null; // Array of annotations related to this target and field
+	this.showAnnotations = true; // Boolean indicating whether previous annotations should be shown
 	this.MOTIVATION = {
 		tagging:    'http://www.w3.org/ns/oa#tagging',
 		commenting: 'http://www.w3.org/ns/oa#commenting',
@@ -31,6 +31,19 @@ function Field(defenition, target, targetImage, user) {
 			this.initDropdown();
 			break;
 	}
+}
+
+Field.prototype.initDropdown = function() {
+	var _field = this; //make sure we can use this Field in $ scope
+
+	this.node = this.dropdownField();
+	this.getAllAlternatives()
+	.then(function(alternatives){
+		_field.addTypeAhead(alternatives);
+		_field.addDropdownListeners();
+	});
+
+	if(this.showAnnotations) this.getAnnotations();
 }
 
 Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
@@ -73,73 +86,32 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 			   	motivatedBy: motiv,
 				graph:graph
 			},
-			success: function(){
+			success: function(data) {
 				//Add annotation to list of annotations
-				_field.addAnnotation(label);
-				_field.renderAnnotations();
+				_field.annotationList.add(data.annotation);
+				_field.annotationList.render();
 			}
 	});
 }
 
-Field.prototype.addAnnotation = function(label, id) {
-	// console.log("Adding annotation to arrary: ", label, id);
-	// Add annotation to list of annotations
-	// For know annotation is a string (boring)
-	this.annotations.unshift({label:label, id:id});
-}
-
-Field.prototype.renderAnnotations = function() {
-	// Render the annotations related to this field
-	for (var key in this.annotations) {
-		var label = truncate(this.annotations[key].label, 7);
-		var id = this.annotations[key].id;
-
-		// Add annotation in div below field
-		$("#itemDiv" + this.id + "Annotations").append(
-			$.el.span({
-				//TODO: get proper id for annotation
-				'id':'itemLbl' + id,
-				'class':'label label-default'},
-				label
-			)
-		);
-
-		// Add event to label
-		$("#itemLbl" + id).on("click", function(){
-			console.log("clicked");
-		});
-	}
-}
-
-Field.prototype.initDropdown = function() {
-	var _field = this; //make sure we can use this Field in $ scope
-
-	this.node = this.dropdownField();
-	this.getAllAlternatives()
-	.then(function(alternatives){
-		_field.addTypeAhead(alternatives);
-		_field.addDropdownListeners();
-	});
-
-	if(this.showAnnotations) this.getAnnotations();
-}
-
 Field.prototype.getAnnotations = function() {
 	var _field = this; //make sure we can use this Field in $ scope
+	_field.annotationList = new AnnotationList('itemDiv' + _field.id + 'Annotations');
 	var annotationPromise =
-		$.getJSON("api/annotation/get",
-			{field:this.field,
-			hasTarget:this.target});
+		$.getJSON("api/annotation/get", {field:this.field, hasTarget:this.target});
 
 	annotationPromise.then(function(data){
+		console.log("Got the follpwing annotations: ", data);
 		// Get the annotations from the returned data
 		var annotations = data[_field.field].annotations;
 		for (key in annotations) {
-			var label = annotations[key].title;
-			var id = generateIdFromUri(annotations[key]['@id']);
-			_field.addAnnotation(label, id);
+			_field.annotationList.add(annotations[key]);
 		}
-		_field.renderAnnotations();
+		console.log("id: ", '#itemDiv' + _field.id);
+		console.log("Field: ", $('#itemDiv' + _field.id));
+
+		$(_field.annotationList.node).insertAfter($('#itemDiv' + _field.id));
+		_field.annotationList.render();
 	});
 }
 
@@ -249,7 +221,7 @@ Field.prototype.addTypeAhead = function(alternatives) {
 
 Field.prototype.dropdownField = function() {
 	// Return the form group and a list for the annotations
-	return	[$.el.div({'class':'form-group'},
+	return	$.el.div({'class':'form-group', 'id':'itemDiv' + this.id},
 				$.el.label({'class':'itemLbl',
 							'for':'itemInp' + this.id,
 							'id':'itemLbl' + this.id},
@@ -257,8 +229,7 @@ Field.prototype.dropdownField = function() {
 				$.el.input({'type':'text',
 							'class':'form-control typeahead',
 							'id':'itemInp' + this.id,
-							'placeholder':this.comment})),
-			$.el.div({'id':'itemDiv' + this.id + 'Annotations'})];
+							'placeholder':this.comment}));
 }
 
 
