@@ -1,25 +1,27 @@
 /*******************************************************************************
 Field
-Class of annotation fields. Fields can be of different types, such as dropdown,
-radiobuttons and textfields. Part of the code comes from annotate.js written by
+Class of annotation fields. Fields are bound to a specific image and annotorious
+instance. Most of the code comes from annotate.js written by
 Jacco van Ossenbruggen
 *******************************************************************************/
-
-function Field(defenition, target, targetImage, user) {
+function Field(defenition, context) {
+	this.id = context.id; // id of the field useable by jquery
+	this.imageId = context.imageId; // Id of the corresponding img element
+	this.fieldsId = context.fieldsId;
 	this.field = defenition.uri; // URI identifying annotation field
 	this.type = defenition.type; // type of input field (e.g. dropdown or radiobutton)
 	this.label = defenition.label; // name of the field
 	this.comment = defenition.comment; // short description of the field
 	this.source = defenition.source; // source of the alternatives shown
-	this.id = generateIdFromUri(defenition.uri); // id of the field useable by jquery
+	this.target = context.target; // URI of target to be annotated
+	this.targetImage = context.targetImage; // URI of target's image to be annotated
+	this.user = context.user; // URI of the user currently annotating
+	this._anno = anno; // Jacco hack to get to annotourious
 	this.node = null; // html node representing the field
 	this.alternatives = null; // list of alternatives for dropdown
-	this.target = target; // URI of target to be annotated
-	this.targetImage = null; // URI of target's image to be annotated
-	this.user = user; // URI of the user currently annotating
-	this._anno = anno; // Jacco hack to get to annotourious
 	this.annotationList = null; // Array of annotations related to this target and field
 	this.showAnnotations = true; // Boolean indicating whether previous annotations should be shown
+
 	this.MOTIVATION = {
 		tagging:    'http://www.w3.org/ns/oa#tagging',
 		commenting: 'http://www.w3.org/ns/oa#commenting',
@@ -35,15 +37,16 @@ function Field(defenition, target, targetImage, user) {
 
 Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-
+	this.annotationList = new AnnotationList('itemDiv' + _field.id + 'Annotations');
 	this.node = this.dropdownField();
+	// Get already existing annotations for field
+	if(this.showAnnotations) this.getAnnotations();
+
 	this.getAllAlternatives()
 	.then(function(alternatives){
 		_field.addTypeAhead(alternatives);
 		_field.addDropdownListeners();
 	});
-
-	if(this.showAnnotations) this.getAnnotations();
 }
 
 Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
@@ -96,7 +99,6 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 
 Field.prototype.getAnnotations = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	_field.annotationList = new AnnotationList('itemDiv' + _field.id + 'Annotations');
 	var annotationPromise =
 		$.getJSON("api/annotation/get", {field:this.field, hasTarget:this.target});
 
@@ -104,17 +106,85 @@ Field.prototype.getAnnotations = function() {
 		console.log("Got the follpwing annotations: ", data);
 		// Get the annotations from the returned data
 		var annotations = data[_field.field].annotations;
+		var length = annotations.length;
+
 		for (key in annotations) {
 			_field.annotationList.add(annotations[key]);
+			_field.addAnnotationFragment(annotations[key], true);
 		}
-		console.log("id: ", '#itemDiv' + _field.id);
-		console.log("Field: ", $('#itemDiv' + _field.id));
-
-		$(_field.annotationList.node).insertAfter($('#itemDiv' + _field.id));
-		_field.annotationList.render();
 	});
 }
 
+Field.prototype.addAnnotationFragment = function(annotation, update) {
+	var target = this.findSpecificTarget(annotation);
+	if (!this._anno || !target) return;
+
+	var label = annotation.title;
+	var x = target.hasSelector.x;
+	var y = target.hasSelector.y;
+	var w = target.hasSelector.w;
+	var h = target.hasSelector.h;
+	var torious = {
+		src: $("#" + this.imageId).attr("src"),
+		text: label,
+		targetId: target['@id'],
+		fieldsId: this.fieldsId,
+		annotationId: annotation.annotation,
+		shapes: [{
+			type:'rect',
+			geometry: { x:x,y:y,width:w,height:h }
+		}]
+	};
+	this._anno._deniche.addAnnotation(torious, update);
+}
+
+Field.prototype.findSpecificTarget = function(tag) {
+	// Returns the specific fragmet target of a tag identified by a selector
+	var targets = tag.hasTarget;
+	var target = undefined;
+
+	if (!targets)
+		return null;
+	if (targets.hasSelector)
+		return targets;
+	for (var t in targets) {
+		target = targets[t];
+		if (target.hasSelector)
+			return target;
+	}
+	return null;
+}
+
+Field.prototype.findTarget = function(tag) {
+	// Return specific target of a tag or else generic target
+	var result = this.findSpecificTarget(tag);
+
+	if (result) {
+		return result;
+	} else {
+		return this.findGenericTarget(tag);
+	}
+}
+
+Field.prototype.findGenericTarget = function(tag) {
+	// Returns the generic target of a tag identified with key @id
+	var targets = tag.hasTarget;
+	var target = undefined;
+
+	// Return null if no target is known
+	if (!targets)
+		return null;
+	// Return targets array if key @id is present
+	if (targets['@id'])
+		return targets;
+	// Loop through targets till key @id is found
+	for (var t in targets) {
+		target = targets[t];
+		if (target['@id'])
+			return target;
+	}
+	return null;
+}
 Field.prototype.addDropdownListeners = function() {
 	var _field = this; //make sure we can use this Field in $ scope
 	var dropId = '#itemInp' + this.id;
@@ -349,53 +419,3 @@ Field.prototype.dropdownField = function() {
 // 	}
 // 	return buttons;
 // }
-
-Field.prototype.findTarget = function(tag) {
-	//TODO: might be moved in to Tag object
-	// Return specific target of a tag or else generic target
-	var result = this.findSpecificTarget(tag);
-
-	if (result) {
-		return result;
-	} else {
-		return this.findGenericTarget(tag);
-	}
-}
-
-Field.prototype.findGenericTarget = function(tag) {
-	//TODO: might be moved in to Tag object
-	// Returns the generic target of a tag identified with key @id
-	var targets = tag.hasTarget;
-	var target = undefined;
-
-	// Return null if no target is known
-	if (!targets)
-		return null;
-	// Return targets array if key @id is present
-	if (targets['@id'])
-		return targets;
-	// Loop through targets till key @id is found
-	for (var t in targets) {
-		target = targets[t];
-		if (target['@id'])
-			return target;
-	}
-	return null;
-}
-
-Field.prototype.findSpecificTarget = function(tag) {
-	// Returns the specific fragmet target of a tag identified by a selector
-	var targets = tag.hasTarget;
-	var target = undefined;
-
-	if (!targets)
-		return null;
-	if (targets.hasSelector)
-		return targets;
-	for (var t in targets) {
-		target = targets[t];
-		if (target.hasSelector)
-			return target;
-	}
-	return null;
-}
