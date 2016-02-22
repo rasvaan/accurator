@@ -5,14 +5,18 @@ Code for handling the adding and removing of tags, with two main objects:
 	* Tag
 *******************************************************************************/
 function AnnotationList(id) {
-	this.id = id; // Id of the html dom element
+	console.log("1.3.2.1 AnnotationList, construct with id: ", id);
+	this.id = id; // JQuery Id of the html dom element
+	this.divId = "itemDiv" + id; // Id of annotation container
 	this.annotations = []; // Array containing the annotations
-	this.node = $.el.div({'id':id}) // Html dom element
+	this.node = $.el.div({'id':this.divId}) // Html dom element
 }
 
 AnnotationList.prototype.add = function(annotation) {
+	console.log("1.3.4.1.1 add, add annotation ", annotation);
 	// Add annotation to the list
 	this.annotations.unshift(annotation);
+	console.log("1.3.4.1.2 add, render annotation (should be a listener instead?) ");
 	this.render();
 }
 
@@ -29,8 +33,10 @@ AnnotationList.prototype.remove = function(annotation) {
 }
 
 AnnotationList.prototype.render = function() {
-	// Empty the field before showing all annotations	
-	$('#' + this.id).empty();
+	console.log("1.3.4.1.2.1 render, empty the field " + this.id);
+	// Empty the field before showing all annotations
+	$(this.id).empty();
+	console.log("1.3.4.1.2.2 render, Iterate through the annotations: ", this.annotations);
 	// Render the annotations related to this field
 	for (var key in this.annotations) {
 		var label = truncate(this.annotations[key].title, 7);
@@ -41,7 +47,7 @@ AnnotationList.prototype.render = function() {
 			$.el.span({
 				//TODO: get proper id for annotation
 				'id':'itemLbl' + id,
-				'class':'label label-default'},
+				'class':'label label-default LblAnnotation'},
 				label
 			)
 		);

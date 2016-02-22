@@ -5,9 +5,13 @@ instance. Most of the code comes from annotate.js written by
 Jacco van Ossenbruggen
 *******************************************************************************/
 function Field(defenition, context) {
-	this.id = context.id; // id of the field useable by jquery
+	console.log("1.3.1 Field, Construct with defenition: ", defenition, " and context ", context);
+	this.id = context.id; // id of field serving as a basis for jquery identifiers
+	this.inputId = "itemInp" + context.id; // Id of input
+	this.divId = "itemDiv" + context.id; // Id of form group
 	this.imageId = context.imageId; // Id of the corresponding img element
-	this.fieldsId = context.fieldsId;
+	this.fieldsId = context.fieldsId;  // id of the corresponding fields container
+	this.annotationsId = context.annotationsId; // id of the container for annotations
 	this.field = defenition.uri; // URI identifying annotation field
 	this.type = defenition.type; // type of input field (e.g. dropdown or radiobutton)
 	this.label = defenition.label; // name of the field
@@ -37,11 +41,20 @@ function Field(defenition, context) {
 
 Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	this.annotationList = new AnnotationList('itemDiv' + _field.id + 'Annotations');
+	console.log("1.3.2 InitDropdown, create dom annotation list for field ", this.annotationsId);
+	this.annotationList = new AnnotationList(this.id + "Annotations");
+	console.log("1.3.3 InitDropdown, generate dom node");
 	this.node = this.dropdownField();
-	// Get already existing annotations for field
-	if(this.showAnnotations) this.getAnnotations();
 
+	// Get already existing annotations for field
+	if(this.showAnnotations) {
+		console.log("1.3.4 InitDropdown, Add annotation dom element after this element " + this.divId);
+		$("#" + this.divId).append("<p>bla</p>");
+		console.log("1.3.4 InitDropdown, Get already existing annotations for field ", this.field, " and target ", this.target);
+		this.getAnnotations();
+	}
+
+	console.log("1.3.6 InitDropdown, Get dropdown alternatives");
 	this.getAllAlternatives()
 	.then(function(alternatives){
 		_field.addTypeAhead(alternatives);
@@ -103,11 +116,11 @@ Field.prototype.getAnnotations = function() {
 		$.getJSON("api/annotation/get", {field:this.field, hasTarget:this.target});
 
 	annotationPromise.then(function(data){
-		console.log("Got the follpwing annotations: ", data);
 		// Get the annotations from the returned data
 		var annotations = data[_field.field].annotations;
 		var length = annotations.length;
 
+		console.log("1.3.4.1 getAnnotations, iterate through annotations ", annotations);
 		for (key in annotations) {
 			_field.annotationList.add(annotations[key]);
 			_field.addAnnotationFragment(annotations[key], true);
@@ -116,6 +129,7 @@ Field.prototype.getAnnotations = function() {
 }
 
 Field.prototype.addAnnotationFragment = function(annotation, update) {
+	console.log("1.3.4.1.2 addAnnotationFragment, reconstruction annotatoin update: ", update);
 	var target = this.findSpecificTarget(annotation);
 	if (!this._anno || !target) return;
 
@@ -135,6 +149,7 @@ Field.prototype.addAnnotationFragment = function(annotation, update) {
 			geometry: { x:x,y:y,width:w,height:h }
 		}]
 	};
+	console.log("1.3.4.1.3 addAnnotationFragment, add annotation as fragment with info: ", torious);
 	this._anno._deniche.addAnnotation(torious, update);
 }
 
@@ -187,12 +202,12 @@ Field.prototype.findGenericTarget = function(tag) {
 }
 Field.prototype.addDropdownListeners = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	var dropId = '#itemInp' + this.id;
+	var selector = "#" + this.inputId;
 
 	// Eventlistener for selecting typeahead alternative
-	$(dropId).on('typeahead:select', function(event, annotation) {
+	$(selector).on('typeahead:select', function(event, annotation) {
 		// Code for clearing query
-		$(dropId).typeahead('val', '');
+		$(selector).typeahead('val', '');
 
 		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
 		_field.submitAnnotation(
@@ -204,10 +219,10 @@ Field.prototype.addDropdownListeners = function() {
 	});
 
 	// Action upon pressing enter
-	$(dropId).on('keyup', function(event) {
+	$(selector).on('keyup', function(event) {
 		// Check to see if typeahead cleared the field (so autocomplete was used)
-		if ($(dropId).val() && event.which == 13) {
-			var annotation = $(dropId).val();
+		if ($(selector).val() && event.which == 13) {
+			var annotation = $(selector).val();
 
 			console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
 			_field.submitAnnotation(
@@ -217,7 +232,7 @@ Field.prototype.addDropdownListeners = function() {
 				annotation
 			);
 			// Clear input
-			$(dropId).typeahead('val', '');
+			$(selector).typeahead('val', '');
 		}
 	});
 }
@@ -252,8 +267,6 @@ Field.prototype.getAlternatives = function(string) {
 
 Field.prototype.addTypeAhead = function(alternatives) {
 	this.alternatives = alternatives;
-	var dropId = '#itemInp' + this.id;
-	var _field = this; //make sure we can use this Field in $ scope
 	var array = [];
 
 	// Prep the data for adding it to the suggestion engine
@@ -264,6 +277,7 @@ Field.prototype.addTypeAhead = function(alternatives) {
 		};
 	}
 
+	console.log("1.3.6.1 addTypeAhead, setup bloodhound with first alternative ", array[0]);
 	// Constructs the suggestion engine
 	var bloodHoundAlternatives = new Bloodhound({
 		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -276,8 +290,9 @@ Field.prototype.addTypeAhead = function(alternatives) {
 		return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
 	}
 
+	console.log("1.3.6.2 addTypeAhead, add typeahead to id ", this.inputId);
 	// Select the input field and add typeahead
-	$(dropId).typeahead({hint: true,
+	$("#" + this.inputId).typeahead({hint: true,
 						 highlight: true,
 						 minLength: 1},
 			   			{name:'alternatives',
@@ -290,15 +305,14 @@ Field.prototype.addTypeAhead = function(alternatives) {
 }
 
 Field.prototype.dropdownField = function() {
-	// Return the form group and a list for the annotations
-	return	$.el.div({'class':'form-group', 'id':'itemDiv' + this.id},
+	// Return the form group
+	return	$.el.div({'class':'form-group', 'id':this.divId},
 				$.el.label({'class':'itemLbl',
-							'for':'itemInp' + this.id,
-							'id':'itemLbl' + this.id},
+							'for':this.inputId},
 						   this.label),
 				$.el.input({'type':'text',
 							'class':'form-control typeahead',
-							'id':'itemInp' + this.id,
+							'id':this.inputId,
 							'placeholder':this.comment}));
 }
 
