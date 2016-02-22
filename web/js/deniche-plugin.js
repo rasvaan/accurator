@@ -135,7 +135,7 @@ annotorious.plugin.DenichePlugin.prototype.onFragmentCancel = function(ev) {
 
 annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation, update) {
 	var old = this._dirtytag;
-	console.log("1.3.4.1.3.1 addAnnotation, Deniche add annotation, possible old tag ", old);
+	console.log("1.3.4.1.3.1 addAnnotation, Deniche add annotation: ", annotation, " possible old tag ", old);
 	if (!old) old = this._cleantags[ annotation.targetId ];
 	if (old) {
 		// extend new annotation by merging in old one
@@ -147,7 +147,7 @@ annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation,
 	}
 
 	if (update) {
-		console.log("1.3.4.1.3.2 addAnnotation, add annotation to clean tags.");
+		console.log("1.3.4.1.3.2 CHECKERDIECKECK addAnnotation, add annotation to clean tags", annotation);
 		this._cleantags[annotation.targetId] = annotation;
 		this._anno.addAnnotation(annotation, old);
 	} else {

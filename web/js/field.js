@@ -41,16 +41,16 @@ function Field(defenition, context) {
 
 Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	console.log("1.3.2 InitDropdown, create dom annotation list for field ", this.annotationsId);
-	this.annotationList = new AnnotationList(this.id + "Annotations");
-	console.log("1.3.3 InitDropdown, generate dom node");
+	console.log("1.3.2 InitDropdown, generate dom node");
 	this.node = this.dropdownField();
 
 	// Get already existing annotations for field
 	if(this.showAnnotations) {
+		console.log("1.3.3 InitDropdown, create dom annotation list for field ", this.annotationsId);
+		this.annotationList = new AnnotationList(this.id + "Annotations");
 		console.log("1.3.4 InitDropdown, Add annotation dom element after this element " + this.divId);
-		$("#" + this.divId).append("<p>bla</p>");
-		console.log("1.3.4 InitDropdown, Get already existing annotations for field ", this.field, " and target ", this.target);
+		$(this.node).append(this.annotationList.node);
+		console.log("1.3.5 InitDropdown, Get already existing annotations for field ", this.field, " and target ", this.target);
 		this.getAnnotations();
 	}
 
