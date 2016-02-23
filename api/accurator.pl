@@ -414,13 +414,8 @@ html({|html(ImageUrl)||
 	</div>
 
 	<!-- Annotation field(s) -->
-	<div class="row" id="itemDivAnnotationFields">
-		<div class="col-md-6">
-			<form class="form-inline" id="itemFrmAnnotationFields">
-			</form>
-		</div>
-		<div class="col-md-6" id="itemDivAnnotations">
-		</div>
+	<div class="row">
+		<div class="col-md-6" id="itemDivAnnotationFields"></div>
 	</div>
 
 	<!-- Metadata -->

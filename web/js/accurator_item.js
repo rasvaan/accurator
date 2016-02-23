@@ -157,9 +157,20 @@ function addAnotorious(metadata) {
 		console.log("1.1 addAnotorious, iterate through whole fields:", fields.whole_fields);
 		// Add fields whole image
 		for (var i=0; i<fields.whole_fields.length; i++) {
-			// $("#itemFrmAnnotationFields").append(
-			// 	annotationField(fields.whole_fields[i])
-			// );
+			var fieldDef = fields.whole_fields[i];
+
+			// Create new field object
+			var field = new Field(
+				fieldDef,
+				{	id:generateIdFromUri(fieldDef.uri),
+					target:uri,
+				 	targetImage:metadata.image_uri,
+					user:user,
+			 	 	imageId:page.imageId,
+					fieldsId:page.fieldContainerId
+			 	}
+			);
+			$("#itemDivAnnotationFields").append(field.node);
 		}
 
 		console.log("1.2 addAnotorious, create dom container for fragment fields with id:", page.fieldContainerId);
