@@ -153,53 +153,6 @@ Field.prototype.addAnnotationFragment = function(annotation, update) {
 	this._anno._deniche.addAnnotation(torious, update);
 }
 
-Field.prototype.findSpecificTarget = function(tag) {
-	// Returns the specific fragmet target of a tag identified by a selector
-	var targets = tag.hasTarget;
-	var target = undefined;
-
-	if (!targets)
-		return null;
-	if (targets.hasSelector)
-		return targets;
-	for (var t in targets) {
-		target = targets[t];
-		if (target.hasSelector)
-			return target;
-	}
-	return null;
-}
-
-Field.prototype.findTarget = function(tag) {
-	// Return specific target of a tag or else generic target
-	var result = this.findSpecificTarget(tag);
-
-	if (result) {
-		return result;
-	} else {
-		return this.findGenericTarget(tag);
-	}
-}
-
-Field.prototype.findGenericTarget = function(tag) {
-	// Returns the generic target of a tag identified with key @id
-	var targets = tag.hasTarget;
-	var target = undefined;
-
-	// Return null if no target is known
-	if (!targets)
-		return null;
-	// Return targets array if key @id is present
-	if (targets['@id'])
-		return targets;
-	// Loop through targets till key @id is found
-	for (var t in targets) {
-		target = targets[t];
-		if (target['@id'])
-			return target;
-	}
-	return null;
-}
 Field.prototype.addDropdownListeners = function() {
 	var _field = this; //make sure we can use this Field in $ scope
 	var selector = "#" + this.inputId;

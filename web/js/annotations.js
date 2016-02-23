@@ -39,9 +39,15 @@ AnnotationList.prototype.render = function() {
 	console.log("1.3.4.1.2.2 render, Iterate through the annotations: ", this.annotations);
 	// Render the annotations related to this field
 	for (var key in this.annotations) {
-		var label = truncate(this.annotations[key].title, 7);
-		var id = generateIdFromUri(this.annotations[key]['@id']);
+		var annotation = this.annotations[key];
+		var label = truncate(annotation.title, 7);
+		var id = generateIdFromUri(annotation['@id']);
 		console.log("1.3.4.1.2.2.1 adding annotation with id: ", id);
+
+		// Retrieve target of annotation
+
+
+		console.log("TARGET: ", this.annotations)
 		// Add annotation in div below field
 		$('#' + this.divId).append(
 			$.el.span({
@@ -56,4 +62,52 @@ AnnotationList.prototype.render = function() {
 			console.log("clicked");
 		});
 	}
+}
+
+AnnotationList.prototype.findTarget = function(tag) {
+	// Return specific target of a tag or else generic target
+	var result = this.findSpecificTarget(tag);
+
+	if (result) {
+		return result;
+	} else {
+		return this.findGenericTarget(tag);
+	}
+}
+
+AnnotationList.prototype.findSpecificTarget = function(tag) {
+	// Returns the specific fragmet target of a tag identified by a selector
+	var targets = tag.hasTarget;
+	var target = undefined;
+
+	if (!targets)
+		return null;
+	if (targets.hasSelector)
+		return targets;
+	for (var t in targets) {
+		target = targets[t];
+		if (target.hasSelector)
+			return target;
+	}
+	return null;
+}
+
+AnnotationList.prototype.findGenericTarget = function(tag) {
+	// Returns the generic target of a tag identified with key @id
+	var targets = tag.hasTarget;
+	var target = undefined;
+
+	// Return null if no target is known
+	if (!targets)
+		return null;
+	// Return targets array if key @id is present
+	if (targets['@id'])
+		return targets;
+	// Loop through targets till key @id is found
+	for (var t in targets) {
+		target = targets[t];
+		if (target['@id'])
+			return target;
+	}
+	return null;
 }

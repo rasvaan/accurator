@@ -92,7 +92,7 @@ annotorious.plugin.DenichePlugin.prototype.toggleButtons = function(state, field
 }
 
 annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, fieldsId) {
-	// Filter tags to show only with the same selector
+	// Filter tags to show only the ones with the same selector
 	var oSelf = this;
 	var editor = $(".annotorious-editor")[0];
 	// var editor = this.Y.one('.annotorious-editor');
@@ -105,6 +105,7 @@ annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, field
 
 	$(editor).find(selector).each(function(index, annotation) {
 		console.log("ANNOTATION", annotation);
+		$(annotation).hide();
 	});
 	// this.Y.all(selector).each(function(tagNode) {
 	// 	if (targetId == tagNode.getAttribute('targetId')) {
