@@ -94,17 +94,18 @@ annotorious.plugin.DenichePlugin.prototype.toggleButtons = function(state, field
 annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, fieldsId) {
 	// Filter tags to show only with the same selector
 	var oSelf = this;
-	var editor = $(this)[0].annotator.editor;
+	var editor = $(".annotorious-editor")[0];
 	// var editor = this.Y.one('.annotorious-editor');
 
 	//TODO: sort out the esc keys (probably killing to many editors)
 	// editor.on("key", oSelf.onFragmentCancel, "esc", oSelf);
 
-	var selector = '#'+ fieldsId + ' .LblAnnotation';
-	if (!fieldsId) selector = '.LblAnnotation';
+	var selector = '#'+ fieldsId + ' .lblAnnotation';
+	if (!fieldsId) selector = '.lblAnnotation';
 
-	console.log("SELECTOR: ", selector);
-	console.log("TAGS:", $(editor).find(selector));
+	$(editor).find(selector).each(function(index, annotation) {
+		console.log("ANNOTATION", annotation);
+	});
 	// this.Y.all(selector).each(function(tagNode) {
 	// 	if (targetId == tagNode.getAttribute('targetId')) {
 	// 		editor.detach("key", oSelf.onFragmentCancel, "esc");
@@ -147,7 +148,7 @@ annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation,
 	}
 
 	if (update) {
-		console.log("1.3.4.1.3.2 CHECKERDIECKECK addAnnotation, add annotation to clean tags", annotation);
+		console.log("1.3.4.1.3.2  addAnnotation, add annotation to clean tags", annotation);
 		this._cleantags[annotation.targetId] = annotation;
 		this._anno.addAnnotation(annotation, old);
 	} else {

@@ -40,13 +40,13 @@ AnnotationList.prototype.render = function() {
 	// Render the annotations related to this field
 	for (var key in this.annotations) {
 		var label = truncate(this.annotations[key].title, 7);
-		var id = this.annotations[key].id;
+		var id = generateIdFromUri(this.annotations[key]['@id']);
 		console.log("1.3.4.1.2.2.1 adding annotation with id: ", id);
 		// Add annotation in div below field
 		$('#' + this.divId).append(
 			$.el.span({
 				'id':'itemLbl' + id,
-				'class':'label label-default LblAnnotation'},
+				'class':'label label-default lblAnnotation'},
 				label
 			)
 		);
