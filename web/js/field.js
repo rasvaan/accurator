@@ -139,7 +139,7 @@ Field.prototype.addAnnotationFragment = function(annotation, update) {
 	var w = target.hasSelector.w;
 	var h = target.hasSelector.h;
 	var torious = {
-		src: $("#" + this.imageId).attr("src"),
+		src: $("#" + this.imageId)[0].src,
 		text: label,
 		targetId: target['@id'],
 		fieldsId: this.fieldsId,
