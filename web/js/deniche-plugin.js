@@ -176,37 +176,45 @@ annotorious.plugin.DenichePlugin.prototype.flushDirtyAnnotation = function(origi
 }
 
 annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
+	console.log("3. installHandlers, ");
 	var oSelf = this;
+
 	this._anno.addHandler('onSelectionCompleted', function(event) {
 		oSelf.currentShape = event.shape;
-	// 	var currentFieldsId = ev.mouseEvent.target.parentNode.getElementsByTagName('img')[0].getAttribute('fields');
-	// 	oSelf.toggleButtons(annotorious.plugin.DenichePlugin.states.EMPTY, currentFieldsId);
+		console.log("3.1 installHandlers, get shape: ", event.shape);
+		var currentFieldsId = event.mouseEvent.target.parentNode.getElementsByTagName('img')[0].getAttribute('fields');
+		oSelf.toggleButtons(annotorious.plugin.DenichePlugin.states.EMPTY, currentFieldsId);
 	});
-	//
-	// this._anno.addHandler('onEditorShown', function(annotation) {
-	// 	// console.log('onEditorShown');
-    // 		// get the annotorious save and cancel button so we can manipulate them:
-    // 		var node = oSelf.Y.one(oSelf.annotator.element);
-	// 	oSelf.Y.one('.annotorious-editor input').focus();
-    // 		oSelf._saveButtons[annotation.fieldsId]   = node.one('.annotorious-editor-button-save').getDOMNode();
-    // 		oSelf._cancelButtons[annotation.fieldsId] = node.one('.annotorious-editor-button-cancel').getDOMNode();
-    // 		oSelf._saveButtons[annotation.fieldsId].innerHTML = "Done";
-	//
-	// 	oSelf._dirtytag = null;
-	// 	if (annotation && annotation.shapes) {
-	// 		oSelf.currentShape = annotation.shapes[0];
-	// 		oSelf.toggleButtons(annotorious.plugin.DenichePlugin.states.SOME, annotation.fieldsId);
-	// 		oSelf.filterTags(annotation.targetId, annotation.fieldsId); // only show tags for this shape
-	// 	} else {
-	// 		oSelf.filterTags(null, null);	// hide all tags
-	// 	}
-	// });
-	//
-	// this._anno.addHandler('onAnnotationCreated', function(original) {
-	// 	oSelf.flushDirtyAnnotation(original);
-	// });
-	//
-	// this._anno.addHandler('onAnnotationUpdated', function(original) {
-	// 	oSelf.flushDirtyAnnotation(original);
-	// });
+
+	this._anno.addHandler('onEditorShown', function(annotation) {
+		console.log("3.2 installHandlers, the editor is shown");
+		// get the annotorious save and cancel button so we can manipulate them:
+		// var node = oSelf.Y.one(oSelf.annotator.element);
+		var node = oSelf.annotator.element;
+
+		console.log("3.2 installHandlers, cancel dom node:", $(".annotorious-editor-button-cancel").get(0));
+		oSelf._saveButtons[annotation.fieldsId] = $(".annotorious-editor-button-save").get(0);
+		oSelf._cancelButtons[annotation.fieldsId] = $(".annotorious-editor-button-cancel").get(0);
+		oSelf._saveButtons[annotation.fieldsId].innerHTML = "Done";
+
+		// Set focus on first field
+		$(".annotorious-editor input").focus();
+
+		oSelf._dirtytag = null;
+		if (annotation && annotation.shapes) {
+			oSelf.currentShape = annotation.shapes[0];
+			oSelf.toggleButtons(annotorious.plugin.DenichePlugin.states.SOME, annotation.fieldsId);
+			oSelf.filterTags(annotation.targetId, annotation.fieldsId); // only show tags for this shape
+		} else {
+			oSelf.filterTags(null, null);	// hide all tags
+		}
+	});
+
+	this._anno.addHandler('onAnnotationCreated', function(original) {
+		oSelf.flushDirtyAnnotation(original);
+	});
+
+	this._anno.addHandler('onAnnotationUpdated', function(original) {
+		oSelf.flushDirtyAnnotation(original);
+	});
 }
