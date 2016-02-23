@@ -1,20 +1,43 @@
 /*******************************************************************************
 Accurator Results
+
 Page showing overview of recommender/search results. Uses a lot of code from
-pagination.js and thumbnail.js
+pagination.js and thumbnail.js.
+
+Options:
+
+1. SEARCH: If a user query is entered, then the page shows the results that
+   match that query.
+2. RECOMMENDER: If no query is entered by the user and the recommend is set to
+   true, then results will contain recommendations given based on the expertise
+   of the user. Also, below these recommendations, a number of random items not
+   yet annotated are shown.
+3. RANDOM: If no query is entered and the recommender is not used, then a random
+   list of results will be shown.
+
+Layout of the results:
+
+1. CLUSTER VIEW: results will be grouped according to their path elements. More
+   elements can belong to the same cluster and these will be shown per row.
+2. LIST VIEW: results are in the form of a list with a certain number of items
+   per row.
+
 *******************************************************************************/
-var query = "", rows = 0, locale, experiment, ui, userName, realName;
+"use strict";
+
+var rows = 0, locale, domain, experiment, ui, user, userName, realName;
 var resultsTxtRecommendationsFor, resultsHdrFirst, resultsTxtFirst;
 var clusters = [];
 
 // Display options deciding how to results get rendered
-display = {
-	layout: "list",
+var display = {
+	layout: "cluster",
 	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
 	showControls: true
 }
 
+// Initialize page
 function resultsInit() {
 	locale = getLocale();
 	domain = getDomain();
@@ -22,7 +45,7 @@ function resultsInit() {
 
 	populateFlags(locale);
 
-	onLoggedIn = function(loginData){
+	var onLoggedIn = function(loginData){
 		setLinkLogo("profile");
 		user = loginData.user;
 		userName = getUserName(user);
@@ -31,21 +54,24 @@ function resultsInit() {
 		var query = getParameterByName("query");
 		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}]);
 
-		onDomain = function(domainData) {
+		var onDomain = function(domainData) {
 			ui = domainData.ui + "results";
 			var target = domainData.target;
 			populateUI();
 			addButtonEvents();
 
-			//Provide results based on query or recommend something. In case of no in put recommend based on retrieved user.
+			// Provide results based on query, recommend something based on
+			// the expertise of the retrieved user or, if none of these, show
+			// just random results
 			results(query, userQuery, target);
 		};
 		domainSettings(domain, onDomain);
 	};
-	onDismissal = function(){document.location.href="intro.html";};
+	var onDismissal = function(){document.location.href="intro.html";};
 	logUserIn(onLoggedIn, onDismissal);
 }
 
+// Retrieve label elements
 function populateUI() {
 	$.getJSON("ui_elements", {locale:locale, ui:ui,
 							  type:"labels"})
@@ -55,10 +81,8 @@ function populateUI() {
 	});
 }
 
+// Add retrieved labels to html elements
 function initLabels(labels) {
-	// Add retrieved labels to html elements
-	document.title = labels.title;
-
 	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
 	$("#navbarBtnRecommend").append(labels.resultsBtnRecommend);
 	resultsTxtRecommendationsFor = labels.resultsTxtRecommendationsFor;
@@ -66,6 +90,7 @@ function initLabels(labels) {
 	resultsTxtFirst = labels.resultsTxtFirst;
 }
 
+// Add button events in the navbar
 function addButtonEvents() {
 	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
@@ -113,17 +138,21 @@ function results(query, userQuery, target) {
 	var recommendBoolean = recommenderExperiment();
 
 	if(query) {
+		// results based on the user query
 		search(query);
 	} else if(recommendBoolean) {
-		recommend(userQuery, target);
+		// recommendations based on the expertise of the user
 		query = "expertise values";
+		recommend(userQuery, target);
 	} else {
-		random(target);
+		//random results
 		query = "random";
+		random(target);
 	}
 	localStorage.setItem("query", query);
 }
 
+// Get results based on the user query
 function search(query, target) {
 	//TODO: localize variables
 	var resultsTxtSearching = "Searching for ";
@@ -133,11 +162,15 @@ function search(query, target) {
 	var request = {query:query};
 	if(typeof target != 'undefined') request.target = target;
 
+	console.log("query", query);
+
 	statusMessage(resultsTxtSearching + query);
 
 	$.getJSON("cluster_search_api", request)
 	.done(function(data){
+		// retrieve clusters
 		clusters = data.clusters;
+		// populate the page with the cluster and their items
 		populateResults(query);
 		$(document).prop('title', resultsHdrResults + query);
 	})
@@ -146,18 +179,21 @@ function search(query, target) {
 	});
 }
 
+// Get results based on the expertise of the user and, afterwards, a number of
+// random items that have not yet been annotated
 function recommend(userQuery, target) {
 	//TODO: localize variables
 	var resultsTxtError = "Unfortunately an error has occured";
+	var resultsTxtRecommendationsFor = "Recommendations for ";
 
-	//TODO: add userQuery ad variable
+	//TODO: add userQuery as variable
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
 	.done(function(data){
 		clusters = data.clusters;
 		populateResults("expertise");
 		$(document).prop('title', resultsTxtRecommendationsFor + realName);
-		//Also get a row of random items not yet annotated
+		// Get a number of random items not yet annotated
 		populateRandom(target, clusters.length);
 	})
 	.fail(function(data){
@@ -189,8 +225,9 @@ function recommend(userQuery, target) {
 // 	});
 // }
 
+// Get random items
 function random(target) {
-	var resultList = new ResultList();
+	//var resultList = new ResultList();
 	// Get a list of random items
 	$.getJSON("recommendation", {strategy:'random',
 								 number:10,
@@ -207,7 +244,7 @@ Result population
 function populateResults(query) {
 	// Clear results div and reset rows
 	$("#resultsDiv").children().remove();
-	rows = 0;
+	rows = 0; //check here; even if it is done at the start of the page, otherwise it does not render all items in list view
 
 	// Results layout is either cluster or list
 	if(display.layout === "cluster") {

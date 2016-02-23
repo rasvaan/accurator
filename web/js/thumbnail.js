@@ -1,31 +1,41 @@
-/* Thumbnail
-*  Code for initializing bootstrap thumbnails and handling changes
-*/
-var boodstrapWitdth;
+/******************************************************************************
+Thumbnail
+
+Code for initializing bootstrap thumbnails and handling changes
+*******************************************************************************/
 
 function thumbnails(clusterId) {
 	var items = clusters[clusterId].items;
 	var stop = display.numberDisplayedItems;
-	bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
+	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 
 	//Check if less results available then there are to be displayed
-	if(items.length<stop){
+	if(items.length < stop){
 		stop = items.length;
 	}
 	//Add row
-	$("#cluster"+clusterId).append(
+	$("#cluster" + clusterId).append(
 		$.el.div({'class':'row', 'id':'thumbnailRow'+clusterId}));
 
-	for (var i=0; i<stop; i++) {
+	for (var i = 0; i < stop; i++) {
 		id = getId(items[i].uri);
 		$("#thumbnailRow" + clusterId).append(thumbnail(items[i]));
 		addClickEvent(id, items[i].link, clusterId, i);
 	}
 }
 
+// Retrieves the item id from the uri string
+// Allow characters in the uri that won't trip up jQuery
+function getId(uri) {
+	var dirtyId = uri.substr(uri.lastIndexOf('/') + 1);
+	var id = dirtyId.replace(/[^\w\-]/gi, '');
+	return id;
+}
+
+// Generate HTML for adding a thumbnail for an item
 function thumbnail(item) {
-	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 	var id = getId(item.uri);
+	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 
 	return $.el.div({'class':'col-md-' + bootstrapWidth},
 				$.el.div({'class':'thumbnail',
@@ -37,12 +47,27 @@ function thumbnail(item) {
 							 thumbnailTitle(item, bootstrapWidth))));
 }
 
+// Retrieves the title of an item and sizes it accordingly
 function thumbnailTitle(item, bootstrapWidth) {
 	//Make header depent on size thumbnail
 	if(bootstrapWidth < 4)
 		return $.el.h5(item.title);
 	if(bootstrapWidth >= 4)
 		return $.el.h4(item.title);
+}
+
+// Add thumbnail click event
+function addClickEvent(id, link, clusterId, index) {
+	$("#cluster" + clusterId  + " #" + id).click(function() {
+		//Add info to local storage to be able to save context
+		localStorage.setItem("itemIndex", index);
+		localStorage.setItem("clusterId", clusterId);
+		localStorage.setItem("currentCluster", JSON.stringify(clusters[clusterId]));
+		//TODO check here
+		if((clusterId+1) == clusters.length)
+			localStorage.setItem("query", "random");
+		document.location.href = link;
+	});
 }
 
 function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
@@ -99,24 +124,4 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 		// Remove slow?
 		$("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
 	}
-}
-
-function getId(uri) {
-	var dirtyId = uri.substr(uri.lastIndexOf('/') + 1);
-	// Only allow characters that won't trip up jQuery
-	var id = dirtyId.replace(/[^\w\-]/gi, '');
-	return id;
-}
-
-function addClickEvent(id, link, clusterId, index) {
-	//Add thumbnail click event
-	$("#cluster" + clusterId  + " #" + id).click(function() {
-		//Add info to local storage to be able to save context
-		localStorage.setItem("itemIndex", index);
-		localStorage.setItem("clusterId", clusterId);
-		localStorage.setItem("currentCluster", JSON.stringify(enrichedClusters[clusterId]));
-		if((clusterId+1) == clusters.length)
-			localStorage.setItem("query", "random");
-		document.location.href=link;
-	});
 }
