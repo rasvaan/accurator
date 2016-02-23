@@ -42,17 +42,15 @@ AnnotationList.prototype.render = function() {
 		var annotation = this.annotations[key];
 		var label = truncate(annotation.title, 7);
 		var id = generateIdFromUri(annotation['@id']);
+		var target = this.findTarget(annotation);
 		console.log("1.3.4.1.2.2.1 adding annotation with id: ", id);
 
-		// Retrieve target of annotation
-
-
-		console.log("TARGET: ", this.annotations)
 		// Add annotation in div below field
 		$('#' + this.divId).append(
 			$.el.span({
 				'id':'itemLbl' + id,
-				'class':'label label-default lblAnnotation'},
+				'class':'label label-default lblAnnotation',
+				'targetId':target['@id']},
 				label
 			)
 		);

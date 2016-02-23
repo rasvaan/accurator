@@ -130,7 +130,7 @@ Field.prototype.getAnnotations = function() {
 
 Field.prototype.addAnnotationFragment = function(annotation, update) {
 	console.log("1.3.4.1.2 addAnnotationFragment, reconstruction annotatoin update: ", update);
-	var target = this.findSpecificTarget(annotation);
+	var target = this.annotationList.findSpecificTarget(annotation);
 	if (!this._anno || !target) return;
 
 	var label = annotation.title;

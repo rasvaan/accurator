@@ -92,10 +92,10 @@ annotorious.plugin.DenichePlugin.prototype.toggleButtons = function(state, field
 }
 
 annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, fieldsId) {
+	console.log("1.3.4.1.2.1 filterTags, filter based on whether the targetId matches) ");
 	// Filter tags to show only the ones with the same selector
 	var oSelf = this;
 	var editor = $(".annotorious-editor")[0];
-	// var editor = this.Y.one('.annotorious-editor');
 
 	//TODO: sort out the esc keys (probably killing to many editors)
 	// editor.on("key", oSelf.onFragmentCancel, "esc", oSelf);
@@ -104,17 +104,16 @@ annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, field
 	if (!fieldsId) selector = '.lblAnnotation';
 
 	$(editor).find(selector).each(function(index, annotation) {
-		console.log("ANNOTATION", annotation);
-		$(annotation).hide();
+		// See if id matches the (current?) target
+		if (targetId == $(annotation).attr("targetId")) {
+			console.log("1.3.4.1.2.1.1 filterTags, Showing annotation");
+			//TODO: sort out the esc keys (probably killing to many editors)
+			// editor.detach("key", oSelf.onFragmentCancel, "esc");
+			$(annotation).show();
+		} else {
+			$(annotation).hide();
+		}
 	});
-	// this.Y.all(selector).each(function(tagNode) {
-	// 	if (targetId == tagNode.getAttribute('targetId')) {
-	// 		editor.detach("key", oSelf.onFragmentCancel, "esc");
-	// 		tagNode.show();
-	// 	} else {
-	// 		tagNode.hide();
-	// 	}
-	// });
 }
 
 annotorious.plugin.DenichePlugin.prototype.removeAnnotation = function (label, targetId) {
