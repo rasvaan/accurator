@@ -5,7 +5,6 @@ instance. Most of the code comes from annotate.js written by
 Jacco van Ossenbruggen
 *******************************************************************************/
 function Field(defenition, context) {
-	console.log("1.3.1 Field, Construct with defenition: ", defenition, " and context ", context);
 	this.id = context.id; // Id of field serving as a basis for jquery identifiers
 	this.field = defenition.uri; // URI identifying annotation field
 	this.target = context.target; // URI of target to be annotated
@@ -49,18 +48,14 @@ function Field(defenition, context) {
 
 Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	console.log("1.3.2 InitDropdown, generate dom node");
 	this.node = this.dropdownField();
 
 	if(this.showAnnotations) {
 		// Add div for annotations, existing annotations are retrieved upon init deniche
-		console.log("1.3.3 InitDropdown, create dom annotation list for field ", this.annotationsId);
 		this.annotationList = new AnnotationList(this.id + "Annotations");
-		console.log("1.3.4 InitDropdown, Add annotation dom element after this element " + this.divId);
 		$(this.node).append(this.annotationList.node);
 	}
 
-	console.log("1.3.6 InitDropdown, Get dropdown alternatives");
 	this.getAllAlternatives()
 	.then(function(alternatives){
 		_field.addTypeAhead(alternatives);
@@ -96,7 +91,7 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 	var targetString = JSON.stringify(targetObject);
 	var bodyString = JSON.stringify(body);
 
-	console.log("Saving the following ", "field: ", this.field, "hasTarget: ", targetString, "hasBody: ", bodyString, "label: ", label, "motivatedBy: ", motiv, "graph: ", graph);
+	// console.log("Saving the following ", "field: ", this.field, "hasTarget: ", targetString, "hasBody: ", bodyString, "label: ", label, "motivatedBy: ", motiv, "graph: ", graph);
 
 	$.ajax({type: "POST",
 			url: "api/annotation/add",
@@ -126,7 +121,6 @@ Field.prototype.getAnnotations = function() {
 		var annotations = data[_field.field].annotations;
 		var length = annotations.length;
 
-		console.log("1.3.4.1 getAnnotations, iterate through annotations ", annotations);
 		for (key in annotations) {
 			_field.annotationList.add(annotations[key]);
 			_field.addAnnotationFragment(annotations[key], true);
@@ -135,7 +129,6 @@ Field.prototype.getAnnotations = function() {
 }
 
 Field.prototype.addAnnotationFragment = function(annotation, update) {
-	console.log("1.3.4.1.2 addAnnotationFragment, reconstruction annotatoin update: ", update);
 	var target = this.annotationList.findSpecificTarget(annotation);
 	if (!this.fragmentField || !target) return;
 
@@ -155,7 +148,6 @@ Field.prototype.addAnnotationFragment = function(annotation, update) {
 			geometry: { x:x,y:y,width:w,height:h }
 		}]
 	};
-	console.log("1.3.4.1.3 addAnnotationFragment, add annotation as fragment with info: ", torious);
 	this._anno._deniche.addAnnotation(torious, update);
 }
 
@@ -167,7 +159,7 @@ Field.prototype.addDropdownListeners = function() {
 	$(selector).on('typeahead:select', function(event, annotation) {
 		$(selector).typeahead('val', ''); // Clear query
 
-		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
+		// console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
 		_field.submitAnnotation(
 			_field.MOTIVATION.tagging,
 			_field.target,
@@ -182,7 +174,7 @@ Field.prototype.addDropdownListeners = function() {
 		if ($(selector).val() && event.which == 13) {
 			var annotation = $(selector).val();
 
-			console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
+			// console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
 			_field.submitAnnotation(
 				_field.MOTIVATION.tagging,
 				_field.target,
@@ -242,7 +234,6 @@ Field.prototype.addTypeAhead = function(alternatives) {
 		};
 	}
 
-	console.log("1.3.6.1 addTypeAhead, setup bloodhound with first alternative ", array[0]);
 	// Constructs the suggestion engine
 	var bloodHoundAlternatives = new Bloodhound({
 		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -255,7 +246,6 @@ Field.prototype.addTypeAhead = function(alternatives) {
 		return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
 	}
 
-	console.log("1.3.6.2 addTypeAhead, add typeahead to id ", this.inputId);
 	// Select the input field and add typeahead
 	$("#" + this.inputId).typeahead({hint: true,
 						 highlight: true,

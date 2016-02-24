@@ -147,18 +147,16 @@ function addNavigationButtonEvents() {
 }
 
 function addAnotorious(metadata) {
-	console.log("1. addAnotorious, retrieve fields");
 	// Retrieve the fields that should be added (based on save_user_info)
 	$.getJSON("annotation_fields",
 			  {locale:locale,
 			   domain:domain,
 		   	   annotation_ui:annotation_ui})
 	.done(function(fields){
-		console.log("1.1 addAnotorious, iterate through whole fields:", fields.whole_fields);
 		// Add fields whole image
 		for (var i=0; i<fields.whole_fields.length; i++) {
 			var fieldDef = fields.whole_fields[i];
-			//TODO: set switch, creating different type of field objects defenition.type
+
 			// Create new field object
 			var field = new Field(
 				fieldDef,
@@ -174,7 +172,6 @@ function addAnotorious(metadata) {
 			$("#itemDivAnnotationFields").append(field.node);
 		}
 
-		console.log("1.2 addAnotorious, create dom container for fragment fields with id:", page.fieldContainerId);
 		// Add hidden container for fields if there are fragment fields
 		if (fields.fragment_fields.length > 0) {
 			$(".itemDivHidden").append($.el.div({'id':page.fieldContainerId}));
@@ -182,7 +179,6 @@ function addAnotorious(metadata) {
 			$("#" + page.imageId).attr("fields", page.fieldContainerId);
 		}
 
-		console.log("1.3 addAnotorious, iterate through fragment fields:", fields.fragment_fields);
 		// Add fields to hidden dom elements for annotorious
 		for (var i=0; i<fields.fragment_fields.length; i++) {
 			var fieldDef = fields.fragment_fields[i];
@@ -200,11 +196,9 @@ function addAnotorious(metadata) {
 			 	}
 			);
 			// Append the field to div which will be embedded in annotorious
-			console.log("1.3.2 addAnotorious (should be deniche), add field to dom.");
 			$("#" + page.fieldContainerId).append(field.node);
 
 		}
-		console.log("2. addAnotorious, add the deniche plugin, which embeds the fields in annotorious.");
 		// Add the deniche plugin, which embeds the fields in annotorious
 		anno.addPlugin("DenichePlugin", {});
 	});

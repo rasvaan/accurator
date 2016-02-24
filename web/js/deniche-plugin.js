@@ -92,7 +92,6 @@ annotorious.plugin.DenichePlugin.prototype.toggleButtons = function(state, field
 }
 
 annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, fieldsId) {
-	console.log("1.3.4.1.2.1 filterTags, filter based on whether the targetId matches) ");
 	// Filter tags to show only the ones with the same selector
 	var oSelf = this;
 	var editor = $(".annotorious-editor")[0];
@@ -130,8 +129,8 @@ annotorious.plugin.DenichePlugin.prototype.onFragmentCancel = function(ev) {
 
 annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation, update) {
 	var old = this._dirtytag;
-	console.log("1.3.4.1.3.1 addAnnotation, Deniche add annotation: ", annotation, " possible old tag ", old);
 	if (!old) old = this._cleantags[ annotation.targetId ];
+
 	if (old) {
 		// extend new annotation by merging in old one
 		annotation.compound_text = old.compound_text;
@@ -142,16 +141,13 @@ annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation,
 	}
 
 	if (update) {
-		console.log("1.3.4.1.3.2  addAnnotation, add annotation to clean tags", annotation);
 		this._cleantags[annotation.targetId] = annotation;
 		this._anno.addAnnotation(annotation, old);
 	} else {
-		console.log("1.3.4.1.3.2 addAnnotation, make annotatoin the dirty tag.");
 		this._dirtytag = annotation;
 	}
-	console.log("1.3.4.1.3.3 Toggle buttons.");
+
 	this.toggleButtons(annotorious.plugin.DenichePlugin.states.SOME, annotation.fieldsId);
-	console.log("1.3.4.1.3.4 filter added tags, only show tags for this shape.");
 	this.filterTags(annotation.targetId, annotation.fieldsId); // only show tags for this shape
 }
 
@@ -170,23 +166,18 @@ annotorious.plugin.DenichePlugin.prototype.flushDirtyAnnotation = function(origi
 }
 
 annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
-	console.log("3. installHandlers, ");
 	var oSelf = this;
 
 	this._anno.addHandler('onSelectionCompleted', function(event) {
 		oSelf.currentShape = event.shape;
-		console.log("3.1 installHandlers, get shape: ", event.shape);
 		var currentFieldsId = event.mouseEvent.target.parentNode.getElementsByTagName('img')[0].getAttribute('fields');
 		oSelf.toggleButtons(annotorious.plugin.DenichePlugin.states.EMPTY, currentFieldsId);
 	});
 
 	this._anno.addHandler('onEditorShown', function(annotation) {
-		console.log("3.2 installHandlers, the editor is shown");
 		// get the annotorious save and cancel button so we can manipulate them:
-		// var node = oSelf.Y.one(oSelf.annotator.element);
 		var node = oSelf.annotator.element;
 
-		console.log("3.2 installHandlers, cancel dom node:", $(".annotorious-editor-button-cancel").get(0));
 		oSelf._saveButtons[annotation.fieldsId] = $(".annotorious-editor-button-save").get(0);
 		oSelf._cancelButtons[annotation.fieldsId] = $(".annotorious-editor-button-cancel").get(0);
 		oSelf._saveButtons[annotation.fieldsId].innerHTML = "Done";
