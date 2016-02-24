@@ -81,12 +81,19 @@ aui:search a auis:UI ;
 ##### Results Screen #####
 
 aui:results a auis:UI ;
+	dcterms:title "Accurator resultaten UI"@nl ;
 	aui:resultsHdrTitle "Zoekresultaten"@nl ;
 	aui:resultsBtnRecommend "Aanbevolen werken"@nl ;
 	aui:navbarBtnSearch "Zoek"@nl ;
-	aui:resultsTxtRecommendationsFor "Aanbevelingen voor "@nl ;
 	aui:resultsHdrFirst "Aan welk werk wilt u informatie toevoegen?"@nl ;
-	aui:resultsTxtFirst "Hier kunt u selecteren aan welke werken u informatie wilt toevoegen. U kunt terugkeren naar dit scherm wanneer u op aanbevelingen klikt of zoekt naar specifieke onderwerpen."@nl .
+	aui:resultsTxtFirst "Hier kunt u selecteren aan welke werken u informatie wilt toevoegen. U kunt terugkeren naar dit scherm wanneer u op aanbevelingen klikt of zoekt naar specifieke onderwerpen."@nl ;
+	aui:resultsTxtRecommendationsFor "Aanbevelingen voor "@nl ;
+	aui:resultsTxtSearching "Zoeken naar "@nl ;
+	aui:resultsHdrResults "Resultaten voor "@nl ;
+	aui:resultsTxtNoResults "Geen resultaten gevonden voor "@nl ;
+	aui:resultsTxtError "Helaas, er is iets fout gegaan"@nl ;
+	aui:resultsLblCluster "Cluster weergave"@nl ;
+	aui:resultsLblList "Lijst weergave"@nl .
 
 ###### End Screen #####
 

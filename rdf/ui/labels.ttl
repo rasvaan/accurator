@@ -142,16 +142,28 @@ aui:results a auis:UI ;
 	aui:resultsHdrTitle "Results"@en ;
 	aui:resultsBtnRecommend "Recommend works"@en ;
 	aui:navbarBtnSearch "Search"@en ;
-	aui:resultsTxtRecommendationsFor "Recommendations for "@en ;
 	aui:resultsHdrFirst "What do you want to tag?"@en ;
-	aui:resultsTxtFirst "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
+	aui:resultsTxtFirst "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en ;
+	aui:resultsTxtRecommendationsFor "Recommendations for "@en ;
+	aui:resultsTxtSearching "Searching for "@en ;
+	aui:resultsHdrResults "Results for "@en ;
+	aui:resultsTxtNoResults "No results found for "@en ;
+	aui:resultsTxtError "Unfortunately an error has occured"@en ;
+	aui:resultsLblCluster "Cluster view"@en ;
+	aui:resultsLblList "List view"@en .
 
 aui:resultsHdrTitle rdfs:subPropertyOf auis:uiLabel .
 aui:resultsBtnRecommend rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
-aui:resultsTxtRecommendationsFor rdfs:subPropertyOf auis:uiLabel .
 aui:resultsHdrFirst rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtFirst rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtRecommendationsFor rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtSearching rdfs:subPropertyOf auis:uiLabel .
+aui:resultsHdrResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtNoResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtError rdfs:subPropertyOf auis:uiLabel .
+aui:resultsLblCluster rdfs:subPropertyOf auis:uiLabel .
+aui:resultsLblList rdfs:subPropertyOf auis:uiLabel .
 
 ###### End Screen #####
 

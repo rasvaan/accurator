@@ -26,7 +26,9 @@ Layout of the results:
 "use strict";
 
 var rows = 0, locale, domain, experiment, ui, user, userName, realName;
-var resultsTxtRecommendationsFor, resultsHdrFirst, resultsTxtFirst;
+var resultsTxtRecommendationsFor, resultsTxtSearching, resultsHdrResults;
+var resultsHdrFirst, resultsTxtFirst, resultsTxtNoResults, resultsTxtError;
+var resultsLblCluster, resultsLblList;
 var clusters = [];
 
 // Display options deciding how to results get rendered
@@ -67,7 +69,7 @@ function resultsInit() {
 		};
 		domainSettings(domain, onDomain);
 	};
-	var onDismissal = function(){document.location.href="intro.html";};
+	var onDismissal = function(){document.location.href = "intro.html";};
 	logUserIn(onLoggedIn, onDismissal);
 }
 
@@ -86,8 +88,14 @@ function initLabels(labels) {
 	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
 	$("#navbarBtnRecommend").append(labels.resultsBtnRecommend);
 	resultsTxtRecommendationsFor = labels.resultsTxtRecommendationsFor;
+	resultsTxtSearching = labels.resultsTxtSearching;
+	resultsHdrResults = labels.resultsHdrResults;
 	resultsHdrFirst = labels.resultsHdrFirst;
 	resultsTxtFirst = labels.resultsTxtFirst;
+	resultsTxtNoResults = labels.resultsTxtNoResults;
+	resultsTxtError = labels.resultsTxtError;
+	resultsLblCluster = labels.resultsLblCluster;
+	resultsLblList = labels.resultsLblList;
 }
 
 // Add button events in the navbar
@@ -108,14 +116,17 @@ function addButtonEvents() {
 	});
 }
 
+// Message displayed when the first annotation is made by a user
 function events() {
 	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
-		if(annotations.length===0)
-			alertMessage(resultsHdrFirst, annotateTxtFirst, 'success');
+		if(annotations.length === 0)
+			alertMessage(resultsHdrFirst, resultsTxtFirst, 'success');
 	});
 }
 
+// Add a title for the page and print a status message within the page that
+// gives more information on the progress of the search
 function statusMessage(header, text){
 	$("#resultsDiv").children().remove();
 	$(document).prop('title', header);
@@ -154,11 +165,6 @@ function results(query, userQuery, target) {
 
 // Get results based on the user query
 function search(query, target) {
-	//TODO: localize variables
-	var resultsTxtSearching = "Searching for ";
-	var resultsHdrResults = "Results for ";
-	var resultsTxtError = "Unfortunately an error has occured";
-
 	var request = {query:query};
 	if(typeof target != 'undefined') request.target = target;
 
@@ -182,10 +188,6 @@ function search(query, target) {
 // Get results based on the expertise of the user and, afterwards, a number of
 // random items that have not yet been annotated
 function recommend(userQuery, target) {
-	//TODO: localize variables
-	var resultsTxtError = "Unfortunately an error has occured";
-	var resultsTxtRecommendationsFor = "Recommendations for ";
-
 	//TODO: add userQuery as variable
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
@@ -405,8 +407,6 @@ Cluster view
 Show the results in clusters
 *******************************************************************************/
 function populateClusters(query) {
-	//TODO: localize variables
-	var resultsTxtNoResults = "No results found for ";
 	var query = query || "literal";
 
 	if(clusters.length == 0){
@@ -525,10 +525,6 @@ function resultLayoutButtons() {
 }
 
 function setLayoutButton() {
-	//TODO: localize variables
-	var resultsLblCluster = "Cluster view";
-	var resultsLblList = "List view";
-
 	if(display.layout === "list") {
 		$("#resultsBtnLayout").html(
 			$.el.span(resultsLblCluster + ' ',
