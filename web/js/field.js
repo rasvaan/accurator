@@ -188,6 +188,11 @@ Field.prototype.addDropdownListeners = function() {
 			$(selector).typeahead('val', '');
 		}
 	});
+
+	// Action on presseing esc
+	$(selector).on('keyup', function(event) {
+		console.log("ESC");
+	});
 }
 
 Field.prototype.getAllAlternatives = function() {
