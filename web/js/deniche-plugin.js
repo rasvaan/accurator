@@ -191,8 +191,8 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 		oSelf._cancelButtons[annotation.fieldsId] = $(".annotorious-editor-button-cancel").get(0);
 		oSelf._saveButtons[annotation.fieldsId].innerHTML = "Done";
 
-		// Set focus on first field
-		$(".annotorious-editor input").focus();
+		// Set focus on first field (exlude hint input field introduced by twitter typeahead)
+		$(".annotorious-editor input").not(".tt-hint")[0].focus();
 
 		oSelf._dirtytag = null;
 		if (annotation && annotation.shapes) {
