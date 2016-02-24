@@ -160,7 +160,7 @@ function addAnotorious(metadata) {
 			// Create new field object
 			var field = new Field(
 				fieldDef,
-				{	id:generateIdFromUri(fieldDef.uri),
+				{	id:"Whole" + generateIdFromUri(fieldDef.uri),
 					fragment:false,
 					target:uri,
 				 	targetImage:metadata.image_uri,
@@ -186,7 +186,7 @@ function addAnotorious(metadata) {
 			// Create new field object
 			var field = new Field(
 				fieldDef,
-				{	id:generateIdFromUri(fieldDef.uri),
+				{	id:"Fragment" + generateIdFromUri(fieldDef.uri),
 					fragment:true,
 					target:uri,
 				 	targetImage:metadata.image_uri,

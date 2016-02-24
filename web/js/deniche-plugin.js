@@ -101,7 +101,6 @@ annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, field
 	$(editor).find(selector).each(function(index, annotation) {
 		// See if id matches the (current?) target
 		if (targetId == $(annotation).attr("targetId")) {
-			console.log("1.3.4.1.2.1.1 filterTags, Showing annotation");
 			$(annotation).show();
 		} else {
 			$(annotation).hide();
