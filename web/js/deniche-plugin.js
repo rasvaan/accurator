@@ -64,14 +64,14 @@ annotorious.plugin.DenichePlugin.prototype.onInitAnnotator = function(annotator)
     // install all handlers on events created by annotorious:
     this.installHandlers();
 
-	//Code for getting tags only on init annotorious (making it easy for the server)
-    // if (this._anno.fields) {
-	// var fields = this._anno.fields[imageId][fieldsId];
-	// for(var i in fields) {
-	//     var f = fields[i];
-	//     if (f.get('lazy')) f.getTags();
-	// }
-    // }
+	// get existing annotations on init annotorious
+    if (this._anno.fields) {
+		var fields = this._anno.fields[imageId][fieldsId];
+		for (var i in fields) {
+			var field = fields[i];
+			if (field.showAnnotations) field.getAnnotations();
+		}
+    }
 }
 
 annotorious.plugin.DenichePlugin.prototype.initPlugin = function(anno) {
@@ -96,10 +96,6 @@ annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, field
 	// Filter tags to show only the ones with the same selector
 	var oSelf = this;
 	var editor = $(".annotorious-editor")[0];
-
-	//TODO: sort out the esc keys (probably killing to many editors)
-	// editor.on("key", oSelf.onFragmentCancel, "esc", oSelf);
-
 	var selector = '#'+ fieldsId + ' .lblAnnotation';
 	if (!fieldsId) selector = '.lblAnnotation';
 
@@ -107,8 +103,6 @@ annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, field
 		// See if id matches the (current?) target
 		if (targetId == $(annotation).attr("targetId")) {
 			console.log("1.3.4.1.2.1.1 filterTags, Showing annotation");
-			//TODO: sort out the esc keys (probably killing to many editors)
-			// editor.detach("key", oSelf.onFragmentCancel, "esc");
 			$(annotation).show();
 		} else {
 			$(annotation).hide();

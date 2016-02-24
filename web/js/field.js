@@ -6,37 +6,45 @@ Jacco van Ossenbruggen
 *******************************************************************************/
 function Field(defenition, context) {
 	console.log("1.3.1 Field, Construct with defenition: ", defenition, " and context ", context);
-	this.id = context.id; // id of field serving as a basis for jquery identifiers
-	this.inputId = "itemInp" + context.id; // Id of input
-	this.divId = "itemDiv" + context.id; // Id of form group
-	this.imageId = context.imageId; // Id of the corresponding img element
-	this.fieldsId = context.fieldsId;  // id of the corresponding fields container
-	this.annotationsId = context.annotationsId; // id of the container for annotations
+	this.id = context.id; // Id of field serving as a basis for jquery identifiers
 	this.field = defenition.uri; // URI identifying annotation field
-	this.type = defenition.type; // type of input field (e.g. dropdown or radiobutton)
+	this.target = context.target; // URI of target to be annotated
+	this.targetImage = context.targetImage; // URI of target's image to be annotated
+	this.imageId = context.imageId; // Id of the corresponding img element
+	this.inputId = "inp" + context.id; // Id of input
+	this.annotationsId = context.annotationsId; // id of the container for annotations
+	this.fragmentField = context.fragment; // Booleand for indicating this is a fragment field
 	this.label = defenition.label; // name of the field
 	this.comment = defenition.comment; // short description of the field
 	this.source = defenition.source; // source of the alternatives shown
-	this.target = context.target; // URI of target to be annotated
-	this.targetImage = context.targetImage; // URI of target's image to be annotated
-	this.user = context.user; // URI of the user currently annotating
-	this._anno = anno; // Jacco hack to get to annotourious
-	this.node = null; // html node representing the field
 	this.alternatives = null; // list of alternatives for dropdown
 	this.annotationList = null; // Array of annotations related to this target and field
 	this.showAnnotations = true; // Boolean indicating whether previous annotations should be shown
-
+	this.user = context.user; // URI of the user currently annotating
+	this.node = null; // html node representing the field
 	this.MOTIVATION = {
 		tagging:    'http://www.w3.org/ns/oa#tagging',
 		commenting: 'http://www.w3.org/ns/oa#commenting',
 		moderating: 'http://www.w3.org/ns/oa#moderating',
 	};
 
-	switch (defenition.type) {
-		case "DropdownField":
-			this.initDropdown();
-			break;
+	if (this.fragmentField) {
+		this._anno = anno; // Reference to annotatorious
+		this.divId = "div" + context.id; // Id of form group
+		this.fieldsId = context.fieldsId;  // Id of the corresponding fields container
+
+		// Extend annotatorious with object with fields indexed on imageId and fieldsId
+		if (!anno.fields) anno.fields = {};
+		if (!anno.fields[this.imageId]) anno.fields[this.imageId] = {};
+		var fields = anno.fields[this.imageId][this.fieldsId];
+		if (fields) {
+			fields.push(this);
+		} else {
+			anno.fields[this.imageId][this.fieldsId] = [this];
+		}
 	}
+
+	this.initDropdown();
 }
 
 Field.prototype.initDropdown = function() {
@@ -44,14 +52,12 @@ Field.prototype.initDropdown = function() {
 	console.log("1.3.2 InitDropdown, generate dom node");
 	this.node = this.dropdownField();
 
-	// Get already existing annotations for field
 	if(this.showAnnotations) {
+		// Add div for annotations, existing annotations are retrieved upon init deniche
 		console.log("1.3.3 InitDropdown, create dom annotation list for field ", this.annotationsId);
 		this.annotationList = new AnnotationList(this.id + "Annotations");
 		console.log("1.3.4 InitDropdown, Add annotation dom element after this element " + this.divId);
 		$(this.node).append(this.annotationList.node);
-		console.log("1.3.5 InitDropdown, Get already existing annotations for field ", this.field, " and target ", this.target);
-		this.getAnnotations();
 	}
 
 	console.log("1.3.6 InitDropdown, Get dropdown alternatives");
@@ -71,7 +77,7 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 	if (!graph)	graph = target;
 
 	var targetObject = null;
-	if (this._anno && this._anno._deniche.currentShape) {
+	if (this.fragmentField && this._anno._deniche.currentShape) {
 		var shape = this._anno._deniche.currentShape.geometry;
 		var targetImage = this.targetImage;
 
@@ -131,7 +137,7 @@ Field.prototype.getAnnotations = function() {
 Field.prototype.addAnnotationFragment = function(annotation, update) {
 	console.log("1.3.4.1.2 addAnnotationFragment, reconstruction annotatoin update: ", update);
 	var target = this.annotationList.findSpecificTarget(annotation);
-	if (!this._anno || !target) return;
+	if (!this.fragmentField || !target) return;
 
 	var label = annotation.title;
 	var x = target.hasSelector.x;
@@ -159,8 +165,7 @@ Field.prototype.addDropdownListeners = function() {
 
 	// Eventlistener for selecting typeahead alternative
 	$(selector).on('typeahead:select', function(event, annotation) {
-		// Code for clearing query
-		$(selector).typeahead('val', '');
+		$(selector).typeahead('val', ''); // Clear query
 
 		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
 		_field.submitAnnotation(
@@ -189,9 +194,11 @@ Field.prototype.addDropdownListeners = function() {
 		}
 	});
 
-	// Action on presseing esc
+	// Action on pressing esc
 	$(selector).on('keyup', function(event) {
-		console.log("ESC");
+		if (_field.fragmentField && event.which == 27) {
+			_field._anno._deniche.onFragmentCancel(event);
+		}
 	});
 }
 

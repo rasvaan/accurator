@@ -158,11 +158,12 @@ function addAnotorious(metadata) {
 		// Add fields whole image
 		for (var i=0; i<fields.whole_fields.length; i++) {
 			var fieldDef = fields.whole_fields[i];
-
+			//TODO: set switch, creating different type of field objects defenition.type
 			// Create new field object
 			var field = new Field(
 				fieldDef,
 				{	id:generateIdFromUri(fieldDef.uri),
+					fragment:false,
 					target:uri,
 				 	targetImage:metadata.image_uri,
 					user:user,
@@ -185,11 +186,12 @@ function addAnotorious(metadata) {
 		// Add fields to hidden dom elements for annotorious
 		for (var i=0; i<fields.fragment_fields.length; i++) {
 			var fieldDef = fields.fragment_fields[i];
-
+			//TODO: set switch, creating different type of field objects defenition.type
 			// Create new field object
 			var field = new Field(
 				fieldDef,
 				{	id:generateIdFromUri(fieldDef.uri),
+					fragment:true,
 					target:uri,
 				 	targetImage:metadata.image_uri,
 					user:user,
@@ -198,9 +200,9 @@ function addAnotorious(metadata) {
 			 	}
 			);
 			// Append the field to div which will be embedded in annotorious
-			//TODO: this should be done in deniche
 			console.log("1.3.2 addAnotorious (should be deniche), add field to dom.");
 			$("#" + page.fieldContainerId).append(field.node);
+
 		}
 		console.log("2. addAnotorious, add the deniche plugin, which embeds the fields in annotorious.");
 		// Add the deniche plugin, which embeds the fields in annotorious
