@@ -60,21 +60,16 @@ function resultsInit() {
 			ui = domainData.ui + "results";
 			var target = domainData.target;
 
-			//partial fix
-			// $.when(populateUI()).then(function (){
-			// 	addButtonEvents();
-			// 	results(query, userQuery, target);
-			// });
+			$.when(getLabels()).then(function(labels){
+				initLabels(labels);
+				events();
+				addButtonEvents();
 
-			populateUI(query, userQuery, target);
-
-			// populateUI();
-			addButtonEvents();
-
-			// Provide results based on query, recommend something based on
-			// the expertise of the retrieved user or, if none of these, show
-			// just random results
-			//results(query, userQuery, target);
+				// Provide results based on query, recommend something based on
+				// the expertise of the retrieved user or, if none of these, show
+				// just random results
+				results(query, userQuery, target);
+			});
 		};
 		domainSettings(domain, onDomain);
 	};
@@ -83,15 +78,9 @@ function resultsInit() {
 }
 
 // Retrieve label elements
-function populateUI(query, userQuery, target) {
-//function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui,
-							  type:"labels"})
-	.done(function(labels){
-		initLabels(labels);
-		events();
-		results(query, userQuery, target);
-	});
+function getLabels() {
+	return $.getJSON("ui_elements", {locale:locale, ui:ui,
+							  type:"labels"});
 }
 
 // Add retrieved labels to html elements
@@ -107,9 +96,6 @@ function initLabels(labels) {
 	resultsTxtError = labels.resultsTxtError;
 	resultsLblCluster = labels.resultsLblCluster;
 	resultsLblList = labels.resultsLblList;
-	console.log("retrieved labels, ex. resultsBtnRecommend=", labels.resultsBtnRecommend);
-	console.log("retrieved labels, ex. resultsTxtSearching=", resultsTxtSearching);
-	console.log("retrieved labels, ex. resultsTxtNoResults=", resultsTxtNoResults);
 }
 
 // Add button events in the navbar
@@ -180,16 +166,9 @@ function results(query, userQuery, target) {
 // Get results based on the user query
 function search(query, target) {
 	var request = {query:query};
-	if(typeof target != 'undefined') request.target = target;
 
-	console.log("query", query);
-	console.log("resultsTxtSearching", resultsTxtSearching);
-
-	if (! resultsTxtSearching === undefined) {
-		statusMessage(resultsTxtSearching + query);
-	}
-	else
-		statusMessage("undefined resultsTxtSearching" + query);
+	if(typeof target != 'undefined')
+		request.target = target;
 
 	$.getJSON("cluster_search_api", request)
 	.done(function(data){
@@ -197,7 +176,6 @@ function search(query, target) {
 		clusters = data.clusters;
 		// populate the page with the cluster and their items
 		populateResults(query);
-		console.log("resultsHdrResults", resultsHdrResults);
 		$(document).prop('title', resultsHdrResults + query);
 	})
 	.fail(function(data){
@@ -430,6 +408,7 @@ function populateClusters(query) {
 	var query = query || "literal";
 
 	if(clusters.length == 0){
+		display.showControls = false;
 		statusMessage(resultsTxtNoResults, query);
 	} else {
 		for(var i=0; i<clusters.length; i++) {
