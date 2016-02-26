@@ -30,6 +30,7 @@ var resultsTxtRecommendationsFor, resultsTxtSearching, resultsHdrResults;
 var resultsHdrFirst, resultsTxtFirst, resultsTxtNoResults, resultsTxtError;
 var resultsLblCluster, resultsLblList;
 var clusters = [];
+var randoms = [];
 
 // Display options deciding how to results get rendered
 var display = {
@@ -153,12 +154,12 @@ function results(query, userQuery, target) {
 		search(query);
 	} else if(recommendBoolean) {
 		// recommendations based on the expertise of the user
-		//query = "expertise values";
-		//recommend(userQuery, target);
+		query = "expertise values";
+		recommend(userQuery, target);
 	} else {
-		//random results
+		// random results
 		query = "random";
-		//random(target);
+		random(target, 20);
 	}
 	localStorage.setItem("query", query);
 }
@@ -175,7 +176,7 @@ function search(query, target) {
 		// retrieve clusters
 		clusters = data.clusters;
 		// populate the page with the cluster and their items
-		populateResults(query);
+		enrichClusters(query);
 		// set page title
 		$(document).prop('title', resultsHdrResults + query);
 	})
@@ -191,8 +192,18 @@ function recommend(userQuery, target) {
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
 	.done(function(data){
+		// retrieve clusters
 		clusters = data.clusters;
-		populateResults("expertise");
+		// enrich items
+		enrichClusters("expertise");
+		// var enrichmentArray = [];
+		// for(var i=0; i<cluster.length; i++) {
+		// 	enrichmentArray[i] = enrich(clusters[i]).then(display);
+		// 	// cluster[i].enrich.then(function(){
+		// 		// display
+		// 	// })
+		// }
+		// when(enrichmentArray).then(setButtons);
 		// set page title
 		$(document).prop('title', resultsTxtRecommendationsFor + realName);
 		// Get a number of random items not yet annotated
@@ -200,6 +211,23 @@ function recommend(userQuery, target) {
 	})
 	.fail(function(data){
 		statusMessage(resultsTxtError, data.responseText)
+	});
+}
+
+// Get random items
+function random(target, noResults) {
+	// Get a list of random items
+	$.getJSON("recommendation", {strategy:'random',
+								 number:noResults,
+								 target:target})
+	.done(function(uris){
+		// populate the page with random
+		randoms = uris;
+		//populateListItems(uris, resultList);
+		// populate the page with the cluster and their items
+		enrichRandoms(randoms);
+		// set page title
+		$(document).prop('title', resultsTxtRecommendationsFor + realName);
 	});
 }
 
@@ -227,23 +255,10 @@ function recommend(userQuery, target) {
 // 	});
 // }
 
-// Get random items
-function random(target) {
-	// Get a list of random items
-	$.getJSON("recommendation", {strategy:'random',
-								 number:10,
-								 target:target})
-	.done(function(uris){
-		// Always populate a list if random
-		//populateListItems(uris, resultList);
-		console.log("random objects", uris);
-	});
-}
-
 /*******************************************************************************
 Result population
 *******************************************************************************/
-function populateResults(query) {
+function enrichClusters(query) {
 	// Clear results div and reset rows
 	$("#resultsDiv").children().remove();
 	rows = 0; //check here; even if it is done at the start of the page, otherwise it does not render all items in list view
@@ -270,7 +285,6 @@ function populateResults(query) {
 	}
 	// Add control buttons to change layout
 	controls();
-	console.log("enriched clusters, ", clusters);
 }
 
 // Enrichment of one cluster item
@@ -285,8 +299,7 @@ function enrichCluster(uris, clusterId){
 			// Replace cluster items with enriched ones
 			clusters[clusterId].items = processEnrichment(data);
 	   }
-	});
-	console.log("enrich cluster ", clusterId);
+   });
 }
 
 // Enrich one image element in the cluster adding an image, a link where it can
@@ -306,6 +319,20 @@ function processEnrichment(data) {
 	return enrichedItems;
 }
 
+// Enrichment of one random object
+function enrichRandoms(uris) {
+	var json = {"uris":uris};
+
+	$.ajax({type: "POST",
+		url: "metadata",
+		contentType: "application/json",
+		data: JSON.stringify(json),
+		success: function(data) {
+			// Replace cluster items with enriched ones
+			randoms = processEnrichment(data);
+	   }
+	});
+}
 
 // function populateList(clusters, resultList){
 // 	var index = 0;
