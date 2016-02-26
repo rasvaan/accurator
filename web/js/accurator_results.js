@@ -61,7 +61,8 @@ function resultsInit() {
 			ui = domainData.ui + "results";
 			var target = domainData.target;
 
-			$.when(getLabels()).then(function(labels){
+			getLabels()
+			.then(function(labels){
 				initLabels(labels);
 				events();
 				addButtonEvents();
@@ -172,13 +173,23 @@ function search(query, target) {
 		request.target = target;
 
 	$.getJSON("cluster_search_api", request)
-	.done(function(data){
+	.then(function(data){
 		// retrieve clusters
 		clusters = data.clusters;
-		// populate the page with the cluster and their items
-		enrichClusters(query);
-		// set page title
-		$(document).prop('title', resultsHdrResults + query);
+
+		// enrich retrieved clusters if any
+		if(clusters.length == 0){
+			statusMessage(resultsTxtNoResults, query);
+		} else {
+			// set page title
+			$(document).prop('title', resultsHdrResults + query);
+
+			// enrich the retrieved clusters
+			enrichClusters(query);
+
+			// Add control buttons to change layout
+			controls();
+		}
 	})
 	.fail(function(data){
 		statusMessage(resultsTxtError, data.responseText);
@@ -194,20 +205,24 @@ function recommend(userQuery, target) {
 	.done(function(data){
 		// retrieve clusters
 		clusters = data.clusters;
-		// enrich items
-		enrichClusters("expertise");
-		// var enrichmentArray = [];
-		// for(var i=0; i<cluster.length; i++) {
-		// 	enrichmentArray[i] = enrich(clusters[i]).then(display);
-		// 	// cluster[i].enrich.then(function(){
-		// 		// display
-		// 	// })
-		// }
-		// when(enrichmentArray).then(setButtons);
-		// set page title
-		$(document).prop('title', resultsTxtRecommendationsFor + realName);
+
+		// enrich retrieved clusters if any
+		if(clusters.length == 0){
+			statusMessage(resultsTxtNoResults, query);
+		} else {
+			// set page title
+			$(document).prop('title', resultsTxtRecommendationsFor + realName);
+
+			// enrich the retrieved clusters
+			enrichClusters("expertise");
+		}
+
 		// Get a number of random items not yet annotated
-		//populateRandom(target, clusters.length);
+		random(target, 10);
+		// TODO Display random objects
+
+		// Add control buttons to change layout
+		controls();
 	})
 	.fail(function(data){
 		statusMessage(resultsTxtError, data.responseText)
@@ -224,8 +239,12 @@ function random(target, noResults) {
 		// populate the page with random
 		randoms = uris;
 		//populateListItems(uris, resultList);
-		// populate the page with the cluster and their items
+
+		// enrich random objects
 		enrichRandoms(randoms);
+
+		// TODO display here
+
 		// set page title
 		$(document).prop('title', resultsTxtRecommendationsFor + realName);
 	});
@@ -258,48 +277,52 @@ function random(target, noResults) {
 /*******************************************************************************
 Result population
 *******************************************************************************/
+
 function enrichClusters(query) {
 	// Clear results div and reset rows
-	$("#resultsDiv").children().remove();
-	rows = 0; //check here; even if it is done at the start of the page, otherwise it does not render all items in list view
+	// 	$("#resultsDiv").children().remove();
+	// 	rows = 0; //check here; even if it is done at the start of the page, otherwise it does not render all items in list view
 
-	if(clusters.length == 0){
-		statusMessage(resultsTxtNoResults, query);
-	} else {
-		//TODO write code to wait for this to be finished
-		// enrich every cluster item
-		for(var i=0; i<clusters.length; i++) {
+	// enrich retrieved clusters if any
+	if(clusters.length != 0){
+		// set page title
+		$(document).prop('title', resultsHdrResults + query);
+
+		//for every cluster item
+		for(var i = 0; i < clusters.length; i++) {
 			var uris = [];
-
-			for(var j=0; j<clusters[i].items.length; j++) {
+			// enrich every item in the cluster
+			for(var j = 0; j < clusters[i].items.length; j++) {
 				uris[j] = clusters[i].items[j].uri;
 			}
-			enrichCluster(uris, i);
+			//when a cluster item finished being enriched, display it
+			enrichCluster(uris, i).then(function (){
+				// TODO display enriched cluster
+				// 	// Results layout is either cluster or list
+				// 	if(display.layout === "cluster") {
+				// 		//displayCluster(query, clusterId);
+				// 	} else if(display.layout === "list") {
+				// 		//displayListItems(query, clusterId);
+			});
 		}
 	}
-	// Results layout is either cluster or list
-	if(display.layout === "cluster") {
-		//displayClusters(query);
-	} else if(display.layout === "list") {
-		//displayList(query);
-	}
-	// Add control buttons to change layout
-	controls();
 }
 
 // Enrichment of one cluster item
 function enrichCluster(uris, clusterId){
 	var json = {"uris":uris};
+	console.log("in enrich, cluster ", clusterId);
+	console.log("uris: ", uris);
 
-	$.ajax({type: "POST",
-		url: "metadata",
-		contentType: "application/json",
-		data: JSON.stringify(json),
-		success: function(data) {
-			// Replace cluster items with enriched ones
-			clusters[clusterId].items = processEnrichment(data);
-	   }
-   });
+	return $.ajax({type: "POST",
+			url: "metadata",
+			contentType: "application/json",
+			data: JSON.stringify(json)})
+	.then(function(data) {
+		   // Replace cluster items array with enriched ones
+		   console.log("enriching cluster ", clusterId);
+		   clusters[clusterId].items = processEnrichment(data);
+	  });
 }
 
 // Enrich one image element in the cluster adding an image, a link where it can
@@ -323,15 +346,14 @@ function processEnrichment(data) {
 function enrichRandoms(uris) {
 	var json = {"uris":uris};
 
-	$.ajax({type: "POST",
+	return $.ajax({type: "POST",
 		url: "metadata",
 		contentType: "application/json",
-		data: JSON.stringify(json),
-		success: function(data) {
+		data: JSON.stringify(json)})
+	.then (function(data) {
 			// Replace cluster items with enriched ones
 			randoms = processEnrichment(data);
-	   }
-	});
+	   });
 }
 
 // function populateList(clusters, resultList){
@@ -596,7 +618,7 @@ function resultLayoutButtons() {
 	$("#resultsBtnLayout").click(function() {
 		display.layout = (display.layout === "list") ? "cluster" : "list";
 		setLayoutButton();
-		populateResults();
+		//populateResults();
 	});
 }
 
