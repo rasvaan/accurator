@@ -153,12 +153,12 @@ function results(query, userQuery, target) {
 		search(query);
 	} else if(recommendBoolean) {
 		// recommendations based on the expertise of the user
-		query = "expertise values";
-		recommend(userQuery, target);
+		//query = "expertise values";
+		//recommend(userQuery, target);
 	} else {
 		//random results
 		query = "random";
-		random(target);
+		//random(target);
 	}
 	localStorage.setItem("query", query);
 }
@@ -176,6 +176,7 @@ function search(query, target) {
 		clusters = data.clusters;
 		// populate the page with the cluster and their items
 		populateResults(query);
+		// set page title
 		$(document).prop('title', resultsHdrResults + query);
 	})
 	.fail(function(data){
@@ -192,9 +193,10 @@ function recommend(userQuery, target) {
 	.done(function(data){
 		clusters = data.clusters;
 		populateResults("expertise");
+		// set page title
 		$(document).prop('title', resultsTxtRecommendationsFor + realName);
 		// Get a number of random items not yet annotated
-		populateRandom(target, clusters.length);
+		//populateRandom(target, clusters.length);
 	})
 	.fail(function(data){
 		statusMessage(resultsTxtError, data.responseText)
@@ -227,14 +229,14 @@ function recommend(userQuery, target) {
 
 // Get random items
 function random(target) {
-	//var resultList = new ResultList();
 	// Get a list of random items
 	$.getJSON("recommendation", {strategy:'random',
 								 number:10,
 								 target:target})
 	.done(function(uris){
 		// Always populate a list if random
-		populateListItems(uris, resultList);
+		//populateListItems(uris, resultList);
+		console.log("random objects", uris);
 	});
 }
 
@@ -246,159 +248,207 @@ function populateResults(query) {
 	$("#resultsDiv").children().remove();
 	rows = 0; //check here; even if it is done at the start of the page, otherwise it does not render all items in list view
 
+	if(clusters.length == 0){
+		statusMessage(resultsTxtNoResults, query);
+	} else {
+		//TODO write code to wait for this to be finished
+		// enrich every cluster item
+		for(var i=0; i<clusters.length; i++) {
+			var uris = [];
+
+			for(var j=0; j<clusters[i].items.length; j++) {
+				uris[j] = clusters[i].items[j].uri;
+			}
+			enrichCluster(uris, i);
+		}
+	}
 	// Results layout is either cluster or list
 	if(display.layout === "cluster") {
-		populateClusters(query);
+		//displayClusters(query);
 	} else if(display.layout === "list") {
-		var resultList = new ResultList();
-		populateList(clusters, resultList);
+		//displayList(query);
 	}
-	// Add control buttons
+	// Add control buttons to change layout
 	controls();
+	console.log("enriched clusters, ", clusters);
 }
 
-function populateList(clusters, resultList){
-	var index = 0;
+// Enrichment of one cluster item
+function enrichCluster(uris, clusterId){
+	var json = {"uris":uris};
 
-	for(var i=0; i<clusters.length; i++) {
-		var uris = [];
-
-		for(var j=0; j<clusters[i].items.length; j++)
-			uris[j] = clusters[i].items[j].uri;
-		populateListItems(uris, resultList);
-	}
-}
-
-function populateRandom(target, clusterIndex) {
-	$.getJSON("recommendation", {strategy:'random',
-								 number:20,
-								 target:target})
-	.done(function(uris){
-		$("#cluster"+clusterIndex).prepend(
-			$.el.h4(
-				$.el.span({'class':'path-label path-literal'},
-					"random objects")));
-		addItems(uris);
+	$.ajax({type: "POST",
+		url: "metadata",
+		contentType: "application/json",
+		data: JSON.stringify(json),
+		success: function(data) {
+			// Replace cluster items with enriched ones
+			clusters[clusterId].items = processEnrichment(data);
+	   }
 	});
-
-	$("#resultsDiv").append(
-		$.el.div({'class':'well well-sm',
-				  'id':'cluster' + clusterIndex})
-	);
+	console.log("enrich cluster ", clusterId);
 }
+
+// Enrich one image element in the cluster adding an image, a link where it can
+// be (further) annotated and a title
+function processEnrichment(data) {
+	//console.log("data=", data);
+	var enrichedItems = [];
+
+	for(var i=0; i<data.length; i++) {
+		enrichedItems[i] = {};
+		var uri = data[i].uri;
+		enrichedItems[i].uri = uri;
+		enrichedItems[i].thumb = data[i].thumb;
+		enrichedItems[i].link = "annotate.html?uri=" + uri;
+		enrichedItems[i].title = truncate(data[i].title, 60);
+	}
+	return enrichedItems;
+}
+
+
+// function populateList(clusters, resultList){
+// 	var index = 0;
+//
+// 	for(var i=0; i<clusters.length; i++) {
+// 		var uris = [];
+//
+// 		for(var j=0; j<clusters[i].items.length; j++)
+// 			uris[j] = clusters[i].items[j].uri;
+// 		populateListItems(uris, resultList);
+// 	}
+// }
+
+// function populateRandom(target, clusterIndex) {
+// 	$.getJSON("recommendation", {strategy:'random',
+// 								 number:20,
+// 								 target:target})
+// 	.done(function(uris){
+// 		$("#cluster"+clusterIndex).prepend(
+// 			$.el.h4(
+// 				$.el.span({'class':'path-label path-literal'},
+// 					"random objects")));
+// 		addItems(uris);
+// 	});
+//
+// 	$("#resultsDiv").append(
+// 		$.el.div({'class':'well well-sm',
+// 				  'id':'cluster' + clusterIndex})
+// 	);
+// }
 
 /*******************************************************************************
 List view
 Show the results in one big list
 *******************************************************************************/
-function populateListItems(uris, resultList) {
-	// Determine indexes for adding elements in items (important since metadata
-	// call is asynchronous)
-	var start = resultList.length;
-	resultList.addUris(uris);
-	var stop = resultList.length;
+// function populateListItems(uris, resultList) {
+// 	// Determine indexes for adding elements in items (important since metadata
+// 	// call is asynchronous)
+// 	var start = resultList.length;
+// 	resultList.addUris(uris);
+// 	var stop = resultList.length;
+//
+// 	// Get metedata for uris
+// 	$.ajax({type: "POST",
+// 			url: "metadata",
+// 			contentType: "application/json",
+// 			data: JSON.stringify({"uris":uris}),
+// 			success: function(data) {
+// 				// Add enriched items to items array and view
+// 				var index = 0;
+//
+// 				for(var i=start; i<stop; i++) {
+// 					resultList.addNthItem(
+// 						data[index].uri,
+// 						data[index].thumb,
+// 						data[index].title,
+// 						i
+// 					);
+// 					index++;
+// 				}
+//
+// 				populateThumbnails(start, stop, resultList);
+// 		   }
+// 	});
+// }
+//
+// function populateThumbnails(begin, end, resultList) {
+// 	// Determine in which row to start adding thumbnails
+// 	var rowLength = display.numberDisplayedItems;
+// 	var startRows = parseInt(begin/rowLength, 10) + 1;
+// 	var stopRows = parseInt(end/rowLength, 10) + 1;
+// 	var itemsAdded = begin;
+// 	var items = resultList.items;
+// 	// See if additional rows need to be added
+// 	addRows(stopRows);
+//
+// 	// Add the thumbnails to the rows
+// 	for(var i=startRows; i<=stopRows; i++) {
+// 		// Determine where to start adding
+// 		var start = parseInt(itemsAdded/rowLength, 10);
+// 		// Determine where to stop adding
+// 		var stop = i * rowLength;
+// 		if(end < stop) stop = end;
+//
+// 		for (var j=itemsAdded; j<stop; j++) {
+// 			var id = getId(items[j].uri);
+// 			$("#thumbnailRow" + i).append(thumbnail(items[j]));
+//
+// 			// addThumbnail(i, j, id, items[j], itemWidth);
+// 			addListClickEvent(id, items[j].link, i, j);
+// 			itemsAdded++;
+// 		}
+// 	}
+// }
+//
+// function addRows(numberOfRows) {
+// 	for(var i=rows+1; i<numberOfRows+1; i++) {
+// 		// Add row for thumbnails
+// 		$("#resultsDiv").append(
+// 			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
+// 	}
+// 	rows = numberOfRows;
+// }
+//
+// function addListClickEvent(id, link, rowId, index) {
+// 	//Add thumbnail click event
+// 	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
+// 		//Add info to local storage to be able to save context
+// 		localStorage.setItem("itemIndex", index);
+// 		localStorage.setItem("row", rowId);
+// 		document.location.href=link;
+// 	});
+// }
 
-	// Get metedata for uris
-	$.ajax({type: "POST",
-			url: "metadata",
-			contentType: "application/json",
-			data: JSON.stringify({"uris":uris}),
-			success: function(data) {
-				// Add enriched items to items array and view
-				var index = 0;
-
-				for(var i=start; i<stop; i++) {
-					resultList.addNthItem(
-						data[index].uri,
-						data[index].thumb,
-						data[index].title,
-						i
-					);
-					index++;
-				}
-
-				populateThumbnails(start, stop, resultList);
-		   }
-	});
-}
-
-function populateThumbnails(begin, end, resultList) {
-	// Determine in which row to start adding thumbnails
-	var rowLength = display.numberDisplayedItems;
-	var startRows = parseInt(begin/rowLength, 10) + 1;
-	var stopRows = parseInt(end/rowLength, 10) + 1;
-	var itemsAdded = begin;
-	var items = resultList.items;
-	// See if additional rows need to be added
-	addRows(stopRows);
-
-	// Add the thumbnails to the rows
-	for(var i=startRows; i<=stopRows; i++) {
-		// Determine where to start adding
-		var start = parseInt(itemsAdded/rowLength, 10);
-		// Determine where to stop adding
-		var stop = i * rowLength;
-		if(end < stop) stop = end;
-
-		for (var j=itemsAdded; j<stop; j++) {
-			var id = getId(items[j].uri);
-			$("#thumbnailRow" + i).append(thumbnail(items[j]));
-
-			// addThumbnail(i, j, id, items[j], itemWidth);
-			addListClickEvent(id, items[j].link, i, j);
-			itemsAdded++;
-		}
-	}
-}
-
-function addRows(numberOfRows) {
-	for(var i=rows+1; i<numberOfRows+1; i++) {
-		// Add row for thumbnails
-		$("#resultsDiv").append(
-			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
-	}
-	rows = numberOfRows;
-}
-
-function addListClickEvent(id, link, rowId, index) {
-	//Add thumbnail click event
-	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
-		//Add info to local storage to be able to save context
-		localStorage.setItem("itemIndex", index);
-		localStorage.setItem("row", rowId);
-		document.location.href=link;
-	});
-}
-
-function ResultList() {
-	//Object for keeping track of list of results
-	this.uris = [];
-	this.items = [];
-	this.length = 0;
-
-	this.addUris = function(newUris) {
-		// Add items to uri list
-		for(var i=0; i<newUris.length; i++)
-			this.addUri(newUris[i]);
-	}
-
-	this.addUri = function(uri) {
-		// Add uri
-		this.uris[this.length] = uri;
-		// Update length
-		this.length++;
-	}
-
-	// Add item at nth index in the list, allows to keep order
-	this.addNthItem = function(uri, thumb, title, index) {
-		var item = {};
-		item.uri = uri;
-		item.thumb = thumb;
-		item.link = "annotate.html?uri=" + uri;
-		item.title = truncate(title, 60);
-		this.items[index] = item;
-	}
-}
+// function ResultList() {
+// 	//Object for keeping track of list of results
+// 	this.uris = [];
+// 	this.items = [];
+// 	this.length = 0;
+//
+// 	this.addUris = function(newUris) {
+// 		// Add items to uri list
+// 		for(var i=0; i<newUris.length; i++)
+// 			this.addUri(newUris[i]);
+// 	}
+//
+// 	this.addUri = function(uri) {
+// 		// Add uri
+// 		this.uris[this.length] = uri;
+// 		// Update length
+// 		this.length++;
+// 	}
+//
+// 	// Add item at nth index in the list, allows to keep order
+// 	this.addNthItem = function(uri, thumb, title, index) {
+// 		var item = {};
+// 		item.uri = uri;
+// 		item.thumb = thumb;
+// 		item.link = "annotate.html?uri=" + uri;
+// 		item.title = truncate(title, 60);
+// 		this.items[index] = item;
+// 	}
+// }
 
 /*******************************************************************************
 Cluster view
