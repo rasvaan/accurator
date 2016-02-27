@@ -1,20 +1,29 @@
 /*******************************************************************************
 Accurator Item
-Code for extending functionality item page.
+This code allows the item page to be setup according to the locale, domain
+and user settings. The main functionallity regards annoting the item, for which
+it relies upon the following files:
+
+* field.js - field objects allowing users to add annotations
+
+* annotations.js - list of annotations
+
+* annotorious.min.js - annotorious editor used for annotating fragments of images
+
+* deniche-plugin.js - plugin for annotorious embedding field objects in the
+editor div and manages the adding and removal of annotations in the annotation
+list
+
 *******************************************************************************/
+"use strict";
 var query, locale, experiment, domain, user, ui, annotation_ui, uri;
 var vntFirstTitle, vntFirstText;
-var annotoriousFields;
-
-var displayOptions = {
-	showMetadata: true,
-	showAnnotations: true,
-}
 
 var page = {
+	showMetadata: true,
+	showAnnotations: true,
 	imageId: null, // Set on init image
 	fieldContainerId: "itemDivAnnotoriousFields" // Id container containing fields
-
 }
 
 function itemInit() {
@@ -26,11 +35,11 @@ function itemInit() {
 	populateFlags(locale);
 
 	// Make sure user is logged in
-	onLoggedIn = function(loginData) {
+	var onLoggedIn = function(loginData) {
 		setLinkLogo("profile");
 
 		// Get domain settings before populating ui
-		onDomain = function(domainData) {
+		var onDomain = function(domainData) {
 			user = loginData.user;
 			var userName = getUserName(loginData.user);
 			ui = domainData.ui + "item";
@@ -45,7 +54,7 @@ function itemInit() {
 		domainSettings = domainSettings(domain, onDomain);
 	};
 	// If user is not logged go to intro page
-	onDismissal = function(){document.location.href="intro.html";};
+	var onDismissal = function() {document.location.href="intro.html";};
 	logUserIn(onLoggedIn, onDismissal);
 }
 
@@ -90,7 +99,6 @@ function initLabels(data) {
 function events() {
 	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
-		uris = annotations;
 		if(annotations.length===0) {
 			alertMessage(vntFirstTitle, vntFirstText, 'success');
 		}
@@ -205,7 +213,7 @@ function addAnotorious(metadata) {
 }
 
 function displayMetadata() {
-	if(displayOptions.showMetadata){
+	if(page.showMetadata){
 		// Get metadata from server
 		$.getJSON("metadata", {uri:uri})
 		.done(function(metadata){
@@ -237,7 +245,7 @@ function appendMetadataWell(metadata) {
 
 function displayAnnotations() {
 	// Get annotations from server for projecting in well
-	if(displayOptions.showAnnotations){
+	if(page.showAnnotations){
 		$.getJSON("annotations", {uri:uri, type:"object"})
 		.done(function(annotations){
 			if(annotations.annotations.length > 0){
@@ -275,9 +283,9 @@ function maybeRunExperiment() {
 		// Hide path if on annotate page
 		$("#itemDivClusterNavigation").hide();
 		// Don't show metadata
-		displayOptions.showMetadata = false;
+		page.showMetadata = false;
 		// Don't show annotations of others
-		displayOptions.showAnnotations = false;
+		page.showAnnotations = false;
 		// Add big next button
 		addExperimentNavigation();
 	}
