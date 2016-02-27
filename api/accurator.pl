@@ -22,13 +22,15 @@
 :- use_module(library(accurator/annotation)).
 :- use_module(library(accurator/subset_selection)).
 :- use_module(library(accurator/concept_scheme_selection)).
-:- use_module(api(cluster_search)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/html_write)).
 :- use_module(user(user_db)).
+% load other cpacks
+:- use_module(api(cluster_search)).
+:- use_module(api(annotation)).    % needed for http api handlers
 :- use_module(library(thumbnail)).
 
 
