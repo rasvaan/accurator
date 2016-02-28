@@ -42,6 +42,14 @@ accu:hasMaximumExpertiseTopics a rdf:Property ;
 	rdfs:label "Has maximum number of expertise topics"@en ;
 	rdfs:comment "The maximum number of expertise topics shown to a user."@en .
 
+accu:QueryExample a rdfs:Class ;
+	rdfs:label "Example query"@en ;
+	rdfs:comment "Query illustrating the domain"@en .
+
+accu:action a rdf:Property ;
+	rdfs:label "Action"@en ;
+	rdfs:comment "The action taken upon interacting with element"@en .
+
 accu:hasMaximumChildren a rdf:Property ;
 	rdfs:label "Has maximum number of children"@en ;
 	rdfs:comment "The number of child concepts shown in expertise screen"@en .

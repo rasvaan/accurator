@@ -32,11 +32,11 @@
 
 <accurator-generic>
 	a void:Dataset ;
-	void:subset <accurator-schema> ;
-	void:subset <accurator-ui-schema> ;
-	void:subset <accurator-ui> ;
-	void:subset <accurator-ui-countries> ;
-	void:subset <accurator-ui-languages> ;
+	void:subset <accurator-schema> ,
+				<accurator-ui-schema> ,
+				<accurator-ui> ,
+				<accurator-ui-countries> ,
+				<accurator-ui-languages> ;
 	dcterms:title "Generic Accurator configuration" ;
 	void:dataDump <domain/domain.ttl> .
 
@@ -50,21 +50,35 @@
 	a void:Dataset ;
 	dcterms:title "Locale and domain agnostic Accurator UI instance for bird" ;
 	void:dataDump <domain/bird/ui/labels.ttl> ,
-	 			  <domain/bird/ui/labels_nl.ttl> .
+	 			  <domain/bird/ui/labels_nl.ttl> ,
+				  <domain/bird/ui/fields.ttl> .
 
 <accurator-bible-domain>
 	a void:Dataset ;
 	dcterms:title "Accurator configuration for bible domain" ;
-	void:dataDump <domain/bible/bible_domain.ttl> ;
-	void:dataDump <domain/bible/concept_scheme_bible_figure.ttl> ;
-	void:dataDump <domain/bible/concept_scheme_bible_theme.ttl> ;
+	void:dataDump <domain/bible/bible_domain.ttl> ,
+				  <domain/bible/concept_scheme_bible_figure.ttl> ,
+				  <domain/bible/concept_scheme_bible_theme.ttl> ;
 	void:subset <accurator-ui-bible> .
 
 <accurator-ui-bible>
 	a void:Dataset ;
 	dcterms:title "Locale and domain agnostic Accurator UI instance for bible" ;
 	void:dataDump <domain/bible/ui/labels.ttl> ,
-				  <domain/bible/ui/labels_nl.ttl> .
+				  <domain/bible/ui/labels_nl.ttl> ,
+				  <domain/bible/ui/fields.ttl> .
+
+<accurator-page>
+	a void:Dataset ;
+	dcterms:title "Page type tasks" ;
+	void:dataDump <domain/page/ui/labels_leon.ttl> ,
+				  <domain/page/ui/labels_cristina.ttl> ,
+				  <domain/page/ui/labels_sebastien.ttl> ,
+				  <domain/page/ui/labels_chris.ttl> ,
+	              <domain/page/page_leon_domain.ttl> ,
+				  <domain/page/page_cristina_domain.ttl> ,
+				  <domain/page/page_sebastien_domain.ttl> ,
+	              <domain/page/page_chris_domain.ttl> .
 
 [ vann:preferredNamespacePrefix "accu" ;
 vann:preferredNamespaceUri "http://accurator.nl/schema#"

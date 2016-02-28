@@ -48,10 +48,10 @@ abirui:profile a aui:UI ;
 abirui:results a aui:UI ;
 	rdfs:subClassOf aui:results .
 
-##### Bird Annotate Screen #####
+##### Bird Item Screen #####
 
-abirui:annotate a aui:UI ;
-	rdfs:subClassOf aui:annotate .
+abirui:item a aui:UI ;
+	rdfs:subClassOf aui:item .
 
 ###### Bird End Screen #####
 

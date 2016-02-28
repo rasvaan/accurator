@@ -32,9 +32,9 @@ aui:domain a auis:UI ;
 	aui:domainPageTitle "Selecteer Domein"@nl ;
 	aui:domainTxtTitle "Aan welk domein wilt u informatie bijdragen?"@nl .
 
-##### Annotate Screen #####
+##### Item Screen #####
 
-aui:annotate a auis:UI ;
+aui:item a auis:UI ;
 	aui:title "Voeg informatie toe aan object"@nl ;
 	aui:btnPrevious "Vorige"@nl ;
 	aui:btnNext "Volgende"@nl ;

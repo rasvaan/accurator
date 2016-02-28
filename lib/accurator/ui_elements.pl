@@ -1,19 +1,44 @@
-:- module(ui_elements, [get_elements/3]).
+:- module(ui_elements, [
+			  get_title/2,
+			  uri_label/2,
+			  get_elements/3,
+			  metadata/3,
+			  image_url/2,
+			  thumbnail_url/2
+		  ]).
 
 /** <module> Accurator UI elements
 */
 
 :- use_module(library(semweb/rdf_db)).
+:- use_module(library(semweb/rdf_label)).
+:- use_module(library(http/http_open)).
+:- use_module(library(http/url_cache)).
+:- use_module(library(http/http_path)).
+:- use_module(library(http/http_ssl_plugin)).
+
+%%	get_title(+Uri, -Title)
+%
+%	Returns a title or the last part of the URI if no title is found.
+get_title(Uri, Title) :-
+    rdf(Uri, dc:title, literal(lang(_,Title))), !.
+get_title(Uri, UriLabel) :-
+	 iri_xml_namespace(Uri, _, UriLabel), !.
+get_title(Uri, Uri).
+
+%%	uri_label(Uri, Label)
+%
+%	Get the label of an Uri
+uri_label(Uri, Label) :-
+    rdf_display_label(Uri, _, Label).
 
 %%	get_elements(+Type, -Dic, +Options)
 %
 %	Determine which type of UI elements to query for.
 get_elements(labels, Dic, Options) :-
 	get_labels(Dic, Options).
-
 get_elements(countries, Dic, Options) :-
 	get_countries(Dic, Options).
-
 get_elements(languages, Dic, Options) :-
 	get_languages(Dic, Options).
 
@@ -102,7 +127,6 @@ get_selector(UI, Select, SelectLabel) :-
 	rdf(SuperUI, auis:hasSelect, Select),
 	rdf(Select, rdf:type, auis:'SelectField'),
 	iri_xml_namespace(Select, _, SelectLabel).
-
 get_selector(UI, Select, SelectLabel) :-
 	rdf(UI, auis:hasSelect, Select),
 	rdf(Select, rdf:type, auis:'SelectField'),
@@ -118,3 +142,132 @@ get_selector_labels(Selector, Locale, LiteralDict) :-
 				dict_pairs(LabelDict, elements, [label-Literal, id-Id])),
 			LiteralArray),
 	dict_pairs(LiteralDict, elements, LiteralArray).
+
+%%	metadata(+Type, +Uri, -Metadata)
+%
+%	Get all properties and subjects attached to a Uri, or get them for a
+%	thumbnail.
+metadata(full, Uri, Metadata) :-
+    findall(property_pair{
+				predicate_label:PredicateLabel,
+				object_label:ObjectLabel},
+	    (	rdf(Uri, Predicate, Object),
+			rdf_display_label(Predicate, _, PredicateLabel),
+			rdf_display_label(Object, _, ObjectLabel)
+	    ),
+	    Properties),
+	get_title(Uri, DisplayTitle),
+	image_url(Uri, ImageLink),
+	image_uri(Uri, ImageUri),
+	Metadata = metadata{title:DisplayTitle,
+						image:ImageLink,
+						image_uri:ImageUri,
+						properties:Properties}.
+metadata(thumbnail, Uri, EnrichedItem) :-
+    thumbnail_url(Uri, ThumbnailUrl),
+    get_title(Uri, Title),
+    EnrichedItem = _{uri:Uri,thumb:ThumbnailUrl,title:Title}.
+
+
+%%	image_url(+Uri, -ImageUrl) is det.
+%
+%	* Check if image is present, if so, return request url.
+%	* If the image is not present, check if present at url.
+%	isShownBy triple.
+%	* If not present in cache, database and at
+%	server, send image stub.
+image_url(Uri, ImageUrl) :-
+	check_cache_shown(Uri, Image), !,
+    image_link(Image, ImageUrl).
+image_url(Uri, ImageUrl) :-
+	check_server_shown(Uri, Image), !,
+    image_link(Image, ImageUrl).
+image_url(Uri, ImageUrl) :-
+	check_cache_view(Uri, Image), !,
+    image_link(Image, ImageUrl).
+image_url(Uri, ImageUrl) :-
+	check_server_view(Uri, Image), !,
+    image_link(Image, ImageUrl).
+image_url(_, Stub) :- http_absolute_location(img('stub_vertical.png'), Stub, []).
+
+check_cache_shown(Uri, Image) :-
+	rdf(Aggregation, edm:aggregatedCHO, Uri),
+	rdf(Aggregation, edm:isShownBy, Image),
+	url_cached(Image, file(_)).
+check_cache_view(Uri, Image) :-
+	rdf(Aggregation, edm:aggregatedCHO, Uri),
+	rdf(Aggregation, edm:hasView, Image0),
+	check_if_local(Image0, Image),
+	url_cached(Image, file(_)).
+check_server_shown(Uri, Image) :-
+	rdf(Aggregation, edm:aggregatedCHO, Uri),
+    rdf(Aggregation, edm:isShownBy, Image),
+    https_header_response(Image, Status),
+    Status == 200.
+check_server_view(Uri, Image) :-
+	rdf(Aggregation, edm:aggregatedCHO, Uri),
+    rdf(Aggregation, edm:hasView, Image0),
+	check_if_local(Image0, Image),
+    https_header_response(Image, Status),
+    Status == 200.
+check_if_local(Image, ImageUrl) :-
+	not(concat('http', _, Image)),
+	http_absolute_uri(img(Image), ImageUrl).
+check_if_local(ImageUrl, ImageUrl).
+
+image_link(Image, ThumbUrl) :-
+	concat('cache/original?uri=', Image, RequestUrl),
+    http_absolute_location(root(RequestUrl), ThumbUrl, []).
+
+%%	image_uri(+Uri, -ImageUri)
+%
+%	Get the 'original' uri of an image, not a link to a cached one.
+image_uri(Uri, ImageUri) :-
+	rdf(Aggregation, edm:aggregatedCHO, Uri),
+	rdf(Aggregation, edm:isShownBy, ImageUri), !.
+image_uri(Uri, ImageUri) :-
+	rdf(Aggregation, edm:aggregatedCHO, Uri),
+	rdf(Aggregation, edm:hasView, ImageUri), !.
+
+%%	thumbnail_url(+Uri, -ThumbUrl)
+%
+%	* Check if image is present, if so, return request url.
+%	* If the image is not present, check if present at url.
+%	* If not present in cache, database and at url, send image stub.
+thumbnail_url(Uri, ThumbUrl) :-
+    check_cache_shown(Uri, Image), !,
+	thumb_link(Image, ThumbUrl).
+thumbnail_url(Uri, ThumbUrl) :-
+    catch(check_server_shown(Uri, Image), _, fail), !,
+	thumb_link(Image, ThumbUrl).
+thumbnail_url(Uri, ThumbUrl) :-
+    check_cache_view(Uri, Image), !,
+	thumb_link(Image, ThumbUrl).
+thumbnail_url(Uri, ThumbUrl) :-
+    catch(check_server_view(Uri, Image), _, fail), !,
+	thumb_link(Image, ThumbUrl).
+thumbnail_url(_, Stub) :- http_absolute_location(img('stub.png'), Stub, []).
+
+thumb_link(Image, ThumbUrl) :-
+	concat('cache/fit?uri=', Image, RequestUrl),
+    http_absolute_location(root(RequestUrl), ThumbUrl, []).
+
+%%	https_header_response(+URL, -Status)
+%
+%	Return the response header of input URL.
+https_header_response(URL, Status) :-
+    http_open(URL, In,
+	  [method(head),
+	   status_code(Status),
+	   cert_verify_hook(ssl_verify)
+	  ]),
+    close(In).
+
+:- public ssl_verify/5.
+
+%%	ssl_verify(+SSL, +ProblemCert, +AllCerts, +FirstCert, +Error)
+%
+%	Currently we accept  all  certificates.
+ssl_verify(_SSL,
+	   _ProblemCertificate, _AllCertificates, _FirstCertificate,
+	   _Error).

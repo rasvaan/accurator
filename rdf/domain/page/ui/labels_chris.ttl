@@ -1,0 +1,59 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix apaguic: <http://accurator.nl/ui/page_chris#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+###### Page Domain #####
+apaguic:domain a auis:UI;
+	aui:domainLabel "Page domain Chris"@en ;
+	aui:domainLabel "Pagina domein Chris"@nl .
+
+aui:domainLabel a auis:UILabel .
+
+###### Page Intro Screen #####
+
+apaguic:intro a auis:UI ;
+	rdfs:subClassOf aui:intro .
+
+###### Page About Screen #####
+
+apaguic:about a auis:UI ;
+	rdfs:subClassOf aui:about .
+
+##### Page Register Screen #####
+
+apaguic:register a aui:UI ;
+	rdfs:subClassOf aui:register .
+
+##### Page Expertise Screen #####
+
+apaguic:expertise a auis:UI ;
+	rdfs:subClassOf aui:expertise .
+
+##### Page Profile Screen #####
+
+apaguic:profile a aui:UI ;
+	rdfs:subClassOf aui:profile .
+
+##### Page Results Screen #####
+
+apaguic:results a aui:UI ;
+	rdfs:subClassOf aui:results .
+
+##### Page Item Screen #####
+
+apaguic:item a aui:UI ;
+	rdfs:subClassOf aui:item .
+
+##### Page Additional Info Screen #####
+
+apaguic:additional_info a auis:UI ;
+	rdfs:subClassOf aui:additional_info .
+
+##### Page Login Modal #####
+
+apaguic:login_modal a auis:UI ;
+	rdfs:subClassOf aui:login_modal .

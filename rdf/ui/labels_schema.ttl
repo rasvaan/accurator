@@ -4,8 +4,14 @@
 @prefix dc:     <http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-auis:uiLabel a rdf:Property;
-	rdfs:domain auis:UI ;
+auis:UI a rdfs:Class ;
+	rdfs:label "Super-class of all Accurator user interfaces"@en .
+
+auis:AnnotationUI a rdfs:Class ;
+	rdfs:label "Accurator annotation interface"@en ;
+	rdfs:subClassOf auis:UI .
+
+auis:uiLabel a rdf:Property ;
 	rdfs:label "Super-property of all labels"@en .
 
 auis:textLabel a rdf:Property;
@@ -20,24 +26,59 @@ auis:linkLabel a rdf:Property;
 	rdfs:label "Property connecting UI to label for link"@en  ;
 	rdfs:subPropertyOf auis:uiLabel .
 
-auis:UILabel a rdfs:Class;
+auis:UILabel a rdfs:Class ;
 	rdfs:label "Super-class of all labels"@en .
 
-auis:UI a rdfs:Class;
-	rdfs:label "Super-class of all Accurator user interfaces."@en .
+auis:Field a rdfs:Class ;
+	rdfs:label "Super-class of all fields"@en .
 
-auis:SelectField a rdfs:Class;
+auis:fields a rdf:Property ;
+	rdfs:label "Fields for UI"@en ;
+	rdfs:comment "Property for connecting annotation UI to included fields"@en .
+
+auis:fragmentFields a rdf:Property ;
+	rdfs:subPropertyOf auis:fields ;
+	rdfs:label "Fields for fragments"@en ;
+	rdfs:comment "Property for connecting fields for describing fragments of media."@en .
+
+auis:wholeFields a rdf:Property ;
+	rdfs:subPropertyOf auis:fields ;
+	rdfs:label "Fields for describing whole things"@en ;
+	rdfs:comment "Property for connecting annotation UI to include fields that describe whole things."@en .
+
+auis:DropdownField a rdfs:Class ;
+	rdfs:label "Dropdown"@en ;
+	rdfs:subClassOf auis:Field .
+
+auis:TextField a rdfs:Class ;
+	rdfs:label "Text field"@en ;
+	rdfs:subClassOf auis:Field .
+
+auis:RadioButtonField a rdfs:Class ;
+	rdfs:label "Radio buttons"@en ;
+	rdfs:subClassOf auis:Field .
+
+auis:CheckboxField a rdfs:Class ;
+	rdfs:label "Checkboxes"@en ;
+	rdfs:subClassOf auis:Field .
+
+auis:SelectField a rdfs:Class ;
 	rdfs:label "Select field" ;
 	rdfs:comment "Selectfield bundles possible options together."@en .
 
-auis:hasSelect a rdf:Property;
+auis:hasSelect a rdf:Property ;
 	rdfs:label "Has select field" ;
+	rdfs:subClassOf auis:Field ;
 	rdfs:comment "Property linking a ui and a select field"@en .
 
-auis:SelectOption a rdfs:Class;
+auis:SelectOption a rdfs:Class ;
 	rdfs:label "Option of selector field" ;
 	rdfs:comment "Option of a selectfield with a preflabel and notation, used for language independent storage of selected values."@en .
 
-auis:hasSelectOption a rdf:Property;
+auis:hasSelectOption a rdf:Property ;
 	rdfs:label "Has select option" ;
-	rdfs:comment "Property linking a selectfield and its options"@en .
+	rdfs:comment "Property linking a selectfield and its options."@en .
+
+auis:source a rdf:Property ;
+	rdfs:label "Has source" ;
+	rdfs:comment "The source of data for an input field."@en .

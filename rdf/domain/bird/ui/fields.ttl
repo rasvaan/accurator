@@ -1,0 +1,69 @@
+@prefix abirui: <http://accurator.nl/ui/annotation/bird#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+abirui:smallBirdDemoUi a auis:AnnotationUI ;
+    dcterms:title "Bird annotation UI"@en;
+	auis:fragmentFields (
+	     abirui:IOCCommonNameAnnotation
+		 abirui:IOCScientificNameAnnotation
+		 abirui:Gender
+		 abirui:StageOfLife
+		 abirui:RealOrNotAnnotation
+		 abirui:SymbolicField
+	 ) .
+
+abirui:IOCCommonNameAnnotation a auis:DropdownField ;
+	rdfs:label "Species"@en ;
+	rdfs:label "Soortnaam"@nl ;
+	dcterms:comment "add common name of the species"@en ;
+	dcterms:comment "voeg de in Nederland gebruikelijke naam van soort toe"@nl ;
+	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://purl.org/collections/birds/IOCConceptScheme\"}&labelrank=['http://lod.taxonconcept.org/ontology/txn.owl%23commonName'-1]" .
+
+abirui:IOCScientificNameAnnotation a auis:DropdownField ;
+	rdfs:label "Scientific name"@en ;
+	rdfs:label "Wetenschappelijke naam"@nl ;
+	dcterms:comment "add scientificly accepted species or genus name"@en ;
+	dcterms:comment "voeg de wetenschappelijke soortnaam toe"@nl ;
+	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://purl.org/collections/birds/IOCConceptScheme\"}&labelrank=['http://lod.taxonconcept.org/ontology/txn.owl%23scientificName'-1]" .
+
+abirui:Gender a auis:RadioButtonField ;
+	rdfs:label "Geslacht"@nl ;
+	rdfs:label "Gender"@en ;
+	dcterms:comment "add gender of the species"@en ;
+	dcterms:comment "voeg het geslacht van het soort toe"@nl ;
+	auis:source ( "male"@en "female"@en ) ;
+	auis:source ( "man"@nl "vrouw"@nl ) .
+
+abirui:StageOfLife a auis:RadioButtonField ;
+	rdfs:label "Levensfase"@nl ;
+	rdfs:label "Stage of life"@en ;
+	dcterms:comment "add the stage of life the species is in"@en ;
+	dcterms:comment "voeg de levensfase van de soort toe"@nl ;
+	auis:source ( "adult"@en "juvenile"@en "chick"@en) ;
+	auis:source ( "adult"@nl "juveniel"@nl "pul"@nl ) .
+
+abirui:Realism a auis:RadioButtonField ;
+	rdfs:label "Realisme"@nl ;
+	rdfs:label "Realism"@en ;
+	dcterms:comment "is the depiction of the subject realistic"@en ;
+	dcterms:comment "is het onderwerp realistisch afgebeeld"@nl ;
+	auis:source ( "realistisch"@nl "enigzins realtisch"@nl "enigzins abstract"@nl "abstract"@nl ) ;
+	auis:source ( "realistic"@en "somewhat realistic"@en "somewhat abstract"@en "abstract"@en ) .
+
+abirui:RealOrNotAnnotation a auis:RadioButtonField ;
+	rdfs:label "Fantasie soort"@nl ;
+	rdfs:label "Imaginary"@en ;
+	dcterms:comment "use when species only occurs in fiction (e.g. a dragon or unicorn)"@en ;
+	dcterms:comment "gebruik bij fantasie dieren en planten (zoals draken en eenhoorns)"@nl ;
+	auis:source ( "fantasie"@nl "echt"@nl ) ;
+	auis:source ( "imaginairy"@en "real"@en ) .
+
+abirui:SymbolicField a auis:TextField ;
+	rdfs:label "Iconologie"@nl ;
+	rdfs:label "Iconology"@en ;
+	dcterms:comment "(symbolische) interpretatie, optioneel"@nl ;
+	dcterms:comment "(symbolic) interpretation, optional"@en .

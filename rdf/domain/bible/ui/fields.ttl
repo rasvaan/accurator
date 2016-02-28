@@ -1,0 +1,61 @@
+@prefix abibui: <http://accurator.nl/ui/annotation/bible#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+abibui:smallBibleUI a auis:AnnotationUI ;
+    dcterms:title "Bible annotation UI"@en;
+    auis:wholeFields (
+	     abibui:ICBibleTheme
+	);
+	auis:fragmentFields (
+		 abibui:BibleCharacter
+	 ) .
+
+ abibui:emotionUI a auis:AnnotationUI ;
+    dcterms:title "Emotion annotation UI"@en;
+ 	auis:fragmentFields (
+ 		 abibui:Emotion
+ 		 abibui:Intensity
+ 		 abibui:Appraisal
+ 	 ) .
+
+abibui:ICBibleTheme a auis:DropdownField ;
+	rdfs:label "Theme"@en ;
+	rdfs:label "Thema"@nl ;
+	dcterms:comment "add the Biblical theme"@en ;
+	dcterms:comment "voeg het bijbelse thema toe"@nl ;
+	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://accurator.nl/bible%23BiblicalThemeConceptScheme\"}" .
+
+abibui:BibleCharacter a auis:DropdownField ;
+	rdfs:label "Biblical person"@en ;
+	rdfs:label "Bijbels persoon"@nl ;
+	dcterms:comment "add the biblical person"@en ;
+	dcterms:comment "voeg de bijbelse persoon toe"@nl ;
+	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://accurator.nl/bible%23BiblicalFigureConceptScheme\"}&labelrank=['http://www.w3.org/2000/01/rdf-schema%23label'-1]" .
+
+abibui:Emotion a auis:SelectField ;
+	rdfs:label "Emotie"@nl ;
+	rdfs:label "Emotion"@en ;
+	dcterms:comment "welke emotie wordt getoond"@nl ;
+	dcterms:comment "which emotion is shown"@en ;
+	auis:source ( "Anger"@en "Annoyance"@en "Aquiescence"@en "Awe"@en "Benevolence"@en "Compassion"@en "Dedication"@en "Desire"@en "Despair"@en "Devotion"@en "Disappointment"@en "Disgust"@en "Fear"@en "Feeling of loss"@en "Happiness"@en "Hatred"@en "Heavy-heartedness"@en "Honor"@en "Joy"@en "Love"@en "Loyalty"@en "Moved"@en "Offended"@en "Relief"@en "Remorse"@en "Sadness"@en "Shame"@en "Spitefulness"@en "Suspicion"@en "Trust"@en "Unhappiness"@en "Vindictiveness"@en "Wonder"@en "Worry"@en ) ;
+	auis:source ( "Woede"@nl "Wrevel"@nl "Berusting"@nl "Ontzag"@nl "Welwillendheid"@nl  "Mededogen"@nl "Toewijding"@nl "Verlangen"@nl "Wanhoop"@nl "Devotie"@nl "Teleurstelling"@nl "Walging"@nl "Angst"@nl "Gemis"@nl "Geluk"@nl "Haat"@nl "Bedruktheid"@nl "Eergevoel"@nl "Blijdschap"@nl "Liefde"@nl "Trouw"@nl "Ontroerd"@nl "Beledigd"@nl "Opluchting"@nl "Wroeging"@nl "Verdriet"@nl "Schaamte"@nl "Wrok"@nl "Achterdocht"@nl "Vertrouwen"@nl "Ongelukkig"@nl "Wraakzucht"@nl "Verwondering"@nl "Bezorgdheid"@nl ) .
+
+abibui:Intensity a auis:RadioButtonField ;
+	rdfs:label "Intensiteit emotie"@nl ;
+	rdfs:label "Emotion intensity"@en ;
+	dcterms:comment "wat is de intensiteit van de emotie?"@nl ;
+	dcterms:comment "what is the intensity of the emotion?"@en ;
+	auis:source ( "very weak"@en "weak"@en "average"@en "strong"@en "very strong"@en ) ;
+	auis:source ( "zeer zwak"@nl "zwak"@nl "gemiddeld"@nl "sterk"@nl "zeer sterk"@nl ) .
+
+abibui:Appraisal a auis:DropdownField ;
+	rdfs:label "Morele waardering"@nl ;
+	rdfs:label "Appraisal"@en ;
+	dcterms:comment "welke waardering kunt u onderscheiden?"@nl ;
+	dcterms:comment "what appraisal can you descern?"@en ;
+	auis:source ( "Charity (love)"@en "Courage (fortitude)"@en "Envy"@en "Faith"@en "Gluttony"@en "Greed"@en "Hope"@en "Justice"@en "Lust"@en "Pride"@en "Prudence"@en "Sloth"@en "Temperance"@en "Wrath"@en ) ;
+	auis:source ( "Naastenliefde"@nl "Moed"@nl "Afgunst"@nl "Geloof"@nl "Vraatzucht"@nl "Hebzucht"@nl "Hoop"@nl "Rechtvaardigheid"@nl "Wellust"@nl "Trots"@nl "Voorzichtigheid"@nl "Traagheid"@nl "Gematigdheid"@nl "Toorn"@nl ) .

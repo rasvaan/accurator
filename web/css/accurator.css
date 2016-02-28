@@ -1,4 +1,6 @@
-/* Accurator css */
+/*******************************************************************************
+Accurator CSS
+*******************************************************************************/
 html, body {
 	font-family: Arial, Helvetica, sans-serif;
 }
@@ -55,6 +57,10 @@ Navbar
 	height: 20px;
 }
 
+#navbarFrmSearch{
+	text-align: center;
+}
+
 @media (min-width: 768px) {
     .navbar .navbar-nav {
         display: inline-block;
@@ -84,11 +90,6 @@ Intro
 .introDivContainer {
 	position: absolute;
 	top: 75px;
-}
-
-/* Register page */
-.registerMessage {
-	margin-top: 50px;
 }
 
 /*******************************************************************************
@@ -198,45 +199,168 @@ About page
 	text-align: center;
 }
 
-/* Annotate page */
-.navigationButton {
+/*******************************************************************************
+Search results
+*******************************************************************************/
+.search-form {
+	width: 250px;
+	margin: auto;
+}
+
+#results {
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.filters {
+	padding-bottom: 10px;
+}
+
+.thumbnail {
+	cursor: pointer;
+}
+
+.path-label {
+	color: rgb(255, 255, 255);
+    display: inline;
+    padding: 0.2em 0.6em 0.3em;
+	font-size: 75%;
+	font-weight: bold;
+	line-height: 2;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: 0.25em 0.25em 0.25em 0.25em;
+	cursor: pointer;
+}
+
+.path-label:hover, .path-label:visited:hover {
+	color: rgb(225, 225, 225);
+ 	text-decoration: none;
+}
+
+.path-label:visited {
+	color: rgb(255, 255, 255);
+ 	text-decoration: none;
+}
+
+.path-resource {
+	background-color: rgb(20, 65, 115);
+	padding: 0.3em 0.6em 0.4em;
+	font-size: 80%;
+}
+
+.path-literal {background-color: rgb(100, 100, 100);}
+.path-property {background-color: rgb(66, 139, 202);}
+
+/*******************************************************************************
+Item page
+*******************************************************************************/
+.itemDivNavigationButton {
 	margin-top: 10px;
+}
+
+#itemDivImage {
+	text-align: center;
+}
+
+.itemImg {
+	max-width: 100%;
 }
 
 .annotorious-annotationlayer {
 	max-width: 100%;
 }
 
-#path {
+#itemDivPath {
 	text-align: center;
 }
 
-#path h4 {
+#itemDivPath h4 {
 	margin-top: 12px;
 }
 
-#navbarFrmSearch{
-	text-align: center;
-}
-
-.navButton {
+.itemBtnNavigation {
 	width: 100px;
 }
 
-#btnAlignRight {
+#itemDivAlignButton {
 	text-align: right;
 }
 
-#metadata {
+#itemDivMetadata {
 	margin-top: 10px;
 }
 
-#experimentNavigation {
+#itemDivNavigationExperiment {
 	margin-top: 10px;
 	text-align: center;
 }
 
-/* End page */
+#itemDivAnnotationFields {
+	margin-top: 10px;
+}
+
+.itemLbl {
+	margin-right: 10px;
+}
+
+.itemDivHidden {
+	display: none;
+}
+/* Item page: Typeahead functionality */
+/* source: http://twitter.github.io/typeahead.js/examples/ */
+
+#itemFrmAnnotationFields {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+#itemLblPageType {
+  vertical-align: bottom;
+}
+
+#itemInpPageType,
+.tt-menu {
+  width: 396px;
+}
+
+.tt-menu {
+  text-align: left;
+  margin: 4px 0;
+  padding: 4px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 1px 20px;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+}
+
+/*******************************************************************************
+End page
+*******************************************************************************/
 .endScreen {
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -248,7 +372,9 @@ About page
 	top: 75px;
 }
 
-/* Sliders */
+/*******************************************************************************
+Sliders
+*******************************************************************************/
 slider.slider-horizontal {
 	height: 15px;
 	align: center;
@@ -263,7 +389,9 @@ slider.slider-horizontal {
 	padding: 0px 15px 0px 15px;
 }
 
-/* Buttons */
+/*******************************************************************************
+Buttons
+*******************************************************************************/
 .btn-transparent {
 	height: 40px; color: #fff; background-color: rgba(0, 0, 0, 0.33);	border: none;
 }
@@ -288,7 +416,9 @@ slider.slider-horizontal {
 	outline: none;
 }
 
-/* Flags */
+/*******************************************************************************
+Flags
+*******************************************************************************/
 /* source: http://lipis.github.io/flag-icon-css/ */
 .flag-icon-background {
   background-size: contain;

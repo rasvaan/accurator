@@ -16,7 +16,7 @@ abib:domain a accu:Domain ;
 	accu:hasTarget <http://accurator.nl/bible#Target> ;
 	skos:hasTopConcept ic:7 ;
 	accu:hasUI abibui: ;
-	accu:hasAnnotationUI aabib:smallBibleUi ;
+	accu:hasAnnotationUI aabib:smallBibleUI ;
 	accu:hasDesciptiveImage abib:jeremia ;
 	accu:hasLastImage abib:jeremia ;
 	accu:hasMaximumExpertiseTopics "50" ;

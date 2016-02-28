@@ -2,45 +2,7 @@
 
 /** <module> Accurator
 */
-
-:- use_module(library(accurator/accurator_user)).
-:- use_module(library(accurator/annotate_page)).
-:- use_module(library(accurator/domain)).
-:- use_module(library(accurator/expertise)).
-:- use_module(library(accurator/recommendation/strategy_random)).
-:- use_module(library(accurator/recommendation/strategy_expertise)).
-:- use_module(library(accurator/ui_elements)).
-:- use_module(library(accurator/subset_selection)).
-:- use_module(library(accurator/concept_scheme_selection)).
-:- use_module(api(cluster_search)).
 :- use_module(library(semweb/rdf_db)).
-:- use_module(library(http/http_dispatch)).
-:- use_module(library(http/http_server_files)).
-:- use_module(library(http/http_json)).
-:- use_module(library(http/http_parameters)).
-:- use_module(library(http/html_write)).
-:- use_module(user(user_db)).
-
-http:location(html, cliopatria(html), []).
-http:location(img, cliopatria(img), []).
-user:file_search_path(html, web(html)).
-user:file_search_path(img, web(img)).
-
-:- http_handler(root('.'), redirect_to_home, []).
-:- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
-:- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
-:- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
-:- http_handler(cliopatria(ui_elements), ui_elements_api,  []).
-:- http_handler(cliopatria(domains), domains_api,  []).
-:- http_handler(cliopatria(recently_annotated), recently_annotated_api,  []).
-:- http_handler(cliopatria(expertise_topics), expertise_topics_api,  []).
-:- http_handler(cliopatria(expertise_values), expertise_values_api,  []).
-:- http_handler(cliopatria(register_user), register_user,  []).
-:- http_handler(cliopatria(get_user), get_user,  []).
-:- http_handler(cliopatria(get_user_settings), get_user_settings,  []).
-:- http_handler(cliopatria(save_user_info), save_user_info,  []).
-:- http_handler(cliopatria(recommendation), recommendation_api, []).
-
 :- rdf_register_prefix(auis, 'http://accurator.nl/ui/schema#').
 :- rdf_register_prefix(aui, 'http://accurator.nl/ui/generic#').
 :- rdf_register_prefix(ausr, 'http://accurator.nl/user#').
@@ -50,6 +12,56 @@ user:file_search_path(img, web(img)).
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
 :- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
 :- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
+
+:- use_module(library(accurator/accurator_user)).
+:- use_module(library(accurator/domain)).
+:- use_module(library(accurator/expertise)).
+:- use_module(library(accurator/recommendation/strategy_random)).
+:- use_module(library(accurator/recommendation/strategy_expertise)).
+:- use_module(library(accurator/ui_elements)).
+:- use_module(library(accurator/annotation)).
+:- use_module(library(accurator/subset_selection)).
+:- use_module(library(accurator/concept_scheme_selection)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/http_server_files)).
+:- use_module(library(http/http_json)).
+:- use_module(library(http/http_parameters)).
+:- use_module(library(http/html_write)).
+:- use_module(user(user_db)).
+% load other cpacks
+:- use_module(api(cluster_search)).
+:- use_module(api(annotation)).    % needed for http api handlers
+:- use_module(library(thumbnail)).
+
+
+http:location(html, cliopatria(html), []).
+http:location(img, cliopatria(img), []).
+http:location(fonts, cliopatria(fonts), []).
+user:file_search_path(html, web(html)).
+user:file_search_path(img, web(img)).
+user:file_search_path(fonts, web(fonts)).
+
+:- http_handler(root('.'), redirect_to_home, []).
+:- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
+:- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
+:- http_handler(fonts('.'), serve_files_in_directory(fonts), [prefix]).
+% :- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
+:- http_handler(cliopatria('item.html'), page_item, []).
+:- http_handler(cliopatria(ui_elements), ui_elements_api, []).
+:- http_handler(cliopatria(domains), domains_api, []).
+:- http_handler(cliopatria(metadata), metadata_api, []).
+:- http_handler(cliopatria(annotation_fields), annotation_fields_api, []).
+:- http_handler(cliopatria(annotations), annotations_api, []).
+:- http_handler(cliopatria(expertise_topics), expertise_topics_api, []).
+:- http_handler(cliopatria(expertise_values), expertise_values_api, []).
+:- http_handler(cliopatria(register_user), register_user, []).
+:- http_handler(cliopatria(get_user), get_user, []).
+:- http_handler(cliopatria(get_user_settings), get_user_settings, []).
+:- http_handler(cliopatria(save_user_info), save_user_info, []).
+:- http_handler(cliopatria(recommendation), recommendation_api, []).
+
+:- set_setting_default(thumbnail:thumbnail_size, size(350,300)).
+:- set_setting_default(thumbnail:medium_size, size(1280,1024)).
 
 %%	ui_elements_api(+Request)
 %
@@ -86,23 +98,7 @@ get_parameters_elements(Request, Options) :-
 	]),
     Options = [ui(UI), locale(Locale), type(Type)].
 
-%%	recently_annotated_api(+Request)
-%
-%	Retrieves a list of artworks the user recently annotated.
-recently_annotated_api(Request) :-
-    get_parameters_annotated(Request, Options),
-	get_annotated(Dic, Options),
-	reply_json_dict(Dic).
-
-%%	get_parameters_annotated(+Request, -Options)
-%
-%	Retrieves an option list of parameters from the url.
-get_parameters_annotated(Request, Options) :-
-    http_parameters(Request,
-        [user(User, [description('The user'), optional(false)])]),
-    Options = [user(User)].
-
-%%	domain_settings_api(+Request)
+%%     domains_api(+Request)
 %
 %	Retrieves the settings specific to a domain.
 domains_api(Request) :-
@@ -119,6 +115,103 @@ get_parameters_domain(Request, Options) :-
 		    [description('The domain'),
 			 optional(true)])]),
     Options = [domain(Domain)].
+
+%%	metadata_api(+Request)
+%
+%	Retrieves the metadata for a list of uris or a specific uri, the
+%	type to be retrieved can be specified but is full on default.
+metadata_api(Request) :-
+	http_read_json_dict(Request, JsonIn), !,
+	metadata_list(JsonIn, Results),
+    reply_json_dict(Results).
+
+metadata_api(Request) :-
+    get_parameters_metadata(Request, Options),
+    option(uri(Uri), Options),
+	option(type(Type), Options),
+    metadata(Type, Uri, Metadata),
+    reply_json_dict(Metadata).
+
+%%	metadata_list(+JsonDict, -Results)
+%
+%	Processes a json dict with uris, retrieving either labels or
+%	thumbnail information
+metadata_list(JsonIn, Results) :-
+	get_dict(type, JsonIn, Type),
+	Type == "label", !,
+	UriStrings = JsonIn.uris,
+	maplist(atom_string, Uris, UriStrings),
+	maplist(uri_label, Uris, Results).
+
+metadata_list(JsonIn, Results) :-
+	UriStrings = JsonIn.uris,
+	maplist(atom_string, Uris, UriStrings),
+	maplist(metadata(thumbnail), Uris, Results).
+
+%%	get_parameters_metadata(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_metadata(Request, Options) :-
+    http_parameters(Request,
+        [uri(Uri,
+		    [description('The URI'),
+			 optional(false)]),
+		 type(Type,
+			[description('Type of elements to retrieve'),
+			 default(full),
+			 optional(type)])]),
+    Options = [uri(Uri), type(Type)].
+
+
+%%	annotations_api(+Request)
+%
+%	Retrieves the metadata for a specific uri, the type to be retrieved
+%	is full on default.
+annotations_api(Request) :-
+    get_parameters_annotations(Request, Options),
+    option(uri(Uri), Options),
+	option(type(Type), Options),
+    annotations(Type, Uri, Metadata),
+    reply_json_dict(Metadata).
+
+%%	get_parameters_annotations(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_annotations(Request, Options) :-
+    http_parameters(Request,
+        [uri(Uri,
+		    [description('The URI of the object of user'),
+			 optional(false)]),
+		 type(Type,
+			[description('Type of elements to retrieve'),
+			 default(full),
+			 optional(type)])]),
+    Options = [uri(Uri), type(Type)].
+
+%%	annotation_fields_api(+Request)
+%
+%	Retrieves the fields for a specified locale and domain
+annotation_fields_api(Request) :-
+    get_parameters_annotation_fields(Request, Options),
+    annotation_fields(Fields, Options),
+    reply_json_dict(Fields).
+
+%%	get_parameters_annotations(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_annotation_fields(Request, Options) :-
+    http_parameters(Request,
+        [annotation_ui(UI,
+			[description('UI for which fields are retrieved'),
+			 optional(false)]),
+		 locale(Locale,
+				[description('Locale of field descriptions to retrieve'),
+				 optional(false)]),
+		 domain(Domain,
+				[description('Domain of field descriptions to retrieve'),
+				 optional(false)])]),
+    Options = [annotation_ui(UI), locale(Locale), domain(Domain)].
+
 
 %%	expertise_topics_api(+Request)
 %
@@ -233,3 +326,154 @@ reply_expertise_results(cluster, Clusters) :-
 
 reply_expertise_results(list, List) :-
 	reply_json_dict(List).
+
+%%	page_item(+Request)
+%
+%	Replies html page
+page_item(Request) :-
+    get_parameters_page(Request, Options),
+	option(uri(Uri), Options),
+	reply_html_page(\head, \content(Uri)).
+
+%%	get_parameters_elements(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_page(Request, Options) :-
+    http_parameters(Request,
+        [uri(Uri,
+		    [description('Uri of the item'),
+			 optional(false)])
+		]),
+    Options = [uri(Uri)].
+
+head -->
+html({|html||
+<title>Item</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="img/favicon.ico">
+<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.bootstrap.min.css" />
+<link type="text/css" rel="stylesheet" href="css/annotorious.css" />
+<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
+|}).
+
+content(Uri) -->
+	{image_url(Uri, ImageUrl)},
+html({|html(ImageUrl)||
+<!-- Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+     <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarDivMenu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="intro.html">
+                <img id="navbarImgLogo" src="img/accurator.png" alt="Accurator">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarDivMenu">
+            <ul class="nav navbar-nav navbar-right navbarLstFlag">
+            </ul>
+            <ul class="nav navbar-nav navbar-right navbarLstUser">
+            </ul>
+            <div class="navbar-form navbar-nav" id="navbarFrmSearch">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="navbarInpSearch">
+                </div>
+                <button id="navbarBtnSearch" class="btn btn-default">
+                </button>
+            </div>
+            <button class="btn navbar-btn navbar-right btn-primary" id="navbarBtnRecommend">
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Events -->
+<div class="container" id="eventsDiv">
+</div>
+
+<div class="container">
+	<!-- Image -->
+	<div class="row" id="itemDivImage">
+		<img class="itemImg annotatable" src="ImageUrl" alt="" />
+	</div>
+
+	<!-- Navigation -->
+	<div class="row" id="itemDivClusterNavigation">
+		<div class="itemDivNavigationButton col-md-2 col-xs-6">
+			<button class="btn btn-default itemBtnNavigation" id="itemBtnPrevious">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+			</button>
+		</div>
+		<div class="itemDivNavigationButton col-md-2 col-xs-6 col-md-push-8" id="itemDivAlignButton">
+			<button class="btn btn-default itemBtnNavigation" id="itemBtnNext">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+			</button>
+		</div>
+		<div class="col-md-8 col-md-pull-2" id="itemDivPath">
+		</div>
+	</div>
+
+	<!-- Annotation field(s) -->
+	<div class="row">
+		<div class="col-md-6" id="itemDivFields"></div>
+	</div>
+
+	<!-- Metadata -->
+	<div id="itemDivMetadata"></div>
+</div>
+
+<!-- Login modal -->
+<div class="modal fade" id="loginDivLogin">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" id="loginBtnClose">&times;</button>
+				<h4 id="loginHdrTitle">
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<label id="loginLblUsername" for="loginInpUsername">
+						</label>
+						<input type="text" class="form-control" id="loginInpUsername">
+					</div>
+					<div class="form-group">
+						<label id="loginLblPassword" for="password">
+						</label>
+						<input type="password" class="form-control" id="loginInpPassword">
+					</div>
+					<p class="text-warning" id="loginTxtWarning">
+					</p>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="loginBtnLogin">
+				</button>
+				<button class="btn btn-link" id="mdlBtnIntro">
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Annotorious Annotation field(s) -->
+<div class="itemDivHidden"></div>
+
+<!-- Added Script -->
+<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
+<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
+<script type="text/javascript" src="js/accurator.laconic.js"></script>
+<script type="text/javascript" src="js/bloodhound.js"></script>
+<script type="text/javascript" src="js/typeahead.js"></script>
+<script type="text/javascript" src="js/annotorious.min.js"></script>
+<script type="text/javascript" src="js/deniche-plugin.js"></script>
+<script type="text/javascript" src="js/search.js"></script>
+<script type="text/javascript" src="js/accurator_utilities.js"></script>
+<script type="text/javascript" src="js/annotations.js"></script>
+<script type="text/javascript" src="js/field.js"></script>
+<script type="text/javascript" src="js/accurator_item.js"></script>
+<script>itemInit()</script>
+|}).

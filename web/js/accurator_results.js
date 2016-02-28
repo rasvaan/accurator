@@ -6,13 +6,11 @@ cluster_search_ui (search.js pagination.js and thumbnail.js)
 var locale, experiment, ui, typeRec, userName, realName;
 var resultsTxtRecommendationsFor, resultsHdrFirst, resultsTxtFirst;
 
-// Options provided for cluster_search_ui__search.js
+// Options provided for search.js
 displayOptions = {
 	numberDisplayedItems: 4,
 	showFilters: false,
-	imageFilter: 'onlyImages',
-	//Indicate whether the result link points to annotation view or regular result view
-	annotateLink: true
+	imageFilter: 'onlyImages'
 }
 
 function resultsInit() {
@@ -91,7 +89,7 @@ function addButtonEvents() {
 }
 
 function events() {
-	$.getJSON("recently_annotated", {user:user})
+	$.getJSON("annotations", {uri:user, type:"user"})
 	.done(function(annotations){
 		uris = annotations.uris;
 		if(uris.length===0) {
@@ -105,9 +103,12 @@ function initiateSearch(query, target) {
 }
 
 function recommendItems(target) {
-	if(experiment === "true") {
+	if(experiment === "recommender") {
 		// If running an recommender experiment choose A or B
 		randomOrRecommended(target);
+	} else if (experiment === "random"){
+		// Lets do random stuff
+		randomItems(target);
 	} else {
 		// Business as usual
 		recommendExpertiseItems(target);
@@ -161,11 +162,33 @@ function populateRandom(target, clusterIndex) {
 function randomOrRecommended(target) {
 	// Consider recommendation AB setting
 	var AOrB = getAOrB();
+
 	if(AOrB === "recommend") {
 		recommendExpertiseList(target);
 	} else if(AOrB === "random") {
 		randomResults(target);
 	}
+}
+
+function randomItems(target) {
+	typeRec = "random";
+
+	// Populate a list of random items
+	$.getJSON("recommendation", {strategy:'random',
+								 number:250,
+								 target:target})
+	.done(function(data){
+		// Set retrieved uris as current cluster
+		localStorage.setItem("currentCluster", JSON.stringify(data));
+		var numberOfItems = data.length;
+		var items = [];
+
+		for (var i=0; i<numberOfItems; i++) {
+			var uri = data[i];
+			items[i] = new item(uri);
+		}
+		addItemList(items);
+	});
 }
 
 function recommendExpertiseList(target) {
@@ -220,17 +243,19 @@ function addItemList(items) {
 		itemUris[i] = items[i].uri;
 
 	// Get item enrichments from server, on success add pagination and thumbnails
-	new Pengine({server: 'pengine',
-				 application: 'enrichment',
-				 ask: 'maplist(enrich_item,' + Pengine.stringify(itemUris, {string:'atom'}) + ', Items),!',
-				 onsuccess: function () {
-					enrichedItems = processListEnrichment(this.data);
-					thumbnailList(enrichedItems);
-	}});
+	var json = {"uris":itemUris};
+	$.ajax({type: "POST",
+			url: "metadata",
+			contentType: "application/json",
+			data: JSON.stringify(json),
+			success: function(data) {
+				enrichedItems = processListEnrichment(data);
+				thumbnailList(enrichedItems);
+		   }
+	});
 }
 
-function processListEnrichment(data) {
-	var sourceItems = data[0].Items;
+function processListEnrichment(sourceItems) {
 	var numberOfItems = sourceItems.length;
 	var items = [];
 
@@ -238,7 +263,8 @@ function processListEnrichment(data) {
 	for (var i=0; i<numberOfItems; i++) {
 		var uri = sourceItems[i].uri;
 		var thumb = sourceItems[i].thumb;
-		var link = "annotate_image.html?uri=" + uri;
+		//var link = "annotate_image.html?uri=" + uri;
+		var link = "annotate.html?uri=" + uri;
  		var title = truncate(sourceItems[i].title, 60);
 		items[i] = new item(uri, thumb, link, title);
 	}
