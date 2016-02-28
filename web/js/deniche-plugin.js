@@ -118,7 +118,6 @@ annotorious.plugin.DenichePlugin.prototype.removeAnnotation = function (label, t
 		annotation.text = old.compound_text.join(', ');
 		this._dirtytag = annotation;
 	}
-
 }
 
 annotorious.plugin.DenichePlugin.prototype.onFragmentCancel = function(ev) {
@@ -129,7 +128,7 @@ annotorious.plugin.DenichePlugin.prototype.onFragmentCancel = function(ev) {
 annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation, update) {
 	var old = this._dirtytag;
 	if (!old) old = this._cleantags[ annotation.targetId ];
-
+	console.log("1. old", old, annotation);
 	if (old) {
 		// extend new annotation by merging in old one
 		annotation.compound_text = old.compound_text;
@@ -138,7 +137,7 @@ annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation,
 	} else {
 		annotation.compound_text = [ annotation.text ];
 	}
-
+	console.log("2. old", old, annotation);
 	if (update) {
 		this._cleantags[annotation.targetId] = annotation;
 		this._anno.addAnnotation(annotation, old);

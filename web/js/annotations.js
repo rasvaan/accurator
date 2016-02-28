@@ -47,9 +47,8 @@ AnnotationList.prototype.render = function() {
 		);
 
 		// Add event to label
-		$("#lbl" + id).on("click", function(){
-			console.log("clicked");
-		});
+		// $("#lbl" + id).on("click", function(){
+		// });
 	}
 }
 
@@ -86,12 +85,12 @@ AnnotationList.prototype.findGenericTarget = function(tag) {
 	var targets = tag.hasTarget;
 	var target = undefined;
 
-	// Return null if no target is known
+
 	if (!targets)
-		return null;
-	// Return targets array if key @id is present
+		return null; // return null if no target is known
 	if (targets['@id'])
-		return targets;
+		return targets; // return targets array if key @id is present
+
 	// Loop through targets till key @id is found
 	for (var t in targets) {
 		target = targets[t];

@@ -99,12 +99,11 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 				label: label,
 			   	motivatedBy: motiv,
 				graph: graph
-			},
-			success: function(data) {
-				//Add annotation to list of annotations
-				_field.annotationList.add(data.annotation);
-				_field.annotationList.render();
-			}
+			}})
+	.then(function(data) {
+		//Add annotation to list of annotations
+		_field.annotationList.add(data.annotation);
+		_field.addAnnotationFragment(data.annotation, false); // add but do not update open editor
 	});
 }
 
