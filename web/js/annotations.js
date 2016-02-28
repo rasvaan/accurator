@@ -1,22 +1,16 @@
 /*******************************************************************************
 Annotations
-Code for handling the adding and removing of tags, with two main objects:
-	* AnnotationList
-	* Tag
+Code for handling the adding and removing of tags
 *******************************************************************************/
 function AnnotationList(id) {
-	console.log("1.3.2.1 AnnotationList, construct with id: ", id);
-	this.id = id; // JQuery Id of the html dom element
-	this.divId = "itemDiv" + id; // Id of annotation container
-	this.annotations = []; // Array containing the annotations
-	this.node = $.el.div({'id':this.divId}) // Html dom element
+	this.divId = id; // id of annotation container
+	this.annotations = []; // array containing the annotations
+	this.node = $.el.div({'id':id}) // empty html dom element
 }
 
 AnnotationList.prototype.add = function(annotation) {
-	console.log("1.3.4.1.1 add, add annotation ", annotation);
 	// Add annotation to the list
 	this.annotations.unshift(annotation);
-	console.log("1.3.4.1.2 add, render annotation (should be a listener instead?) ");
 	this.render();
 }
 
@@ -29,26 +23,23 @@ AnnotationList.prototype.remove = function(annotation) {
 		if (annotationId === id)
 			this.annotations.splice(key, 1);
 	}
-	console.log("Removed annotation ", this.annotations);
 }
 
 AnnotationList.prototype.render = function() {
-	console.log("1.3.4.1.2.1 render, empty the field " + this.id);
 	// Empty the field before showing all annotations
 	$("#" + this.divId).empty();
-	console.log("1.3.4.1.2.2 render, Iterate through the annotations: ", this.annotations);
+
 	// Render the annotations related to this field
 	for (var key in this.annotations) {
 		var annotation = this.annotations[key];
 		var label = truncate(annotation.title, 7);
 		var id = generateIdFromUri(annotation['@id']);
 		var target = this.findTarget(annotation);
-		console.log("1.3.4.1.2.2.1 adding annotation with id: ", id);
 
 		// Add annotation in div below field
 		$('#' + this.divId).append(
 			$.el.span({
-				'id':'itemLbl' + id,
+				'id':'lbl' + id,
 				'class':'label label-default lblAnnotation',
 				'targetId':target['@id']},
 				label
@@ -56,9 +47,8 @@ AnnotationList.prototype.render = function() {
 		);
 
 		// Add event to label
-		$("#itemLbl" + id).on("click", function(){
-			console.log("clicked");
-		});
+		// $("#lbl" + id).on("click", function(){
+		// });
 	}
 }
 
@@ -95,12 +85,12 @@ AnnotationList.prototype.findGenericTarget = function(tag) {
 	var targets = tag.hasTarget;
 	var target = undefined;
 
-	// Return null if no target is known
+
 	if (!targets)
-		return null;
-	// Return targets array if key @id is present
+		return null; // return null if no target is known
 	if (targets['@id'])
-		return targets;
+		return targets; // return targets array if key @id is present
+
 	// Loop through targets till key @id is found
 	for (var t in targets) {
 		target = targets[t];

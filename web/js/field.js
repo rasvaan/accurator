@@ -5,56 +5,54 @@ instance. Most of the code comes from annotate.js written by
 Jacco van Ossenbruggen
 *******************************************************************************/
 function Field(defenition, context) {
-	console.log("1.3.1 Field, Construct with defenition: ", defenition, " and context ", context);
 	this.id = context.id; // id of field serving as a basis for jquery identifiers
-	this.inputId = "itemInp" + context.id; // Id of input
-	this.divId = "itemDiv" + context.id; // Id of form group
-	this.imageId = context.imageId; // Id of the corresponding img element
-	this.fieldsId = context.fieldsId;  // id of the corresponding fields container
-	this.annotationsId = context.annotationsId; // id of the container for annotations
-	this.field = defenition.uri; // URI identifying annotation field
-	this.type = defenition.type; // type of input field (e.g. dropdown or radiobutton)
+	this.fieldsId = context.fieldsId;  // id of the fields container
+	this.inputId = context.id + "Inp"; // id of input
+	this.fragmentField = context.fragment; // boolean for indicating this is a fragment field
 	this.label = defenition.label; // name of the field
 	this.comment = defenition.comment; // short description of the field
+	this.node = null; // html node representing the field
 	this.source = defenition.source; // source of the alternatives shown
+	this.alternatives = null; // list of alternatives for dropdown
+	this.showAnnotations = true; // boolean indicating whether previous annotations should be shown
+	this.annotationList = null; // array of annotations related to this target and field
+	this.field = defenition.uri; // URI identifying annotation field
 	this.target = context.target; // URI of target to be annotated
 	this.targetImage = context.targetImage; // URI of target's image to be annotated
+	this.imageId = context.imageId; // id of the corresponding img element
 	this.user = context.user; // URI of the user currently annotating
-	this._anno = anno; // Jacco hack to get to annotourious
-	this.node = null; // html node representing the field
-	this.alternatives = null; // list of alternatives for dropdown
-	this.annotationList = null; // Array of annotations related to this target and field
-	this.showAnnotations = true; // Boolean indicating whether previous annotations should be shown
-
 	this.MOTIVATION = {
 		tagging:    'http://www.w3.org/ns/oa#tagging',
 		commenting: 'http://www.w3.org/ns/oa#commenting',
 		moderating: 'http://www.w3.org/ns/oa#moderating',
 	};
 
-	switch (defenition.type) {
-		case "DropdownField":
-			this.initDropdown();
-			break;
+	if (this.fragmentField) {
+		this._anno = anno; // reference to annotatorious
+
+		// Extend annotatorious with object with fields indexed on imageId and fieldsId
+		if (!anno.fields) anno.fields = {};
+		if (!anno.fields[this.imageId]) anno.fields[this.imageId] = {};
+		var fields = anno.fields[this.imageId][this.fieldsId];
+		if (fields) {
+			fields.push(this);
+		} else {
+			anno.fields[this.imageId][this.fieldsId] = [this];
+		}
 	}
+	this.initDropdown();
 }
 
 Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	console.log("1.3.2 InitDropdown, generate dom node");
 	this.node = this.dropdownField();
 
-	// Get already existing annotations for field
-	if(this.showAnnotations) {
-		console.log("1.3.3 InitDropdown, create dom annotation list for field ", this.annotationsId);
-		this.annotationList = new AnnotationList(this.id + "Annotations");
-		console.log("1.3.4 InitDropdown, Add annotation dom element after this element " + this.divId);
+	if (this.showAnnotations) {
+		// Add div for annotations, existing annotations are retrieved upon init deniche
+		this.annotationList = new AnnotationList(this.id + "DivAnnotations");
 		$(this.node).append(this.annotationList.node);
-		console.log("1.3.5 InitDropdown, Get already existing annotations for field ", this.field, " and target ", this.target);
-		this.getAnnotations();
 	}
 
-	console.log("1.3.6 InitDropdown, Get dropdown alternatives");
 	this.getAllAlternatives()
 	.then(function(alternatives){
 		_field.addTypeAhead(alternatives);
@@ -71,7 +69,7 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 	if (!graph)	graph = target;
 
 	var targetObject = null;
-	if (this._anno && this._anno._deniche.currentShape) {
+	if (this.fragmentField && this._anno._deniche.currentShape) {
 		var shape = this._anno._deniche.currentShape.geometry;
 		var targetImage = this.targetImage;
 
@@ -90,37 +88,33 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 	var targetString = JSON.stringify(targetObject);
 	var bodyString = JSON.stringify(body);
 
-	console.log("Saving the following ", "field: ", this.field, "hasTarget: ", targetString, "hasBody: ", bodyString, "label: ", label, "motivatedBy: ", motiv, "graph: ", graph);
+	// console.log("Saving the following ", "field: ", this.field, "hasTarget: ", targetString, "hasBody: ", bodyString, "label: ", label, "motivatedBy: ", motiv, "graph: ", graph);
 
 	$.ajax({type: "POST",
 			url: "api/annotation/add",
 			data: {
-				field:this.field,
-				hasTarget:targetString,
-				hasBody:bodyString,
-				label:label,
+				field: this.field,
+				hasTarget: targetString,
+				hasBody: bodyString,
+				label: label,
 			   	motivatedBy: motiv,
-				graph:graph
-			},
-			success: function(data) {
-				//Add annotation to list of annotations
-				_field.annotationList.add(data.annotation);
-				_field.annotationList.render();
-			}
+				graph: graph
+			}})
+	.then(function(data) {
+		//Add annotation to list of annotations
+		_field.annotationList.add(data.annotation);
+		_field.addAnnotationFragment(data.annotation, false); // add but do not update open editor
 	});
 }
 
 Field.prototype.getAnnotations = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	var annotationPromise =
-		$.getJSON("api/annotation/get", {field:this.field, hasTarget:this.target});
 
-	annotationPromise.then(function(data){
+	$.getJSON("api/annotation/get", {field:this.field, hasTarget:this.target})
+	.then(function(data){
 		// Get the annotations from the returned data
 		var annotations = data[_field.field].annotations;
-		var length = annotations.length;
 
-		console.log("1.3.4.1 getAnnotations, iterate through annotations ", annotations);
 		for (key in annotations) {
 			_field.annotationList.add(annotations[key]);
 			_field.addAnnotationFragment(annotations[key], true);
@@ -129,9 +123,8 @@ Field.prototype.getAnnotations = function() {
 }
 
 Field.prototype.addAnnotationFragment = function(annotation, update) {
-	console.log("1.3.4.1.2 addAnnotationFragment, reconstruction annotatoin update: ", update);
 	var target = this.annotationList.findSpecificTarget(annotation);
-	if (!this._anno || !target) return;
+	if (!this.fragmentField || !target) return;
 
 	var label = annotation.title;
 	var x = target.hasSelector.x;
@@ -149,7 +142,6 @@ Field.prototype.addAnnotationFragment = function(annotation, update) {
 			geometry: { x:x,y:y,width:w,height:h }
 		}]
 	};
-	console.log("1.3.4.1.3 addAnnotationFragment, add annotation as fragment with info: ", torious);
 	this._anno._deniche.addAnnotation(torious, update);
 }
 
@@ -159,10 +151,9 @@ Field.prototype.addDropdownListeners = function() {
 
 	// Eventlistener for selecting typeahead alternative
 	$(selector).on('typeahead:select', function(event, annotation) {
-		// Code for clearing query
-		$(selector).typeahead('val', '');
+		$(selector).typeahead('val', ''); // Clear query
 
-		console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
+		// console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
 		_field.submitAnnotation(
 			_field.MOTIVATION.tagging,
 			_field.target,
@@ -177,7 +168,7 @@ Field.prototype.addDropdownListeners = function() {
 		if ($(selector).val() && event.which == 13) {
 			var annotation = $(selector).val();
 
-			console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
+			// console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
 			_field.submitAnnotation(
 				_field.MOTIVATION.tagging,
 				_field.target,
@@ -186,6 +177,13 @@ Field.prototype.addDropdownListeners = function() {
 			);
 			// Clear input
 			$(selector).typeahead('val', '');
+		}
+	});
+
+	// Action on pressing esc
+	$(selector).on('keyup', function(event) {
+		if (_field.fragmentField && event.which == 27) {
+			_field._anno._deniche.onFragmentCancel(event);
 		}
 	});
 }
@@ -230,7 +228,6 @@ Field.prototype.addTypeAhead = function(alternatives) {
 		};
 	}
 
-	console.log("1.3.6.1 addTypeAhead, setup bloodhound with first alternative ", array[0]);
 	// Constructs the suggestion engine
 	var bloodHoundAlternatives = new Bloodhound({
 		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -243,7 +240,6 @@ Field.prototype.addTypeAhead = function(alternatives) {
 		return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
 	}
 
-	console.log("1.3.6.2 addTypeAhead, add typeahead to id ", this.inputId);
 	// Select the input field and add typeahead
 	$("#" + this.inputId).typeahead({hint: true,
 						 highlight: true,
@@ -259,7 +255,7 @@ Field.prototype.addTypeAhead = function(alternatives) {
 
 Field.prototype.dropdownField = function() {
 	// Return the form group
-	return	$.el.div({'class':'form-group', 'id':this.divId},
+	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':this.inputId},
 						   this.label),
