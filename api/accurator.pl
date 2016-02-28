@@ -417,7 +417,7 @@ html({|html(ImageUrl)||
 
 	<!-- Annotation field(s) -->
 	<div class="row">
-		<div class="col-md-6" id="itemDivAnnotationFields"></div>
+		<div class="col-md-6" id="itemDivFields"></div>
 	</div>
 
 	<!-- Metadata -->

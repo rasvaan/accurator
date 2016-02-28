@@ -1,14 +1,11 @@
 /*******************************************************************************
 Annotations
-Code for handling the adding and removing of tags, with two main objects:
-	* AnnotationList
-	* Tag
+Code for handling the adding and removing of tags
 *******************************************************************************/
 function AnnotationList(id) {
-	this.id = id; // JQuery Id of the html dom element
-	this.divId = "itemDiv" + id; // Id of annotation container
-	this.annotations = []; // Array containing the annotations
-	this.node = $.el.div({'id':this.divId}) // Html dom element
+	this.divId = id; // id of annotation container
+	this.annotations = []; // array containing the annotations
+	this.node = $.el.div({'id':id}) // empty html dom element
 }
 
 AnnotationList.prototype.add = function(annotation) {
@@ -42,7 +39,7 @@ AnnotationList.prototype.render = function() {
 		// Add annotation in div below field
 		$('#' + this.divId).append(
 			$.el.span({
-				'id':'itemLbl' + id,
+				'id':'lbl' + id,
 				'class':'label label-default lblAnnotation',
 				'targetId':target['@id']},
 				label
@@ -50,7 +47,7 @@ AnnotationList.prototype.render = function() {
 		);
 
 		// Add event to label
-		$("#itemLbl" + id).on("click", function(){
+		$("#lbl" + id).on("click", function(){
 			console.log("clicked");
 		});
 	}

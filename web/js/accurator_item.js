@@ -23,7 +23,8 @@ var page = {
 	showMetadata: true,
 	showAnnotations: true,
 	imageId: null, // Set on init image
-	fieldContainerId: "itemDivAnnotoriousFields" // Id container containing fields
+	fragmentFieldsId: "itemDivAnnotoriousFields", // Id container containing fields
+	wholeFieldsId: "itemDivFields"
 }
 
 function itemInit() {
@@ -46,7 +47,8 @@ function itemInit() {
 			annotation_ui = domainData.annotation_ui;
 
 			// Add image and then load anotorious
-			imagePromise().then(function(metadata){addAnotorious(metadata)});
+			setImage()
+			.then(function(metadata) {addAnnotationFields(metadata)});
 			maybeRunExperiment();
 			populateUI();
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
@@ -58,9 +60,9 @@ function itemInit() {
 	logUserIn(onLoggedIn, onDismissal);
 }
 
-function imagePromise() {
+function setImage() {
 	return $.getJSON("metadata", {uri:uri})
-	.done(function(metadata){
+	.then(function(metadata){
 		// Set id image
 		page.imageId = "itemImg" + generateIdFromUri(uri);
 		$(".itemImg").attr("id", page.imageId);
@@ -154,58 +156,53 @@ function addNavigationButtonEvents() {
 	}
 }
 
-function addAnotorious(metadata) {
+function addAnnotationFields(metadata) {
 	// Retrieve the fields that should be added (based on save_user_info)
 	$.getJSON("annotation_fields",
 			  {locale:locale,
 			   domain:domain,
 		   	   annotation_ui:annotation_ui})
-	.done(function(fields){
+	.then(function(fields) {
 		// Add fields whole image
 		for (var i=0; i<fields.whole_fields.length; i++) {
-			var fieldDef = fields.whole_fields[i];
-
 			// Create new field object
-			var field = new Field(
-				fieldDef,
-				{	id:"Whole" + generateIdFromUri(fieldDef.uri),
-					fragment:false,
-					target:uri,
-				 	targetImage:metadata.image_uri,
-					user:user,
-			 	 	imageId:page.imageId,
-					fieldsId:page.fieldContainerId
+			var wholeField = new Field(
+				fields.whole_fields[i],
+				{	id: "whole" + generateIdFromUri(fields.whole_fields[i].uri),
+					fragment: false,
+					target: uri,
+				 	targetImage: metadata.image_uri,
+					user: user,
+			 	 	imageId: page.imageId,
+					fieldsId: page.wholeFieldsId
 			 	}
 			);
-			$("#itemDivAnnotationFields").append(field.node);
+			$("#" + wholeField.fieldsId).append(wholeField.node);
 		}
 
 		// Add hidden container for fields if there are fragment fields
 		if (fields.fragment_fields.length > 0) {
-			$(".itemDivHidden").append($.el.div({'id':page.fieldContainerId}));
-			// Set fields attribute for annotorious deniche
-			$("#" + page.imageId).attr("fields", page.fieldContainerId);
+			$(".itemDivHidden").append($.el.div({'id':page.fragmentFieldsId}));
+			// Set fields attribute image for annotorious deniche
+			$("#" + page.imageId).attr("fields", page.fragmentFieldsId);
 		}
 
 		// Add fields to hidden dom elements for annotorious
 		for (var i=0; i<fields.fragment_fields.length; i++) {
-			var fieldDef = fields.fragment_fields[i];
-			//TODO: set switch, creating different type of field objects defenition.type
 			// Create new field object
-			var field = new Field(
-				fieldDef,
-				{	id:"Fragment" + generateIdFromUri(fieldDef.uri),
-					fragment:true,
-					target:uri,
-				 	targetImage:metadata.image_uri,
-					user:user,
-			 	 	imageId:page.imageId,
-					fieldsId:page.fieldContainerId
+			var fragmentField = new Field(
+				fields.fragment_fields[i],
+				{	id: "fragment" + generateIdFromUri(fields.fragment_fields[i].uri),
+					fragment: true,
+					target: uri,
+				 	targetImage: metadata.image_uri,
+					user: user,
+			 	 	imageId: page.imageId,
+					fieldsId: page.fragmentFieldsId
 			 	}
 			);
 			// Append the field to div which will be embedded in annotorious
-			$("#" + page.fieldContainerId).append(field.node);
-
+			$("#" + fragmentField.fieldsId).append(fragmentField.node);
 		}
 		// Add the deniche plugin, which embeds the fields in annotorious
 		anno.addPlugin("DenichePlugin", {});

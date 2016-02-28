@@ -5,22 +5,22 @@ instance. Most of the code comes from annotate.js written by
 Jacco van Ossenbruggen
 *******************************************************************************/
 function Field(defenition, context) {
-	this.id = context.id; // Id of field serving as a basis for jquery identifiers
+	this.id = context.id; // id of field serving as a basis for jquery identifiers
+	this.fieldsId = context.fieldsId;  // id of the fields container
+	this.inputId = context.id + "Inp"; // id of input
+	this.fragmentField = context.fragment; // boolean for indicating this is a fragment field
+	this.label = defenition.label; // name of the field
+	this.comment = defenition.comment; // short description of the field
+	this.node = null; // html node representing the field
+	this.source = defenition.source; // source of the alternatives shown
+	this.alternatives = null; // list of alternatives for dropdown
+	this.showAnnotations = true; // boolean indicating whether previous annotations should be shown
+	this.annotationList = null; // array of annotations related to this target and field
 	this.field = defenition.uri; // URI identifying annotation field
 	this.target = context.target; // URI of target to be annotated
 	this.targetImage = context.targetImage; // URI of target's image to be annotated
-	this.imageId = context.imageId; // Id of the corresponding img element
-	this.inputId = "inp" + context.id; // Id of input
-	this.annotationsId = context.annotationsId; // id of the container for annotations
-	this.fragmentField = context.fragment; // Booleand for indicating this is a fragment field
-	this.label = defenition.label; // name of the field
-	this.comment = defenition.comment; // short description of the field
-	this.source = defenition.source; // source of the alternatives shown
-	this.alternatives = null; // list of alternatives for dropdown
-	this.annotationList = null; // Array of annotations related to this target and field
-	this.showAnnotations = true; // Boolean indicating whether previous annotations should be shown
+	this.imageId = context.imageId; // id of the corresponding img element
 	this.user = context.user; // URI of the user currently annotating
-	this.node = null; // html node representing the field
 	this.MOTIVATION = {
 		tagging:    'http://www.w3.org/ns/oa#tagging',
 		commenting: 'http://www.w3.org/ns/oa#commenting',
@@ -28,9 +28,7 @@ function Field(defenition, context) {
 	};
 
 	if (this.fragmentField) {
-		this._anno = anno; // Reference to annotatorious
-		this.divId = "div" + context.id; // Id of form group
-		this.fieldsId = context.fieldsId;  // Id of the corresponding fields container
+		this._anno = anno; // reference to annotatorious
 
 		// Extend annotatorious with object with fields indexed on imageId and fieldsId
 		if (!anno.fields) anno.fields = {};
@@ -42,7 +40,6 @@ function Field(defenition, context) {
 			anno.fields[this.imageId][this.fieldsId] = [this];
 		}
 	}
-
 	this.initDropdown();
 }
 
@@ -50,9 +47,9 @@ Field.prototype.initDropdown = function() {
 	var _field = this; //make sure we can use this Field in $ scope
 	this.node = this.dropdownField();
 
-	if(this.showAnnotations) {
+	if (this.showAnnotations) {
 		// Add div for annotations, existing annotations are retrieved upon init deniche
-		this.annotationList = new AnnotationList(this.id + "Annotations");
+		this.annotationList = new AnnotationList(this.id + "DivAnnotations");
 		$(this.node).append(this.annotationList.node);
 	}
 
@@ -96,12 +93,12 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 	$.ajax({type: "POST",
 			url: "api/annotation/add",
 			data: {
-				field:this.field,
-				hasTarget:targetString,
-				hasBody:bodyString,
-				label:label,
+				field: this.field,
+				hasTarget: targetString,
+				hasBody: bodyString,
+				label: label,
 			   	motivatedBy: motiv,
-				graph:graph
+				graph: graph
 			},
 			success: function(data) {
 				//Add annotation to list of annotations
@@ -113,13 +110,11 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 
 Field.prototype.getAnnotations = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	var annotationPromise =
-		$.getJSON("api/annotation/get", {field:this.field, hasTarget:this.target});
 
-	annotationPromise.then(function(data){
+	$.getJSON("api/annotation/get", {field:this.field, hasTarget:this.target})
+	.then(function(data){
 		// Get the annotations from the returned data
 		var annotations = data[_field.field].annotations;
-		var length = annotations.length;
 
 		for (key in annotations) {
 			_field.annotationList.add(annotations[key]);
@@ -261,7 +256,7 @@ Field.prototype.addTypeAhead = function(alternatives) {
 
 Field.prototype.dropdownField = function() {
 	// Return the form group
-	return	$.el.div({'class':'form-group', 'id':this.divId},
+	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':this.inputId},
 						   this.label),
