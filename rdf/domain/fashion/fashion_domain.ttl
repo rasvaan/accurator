@@ -3,6 +3,7 @@
 @prefix afasui: <http://accurator.nl/ui/fashion#> .
 @prefix aafas:  <http://accurator.nl/ui/annotation/fashion#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix ic:     <http://iconclass.org/> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms:<http://purl.org/dc/terms/> .

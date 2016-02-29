@@ -71,7 +71,7 @@
 <accurator-fashion-domain>
 	a void:Dataset ;
 	dcterms:title "Accurator configuration for fashion domain" ;
-	void:dataDump <domain/fashion/fashion_domain.ttl> ,
+	void:dataDump <domain/fashion/fashion_domain.ttl> ;
 	void:subset <accurator-ui-fashion> .
 
 <accurator-ui-fashion>
