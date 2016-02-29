@@ -1,0 +1,43 @@
+@prefix afasui: <http://accurator.nl/ui/annotation/fashion#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+afasui:fashionUI a auis:AnnotationUI ;
+    dcterms:title "Fashion annotation UI"@en;
+	auis:fragmentFields (
+	     afasui:Garment
+		 afasui:Material
+		 afasui:Technique
+		 afasui:Color
+	 ) .
+
+afasui:Garment a auis:DropdownField ;
+	rdfs:label "Garment"@en ;
+	rdfs:label "Kledingstuk"@nl ;
+	dcterms:comment "add the type of garment"@en ;
+	dcterms:comment "voeg het type kledingstuk toe"@nl ;
+	auis:source "" .
+
+afasui:Material a auis:DropdownField ;
+	rdfs:label "Material"@en ;
+	rdfs:label "Materiaal"@nl ;
+	dcterms:comment "add the material"@en ;
+	dcterms:comment "voeg het materiaal toe"@nl ;
+	auis:source "" .
+
+afasui:Technique a auis:DropdownField ;
+	rdfs:label "Technique"@en ;
+    rdfs:label "Techniek"@nl ;
+	dcterms:comment "add technique"@en ;
+	dcterms:comment "voeg de techniek toe"@nl ;
+	auis:source "" .
+
+afasui:Color a auis:DropdownField ;
+	rdfs:label "Color"@nl ;
+	rdfs:label "Kleur"@en ;
+	dcterms:comment "add the color"@en ;
+	dcterms:comment "voeg de kleur toe"@nl ;
+	auis:source "" .

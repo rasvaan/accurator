@@ -16,7 +16,7 @@ afas:domain a accu:Domain ;
 	accu:hasTarget <http://accurator.nl/fashion#Target> ;
 	skos:hasTopConcept ic:41D ;
 	accu:hasUI afasui: ;
-	accu:hasAnnotationUI aafas:fashionUi ;
+	accu:hasAnnotationUI aafas:fashionUI ;
 	accu:hasDesciptiveImage afas:dress ;
 	accu:hasLastImage afas:dress ;
 	accu:hasMaximumExpertiseTopics "50" ;
