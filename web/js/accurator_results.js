@@ -176,6 +176,7 @@ function search(query, target) {
 	.then(function(data){
 		// retrieve clusters
 		clusters = data.clusters;
+		console.log("clusters = ", clusters);
 
 		// enrich retrieved clusters if any
 		if(clusters.length == 0){
@@ -202,7 +203,7 @@ function recommend(userQuery, target) {
 	//TODO: add userQuery as variable
 	$.getJSON("recommendation", {strategy:'expertise',
 								 target:target})
-	.done(function(data){
+	.then(function(data){
 		// retrieve clusters
 		clusters = data.clusters;
 
@@ -219,7 +220,6 @@ function recommend(userQuery, target) {
 
 		// Get a number of random items not yet annotated
 		random(target, 10);
-		// TODO Display random objects
 
 		// Add control buttons to change layout
 		controls();
@@ -235,7 +235,10 @@ function random(target, noResults) {
 	$.getJSON("recommendation", {strategy:'random',
 								 number:noResults,
 								 target:target})
-	.done(function(uris){
+	.then(function(uris){
+		// set page title
+		$(document).prop('title', resultsTxtRecommendationsFor + realName);
+
 		// populate the page with random
 		randoms = uris;
 		//populateListItems(uris, resultList);
@@ -245,8 +248,11 @@ function random(target, noResults) {
 
 		// TODO display here
 
-		// set page title
-		$(document).prop('title', resultsTxtRecommendationsFor + realName);
+		// Add control buttons to change layout
+		controls();
+	})
+	.fail(function(data){
+		statusMessage(resultsTxtError, data.responseText)
 	});
 }
 
@@ -279,31 +285,57 @@ Result population
 *******************************************************************************/
 
 function enrichClusters(query) {
-	// Clear results div and reset rows
-	// 	$("#resultsDiv").children().remove();
-	// 	rows = 0; //check here; even if it is done at the start of the page, otherwise it does not render all items in list view
+	// clear results div and reset rows
+	$("#resultsDiv").children().remove();
+	rows = 0; //check here; even if it is done at the start of the page, otherwise it does not render all items in list view
 
 	// enrich retrieved clusters if any
-	if(clusters.length != 0){
+	if(clusters.length != 0){ //double verification here (see previous function)
 		// set page title
-		$(document).prop('title', resultsHdrResults + query);
+		// $(document).prop('title', resultsHdrResults + query);
 
 		//for every cluster item
 		for(var i = 0; i < clusters.length; i++) {
 			var uris = [];
+
 			// enrich every item in the cluster
 			for(var j = 0; j < clusters[i].items.length; j++) {
 				uris[j] = clusters[i].items[j].uri;
 			}
+
+			console.log("cluster ", i, ", uris: ", uris);
+
+			if(display.layout === "cluster") {
+				$("#resultsDiv").append(
+					$.el.div({'class':'well well-sm',
+							  'id':'cluster' + i})
+				);
+			}
+
 			//when a cluster item finished being enriched, display it
-			enrichCluster(uris, i).then(function (){
-				// TODO display enriched cluster
-				// 	// Results layout is either cluster or list
-				// 	if(display.layout === "cluster") {
+			//enrichCluster(uris, i).then(function (){
+			enrichCluster(uris, i)
+			.then(function (clusterId){
+	  		  // add enriched clusters and pagination
+	  		  console.log("adding thumbnails, i=", clusterId);
+
+	  		  if (display.layout === "cluster"){
+					var pages = determineNumberOfPages(clusterId);
+					$("#cluster" + clusterId).append(pagination(pages, clusterId));
+					thumbnails(clusterId);
+	  	  		}
+			});
+
+			// TODO display enriched cluster
+			// results layout is either cluster or list
+			if(display.layout === "cluster") {
+				console.log("after enrichment, cluster ", i);
+				addPath(i, clusters[i].path, query);
+			}
 				// 		//displayCluster(query, clusterId);
 				// 	} else if(display.layout === "list") {
 				// 		//displayListItems(query, clusterId);
-			});
+			//});
 		}
 	}
 }
@@ -319,10 +351,11 @@ function enrichCluster(uris, clusterId){
 			contentType: "application/json",
 			data: JSON.stringify(json)})
 	.then(function(data) {
-		   // Replace cluster items array with enriched ones
+		   // replace cluster items array with enriched ones
 		   console.log("enriching cluster ", clusterId);
 		   clusters[clusterId].items = processEnrichment(data);
-	  });
+		   return clusterId;
+	 });
 }
 
 // Enrich one image element in the cluster adding an image, a link where it can
@@ -342,6 +375,43 @@ function processEnrichment(data) {
 	return enrichedItems;
 }
 
+function addPath(clusterId, uris, query) {
+	// Get labels from server
+	var json = {"uris":uris, "type":"label"};
+
+	return $.ajax({type: "POST",
+		url: "metadata",
+		contentType: "application/json",
+		data: JSON.stringify(json)})
+	.then(function (labels) {
+		var pathElements = [];
+
+		for(var i = 0; i < uris.length; i++)
+			pathElements[i] = {uri:uris[i], label:truncate(labels[i], 50)};
+
+		pathElements.reverse();
+		var path = new Path(uris, labels, pathElements);
+		$("#cluster" + clusterId).prepend(path.htmlSimple);
+		path.unfoldEvent("#cluster" + clusterId, query);
+
+		console.log("path cluster ", clusterId, ", path: ", pathElements);
+	});
+}
+
+function determineNumberOfPages (clusterId) {
+	var numberOfPages = 0;
+	var numberOfItems = clusters[clusterId].items.length;
+	var restPages = numberOfItems%display.numberDisplayedItems;
+
+	// determine number of items in pagination
+	if(restPages == 0) {
+		numberOfPages = numberOfItems/display.numberDisplayedItems;
+	} else {
+		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
+	}
+	return numberOfPages;
+}
+
 // Enrichment of one random object
 function enrichRandoms(uris) {
 	var json = {"uris":uris};
@@ -350,7 +420,7 @@ function enrichRandoms(uris) {
 		url: "metadata",
 		contentType: "application/json",
 		data: JSON.stringify(json)})
-	.then (function(data) {
+	.then(function(data) {
 			// Replace cluster items with enriched ones
 			randoms = processEnrichment(data);
 	   });
@@ -527,71 +597,6 @@ function populateClusters(query) {
 			addItems(uris, i);
 		}
 	}
-}
-
-function addPath(clusterId, uris, query) {
-	// Get labels from server
-	var json = {"uris":uris, "type":"label"};
-	$.ajax({type: "POST",
-			url: "metadata",
-			contentType: "application/json",
-			data: JSON.stringify(json),
-			success: function(labels) {
-				var pathElements = [];
-
-			    for(var i=0; i<uris.length; i++)
-			        pathElements[i] = {uri:uris[i], label:truncate(labels[i], 50)};
-
-			    pathElements.reverse();
-				var path = new Path(uris, labels, pathElements);
-				$("#cluster" + clusterId).prepend(path.htmlSimple);
-				path.unfoldEvent("#cluster" + clusterId, query);
-		   }
-	});
-}
-
-function addItems(uris, clusterId) {
-	var json = {"uris":uris};
-	$.ajax({type: "POST",
-			url: "metadata",
-			contentType: "application/json",
-			data: JSON.stringify(json),
-			success: function(data) {
-				// Replace cluster items with enriched items
-				clusters[clusterId].items = processEnrichment(data);
-				var pages = determineNumberOfPages(clusterId);
-				$("#cluster"+clusterId).append(pagination(pages, clusterId));
-				thumbnails(clusterId);
-		   }
-	});
-}
-
-function processEnrichment(data) {
-	var enrichedItems = [];
-
-	for(var i=0; i<data.length; i++) {
-		enrichedItems[i] = {};
-		var uri = data[i].uri;
-		enrichedItems[i].uri = uri;
-		enrichedItems[i].thumb = data[i].thumb;
-		enrichedItems[i].link = "annotate.html?uri=" + uri;
-		enrichedItems[i].title = truncate(data[i].title, 60);
-	}
-	return enrichedItems;
-}
-
-function determineNumberOfPages (clusterId) {
-	var numberOfPages = 0;
-	var numberOfItems = clusters[clusterId].items.length;
-	var restPages = numberOfItems%display.numberDisplayedItems;
-
-	//Determine number of items in pagination
-	if(restPages == 0) {
-		numberOfPages = numberOfItems/display.numberDisplayedItems;
-	} else {
-		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
-	}
-	return numberOfPages;
 }
 
 /*******************************************************************************

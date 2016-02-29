@@ -9,13 +9,13 @@ function thumbnails(clusterId) {
 	var stop = display.numberDisplayedItems;
 	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 
-	//Check if less results available then there are to be displayed
+	// check if less results available then there are to be displayed
 	if(items.length < stop){
 		stop = items.length;
 	}
-	//Add row
+	// add row
 	$("#cluster" + clusterId).append(
-		$.el.div({'class':'row', 'id':'thumbnailRow'+clusterId}));
+		$.el.div({'class':'row', 'id':'thumbnailRow' + clusterId}));
 
 	for (var i = 0; i < stop; i++) {
 		id = getId(items[i].uri);
@@ -71,6 +71,7 @@ function addClickEvent(id, link, clusterId, index) {
 }
 
 function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
+	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 	var items = clusters[clusterId].items;
 	var start = (pageNumber - 1) * display.numberDisplayedItems;
 	var stop = start + display.numberDisplayedItems;
