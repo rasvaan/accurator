@@ -1,0 +1,27 @@
+@prefix accu:   <http://accurator.nl/schema#> .
+@prefix afas:   <http://accurator.nl/fashion#> .
+@prefix afasui: <http://accurator.nl/ui/fashion#> .
+@prefix aafas:  <http://accurator.nl/ui/annotation/fashion#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix dctypes:<http://purl.org/dc/dcmitype/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+afas:domain a accu:Domain ;
+	rdfs:label "fashion";
+	dcterms:requires <http://iconclass.org/iconclass.20121019.structure.ttl.gz> ;
+	accu:hasTarget <http://accurator.nl/fashion#Target> ;
+	skos:hasTopConcept ic:41D ;
+	accu:hasUI afasui: ;
+	accu:hasAnnotationUI aafas:fashionUi ;
+	accu:hasDesciptiveImage afas:fashion ;
+	accu:hasMaximumExpertiseTopics "50" ;
+	accu:hasMaximumChildren "2" .
+
+<http://iconclass.org/> a skos:ConceptScheme .
+
+afas:dress a dctypes:StillImage ;
+	accu:hasFilePath "img/background/dress.jpg" ;
+	accu:brightness "light" .

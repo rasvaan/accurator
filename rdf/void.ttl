@@ -48,7 +48,7 @@
 
 <accurator-ui-bird>
 	a void:Dataset ;
-	dcterms:title "Locale and domain agnostic Accurator UI instance for bird" ;
+	dcterms:title "Accurator UI instance for bird" ;
 	void:dataDump <domain/bird/ui/labels.ttl> ,
 	 			  <domain/bird/ui/labels_nl.ttl> ,
 				  <domain/bird/ui/fields.ttl> .
@@ -63,10 +63,23 @@
 
 <accurator-ui-bible>
 	a void:Dataset ;
-	dcterms:title "Locale and domain agnostic Accurator UI instance for bible" ;
+	dcterms:title "Accurator UI instance for bible" ;
 	void:dataDump <domain/bible/ui/labels.ttl> ,
 				  <domain/bible/ui/labels_nl.ttl> ,
 				  <domain/bible/ui/fields.ttl> .
+
+<accurator-fashion-domain>
+	a void:Dataset ;
+	dcterms:title "Accurator configuration for fashion domain" ;
+	void:dataDump <domain/fashion/fashion_domain.ttl> ,
+	void:subset <accurator-ui-fashion> .
+
+<accurator-ui-fashion>
+	a void:Dataset ;
+	dcterms:title "Accurator UI instance for fashion" ;
+	void:dataDump <domain/fashion/ui/labels.ttl> ,
+				  <domain/fashion/ui/labels_nl.ttl> ,
+				  <domain/fashion/ui/fields.ttl> .
 
 <accurator-page>
 	a void:Dataset ;
@@ -102,6 +115,14 @@ vann:preferredNamespaceUri "http://accurator.nl/bird#"
 
 [ vann:preferredNamespacePrefix "abirui" ;
 vann:preferredNamespaceUri "http://accurator.nl/ui/bird#"
+] .
+
+[ vann:preferredNamespacePrefix "afas" ;
+vann:preferredNamespaceUri "http://accurator.nl/fashion#"
+] .
+
+[ vann:preferredNamespacePrefix "afasui" ;
+vann:preferredNamespaceUri "http://accurator.nl/ui/fashion#"
 ] .
 
 [ vann:preferredNamespacePrefix "abib" ;
