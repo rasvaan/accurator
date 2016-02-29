@@ -1,0 +1,69 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix afasui: <http://accurator.nl/ui/fashion#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+###### Fashion Domain #####
+afasui:domain a auis:UI ;
+	aui:domainLabel "Fashion domain"@en .
+
+aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
+
+###### Fashion Intro Screen #####
+
+afasui:intro a auis:UI ;
+	rdfs:subClassOf aui:intro;
+	aui:introHdrSubSlogan "Help us describe fashion"@en .
+
+aui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
+
+###### Fashion About Screen #####
+
+afasui:about a auis:UI ;
+	rdfs:subClassOf aui:about .
+
+##### Fashion Register Screen #####
+
+afasui:register a aui:UI ;
+	rdfs:subClassOf aui:register .
+
+##### Fashion Expertise Screen #####
+
+afasui:expertise a auis:UI ;
+	rdfs:subClassOf aui:expertise ;
+	aui:expertiseTxtSubHeader "tell us which of these fashion topics you know much about, so we can recommend interesting works to add information to"@en .
+
+afasui:expertiseTxtSubHeader rdf:subPropertyOf auis:uiLabel .
+
+##### Fashion Profile Screen #####
+
+afasui:profile a aui:UI ;
+	rdfs:subClassOf aui:profile .
+
+##### Fashion Results Screen #####
+
+afasui:results a aui:UI ;
+	rdfs:subClassOf aui:results .
+
+##### Fashion Item Screen #####
+
+afasui:item a aui:UI ;
+	rdfs:subClassOf aui:item .
+
+###### Fashion End Screen #####
+
+afasui:end a auis:UI ;
+	rdfs:subClassOf aui:end .
+
+##### Fashion Form Screen #####
+
+afasui:form a auis:UI ;
+	rdfs:subClassOf aui:form .
+
+##### Fashion Login Modal #####
+
+afasui:loginModal a auis:UI ;
+	rdfs:subClassOf aui:loginModal .
