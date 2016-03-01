@@ -150,18 +150,18 @@ function results(query, userQuery, target) {
 	// Determine whether to recommend or give random results and set layout
 	var recommendBoolean = recommenderExperiment();
 
-	if(query) {
-		// results based on the user query
-		search(query);
-	} else if(recommendBoolean) {
+	// if(query) {
+	// 	// results based on the user query
+	// 	search(query);
+	// } else if(recommendBoolean) {
 		// recommendations based on the expertise of the user
 		query = "expertise values";
 		recommend(userQuery, target);
-	} else {
-		// random results
-		query = "random";
-		random(target, 10);
-	}
+	// } else {
+	// 	// random results
+	// 	query = "random";
+	// 	random(target, 10);
+	// }
 	localStorage.setItem("query", query);
 }
 
@@ -222,8 +222,9 @@ function recommend(userQuery, target) {
 		// Get a number of random items not yet annotated
 		random(target, 10);
 
-		// Add control buttons to change layout
-		controls();
+		// Add control buttons to change layout: already added in random!!!
+		// either empty the div in which they are put, or check if it is already filled in!
+		// controls();
 	})
 	.fail(function(data){
 		statusMessage(resultsTxtError, data.responseText)
@@ -260,6 +261,7 @@ function random(target, noResults) {
 				);
 			}
 
+			// TODO set a separate div for the list view to indicate that now random objects are renered 
 			// add rows for random objects
 			addRandomRows(randoms.length);
 
