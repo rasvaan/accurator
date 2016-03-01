@@ -4,6 +4,7 @@ Thumbnail
 Code for initializing bootstrap thumbnails and handling changes
 *******************************************************************************/
 
+// Add thumbnails for a cluster
 function thumbnails(clusterId) {
 	var items = clusters[clusterId].items;
 	var stop = display.numberDisplayedItems;
@@ -64,8 +65,8 @@ function addClickEvent(id, link, clusterId, index) {
 		localStorage.setItem("clusterId", clusterId);
 		localStorage.setItem("currentCluster", JSON.stringify(clusters[clusterId]));
 		//TODO check here
-		if((clusterId+1) == clusters.length)
-			localStorage.setItem("query", "random");
+		// if((clusterId+1) == clusters.length)
+		// 	localStorage.setItem("query", "random");
 		document.location.href = link;
 	});
 }

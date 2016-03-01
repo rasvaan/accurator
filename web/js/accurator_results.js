@@ -34,7 +34,7 @@ var randoms = [];
 
 // Display options deciding how to results get rendered
 var display = {
-	layout: "cluster",
+	layout: "list",
 	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
 	showControls: true
@@ -82,7 +82,7 @@ function resultsInit() {
 // Retrieve label elements
 function getLabels() {
 	return $.getJSON("ui_elements", {locale:locale, ui:ui,
-							  type:"labels"});
+							  		 type:"labels"});
 }
 
 // Add retrieved labels to html elements
@@ -150,18 +150,18 @@ function results(query, userQuery, target) {
 	// Determine whether to recommend or give random results and set layout
 	var recommendBoolean = recommenderExperiment();
 
-	if(query) {
-		// results based on the user query
-		search(query);
-	} else if(recommendBoolean) {
-		// recommendations based on the expertise of the user
-		query = "expertise values";
-		recommend(userQuery, target);
-	} else {
+	// if(query) {
+	// 	// results based on the user query
+	// 	search(query);
+	// } else if(recommendBoolean) {
+	// 	// recommendations based on the expertise of the user
+	// 	query = "expertise values";
+	// 	recommend(userQuery, target);
+	// } else {
 		// random results
 		query = "random";
-		random(target, 20);
-	}
+		random(target, 10);
+	//}
 	localStorage.setItem("query", query);
 }
 
@@ -206,6 +206,7 @@ function recommend(userQuery, target) {
 	.then(function(data){
 		// retrieve clusters
 		clusters = data.clusters;
+		//localStorage.setItem("clusters", JSON.stringify(clusters));
 
 		// enrich retrieved clusters if any
 		if(clusters.length == 0){
@@ -236,23 +237,89 @@ function random(target, noResults) {
 								 number:noResults,
 								 target:target})
 	.then(function(uris){
-		// set page title
-		$(document).prop('title', resultsTxtRecommendationsFor + realName);
-
 		// populate the page with random
 		randoms = uris;
-		//populateListItems(uris, resultList);
+		//localStorage.setItem("randoms", JSON.stringify(randoms));
 
-		// enrich random objects
-		enrichRandoms(randoms);
+		// enrich retrieved clusters if any
+		if(randoms.length == 0){
+			statusMessage(resultsTxtNoResults, query);
+		} else {
+			// set page title
+			$(document).prop('title', resultsTxtRecommendationsFor + realName);
 
-		// TODO display here
+			if(display.layout === "cluster") {
+				$("#resultsDiv").append(
+					$.el.div({'class':'well well-sm',
+							  'id':'randoms'},
+						$.el.div({'class':'row path'},
+							$.el.div({'class':'col-md-12'},
+								$.el.h4(
+									$.el.span({'class':'path-label path-literal'},
+									          "random objects")))))
+				);
+			}
 
-		// Add control buttons to change layout
-		controls();
+			// add rows for random objects
+			addRows(randoms.length);
+
+			// enrich random objects
+			enrichRandoms(randoms)
+			.then(function(){
+				var noRows = determineNumberOfPages(randoms.length);
+				var stop = display.numberDisplayedItems;
+				var itemsAdded = 0;
+
+				// populate rows of random
+				for (var rowId = 0; rowId < noRows; rowId++){
+					for (var index = 0; index < stop; index++){
+						if (itemsAdded < randoms.length){
+							var id = getId(randoms[itemsAdded].uri);
+
+							$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[itemsAdded]));
+							addRandomClickEvent(id, randoms[itemsAdded].link, rowId, index);
+							console.log("itemsAdded: ", itemsAdded);
+							itemsAdded++;
+						}
+					}
+				}
+			});
+
+			// Add control buttons to change layout
+			controls();
+		}
 	})
 	.fail(function(data){
 		statusMessage(resultsTxtError, data.responseText)
+	});
+}
+
+function addRows(totItems){
+	var noRows = determineNumberOfPages(totItems);
+
+	// add rows for thumbnails
+	for (var i = 0; i < noRows; i++){
+		if(display.layout === "cluster") {
+			$("#randoms").append($.el.div({'class':'row',
+					 'id':'thumbnailRandomRow' + i})
+			);
+		} else if (display.layout === "list"){
+			$("#resultsDiv").append(
+					$.el.div({'class':'row',
+							 'id':'thumbnailRandomRow' + i})
+			);
+		}
+	}
+}
+
+function addRandomClickEvent(id, link, rowId, index) {
+	// Add thumbnail click event
+	$("#thumbnailRandomRow" + rowId  + " #" + id).click(function() {
+		//Add info to local storage to be able to save context
+		localStorage.setItem("itemIndex", index);
+		localStorage.setItem("row", rowId);
+		//localStorage.setItem("currentRandom", JSON.stringify(randoms[randomId]));
+		document.location.href = link;
 	});
 }
 
@@ -313,29 +380,24 @@ function enrichClusters(query) {
 			}
 
 			//when a cluster item finished being enriched, display it
-			//enrichCluster(uris, i).then(function (){
 			enrichCluster(uris, i)
 			.then(function (clusterId){
 	  		  // add enriched clusters and pagination
 	  		  console.log("adding thumbnails, i=", clusterId);
 
 	  		  if (display.layout === "cluster"){
-					var pages = determineNumberOfPages(clusterId);
+					var pages = determineNumberOfPages(clusters[clusterId].items.length);
+
 					$("#cluster" + clusterId).append(pagination(pages, clusterId));
 					thumbnails(clusterId);
 	  	  		}
 			});
 
-			// TODO display enriched cluster
 			// results layout is either cluster or list
 			if(display.layout === "cluster") {
 				console.log("after enrichment, cluster ", i);
 				addPath(i, clusters[i].path, query);
 			}
-				// 		//displayCluster(query, clusterId);
-				// 	} else if(display.layout === "list") {
-				// 		//displayListItems(query, clusterId);
-			//});
 		}
 	}
 }
@@ -398,9 +460,8 @@ function addPath(clusterId, uris, query) {
 	});
 }
 
-function determineNumberOfPages (clusterId) {
+function determineNumberOfPages(numberOfItems) {
 	var numberOfPages = 0;
-	var numberOfItems = clusters[clusterId].items.length;
 	var restPages = numberOfItems%display.numberDisplayedItems;
 
 	// determine number of items in pagination
@@ -421,9 +482,9 @@ function enrichRandoms(uris) {
 		contentType: "application/json",
 		data: JSON.stringify(json)})
 	.then(function(data) {
-			// Replace cluster items with enriched ones
-			randoms = processEnrichment(data);
-	   });
+		// Replace cluster items with enriched ones
+		randoms = processEnrichment(data);
+	});
 }
 
 // function populateList(clusters, resultList){
@@ -518,25 +579,6 @@ Show the results in one big list
 // 			itemsAdded++;
 // 		}
 // 	}
-// }
-//
-// function addRows(numberOfRows) {
-// 	for(var i=rows+1; i<numberOfRows+1; i++) {
-// 		// Add row for thumbnails
-// 		$("#resultsDiv").append(
-// 			$.el.div({'class':'row', 'id':'thumbnailRow' + i}));
-// 	}
-// 	rows = numberOfRows;
-// }
-//
-// function addListClickEvent(id, link, rowId, index) {
-// 	//Add thumbnail click event
-// 	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
-// 		//Add info to local storage to be able to save context
-// 		localStorage.setItem("itemIndex", index);
-// 		localStorage.setItem("row", rowId);
-// 		document.location.href=link;
-// 	});
 // }
 
 // function ResultList() {

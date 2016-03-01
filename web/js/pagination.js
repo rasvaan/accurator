@@ -13,7 +13,7 @@ function pagination(numberOfPages, clusterId) {
 							   $.el.span(1)));
 
 	// Add additional pages
-	for(var i=2;i<=numberOfPages;i++){
+	for(var i = 2; i <= numberOfPages;i++){
 		html.appendChild(
 			$.el.li($.el.a({'href':'javascript:goToPage(' + i + ', ' + clusterId + ')'},
 						   i)));
