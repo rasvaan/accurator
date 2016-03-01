@@ -154,18 +154,18 @@ function results(query, userQuery, target) {
 	// Determine whether to recommend or give random results and set layout
 	var recommendBoolean = recommenderExperiment();
 
-	// if(query) {
-	// 	// results based on the user query
-	// 	search(query);
-	// } else if(recommendBoolean) {
-	// 	// recommendations based on the expertise of the user
-		// query = "expertise";
-		// recommend(query, target);
-	// } else {
+	if(query) {
+		// results based on the user query
+		search(query);
+	} else if(recommendBoolean) {
+		// recommendations based on the expertise of the user
+		query = "expertise";
+		recommend(query, target);
+	} else {
 		// random results
 		query = "random";
 		random(query, target, 10);
-	// }
+	}
 	localStorage.setItem("query", query);
 }
 
@@ -176,8 +176,8 @@ function search(query, target) {
 	if(typeof target != 'undefined')
 		request.target = target;
 
-	// set page title
-	$(document).prop('title', resultsHdrResults + query);
+	// set page title and text for results header
+	statusMessage(resultsHdrResults + query);
 
 	$.getJSON("cluster_search_api", request)
 	.then(function(data){
