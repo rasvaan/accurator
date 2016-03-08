@@ -1,6 +1,7 @@
 :- module(annotation, [
 			  annotation_fields/2,
-			  annotations/3
+			  annotations/3,
+			  annotations/4
 		  ]).
 
 :- use_module(library(accurator/ui_elements)).
@@ -110,12 +111,13 @@ extract_literal(_Locale, literal(lang(en, Literal)), Literal) :- !.
 
 %%	annotations(+Type, +Uri, -Metadata)
 %
-%	Get all annotations and subjects attached to a Uri, or get all
-%	annotations a user made.
+%	Get all annotations and subjects attached to a Uri, get all
+%	annotations a user made, or get all annotations of which the body
+%	are of in specified concept scheme.
 annotations(object, Uri, Annotations) :-
-    findall(annotation{
-		     field:FieldLabel,
-		     body:NiceBody},
+	findall(annotation{
+				field:FieldLabel,
+				body:NiceBody},
 	    (	get_annotation(Uri, AnnotationBody, AnnotationHash),
 			process_annotation(AnnotationBody, NiceBody),
 			% use rdf_has to also include fragment and whole fields
@@ -132,6 +134,20 @@ annotations(user, UserUri, ObjectUris) :-
 			rdf(Object, rdf:type, edm:'ProvidedCHO')	    ),
 	    ObjectUris), !.
 annotations(user, _UserUri, []).
+
+annotations(concept_scheme, ConceptScheme, Annotations) :-
+	findall(AnnotationHash,
+			(	rdf(AnnotationHash, oa:hasBody, AnnotationBody),
+				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
+			Annotations).
+annotations(concept_scheme, ConceptScheme, Annotations, Graph) :-
+	findall(AnnotationHash,
+			(	rdf(AnnotationHash, oa:hasBody, AnnotationBody),
+				rdf(AnnotationHash, oa:hasTarget, Uri),
+				rdf(Uri, _P, _O, Graph),
+				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
+			Annotations).
+
 
 get_annotation(Uri, AnnotationBody, AnnotationHash) :-
 	rdf(AnnotationHash, oa:hasTarget, Uri),
