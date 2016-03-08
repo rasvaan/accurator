@@ -33,7 +33,7 @@ review(Judgement, User, Uri) :-
 		label(Judgement),
 		body(_{'@value':JudgementString}),
 		user(User),
-		motivation('http://www.w3.org/ns/oa#moderating')
+		motivatedBy('http://www.w3.org/ns/oa#moderating')
 	],
 	debug(review, 'Add review: ~p', [Options]),
     rdf_add_annotation(Options, _Annotation).
