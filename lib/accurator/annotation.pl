@@ -135,6 +135,7 @@ annotations(user, UserUri, ObjectUris) :-
 	    ObjectUris), !.
 annotations(user, _UserUri, []).
 
+% annotations(concept_scheme, 'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme', Annotations).
 annotations(concept_scheme, ConceptScheme, Annotations) :-
 	findall(AnnotationHash,
 			(	rdf(AnnotationHash, oa:hasBody, AnnotationBody),
