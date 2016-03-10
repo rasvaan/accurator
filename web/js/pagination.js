@@ -1,5 +1,5 @@
 /* Pagination
-*  Code for initializing bootstrap pagnination and handling interactions
+*  Code for initializing bootstrap pagination and handling interactions
 */
 function pagination(numberOfPages, clusterId) {
 	// Don't use pagination if there are not enough items

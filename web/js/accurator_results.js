@@ -35,7 +35,7 @@ var randoms = [];
 
 // Display options deciding how to results get rendered
 var display = {
-	layout: "cluster",
+	layout: "list",
 	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
 	showControls: true
@@ -272,22 +272,7 @@ function random(query, target, noResults) {
 			// enrich random objects
 			enrichRandoms(randoms)
 			.then(function(){
-				var noRows = determineNumberOfPages(randoms.length);
-				var stop = display.numberDisplayedItems;
-				var itemsAdded = 0;
-
-				// populate rows of random
-				for (var rowId = 0; rowId < noRows; rowId++){
-					for (var index = 0; index < stop; index++){
-						if (itemsAdded < randoms.length){
-							var id = getId(randoms[itemsAdded].uri);
-
-							$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[itemsAdded]));
-							addRandomClickEvent(id, randoms[itemsAdded].link, rowId, index);
-							itemsAdded++;
-						}
-					}
-				}
+				renderRandomList();
 			});
 		}
 	})
@@ -322,12 +307,7 @@ function enrichClusters(query) {
 		//for every cluster item
 		for(var i = 0; i < clusters.length; i++) {
 			if(display.layout === "cluster") {
-				$("#resultsDiv").append(
-					$.el.div({'class':'well well-sm',
-							  'id':'cluster' + i})
-				);
-
-				addPath(i, clusters[i].path, query);
+				renderClusterHeader(i);
 			}
 			var uris = [];
 
@@ -341,22 +321,10 @@ function enrichClusters(query) {
 			.then(function (clusterId){
 	  		  	// add enriched clusters and pagination
 				if (display.layout === "cluster"){
-					var noPages = determineNumberOfPages(clusters[clusterId].items.length);
-
-					$("#cluster" + clusterId).append(pagination(noPages, clusterId));
-					thumbnails(clusterId);
+					renderClusterItems(clusterId);
 				// add enriched clusters and rows
 				} else if (display.layout === "list"){
-					//for every item in this cluster, add the thumbnail in the list view
-					for(var clusterItem = 0; clusterItem < clusters[clusterId].items.length; clusterItem++) {
-						var id = getId(clusters[clusterId].items[clusterItem].uri);
-						var rowId = parseInt(itemsAdded/display.numberDisplayedItems, 10);
-						var index = itemsAdded%display.numberDisplayedItems;
-
-						$("#thumbnailRow" + rowId).append(thumbnail(clusters[clusterId].items[clusterItem]));
-						addListClickEvent(id, clusters[clusterId].items[clusterItem].link, rowId, index, clusterId);
-						itemsAdded++;
-					}
+					itemsAdded = renderList(clusterId, itemsAdded);
 				}
 			});
 		}
@@ -619,17 +587,9 @@ function renderView(){
 		addRows(totItems);
 
 		for(var clusterId = 0; clusterId < clusters.length; clusterId++) {
-			//for every item in this cluster, add the thumbnail in the list view
-			for(var clusterItem = 0; clusterItem < clusters[clusterId].items.length; clusterItem++) {
-				var id = getId(clusters[clusterId].items[clusterItem].uri);
-				var rowId = parseInt(itemsAdded/display.numberDisplayedItems, 10);
-				var index = itemsAdded%display.numberDisplayedItems;
-
-				$("#thumbnailRow" + rowId).append(thumbnail(clusters[clusterId].items[clusterItem]));
-				addListClickEvent(id, clusters[clusterId].items[clusterItem].link, rowId, index, clusterId);
-				itemsAdded++;
-			}
+			itemsAdded = renderList(clusterId, itemsAdded);
 		}
+
 		// list view for recommendation
 		if(localStorage.query === "expertise") {
 			statusMessage(resultsHdrRandomResults);
@@ -641,38 +601,16 @@ function renderView(){
 			// add rows for random objects and display them as a list
 			addRandomRows(noRandomItems);
 
-			var noRows = determineNumberOfPages(randoms.length);
-			var stop = display.numberDisplayedItems;
-			var itemsAdded = 0;
-
-			// populate rows of random
-			for (var rowId = 0; rowId < noRows; rowId++){
-				for (var index = 0; index < stop; index++){
-					if (itemsAdded < randoms.length){
-						var id = getId(randoms[itemsAdded].uri);
-
-						$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[itemsAdded]));
-						addRandomClickEvent(id, randoms[itemsAdded].link, rowId, index);
-						itemsAdded++;
-					}
-				}
-			}
+			renderRandomList();
 		}
 	// render cluster view
 	} else if (display.layout === "cluster"){
 		// cluster view for user query and recommendation
-			for(var clusterId = 0; clusterId < clusters.length; clusterId++) {
-				$("#resultsDiv").append(
-					$.el.div({'class':'well well-sm',
-							  'id':'cluster' + clusterId})
-				);
-				addPath(clusterId, clusters[clusterId].path, localStorage.query);
+		for(var clusterId = 0; clusterId < clusters.length; clusterId++){
+			renderClusterHeader(clusterId);
+			renderClusterItems(clusterId);
+		}
 
-				var noPages = determineNumberOfPages(clusters[clusterId].items.length);
-
-				$("#cluster" + clusterId).append(pagination(noPages, clusterId));
-				thumbnails(clusterId);
-			}
 		// show random results for cluster view for recommendation
 		if(localStorage.query === "expertise") {
 			statusMessage(resultsHdrRandomResults);
@@ -685,22 +623,55 @@ function renderView(){
 			// TODO add pagination here for cluster items and add cluster items
 			addRandomNodes(noRandomItems);
 
-			var noRows = determineNumberOfPages(randoms.length);
-			var stop = display.numberDisplayedItems;
-			var itemsAdded = 0;
+			renderRandomList();
+		}
+	}
+}
 
-			// populate rows of random
-			for (var rowId = 0; rowId < noRows; rowId++){
-				for (var index = 0; index < stop; index++){
-					if (itemsAdded < randoms.length){
-						var id = getId(randoms[itemsAdded].uri);
+function renderList(clusterId, itemsAdded){
+		//for every item in this cluster, add the thumbnail in the list view
+		for(var clusterItem = 0; clusterItem < clusters[clusterId].items.length; clusterItem++) {
+			var id = getId(clusters[clusterId].items[clusterItem].uri);
+			var rowId = parseInt(itemsAdded/display.numberDisplayedItems, 10);
+			var index = itemsAdded%display.numberDisplayedItems;
 
-						$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[itemsAdded]));
-						addRandomClickEvent(id, randoms[itemsAdded].link, rowId, index);
-						itemsAdded++;
-					}
-				}
+			$("#thumbnailRow" + rowId).append(thumbnail(clusters[clusterId].items[clusterItem]));
+			addListClickEvent(id, clusters[clusterId].items[clusterItem].link, rowId, index, clusterId);
+			itemsAdded++;
+		}
+		return itemsAdded;
+}
+
+function renderRandomList(){
+	var noRows = determineNumberOfPages(randoms.length);
+	var stop = display.numberDisplayedItems;
+	var itemsAdded = 0;
+
+	// populate rows of random
+	for (var rowId = 0; rowId < noRows; rowId++){
+		for (var index = 0; index < stop; index++){
+			if (itemsAdded < randoms.length){
+				var id = getId(randoms[itemsAdded].uri);
+
+				$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[itemsAdded]));
+				addRandomClickEvent(id, randoms[itemsAdded].link, rowId, index);
+				itemsAdded++;
 			}
 		}
 	}
+}
+
+function renderClusterHeader(clusterId) {
+	$("#resultsDiv").append(
+		$.el.div({'class':'well well-sm',
+				  'id':'cluster' + clusterId})
+	);
+	addPath(clusterId, clusters[clusterId].path, localStorage.query);
+}
+
+function renderClusterItems(clusterId){
+	var noPages = determineNumberOfPages(clusters[clusterId].items.length);
+
+	$("#cluster" + clusterId).append(pagination(noPages, clusterId));
+	thumbnails(clusterId);
 }
