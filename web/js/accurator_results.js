@@ -569,6 +569,7 @@ function addRandomClickEvent(id, link, rowId, index) {
 Controls
 Code for adding buttons controlling the layout
 *******************************************************************************/
+
 // Add the container for the controls that change the display of the items
 function controls() {
 	if(display.showControls) {
@@ -610,6 +611,11 @@ function setLayoutButton() {
 		);
 	}
 }
+
+/*******************************************************************************
+View
+Code for rendering either the cluster or the list view
+*******************************************************************************/
 
 // Displaying of the results based on the view chosen
 // This function uses the data structures (clusters and randoms) that were
