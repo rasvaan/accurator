@@ -8,6 +8,7 @@
 :- use_module(library(oa_annotation)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(accurator/annotation)).
+:- use_module(library(semweb/rdf_turtle_write)).
 
 :- rdf_meta
 	review(r, -, r).
@@ -77,7 +78,8 @@ select_annotations(ConceptScheme, User, Annotations) :-
 %	Export a list of annotations
 export_annotations(Graph, Annotations) :-
 	rdf_unload_graph(Graph),
-	maplist(add_annotation(Graph), Annotations).
+	maplist(add_annotation(Graph), Annotations),
+	rdf_save_turtle(Graph, [graph(Graph)]).
 
 add_annotation(Graph, Annotation) :-
 	% get all triples related to annotation
