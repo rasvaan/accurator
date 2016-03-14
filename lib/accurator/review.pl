@@ -1,8 +1,7 @@
 :- module(review, [
 			  review/3,
 			  reviews/3,
-			  process_annotations/0,
-			  select_annotations/3,
+			  process_annotations/2,
 			  agreeable_annotations/0]).
 
 :- use_module(library(oa_annotation)).
@@ -41,9 +40,13 @@ review(Judgement, User, Uri) :-
 	debug(review, 'Add review: ~p', [Options]),
     rdf_add_annotation(Options, _Annotation).
 
-
-process_annotations :-
-	select_annotations('http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme','http://accurator.nl/user#rasvaan',Annotations),
+%%	process_annotations(+ConceptScheme, +Reviewer)
+%
+%	Retrieves and saves selection of annotations based on the given
+%	concept scheme and reviewer
+%	process_annotations('http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme','http://accurator.nl/user#rasvaan').
+process_annotations(ConceptScheme, Reviewer) :-
+	select_annotations(ConceptScheme, Reviewer, Annotations),
 	generate_graph_name(Annotations, Graph),
 	export_annotations(Graph, Annotations).
 
@@ -75,7 +78,7 @@ select_annotations(ConceptScheme, User, Annotations) :-
 
 %%	export_annotations(Annotations)
 %
-%	Export a list of annotations
+%	Export a list of annotations.
 export_annotations(Graph, Annotations) :-
 	rdf_unload_graph(Graph),
 	maplist(add_annotation(Graph), Annotations),
