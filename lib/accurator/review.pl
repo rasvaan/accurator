@@ -43,7 +43,16 @@ review(Judgement, User, Uri) :-
 
 process_annotations :-
 	select_annotations('http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme','http://accurator.nl/user#rasvaan',Annotations),
-	export_annotations(Annotations).
+	generate_graph_name(Annotations, Graph),
+	export_annotations(Graph, Annotations).
+
+%%	generate_graph_name(UriList, Hash)
+%
+%	Generate a hash which can be used as a name for a graph based on a
+%	list of uris, making it relatively unique.
+generate_graph_name(UriList, Hash) :-
+	sort(UriList, SortedUris),
+	variant_sha1(SortedUris, Hash).
 
 %%	select_annotations(+ConceptScheme, +User, -Annotations)
 %
@@ -66,11 +75,21 @@ select_annotations(ConceptScheme, User, Annotations) :-
 %%	export_annotations(Annotations)
 %
 %	Export a list of annotations
-export_annotations(Annotations) :-
-	maplist(add_annotation(export), Annotations).
+export_annotations(Graph, Annotations) :-
+	rdf_unload_graph(Graph),
+	maplist(add_annotation(Graph), Annotations).
 
 add_annotation(Graph, Annotation) :-
-	format('Should be adding ~p to ~p~n', [Annotation, Graph]).
+	% get all triples related to annotation
+	findall(triple(Annotation, Predicate, Object),
+			rdf(Annotation, Predicate, Object),
+			AnnotationTriples),
+	maplist(assert_tiple(Graph), AnnotationTriples),
+	length(AnnotationTriples, NumberTriples),
+	format('Added ~p triples to ~p~n', [NumberTriples, Graph]).
+
+assert_tiple(Graph, triple(Subject, Predicate, Object)) :-
+	rdf_assert(Subject, Predicate, Object, Graph).
 
 %%	agreeable_annotations
 %
