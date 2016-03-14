@@ -1,6 +1,8 @@
 :- module(review, [
 			  review/3,
 			  reviews/3,
+			  process_annotations/0,
+			  select_annotations/3,
 			  agreeable_annotations/0]).
 
 :- use_module(library(oa_annotation)).
@@ -39,10 +41,43 @@ review(Judgement, User, Uri) :-
     rdf_add_annotation(Options, _Annotation).
 
 
+process_annotations :-
+	select_annotations('http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme','http://accurator.nl/user#rasvaan',Annotations),
+	export_annotations(Annotations).
+
+%%	select_annotations(+ConceptScheme, +User, -Annotations)
+%
+%	Select a list of annotations based upon given User and
+%	ConceptScheme.
+%	select_annotations('http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme','http://accurator.nl/user#rasvaan',Annotations).
+select_annotations(ConceptScheme, User, Annotations) :-
+	setof(Annotation, Review^BlankReviewNode^AnnotationBody^
+			(	rdf(Review, oa:annotatedBy, User),
+				rdf(Review, oa:hasBody, BlankReviewNode),
+				rdf(BlankReviewNode, cnt:chars, literal('agree')),
+				rdf(Review, oa:hasTarget, Annotation),
+				rdf(Annotation, oa:hasBody, AnnotationBody),
+				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
+			Annotations),
+	length(Annotations, Number),
+	format('Selected ~p annotations.', [Number]).
+
+
+%%	export_annotations(Annotations)
+%
+%	Export a list of annotations
+export_annotations(Annotations) :-
+	maplist(add_annotation(export), Annotations).
+
+add_annotation(Graph, Annotation) :-
+	format('Should be adding ~p to ~p~n', [Annotation, Graph]).
+
 %%	agreeable_annotations
 %
 %	Agree on an agreeable set of annotations
 agreeable_annotations :-
 	% get annotations ubvu based on conceptscheme
 	 annotations(concept_scheme, 'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme', Annotations),
+	 length(Annotations, Number),
+	 format('~p Annotations are being agreed upon', [Number]),
 	 reviews(agree,'http://accurator.nl/user#rasvaan', Annotations).
