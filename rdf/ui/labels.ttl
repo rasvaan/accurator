@@ -58,20 +58,20 @@ aui:domainTxtTitle rdfs:subPropertyOf auis:uiLabel .
 aui:item a auis:UI ;
 	dcterms:title "Accurator tag UI"@en ;
 	aui:title "Tag image"@en ;
-	aui:btnPrevious "Previous"@en ;
-	aui:btnNext "Next"@en ;
+	aui:annotateBtnPrevious "Previous"@en ;
+	aui:annotateBtnNext "Next"@en ;
 	aui:navbarBtnRecommend "Recommended works"@en ;
 	aui:navbarBtnSearch "Search"@en ;
-	aui:vntFirstTitle "Your first tag!"@en ;
-	aui:vntFirstText "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en .
+	aui:annotateHdrFirst "Your first tag!"@en ;
+	aui:annotateTxtFirst "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en .
 
 aui:title rdfs:subPropertyOf auis:uiLabel .
-aui:btnPrevious rdfs:subPropertyOf auis:uiLabel .
-aui:btnNext rdfs:subPropertyOf auis:uiLabel .
+aui:annotateBtnPrevious rdfs:subPropertyOf auis:uiLabel .
+aui:annotateBtnNext rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnRecommend rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
-aui:vntFirstTitle rdfs:subPropertyOf auis:uiLabel .
-aui:vntFirstText rdfs:subPropertyOf auis:uiLabel .
+aui:annotateHdrFirst rdfs:subPropertyOf auis:uiLabel .
+aui:annotateTxtFirst rdfs:subPropertyOf auis:uiLabel .
 
 ##### Expertise Screen #####
 
@@ -123,23 +123,51 @@ aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
 aui:profileBtnChangeExpertise rdfs:subPropertyOf auis:uiLabel .
 aui:profileLblLastAnnotated rdfs:subPropertyOf auis:uiLabel .
 
+##### Search Screen #####
+
+aui:search a auis:UI ;
+	dcterms:title "Accurator search"@en ;
+	aui:searchPageTitle "Search"@en ;
+	aui:searchHdrSlogan "Welcome "@en ;
+	aui:navbarBtnSearch "Search"@en .
+
+aui:searchPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:searchHdrSlogan rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
+
 ##### Results Screen #####
 
 aui:results a auis:UI ;
 	dcterms:title "Accurator results UI"@en ;
 	aui:resultsHdrTitle "Results"@en ;
 	aui:resultsBtnRecommend "Recommend works"@en ;
-	aui:resultsBtnSearch "Search"@en ;
-	aui:resultsTxtRecommendationsFor "Recommendations for "@en ;
+	aui:navbarBtnSearch "Search"@en ;
 	aui:resultsHdrFirst "What do you want to tag?"@en ;
-	aui:resultsTxtFirst "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en .
+	aui:resultsTxtFirst "Here you can select which works you want to tag. You can return to this screen by clicking on the recommendation button or by searching for a specific topic."@en ;
+	aui:resultsTxtRecommendationsFor "Recommendations for "@en ;
+	aui:resultsTxtSearching "Searching for "@en ;
+	aui:resultsHdrResults "Results for "@en ;
+	aui:resultsHdrRecommendedResults "Recommended results based on your expertise"@en ;
+	aui:resultsHdrRandomResults "Random results"@en ;
+	aui:resultsTxtNoResults "No results found for "@en ;
+	aui:resultsTxtError "Unfortunately an error has occured"@en ;
+	aui:resultsLblCluster "Cluster view"@en ;
+	aui:resultsLblList "List view"@en .
 
 aui:resultsHdrTitle rdfs:subPropertyOf auis:uiLabel .
 aui:resultsBtnRecommend rdfs:subPropertyOf auis:uiLabel .
-aui:resultsBtnSearch rdfs:subPropertyOf auis:uiLabel .
-aui:resultsTxtRecommendationsFor rdfs:subPropertyOf auis:uiLabel .
+aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
 aui:resultsHdrFirst rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtFirst rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtRecommendationsFor rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtSearching rdfs:subPropertyOf auis:uiLabel .
+aui:resultsHdrResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsHdrRecommendedResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsHdrRandomResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtNoResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtError rdfs:subPropertyOf auis:uiLabel .
+aui:resultsLblCluster rdfs:subPropertyOf auis:uiLabel .
+aui:resultsLblList rdfs:subPropertyOf auis:uiLabel .
 
 ###### End Screen #####
 

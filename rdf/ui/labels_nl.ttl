@@ -36,12 +36,12 @@ aui:domain a auis:UI ;
 
 aui:item a auis:UI ;
 	aui:title "Voeg informatie toe aan object"@nl ;
-	aui:btnPrevious "Vorige"@nl ;
-	aui:btnNext "Volgende"@nl ;
+	aui:annotateBtnPrevious "Vorige"@nl ;
+	aui:annotateBtnNext "Volgende"@nl ;
 	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
 	aui:navbarBtnSearch "Zoek"@nl ;
-	aui:vntFirstTitle "De eerste keer informatie toevoegen!"@nl ;
-	aui:vntFirstText "Begin met het tekenen van een  kader om informatie toe te voegen. U krijgt hierop verschillende velden om in te vullen, probeer hierbij zo precies mogelijk te zijn. Om naar een volgende afbeeldingen te gaan kunt u op volgende klikken, zoeken of nieuwe aanbevelingen bekijken."@nl .
+	aui:annotateHdrFirst "De eerste keer informatie toevoegen!"@nl ;
+	aui:annotateTxtFirst "Begin met het tekenen van een  kader om informatie toe te voegen. U krijgt hierop verschillende velden om in te vullen, probeer hierbij zo precies mogelijk te zijn. Om naar een volgende afbeeldingen te gaan kunt u op volgende klikken, zoeken of nieuwe aanbevelingen bekijken."@nl .
 
 ##### Expertise Screen #####
 
@@ -70,15 +70,32 @@ aui:profile a auis:UI ;
 	aui:profileBtnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:profileLblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl .
 
+##### Search Screen #####
+
+aui:search a auis:UI ;
+	dcterms:title "Zoek Accurator"@nl ;
+	aui:searchPageTitle "Zoeken"@nl ;
+	aui:searchHdrSlogan "Welkom "@nl ;
+	aui:navbarBtnSearch "Zoek"@nl .
+
 ##### Results Screen #####
 
 aui:results a auis:UI ;
+	dcterms:title "Accurator resultaten UI"@nl ;
 	aui:resultsHdrTitle "Zoekresultaten"@nl ;
 	aui:resultsBtnRecommend "Aanbevolen werken"@nl ;
-	aui:resultsBtnSearch "Zoek"@nl ;
-	aui:resultsTxtRecommendationsFor "Aanbevelingen voor "@nl ;
+	aui:navbarBtnSearch "Zoek"@nl ;
 	aui:resultsHdrFirst "Aan welk werk wilt u informatie toevoegen?"@nl ;
-	aui:resultsTxtFirst "Hier kunt u selecteren aan welke werken u informatie wilt toevoegen. U kunt terugkeren naar dit scherm wanneer u op \"Aanbevolen werken\" klikt of zoekt naar specifieke onderwerpen."@nl .
+	aui:resultsTxtFirst "Hier kunt u selecteren aan welke werken u informatie wilt toevoegen. U kunt terugkeren naar dit scherm wanneer u op aanbevelingen klikt of zoekt naar specifieke onderwerpen."@nl ;
+	aui:resultsTxtRecommendationsFor "Aanbevelingen voor "@nl ;
+	aui:resultsTxtSearching "Zoeken naar "@nl ;
+	aui:resultsHdrResults "Resultaten voor "@nl ;
+	aui:resultsHdrRecommendedResults "Aanbevolen resultaten op basis van uw expertise"@nl ;
+	aui:resultsHdrRandomResults "Willekeurige resultaten"@nl ;
+	aui:resultsTxtNoResults "Geen resultaten gevonden voor "@nl ;
+	aui:resultsTxtError "Helaas, er is iets fout gegaan"@nl ;
+	aui:resultsLblCluster "Cluster weergave"@nl ;
+	aui:resultsLblList "Lijst weergave"@nl .
 
 ###### End Screen #####
 
