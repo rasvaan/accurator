@@ -37,7 +37,7 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 	rdf(DomainUri, accu:hasMaximumChildren, literal(MaxChildren)),
 	rdf(DomainUri, accu:hasUI, UI),
 	rdf(DomainUri, accu:hasAnnotationUI, AnnotationUI),
-	rdf(DomainUri, accu:hasDesciptiveImage, Image),
+	rdf(DomainUri, accu:hasDescriptiveImage, Image),
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
 	rdf(Image, accu:brightness, literal(Brightness)),
 	rdf(DomainUri, accu:hasLastImage, Image2),

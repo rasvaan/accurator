@@ -7,7 +7,7 @@ var locale, ui, domain, experiment, user, userName, realName;
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
 
-displayOptions = {
+display = {
 	numberDisplayedItems: 6,
 }
 

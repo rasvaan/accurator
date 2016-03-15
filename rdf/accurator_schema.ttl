@@ -9,13 +9,13 @@
 accu:Domain a rdfs:Class ;
 	rdfs:label "A subject domain, e.g. birds or bibles."@en .
 
-accu:hasDesciptiveImage a rdf:Property ;
+accu:hasDescriptiveImage a rdf:Property ;
 	rdfs:label "Has desciptive image"@en ;
 	rdfs:comment "Property connecting a resource to an image descibing the resource"@en ;
 	rdfs:subPropertyOf dcterms:description ;
-	rdfs:range accu:DesciptiveImage .
+	rdfs:range accu:DescriptiveImage .
 
-accu:DesciptiveImage a rdfs:Class ;
+accu:DescriptiveImage a rdfs:Class ;
 	rdfs:label "Descriptive image"@en ;
 	rdfs:comment "Image that illustrates a resource"@en ;
 	rdfs:subClassOf dctypes:StillImage.
