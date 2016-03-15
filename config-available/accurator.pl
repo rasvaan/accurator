@@ -8,8 +8,8 @@
 % Load ui rdf
 :- rdf_attach_library(accurator(rdf)).
 :- rdf_load_library('accurator-generic').
-:- rdf_load_library('accurator-bird-domain').
-:- rdf_load_library('accurator-bible-domain').
-:- rdf_load_library('accurator-fashion-domain').
+%:- rdf_load_library('accurator-bird-domain').
+%:- rdf_load_library('accurator-bible-domain').
+%:- rdf_load_library('accurator-fashion-domain').
 
 :- use_module(api(accurator)).
