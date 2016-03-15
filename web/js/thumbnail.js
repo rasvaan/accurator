@@ -14,6 +14,7 @@ function thumbnails(clusterId) {
 	if(items.length < stop){
 		stop = items.length;
 	}
+
 	// add row
 	$("#cluster" + clusterId).append(
 		$.el.div({'class':'row', 'id':'thumbnailRow' + clusterId}));
@@ -80,7 +81,7 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, items, labelIte
 	var headerType;
 
 	// Check if there are more spaces then items, if so, make those spaces invisible
-	if(stop>items.length){
+	if(stop > items.length){
 		remove = stop - items.length;
 		stop = items.length;
 		// console.log("Should make " + remove + " invisible.");
@@ -91,8 +92,8 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, items, labelIte
 	for (var i=start; i<stop; i++) {
 		// console.log("Replacing thumb", thumbIndex);
 		// Replace image
-		// $("#cluster" + clusterId + " img").eq(thumbIndex).replaceWith(
-		$("#" + labelItems + clusterId + " img").eq(thumbIndex).replaceWith(
+		// $("#" + labelItems + clusterId + " img").eq(thumbIndex).replaceWith(
+		$("#" + labelItems + " img").eq(thumbIndex).replaceWith(
 			$.el.img({'src':items[i].thumb,
 					  'class':'img-responsive',
 					  'alt':''}));
@@ -102,14 +103,14 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, items, labelIte
 		if(bootstrapWidth >= 4)
 			headerType = "h4";
 
-		//$("#cluster" + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
-		$("#" + labelItems + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
+		// $("#" + labelItems + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
+		$("#" + labelItems + " .caption " + headerType).eq(thumbIndex).replaceWith(
 				thumbnailTitle(items[i], bootstrapWidth));
 
 		// Replace id element and add new listener
 		id = getId(items[i].uri)
-		// $("#cluster" + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
-		$("#" + labelItems + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
+		// $("#" + labelItems + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
+		$("#" + labelItems + " .thumbnail").eq(thumbIndex).attr("id", id);
 		addClickEvent(id, items[i].link, clusterId, i);
 		thumbIndex++;
 	}
@@ -120,15 +121,15 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, items, labelIte
 		// console.log("Make " + removed + " thumbnail(s) visible again.");
 		var start = display.numberDisplayedItems - removed;
 		for(var i = start;i < display.numberDisplayedItems; i++) {
-			// $("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
-			$("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
+			// $("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
+			$("#" + labelItems + " .col-md-" + bootstrapWidth).eq(i).show();
 		}
 	}
 
 	// Don't display unused thumbspace
 	for (var i = thumbIndex; i < thumbIndex+remove; i++) {
 		// Remove slow?
-		// $("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
-		$("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
+		// $("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
+		$("#" + labelItems + " .col-md-" + bootstrapWidth).eq(i).hide();
 	}
 }

@@ -262,8 +262,6 @@ function random(query, target, noResults) {
 
 			if (query === "expertise" && display.layout === "cluster"){
 				addRandomPath();
-				// TODO add pagination here for cluster items and add cluster items
-				addRandomNodes(noRandomItems);
 			} else {
 				// add rows for random objects and display them as a list
 				addRandomRows(noRandomItems);
@@ -272,7 +270,15 @@ function random(query, target, noResults) {
 			// enrich random objects
 			enrichRandoms(randoms)
 			.then(function(){
-				displayRandomList();
+				// TODO add pagination here for cluster items and add cluster items
+				if (query === "expertise" && display.layout === "cluster"){
+					$("#randoms").append(pagination(getNoOfPagesOrRows(noRandomItems),
+							randoms, "randoms"));
+					displayRandomCluster(0);
+				}
+				else {
+					displayRandomList();
+				}
 			});
 		}
 	})
@@ -553,6 +559,29 @@ function displayRandomList(){
 	}
 }
 
+// Display the random list of items
+function displayRandomCluster(rowId){
+	var noItems = getNoOfPagesOrRows(randoms.length);
+	var stop = display.numberDisplayedItems;
+
+	if (randoms.length < stop) {
+		stop = randoms.length;
+	}
+
+	$("#randoms").append(
+		$.el.div({'class':'row',
+				  'id':'thumbnailRandomRow' + rowId})
+	);
+
+	// populate page of random
+	for (var index = 0; index < stop; index++){
+			var id = getId(randoms[index].uri);
+
+			$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[index]));
+			addRandomClickEvent(id, randoms[index].link, rowId, index);
+	}
+}
+
 // Add click events for random thumbnail items
 function addRandomClickEvent(id, link, rowId, index) {
 	// Add thumbnail click event
@@ -679,10 +708,11 @@ function displayView(){
 			var noRandomItems = randoms.length;
 
 			addRandomPath();
-			// TODO add pagination here for cluster items and add cluster items
-			addRandomNodes(noRandomItems);
 
-			displayRandomList();
+			//display items using pagination
+			$("#randoms").append(pagination(getNoOfPagesOrRows(noRandomItems),
+					randoms, "randoms"));
+			displayRandomCluster(0);
 		}
 	}
 }
