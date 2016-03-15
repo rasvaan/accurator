@@ -445,7 +445,7 @@ function addPath(clusterId, uris, query) {
 function displayClusterItems(clusterId){
 	var noPages = getNoOfPagesOrRows(clusters[clusterId].items.length);
 
-	$("#cluster" + clusterId).append(pagination(noPages, clusters[clusterId].items, clusterId));
+	$("#cluster" + clusterId).append(pagination(noPages, clusters[clusterId].items, "cluster", clusterId));
 	thumbnails(clusterId);
 }
 

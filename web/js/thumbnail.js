@@ -71,7 +71,7 @@ function addClickEvent(id, link, clusterId, index) {
 	});
 }
 
-function changeThumbnails(pageNumber, activePage, numberOfPages, items, clusterId) {
+function changeThumbnails(pageNumber, activePage, numberOfPages, items, labelItems, clusterId) {
 	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 	//var items = clusters[clusterId].items;
 	var start = (pageNumber - 1) * display.numberDisplayedItems;
@@ -91,7 +91,8 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, items, clusterI
 	for (var i=start; i<stop; i++) {
 		// console.log("Replacing thumb", thumbIndex);
 		// Replace image
-		$("#cluster" + clusterId + " img").eq(thumbIndex).replaceWith(
+		// $("#cluster" + clusterId + " img").eq(thumbIndex).replaceWith(
+		$("#" + labelItems + clusterId + " img").eq(thumbIndex).replaceWith(
 			$.el.img({'src':items[i].thumb,
 					  'class':'img-responsive',
 					  'alt':''}));
@@ -101,12 +102,14 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, items, clusterI
 		if(bootstrapWidth >= 4)
 			headerType = "h4";
 
-		$("#cluster" + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
+		//$("#cluster" + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
+		$("#" + labelItems + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
 				thumbnailTitle(items[i], bootstrapWidth));
 
 		// Replace id element and add new listener
 		id = getId(items[i].uri)
-		$("#cluster" + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
+		// $("#cluster" + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
+		$("#" + labelItems + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
 		addClickEvent(id, items[i].link, clusterId, i);
 		thumbIndex++;
 	}
@@ -117,13 +120,15 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, items, clusterI
 		// console.log("Make " + removed + " thumbnail(s) visible again.");
 		var start = display.numberDisplayedItems - removed;
 		for(var i = start;i < display.numberDisplayedItems; i++) {
-			$("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
+			// $("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
+			$("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
 		}
 	}
 
 	// Don't display unused thumbspace
 	for (var i = thumbIndex; i < thumbIndex+remove; i++) {
 		// Remove slow?
-		$("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
+		// $("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
+		$("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
 	}
 }
