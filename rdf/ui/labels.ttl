@@ -147,6 +147,8 @@ aui:results a auis:UI ;
 	aui:resultsTxtRecommendationsFor "Recommendations for "@en ;
 	aui:resultsTxtSearching "Searching for "@en ;
 	aui:resultsHdrResults "Results for "@en ;
+	aui:resultsHdrRecommendedResults "Recommended results based on your expertise"@en ;
+	aui:resultsHdrRandomResults "Random results"@en ;
 	aui:resultsTxtNoResults "No results found for "@en ;
 	aui:resultsTxtError "Unfortunately an error has occured"@en ;
 	aui:resultsLblCluster "Cluster view"@en ;
@@ -160,6 +162,8 @@ aui:resultsTxtFirst rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtRecommendationsFor rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtSearching rdfs:subPropertyOf auis:uiLabel .
 aui:resultsHdrResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsHdrRecommendedResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsHdrRandomResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtNoResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtError rdfs:subPropertyOf auis:uiLabel .
 aui:resultsLblCluster rdfs:subPropertyOf auis:uiLabel .

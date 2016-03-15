@@ -4,18 +4,20 @@ Thumbnail
 Code for initializing bootstrap thumbnails and handling changes
 *******************************************************************************/
 
+// Add thumbnails for a cluster
 function thumbnails(clusterId) {
 	var items = clusters[clusterId].items;
 	var stop = display.numberDisplayedItems;
 	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
 
-	//Check if less results available then there are to be displayed
+	// check if less results available then there are to be displayed
 	if(items.length < stop){
 		stop = items.length;
 	}
-	//Add row
+
+	// add row
 	$("#cluster" + clusterId).append(
-		$.el.div({'class':'row', 'id':'thumbnailRow'+clusterId}));
+		$.el.div({'class':'row', 'id':'thumbnailRow' + clusterId}));
 
 	for (var i = 0; i < stop; i++) {
 		id = getId(items[i].uri);
@@ -64,21 +66,22 @@ function addClickEvent(id, link, clusterId, index) {
 		localStorage.setItem("clusterId", clusterId);
 		localStorage.setItem("currentCluster", JSON.stringify(clusters[clusterId]));
 		//TODO check here
-		if((clusterId+1) == clusters.length)
-			localStorage.setItem("query", "random");
+		// if((clusterId+1) == clusters.length)
+		// 	localStorage.setItem("query", "random");
 		document.location.href = link;
 	});
 }
 
-function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
-	var items = clusters[clusterId].items;
+function changeThumbnails(pageNumber, activePage, numberOfPages, items, labelItems, clusterId) {
+	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
+	//var items = clusters[clusterId].items;
 	var start = (pageNumber - 1) * display.numberDisplayedItems;
 	var stop = start + display.numberDisplayedItems;
 	var remove = 0;
 	var headerType;
 
 	// Check if there are more spaces then items, if so, make those spaces invisible
-	if(stop>items.length){
+	if(stop > items.length){
 		remove = stop - items.length;
 		stop = items.length;
 		// console.log("Should make " + remove + " invisible.");
@@ -89,7 +92,8 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 	for (var i=start; i<stop; i++) {
 		// console.log("Replacing thumb", thumbIndex);
 		// Replace image
-		$("#cluster" + clusterId + " img").eq(thumbIndex).replaceWith(
+		// $("#" + labelItems + clusterId + " img").eq(thumbIndex).replaceWith(
+		$("#" + labelItems + " img").eq(thumbIndex).replaceWith(
 			$.el.img({'src':items[i].thumb,
 					  'class':'img-responsive',
 					  'alt':''}));
@@ -99,12 +103,14 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 		if(bootstrapWidth >= 4)
 			headerType = "h4";
 
-		$("#cluster" + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
+		// $("#" + labelItems + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
+		$("#" + labelItems + " .caption " + headerType).eq(thumbIndex).replaceWith(
 				thumbnailTitle(items[i], bootstrapWidth));
 
 		// Replace id element and add new listener
 		id = getId(items[i].uri)
-		$("#cluster" + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
+		// $("#" + labelItems + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
+		$("#" + labelItems + " .thumbnail").eq(thumbIndex).attr("id", id);
 		addClickEvent(id, items[i].link, clusterId, i);
 		thumbIndex++;
 	}
@@ -114,14 +120,16 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 		var removed = numberOfPages * display.numberDisplayedItems - items.length;
 		// console.log("Make " + removed + " thumbnail(s) visible again.");
 		var start = display.numberDisplayedItems - removed;
-		for(var i=start;i<display.numberDisplayedItems;i++) {
-			$("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
+		for(var i = start;i < display.numberDisplayedItems; i++) {
+			// $("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
+			$("#" + labelItems + " .col-md-" + bootstrapWidth).eq(i).show();
 		}
 	}
 
 	// Don't display unused thumbspace
-	for (var i=thumbIndex; i<thumbIndex+remove;i++) {
+	for (var i = thumbIndex; i < thumbIndex+remove; i++) {
 		// Remove slow?
-		$("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
+		// $("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
+		$("#" + labelItems + " .col-md-" + bootstrapWidth).eq(i).hide();
 	}
 }

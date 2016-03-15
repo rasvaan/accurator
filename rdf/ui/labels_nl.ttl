@@ -90,6 +90,8 @@ aui:results a auis:UI ;
 	aui:resultsTxtRecommendationsFor "Aanbevelingen voor "@nl ;
 	aui:resultsTxtSearching "Zoeken naar "@nl ;
 	aui:resultsHdrResults "Resultaten voor "@nl ;
+	aui:resultsHdrRecommendedResults "Aanbevolen resultaten op basis van uw expertise"@nl ;
+	aui:resultsHdrRandomResults "Willekeurige resultaten"@nl ;
 	aui:resultsTxtNoResults "Geen resultaten gevonden voor "@nl ;
 	aui:resultsTxtError "Helaas, er is iets fout gegaan"@nl ;
 	aui:resultsLblCluster "Cluster weergave"@nl ;
