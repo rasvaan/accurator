@@ -71,9 +71,9 @@ function addClickEvent(id, link, clusterId, index) {
 	});
 }
 
-function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
+function changeThumbnails(pageNumber, activePage, numberOfPages, items, clusterId) {
 	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
-	var items = clusters[clusterId].items;
+	//var items = clusters[clusterId].items;
 	var start = (pageNumber - 1) * display.numberDisplayedItems;
 	var stop = start + display.numberDisplayedItems;
 	var remove = 0;
@@ -116,13 +116,13 @@ function changeThumbnails(pageNumber, activePage, numberOfPages, clusterId) {
 		var removed = numberOfPages * display.numberDisplayedItems - items.length;
 		// console.log("Make " + removed + " thumbnail(s) visible again.");
 		var start = display.numberDisplayedItems - removed;
-		for(var i=start;i<display.numberDisplayedItems;i++) {
+		for(var i = start;i < display.numberDisplayedItems; i++) {
 			$("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
 		}
 	}
 
 	// Don't display unused thumbspace
-	for (var i=thumbIndex; i<thumbIndex+remove;i++) {
+	for (var i = thumbIndex; i < thumbIndex+remove; i++) {
 		// Remove slow?
 		$("#cluster" + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
 	}

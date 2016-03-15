@@ -1,9 +1,13 @@
 /* Pagination
 *  Code for initializing bootstrap pagination and handling interactions
 */
-function pagination(numberOfPages, clusterId) {
+var items;
+
+function pagination(numberOfPages, itemsForPagination, clusterId) {
 	// Don't use pagination if there are not enough items
 	if(numberOfPages==1) return "";
+
+	items = itemsForPagination;
 
 	// Init HTML pagination string, starting with a disabled left arrow and an active first page
 	var html = $.el.ul({'class':'pagination pagination-sm'},
@@ -27,6 +31,20 @@ function pagination(numberOfPages, clusterId) {
 	return $.el.div({'class':'row'},
 					$.el.div({'class':'col-md-12'},
 							 html));
+}
+
+function newPagination(numberOfPages){
+	// Don't use pagination if there are not enough items
+	if(numberOfPages==1) return "";
+
+	// Init HTML pagination string, starting with a disabled left arrow and an active first page
+	var html = $.el.ul({'class':'pagination pagination-sm'},
+					   $.el.li({'class':'disabled'},
+							   $.el.span('\u00ab')),
+					   $.el.li({'class':'active'},
+							   $.el.span(1)));
+
+
 }
 
 function changePagination(pageNumber, activePage, numberOfPages, clusterId) {
@@ -86,5 +104,5 @@ function goToPage(pageNumber, clusterId) {
 	var activePage = $("#cluster" + clusterId + " .pagination .active").text();
 	// console.log("Number of pages: " + numberOfPages + " Should be going to the " + pageNumber + " page now,  current activePAge: " + activePage);
 	changePagination(pageNumber, activePage, numberOfPages, clusterId);
-	changeThumbnails(pageNumber, activePage, numberOfPages, clusterId);
+	changeThumbnails(pageNumber, activePage, numberOfPages, items, clusterId);
 }

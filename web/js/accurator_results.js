@@ -35,7 +35,7 @@ var randoms = [];
 
 // Display options deciding how to results get displayed
 var display = {
-	layout: "list",
+	layout: "cluster",
 	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
 	showControls: true
@@ -445,7 +445,7 @@ function addPath(clusterId, uris, query) {
 function displayClusterItems(clusterId){
 	var noPages = getNoOfPagesOrRows(clusters[clusterId].items.length);
 
-	$("#cluster" + clusterId).append(pagination(noPages, clusterId));
+	$("#cluster" + clusterId).append(pagination(noPages, clusters[clusterId].items, clusterId));
 	thumbnails(clusterId);
 }
 
@@ -521,10 +521,10 @@ function addRandomPath() {
 
 // Add rows for random items that are displayed after recommended ones
 function addRandomNodes(totItems){
-	var noRows = getNoOfPagesOrRows(totItems);
+	var noPagesOrRows = getNoOfPagesOrRows(totItems);
 
 	// add rows for thumbnails
-    for (var i = 0; i < noRows; i++){
+    for (var i = 0; i < noPagesOrRows; i++){
 		// display as a list
 		$("#randoms").append(
 			$.el.div({'class':'row',
