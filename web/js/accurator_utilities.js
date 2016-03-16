@@ -102,12 +102,18 @@ function domainSetting(domain) {
 	});
 }
 
-function domainSettings(domain, onDomain) {
-	$.getJSON("domains", {domain:domain})
-		.done(function(data){
-			onDomain(data);
-	});
+// function domainSettings(domain, onDomain) {
+// 	$.getJSON("domains", {domain:domain})
+// 		.done(function(data){
+// 			onDomain(data);
+// 	});
+// }
+
+function domainSettings(domain) {
+	// Retrieve domain settings
+	return $.getJSON("domains", {domain:domain});
 }
+
 
 function getAvailableDomains(onDomains) {
 	$.getJSON("domains")
@@ -121,6 +127,11 @@ function getAvailableDomains(onDomains) {
 Locale and language flags
 Functionallity to adapt to the desired locale.
 *******************************************************************************/
+function getLabels(locale, ui) {
+	// Retrieve labels from server according to locale and ui
+	return $.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"});
+}
+
 function getLocale() {
 	// check url for locale parameter
 	var paramLocale = getParameterByName("locale");
@@ -148,18 +159,21 @@ function setLocaleToBrowserLanguage() {
 	save_user_info({"locale":languageCode}, onSuccess);
 }
 
-function setLocale(languageCode, onSuccess) {
+function setLocale(languageCode) {
+	var deferred = jQuery.Deferred();
+
 	// Action should depend on whether user is logged in
-	var onLoggedIn = function() {
+	userLoggedIn()
+	.then(function() {
 		localStorage.setItem("locale", languageCode);
 		save_user_info({"locale":languageCode}, onSuccess);
-	};
-	var onNotLoggedIn = function() {
+		deferred.resolve();
+	}, function() {
 		localStorage.setItem("locale", languageCode);
-		onSuccess();
-	};
+		deferred.resolve("logged in");
+	});
 
-	userLoggedIn(onLoggedIn, onNotLoggedIn);
+	return deferred.promise();
 }
 
 function populateFlags(locale) {
@@ -185,13 +199,14 @@ function populateFlags(locale) {
 }
 
 function flagEvents() {
-	var onSuccess = function(){location.reload();};
-
 	$("#navbarLnkEn").click(function() {
-		setLocale("en", onSuccess);
+		setLocale("en")
+		.then(function() {location.reload();});
 	});
 	$("#navbarLnkNl").click(function() {
-		setLocale("nl", onSuccess);
+		setLocale("nl")
+		.then(function() {
+			console.log("SHIT");location.reload();});
 	});
 }
 
@@ -399,13 +414,17 @@ function truncate(string, limit) {
 User Login
 User management code.
 *******************************************************************************/
-function userLoggedIn(onLoggedIn, onNotLoggedIn) {
+function userLoggedIn() {
+	var deferred = jQuery.Deferred();
+
 	//see if user is logged in (random for unique request)
 	$.getJSON("get_user?time=" + Math.random())
 	.then(function(user) {
-		if (user.login) onLoggedIn();
-		if (!user.login) onNotLoggedIn();
+		if (user.login) deferred.resolve("logged in");
+		if (!user.login) deferred.reject("not logged in");
 	});
+
+	return deferred.promise();
 }
 
 function logUserIn(onLoggedIn, onDismissal) {
