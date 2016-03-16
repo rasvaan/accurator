@@ -466,7 +466,7 @@ function login(onSuccess) {
 	var password = $("#loginInpPassword").val();
 
 	if(user == "" || password == "") {
-		$(".modal-body").append($.el.p({'class':'text-danger'}, loginTxtIncomplete));
+		$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtIncomplete));
 	} else {
 		loginServer(user, password, onSuccess);
 	}
@@ -480,9 +480,8 @@ function loginServer(user, password, onSuccess) {
 		    data: dataLogin,
 		    success: function(data) {
 				if(data.indexOf("Login failed") != -1) {
-					$(".modal-body").append($.el.p({'class':'text-danger'}, loginTxtWarning));
+					$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtWarning));
 				} else if (data.indexOf("Login ok") != -1) {
-
 					setUserSettingsLocal(dataLogin, onSuccess);
 					// remove event listener and hide modal
 					$("#loginDivLogin").off('hidden.bs.modal');
