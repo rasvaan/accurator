@@ -425,12 +425,120 @@ function userLoggedIn() {
 	return deferred.promise();
 }
 
-function logUserIn(onLoggedIn, onDismissal) {
+function logUserIn() {
+	var deferred = jQuery.Deferred();
+
 	//make sure user is logged in (random for unique request)
-	$.getJSON("get_user?time=" + Math.random())
-		.done(function(data){onLoggedIn(data)})
-		.fail(function(){loginModal(onLoggedIn, onDismissal)});
+	userLoggedIn()
+	.then(function(userData) {
+		deferred.resolve(userData);
+	}, function() {
+		console.log("Show modal");
+
+		PloginModal()
+		.then(function(userData) {
+			deferred.resolve(userData);
+		}, function(message) {
+			deferred.reject(message);
+		});
+	});
+
+	return deferred.promise();
 }
+
+function PloginModal() {
+	var deferred = jQuery.Deferred();
+	var ui = "http://accurator.nl/ui/generic#loginModal";
+	var locale = getLocale();
+
+	getLabels(locale, ui)
+	.then(function(labels) {
+		initModalLabels(labels);
+		$("#loginDivLogin").modal();
+		$("#loginInpUsername").focus();
+
+		PloginButtonEvent()
+		.then(function(userData) {
+			deferred.resolve(userData);
+		}, function(message) {
+			deferred.reject(message);
+		});
+	});
+
+	return deferred.promise();
+}
+
+function PloginButtonEvent() {
+	var deferred = jQuery.Deferred();
+
+	console.log("Add modal events");
+	$("#loginBtnLogin").click(function() {
+		Plogin()
+		.then(function(userData) {
+			deferred.resolve(userData);
+		}, function() {
+			deferred.reject("unable to login after click");
+		});
+	});
+	// Login on pressing enter
+	$("#loginInpPassword").keypress(function(event) {
+		if (event.which == 13)
+			deferred.resolve("loggin in after enter password");
+	});
+	$("#loginInpUsername").keypress(function(event) {
+		if (event.which == 13)
+			deferred.resolve("loggin in after enter username");
+	});
+	$("#loginDivLogin").on('hidden.bs.modal', function (e) {
+		deferred.reject("hid the modal");
+	});
+	$("#loginBtnClose").click(function() {
+		deferred.reject("clicked on close");
+	});
+
+	return deferred.promise();
+}
+
+function Plogin() {
+	var deferred = jQuery.Deferred();
+
+	var user = getUserUri($("#loginInpUsername").val());
+	var password = $("#loginInpPassword").val();
+
+	if(user == "" || password == "") {
+		$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtIncomplete));
+	} else {
+		deferred.resolve("logged in");
+		// loginServer(user, password, onSuccess);
+	}
+	return deferred.promise();
+}
+
+// function loginServer(user, password, onSuccess) {
+// 	dataLogin = {"user":user, "password":password};
+//
+// 	$.ajax({type: "POST",
+// 		    url: "user/login",
+// 		    data: dataLogin,
+// 		    success: function(data) {
+// 				if(data.indexOf("Login failed") != -1) {
+// 					$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtWarning));
+// 				} else if (data.indexOf("Login ok") != -1) {
+// 					setUserSettingsLocal(dataLogin, onSuccess);
+// 					// remove event listener and hide modal
+// 					$("#loginDivLogin").off('hidden.bs.modal');
+// 					$("#loginDivLogin").modal('hide');
+// 				}
+// 		   }
+// 	});
+// }
+
+// function logUserIn(onLoggedIn, onDismissal) {
+// 	//make sure user is logged in (random for unique request)
+// 	$.getJSON("get_user?time=" + Math.random())
+// 		.done(function(data){onLoggedIn(data)})
+// 		.fail(function(){loginModal(onLoggedIn, onDismissal)});
+// }
 
 function loginModal(onSuccess, onDismissal) {
 	var ui = "http://accurator.nl/ui/generic#loginModal";
