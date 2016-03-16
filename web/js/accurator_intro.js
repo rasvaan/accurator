@@ -1,6 +1,6 @@
 /*******************************************************************************
 Accurator Intro
-Code for showing the welcom page, adapts to the domain and locale setting.
+Code for showing the welcome page, adapts to the domain and locale setting.
 *******************************************************************************/
 "use strict";
 

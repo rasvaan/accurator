@@ -1,37 +1,32 @@
-/* Accurator About
-*/
-var locale, domain;
+/*******************************************************************************
+Accurator About
+Code for showing the about page.
+*******************************************************************************/
+"use strict";
 
 function aboutInit() {
-	locale = getLocale();
-	domain = getDomain();
+	var locale = getLocale();
+	var domain = getDomain();
 
 	populateFlags(locale);
 
-	// Domain settings are needed
-	var onDomain = function(domainSettings) {
-		populateUI(domainSettings);
-	}
-	var onLoggedIn = function(userData){
+	userLoggedIn()
+	.then(function(userData) {
 		setLinkLogo("profile");
-		userName = getUserName(userData.user);
-		populateNavbar(userName,
-			[{link:"profile.html", name:"Profile"}]);
-		domainSettings = domainSettings(domain, onDomain);
-	};
-	var onNotLoggedIn = function(){
-		domainSettings = domainSettings(domain, onDomain);
-	};
-	userLoggedIn(onLoggedIn, onNotLoggedIn);
-}
-
-function populateUI(domainSettins) {
-	ui = getUI(domainSettings, "about");
-
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(labels){
-			initLabels(labels);
-			addButtonEvents();});
+		var userName = getUserName(userData.user);
+		populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
+		return domainSettings(domain);
+	}, function() {
+		return domainSettings(domain);
+	})
+	.then(function(domainSettings) {
+		var ui = getUI(domainSettings, "about");
+		return getLabels(locale, ui);
+	})
+	.then(function(labels) {
+		initLabels(labels);
+		addButtonEvents();
+	});
 }
 
 function initLabels(labels) {

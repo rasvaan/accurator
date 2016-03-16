@@ -314,10 +314,10 @@ function alertMessage(title, text, type) {
 					$.el.p(text)))));
 }
 
-function populateNavbar(userName, linkList) {
+function populateNavbar(userName, linkList, locale) {
 	// Only popluate navbar when no experiment is running
 	if(typeof experiment === "undefined" || experiment === "none") {
-		populateNavbarUser(userName, linkList);
+		populateNavbarUser(userName, linkList, locale);
 	} else {
 		// Hide recommendations button if experiment is running
 		$("#btnRecommend").hide();
@@ -330,12 +330,10 @@ function populateNavbar(userName, linkList) {
 	}
 }
 
-function populateNavbarUser(userName, linkList) {
+function populateNavbarUser(userName, linkList, locale) {
 	// Add a user drop down based on the user and listed links
-	$.getJSON("ui_elements", {locale:locale,
-							  ui:"http://accurator.nl/ui/generic#userDropdown",
-							  type:"labels"})
-	.done(function(data){
+	getLabels(locale, "http://accurator.nl/ui/generic#userDropdown")
+	.then(function(labels) {
 		$(".navbarLstUser").append(
 			$.el.li({'class':'dropdown'},
 					$.el.a({'href':'#',
@@ -349,12 +347,12 @@ function populateNavbarUser(userName, linkList) {
 						 	 'role':'menu'},
 						 	 $.el.li($.el.a({'href':'#',
 								         	 'id':'navbarLnkLogout'},
-										 	 data.navbarLnkLogout)),
+										 	 labels.navbarLnkLogout)),
 							 // Add links based on array
-							 addLinks(linkList, data),
+							 addLinks(linkList, labels),
 						 	 $.el.li({'class':'divider'}),
 						 	 $.el.li($.el.a({'href':'about.html'},
-								 	 data.navbarLnkAbout))))
+								 	 labels.navbarLnkAbout))))
 		)
 		// Add logout event to menu item
 		$("#navbarLnkLogout").click(function() {
@@ -420,8 +418,8 @@ function userLoggedIn() {
 	//see if user is logged in (random for unique request)
 	$.getJSON("get_user?time=" + Math.random())
 	.then(function(user) {
-		if (user.login) deferred.resolve("logged in");
-		if (!user.login) deferred.reject("not logged in");
+		if (user.login) deferred.resolve(user);
+		if (!user.login) deferred.reject(user);
 	});
 
 	return deferred.promise();
