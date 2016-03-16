@@ -402,8 +402,10 @@ User management code.
 function userLoggedIn(onLoggedIn, onNotLoggedIn) {
 	//see if user is logged in (random for unique request)
 	$.getJSON("get_user?time=" + Math.random())
-		.done(onLoggedIn)
-		.fail(onNotLoggedIn);
+	.then(function(user) {
+		if (user.login) onLoggedIn();
+		if (!user.login) onNotLoggedIn();
+	});
 }
 
 function logUserIn(onLoggedIn, onDismissal) {

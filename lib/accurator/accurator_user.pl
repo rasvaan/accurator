@@ -60,9 +60,11 @@ register_user(Request) :-
 %
 %	Get the id of a user.
 get_user(_Request) :-
-	logged_on(User),
+	logged_on(User), !,
 	user_property(User, realname(RealName)),
-	reply_json_dict(user{user:User, real_name:RealName}).
+	reply_json_dict(user{login:true, user:User, real_name:RealName}).
+get_user(_Request) :-
+	reply_json_dict(user{login:false}).
 
 %%	get_user_settings(+Request)
 %
