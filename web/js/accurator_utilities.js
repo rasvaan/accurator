@@ -436,14 +436,14 @@ function logUserIn(onLoggedIn, onDismissal) {
 
 function loginModal(onSuccess, onDismissal) {
 	var ui = "http://accurator.nl/ui/generic#loginModal";
-	$.getJSON("ui_elements", {locale:getLocale(),
-							  ui:ui,
-							  type:"labels"})
-		.done(function(data){
-			loginButtonEvent(onSuccess, onDismissal);
-			initModalLabels(data);
-			$("#loginDivLogin").modal();
-			$("#loginInpUsername").focus();
+	var locale = getLocale();
+
+	getLabels(locale, ui)
+	.then(function(labels) {
+		loginButtonEvent(onSuccess, onDismissal);
+		initModalLabels(labels);
+		$("#loginDivLogin").modal();
+		$("#loginInpUsername").focus();
 	});
 }
 
@@ -524,14 +524,14 @@ Code for registering a new user
 *******************************************************************************/
 function registerModal(onDismissal) {
 	var ui = "http://accurator.nl/ui/generic#registerModal";
-	$.getJSON("ui_elements", {locale:getLocale(),
-							  ui:ui,
-							  type:"labels"})
-		.done(function(data){
-			registerButtonEvent(onDismissal);
-			initRegisterModalLabels(data);
-			$("#registerDivRegister").modal();
-			$("#registerInpFullName").focus();
+	var locale = getLocale();
+
+	getLabels(locale, ui)
+	.then(function(labels) {
+		registerButtonEvent(onDismissal);
+		initRegisterModalLabels(labels);
+		$("#registerDivRegister").modal();
+		$("#registerInpFullName").focus();
 	});
 }
 
