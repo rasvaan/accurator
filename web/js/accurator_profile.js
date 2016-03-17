@@ -21,10 +21,9 @@ function profileInit() {
 	logUserIn()
 	.then(function(userData) {
 		console.log(userData);
-	}, function(message) {
-		console.log(message);
+	}, function() {
 		// Go to intro page if not logged in
-		// document.location.href="intro.html";
+		document.location.href="intro.html";
 	});
 
 	// var onLoggedIn = function(loginData) {

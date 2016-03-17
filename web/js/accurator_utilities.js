@@ -398,63 +398,38 @@ User Login
 User management code.
 *******************************************************************************/
 function userLoggedIn() {
-	var deferred = jQuery.Deferred();
-
 	//see if user is logged in (random for unique request)
-	$.getJSON("get_user?time=" + Math.random())
+	return $.getJSON("get_user?time=" + Math.random())
 	.then(function(user) {
-		if (user.login) deferred.resolve(user);
-		if (!user.login) deferred.reject(user);
+		if (user.login) return user;
+		if (!user.login) return jQuery.Deferred().reject(user).promise();
 	});
-
-	return deferred.promise();
 }
 
 function logUserIn() {
-	var deferred = jQuery.Deferred();
-
 	//make sure user is logged in (random for unique request)
-	userLoggedIn()
+	return userLoggedIn()
 	.then(function(userData) {
 		// user is already logged in
-		deferred.resolve(userData);
+		return userData;
 	}, function() {
 		// present user with login modal
-		loginModal()
-		.then(function(userData) {
-			// user logged in using modal
-			deferred.resolve(userData);
-		}, function(message) {
-			// user failed to log in
-			deferred.reject(message);
-		});
+		return loginModal()
 	});
-
-	return deferred.promise();
 }
 
 function loginModal() {
-	var deferred = jQuery.Deferred();
 	var ui = "http://accurator.nl/ui/generic#loginModal";
 	var locale = getLocale();
 
-	getLabels(locale, ui)
+	return getLabels(locale, ui)
 	.then(function(labels) {
 		// add labels and show modal
 		initModalLabels(labels);
 		$("#loginDivLogin").modal();
 		$("#loginInpUsername").focus();
-
-		// set events to modal buttons triggering login attempt
-		loginButtonEvent()
-		.then(function(userData) {
-			deferred.resolve(userData);
-		}, function(message) {
-			deferred.reject(message);
-		});
-	});
-
-	return deferred.promise();
+		return loginButtonEvent();
+	})
 }
 
 function initModalLabels(data) {
@@ -470,15 +445,14 @@ function initModalLabels(data) {
 }
 
 function loginButtonEvent() {
+	// add events to login modal
 	var deferred = jQuery.Deferred();
 
-	console.log("Add modal events");
 	$("#loginBtnLogin").click(function() {
-		login()
-		.then(function(userData) {
+		login().then(function(userData) {
 			deferred.resolve(userData);
-		}, function() {
-			deferred.reject("unable to login after click");
+		}, function(error) {
+			$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, error));
 		});
 	});
 	// Login on pressing enter
@@ -487,8 +461,8 @@ function loginButtonEvent() {
 			login()
 			.then(function(userData) {
 				deferred.resolve(userData);
-			}, function() {
-				deferred.reject("unable to login after click");
+			}, function(error) {
+				$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, error));
 			});
 		}
 	});
@@ -497,12 +471,12 @@ function loginButtonEvent() {
 			login()
 			.then(function(userData) {
 				deferred.resolve(userData);
-			}, function() {
-				deferred.reject("unable to login after click");
+			}, function(error) {
+				$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, error));
 			});
 		}
 	});
-	$("#loginDivLogin").on('hidden.bs.modal', function (e) {
+	$("#loginDivLogin").on('hidden.bs.modal', function () {
 		deferred.reject("hid the modal");
 	});
 	$("#loginBtnClose").click(function() {
@@ -513,30 +487,28 @@ function loginButtonEvent() {
 }
 
 function login() {
+	// login based upon values provided in modal
 	var user = getUserUri($("#loginInpUsername").val());
 	var password = $("#loginInpPassword").val();
 
 	if(user == "" || password == "") {
-		$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtIncomplete));
+		// no values given so reject promise
+		return jQuery.Deferred().reject(loginTxtIncomplete).promise();
 	} else {
 		return loginServer(user, password)
-		.then(function(data){
+		.then(function(data) {
 			if(data.indexOf("Login failed") != -1) {
-				// show warning that login was unsuccessful
-				$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtWarning));
+				// reject and indicate warning that login was unsuccessful
+				return jQuery.Deferred().reject(loginTxtWarning).promise();
 			} else if (data.indexOf("Login ok") != -1) {
-				// login succesful so set settings, hide modal and resolve promise
-				console.log("set settings");
+				// login succesful so set settings
 				return setUserSettingsLocal()
-				.then(function() {
-					console.log("hide modal");
-					$("#loginDivLogin").off('hidden.bs.modal');
-					$("#loginDivLogin").modal('hide');
-				});
 			}
 		})
 		.then(function() {
-			console.log("get user info after login");
+			// hide modal and resolve promise
+			$("#loginDivLogin").off('hidden.bs.modal');
+			$("#loginDivLogin").modal('hide');
 			return userLoggedIn();
 		});
 	}
@@ -548,96 +520,6 @@ function loginServer(user, password) {
 
 	return $.ajax({type: "POST", url: "user/login", data: dataLogin});
 }
-
-// function loginServer(user, password, onSuccess) {
-// 	dataLogin = {"user":user, "password":password};
-//
-// 	$.ajax({type: "POST",
-// 		    url: "user/login",
-// 		    data: dataLogin,
-// 		    success: function(data) {
-// 				if(data.indexOf("Login failed") != -1) {
-// 					$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtWarning));
-// 				} else if (data.indexOf("Login ok") != -1) {
-// 					setUserSettingsLocal(dataLogin, onSuccess);
-// 					// remove event listener and hide modal
-// 					$("#loginDivLogin").off('hidden.bs.modal');
-// 					$("#loginDivLogin").modal('hide');
-// 				}
-// 		   }
-// 	});
-// }
-
-// function logUserIn(onLoggedIn, onDismissal) {
-// 	//make sure user is logged in (random for unique request)
-// 	$.getJSON("get_user?time=" + Math.random())
-// 		.done(function(data){onLoggedIn(data)})
-// 		.fail(function(){loginModal(onLoggedIn, onDismissal)});
-// }
-
-// function loginModal(onSuccess, onDismissal) {
-// 	var ui = "http://accurator.nl/ui/generic#loginModal";
-// 	var locale = getLocale();
-//
-// 	getLabels(locale, ui)
-// 	.then(function(labels) {
-// 		loginButtonEvent(onSuccess, onDismissal);
-// 		initModalLabels(labels);
-// 		$("#loginDivLogin").modal();
-// 		$("#loginInpUsername").focus();
-// 	});
-// }
-
-// function loginButtonEvent(onSuccess, onDismissal) {
-// 	$("#loginBtnLogin").click(function() {
-// 		login(onSuccess);
-// 	});
-// 	// Login on pressing enter
-// 	$("#loginInpPassword").keypress(function(event) {
-// 		if (event.which == 13)
-// 			login(onSuccess);
-// 	});
-// 	$("#loginInpUsername").keypress(function(event) {
-// 		if (event.which == 13)
-// 			login(onSuccess);
-// 	});
-// 	$("#loginDivLogin").on('hidden.bs.modal', function (e) {
-// 		onDismissal();
-// 	});
-// 	$("#loginBtnClose").click(function() {
-// 		onDismissal();
-// 	});
-// }
-//
-// function login(onSuccess) {
-// 	var user = getUserUri($("#loginInpUsername").val());
-// 	var password = $("#loginInpPassword").val();
-//
-// 	if(user == "" || password == "") {
-// 		$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtIncomplete));
-// 	} else {
-// 		loginServer(user, password, onSuccess);
-// 	}
-// }
-//
-// function loginServer(user, password, onSuccess) {
-// 	dataLogin = {"user":user, "password":password};
-//
-// 	$.ajax({type: "POST",
-// 		    url: "user/login",
-// 		    data: dataLogin,
-// 		    success: function(data) {
-// 				if(data.indexOf("Login failed") != -1) {
-// 					$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtWarning));
-// 				} else if (data.indexOf("Login ok") != -1) {
-// 					setUserSettingsLocal(dataLogin, onSuccess);
-// 					// remove event listener and hide modal
-// 					$("#loginDivLogin").off('hidden.bs.modal');
-// 					$("#loginDivLogin").modal('hide');
-// 				}
-// 		   }
-// 	});
-// }
 
 function logout() {
 	$.ajax({type: "POST",
