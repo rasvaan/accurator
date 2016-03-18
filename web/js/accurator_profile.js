@@ -3,7 +3,7 @@ Accurator Profile
 Code for showing statistical elements on the profile page and allowing the user
 to change settings.
 *******************************************************************************/
-var locale, ui, domain, experiment, user, userName, realName;
+var ui, experiment, user, userName, realName;
 var recentItems;
 var initialClusters, enrichedClusters, clusters;
 
@@ -12,8 +12,8 @@ display = {
 }
 
 function profileInit() {
-	locale = getLocale();
-	domain = getDomain();
+	var locale = getLocale();
+	var domain = getDomain();
 	experiment = getExperiment();
 
 	populateFlags(locale);
@@ -46,7 +46,7 @@ function profileInit() {
 		.then(function(labels) {
 			addButtonEvents();
 			initLabels(labels);
-			initDomains(labels);
+			initDomains(locale, domain, labels);
 		});
 	}
 }
@@ -86,66 +86,65 @@ function initLabels(labels) {
 	$("#profileLblLastAnnotated").append(labels.profileLblLastAnnotated);
 }
 
-function initDomains(labels) {
-	var onDomains = function(domainLabels){
-		populateDomains(domainLabels, labels);
-	};
-	getAvailableDomains(onDomains);
-}
+function initDomains(locale, domain, labels) {
+	console.log("1. set domain ", domain);
+	getAvailableDomains()
+	.then(function(domains) {
+		// set domain settings for all the domains
+		for(var i=0; i<domains.length; i++) {
+			var currentDomain = domains[i];
 
-function populateDomains(domainLabels, labels) {
-	// Get domain settings for all the domains
-	for(var i=0; i<domainLabels.length; i++) {
-		var currentDomain = domainLabels[i];
-		var processDomain = function(currentDomain, labels){
-			// Add title current domain or option to change to domain
-			return function(data){
-					if(domain===currentDomain) {
-						addDomainTitle(data, labels);
+			// already create function so currentdomain is not the last deu to asynchronisity
+			var processDomain = function(currentDomain, labels) {
+				return function(domainData) {
+					if (domain === currentDomain) {
+						addDomainTitle(domainData, locale, labels);
 					} else {
-						domainHtml(data);
+						domainHtml(domainData, locale);
 					}
+				}
+			}
+
+			// add info about all domains except generic
+			if(currentDomain !== "generic") {
+				$.getJSON("domains", {domain:currentDomain})
+				.then(processDomain(currentDomain, labels));
 			}
 		}
-		//Add info about all domains except generic
-		if(currentDomain !== "generic") {
-			$.getJSON("domains", {domain:currentDomain})
-			.done(processDomain(currentDomain, labels));
-		}
-	}
+	});
 }
 
-function addDomainTitle(domainSettings, labels) {
-	// Add the title of the current domain to the profile page
-	$.getJSON("ui_elements", {locale:locale,
-							  ui:domainSettings.ui + "domain",
-							  type:"labels"})
-	.done(function(data){
+function addDomainTitle(domainData, locale, labels) {
+	// add the title of the current domain to the profile page
+	getLabels(locale, domainData.ui + "domain")
+	.then(function(data){
 		$("#profileTxtDomain").append(
 			labels.profileTxtDomain,
 			$.el.span({'class':'text-info'},
-				data.domainLabel));});
+				data.domainLabel));}
+	);
 }
 
-function domainHtml(domainData) {
-	var domain = domainData.domain;
-	$.getJSON("ui_elements", {locale:locale,
-							  ui:domainData.ui + "domain",
-							  type:"labels"})
-	.done(function(data){
+function domainHtml(domainData, locale) {
+	// add the different domain to a dropdown list
+	getLabels(locale, domainData.ui + "domain")
+	.then(function(data){
 		$("#profileLstDomainItems").append(
 			$.el.li(
 				$.el.a({'href':'#',
 						'id':domainData.domain},
 						 data.domainLabel)));
-		addDomainEvent(domain);
+		addDomainEvent(domainData.domain);
 	});
 }
 
 function addDomainEvent(domain) {
-	var onSuccess = function(){location.reload();};
+	// add event reloadingn page on domain selection, saving choice
 	$("#" + domain).click(function() {
-		setDomain(domain, onSuccess);
+		setDomain(domain)
+		.then(function() {
+			location.reload();
+		});
 	});
 }
 

@@ -29,9 +29,9 @@ function setUserSettingsLocal() {
 	});
 }
 
-function save_user_info(info, onSuccess) {
+function save_user_info(info) {
 	// save user settings to user.db of Cliopatria
-	$.getJSON("get_user")
+	return $.getJSON("get_user")
 	.then(function(data){
 		// get the user id and post information
 		info.user = data.user;
@@ -43,10 +43,6 @@ function save_user_info(info, onSuccess) {
 			data: JSON.stringify(info)
 		});
 	})
-	.then(function() {
-		if(typeof onSuccess == 'undefined')	onSuccess = function(){};
-		onSuccess();
-	});
 }
 
 function getParameterByName(name) {
@@ -90,7 +86,7 @@ function setDomainToGenericOrParameter() {
 
 function setDomain(domain, onSuccess) {
 	localStorage.setItem("domain", domain);
-	save_user_info({"domain":domain}, onSuccess);
+	return save_user_info({"domain":domain});
 }
 
 function domainSettings(domain) {
@@ -99,12 +95,9 @@ function domainSettings(domain) {
 }
 
 
-function getAvailableDomains(onDomains) {
-	$.getJSON("domains")
-		.done(function(data){
-			onDomains(data);
-			return data;
-	});
+function getAvailableDomains() {
+	// promise of all domains
+	return $.getJSON("domains");
 }
 
 /*******************************************************************************
@@ -139,8 +132,7 @@ function setLocaleToBrowserLanguage() {
 
 	// Save locale to localStorage and user.db
 	localStorage.setItem("locale", languageCode);
-	var onSuccess = function(){};
-	save_user_info({"locale":languageCode}, onSuccess);
+	save_user_info({"locale":languageCode});
 }
 
 function setLocale(languageCode) {
@@ -150,7 +142,7 @@ function setLocale(languageCode) {
 	userLoggedIn()
 	.then(function() {
 		localStorage.setItem("locale", languageCode);
-		save_user_info({"locale":languageCode}, onSuccess);
+		save_user_info({"locale":languageCode});
 		deferred.resolve();
 	}, function() {
 		localStorage.setItem("locale", languageCode);
@@ -631,7 +623,8 @@ function firstLogin(user, password, settings) {
 	})
 	.then(function() {
 		// save the locale and domain currently in local storage
-		save_user_info(settings, function() {
+		save_user_info(settings)
+		.then(function() {
 			// page that will be shown next
 			document.location.href="domain.html";
 		 });
