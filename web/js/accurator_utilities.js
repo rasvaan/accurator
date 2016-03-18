@@ -396,7 +396,7 @@ User Login
 User management code.
 *******************************************************************************/
 function userLoggedIn() {
-	//see if user is logged in (random for unique request)
+	// see if user is logged in (random for unique request)
 	return $.getJSON("get_user?time=" + Math.random())
 	.then(function(user) {
 		if (user.login) return user;
@@ -486,7 +486,7 @@ function processLogin(onSuccess, labels) {
 }
 
 function loginServer(user, password) {
-	var dataLogin = {"user":user, "password":password};
+	var dataLogin = {"user": user, "password": password};
 
 	return $.ajax({type: "POST", url: "user/login", data: dataLogin});
 }
@@ -507,42 +507,48 @@ function registerModal(onDismissal) {
 	var locale = getLocale();
 
 	getLabels(locale, ui)
-	.then(function(labels) {
-		registerButtonEvent(onDismissal);
-		initRegisterModalLabels(labels);
+	.then(function(data) {
+		var labels = initRegisterModalLabels(data);
+		registerButtonEvent(onDismissal, labels);
+
 		$("#registerDivRegister").modal();
 		$("#registerInpFullName").focus();
 	});
 }
 
-function initRegisterModalLabels(labels) {
+function initRegisterModalLabels(data) {
 	// add retrieved labels to html elements
-	$("#registerHdrTitle").html(labels.registerHdrTitle);
-	$("#registerLblFullName").html(labels.registerLblFullName);
-	$("#registerLblUsername").html(labels.registerLblUsername);
-	$("#registerLblPassword").html(labels.registerLblPassword);
-	$("#registerLblPasswordRepeat").html(labels.registerLblPasswordRepeat);
-	$("#registerBtnRegister").html(labels.registerBtnRegister);
+	$("#registerHdrTitle").html(data.registerHdrTitle);
+	$("#registerLblFullName").html(data.registerLblFullName);
+	$("#registerLblUsername").html(data.registerLblUsername);
+	$("#registerLblPassword").html(data.registerLblPassword);
+	$("#registerLblPasswordRepeat").html(data.registerLblPasswordRepeat);
+	$("#registerBtnRegister").html(data.registerBtnRegister);
 
 	// set text variables for possible later use
-	registerTxtRegistrationFailed = labels.registerTxtRegistrationFailed;
-	registerTxtUsernameFail = labels.registerTxtUsernameFail;
-	registerTxtPasswordsMatchFail = labels.registerTxtPasswordsMatchFail;
-	registerTxtUserTaken = labels.registerTxtUserTaken;
-	registerTxtServerError = labels.registerTxtServerError;
+	var labels = {
+		registerTxtRegistrationFailed: data.registerTxtRegistrationFailed,
+		registerTxtUsernameFail: data.registerTxtUsernameFail,
+		registerTxtPasswordsMatchFail: data.registerTxtPasswordsMatchFail,
+		registerTxtUserTaken: data.registerTxtUserTaken,
+		registerTxtServerError: data.registerTxtServerError
+	};
+
 	$("body").on('shown.bs.modal', '.modal', function () {
 		$("#registerInpFullName").focus();
 	})
+
+	return labels;
 }
 
-function registerButtonEvent(onDismissal) {
+function registerButtonEvent(onDismissal, labels) {
 	$("#registerBtnRegister").click(function() {
-		register();
+		register(labels);
 	});
 	// register on pressing enter
 	$("#registerInpPasswordRepeat").keypress(function(event) {
 		if (event.which == 13) {
-			register();
+			register(labels);
 		}
 	});
 	$("#registerDivRegister").on('hidden.bs.modal', function (e) {
@@ -553,8 +559,8 @@ function registerButtonEvent(onDismissal) {
 	});
 }
 
-function register() {
-	// Get and check initial form input
+function register(labels) {
+	// get and check initial form input
 	var name = $("#registerInpFullName").val();
 	var user = $("#registerInpUsername").val();
 	var userUri = getUserUri(user);
@@ -562,19 +568,19 @@ function register() {
 	var passwordRepeat = $("#registerInpPasswordRepeat").val();
 
 	if((name == "") || (user == "") || (password == "") || (passwordRepeat == "")){
-		setRegisterFailureText(registerTxtRegistrationFailed);
+		setRegisterFailureText(labels.registerTxtRegistrationFailed);
 	} else if (checkUsername(user)) {
-		setRegisterFailureText(registerTxtUsernameFail);
+		setRegisterFailureText(labels.registerTxtUsernameFail);
 	} else if (password != passwordRepeat){
-		setRegisterFailureText(registerTxtPasswordsMatchFail);
+		setRegisterFailureText(labels.registerTxtPasswordsMatchFail);
 	} else {
 		// Attempt registration
-		registerServer(name, userUri, password);
+		registerServer(name, userUri, password, labels);
 	}
 }
 
 function setRegisterFailureText(text) {
-	alertMessage = $.el.div({'class':'registerMessage'},
+	var alertMessage = $.el.div({'class':'registerMessage'},
 			$.el.h5({'class':'text-danger'}, text));
 	// clear the current
 	$("#registerTxtWarning").empty();
@@ -592,7 +598,7 @@ function checkUsername(user) {
 	}
 }
 
-function registerServer(name, user, password) {
+function registerServer(name, user, password, labels) {
 	var json = {"name":name, "user":user, "password":password};
 
 	$.ajax({
@@ -600,21 +606,19 @@ function registerServer(name, user, password) {
 		url: "register_user",
 		contentType: "application/json",
 		data: JSON.stringify(json),
-		success: function(){
-			// We are sometimes doing research you know
-			if(experiment !== "none")
-				flipAOrB();
-			// Login user upon succesful register
-			firstLogin(user, password);
-		},
-		error: function (request, textStatus, errorThrown) {
-			if(errorThrown == "Not Found")
-	        	setRegisterFailureText("Server did not respond.");
-	        if(request.responseText.indexOf("User already exists") > -1) {
-	    		setRegisterFailureText(registerTxtUserTaken);
-	        } else {
-	        	setRegisterFailureText(registerTxtServerError);
-	        }
+	}).then(function() {
+		// we are sometimes doing research you know
+		if(experiment !== "none")
+			flipAOrB();
+		// login user upon succesful register
+		firstLogin(user, password);
+	}, function(response, textStatus, errorThrown) {
+		if(errorThrown == "Not Found")
+			setRegisterFailureText("Server did not respond.");
+		if(response.responseText.indexOf("User already exists") > -1) {
+			setRegisterFailureText(labels.registerTxtUserTaken);
+		} else {
+			setRegisterFailureText(labels.registerTxtServerError);
 		}
 	});
 }
@@ -622,20 +626,21 @@ function registerServer(name, user, password) {
 function firstLogin(user, password) {
 	// loginServer from utilities is not used because it resets settings upon
 	// retrieving non existent settings from user.db (hence, firstLogin)
-	$.ajax({type: "POST",
-			url: "user/login",
-			data: {"user":user, "password":password},
-			success: function(data) {
-				// Save the locale and domain currently in local storage
-				save_user_info({"locale":locale,"domain":domain}, function(){
-					// Determine which page will be shown next
-					if(experiment === "true") {
-						document.location.href="form.html";
-					} else {
-						document.location.href="domain.html";
-					}
-				 });
-		   }
+	$.ajax({
+		type: "POST",
+		url: "user/login",
+		data: {"user":user, "password":password},
+	})
+	.then(function(data) {
+		// save the locale and domain currently in local storage
+		save_user_info({"locale": locale, "domain": domain}, function() {
+			// determine which page will be shown next
+			if(experiment === "true") {
+				document.location.href="form.html";
+			} else {
+				document.location.href="domain.html";
+			}
+		 });
 	});
 }
 
