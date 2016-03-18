@@ -3,18 +3,9 @@ Accurator Profile
 Code for showing statistical elements on the profile page and allowing the user
 to change settings.
 *******************************************************************************/
-var ui, experiment, user, userName, realName;
-var recentItems;
-var initialClusters, enrichedClusters, clusters;
-
-display = {
-	numberDisplayedItems: 6,
-}
-
 function profileInit() {
 	var locale = getLocale();
 	var domain = getDomain();
-	experiment = getExperiment();
 
 	populateFlags(locale);
 
@@ -29,29 +20,27 @@ function profileInit() {
 	});
 
 	function drawPage(userData) {
-		user = userData.user;
-		userName = getUserName(user);
-		realName = userData.real_name;
+		var user = userData.user;
+		var userName = getUserName(user);
+		var realName = userData.real_name;
 
 		setLinkLogo("profile");
 		populateNavbar(userName, [], locale);
-		populateRecentlyAnnotated();
+		populateRecentlyAnnotated(user);
 
 		domainSettings(domain)
 		.then(function(domainData) {
-			ui = domainData.ui + "profile";
-
-			return getLabels(locale, ui);
+			return getLabels(locale, domainData.ui + "profile");
 		})
 		.then(function(labels) {
-			addButtonEvents();
+			addButtonEvents(user);
 			initLabels(labels);
 			initDomains(locale, domain, labels);
 		});
 	}
 }
 
-function populateRecentlyAnnotated() {
+function populateRecentlyAnnotated(user) {
 	$.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(uris){
 		if (uris.length === 0) {
@@ -87,7 +76,6 @@ function initLabels(labels) {
 }
 
 function initDomains(locale, domain, labels) {
-	console.log("1. set domain ", domain);
 	getAvailableDomains()
 	.then(function(domains) {
 		// set domain settings for all the domains
@@ -126,7 +114,7 @@ function addDomainTitle(domainData, locale, labels) {
 }
 
 function domainHtml(domainData, locale) {
-	// add the different domain to a dropdown list
+	// add the different domains to a dropdown list
 	getLabels(locale, domainData.ui + "domain")
 	.then(function(data){
 		$("#profileLstDomainItems").append(
@@ -148,7 +136,7 @@ function addDomainEvent(domain) {
 	});
 }
 
-function addButtonEvents() {
+function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
