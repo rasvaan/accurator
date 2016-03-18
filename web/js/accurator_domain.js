@@ -3,56 +3,54 @@ Accurator Domain
 This code loads domain options into the page, where the options depend on the
 domains loaded in the triple store.
 *******************************************************************************/
-var locale, domain, experiment, ui;
-
 function domainInit() {
-	locale = getLocale();
-	// Be domain agnostic on domain selection screen
-	domain = "generic";
-	experiment = getExperiment();
+	var locale = getLocale();
+	// be domain agnostic on domain selection screen
+	var domain = "generic";
 
-	// Add language switch to navbar
+	// add language switch to navbar
 	populateFlags(locale);
 
-	onLoggedIn = function(loginData) {
-		setLinkLogo("profile");
-		onDomains = function(data){
-			populateDomains(data);
+	userLoggedIn()
+	.then(function(userData) {
+		drawPage(userData);
+	}, function() {
+		// user is not logged in, show modal
+		var onDismissal = function() {document.location.href="intro.html"};
+		login(drawPage, onDismissal);
+	});
 
-			// Get generic domain settings before populating ui
-			onDomain = function(domainSettings) {
-				ui = getUI(domainSettings, "domain");
-				populateUI();
-				var userName = getUserName(loginData.user);
-				populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
-			};
-			domainSettings(domain, onDomain);
-		};
-		// Get a list of the available domain (utilities function)
-		getAvailableDomains(onDomains);
-	};
-	// If user is not logged go to intro page
-	onDismissal = function(){document.location.href="intro.html";};
-	logUserIn(onLoggedIn, onDismissal);
+	function drawPage(userData) {
+		setLinkLogo("profile");
+
+		getAvailableDomains()
+		.then(function(domains) {
+			// draw all domains
+			populateDomains(locale, domains);
+			return domainSettings(domain);
+		})
+		.then(function(domainSettings) {
+			var ui = getUI(domainSettings, "domain");
+			return getLabels(locale, ui);
+		})
+		.then(function(labels) {
+			document.title = labels.domainPageTitle;
+			$("#domainTxtTitle").append(labels.domainTxtTitle);
+			var userName = getUserName(userData.user);
+			populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
+		});
+	}
 }
 
 function nextPage() {
-	// We do not need expertise to do random stuff
+	// we do not need expertise to do random stuff
 	if(experiment === "random")
 		return function(){document.location.href="results.html"};
 
 	return function(){document.location.href="expertise.html"};
 }
 
-function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(labels){
-			document.title = labels.domainPageTitle;
-			$("#domainTxtTitle").append(labels.domainTxtTitle);
-		});
-}
-
-function populateDomains(domainLabels) {
+function populateDomains(locale, domainLabels) {
 	var row;
 
 	// Get domain settings for all the domains
@@ -69,13 +67,13 @@ function populateDomains(domainLabels) {
 		$.getJSON("domains", {domain:domainLabels[i]})
 			.done(function(data){
 				if(!(data.domain === "generic")) {
-					domainHtml(data, row);
+					domainHtml(data, row, locale);
 				}
 			});
 	}
 }
 
-function domainHtml(domainData, row) {
+function domainHtml(domainData, row, locale) {
 	var domain = domainData.domain;
 	$.getJSON("ui_elements",
 			  {locale:locale,

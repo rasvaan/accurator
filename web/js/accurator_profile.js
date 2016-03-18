@@ -3,6 +3,8 @@ Accurator Profile
 Code for showing statistical elements on the profile page and allowing the user
 to change settings.
 *******************************************************************************/
+"use strict";
+
 function profileInit() {
 	var locale = getLocale();
 	var domain = getDomain();
