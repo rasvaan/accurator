@@ -18,47 +18,37 @@ function profileInit() {
 
 	populateFlags(locale);
 
-	logUserIn()
+	userLoggedIn()
 	.then(function(userData) {
-		console.log(userData);
+		// user is logged in, so draw page
+		drawPage(userData);
 	}, function() {
-		// Go to intro page if not logged in
-		document.location.href="intro.html";
+		// user is not logged in, show modal
+		var onDismissal = function() {document.location.href="intro.html"};
+		login(drawPage, onDismissal);
 	});
 
-	// var onLoggedIn = function(loginData) {
-	// 	var deferred = jQuery.Deferred();
-	//
-	// 	setLinkLogo("profile");
-	// 	user = loginData.user;
-	// 	userName = getUserName(user);
-	// 	realName = loginData.real_name;
-	// 	populateNavbar(userName, [], locale);
-	// 	populateRecentlyAnnotated();
-	// 	domainSettings(domain)
-	// 	.then(function(domainData) {
-	// 		deferred.resolve(domainData)}
-	// 	);
-	// 	return deferred.promise();
-	// }
-	//
-	// userLoggedIn()
-	// .then(function(loginData) {
-	// 	return onLoggedIn(loginData);
-	// }, function() {
-	// 	// Show login modal if the user is not yet logged in
-	// 	var onDismissal = function(){document.location.href="intro.html";};
-	// 	return loginModal(onLoggedIn, onDismissal)
-	// })
-	// .then(function(domainData) {
-	// 	ui = domainData.ui + "profile";
-	// 	return getLabels(locale, ui);
-	// })
-	// .then(function(labels) {
-	// 	addButtonEvents();
-	// 	initLabels(labels);
-	// 	initDomains(labels);
-	// });
+	function drawPage(userData) {
+		user = userData.user;
+		userName = getUserName(user);
+		realName = userData.real_name;
+
+		setLinkLogo("profile");
+		populateNavbar(userName, [], locale);
+		populateRecentlyAnnotated();
+
+		domainSettings(domain)
+		.then(function(domainData) {
+			ui = domainData.ui + "profile";
+
+			return getLabels(locale, ui);
+		})
+		.then(function(labels) {
+			addButtonEvents();
+			initLabels(labels);
+			initDomains(labels);
+		});
+	}
 }
 
 function populateRecentlyAnnotated() {

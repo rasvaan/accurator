@@ -11,8 +11,6 @@ Functions used by multiple javascript files. Topics include:
 - Uri
 *******************************************************************************/
 
-var loginTxtWarning, loginTxtIncomplete;
-
 /*******************************************************************************
 Settings
 General setting management.
@@ -406,29 +404,17 @@ function userLoggedIn() {
 	});
 }
 
-function logUserIn() {
-	//make sure user is logged in (random for unique request)
-	return userLoggedIn()
-	.then(function(userData) {
-		// user is already logged in
-		return userData;
-	}, function() {
-		// present user with login modal
-		return loginModal()
-	});
-}
-
-function loginModal() {
+function login(onSuccess, onDismissal) {
 	var ui = "http://accurator.nl/ui/generic#loginModal";
 	var locale = getLocale();
 
-	return getLabels(locale, ui)
+	getLabels(locale, ui)
 	.then(function(labels) {
 		// add labels and show modal
-		initModalLabels(labels);
+		var labels = initModalLabels(labels);
 		$("#loginDivLogin").modal();
 		$("#loginInpUsername").focus();
-		return loginButtonEvent();
+		loginButtonEvents(onSuccess, onDismissal, labels);
 	})
 }
 
@@ -437,85 +423,69 @@ function initModalLabels(data) {
 	$("#loginBtnLogin").html(data.loginBtnLogin);
 	$("#loginLblUsername").html(data.loginLblUsername);
 	$("#loginLblPassword").html(data.loginLblPassword);
-	loginTxtWarning = data.loginTxtWarning;
-	loginTxtIncomplete = data.loginTxtIncomplete;
 	$("body").on('shown.bs.modal', '.modal', function () {
 		$("#loginInpUsername").focus();
-	})
+	});
+	var labels = {loginTxtWarning:data.loginTxtWarning,
+		 		  loginTxtIncomplete:data.loginTxtIncomplete}
+	return labels;
 }
 
-function loginButtonEvent() {
+function loginButtonEvents(onSuccess, onDismissal, labels) {
 	// add events to login modal
-	var deferred = jQuery.Deferred();
-
 	$("#loginBtnLogin").click(function() {
-		login().then(function(userData) {
-			deferred.resolve(userData);
-		}, function(error) {
-			$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, error));
-		});
+		processLogin(onSuccess, labels);
 	});
-	// Login on pressing enter
+	// login on pressing enter
 	$("#loginInpPassword").keypress(function(event) {
-		if (event.which == 13) {
-			login()
-			.then(function(userData) {
-				deferred.resolve(userData);
-			}, function(error) {
-				$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, error));
-			});
-		}
+		if (event.which == 13) processLogin(onSuccess, labels);
 	});
 	$("#loginInpUsername").keypress(function(event) {
-		if (event.which == 13) {
-			login()
-			.then(function(userData) {
-				deferred.resolve(userData);
-			}, function(error) {
-				$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, error));
-			});
-		}
+		if (event.which == 13) processLogin(onSuccess, labels);
 	});
+	// run onDismissal if modal is dismissed
 	$("#loginDivLogin").on('hidden.bs.modal', function () {
-		deferred.reject("hid the modal");
+		onDismissal();
 	});
 	$("#loginBtnClose").click(function() {
-		deferred.reject("clicked on close");
+		onDismissal();
 	});
-
-	return deferred.promise();
 }
 
-function login() {
+function processLogin(onSuccess, labels) {
 	// login based upon values provided in modal
 	var user = getUserUri($("#loginInpUsername").val());
 	var password = $("#loginInpPassword").val();
 
 	if(user == "" || password == "") {
-		// no values given so reject promise
-		return jQuery.Deferred().reject(loginTxtIncomplete).promise();
+		$("#loginTxtWarning").html(
+			$.el.p({'class':'text-danger'}, labels.loginTxtIncomplete)
+		);
 	} else {
-		return loginServer(user, password)
+		loginServer(user, password)
 		.then(function(data) {
 			if(data.indexOf("Login failed") != -1) {
-				// reject and indicate warning that login was unsuccessful
-				return jQuery.Deferred().reject(loginTxtWarning).promise();
+				// show warning login failed
+				$("#loginTxtWarning").html(
+					$.el.p({'class':'text-danger'}, labels.loginTxtWarning)
+				);
 			} else if (data.indexOf("Login ok") != -1) {
-				// login succesful so set settings
-				return setUserSettingsLocal()
+				// set user settings, hide modal and execute onSuccess
+				setUserSettingsLocal()
+				.then(function() {
+					$("#loginDivLogin").off('hidden.bs.modal');
+					$("#loginDivLogin").modal('hide');
+					return userLoggedIn();
+				})
+				.then(function(userData) {
+					onSuccess(userData);
+				});
 			}
-		})
-		.then(function() {
-			// hide modal and resolve promise
-			$("#loginDivLogin").off('hidden.bs.modal');
-			$("#loginDivLogin").modal('hide');
-			return userLoggedIn();
 		});
 	}
 }
 
 function loginServer(user, password) {
-	console.log("login using credentials", user, password);
 	var dataLogin = {"user":user, "password":password};
 
 	return $.ajax({type: "POST", url: "user/login", data: dataLogin});
