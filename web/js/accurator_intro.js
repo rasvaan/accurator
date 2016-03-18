@@ -5,19 +5,18 @@ Code for showing the welcome page, adapts to the domain and locale setting.
 "use strict";
 
 function introInit() {
-	// Get settings
 	var locale = getLocale();
 	var domain = getDomain();
 
-	// Add language switch to navbar
+	// add language switch to navbar
 	populateFlags(locale);
 
 	userLoggedIn()
 	.then(function() {
-		// Go to profile page if logged in
+		// go to profile page if logged in
 		document.location.href="profile.html";
 	}, function() {
-		// Get domain settings
+		// get domain settings
 		return domainSettings(domain)
 	})
 	.then(function(domainSettings) {
@@ -35,7 +34,7 @@ function setBackground(backgroundUrl, imageBrightness) {
 	$(".introImgBackground").attr("src", backgroundUrl);
 
 	if (imageBrightness === "dark") {
-	   // Make font lighter to make it readable
+	   // make font lighter to make it readable
 	   $("#introHdrSlogan").css('color', '#FFFFFF');
 	   $("#introBtnLogin").css('color', '#BBBBBB');
 	}
@@ -49,19 +48,19 @@ function addButtonEvents() {
 		registerModal(onDismissal);
 	});
 	$("#introBtnLogin").click(function() {
-		// Show login modal and on success go to profile
+		// show login modal and on success go to profile
 		var onSuccess = function() {
 			document.location.href="profile.html";
 		};
 		var onDismissal = function() {
 			$("#loginDivLogin").modal('hide');
 		};
-		loginModal(onSuccess, onDismissal);
+		login(onSuccess, onDismissal);
 	});
 }
 
 function initLabels(labels) {
-	// Add retrieved labels to html elements
+	// add retrieved labels to html elements
 	$("#introHdrSlogan").prepend(labels.introHdrSlogan);
 	$("#introHdrSubSlogan").prepend(labels.introHdrSubSlogan);
 	$("#introBtnRegister").append(labels.introBtnRegister);

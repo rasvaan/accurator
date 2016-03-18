@@ -298,17 +298,17 @@ function alertMessage(title, text, type) {
 }
 
 function populateNavbar(userName, linkList, locale) {
-	// Only popluate navbar when no experiment is running
+	// only popluate navbar when no experiment is running
 	if(typeof experiment === "undefined" || experiment === "none") {
 		populateNavbarUser(userName, linkList, locale);
 	} else {
-		// Hide recommendations button if experiment is running
+		// hide recommendations button if experiment is running
 		$("#btnRecommend").hide();
 		$("#navbarBtnRecommend").hide();
 		$("#btnResultsRecommend").hide();
-		// Hide search form
+		// hide search form
 		$("#navbarFrmSearch").hide();
-		// Remove link from logo if experiment is running
+		// remove link from logo if experiment is running
 		$(".navbar-brand").attr('href', "#");
 	}
 }
@@ -492,11 +492,10 @@ function loginServer(user, password) {
 }
 
 function logout() {
-	$.ajax({type: "POST",
-			url: "user/logout",
-			success: function(){
-				document.location.href="intro.html";
-			}});
+	$.ajax({url: "user/logout", type: "POST"})
+	.then(function() {
+		document.location.href="intro.html";
+	});
 }
 
 /*******************************************************************************
@@ -517,7 +516,7 @@ function registerModal(onDismissal) {
 }
 
 function initRegisterModalLabels(labels) {
-	// Add retrieved labels to html elements
+	// add retrieved labels to html elements
 	$("#registerHdrTitle").html(labels.registerHdrTitle);
 	$("#registerLblFullName").html(labels.registerLblFullName);
 	$("#registerLblUsername").html(labels.registerLblUsername);
@@ -525,7 +524,7 @@ function initRegisterModalLabels(labels) {
 	$("#registerLblPasswordRepeat").html(labels.registerLblPasswordRepeat);
 	$("#registerBtnRegister").html(labels.registerBtnRegister);
 
-	// Set text variables for possible later use
+	// set text variables for possible later use
 	registerTxtRegistrationFailed = labels.registerTxtRegistrationFailed;
 	registerTxtUsernameFail = labels.registerTxtUsernameFail;
 	registerTxtPasswordsMatchFail = labels.registerTxtPasswordsMatchFail;
