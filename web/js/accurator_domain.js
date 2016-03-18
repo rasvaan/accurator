@@ -42,18 +42,10 @@ function domainInit() {
 	}
 }
 
-function nextPage() {
-	// we do not need expertise to do random stuff
-	if(experiment === "random")
-		return function(){document.location.href="results.html"};
-
-	return function(){document.location.href="expertise.html"};
-}
-
 function populateDomains(locale, domainLabels) {
 	var row;
 
-	// Get domain settings for all the domains
+	// get domain settings for all the domains
 	for(var i=0; i<domainLabels.length; i++) {
 		if(!(i%2===0)) {
 			row = parseInt((i/2) + 0.5);
@@ -63,42 +55,45 @@ function populateDomains(locale, domainLabels) {
 						  'id':'domain' + row}));
 		}
 
-		// Add domain specific html to rows
+		// add domain specific html to rows
 		$.getJSON("domains", {domain:domainLabels[i]})
-			.done(function(data){
-				if(!(data.domain === "generic")) {
-					domainHtml(data, row, locale);
-				}
-			});
+		.then(function(domainData) {
+			if(!(domainData.domain === "generic")) {
+				domainHtml(domainData, row, locale);
+			}
+		});
 	}
 }
 
 function domainHtml(domainData, row, locale) {
 	var domain = domainData.domain;
-	$.getJSON("ui_elements",
-			  {locale:locale,
-			   ui:domainData.ui + "domain",
-			   type:"labels"})
-		.done(function(data){
-			$("#domain" + row).append(
-				$.el.div({'class':'noPadding col-md-6'},
-					$.el.h3({'class':'domainHdr',
-							 'id':'domainTxt' + domain},
-							 data.domainLabel),
-					$.el.img({'class':'domainImg',
-							  'id':'domainImg' + domain,
-							  'src':domainData.image})));
-			if(domainData.image_brightness === "dark")
-				$("#domainTxt" + domainData.domain).css('color', '#fff');
-			addDomainEvent(domain);
-		});
+	getLabels(locale, domainData.ui + "domain")
+	.then(function(labels) {
+		$("#domain" + row).append(
+			$.el.div({'class':'noPadding col-md-6'},
+				$.el.h3({'class':'domainHdr',
+						 'id':'domainTxt' + domain},
+						 labels.domainLabel),
+				$.el.img({'class':'domainImg',
+						  'id':'domainImg' + domain,
+						  'src':domainData.image})));
+		if(domainData.image_brightness === "dark")
+			$("#domainTxt" + domainData.domain).css('color', '#fff');
+		addDomainEvent(domain);
+	});
 }
 
 function addDomainEvent(domain) {
-	$("#domainImg"+domain).click(function() {
-		setDomain(domain, nextPage());
+	$("#domainImg" + domain).click(function() {
+		setDomain(domain)
+		.then(function() {
+			document.location.href="expertise.html"
+		});
 	});
-	$("#domainTxt"+domain).click(function() {
-		setDomain(domain, nextPage());
+	$("#domainTxt" + domain).click(function() {
+		setDomain(domain)
+		.then(function() {
+			document.location.href="expertise.html"
+		});
 	});
 }

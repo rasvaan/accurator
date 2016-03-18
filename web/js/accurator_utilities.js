@@ -84,7 +84,7 @@ function setDomainToGenericOrParameter() {
 	}
 }
 
-function setDomain(domain, onSuccess) {
+function setDomain(domain) {
 	localStorage.setItem("domain", domain);
 	return save_user_info({"domain":domain});
 }
