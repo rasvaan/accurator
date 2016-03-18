@@ -53,29 +53,25 @@ function profileInit() {
 
 function populateRecentlyAnnotated() {
 	$.getJSON("annotations", {uri:user, type:"user"})
-	.done(function(uris){
-		var numberOfItems = uris.length;
-		var items = [];
-
-		if(numberOfItems === 0) {
+	.then(function(uris){
+		if (uris.length === 0) {
 			$("#profileDivLastAnnotated").hide();
 		} else {
-			for (var i=0; i<numberOfItems; i++) {
-				var uri = uris[i];
-				items[i] = new item(uri);
-			}
-			//Create clusters for easy adding based on search.js code
-			initialClusters[0] = new cluster([], items);
-			enrichedClusters[0] = new cluster([], 'undefined');
-			addItems(0);
+			//TODO: limit length of uris (faster if someone annotated a bunch)?
+			//BIGGER TODO: make clusers, pagination, thumbnails correct objects.
+			// var cluster = new Cluster(uris, "profileCluster");
+			// cluster.enrich()
+			// .then(function() {
+			// 	cluster.display();
+			// });
 		}
 	});
 }
 
 function initLabels(labels) {
-	// Add retrieved labels to html elements
+	// add retrieved labels to html elements
 	document.title = labels.profilePageTitle;
-	// Check if real name is available
+	// check if real name is available
 	if (typeof realName !== 'undefined') {
 		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan + " " + realName + " ");
 	} else {
