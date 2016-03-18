@@ -25,7 +25,7 @@ function introInit() {
 		return getLabels(locale, ui);
 	})
 	.then(function(labels) {
-		addButtonEvents();
+		addButtonEvents({"locale": locale, "domain": domain});
 		initLabels(labels);
 	});
 }
@@ -40,12 +40,12 @@ function setBackground(backgroundUrl, imageBrightness) {
 	}
 }
 
-function addButtonEvents() {
+function addButtonEvents(settings) {
 	$("#introBtnRegister").click(function() {
 		var onDismissal = function() {
 			$("#registerDivRegister").modal('hide');
 		};
-		registerModal(onDismissal);
+		registerModal(onDismissal, settings);
 	});
 	$("#introBtnLogin").click(function() {
 		// show login modal and on success go to profile

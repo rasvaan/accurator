@@ -31,20 +31,21 @@ function setUserSettingsLocal() {
 
 function save_user_info(info, onSuccess) {
 	// save user settings to user.db of Cliopatria
-
-	if(typeof onSuccess == 'undefined')
-		onSuccess = function(){};
-
-	// get the user id and post information
 	$.getJSON("get_user")
-	.done(function(data){
+	.then(function(data){
+		// get the user id and post information
 		info.user = data.user;
-		$.ajax({type: "POST",
-				url: "save_user_info",
-				contentType: "application/json",
-				data: JSON.stringify(info),
-				success: onSuccess()
+
+		return $.ajax({
+			type: "POST",
+			url: "save_user_info",
+			contentType: "application/json",
+			data: JSON.stringify(info)
 		});
+	})
+	.then(function() {
+		if(typeof onSuccess == 'undefined')	onSuccess = function(){};
+		onSuccess();
 	});
 }
 
@@ -93,7 +94,7 @@ function setDomain(domain, onSuccess) {
 }
 
 function domainSettings(domain) {
-	// Retrieve domain settings
+	// retrieve domain settings
 	return $.getJSON("domains", {domain:domain});
 }
 
@@ -502,14 +503,14 @@ function logout() {
 User registration
 Code for registering a new user
 *******************************************************************************/
-function registerModal(onDismissal) {
+function registerModal(onDismissal, settings) {
 	var ui = "http://accurator.nl/ui/generic#registerModal";
 	var locale = getLocale();
 
 	getLabels(locale, ui)
 	.then(function(data) {
 		var labels = initRegisterModalLabels(data);
-		registerButtonEvent(onDismissal, labels);
+		registerButtonEvent(onDismissal, settings, labels);
 
 		$("#registerDivRegister").modal();
 		$("#registerInpFullName").focus();
@@ -541,14 +542,14 @@ function initRegisterModalLabels(data) {
 	return labels;
 }
 
-function registerButtonEvent(onDismissal, labels) {
+function registerButtonEvent(onDismissal, settings, labels) {
 	$("#registerBtnRegister").click(function() {
-		register(labels);
+		register(settings, labels);
 	});
 	// register on pressing enter
 	$("#registerInpPasswordRepeat").keypress(function(event) {
 		if (event.which == 13) {
-			register(labels);
+			register(settings, labels);
 		}
 	});
 	$("#registerDivRegister").on('hidden.bs.modal', function (e) {
@@ -559,7 +560,7 @@ function registerButtonEvent(onDismissal, labels) {
 	});
 }
 
-function register(labels) {
+function register(settings, labels) {
 	// get and check initial form input
 	var name = $("#registerInpFullName").val();
 	var user = $("#registerInpUsername").val();
@@ -575,7 +576,7 @@ function register(labels) {
 		setRegisterFailureText(labels.registerTxtPasswordsMatchFail);
 	} else {
 		// Attempt registration
-		registerServer(name, userUri, password, labels);
+		registerServer(name, userUri, password, settings, labels);
 	}
 }
 
@@ -598,7 +599,7 @@ function checkUsername(user) {
 	}
 }
 
-function registerServer(name, user, password, labels) {
+function registerServer(name, user, password, settings, labels) {
 	var json = {"name":name, "user":user, "password":password};
 
 	$.ajax({
@@ -607,11 +608,8 @@ function registerServer(name, user, password, labels) {
 		contentType: "application/json",
 		data: JSON.stringify(json),
 	}).then(function() {
-		// we are sometimes doing research you know
-		if(experiment !== "none")
-			flipAOrB();
 		// login user upon succesful register
-		firstLogin(user, password);
+		firstLogin(user, password, settings);
 	}, function(response, textStatus, errorThrown) {
 		if(errorThrown == "Not Found")
 			setRegisterFailureText("Server did not respond.");
@@ -623,7 +621,7 @@ function registerServer(name, user, password, labels) {
 	});
 }
 
-function firstLogin(user, password) {
+function firstLogin(user, password, settings) {
 	// loginServer from utilities is not used because it resets settings upon
 	// retrieving non existent settings from user.db (hence, firstLogin)
 	$.ajax({
@@ -631,15 +629,11 @@ function firstLogin(user, password) {
 		url: "user/login",
 		data: {"user":user, "password":password},
 	})
-	.then(function(data) {
+	.then(function() {
 		// save the locale and domain currently in local storage
-		save_user_info({"locale": locale, "domain": domain}, function() {
-			// determine which page will be shown next
-			if(experiment === "true") {
-				document.location.href="form.html";
-			} else {
-				document.location.href="domain.html";
-			}
+		save_user_info(settings, function() {
+			// page that will be shown next
+			document.location.href="domain.html";
 		 });
 	});
 }
