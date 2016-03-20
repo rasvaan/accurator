@@ -16,7 +16,7 @@ list
 
 *******************************************************************************/
 "use strict";
-var query, locale, experiment, domain, user, ui, annotation_ui, uri;
+var query, locale, experiment, user, uri;
 var vntFirstTitle, vntFirstText;
 
 var page = {
@@ -29,35 +29,78 @@ var page = {
 
 function itemInit() {
 	locale = getLocale();
-	domain = getDomain();
+	var domain = getDomain();
 	experiment = getExperiment();
 	uri = getParameterByName("uri");
 
 	populateFlags(locale);
 
-	// Make sure user is logged in
-	var onLoggedIn = function(loginData) {
-		setLinkLogo("profile");
+	userLoggedIn()
+	.then(function(userData) {
+		// user is logged in, so draw page
+		drawPage(userData);
+	}, function() {
+		// user is not logged in, show modal
+		var onDismissal = function() {document.location.href="intro.html"};
+		login(drawPage, onDismissal);
+	});
 
-		// Get domain settings before populating ui
-		var onDomain = function(domainData) {
-			user = loginData.user;
-			var userName = getUserName(loginData.user);
+	function drawPage(userData) {
+		var ui, annotation_ui;
+		var user = userData.user;
+		var userName = getUserName(loginData.user);
+
+		setLinkLogo("profile");
+		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+
+		domainSettings(domain)
+		.then(function(domainData) {
 			ui = domainData.ui + "item";
 			annotation_ui = domainData.annotation_ui;
+		})
+		.then(function() {
+			return setImage();
+		})
+		.then(function(metadata) {
+			displayMetadata();
+			displayAnnotations();
+			return addAnnotationFields(metadata);
+		.then(function() {
+			return getLabels(locale, domainData.ui + "profile");
+		})
+		.then(function(labels) {
+			var labelArray = initLabels(labels);
 
-			// Add image and then load anotorious
-			setImage()
-			.then(function(metadata) {addAnnotationFields(metadata)});
-			maybeRunExperiment();
-			populateUI();
-			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
-		};
-		domainSettings = domainSettings(domain, onDomain);
-	};
-	// If user is not logged go to intro page
-	var onDismissal = function() {document.location.href="intro.html";};
-	logUserIn(onLoggedIn, onDismissal);
+			// Only show path when cluster is available TODO: remove ugly check for undefined
+			if((localStorage.getItem("currentCluster") !== null) && (localStorage.getItem("currentCluster") !== "undefined") && !(experiment === "random"))
+				addPath();
+			addButtonEvents();
+			return events();
+		})
+	}
+	// // Make sure user is logged in
+	// var onLoggedIn = function(loginData) {
+	// 	setLinkLogo("profile");
+	//
+	// 	// Get domain settings before populating ui
+	// 	var onDomain = function(domainData) {
+	// 		user = loginData.user;
+	// 		var userName = getUserName(loginData.user);
+	// 		ui = domainData.ui + "item";
+	// 		annotation_ui = domainData.annotation_ui;
+	//
+	// 		// Add image and then load anotorious
+	// 		setImage()
+	// 		.then(function(metadata) {addAnnotationFields(metadata)});
+	// 		maybeRunExperiment();
+	// 		populateUI();
+	// 		populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+	// 	};
+	// 	domainSettings = domainSettings(domain, onDomain);
+	// };
+	// // If user is not logged go to intro page
+	// var onDismissal = function() {document.location.href="intro.html";};
+	// logUserIn(onLoggedIn, onDismissal);
 }
 
 function setImage() {
@@ -71,36 +114,24 @@ function setImage() {
 	});
 }
 
-function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(labels){
-		document.title = labels.title;
-		initLabels(labels);
-
-		// Only show path when cluster is available TODO: remove ugly check for undefined
-		if((localStorage.getItem("currentCluster") !== null) && (localStorage.getItem("currentCluster") !== "undefined") && !(experiment === "random"))
-			addPath();
-		addButtonEvents();
-		events();
-	});
-	displayMetadata();
-	displayAnnotations();
-}
-
 function initLabels(data) {
+	document.title = labels.title;
 	$("#itemBtnPrevious").append(data.itemBtnPrevious);
 	$("#itemBtnNext").prepend(data.itemBtnNext);
 	$("#navbarBtnRecommend").append(data.navbarBtnRecommend);
 	$("#navbarBtnSearch").append(data.navbarBtnSearch);
-	vntFirstTitle = data.vntFirstTitle;
-	vntFirstText = data.vntFirstText;
-	// Add next to optional experiment navigation
-	$("#itemBtnExperimentNext").prepend(data.itemBtnNext);
+
+	var labelArray = {
+		vntFirstTitle: data.vntFirstTitle,
+		vntFirstText: data.vntFirstText
+	};
+
+	return labelArray;
 }
 
 function events() {
-	$.getJSON("annotations", {uri:user, type:"user"})
-	.done(function(annotations){
+	return $.getJSON("annotations", {uri:user, type:"user"})
+	.then(function(annotations) {
 		if(annotations.length===0) {
 			alertMessage(vntFirstTitle, vntFirstText, 'success');
 		}
@@ -158,7 +189,7 @@ function addNavigationButtonEvents() {
 
 function addAnnotationFields(metadata) {
 	// Retrieve the fields that should be added (based on save_user_info)
-	$.getJSON("annotation_fields",
+	return $.getJSON("annotation_fields",
 			  {locale:locale,
 			   domain:domain,
 		   	   annotation_ui:annotation_ui})
