@@ -199,69 +199,6 @@ function getInitialFlag(locale) {
 }
 
 /*******************************************************************************
-Experiment
-Functionallity for running an experiment with Accurator. Settings regarding
-which experiment and whether we are running setting A or B can be retrieved.
-*******************************************************************************/
-function getExperiment() {
-	// get experiment url parameter
-	var experimentParameter = getParameterByName("experiment");
-
-	// set experiment to url parameter or none if empty parameter and localStorage
-	if(!(experimentParameter === "")) {
-		// set experiment setting to parameter if available
-		localStorage.setItem("experiment", experimentParameter);
-	} else if(localStorage.getItem("experiment") === null ||
-			  localStorage.getItem("experiment") === "") {
-		// if no parameter set to none and return value
-		localStorage.setItem("experiment", "none");
-	}
-	return localStorage.getItem("experiment");
-}
-
-function getAOrB() {
-	// return the a or b setting from local storage
-	return localStorage.getItem("ab");
-}
-
-function setAOrB(ab) {
-	// set the a or b setting in local storage
-	localStorage.setItem("ab", ab);
-}
-
-function flipAOrB() {
-	var aBArray = [];
-
-	// Get an array with A or B for the specified experiment
-	if(experiment === "recommender") {
-		aBArray = ["random","recommend"];
-	} else {
-		aBArray = ["a","b"];
-	}
-	var randomIndex = Math.floor(Math.random() * aBArray.length);
-
-	// Set the A or B setting to the randomly chosen index
-	setAOrB(aBArray[randomIndex]);
-}
-
-function recommenderExperiment() {
-	// Settings for recommender experiment
-	if(experiment === "recommender") {
-		// Set interface to list view
-		display.layout = "list";
-
-		// If running an recommender experiment choose A or B
-		var AOrB = getAOrB();
-
-		if(AOrB === "recommend") {
-			return true;
-		} else if(AOrB === "random") {
-			return false;
-		}
-	}
-	return true;
-}
-/*******************************************************************************
 User Interface
 Functionallity making the ui adapt
 *******************************************************************************/
