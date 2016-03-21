@@ -17,7 +17,9 @@ function profileInit() {
 		drawPage(userData);
 	}, function() {
 		// user is not logged in, show modal
-		var onDismissal = function() {document.location.href="intro.html"};
+		var onDismissal = function() {
+			document.location.href="intro.html"
+		};
 		login(drawPage, onDismissal);
 	});
 
@@ -129,7 +131,7 @@ function domainHtml(domainData, locale) {
 }
 
 function addDomainEvent(domain) {
-	// add event reloadingn page on domain selection, saving choice
+	// add event reloading page on domain selection, saving choice
 	$("#" + domain).click(function() {
 		setDomain(domain)
 		.then(function() {
