@@ -352,7 +352,7 @@ html({|html||
 <title>Item</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="img/favicon.ico">
-<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.bootstrap.min.css" />
+<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="css/annotorious.css" />
 <link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 |}).
@@ -464,17 +464,16 @@ html({|html(ImageUrl)||
 <div class="itemDivHidden"></div>
 
 <!-- Added Script -->
-<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
-<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
-<script type="text/javascript" src="js/accurator.laconic.js"></script>
-<script type="text/javascript" src="js/bloodhound.js"></script>
-<script type="text/javascript" src="js/typeahead.js"></script>
-<script type="text/javascript" src="js/annotorious.min.js"></script>
-<script type="text/javascript" src="js/deniche-plugin.js"></script>
-<script type="text/javascript" src="js/search.js"></script>
-<script type="text/javascript" src="js/accurator_utilities.js"></script>
-<script type="text/javascript" src="js/annotations.js"></script>
-<script type="text/javascript" src="js/field.js"></script>
-<script type="text/javascript" src="js/accurator_item.js"></script>
+<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/laconic.js"></script>
+<script type="text/javascript" src="js/lib/bloodhound.js"></script>
+<script type="text/javascript" src="js/lib/typeahead.js"></script>
+<script type="text/javascript" src="js/lib/annotorious.min.js"></script>
+<script type="text/javascript" src="js/components/deniche-plugin.js"></script>
+<script type="text/javascript" src="js/components/utilities.js"></script>
+<script type="text/javascript" src="js/components/annotations.js"></script>
+<script type="text/javascript" src="js/components/field.js"></script>
+<script type="text/javascript" src="js/item.js"></script>
 <script>itemInit()</script>
 |}).

@@ -2,7 +2,7 @@
 Accurator Results
 
 Page showing overview of recommender/search results. Uses a lot of code from
-pagination.js and thumbnail.js.
+pagination.js and thumbnail.js (in web/js/components) .
 
 Options:
 
