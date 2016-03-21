@@ -146,7 +146,7 @@ function setLocale(languageCode) {
 		deferred.resolve();
 	}, function() {
 		localStorage.setItem("locale", languageCode);
-		deferred.resolve("logged in");
+		deferred.resolve();
 	});
 
 	return deferred.promise();
@@ -177,7 +177,8 @@ function populateFlags(locale) {
 function flagEvents() {
 	$("#navbarLnkEn").click(function() {
 		setLocale("en")
-		.then(function() {location.reload();});
+		.then(function() {
+			location.reload();});
 	});
 	$("#navbarLnkNl").click(function() {
 		setLocale("nl")
