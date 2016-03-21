@@ -17,7 +17,7 @@ function introInit() {
 		document.location.href="profile.html";
 	}, function() {
 		// get domain settings
-		return domainSettings(domain)
+		return domainSettings(domain);
 	})
 	.then(function(domainSettings) {
 		var ui = getUI(domainSettings, "intro");

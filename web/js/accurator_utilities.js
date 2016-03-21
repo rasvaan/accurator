@@ -177,7 +177,8 @@ function populateFlags(locale) {
 function flagEvents() {
 	$("#navbarLnkEn").click(function() {
 		setLocale("en")
-		.then(function() {location.reload();});
+		.then(function() {
+			location.reload();});
 	});
 	$("#navbarLnkNl").click(function() {
 		setLocale("nl")
