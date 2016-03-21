@@ -9,6 +9,12 @@ function Cluster(uris, id) {
 	this.init();
 }
 
+Cluster.prototype.init = function() {
+	$("body").on("pagination", function(event) {
+		console.log("page:", event.page);
+	});
+}
+
 Cluster.prototype.enrich = function() {
 	var _cluster = this; //make sure we can use this Cluster in $ scope
 
@@ -67,7 +73,6 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 		stop = this.items.length;
 	}
 
-	console.log("cluster id", this.id);
 	// add row
 	$("#" + this.id).append(
 		$.el.div({'class':'row', 'id':'thumbnailRow' + this.id}));

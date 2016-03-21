@@ -6,7 +6,6 @@ function Pagination(id, items, numberDisplayedItems, parentId) {
 	this.numberOfItems = items.length; // number of items
 	this.numberDisplayedItems = numberDisplayedItems; // the number of items shown
 	this.page = null; // the current page
-	this.items = items; // TODO: remove? items presented by pagination
 	this.node = null; // html representation of pagination row
 	this.parentId = parentId; // id of the parent element (probably cluster)
 
@@ -39,9 +38,11 @@ Pagination.prototype.html = function() {
 	var html =
 	$.el.ul({'class':'pagination pagination-sm'},
 		$.el.li({'class':'disabled left-arrow'},
-			$.el.span('\u00ab')),
+			$.el.a({'href':'#'},
+				'\u00ab')),
 		$.el.li({'class':'active'},
-			$.el.span(1))
+			$.el.a({'href':'#'},
+				1))
 	);
 
 	// add additional pages
@@ -54,22 +55,20 @@ Pagination.prototype.html = function() {
 
 	// add right arrow to pagination
 	var rightArrow =
-	$.el.li(
-		$.el.a({'href':'#', 'class':'right-arrow'},
+	$.el.li({'class':'right-arrow'},
+		$.el.a({'href':'#'},
 		 	'\u00bb')
 	);
 	this.addClickNext(rightArrow);
 	html.appendChild(rightArrow);
 
-	return $.el.div({'class':'row'},
-				$.el.div({'class':'col-md-12'},
-					html));
+	return html;
 }
 
 Pagination.prototype.addClickEvent = function(pageNode, i) {
 	var _page = this;
 
-	$(pageNode).on("click", function() {
+	$(pageNode).on("click pagination", function() {
 		_page.goToPage(i);
 	});
 }
@@ -77,13 +76,16 @@ Pagination.prototype.addClickEvent = function(pageNode, i) {
 Pagination.prototype.addClickNext = function(pageNode) {
 	var _page = this;
 
-	$(pageNode).on("click", function() {_page.next();});
+	$(pageNode).on("click pagination", function() {
+		_page.next();
+
+	});
 }
 
 Pagination.prototype.addClickPrevious = function(pageNode) {
 	var _page = this;
 
-	$(pageNode).on("click", function() {_page.previous();});
+	$(pageNode).on("click pagination", function() {_page.previous();});
 }
 
 Pagination.prototype.next = function() {
@@ -95,100 +97,48 @@ Pagination.prototype.previous = function() {
 }
 
 Pagination.prototype.goToPage = function(page) {
-	console.log("Current page ", this.page, " and dhould be going to " + page + " page now...");
+	console.log("Current page ", this.page, " and should be going to " + page + " page now...");
+	var currentNode = $("#" + this.parentId + " .pagination .active");
+	var newNode = $("#" + this.parentId + " .pagination li").eq(page);
+	var leftArrow = $("#" + this.parentId + " .pagination .left-arrow");
+	var rightArrow = $("#" + this.parentId + " .pagination .right-arrow");
 
-	// add link to currently active page
+	// trigger page turning event
+	var event = jQuery.Event("pagination");
+	event.page = page;
+	event.parentId = this.parentId;
+	$("body").trigger(event);
 
 	// set active class to inactive
-	// $("#" + this.parentId + " .pagination .active").removeClass("active");
+	currentNode.removeClass("active");
+	// add link to currently active page
+	this.addClickEvent(currentNode, this.page);
 
-	// 	$.el.li(
-	// 		$.el.a({'href':'javascript:goToPage(' + this.page + ', ' + this.parentId + ')'},
-	// 			this.page))
-	// );
-	//
-	// // replace a link with span active class
-	// $("#" + this.parentId + " .pagination li").eq(pageNumber).replaceWith(
-	// 	$.el.li({'class':'active'},
-	// 		$.el.span(pageNumber))
-	// );
-	//
-	// // replace left arrow
-	// if(pageNumber == 1) {
-	// 	// disable left because switching to page one
-	// 	$("#" + this.parentId + " .pagination li").eq(0).replaceWith(
-	// 		$.el.li({'class':'disabled'},
-	// 			$.el.span('\u00ab'))
-	// 	);
-	// } else {
-	// 	// enable left with pageNumber as a link
-	// 	$("#" + this.parentId + " .pagination li").eq(0).replaceWith(
-	// 		$.el.li(
-	// 			$.el.a({'href':'javascript:previousPage(' + pageNumber + ', ' + this.parentId + ')'},
-	// 				'\u00ab'))
-	// 	);
-	// }
-	//
-	// // replace right arrow
-	// if(pageNumber == numberOfPages) {
-	// 	// disable left because switching to page one
-	// 	$("#" + labelItems + " .pagination li").eq(numberOfPages+1).replaceWith(
-	// 		$.el.li({'class':'disabled'},
-	// 				$.el.span('\u00bb')));
-	// } else {
-	// 	// enable left with pageNumber as a link
-	// 	$("#" + labelItems + " .pagination li").eq(numberOfPages+1).replaceWith(
-	// 		$.el.li(
-	// 			$.el.a({'href':'javascript:nextPage(' + pageNumber + ', ' + clusterId + ')'},
-	// 				'\u00bb'))
-	// 	);
-	// }
-	// changePagination(pageNumber, activePage, numberOfPages, clusterId);
-	// changeThumbnails(pageNumber, activePage, numberOfPages, items, labelItems, clusterId);
-}
+	// set new node to active
+	newNode.addClass("active");
+	// remove events
+	newNode.off();
+	this.page = page;
 
-function changePagination(pageNumber, activePage, numberOfPages, clusterId) {
-	console.log("labeItems=", labelItems);
-	//Often replacing html, this is because often <a> has to be replaced by <span> and vice versa
-	//Replace span active class with a link
-	// $("#" + labelItems + clusterId + " .pagination li").eq(activePage).replaceWith(
-	$("#" + labelItems + " .pagination li").eq(activePage).replaceWith(
-		$.el.li($.el.a({'href':'javascript:goToPage(' + activePage + ', ' + clusterId + ')'},
-					   activePage)));
-
-	//Replace a link with span active class
-	// $("#" + labelItems + clusterId + " .pagination li").eq(pageNumber).replaceWith(
-	$("#" + labelItems + " .pagination li").eq(pageNumber).replaceWith(
-		$.el.li({'class':'active'},
-				$.el.span(pageNumber)));
-
-	//Replace left arrow
-	if(pageNumber == 1) {
-		// Disable left because switching to page one
-		// $("#" + labelItems + clusterId + " .pagination li").eq(0).replaceWith(
-		$("#" + labelItems + " .pagination li").eq(0).replaceWith(
-			$.el.li({'class':'disabled'},
-					$.el.span('\u00ab')));
+	// remove event to not add duplicates
+	leftArrow.off("click pagination");
+	if(page === 1) {
+		// disable left arrow because switching to page one
+		leftArrow.addClass("disabled");
 	} else {
-		// Enable left with pageNumber as a link
-		// $("#" + labelItems + clusterId + " .pagination li").eq(0).replaceWith(
-		$("#" + labelItems + " .pagination li").eq(0).replaceWith(
-			$.el.li($.el.a({'href':'javascript:previousPage(' + pageNumber + ', ' + clusterId + ')'},
-						   '\u00ab')));
+		// enable left arrow
+		leftArrow.removeClass("disabled");
+		this.addClickPrevious(leftArrow);
 	}
 
-	//Replace right arrow
-	if(pageNumber == numberOfPages) {
-		// Disable left because switching to page one
-		// $("#" + labelItems + clusterId + " .pagination li").eq(numberOfPages+1).replaceWith(
-		$("#" + labelItems + " .pagination li").eq(numberOfPages+1).replaceWith(
-			$.el.li({'class':'disabled'},
-					$.el.span('\u00bb')));
+	// remove event to not add duplicates
+	rightArrow.off("click pagination");
+	if(page === this.numberOfPages) {
+		// disable right arrow because switching to last page
+		rightArrow.addClass("disabled");
 	} else {
-		// Enable left with pageNumber as a link
-		// $("#" + labelItems + clusterId + " .pagination li").eq(numberOfPages+1).replaceWith(
-		 $("#" + labelItems + " .pagination li").eq(numberOfPages+1).replaceWith(
-			$.el.li($.el.a({'href':'javascript:nextPage(' + pageNumber + ', ' + clusterId + ')'},
-						   '\u00bb')));
+		// enable right arrow
+		rightArrow.removeClass("disabled");
+		this.addClickNext(rightArrow);
 	}
 }
