@@ -3,73 +3,66 @@ Accurator Profile
 Code for showing statistical elements on the profile page and allowing the user
 to change settings.
 *******************************************************************************/
-var locale, ui, domain, experiment, user, userName, realName;
-var recentItems;
-var initialClusters, enrichedClusters, clusters;
-
-display = {
-	numberDisplayedItems: 6,
-}
+"use strict";
 
 function profileInit() {
-	locale = getLocale();
-	domain = getDomain();
-	experiment = getExperiment();
+	var locale = getLocale();
+	var domain = getDomain();
 
 	populateFlags(locale);
 
-	onLoggedIn = function(loginData){
-		setLinkLogo("profile");
-		user = loginData.user;
-		userName = getUserName(user);
-		realName = loginData.real_name;
-		populateNavbar(userName, []);
-		populateRecentlyAnnotated();
+	userLoggedIn()
+	.then(function(userData) {
+		// user is logged in, so draw page
+		drawPage(userData);
+	}, function() {
+		// user is not logged in, show modal
+		var onDismissal = function() {document.location.href="intro.html"};
+		login(drawPage, onDismissal);
+	});
 
-		//Get domain settings before populating ui
-		onDomain = function(domainData) {
-			ui = domainData.ui + "profile";
-			populateUI();
-			addButtonEvents();
-		};
-		domainSettings = domainSettings(domain, onDomain);
-	};
-	onDismissal = function(){document.location.href="intro.html";};
-	logUserIn(onLoggedIn, onDismissal);
+	function drawPage(userData) {
+		var user = userData.user;
+		var userName = getUserName(user);
+		var realName = userData.real_name;
+
+		setLinkLogo("profile");
+		populateNavbar(userName, [], locale);
+		populateRecentlyAnnotated(user);
+
+		domainSettings(domain)
+		.then(function(domainData) {
+			return getLabels(locale, domainData.ui + "profile");
+		})
+		.then(function(labels) {
+			addButtonEvents(user);
+			initLabels(labels);
+			initDomains(locale, domain, labels);
+		});
+	}
 }
 
-function populateRecentlyAnnotated() {
+function populateRecentlyAnnotated(user) {
 	$.getJSON("annotations", {uri:user, type:"user"})
-	.done(function(uris){
-		var numberOfItems = uris.length;
-		var items = [];
-
-		if(numberOfItems === 0) {
+	.then(function(uris){
+		if (uris.length === 0) {
 			$("#profileDivLastAnnotated").hide();
 		} else {
-			for (var i=0; i<numberOfItems; i++) {
-				var uri = uris[i];
-				items[i] = new item(uri);
-			}
-			//Create clusters for easy adding based on search.js code
-			initialClusters[0] = new cluster([], items);
-			enrichedClusters[0] = new cluster([], 'undefined');
-			addItems(0);
+			//TODO: limit length of uris (faster if someone annotated a bunch)?
+			//BIGGER TODO: make clusers, pagination, thumbnails correct objects.
+			// var cluster = new Cluster(uris, "profileCluster");
+			// cluster.enrich()
+			// .then(function() {
+			// 	cluster.display();
+			// });
 		}
 	});
 }
 
-function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(labels){
-		initLabels(labels);
-		initDomains(labels);});
-}
-
 function initLabels(labels) {
-	// Add retrieved labels to html elements
+	// add retrieved labels to html elements
 	document.title = labels.profilePageTitle;
-	// Check if real name is available
+	// check if real name is available
 	if (typeof realName !== 'undefined') {
 		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan + " " + realName + " ");
 	} else {
@@ -84,70 +77,68 @@ function initLabels(labels) {
 	$("#profileLblLastAnnotated").append(labels.profileLblLastAnnotated);
 }
 
-function initDomains(labels) {
-	var onDomains = function(domainLabels){
-		populateDomains(domainLabels, labels);
-	};
-	getAvailableDomains(onDomains);
-}
+function initDomains(locale, domain, labels) {
+	getAvailableDomains()
+	.then(function(domains) {
+		// set domain settings for all the domains
+		for(var i=0; i<domains.length; i++) {
+			var currentDomain = domains[i];
 
-function populateDomains(domainLabels, labels) {
-	// Get domain settings for all the domains
-	for(var i=0; i<domainLabels.length; i++) {
-		var currentDomain = domainLabels[i];
-		var processDomain = function(currentDomain, labels){
-			// Add title current domain or option to change to domain
-			return function(data){
-					if(domain===currentDomain) {
-						addDomainTitle(data, labels);
+			// already create function so currentdomain is not the last deu to asynchronisity
+			var processDomain = function(currentDomain, labels) {
+				return function(domainData) {
+					if (domain === currentDomain) {
+						addDomainTitle(domainData, locale, labels);
 					} else {
-						domainHtml(data);
+						domainHtml(domainData, locale);
 					}
+				}
+			}
+
+			// add info about all domains except generic
+			if(currentDomain !== "generic") {
+				$.getJSON("domains", {domain:currentDomain})
+				.then(processDomain(currentDomain, labels));
 			}
 		}
-		//Add info about all domains except generic
-		if(currentDomain !== "generic") {
-			$.getJSON("domains", {domain:currentDomain})
-			.done(processDomain(currentDomain, labels));
-		}
-	}
+	});
 }
 
-function addDomainTitle(domainSettings, labels) {
-	// Add the title of the current domain to the profile page
-	$.getJSON("ui_elements", {locale:locale,
-							  ui:domainSettings.ui + "domain",
-							  type:"labels"})
-	.done(function(data){
+function addDomainTitle(domainData, locale, labels) {
+	// add the title of the current domain to the profile page
+	getLabels(locale, domainData.ui + "domain")
+	.then(function(data){
 		$("#profileTxtDomain").append(
 			labels.profileTxtDomain,
 			$.el.span({'class':'text-info'},
-				data.domainLabel));});
+				data.domainLabel));}
+	);
 }
 
-function domainHtml(domainData) {
-	var domain = domainData.domain;
-	$.getJSON("ui_elements", {locale:locale,
-							  ui:domainData.ui + "domain",
-							  type:"labels"})
-	.done(function(data){
+function domainHtml(domainData, locale) {
+	// add the different domains to a dropdown list
+	getLabels(locale, domainData.ui + "domain")
+	.then(function(data){
 		$("#profileLstDomainItems").append(
 			$.el.li(
 				$.el.a({'href':'#',
 						'id':domainData.domain},
 						 data.domainLabel)));
-		addDomainEvent(domain);
+		addDomainEvent(domainData.domain);
 	});
 }
 
 function addDomainEvent(domain) {
-	var onSuccess = function(){location.reload();};
+	// add event reloadingn page on domain selection, saving choice
 	$("#" + domain).click(function() {
-		setDomain(domain, onSuccess);
+		setDomain(domain)
+		.then(function() {
+			location.reload();
+		});
 	});
 }
 
-function addButtonEvents() {
+function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});

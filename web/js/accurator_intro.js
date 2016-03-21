@@ -1,75 +1,66 @@
 /*******************************************************************************
 Accurator Intro
-Code for showing the welcom page, adapts to the domain and locale setting.
+Code for showing the welcome page, adapts to the domain and locale setting.
 *******************************************************************************/
-var locale, domain, experiment, ui, domainSettings;
+"use strict";
 
 function introInit() {
-	// Get settings
-	locale = getLocale();
-	domain = getDomain();
-	experiment = getExperiment();
+	var locale = getLocale();
+	var domain = getDomain();
 
-	// Add language switch to navbar
+	// add language switch to navbar
 	populateFlags(locale);
 
-	// If user is logged in go to profile page
-	onLoggedIn = function() {
+	userLoggedIn()
+	.then(function() {
+		// go to profile page if logged in
 		document.location.href="profile.html";
-	};
-	// If user is not logged in populate intro page
-	onNotLoggedIn = function() {
-		// Get domain settings before populating ui
-		onDomain = function(domainSettings) {
-			ui = getUI(domainSettings, "intro");
-			setBackground(domainSettings.image,
-						  domainSettings.image_brightness);
-			populateUI();
-		};
-		domainSettings = domainSettings(domain, onDomain);
-	};
-	userLoggedIn(onLoggedIn, onNotLoggedIn);
+	}, function() {
+		// get domain settings
+		return domainSettings(domain);
+	})
+	.then(function(domainSettings) {
+		var ui = getUI(domainSettings, "intro");
+		setBackground(domainSettings.image, domainSettings.image_brightness);
+		return getLabels(locale, ui);
+	})
+	.then(function(labels) {
+		addButtonEvents({"locale": locale, "domain": domain});
+		initLabels(labels);
+	});
 }
 
 function setBackground(backgroundUrl, imageBrightness) {
 	$(".introImgBackground").attr("src", backgroundUrl);
 
 	if (imageBrightness === "dark") {
-	   // Make font lighter to make it readable
+	   // make font lighter to make it readable
 	   $("#introHdrSlogan").css('color', '#FFFFFF');
 	   $("#introBtnLogin").css('color', '#BBBBBB');
 	}
 }
 
-function populateUI() {
-	// Retrieve labels from server according to locale and ui
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(labels){
-			  addButtonEvents();
-			  initLabels(labels);});
-}
-
-function addButtonEvents() {
+function addButtonEvents(settings) {
 	$("#introBtnRegister").click(function() {
-		onDismissal = function() {
+		var onDismissal = function() {
 			$("#registerDivRegister").modal('hide');
 		};
-		registerModal(onDismissal);
+		registerModal(onDismissal, settings);
 	});
 	$("#introBtnLogin").click(function() {
-		// Show login modal and on success go to profile
-		onSuccess = function() {
+		// show login modal and on success go to profile
+		var onSuccess = function() {
 			document.location.href="profile.html";
 		};
-		onDismissal = function() {
+		var onDismissal = function() {
 			$("#loginDivLogin").modal('hide');
 		};
-		loginModal(onSuccess, onDismissal);
+		login(onSuccess, onDismissal);
 	});
 }
 
 function initLabels(labels) {
-	// Add retrieved labels to html elements
+	// add retrieved labels to html elements
 	$("#introHdrSlogan").prepend(labels.introHdrSlogan);
 	$("#introHdrSubSlogan").prepend(labels.introHdrSubSlogan);
 	$("#introBtnRegister").append(labels.introBtnRegister);

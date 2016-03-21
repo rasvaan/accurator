@@ -11,8 +11,6 @@ Functions used by multiple javascript files. Topics include:
 - Uri
 *******************************************************************************/
 
-var loginTxtWarning, loginTxtIncomplete;
-
 /*******************************************************************************
 Settings
 General setting management.
@@ -22,33 +20,29 @@ function clearLocalStorage(setting) {
 	localStorage.removeItem(setting);
 }
 
-function setUserSettingsLocal(dataLogin, onSuccess){
+function setUserSettingsLocal() {
 	// set user settings upon loggin in (called by loginServer)
-	$.getJSON("get_user_settings")
-	.done(function(data){
+	return $.getJSON("get_user_settings")
+	.then(function(data){
 		localStorage.setItem("locale", data.locale);
 		localStorage.setItem("domain", data.domain);
-		onSuccess(dataLogin);
 	});
 }
 
-function save_user_info(info, onSuccess) {
+function save_user_info(info) {
 	// save user settings to user.db of Cliopatria
-
-	if(typeof onSuccess == 'undefined')
-		onSuccess = function(){};
-
-	// get the user id and post information
-	$.getJSON("get_user")
-	.done(function(data){
+	return $.getJSON("get_user")
+	.then(function(data){
+		// get the user id and post information
 		info.user = data.user;
-		$.ajax({type: "POST",
-				url: "save_user_info",
-				contentType: "application/json",
-				data: JSON.stringify(info),
-				success: onSuccess()
+
+		return $.ajax({
+			type: "POST",
+			url: "save_user_info",
+			contentType: "application/json",
+			data: JSON.stringify(info)
 		});
-	});
+	})
 }
 
 function getParameterByName(name) {
@@ -90,37 +84,31 @@ function setDomainToGenericOrParameter() {
 	}
 }
 
-function setDomain(domain, onSuccess) {
+function setDomain(domain) {
 	localStorage.setItem("domain", domain);
-	save_user_info({"domain":domain}, onSuccess);
+	return save_user_info({"domain":domain});
 }
 
-function domainSetting(domain) {
-	$.getJSON("domains", {domain:domain})
-		.done(function(data){
-			return data;
-	});
+function domainSettings(domain) {
+	// retrieve domain settings
+	return $.getJSON("domains", {domain:domain});
 }
 
-function domainSettings(domain, onDomain) {
-	$.getJSON("domains", {domain:domain})
-		.done(function(data){
-			onDomain(data);
-	});
-}
 
-function getAvailableDomains(onDomains) {
-	$.getJSON("domains")
-		.done(function(data){
-			onDomains(data);
-			return data;
-	});
+function getAvailableDomains() {
+	// promise of all domains
+	return $.getJSON("domains");
 }
 
 /*******************************************************************************
 Locale and language flags
 Functionallity to adapt to the desired locale.
 *******************************************************************************/
+function getLabels(locale, ui) {
+	// Retrieve labels from server according to locale and ui
+	return $.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"});
+}
+
 function getLocale() {
 	// check url for locale parameter
 	var paramLocale = getParameterByName("locale");
@@ -144,22 +132,24 @@ function setLocaleToBrowserLanguage() {
 
 	// Save locale to localStorage and user.db
 	localStorage.setItem("locale", languageCode);
-	var onSuccess = function(){};
-	save_user_info({"locale":languageCode}, onSuccess);
+	save_user_info({"locale":languageCode});
 }
 
-function setLocale(languageCode, onSuccess) {
-	// Action should depend on whether user is logged in
-	var onLoggedIn = function() {
-		localStorage.setItem("locale", languageCode);
-		save_user_info({"locale":languageCode}, onSuccess);
-	};
-	var onNotLoggedIn = function() {
-		localStorage.setItem("locale", languageCode);
-		onSuccess();
-	};
+function setLocale(languageCode) {
+	var deferred = jQuery.Deferred();
 
-	userLoggedIn(onLoggedIn, onNotLoggedIn);
+	// Action should depend on whether user is logged in
+	userLoggedIn()
+	.then(function() {
+		localStorage.setItem("locale", languageCode);
+		save_user_info({"locale":languageCode});
+		deferred.resolve();
+	}, function() {
+		localStorage.setItem("locale", languageCode);
+		deferred.resolve();
+	});
+
+	return deferred.promise();
 }
 
 function populateFlags(locale) {
@@ -185,13 +175,15 @@ function populateFlags(locale) {
 }
 
 function flagEvents() {
-	var onSuccess = function(){location.reload();};
-
 	$("#navbarLnkEn").click(function() {
-		setLocale("en", onSuccess);
+		setLocale("en")
+		.then(function() {
+			location.reload();});
 	});
 	$("#navbarLnkNl").click(function() {
-		setLocale("nl", onSuccess);
+		setLocale("nl")
+		.then(function() {
+			location.reload();});
 	});
 }
 
@@ -207,69 +199,6 @@ function getInitialFlag(locale) {
 	)
 }
 
-/*******************************************************************************
-Experiment
-Functionallity for running an experiment with Accurator. Settings regarding
-which experiment and whether we are running setting A or B can be retrieved.
-*******************************************************************************/
-function getExperiment() {
-	// get experiment url parameter
-	var experimentParameter = getParameterByName("experiment");
-
-	// set experiment to url parameter or none if empty parameter and localStorage
-	if(!(experimentParameter === "")) {
-		// set experiment setting to parameter if available
-		localStorage.setItem("experiment", experimentParameter);
-	} else if(localStorage.getItem("experiment") === null ||
-			  localStorage.getItem("experiment") === "") {
-		// if no parameter set to none and return value
-		localStorage.setItem("experiment", "none");
-	}
-	return localStorage.getItem("experiment");
-}
-
-function getAOrB() {
-	// return the a or b setting from local storage
-	return localStorage.getItem("ab");
-}
-
-function setAOrB(ab) {
-	// set the a or b setting in local storage
-	localStorage.setItem("ab", ab);
-}
-
-function flipAOrB() {
-	var aBArray = [];
-
-	// Get an array with A or B for the specified experiment
-	if(experiment === "recommender") {
-		aBArray = ["random","recommend"];
-	} else {
-		aBArray = ["a","b"];
-	}
-	var randomIndex = Math.floor(Math.random() * aBArray.length);
-
-	// Set the A or B setting to the randomly chosen index
-	setAOrB(aBArray[randomIndex]);
-}
-
-function recommenderExperiment() {
-	// Settings for recommender experiment
-	if(experiment === "recommender") {
-		// Set interface to list view
-		display.layout = "list";
-
-		// If running an recommender experiment choose A or B
-		var AOrB = getAOrB();
-
-		if(AOrB === "recommend") {
-			return true;
-		} else if(AOrB === "random") {
-			return false;
-		}
-	}
-	return true;
-}
 /*******************************************************************************
 User Interface
 Functionallity making the ui adapt
@@ -299,28 +228,26 @@ function alertMessage(title, text, type) {
 					$.el.p(text)))));
 }
 
-function populateNavbar(userName, linkList) {
-	// Only popluate navbar when no experiment is running
+function populateNavbar(userName, linkList, locale) {
+	// only popluate navbar when no experiment is running
 	if(typeof experiment === "undefined" || experiment === "none") {
-		populateNavbarUser(userName, linkList);
+		populateNavbarUser(userName, linkList, locale);
 	} else {
-		// Hide recommendations button if experiment is running
+		// hide recommendations button if experiment is running
 		$("#btnRecommend").hide();
 		$("#navbarBtnRecommend").hide();
 		$("#btnResultsRecommend").hide();
-		// Hide search form
+		// hide search form
 		$("#navbarFrmSearch").hide();
-		// Remove link from logo if experiment is running
+		// remove link from logo if experiment is running
 		$(".navbar-brand").attr('href', "#");
 	}
 }
 
-function populateNavbarUser(userName, linkList) {
+function populateNavbarUser(userName, linkList, locale) {
 	// Add a user drop down based on the user and listed links
-	$.getJSON("ui_elements", {locale:locale,
-							  ui:"http://accurator.nl/ui/generic#userDropdown",
-							  type:"labels"})
-	.done(function(data){
+	getLabels(locale, "http://accurator.nl/ui/generic#userDropdown")
+	.then(function(labels) {
 		$(".navbarLstUser").append(
 			$.el.li({'class':'dropdown'},
 					$.el.a({'href':'#',
@@ -334,12 +261,12 @@ function populateNavbarUser(userName, linkList) {
 						 	 'role':'menu'},
 						 	 $.el.li($.el.a({'href':'#',
 								         	 'id':'navbarLnkLogout'},
-										 	 data.navbarLnkLogout)),
+										 	 labels.navbarLnkLogout)),
 							 // Add links based on array
-							 addLinks(linkList, data),
+							 addLinks(linkList, labels),
 						 	 $.el.li({'class':'divider'}),
 						 	 $.el.li($.el.a({'href':'about.html'},
-								 	 data.navbarLnkAbout))))
+								 	 labels.navbarLnkAbout))))
 		)
 		// Add logout event to menu item
 		$("#navbarLnkLogout").click(function() {
@@ -399,33 +326,27 @@ function truncate(string, limit) {
 User Login
 User management code.
 *******************************************************************************/
-function userLoggedIn(onLoggedIn, onNotLoggedIn) {
-	//see if user is logged in (random for unique request)
-	$.getJSON("get_user?time=" + Math.random())
+function userLoggedIn() {
+	// see if user is logged in (random for unique request)
+	return $.getJSON("get_user?time=" + Math.random())
 	.then(function(user) {
-		if (user.login) onLoggedIn();
-		if (!user.login) onNotLoggedIn();
+		if (user.login) return user;
+		if (!user.login) return jQuery.Deferred().reject(user).promise();
 	});
 }
 
-function logUserIn(onLoggedIn, onDismissal) {
-	//make sure user is logged in (random for unique request)
-	$.getJSON("get_user?time=" + Math.random())
-		.done(function(data){onLoggedIn(data)})
-		.fail(function(){loginModal(onLoggedIn, onDismissal)});
-}
-
-function loginModal(onSuccess, onDismissal) {
+function login(onSuccess, onDismissal) {
 	var ui = "http://accurator.nl/ui/generic#loginModal";
-	$.getJSON("ui_elements", {locale:getLocale(),
-							  ui:ui,
-							  type:"labels"})
-		.done(function(data){
-			loginButtonEvent(onSuccess, onDismissal);
-			initModalLabels(data);
-			$("#loginDivLogin").modal();
-			$("#loginInpUsername").focus();
-	});
+	var locale = getLocale();
+
+	getLabels(locale, ui)
+	.then(function(labels) {
+		// add labels and show modal
+		var labels = initModalLabels(labels);
+		$("#loginDivLogin").modal();
+		$("#loginInpUsername").focus();
+		loginButtonEvents(onSuccess, onDismissal, labels);
+	})
 }
 
 function initModalLabels(data) {
@@ -433,27 +354,28 @@ function initModalLabels(data) {
 	$("#loginBtnLogin").html(data.loginBtnLogin);
 	$("#loginLblUsername").html(data.loginLblUsername);
 	$("#loginLblPassword").html(data.loginLblPassword);
-	loginTxtWarning = data.loginTxtWarning;
-	loginTxtIncomplete = data.loginTxtIncomplete;
 	$("body").on('shown.bs.modal', '.modal', function () {
 		$("#loginInpUsername").focus();
-	})
+	});
+	var labels = {loginTxtWarning:data.loginTxtWarning,
+		 		  loginTxtIncomplete:data.loginTxtIncomplete}
+	return labels;
 }
 
-function loginButtonEvent(onSuccess, onDismissal) {
+function loginButtonEvents(onSuccess, onDismissal, labels) {
+	// add events to login modal
 	$("#loginBtnLogin").click(function() {
-		login(onSuccess);
+		processLogin(onSuccess, labels);
 	});
-	// Login on pressing enter
+	// login on pressing enter
 	$("#loginInpPassword").keypress(function(event) {
-		if (event.which == 13)
-			login(onSuccess);
+		if (event.which == 13) processLogin(onSuccess, labels);
 	});
 	$("#loginInpUsername").keypress(function(event) {
-		if (event.which == 13)
-			login(onSuccess);
+		if (event.which == 13) processLogin(onSuccess, labels);
 	});
-	$("#loginDivLogin").on('hidden.bs.modal', function (e) {
+	// run onDismissal if modal is dismissed
+	$("#loginDivLogin").on('hidden.bs.modal', function () {
 		onDismissal();
 	});
 	$("#loginBtnClose").click(function() {
@@ -461,89 +383,103 @@ function loginButtonEvent(onSuccess, onDismissal) {
 	});
 }
 
-function login(onSuccess) {
+function processLogin(onSuccess, labels) {
+	// login based upon values provided in modal
 	var user = getUserUri($("#loginInpUsername").val());
 	var password = $("#loginInpPassword").val();
 
 	if(user == "" || password == "") {
-		$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtIncomplete));
+		$("#loginTxtWarning").html(
+			$.el.p({'class':'text-danger'}, labels.loginTxtIncomplete)
+		);
 	} else {
-		loginServer(user, password, onSuccess);
+		loginServer(user, password)
+		.then(function(data) {
+			if(data.indexOf("Login failed") != -1) {
+				// show warning login failed
+				$("#loginTxtWarning").html(
+					$.el.p({'class':'text-danger'}, labels.loginTxtWarning)
+				);
+			} else if (data.indexOf("Login ok") != -1) {
+				// set user settings, hide modal and execute onSuccess
+				setUserSettingsLocal()
+				.then(function() {
+					$("#loginDivLogin").off('hidden.bs.modal');
+					$("#loginDivLogin").modal('hide');
+					return userLoggedIn();
+				})
+				.then(function(userData) {
+					onSuccess(userData);
+				});
+			}
+		});
 	}
 }
 
-function loginServer(user, password, onSuccess) {
-	dataLogin = {"user":user, "password":password};
+function loginServer(user, password) {
+	var dataLogin = {"user": user, "password": password};
 
-	$.ajax({type: "POST",
-		    url: "user/login",
-		    data: dataLogin,
-		    success: function(data) {
-				if(data.indexOf("Login failed") != -1) {
-					$("#loginTxtWarning").html($.el.p({'class':'text-danger'}, loginTxtWarning));
-				} else if (data.indexOf("Login ok") != -1) {
-					setUserSettingsLocal(dataLogin, onSuccess);
-					// remove event listener and hide modal
-					$("#loginDivLogin").off('hidden.bs.modal');
-					$("#loginDivLogin").modal('hide');
-				}
-		   }
-	});
+	return $.ajax({type: "POST", url: "user/login", data: dataLogin});
 }
 
 function logout() {
-	$.ajax({type: "POST",
-			url: "user/logout",
-			success: function(){
-				document.location.href="intro.html";
-			}});
+	$.ajax({url: "user/logout", type: "POST"})
+	.then(function() {
+		document.location.href="intro.html";
+	});
 }
 
 /*******************************************************************************
 User registration
 Code for registering a new user
 *******************************************************************************/
-function registerModal(onDismissal) {
+function registerModal(onDismissal, settings) {
 	var ui = "http://accurator.nl/ui/generic#registerModal";
-	$.getJSON("ui_elements", {locale:getLocale(),
-							  ui:ui,
-							  type:"labels"})
-		.done(function(data){
-			registerButtonEvent(onDismissal);
-			initRegisterModalLabels(data);
-			$("#registerDivRegister").modal();
-			$("#registerInpFullName").focus();
+	var locale = getLocale();
+
+	getLabels(locale, ui)
+	.then(function(data) {
+		var labels = initRegisterModalLabels(data);
+		registerButtonEvent(onDismissal, settings, labels);
+
+		$("#registerDivRegister").modal();
+		$("#registerInpFullName").focus();
 	});
 }
 
-function initRegisterModalLabels(labels) {
-	// Add retrieved labels to html elements
-	$("#registerHdrTitle").html(labels.registerHdrTitle);
-	$("#registerLblFullName").html(labels.registerLblFullName);
-	$("#registerLblUsername").html(labels.registerLblUsername);
-	$("#registerLblPassword").html(labels.registerLblPassword);
-	$("#registerLblPasswordRepeat").html(labels.registerLblPasswordRepeat);
-	$("#registerBtnRegister").html(labels.registerBtnRegister);
+function initRegisterModalLabels(data) {
+	// add retrieved labels to html elements
+	$("#registerHdrTitle").html(data.registerHdrTitle);
+	$("#registerLblFullName").html(data.registerLblFullName);
+	$("#registerLblUsername").html(data.registerLblUsername);
+	$("#registerLblPassword").html(data.registerLblPassword);
+	$("#registerLblPasswordRepeat").html(data.registerLblPasswordRepeat);
+	$("#registerBtnRegister").html(data.registerBtnRegister);
 
-	// Set text variables for possible later use
-	registerTxtRegistrationFailed = labels.registerTxtRegistrationFailed;
-	registerTxtUsernameFail = labels.registerTxtUsernameFail;
-	registerTxtPasswordsMatchFail = labels.registerTxtPasswordsMatchFail;
-	registerTxtUserTaken = labels.registerTxtUserTaken;
-	registerTxtServerError = labels.registerTxtServerError;
+	// set text variables for possible later use
+	var labels = {
+		registerTxtRegistrationFailed: data.registerTxtRegistrationFailed,
+		registerTxtUsernameFail: data.registerTxtUsernameFail,
+		registerTxtPasswordsMatchFail: data.registerTxtPasswordsMatchFail,
+		registerTxtUserTaken: data.registerTxtUserTaken,
+		registerTxtServerError: data.registerTxtServerError
+	};
+
 	$("body").on('shown.bs.modal', '.modal', function () {
 		$("#registerInpFullName").focus();
 	})
+
+	return labels;
 }
 
-function registerButtonEvent(onDismissal) {
+function registerButtonEvent(onDismissal, settings, labels) {
 	$("#registerBtnRegister").click(function() {
-		register();
+		register(settings, labels);
 	});
 	// register on pressing enter
 	$("#registerInpPasswordRepeat").keypress(function(event) {
 		if (event.which == 13) {
-			register();
+			register(settings, labels);
 		}
 	});
 	$("#registerDivRegister").on('hidden.bs.modal', function (e) {
@@ -554,8 +490,8 @@ function registerButtonEvent(onDismissal) {
 	});
 }
 
-function register() {
-	// Get and check initial form input
+function register(settings, labels) {
+	// get and check initial form input
 	var name = $("#registerInpFullName").val();
 	var user = $("#registerInpUsername").val();
 	var userUri = getUserUri(user);
@@ -563,19 +499,19 @@ function register() {
 	var passwordRepeat = $("#registerInpPasswordRepeat").val();
 
 	if((name == "") || (user == "") || (password == "") || (passwordRepeat == "")){
-		setRegisterFailureText(registerTxtRegistrationFailed);
+		setRegisterFailureText(labels.registerTxtRegistrationFailed);
 	} else if (checkUsername(user)) {
-		setRegisterFailureText(registerTxtUsernameFail);
+		setRegisterFailureText(labels.registerTxtUsernameFail);
 	} else if (password != passwordRepeat){
-		setRegisterFailureText(registerTxtPasswordsMatchFail);
+		setRegisterFailureText(labels.registerTxtPasswordsMatchFail);
 	} else {
 		// Attempt registration
-		registerServer(name, userUri, password);
+		registerServer(name, userUri, password, settings, labels);
 	}
 }
 
 function setRegisterFailureText(text) {
-	alertMessage = $.el.div({'class':'registerMessage'},
+	var alertMessage = $.el.div({'class':'registerMessage'},
 			$.el.h5({'class':'text-danger'}, text));
 	// clear the current
 	$("#registerTxtWarning").empty();
@@ -593,7 +529,7 @@ function checkUsername(user) {
 	}
 }
 
-function registerServer(name, user, password) {
+function registerServer(name, user, password, settings, labels) {
 	var json = {"name":name, "user":user, "password":password};
 
 	$.ajax({
@@ -601,42 +537,35 @@ function registerServer(name, user, password) {
 		url: "register_user",
 		contentType: "application/json",
 		data: JSON.stringify(json),
-		success: function(){
-			// We are sometimes doing research you know
-			if(experiment !== "none")
-				flipAOrB();
-			// Login user upon succesful register
-			firstLogin(user, password);
-		},
-		error: function (request, textStatus, errorThrown) {
-			if(errorThrown == "Not Found")
-	        	setRegisterFailureText("Server did not respond.");
-	        if(request.responseText.indexOf("User already exists") > -1) {
-	    		setRegisterFailureText(registerTxtUserTaken);
-	        } else {
-	        	setRegisterFailureText(registerTxtServerError);
-	        }
+	}).then(function() {
+		// login user upon succesful register
+		firstLogin(user, password, settings);
+	}, function(response, textStatus, errorThrown) {
+		if(errorThrown == "Not Found")
+			setRegisterFailureText("Server did not respond.");
+		if(response.responseText.indexOf("User already exists") > -1) {
+			setRegisterFailureText(labels.registerTxtUserTaken);
+		} else {
+			setRegisterFailureText(labels.registerTxtServerError);
 		}
 	});
 }
 
-function firstLogin(user, password) {
+function firstLogin(user, password, settings) {
 	// loginServer from utilities is not used because it resets settings upon
 	// retrieving non existent settings from user.db (hence, firstLogin)
-	$.ajax({type: "POST",
-			url: "user/login",
-			data: {"user":user, "password":password},
-			success: function(data) {
-				// Save the locale and domain currently in local storage
-				save_user_info({"locale":locale,"domain":domain}, function(){
-					// Determine which page will be shown next
-					if(experiment === "true") {
-						document.location.href="form.html";
-					} else {
-						document.location.href="domain.html";
-					}
-				 });
-		   }
+	$.ajax({
+		type: "POST",
+		url: "user/login",
+		data: {"user":user, "password":password},
+	})
+	.then(function() {
+		// save the locale and domain currently in local storage
+		save_user_info(settings)
+		.then(function() {
+			// page that will be shown next
+			document.location.href="domain.html";
+		 });
 	});
 }
 

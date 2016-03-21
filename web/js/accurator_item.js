@@ -16,8 +16,6 @@ list
 
 *******************************************************************************/
 "use strict";
-var query, locale, experiment, domain, user, ui, annotation_ui, uri;
-var vntFirstTitle, vntFirstText;
 
 var page = {
 	showMetadata: true,
@@ -28,91 +26,101 @@ var page = {
 }
 
 function itemInit() {
-	locale = getLocale();
-	domain = getDomain();
-	experiment = getExperiment();
-	uri = getParameterByName("uri");
+	var locale = getLocale();
+	var domain = getDomain();
+	var uri = getParameterByName("uri");
 
 	populateFlags(locale);
 
-	// Make sure user is logged in
-	var onLoggedIn = function(loginData) {
-		setLinkLogo("profile");
+	userLoggedIn()
+	.then(function(userData) {
+		// user is logged in, so draw page
+		drawPage(userData);
+	}, function() {
+		// user is not logged in, show modal
+		var onDismissal = function() {document.location.href="intro.html"};
+		login(drawPage, onDismissal);
+	});
 
-		// Get domain settings before populating ui
-		var onDomain = function(domainData) {
-			user = loginData.user;
-			var userName = getUserName(loginData.user);
+	function drawPage(userData) {
+		var ui, annotation_ui;
+		var user = userData.user;
+		var userName = getUserName(userData.user);
+
+		setLinkLogo("profile");
+		populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
+
+		domainSettings(domain)
+		.then(function(domainData) {
 			ui = domainData.ui + "item";
 			annotation_ui = domainData.annotation_ui;
+		})
+		.then(function() {
+			return setImage(uri);
+		})
+		.then(function(metadata) {
+			displayMetadata(uri);
+			displayAnnotations(uri);
+			return addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui);
+		})
+		.then(function() {
+			return getLabels(locale, ui);
+		})
+		.then(function(labels) {
+			var labelArray = initLabels(labels);
 
-			// Add image and then load anotorious
-			setImage()
-			.then(function(metadata) {addAnnotationFields(metadata)});
-			maybeRunExperiment();
-			populateUI();
-			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
-		};
-		domainSettings = domainSettings(domain, onDomain);
-	};
-	// If user is not logged go to intro page
-	var onDismissal = function() {document.location.href="intro.html";};
-	logUserIn(onLoggedIn, onDismissal);
+			// Only show path when cluster is available TODO: remove ugly check for undefined
+			if((localStorage.getItem("currentCluster") !== null) && (localStorage.getItem("currentCluster") !== "undefined"))
+				addPath();
+			addButtonEvents();
+			return events(user, labelArray);
+		})
+	}
 }
 
-function setImage() {
+function setImage(uri) {
 	return $.getJSON("metadata", {uri:uri})
 	.then(function(metadata){
-		// Set id image
+		// set id image
 		page.imageId = "itemImg" + generateIdFromUri(uri);
 		$(".itemImg").attr("id", page.imageId);
-		// Return info for anotorious
+		// return info for anotorious
 		return metadata;
 	});
 }
 
-function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(labels){
-		document.title = labels.title;
-		initLabels(labels);
+function initLabels(labels) {
+	document.title = labels.title;
+	$("#itemBtnPrevious").append(labels.itemBtnPrevious);
+	$("#itemBtnNext").prepend(labels.itemBtnNext);
+	$("#navbarBtnRecommend").append(labels.navbarBtnRecommend);
+	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
 
-		// Only show path when cluster is available TODO: remove ugly check for undefined
-		if((localStorage.getItem("currentCluster") !== null) && (localStorage.getItem("currentCluster") !== "undefined") && !(experiment === "random"))
-			addPath();
-		addButtonEvents();
-		events();
-	});
-	displayMetadata();
-	displayAnnotations();
+	var labelArray = {
+		vntFirstTitle: labels.vntFirstTitle,
+		vntFirstText: labels.vntFirstText
+	};
+
+	return labelArray;
 }
 
-function initLabels(data) {
-	$("#itemBtnPrevious").append(data.itemBtnPrevious);
-	$("#itemBtnNext").prepend(data.itemBtnNext);
-	$("#navbarBtnRecommend").append(data.navbarBtnRecommend);
-	$("#navbarBtnSearch").append(data.navbarBtnSearch);
-	vntFirstTitle = data.vntFirstTitle;
-	vntFirstText = data.vntFirstText;
-	// Add next to optional experiment navigation
-	$("#itemBtnExperimentNext").prepend(data.itemBtnNext);
-}
-
-function events() {
-	$.getJSON("annotations", {uri:user, type:"user"})
-	.done(function(annotations){
+function events(user, labels) {
+	return $.getJSON("annotations", {uri:user, type:"user"})
+	.then(function(annotations) {
 		if(annotations.length===0) {
-			alertMessage(vntFirstTitle, vntFirstText, 'success');
+			alertMessage(labels.vntFirstTitle, labels.vntFirstText, 'success');
 		}
 	});
 }
 
 function addPath() {
-	query = localStorage.getItem("query");
-	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
-	$("#path").append(pathHtmlElements(cluster.path));
-	unfoldPathEvent("#path", cluster.path);
-	addNavigationButtonEvents();
+	//TODO: restore path functionallity after making it an object
+	// query = localStorage.getItem("query");
+	// var cluster = JSON.parse(localStorage.getItem("currentCluster"));
+	// console.log("cluster", cluster);
+	// $("#path").append(pathHtmlElements(cluster.path));
+	// unfoldPathEvent("#path", cluster.path);
+	// addNavigationButtonEvents();
 }
 
 function addButtonEvents() {
@@ -156,9 +164,9 @@ function addNavigationButtonEvents() {
 	}
 }
 
-function addAnnotationFields(metadata) {
+function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui) {
 	// Retrieve the fields that should be added (based on save_user_info)
-	$.getJSON("annotation_fields",
+	return $.getJSON("annotation_fields",
 			  {locale:locale,
 			   domain:domain,
 		   	   annotation_ui:annotation_ui})
@@ -173,6 +181,7 @@ function addAnnotationFields(metadata) {
 					target: uri,
 				 	targetImage: metadata.image_uri,
 					user: user,
+					locale: locale,
 			 	 	imageId: page.imageId,
 					fieldsId: page.wholeFieldsId
 			 	}
@@ -209,7 +218,7 @@ function addAnnotationFields(metadata) {
 	});
 }
 
-function displayMetadata() {
+function displayMetadata(uri) {
 	if(page.showMetadata){
 		// Get metadata from server
 		$.getJSON("metadata", {uri:uri})
@@ -240,7 +249,7 @@ function appendMetadataWell(metadata) {
 	}
 }
 
-function displayAnnotations() {
+function displayAnnotations(uri) {
 	// Get annotations from server for projecting in well
 	if(page.showAnnotations){
 		$.getJSON("annotations", {uri:uri, type:"object"})

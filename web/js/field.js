@@ -21,6 +21,7 @@ function Field(defenition, context) {
 	this.targetImage = context.targetImage; // URI of target's image to be annotated
 	this.imageId = context.imageId; // id of the corresponding img element
 	this.user = context.user; // URI of the user currently annotating
+	this.locale = context.locale // locale for retrieving language specific resources
 	this.MOTIVATION = {
 		tagging:    'http://www.w3.org/ns/oa#tagging',
 		commenting: 'http://www.w3.org/ns/oa#commenting',
@@ -199,7 +200,7 @@ Field.prototype.getAllAlternatives = function() {
 		 filter:filter,
 		 labelrank:labelRank,
 		 method:"all",
-		 locale:locale});
+		 locale:this.locale});
 }
 
 Field.prototype.getAlternatives = function(string) {
@@ -213,7 +214,7 @@ Field.prototype.getAlternatives = function(string) {
 		 filter:filter,
 		 labelrank:labelRank,
 		//  method:"all",
-		 locale:locale});
+		 locale:this.locale});
 }
 
 Field.prototype.addTypeAhead = function(alternatives) {

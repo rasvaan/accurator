@@ -25,11 +25,6 @@ Layout of the results:
 *******************************************************************************/
 "use strict";
 
-var locale, domain, experiment, ui, user, userName, realName;
-var resultsTxtRecommendationsFor, resultsTxtSearching, resultsHdrResults;
-var resultsHdrFirst, resultsTxtFirst, resultsTxtNoResults, resultsTxtError;
-var resultsHdrRecommendedResults, resultsHdrRandomResults;
-var resultsLblCluster, resultsLblList;
 var clusters = [];
 var randoms = [];
 
@@ -43,68 +38,77 @@ var display = {
 
 // Initialize page
 function resultsInit() {
-	locale = getLocale();
-	domain = getDomain();
-	experiment = getExperiment();
+	var locale = getLocale();
+	var domain = getDomain();
+
 	populateFlags(locale);
 
-	var onLoggedIn = function(loginData){
-		setLinkLogo("profile");
-		user = loginData.user;
-		userName = getUserName(user);
-		realName = loginData.real_name;
+	userLoggedIn()
+	.then(function(userData) {
+		// user is logged in, so draw page
+		drawPage(userData);
+	}, function() {
+		// user is not logged in, show modal
+		var onDismissal = function() {document.location.href="intro.html"};
+		login(drawPage, onDismissal);
+	});
+
+	function drawPage(userData) {
+		var ui, target, labels;
+		var user = userData.user;
+		var userName = getUserName(user);
+		var realName = userData.real_name;
 		var userQuery = getParameterByName("user");
 		var query = getParameterByName("query");
 
-		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}]);
+		setLinkLogo("profile");
+		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}], locale);
 
-		var onDomain = function(domainData) {
+		domainSettings(domain)
+		.then(function(domainData) {
 			ui = domainData.ui + "results";
-			var target = domainData.target;
-
-			getLabels()
-			.then(function(labels){
-				initLabels(labels);
-				events();
-				addButtonEvents();
-
-				// Provide results based on query, recommend something based on
-				// the expertise of the retrieved user or, if none of these, show
-				// just random results
-				results(query, userQuery, target);
-			});
-		};
-		domainSettings(domain, onDomain);
-	};
-	var onDismissal = function(){document.location.href = "intro.html";};
-	logUserIn(onLoggedIn, onDismissal);
-}
-
-// Retrieve label elements
-function getLabels() {
-	return $.getJSON("ui_elements", {locale:locale, ui:ui,
-							  		 type:"labels"});
+			target = domainData.target;
+			return getLabels(locale, ui);
+		})
+		.then(function(labelData) {
+			labels = initLabels(labelData);
+			labels.realName = realName; // Add realname to labels for rendering
+			addButtonEvents(user);
+			return events(user, labels);
+		})
+		.then(function() {
+			// Provide results based on query, recommend something based on
+			// the expertise of the retrieved user or, if none of these, show
+			// just random results
+			results(labels, query, userQuery, target);
+		});
+	}
 }
 
 // Add retrieved labels to html elements
-function initLabels(labels) {
-	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
-	$("#navbarBtnRecommend").append(labels.resultsBtnRecommend);
-	resultsTxtRecommendationsFor = labels.resultsTxtRecommendationsFor;
-	resultsTxtSearching = labels.resultsTxtSearching;
-	resultsHdrResults = labels.resultsHdrResults;
-	resultsHdrRecommendedResults = labels.resultsHdrRecommendedResults;
-	resultsHdrRandomResults = labels.resultsHdrRandomResults;
-	resultsHdrFirst = labels.resultsHdrFirst;
-	resultsTxtFirst = labels.resultsTxtFirst;
-	resultsTxtNoResults = labels.resultsTxtNoResults;
-	resultsTxtError = labels.resultsTxtError;
-	resultsLblCluster = labels.resultsLblCluster;
-	resultsLblList = labels.resultsLblList;
+function initLabels(labelData) {
+	$("#navbarBtnSearch").append(labelData.navbarBtnSearch);
+	$("#navbarBtnRecommend").append(labelData.resultsBtnRecommend);
+
+	var labels = {
+		resultsTxtRecommendationsFor: labelData.resultsTxtRecommendationsFor,
+		resultsTxtSearching: labelData.resultsTxtSearching,
+		resultsHdrResults: labelData.resultsHdrResults,
+		resultsHdrRecommendedResults: labelData.resultsHdrRecommendedResults,
+		resultsHdrRandomResults: labelData.resultsHdrRandomResults,
+		resultsHdrFirst: labelData.resultsHdrFirst,
+		resultsTxtFirst: labelData.resultsTxtFirst,
+		resultsTxtNoResults: labelData.resultsTxtNoResults,
+		resultsTxtError: labelData.resultsTxtError,
+		resultsLblCluster: labelData.resultsLblCluster,
+		resultsLblList: labelData.resultsLblList
+	};
+
+	return labels;
 }
 
 // Add button events in the navbar
-function addButtonEvents() {
+function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
 		document.location.href="results.html" + "?user=" + user;
 	});
@@ -122,59 +126,40 @@ function addButtonEvents() {
 }
 
 // Message displayed when the first annotation is made by a user
-function events() {
-	$.getJSON("annotations", {uri:user, type:"user"})
-	.done(function(annotations){
-		var uris = annotations.uris;
-
-		if (uris.length===0) {
-			alertMessage(resultsHdrFirst, resultsTxtFirst, 'success');
+function events(user, labels) {
+	return $.getJSON("annotations", {uri:user, type:"user"})
+	.then(function(annotations) {
+		if (annotations.length === 0) {
+			alertMessage(labels.resultsHdrFirst, labels.resultsTxtFirst, 'success');
 		}
 	});
-}
-
-// Add a title for the page and print a status message within the page that
-// gives more information on the progress of the search
-function statusMessage(header, text){
-	//$("#resultsDiv").children().remove();
-	//$(".col-md-10").empty();
-	$(document).prop('title', header);
-
-	$("#resultsDiv").append(
-		$.el.div({'class':'row'},
-			$.el.div({'class':'col-lg-10 col-md-offset-1'},
-				$.el.h3(header)),
-			$.el.div({'class':'row'},
-				$.el.div({'class':'col-md-10 col-md-offset-1'},
-					text)))
-	);
 }
 
 /*******************************************************************************
 Search, Recommend or Random results
 *******************************************************************************/
-function results(query, userQuery, target) {
-	// Determine whether to recommend or give random results and set layout
-	var recommendBoolean = recommenderExperiment();
+function results(labels, query, userQuery, target) {
+	// don't do random stuff yet
+	var recommendBoolean = true;
 
 	if(query) {
 		// results based on the user query
-		search(query);
+		search(query, labels);
 	} else if(recommendBoolean) {
 		// recommendations based on the expertise of the user
 		// first recommended results are shown, then random results
 		query = "expertise";
-		recommend(query, target);
+		recommend(query, labels, target);
 	} else {
 		// random results
 		query = "random";
-		random(query, target, 10);
+		random(query, labels, target, 10);
 	}
 	localStorage.setItem("query", query);
 }
 
 // Get results based on the user query
-function search(query, target) {
+function search(query, labels, target) {
 	var request = {query:query};
 
 	if(typeof target != 'undefined')
@@ -187,26 +172,25 @@ function search(query, target) {
 
 		// enrich retrieved clusters if any
 		if(clusters.length == 0){
-			statusMessage(resultsTxtNoResults, query);
+			statusMessage(labels.resultsTxtNoResults, query);
 		} else {
 			// set page title and text for results header
-			statusMessage(resultsHdrResults + query);
+			statusMessage(labels.resultsHdrResults + query);
 
 			// enrich the retrieved clusters
-			enrichClusters(query);
+			enrichClusters(query, labels);
 
 			// Add control buttons to change layout
-			controls();
+			controls(labels);
 		}
-	})
-	.fail(function(data){
-		statusMessage(resultsTxtError, data.responseText);
+	}, function() {
+		statusMessage(labels.resultsTxtError, data.responseText);
 	});
 }
 
 // Get results based on the expertise of the user and, afterwards, a number of
 // random items that have not yet been annotated
-function recommend(query, target) {
+function recommend(query, labels, target) {
 	$.getJSON("recommendation", {strategy:query,
 								 target:target})
 	.then(function(data){
@@ -216,9 +200,9 @@ function recommend(query, target) {
 
 		// enrich retrieved clusters if any
 		if(clusters.length == 0){
-			statusMessage(resultsTxtNoResults, query);
+			statusMessage(labels.resultsTxtNoResults, labels.realName);
 		} else {
-			statusMessage(resultsHdrRecommendedResults);
+			statusMessage(labels.resultsHdrRecommendedResults);
 
 			// enrich the retrieved clusters
 			enrichClusters(query);
@@ -228,18 +212,17 @@ function recommend(query, target) {
 		random(query, target, 10);
 
 		// set page title
-		$(document).prop('title', resultsTxtRecommendationsFor + realName);
+		$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
 
 		// Add control buttons to change layout
-		controls();
+		controls(labels);
+	}, function(data) {
+		statusMessage(labels.resultsTxtError, data.responseText);
 	})
-	.fail(function(data){
-		statusMessage(resultsTxtError, data.responseText)
-	});
 }
 
 // Get random items
-function random(query, target, noResults) {
+function random(query, labels, target, noResults) {
 	// Get a list of random items
 	$.getJSON("recommendation", {strategy:'random',
 								 number:noResults,
@@ -252,18 +235,18 @@ function random(query, target, noResults) {
 
 		// enrich retrieved clusters if any
 		if(randoms.length == 0){
-			statusMessage(resultsTxtNoResults, query);
+			statusMessage(labels.resultsTxtNoResults, query);
 		} else {
-			statusMessage(resultsHdrRandomResults);
+			statusMessage(labels.resultsHdrRandomResults);
 
 			if (query === "expertise"){
 				// set page title
-				$(document).prop('title', resultsTxtRecommendationsFor + realName);
+				$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
 			}
 
 			var noRandomItems = randoms.length;
 
-			if (query === "expertise" && display.layout === "cluster"){
+			if (query === "expertise" && display.layout === "cluster") {
 				addRandomPath();
 			} else {
 				// add rows for random objects and display them as a list
@@ -284,9 +267,8 @@ function random(query, target, noResults) {
 				}
 			});
 		}
-	})
-	.fail(function(data){
-		statusMessage(resultsTxtError, data.responseText)
+	}, function(data) {
+		statusMessage(labels.resultsTxtError, data.responseText);
 	});
 }
 
@@ -294,14 +276,14 @@ function random(query, target, noResults) {
 Result population and enrichment
 *******************************************************************************/
 
-function enrichClusters(query) {
+function enrichClusters(query, labels) {
 	// clear results div and reset rows
 	//$("#resultsDiv").children().remove();
 
 	// enrich retrieved clusters if any
 	if(clusters.length != 0){ //double verification here (see previous function)
 		// set page title
-		$(document).prop('title', resultsHdrResults + query);
+		$(document).prop('title', labels.resultsHdrResults + query);
 
 		// if the display is the list view, the rows that are needed can be first
 		// created and after the enrichment is done, these can be further populated
@@ -358,7 +340,6 @@ function enrichCluster(uris, clusterId){
 // Enrich one image element in the cluster adding an image, a link where it can
 // be (further) annotated and a title
 function processEnrichment(data) {
-	//console.log("data=", data);
 	var enrichedItems = [];
 
 	for(var i=0; i<data.length; i++) {
@@ -366,7 +347,7 @@ function processEnrichment(data) {
 		var uri = data[i].uri;
 		enrichedItems[i].uri = uri;
 		enrichedItems[i].thumb = data[i].thumb;
-		enrichedItems[i].link = "annotate.html?uri=" + uri;
+		enrichedItems[i].link = "item.html?uri=" + uri;
 		enrichedItems[i].title = truncate(data[i].title, 60);
 	}
 	return enrichedItems;
@@ -597,48 +578,65 @@ function addRandomClickEvent(id, link, rowId, index) {
 	});
 }
 
+// Add a title for the page and print a status message within the page that
+// gives more information on the progress of the search
+function statusMessage(header, text){
+	//$("#resultsDiv").children().remove();
+	//$(".col-md-10").empty();
+	$(document).prop('title', header);
+
+	$("#resultsDiv").append(
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-lg-10 col-md-offset-1'},
+				$.el.h3(header)),
+			$.el.div({'class':'row'},
+				$.el.div({'class':'col-md-10 col-md-offset-1'},
+					text)))
+	);
+}
+
 /*******************************************************************************
 Controls
 Code for adding buttons controlling the layout
 *******************************************************************************/
 
 // Add the container for the controls that change the display of the items
-function controls() {
+function controls(labels) {
 	if(display.showControls) {
 		$("#resultsDiv").prepend(
 			$.el.div({'class':'row'},
 				$.el.div({'class':'col-md-12 resultsDivControls'}))
 		);
-		resultLayoutButtons();
+		resultLayoutButtons(labels);
 	}
 }
 
 // Add the buttons and the click functionality for changing the display
-function resultLayoutButtons() {
+function resultLayoutButtons(labels) {
 	$(".resultsDivControls").append(
 		$.el.div({'class':'btn-group'},
 			$.el.button({'class':'btn btn-default',
 						 'id':'resultsBtnLayout'}))
 	);
-	setLayoutButton();
+	setLayoutButton(labels);
 	$("#resultsBtnLayout").click(function() {
 		$("#resultsDiv").children().remove(".row");
 		display.layout = (display.layout === "list") ? "cluster" : "list";
-		controls();
-		displayView();
+		controls(labels);
+		displayView(labels);
 	});
 }
 
 // Set the text of the display button depending on the view that is rendered
-function setLayoutButton() {
+function setLayoutButton(labels) {
 	if(display.layout === "list") {
 		$("#resultsBtnLayout").html(
-			$.el.span(resultsLblCluster + ' ',
+			$.el.span(labels.resultsLblCluster + ' ',
 			$.el.span({'class':'glyphicon glyphicon-th-large'}))
 		);
 	} else {
 		$("#resultsBtnLayout").html(
-			$.el.span(resultsLblList + ' ',
+			$.el.span(labels.resultsLblList + ' ',
 			$.el.span({'class':'glyphicon glyphicon-th-large'}))
 		);
 	}
@@ -654,7 +652,7 @@ Code for rendering either the cluster or the list view
 // populated before and just changes the way they are shown for user queries and
 // recommendations based on user expertise. The random objects only get displayed
 // as a list, so the button that selects the view (cluster or list) is not available
-function displayView(){
+function displayView(labels){
 	// TODO what if the result population or enrichment is not finished when
 	// the user clicks the button? Maybe show the button after all this is finished?!
 
@@ -662,10 +660,10 @@ function displayView(){
 	$("#resultsDiv").children().remove(".well, .well-sm");
 
 	if(localStorage.query === "expertise") {
-		statusMessage(resultsHdrRecommendedResults);
+		statusMessage(labels.resultsHdrRecommendedResults);
 	} else {
 		// set page title and text for results header
-		statusMessage(resultsHdrResults + localStorage.query);
+		statusMessage(labels.resultsHdrResults + localStorage.query);
 	}
 
 	// display list view
@@ -683,9 +681,9 @@ function displayView(){
 
 		// list view for recommendation
 		if(localStorage.query === "expertise") {
-			statusMessage(resultsHdrRandomResults);
+			statusMessage(labels.resultsHdrRandomResults);
 
-			$(document).prop('title', resultsTxtRecommendationsFor + realName);
+			$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
 
 			var noRandomItems = randoms.length;
 
@@ -704,9 +702,9 @@ function displayView(){
 
 		// show random results for cluster view for recommendation
 		if(localStorage.query === "expertise") {
-			statusMessage(resultsHdrRandomResults);
+			statusMessage(labels.resultsHdrRandomResults);
 
-			$(document).prop('title', resultsTxtRecommendationsFor + realName);
+			$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
 
 			var noRandomItems = randoms.length;
 
