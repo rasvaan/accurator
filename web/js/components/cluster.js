@@ -5,6 +5,8 @@ function Cluster(uris, id) {
 	this.id = id; // id of the cluster
 	this.uris = uris; // list of uris of the items
 	this.items = []; // enriched items
+
+	this.init();
 }
 
 Cluster.prototype.enrich = function() {
@@ -33,51 +35,54 @@ Cluster.prototype.enrich = function() {
 }
 
 Cluster.prototype.display = function(numberDisplayedItems) {
-	var numberOfPages = this.getNumberOfPages(this.items.length, numberDisplayedItems);
+	this.addPagination(numberDisplayedItems);
+	// this.addThumbnails(numberDisplayedItems);
+}
+
+Cluster.prototype.addPagination = function(numberDisplayedItems) {
+	var paginationId = this.id + "Pagination"
+	var pagination = new Pagination(
+		paginationId,
+		this.items,
+		numberDisplayedItems,
+		this.id
+	);
 
 	$("#" + this.id).append(
-		pagination(numberOfPages, this.items, "cluster", this.id)
+		// add pagination row
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-md-12'},
+				pagination.node))
 	);
-	this.addThumbnails(numberDisplayedItems);
 }
 
-Cluster.prototype.getNumberOfPages = function(numberOfItems, numberDisplayedItems) {
-	var numberOfPages = 0;
-	var restPages = numberOfItems%numberDisplayedItems;
-
-	if(restPages == 0) {
-		numberOfPages = numberOfItems/numberDisplayedItems;
-	} else {
-		numberOfPages = (numberOfItems-restPages)/numberDisplayedItems+1;
-	}
-	return numberOfPages;
-}
 
 // Add thumbnails for a cluster
 Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 	var stop = numberDisplayedItems;
 	var bootstrapWidth = parseInt(12/numberDisplayedItems, 10);
 
-	console.log("number items", this.items.length);
 	// check if less results available then there are to be displayed
 	if(this.items.length < stop){
 		stop = this.items.length;
 	}
 
+	console.log("cluster id", this.id);
 	// add row
 	$("#" + this.id).append(
 		$.el.div({'class':'row', 'id':'thumbnailRow' + this.id}));
 
 	for (var i=0; i<stop; i++) {
 		var thumbnail = new Thumbnail(
-			items[i].uri,
-			items[i].title,
-			items[i].thumb,
+			this.items[i].uri,
+			this.items[i].title,
+			this.items[i].thumb,
+			this.items[i].link,
 			numberDisplayedItems
 		);
 
 		$("#thumbnailRow" + this.id).append(thumbnail.node);
-		thumbnail.addClickEvent(id, items[i].link, clusterId, i);
+		thumbnail.addClickEvent(this.id);
 	}
 }
 

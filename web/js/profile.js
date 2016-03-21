@@ -49,11 +49,11 @@ function populateRecentlyAnnotated(user) {
 			$("#profileDivLastAnnotated").hide();
 		} else {
 			//TODO: limit length of uris (faster if someone annotated a bunch)?
-			var cluster = new Cluster(uris, "profileCluster");
+			var cluster = new Cluster(uris, "profileDivCluster");
 			cluster.enrich()
 			.then(function() {
 				// display 6 elements in cluster
-				cluster.display(6);
+				cluster.display(3);
 			});
 		}
 	});

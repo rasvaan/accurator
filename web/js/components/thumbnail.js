@@ -1,13 +1,14 @@
 /******************************************************************************
 Thumbnail
 
-Code for initializing bootstrap thumbnails and handling changes
+Code for initializing bootstrap thumbnails
 *******************************************************************************/
-function Thumbnail(uri, title, thumb, numberDisplayedItems) {
-	this.uri = uri; // uri of the artwork
+function Thumbnail(uri, title, thumb, link, numberDisplayedItems) {
 	this.id = null; // id of thumbnail
+	this.uri = uri; // uri of the artwork
 	this.title = title; // title of thumbnail
 	this.thumb = thumb; // image to be shown
+	this.link = link; // URL of location the thumbnail points to
 	this.bootstrapWidth = parseInt(12/numberDisplayedItems, 10); // width of thumbnail
 	this.node = null;  // html of thumbnail
 
@@ -23,7 +24,6 @@ Thumbnail.prototype.init = function() {
 // Retrieves the item id from the uri string
 // Allow characters in the uri that won't trip up jQuery
 Thumbnail.prototype.getId = function(uri) {
-	console.log("uri2:", uri);
 	var dirtyId = uri.substr(uri.lastIndexOf('/') + 1);
 	var id = dirtyId.replace(/[^\w\-]/gi, '');
 	return id;
@@ -51,15 +51,19 @@ Thumbnail.prototype.thumbnailTitle = function() {
 }
 
 // Add thumbnail click event
-Thumbnail.prototype.addClickEvent = function(id, link, clusterId, index) {
-	$("#cluster" + clusterId  + " #" + id).click(function() {
+Thumbnail.prototype.addClickEvent = function(parentId) {
+	var _thumbnail = this;
+
+	console.log("CHECK", this.link);
+	console.log("ID", "#" + parentId  + " #" + this.id);
+	$("#" + parentId  + " #" + this.id).click(function() {
+		//TODO check what should be added to local storage
 		//Add info to local storage to be able to save context
-		localStorage.setItem("itemIndex", index);
-		localStorage.setItem("clusterId", clusterId);
-		localStorage.setItem("currentCluster", JSON.stringify(clusters[clusterId]));
-		//TODO check here
+		// localStorage.setItem("itemIndex", index);
+		// localStorage.setItem("clusterId", parentId);
+		// localStorage.setItem("currentCluster", JSON.stringify(clusters[clusterId]));
 		// if((clusterId+1) == clusters.length)
 		// 	localStorage.setItem("query", "random");
-		document.location.href = link;
+		document.location.href = _thumbnail.link;
 	});
 }
