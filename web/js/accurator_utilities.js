@@ -146,7 +146,7 @@ function setLocale(languageCode) {
 		deferred.resolve();
 	}, function() {
 		localStorage.setItem("locale", languageCode);
-		deferred.resolve("logged in");
+		deferred.resolve();
 	});
 
 	return deferred.promise();
