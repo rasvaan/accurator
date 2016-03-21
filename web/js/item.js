@@ -4,15 +4,19 @@ This code allows the item page to be setup according to the locale, domain
 and user settings. The main functionallity regards annoting the item, for which
 it relies upon the following files:
 
-* field.js - field objects allowing users to add annotations
+- in web/js/components
 
-* annotations.js - list of annotations
+	* field.js - field objects allowing users to add annotations
 
-* annotorious.min.js - annotorious editor used for annotating fragments of images
+	* annotations.js - list of annotations
 
-* deniche-plugin.js - plugin for annotorious embedding field objects in the
+	* deniche-plugin.js - plugin for annotorious embedding field objects in the
 editor div and manages the adding and removal of annotations in the annotation
 list
+
+ - in web/js/lib
+
+	* annotorious.min.js - annotorious editor used for annotating fragments of images
 
 *******************************************************************************/
 "use strict";
