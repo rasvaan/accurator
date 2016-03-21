@@ -49,12 +49,12 @@ function populateRecentlyAnnotated(user) {
 			$("#profileDivLastAnnotated").hide();
 		} else {
 			//TODO: limit length of uris (faster if someone annotated a bunch)?
-			//BIGGER TODO: make clusers, pagination, thumbnails correct objects.
-			// var cluster = new Cluster(uris, "profileCluster");
-			// cluster.enrich()
-			// .then(function() {
-			// 	cluster.display();
-			// });
+			var cluster = new Cluster(uris, "profileCluster");
+			cluster.enrich()
+			.then(function() {
+				// display 6 elements in cluster
+				cluster.display(6);
+			});
 		}
 	});
 }
