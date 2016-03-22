@@ -200,11 +200,11 @@ function addButtonEvents(info, labels, countries, languages) {
 function processFormFields(info, labels, countries, languages) {
 	getInput(info, labels, countries, languages);
 
-	var onSuccess = function () {
+	save_user_info(info)
+	.then(function() {
+		// page that will be shown next
 		document.location.href = "domain.html";
-	};
-
-	save_user_info(info, onSuccess);
+	});
 }
 
 function getInput(info, labels, countries, languages) {

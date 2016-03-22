@@ -254,7 +254,7 @@ aui:form a auis:UI ;
 	aui:formLblGender "Gender"@en ;
 	aui:formRbtnMale "Male"@en ;
 	aui:formRbtnFemale "Female"@en ;
-	aui:formLblCountry "What is your counrty of residence?"@en ;
+	aui:formLblCountry "What is your country of residence?"@en ;
 	aui:formLblCommunity "What resembles most closely the community you reside in?"@en ;
 	aui:formRbtnUrban "Urban"@en ;
 	aui:formRbtnSubUrban "Suburban"@en ;
