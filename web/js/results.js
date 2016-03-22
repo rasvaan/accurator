@@ -25,7 +25,6 @@ Layout of the results:
 *******************************************************************************/
 "use strict";
 
-var clusters = [];
 var randoms = [];
 
 // Display options deciding how to results get displayed
@@ -58,8 +57,6 @@ function resultsInit() {
 		var user = userData.user;
 		var userName = getUserName(user);
 		var realName = userData.real_name;
-		var userQuery = getParameterByName("user");
-		var query = getParameterByName("query");
 
 		setLinkLogo("profile");
 		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}], locale);
@@ -80,8 +77,8 @@ function resultsInit() {
 			// Provide results based on query, recommend something based on
 			// the expertise of the retrieved user or, if none of these, show
 			// just random results
-			results(labels, query, userQuery, target);
-		});
+			results(target, labels);
+		})
 	}
 }
 
@@ -110,9 +107,9 @@ function initLabels(labelData) {
 // Add button events in the navbar
 function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
-		document.location.href="results.html" + "?user=" + user;
+		document.location.href = "results.html?user=" + user;
 	});
-	// Search on pressing enter
+	// search on pressing enter
 	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
 			var query = encodeURIComponent($("#navbarInpSearch").val());
@@ -125,10 +122,11 @@ function addButtonEvents(user) {
 	});
 }
 
-// Message displayed when the first annotation is made by a user
+
 function events(user, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
+		// message displayed before the first annotation is made by a user
 		if (annotations.length === 0) {
 			alertMessage(labels.resultsHdrFirst, labels.resultsTxtFirst, 'success');
 		}
@@ -138,9 +136,10 @@ function events(user, labels) {
 /*******************************************************************************
 Search, Recommend or Random results
 *******************************************************************************/
-function results(labels, query, userQuery, target) {
-	// don't do random stuff yet
-	var recommendBoolean = true;
+function results(target, labels) {
+	var query = getParameterByName("query"); // get query from url when present
+	var userQuery = getParameterByName("user"); // get user from url when present
+	var recommendBoolean = true; // don't do random stuff
 
 	if(query) {
 		// results based on the user query
@@ -149,7 +148,7 @@ function results(labels, query, userQuery, target) {
 		// recommendations based on the expertise of the user
 		// first recommended results are shown, then random results
 		query = "expertise";
-		recommend(query, labels, target);
+		recommend(query, target, labels);
 	} else {
 		// random results
 		query = "random";
@@ -159,38 +158,125 @@ function results(labels, query, userQuery, target) {
 }
 
 // Get results based on the user query
-function search(query, labels, target) {
-	var request = {query:query};
-
-	if(typeof target != 'undefined')
-		request.target = target;
-
-	$.getJSON("cluster_search_api", request)
-	.then(function(data){
-		// retrieve clusters
-		clusters = data.clusters;
-
-		// enrich retrieved clusters if any
-		if(clusters.length == 0){
-			statusMessage(labels.resultsTxtNoResults, query);
-		} else {
-			// set page title and text for results header
-			statusMessage(labels.resultsHdrResults + query);
-
-			// enrich the retrieved clusters
-			enrichClusters(query, labels);
-
-			// Add control buttons to change layout
-			controls(labels);
-		}
-	}, function() {
+function search(query, labels) {
+	$.getJSON("cluster_search_api", {query:query})
+	.then(function(data) {
+		$(document).prop('title', labels.resultsHdrResults + query);
+		var clusters = processClusters(data);
+		drawResults(clusters);
+		// add control buttons to change layout
+		controls(labels);
+	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
 	});
 }
 
+function processClusters(data) {
+	if (data.clusters.length === 0) {
+		statusMessage(labels.resultsTxtNoResults + query);
+	} else {
+		var clusters = []; // array containing cluster objects
+
+		for(var i=0; i<data.clusters.length; i++) {
+			var uris = []; // uris of items in cluster
+			var id = "cluster" + i; // id of cluster
+
+			for(var j = 0; j < data.clusters[i].items.length; j++)
+				uris[j] = data.clusters[i].items[j].uri;
+
+			clusters[i] = new Cluster(uris, id);
+		}
+
+		return clusters;
+	}
+}
+
+function drawResults(clusters) {
+	drawRows(clusters);
+
+	for (var i=0; i<clusters.length; i++)
+		drawCluster(clusters[i]);
+}
+
+// Add rows for cluster items for the list view
+function drawRows(clusters) {
+	if (display.layout === "cluster") {
+		for (var i=0; i<clusters.length; i++) {
+			$("#resultsDiv").append(
+				$.el.div({'class':'row',
+					'id':clusters[i].id})
+			);
+		}
+	} else if (display.layout === "list") {
+		var totalItems = totalItemsInClusters(clusters);
+		var rows = getNumberOfRows(totalItems);
+
+		for (var i=0; i<rows; i++) {
+			$("#resultsDiv").append(
+				$.el.div({'class':'row',
+					'id':'thumbnailRow' + i})
+			);
+		}
+	}
+}
+
+// Determine the total number of items from clusters
+function totalItemsInClusters(clusters) {
+	var totalItems = 0;
+
+	for (var i=0; i<clusters.length; i++){
+		totalItems += clusters[i].items.length;
+	}
+	return totalItems;
+}
+
+// Determine number of pages or rows based on the items to be shown
+function getNumberOfRows(numberOfItems) {
+	var numberOfRows = 0;
+	var restRows = numberOfItems%display.numberDisplayedItems;
+
+	if (restRows === 0) {
+		return numberOfItems/display.numberDisplayedItems;
+	} else {
+		return (numberOfItems-restRows)/display.numberDisplayedItems+1;
+	}
+}
+
+function drawCluster(cluster) {
+	var draw = function() {
+		if (display.layout === "cluster") {
+			$("#resultsDiv #" + cluster.id).append(cluster.node);
+			cluster.display(display.numberDisplayedItems);
+			// clusters[index].display(display.numberDisplayedItems);
+		} else if (display.layout === "list") {
+			console.log("should be drawing lists");
+		}
+	}
+
+	if (cluster.enriched) {
+		draw();
+	} else {
+		cluster.enrich()
+		.then(function() {
+			draw();
+		});
+	}
+	// clusters[index].enrich()
+	// .then(function() {
+	// 	console.log(clusters[0]);
+	// 	// append cluster
+	// 	if (display.layout === "cluster") {
+	// 		displayClusterItems(clusterId);
+	// 	// add enriched clusters and rows
+	// 	} else if (display.layout === "list") {
+	// 		itemsAdded = displayList(clusterId, itemsAdded);
+	// 	}
+	// });
+}
+
 // Get results based on the expertise of the user and, afterwards, a number of
 // random items that have not yet been annotated
-function recommend(query, labels, target) {
+function recommend(query, target, labels) {
 	$.getJSON("recommendation", {strategy:query,
 								 target:target})
 	.then(function(data){
@@ -276,82 +362,76 @@ function random(query, labels, target, noResults) {
 Result population and enrichment
 *******************************************************************************/
 
-function enrichClusters(query, labels) {
-	// clear results div and reset rows
-	//$("#resultsDiv").children().remove();
+// function enrichClusters(query, labels) {
+	// set page title
+	// $(document).prop('title', labels.resultsHdrResults + query);
 
-	// enrich retrieved clusters if any
-	if(clusters.length != 0){ //double verification here (see previous function)
-		// set page title
-		$(document).prop('title', labels.resultsHdrResults + query);
+	// if the display is the list view, the rows that are needed can be first
+	// created and after the enrichment is done, these can be further populated
+	// if (display.layout === "list") {
+	// 	var totItems = totalItemsInClusters();
+	//
+	// 	// add rows for every cluster item
+	// 	addRows(totItems);
+	// }
+	// var itemsAdded = 0;
 
-		// if the display is the list view, the rows that are needed can be first
-		// created and after the enrichment is done, these can be further populated
-		if (display.layout === "list") {
-			var totItems = totalItemsInClusters();
-
-			// add rows for every cluster item
-			addRows(totItems);
-		}
-		var itemsAdded = 0;
-
-		//for every cluster item
-		for(var i = 0; i < clusters.length; i++) {
-			if(display.layout === "cluster") {
-				displayClusterHeader(i);
-			}
-			var uris = [];
-
-			// enrich every item in the cluster
-			for(var j = 0; j < clusters[i].items.length; j++) {
-				uris[j] = clusters[i].items[j].uri;
-			}
-
-			//when a cluster item finished being enriched, display it
-			enrichCluster(uris, i)
-			.then(function (clusterId){
-	  		  	// add enriched clusters and pagination
-				if (display.layout === "cluster"){
-					displayClusterItems(clusterId);
-				// add enriched clusters and rows
-				} else if (display.layout === "list"){
-					itemsAdded = displayList(clusterId, itemsAdded);
-				}
-			});
-		}
-	}
-}
+	//for every cluster item
+// 	for(var i = 0; i < clusters.length; i++) {
+// 		if(display.layout === "cluster") {
+// 			displayClusterHeader(i);
+// 		}
+// 		var uris = [];
+//
+// 		// enrich every item in the cluster
+// 		for(var j = 0; j < clusters[i].items.length; j++) {
+// 			uris[j] = clusters[i].items[j].uri;
+// 		}
+//
+// 		//when a cluster item finished being enriched, display it
+// 		enrichCluster(uris, i)
+// 		.then(function (clusterId){
+//   		  	// add enriched clusters and pagination
+// 			if (display.layout === "cluster"){
+// 				displayClusterItems(clusterId);
+// 			// add enriched clusters and rows
+// 			} else if (display.layout === "list"){
+// 				itemsAdded = displayList(clusterId, itemsAdded);
+// 			}
+// 		});
+// 	}
+// }
 
 // Enrichment of one cluster item
-function enrichCluster(uris, clusterId){
-	var json = {"uris":uris};
-
-	return $.ajax({type: "POST",
-			url: "metadata",
-			contentType: "application/json",
-			data: JSON.stringify(json)})
-	.then(function(data) {
-		   // replace cluster items array with enriched ones
-		   clusters[clusterId].items = processEnrichment(data);
-		   return clusterId;
-	 });
-}
+// function enrichCluster(uris, clusterId){
+// 	var json = {"uris":uris};
+//
+// 	return $.ajax({type: "POST",
+// 			url: "metadata",
+// 			contentType: "application/json",
+// 			data: JSON.stringify(json)})
+// 	.then(function(data) {
+// 		   // replace cluster items array with enriched ones
+// 		   clusters[clusterId].items = processEnrichment(data);
+// 		   return clusterId;
+// 	 });
+// }
 
 // Enrich one image element in the cluster adding an image, a link where it can
 // be (further) annotated and a title
-function processEnrichment(data) {
-	var enrichedItems = [];
-
-	for(var i=0; i<data.length; i++) {
-		enrichedItems[i] = {};
-		var uri = data[i].uri;
-		enrichedItems[i].uri = uri;
-		enrichedItems[i].thumb = data[i].thumb;
-		enrichedItems[i].link = "item.html?uri=" + uri;
-		enrichedItems[i].title = truncate(data[i].title, 60);
-	}
-	return enrichedItems;
-}
+// function processEnrichment(data) {
+// 	var enrichedItems = [];
+//
+// 	for(var i=0; i<data.length; i++) {
+// 		enrichedItems[i] = {};
+// 		var uri = data[i].uri;
+// 		enrichedItems[i].uri = uri;
+// 		enrichedItems[i].thumb = data[i].thumb;
+// 		enrichedItems[i].link = "item.html?uri=" + uri;
+// 		enrichedItems[i].title = truncate(data[i].title, 60);
+// 	}
+// 	return enrichedItems;
+// }
 
 // Enrichment of one random object
 function enrichRandoms(uris) {
@@ -374,38 +454,19 @@ function enrichRandoms(uris) {
 Display of results and helper functions for the display
 *******************************************************************************/
 
-// Determine number of pages or rows based on the items to be shown
-function getNoOfPagesOrRows(numberOfItems) {
-	var numberOfPages = 0;
-	var restPages = numberOfItems%display.numberDisplayedItems;
 
-	if(restPages == 0) {
-		numberOfPages = numberOfItems/display.numberDisplayedItems;
-	} else {
-		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
-	}
-	return numberOfPages;
-}
 
-// Determine the total number of items from clusters
-function totalItemsInClusters(){
-	var totItems = 0;
 
-	for (var clusterId = 0; clusterId < clusters.length; clusterId++){
-		totItems += clusters[clusterId].results;
-	}
-	return totItems;
-}
 
 // Display the cluster header: the html rows that contain one cluster and
 // the path of the cluster
-function displayClusterHeader(clusterId) {
-	$("#resultsDiv").append(
-		$.el.div({'class':'well well-sm',
-				  'id':'cluster' + clusterId})
-	);
-	addPath(clusterId, clusters[clusterId].path, localStorage.query);
-}
+// function displayClusterHeader(clusterId) {
+// 	$("#resultsDiv").append(
+// 		$.el.div({'class':'well well-sm',
+// 				  'id':'cluster' + clusterId})
+// 	);
+// 	addPath(clusterId, clusters[clusterId].path, localStorage.query);
+// }
 
 // Add the path elements for one cluster
 function addPath(clusterId, uris, query) {
@@ -432,24 +493,24 @@ function addPath(clusterId, uris, query) {
 }
 
 // Display the items in one cluster with pagination (if necessary)
-function displayClusterItems(clusterId){
-	var noPages = getNoOfPagesOrRows(clusters[clusterId].items.length);
-
-	$("#cluster" + clusterId).append(pagination(noPages, clusters[clusterId].items, "cluster", clusterId));
-	thumbnails(clusterId);
-}
+// function displayClusterItems(clusterId){
+// 	var noPages = getNoOfPagesOrRows(clusters[clusterId].items.length);
+//
+// 	$("#cluster" + clusterId).append(pagination(noPages, clusters[clusterId].items, "cluster", clusterId));
+// 	thumbnails(clusterId);
+// }
 
 // Add rows for cluster items for the list view
-function addRows(totItems){
-	var noRows = getNoOfPagesOrRows(totItems);
-
-	for (var i = 0; i < noRows; i++){
-		$("#resultsDiv").append(
-				$.el.div({'class':'row',
-						 'id':'thumbnailRow' + i})
-		);
-	}
-}
+// function addRows(totItems){
+// 	var noRows = getNoOfPagesOrRows(totItems);
+//
+// 	for (var i = 0; i < noRows; i++){
+// 		$("#resultsDiv").append(
+// 				$.el.div({'class':'row',
+// 						 'id':'thumbnailRow' + i})
+// 		);
+// 	}
+// }
 
 // Display the items from one cluster and add them as items in a list
 function displayList(clusterId, itemsAdded){
@@ -581,11 +642,9 @@ function addRandomClickEvent(id, link, rowId, index) {
 // Add a title for the page and print a status message within the page that
 // gives more information on the progress of the search
 function statusMessage(header, text){
-	//$("#resultsDiv").children().remove();
-	//$(".col-md-10").empty();
 	$(document).prop('title', header);
 
-	$("#resultsDiv").append(
+	$("#resultsDiv").html(
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-lg-10 col-md-offset-1'},
 				$.el.h3(header)),

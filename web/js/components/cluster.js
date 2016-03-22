@@ -8,6 +8,7 @@ function Cluster(uris, id) {
 	this.thumbnails = []; // thumbnails
 	this.pagination = null;
 	this.node = null;
+	this.enriched = false;
 
 	this.init();
 }
@@ -17,7 +18,7 @@ Cluster.prototype.init = function() {
 }
 
 Cluster.prototype.html = function() {
-	return $.el.div({'class':'col-md-12', 'id':this.id});
+	return $.el.div({'class':'col-md-12 well well-sm', 'id':this.id});
 }
 
 Cluster.prototype.enrich = function() {
@@ -42,6 +43,7 @@ Cluster.prototype.enrich = function() {
 			items[i].title = truncate(data[i].title, 60);
 		}
 		_cluster.items = items;
+		_cluster.enriched = true;
 	 });
 }
 

@@ -38,17 +38,15 @@ Pagination.prototype.html = function() {
 	var html =
 	$.el.ul({'class':'pagination pagination-sm'},
 		$.el.li({'class':'disabled left-arrow'},
-			$.el.a({'href':'#'},
-				'\u00ab')),
+			$.el.span('\u00ab')),
 		$.el.li({'class':'active'},
-			$.el.a({'href':'#'},
-				1))
+			$.el.span(1))
 	);
 
 	// add additional pages
 	for (var i=2; i<=this.numberOfPages; i++) {
 		// create html for page number
-		var pageNode = $.el.li($.el.a({'href':'#'}, i));
+		var pageNode = $.el.li($.el.span(i));
 		this.addClickEvent(pageNode, i);
 		html.appendChild(pageNode);
 	};
@@ -56,8 +54,7 @@ Pagination.prototype.html = function() {
 	// add right arrow to pagination
 	var rightArrow =
 	$.el.li({'class':'right-arrow'},
-		$.el.a({'href':'#'},
-		 	'\u00bb')
+		$.el.span('\u00bb')
 	);
 	this.addClickNext(rightArrow);
 	html.appendChild(rightArrow);
@@ -67,8 +64,9 @@ Pagination.prototype.html = function() {
 
 Pagination.prototype.addClickEvent = function(pageNode, i) {
 	var _page = this;
-
+	console.log("add event to cluster ", _page.parentId, " go to ", i);
 	$(pageNode).on("click pagination", function() {
+		console.log("cluster ", _page.parentId, " go to ", i);
 		_page.goToPage(i);
 	});
 }
