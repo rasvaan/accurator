@@ -20,7 +20,6 @@ Thumbnail.prototype.init = function() {
 	this.node = this.html(this.id, this.thumb, this.bootstrapWidth);
 }
 
-
 // Retrieves the item id from the uri string
 // Allow characters in the uri that won't trip up jQuery
 Thumbnail.prototype.getId = function(uri) {
@@ -41,22 +40,51 @@ Thumbnail.prototype.html = function(id, thumb, bootstrapWidth) {
 							 this.thumbnailTitle())));
 }
 
+Thumbnail.prototype.setImage = function(url) {
+	// replace image url
+	this.thumb = url;
+	$(this.node).find("img").attr("src", url);
+}
+
+Thumbnail.prototype.setTitle = function(title) {
+	this.title = title;
+	$(this.node).find(".thumbnailHdrTitle").html(title);
+}
+
+Thumbnail.prototype.setId = function(id) {
+	this.id = id;
+	$(this.node).find(".thumbnail").attr("id", id);
+}
+
+Thumbnail.prototype.show = function() {
+	console.log("show", this.node);
+	$(this.node).show();
+}
+
+Thumbnail.prototype.hide = function() {
+	console.log("hide", this.node);
+	$(this.node).hide();
+}
+
 // Retrieves the title of an item and sizes it accordingly
 Thumbnail.prototype.thumbnailTitle = function() {
 	//Make header depent on size thumbnail
 	if(this.bootstrapWidth < 4)
-		return $.el.h5(this.title);
+		return $.el.h5({'class':'thumbnailHdrTitle'}, this.title);
 	if(this.bootstrapWidth >= 4)
-		return $.el.h4(this.title);
+		return $.el.h4({'class':'thumbnailHdrTitle'}, this.title);
 }
 
 // Add thumbnail click event
-Thumbnail.prototype.addClickEvent = function(parentId) {
+Thumbnail.prototype.setClickEvent = function(link, parentId) {
 	var _thumbnail = this;
+	this.link = link; // update link
 
-	console.log("CHECK", this.link);
-	console.log("ID", "#" + parentId  + " #" + this.id);
-	$("#" + parentId  + " #" + this.id).click(function() {
+	// remove possible old event
+	$("#" + parentId + " #" + this.id).off("click thumbnail");
+
+	$("#" + parentId  + " #" + this.id).on("click thumbnail", function() {
+		console.log(parentId);
 		//TODO check what should be added to local storage
 		//Add info to local storage to be able to save context
 		// localStorage.setItem("itemIndex", index);

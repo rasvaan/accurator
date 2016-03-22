@@ -53,7 +53,7 @@ function populateRecentlyAnnotated(user) {
 			cluster.enrich()
 			.then(function() {
 				// display 6 elements in cluster
-				cluster.display(3);
+				cluster.display(6);
 			});
 		}
 	});

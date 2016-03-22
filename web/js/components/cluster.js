@@ -5,14 +5,8 @@ function Cluster(uris, id) {
 	this.id = id; // id of the cluster
 	this.uris = uris; // list of uris of the items
 	this.items = []; // enriched items
-
-	this.init();
-}
-
-Cluster.prototype.init = function() {
-	$("body").on("pagination", function(event) {
-		console.log("page:", event.page);
-	});
+	this.thumbnails = []; // thumbnails
+	this.pagination = null;
 }
 
 Cluster.prototype.enrich = function() {
@@ -41,13 +35,21 @@ Cluster.prototype.enrich = function() {
 }
 
 Cluster.prototype.display = function(numberDisplayedItems) {
+	var _cluster = this;
+
+	// draw the pagination and thumbnails
 	this.addPagination(numberDisplayedItems);
-	// this.addThumbnails(numberDisplayedItems);
+	this.addThumbnails(numberDisplayedItems);
+
+	// add event listener for change of page
+	$("#" + this.id).on("pagination", function(event) {
+		_cluster.changeThumbnails(event.currentPage, event.nextPage, numberDisplayedItems);
+	});
 }
 
 Cluster.prototype.addPagination = function(numberDisplayedItems) {
 	var paginationId = this.id + "Pagination"
-	var pagination = new Pagination(
+	this.pagination = new Pagination(
 		paginationId,
 		this.items,
 		numberDisplayedItems,
@@ -58,7 +60,7 @@ Cluster.prototype.addPagination = function(numberDisplayedItems) {
 		// add pagination row
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-12'},
-				pagination.node))
+				this.pagination.node))
 	);
 }
 
@@ -87,68 +89,50 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 		);
 
 		$("#thumbnailRow" + this.id).append(thumbnail.node);
-		thumbnail.addClickEvent(this.id);
+		thumbnail.setClickEvent(this.items[i].link, this.id);
+		this.thumbnails[i] = thumbnail;
 	}
 }
 
-Cluster.prototype.changeThumbnails = function(pageNumber, activePage, numberOfPages, items, labelItems, clusterId) {
-	var bootstrapWidth = parseInt(12/display.numberDisplayedItems, 10);
-	//var items = clusters[clusterId].items;
-	var start = (pageNumber - 1) * display.numberDisplayedItems;
-	var stop = start + display.numberDisplayedItems;
-	var remove = 0;
-	var headerType;
+Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDisplayedItems) {
+	var bootstrapWidth = parseInt(12/numberDisplayedItems, 10); // width of thumbnail
+	var numberOfPages = this.pagination.numberOfPages;
+	var start = (nextPage - 1) * numberDisplayedItems; // start index of items shown
+	var stop = start + numberDisplayedItems; // stop index of items shown
+	var remove = 0; // number of thumbnails spaces not shown
+	var headerType; // size of the header
 
 	// Check if there are more spaces then items, if so, make those spaces invisible
-	if(stop > items.length){
-		remove = stop - items.length;
-		stop = items.length;
-		// console.log("Should make " + remove + " invisible.");
+	if(stop > this.items.length) {
+		remove = stop - this.items.length;
+		stop = this.items.length;
 	}
 
-	// console.log("start: " + start + " stop: " + stop + " page number: " + pageNumber + " current page: " + activePage + " cluster id: " + clusterId + " displayed: " + display.numberDisplayedItems + " remove: " + remove);
-	var thumbIndex = 0;
+	// console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
+	var thumbIndex = 0; // index of the thumbnail spots
 	for (var i=start; i<stop; i++) {
-		// console.log("Replacing thumb", thumbIndex);
-		// Replace image
-		// $("#" + labelItems + clusterId + " img").eq(thumbIndex).replaceWith(
-		$("#" + labelItems + " img").eq(thumbIndex).replaceWith(
-			$.el.img({'src':items[i].thumb,
-					  'class':'img-responsive',
-					  'alt':''}));
-		// Replace title
-		if(bootstrapWidth < 4)
-			headerType = "h5";
-		if(bootstrapWidth >= 4)
-			headerType = "h4";
+		var thumbnail = this.thumbnails[thumbIndex];
 
-		// $("#" + labelItems + clusterId + " .caption " + headerType).eq(thumbIndex).replaceWith(
-		$("#" + labelItems + " .caption " + headerType).eq(thumbIndex).replaceWith(
-				thumbnailTitle(items[i], bootstrapWidth));
+		thumbnail.setImage(this.items[i].thumb);
+		thumbnail.setTitle(this.items[i].title);
+		thumbnail.setId(thumbnail.getId(this.items[i].uri));
+		thumbnail.setClickEvent(this.items[i].link, this.id);
 
-		// Replace id element and add new listener
-		id = getId(items[i].uri)
-		// $("#" + labelItems + clusterId + " .thumbnail").eq(thumbIndex).attr("id", id);
-		$("#" + labelItems + " .thumbnail").eq(thumbIndex).attr("id", id);
-		addClickEvent(id, items[i].link, clusterId, i);
 		thumbIndex++;
 	}
 
-	// If returning from a possible invisible situation, make everything visible again
-	if(activePage == numberOfPages) {
-		var removed = numberOfPages * display.numberDisplayedItems - items.length;
-		// console.log("Make " + removed + " thumbnail(s) visible again.");
-		var start = display.numberDisplayedItems - removed;
-		for(var i = start;i < display.numberDisplayedItems; i++) {
-			// $("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).show();
-			$("#" + labelItems + " .col-md-" + bootstrapWidth).eq(i).show();
+	// if returning from a possible invisible situation, make everything visible again
+	if(currentPage === numberOfPages) {
+		var removed = numberOfPages * numberDisplayedItems - this.items.length;
+		var start = numberDisplayedItems - removed;
+
+		for(var i = start; i < numberDisplayedItems; i++) {
+			this.thumbnails[i].show();
 		}
 	}
 
-	// Don't display unused thumbspace
+	// don't display unused thumbspace
 	for (var i = thumbIndex; i < thumbIndex+remove; i++) {
-		// Remove slow?
-		// $("#" + labelItems + clusterId + " .col-md-" + bootstrapWidth).eq(i).hide();
-		$("#" + labelItems + " .col-md-" + bootstrapWidth).eq(i).hide();
+		this.thumbnails[i].hide();
 	}
 }

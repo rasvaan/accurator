@@ -76,10 +76,7 @@ Pagination.prototype.addClickEvent = function(pageNode, i) {
 Pagination.prototype.addClickNext = function(pageNode) {
 	var _page = this;
 
-	$(pageNode).on("click pagination", function() {
-		_page.next();
-
-	});
+	$(pageNode).on("click pagination", function() {_page.next();});
 }
 
 Pagination.prototype.addClickPrevious = function(pageNode) {
@@ -97,17 +94,16 @@ Pagination.prototype.previous = function() {
 }
 
 Pagination.prototype.goToPage = function(page) {
-	console.log("Current page ", this.page, " and should be going to " + page + " page now...");
 	var currentNode = $("#" + this.parentId + " .pagination .active");
 	var newNode = $("#" + this.parentId + " .pagination li").eq(page);
 	var leftArrow = $("#" + this.parentId + " .pagination .left-arrow");
 	var rightArrow = $("#" + this.parentId + " .pagination .right-arrow");
 
-	// trigger page turning event
+	// trigger page turning event linked to this parent
 	var event = jQuery.Event("pagination");
-	event.page = page;
-	event.parentId = this.parentId;
-	$("body").trigger(event);
+	event.currentPage = this.page;
+	event.nextPage = page;
+	$("#" + this.parentId).trigger(event);
 
 	// set active class to inactive
 	currentNode.removeClass("active");
@@ -117,7 +113,7 @@ Pagination.prototype.goToPage = function(page) {
 	// set new node to active
 	newNode.addClass("active");
 	// remove events
-	newNode.off();
+	newNode.off("click pagination");
 	this.page = page;
 
 	// remove event to not add duplicates
