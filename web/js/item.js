@@ -1,5 +1,6 @@
 /*******************************************************************************
 Accurator Item
+
 This code allows the item page to be setup according to the locale, domain
 and user settings. The main functionallity regards annoting the item, for which
 it relies upon the following files:
@@ -42,7 +43,10 @@ function itemInit() {
 		drawPage(userData);
 	}, function() {
 		// user is not logged in, show modal
-		var onDismissal = function() {document.location.href="intro.html"};
+		var onDismissal = function() {
+			document.location.href = "intro.html"
+		};
+
 		login(drawPage, onDismissal);
 	});
 
@@ -74,8 +78,11 @@ function itemInit() {
 			var labelArray = initLabels(labels);
 
 			// Only show path when cluster is available TODO: remove ugly check for undefined
-			if((localStorage.getItem("currentCluster") !== null) && (localStorage.getItem("currentCluster") !== "undefined"))
+			if((localStorage.getItem("currentCluster") !== null) &&
+					(localStorage.getItem("currentCluster") !== "undefined")) {
 				addPath();
+			}
+
 			addButtonEvents();
 			return events(user, labelArray);
 		})
@@ -111,7 +118,7 @@ function initLabels(labels) {
 function events(user, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
-		if(annotations.length===0) {
+		if(annotations.length === 0) {
 			alertMessage(labels.vntFirstTitle, labels.vntFirstText, 'success');
 		}
 	});
@@ -129,18 +136,18 @@ function addPath() {
 
 function addButtonEvents() {
 	$("#navbarBtnRecommend").click(function() {
-		document.location.href="results.html" + "?user=" + user;
+		document.location.href = "results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
 	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
 			var query = encodeURIComponent($("#navbarInpSearch").val());
-			document.location.href="results.html?query=" + query;
+			document.location.href = "results.html?query=" + query;
 		}
 	});
 	$("#navbarBtnSearch").click(function() {
 		var query = encodeURIComponent($("#frmSearch").val());
-		document.location.href="results.html?query=" + query;
+		document.location.href = "results.html?query=" + query;
 	});
 }
 
@@ -154,7 +161,7 @@ function addNavigationButtonEvents() {
 	} else {
 		$("#itemBtnPrevious").click(function() {
 			localStorage.setItem("itemIndex", index - 1);
-			document.location.href= "annotate.html?uri=" + items[index -1].uri;
+			document.location.href = "annotate.html?uri=" + items[index -1].uri;
 		});
 	}
 
@@ -163,7 +170,7 @@ function addNavigationButtonEvents() {
 	} else {
 		$("#itemBtnNext").click(function() {
 			localStorage.setItem("itemIndex", index + 1);
-			document.location.href= "annotate.html?uri=" + items[index + 1].uri;
+			document.location.href = "annotate.html?uri=" + items[index + 1].uri;
 		});
 	}
 }
@@ -176,7 +183,7 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 		   	   annotation_ui:annotation_ui})
 	.then(function(fields) {
 		// Add fields whole image
-		for (var i=0; i<fields.whole_fields.length; i++) {
+		for (var i = 0; i < fields.whole_fields.length; i++) {
 			// Create new field object
 			var wholeField = new Field(
 				fields.whole_fields[i],
@@ -201,7 +208,7 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 		}
 
 		// Add fields to hidden dom elements for annotorious
-		for (var i=0; i<fields.fragment_fields.length; i++) {
+		for (var i = 0; i < fields.fragment_fields.length; i++) {
 			// Create new field object
 			var fragmentField = new Field(
 				fields.fragment_fields[i],
@@ -241,15 +248,16 @@ function appendMetadataWell(metadata) {
 					$.el.dl({'class':'dl-horizontal',
 							 'id':'itemLstMetadata'})))));
 
-	for(var i=0; i<metadata.properties.length; i++) {
+	for(var i = 0; i < metadata.properties.length; i++) {
 		var encodedQuery = encodeURIComponent(metadata.properties[i].object_label);
+
 		$("#itemLstMetadata").append(
 			$.el.dt(metadata.properties[i].predicate_label));
 		$("#itemLstMetadata").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
 					    'href':'results.html?query=' + encodedQuery},
-					metadata.properties[i].object_label)));
+						metadata.properties[i].object_label)));
 	}
 }
 
@@ -275,15 +283,16 @@ function annotationWell(annotations) {
 							 'id':'itemLstAnnotations'})))));
 
 
-	for(var i=0; i<annotations.annotations.length; i++) {
+	for(var i = 0; i < annotations.annotations.length; i++) {
 		var encodedQuery = encodeURIComponent(annotations.annotations[i].body);
+
 		$("#itemLstAnnotations").append(
 			$.el.dt(annotations.annotations[i].field));
 		$("#itemLstAnnotations").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
 					    'href':'results.html?query=' + encodedQuery},
-					annotations.annotations[i].body)));
+						annotations.annotations[i].body)));
 	}
 }
 
@@ -329,12 +338,13 @@ function addExperimentNavigation() {
 		$("#itemBtnExperimentNext").click(function() {
 			// Go to thank you page after 20 annotations else results
 			if(numberAnnotated == 500) {
-				document.location.href="end.html";
+				document.location.href = "end.html";
 			} else {
 				var items = JSON.parse(localStorage.getItem("currentCluster"));
 				var index = items.indexOf(uri);
 				var next = index + 1;
-				document.location.href="annotate.html" + "?uri=" + items[next];
+
+				document.location.href = "annotate.html" + "?uri=" + items[next];
 			}
 		});
 	});

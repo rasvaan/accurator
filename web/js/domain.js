@@ -1,5 +1,6 @@
 /*******************************************************************************
 Accurator Domain
+
 This code loads domain options into the page, where the options depend on the
 domains loaded in the triple store.
 *******************************************************************************/
@@ -16,7 +17,10 @@ function domainInit() {
 		drawPage(userData);
 	}, function() {
 		// user is not logged in, show modal
-		var onDismissal = function() {document.location.href="intro.html"};
+		var onDismissal = function() {
+			document.location.href = "intro.html";
+		};
+
 		login(drawPage, onDismissal);
 	});
 
@@ -46,8 +50,8 @@ function populateDomains(locale, domainLabels) {
 	var row;
 
 	// get domain settings for all the domains
-	for(var i=0; i<domainLabels.length; i++) {
-		if(!(i%2===0)) {
+	for(var i = 0; i < domainLabels.length; i++) {
+		if(!(i%2 === 0)) {
 			row = parseInt((i/2) + 0.5);
 			// Add a new row for every two domains
 			$(".domainDiv").append(
@@ -67,6 +71,7 @@ function populateDomains(locale, domainLabels) {
 
 function domainHtml(domainData, row, locale) {
 	var domain = domainData.domain;
+
 	getLabels(locale, domainData.ui + "domain")
 	.then(function(labels) {
 		$("#domain" + row).append(
@@ -77,8 +82,10 @@ function domainHtml(domainData, row, locale) {
 				$.el.img({'class':'domainImg',
 						  'id':'domainImg' + domain,
 						  'src':domainData.image})));
+
 		if(domainData.image_brightness === "dark")
 			$("#domainTxt" + domainData.domain).css('color', '#fff');
+
 		addDomainEvent(domain);
 	});
 }
@@ -87,13 +94,13 @@ function addDomainEvent(domain) {
 	$("#domainImg" + domain).click(function() {
 		setDomain(domain)
 		.then(function() {
-			document.location.href="expertise.html"
+			document.location.href = "expertise.html";
 		});
 	});
 	$("#domainTxt" + domain).click(function() {
 		setDomain(domain)
 		.then(function() {
-			document.location.href="expertise.html"
+			document.location.href = "expertise.html";
 		});
 	});
 }

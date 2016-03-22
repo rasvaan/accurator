@@ -1,253 +1,220 @@
 /*******************************************************************************
 Accurator Form
+
 Code for rendering fields used for elliciting information about user.
 *******************************************************************************/
-var locale, domain, experiment, ui;
-var countries = [];
-var languages = [];
-var formOptsEducation,  formOptsInternet;
-var info = {};
-var twitterFieldAdded = false;
-var tagsiteFieldAdded = false;
-var socialFieldAdded = false;
-var formLblTwitterId, formLblTagSiteOpen, formLblSocialSiteOpen;
-var formTxtDisclaimer, formHdrDisclaimer;
+"use strict";
 
+// Initialize page
 function formInit() {
-	locale = getLocale();
-	domain = getDomain();
-	experiment = getExperiment();
+	var locale = getLocale();
+	var domain = getDomain();
+
 	populateFlags(locale);
 
-	// Make sure user is logged in
-	onLoggedIn = function(loginData){
-		setLinkLogo("profile");
-
-		//Get domain settings before populating ui
-		onDomain = function(domainData) {
-			ui = domainData.ui + "form";
-			populateUI();
-			var userName = getUserName(loginData.user);
-			populateNavbar(userName, [{link:"profile.html", name:"Profile"}]);
+	userLoggedIn()
+	.then(function(userData){
+		//user is logged in, draw page
+		drawPage(userData);
+	}, function() {
+		// user is not logged in, show modal
+		var onDismissal = function() {
+			document.location.href = "intro.html";
 		};
-		domainSettings = domainSettings(domain, onDomain);
-	};
-	onDismissal = function(){document.location.href="intro.html"};
-	logUserIn(onLoggedIn, onDismissal);
-}
 
-function nextPage() {
-	// Determine which page will be shown next
-	if(experiment === "true") {
-		return function(){document.location.href="expertise.html"};
-	} else {
-		return function(){document.location.href="domain.html"};
+		login(drawPage, onDismissal);
+	});
+
+	function drawPage(userData){
+		var user = userData.user;
+		var userName = getUserName(user);
+
+		var ui, labels;
+		var countries = [];
+		var languages = [];
+		var info = {};
+
+		setLinkLogo("profile");
+		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}], locale);
+
+		domainSettings(domain)
+		.then(function (domainData) {
+			ui = domainData.ui + "form";
+
+			return getLabels(locale, ui);
+		})
+		.then(function(labelData) {
+			labels = initLabels(locale, ui, countries, languages, labelData);
+			addButtonEvents(info, labels, countries, languages);
+			addFormEvents(labels);
+			alertMessage(labels.formHdrDisclaimer, labels.formTxtDisclaimer, 'info');
+		});
 	}
 }
 
-function populateUI() {
-	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-	.done(function(data){
-		addButtonEvents();
-		initLabels(data);
-		addFormEvents();
-		alertMessage(formHdrDisclaimer, formTxtDisclaimer, 'info');
-	});
+function initLabels(locale, ui, countries, languages, labelData) {
+	document.title = labelData.formPageTitle;
+
+	var labels = {
+		twitterFieldAdded: false,
+		tagsiteFieldAdded: false,
+		socialFieldAdded: false,
+		formLblTwitterId: labelData.formLblTwitterId,
+		formLblTagSiteOpen: labelData.formLblTagSiteOpen,
+		formLblSocialSiteOpen: labelData.formLblSocialSiteOpen,
+		formOptsEducation: labelData.formOptsEducation,
+		formOptsInternet: labelData.formOptsInternet,
+		formTxtDisclaimer: labelData.formTxtDisclaimer,
+		formHdrDisclaimer: labelData.formHdrDisclaimer
+	};
+
+	$("#formHdrInternetUsage").append(labelData.formHdrInternetUsage);
+	$("#formHdrPersonalInfo").append(labelData.formHdrPersonalInfo);
+	$("#formHdrSlogan").prepend(labelData.formHdrSlogan);
+	$("#formHdrSubSlogan").append(labelData.formHdrSubSlogan);
+	initFormQuestions(labelData);
+	$("#formBtnAdd").append(labelData.formBtnAdd);
+	$("#formBtnSkip").append(labelData.formBtnSkip);
+	initRadioButtons(labelData);
+	initCheckboxes(labelData);
+	initCountriesSelector(locale, ui, countries);
+	initLanguagesSelector(locale, ui, languages);
+	initEducationSelector(labelData);
+	initInternetSelector(labelData);
+
+	return labels;
 }
 
-function addButtonEvents() {
-	$("#formBtnAdd").click(function() {
-		processFormFields();
-	});
-	$("#formBtnSkip").click(function() {
-		// Get function for next page and execute
-		nextPage()();
-	});
+function initFormQuestions(labelData) {
+	$("#formLblBirthDate").append(labelData.formLblBirthDate);
+	$("#formLblGender").append(labelData.formLblGender);
+	$("#formLblCountry").append(labelData.formLblCountry);
+	$("#formLblCommunity").append(labelData.formLblCommunity);
+	$("#formLblLanguage").append(labelData.formLblLanguage);
+	$("#formLblEducation").append(labelData.formLblEducation);
+	$("#formLblMail").append(labelData.formLblMail);
+	$("#formLblEmailCheck").append(labelData.formLblEmailCheck);
+	$("#formLblSocialNetwork").append(labelData.formLblSocialNetwork);
+	$("#formLblInternetUsage").append(labelData.formLblInternetUsage);
+	$("#formLblMuseumVisits").append(labelData.formLblMuseumVisits);
+	$("#formLblTaggingExperience").append(labelData.formLblTaggingExperience);
+	$("#formLblTagSite").append(labelData.formLblTagSite);
 }
 
-function initLabels(labels) {
-	document.title = labels.formPageTitle;
-	$("#formHdrInternetUsage").append(labels.formHdrInternetUsage);
-	$("#formHdrPersonalInfo").append(labels.formHdrPersonalInfo);
-	formLblTwitterId = labels.formLblTwitterId;
-	formLblTagSiteOpen = labels.formLblTagSiteOpen;
-	formLblSocialSiteOpen = labels.formLblSocialSiteOpen;
-	$("#formHdrSlogan").prepend(labels.formHdrSlogan);
-	$("#formHdrSubSlogan").append(labels.formHdrSubSlogan);
-	initFormQuestions(labels);
-	$("#formBtnAdd").append(labels.formBtnAdd);
-	$("#formBtnSkip").append(labels.formBtnSkip);
-	initRadioButtons(labels);
-	initCheckboxes(labels);
-	initCountriesSelector();
-	initLanguagesSelector();
-	formOptsEducation = labels.formOptsEducation;
-	initEducationSelector();
-	formOptsInternet = labels.formOptsInternet;
-	initInternetSelector(labels.formOptsInternet);
-	formTxtDisclaimer = labels.formTxtDisclaimer;
-	formHdrDisclaimer = labels.formHdrDisclaimer;
+function initRadioButtons(labelData) {
+	$("#formRbtnMale").after(labelData.formRbtnMale);
+	$("#formRbtnFemale").after(labelData.formRbtnFemale);
+	$("#formRbtnUrban").after(labelData.formRbtnUrban);
+	$("#formRbtnSubUrban").after(labelData.formRbtnSubUrban);
+	$("#formRbtnRural").after(labelData.formRbtnRural);
+	$("#formRbtnNone").after(labelData.formRbtnNone);
+	$("#formRbtnNovice").after(labelData.formRbtnNovice);
+	$("#formRbtnIntermediate").after(labelData.formRbtnIntermediate);
+	$("#formRbtnExpert").after(labelData.formRbtnExpert);
 }
 
-function initFormQuestions(data) {
-	$("#formLblBirthDate").append(data.formLblBirthDate);
-	$("#formLblGender").append(data.formLblGender);
-	$("#formLblCountry").append(data.formLblCountry);
-	$("#formLblCommunity").append(data.formLblCommunity);
-	$("#formLblLanguage").append(data.formLblLanguage);
-	$("#formLblEducation").append(data.formLblEducation);
-	$("#formLblMail").append(data.formLblMail);
-	$("#formLblEmailCheck").append(data.formLblEmailCheck);
-	$("#formLblSocialNetwork").append(data.formLblSocialNetwork);
-	$("#formLblInternetUsage").append(data.formLblInternetUsage);
-	$("#formLblMuseumVisits").append(data.formLblMuseumVisits);
-	$("#formLblTaggingExperience").append(data.formLblTaggingExperience);
-	$("#formLblTagSite").append(data.formLblTagSite);
+function initCheckboxes(labelData) {
+	$("#formChkFacebook").after(labelData.formChkFacebook);
+	$("#formChkLinkedIn").after(labelData.formChkLinkedIn);
+	$("#formChkTwitter").after(labelData.formChkTwitter);
+	$("#formChkOther").after(labelData.formChkOther);
+	$("#formChkNone").after(labelData.formChkNone);
+	$("#formChkTagFlickr").after(labelData.formChkTagFlickr);
+	$("#formChkTagDelicious").after(labelData.formChkTagDelicious);
+	$("#formChkTagFacebook").after(labelData.formChkTagFacebook);
+	$("#formChkTagOther").after(labelData.formChkTagOther);
+	$("#formChkTagNone").after(labelData.formChkTagNone);
 }
 
-function initRadioButtons(data) {
-	$("#formRbtnMale").after(data.formRbtnMale);
-	$("#formRbtnFemale").after(data.formRbtnFemale);
-	$("#formRbtnUrban").after(data.formRbtnUrban);
-	$("#formRbtnSubUrban").after(data.formRbtnSubUrban);
-	$("#formRbtnRural").after(data.formRbtnRural);
-	$("#formRbtnNone").after(data.formRbtnNone);
-	$("#formRbtnNovice").after(data.formRbtnNovice);
-	$("#formRbtnIntermediate").after(data.formRbtnIntermediate);
-	$("#formRbtnExpert").after(data.formRbtnExpert);
-}
-
-function initCheckboxes(data) {
-	$("#formChkFacebook").after(data.formChkFacebook);
-	$("#formChkLinkedIn").after(data.formChkLinkedIn);
-	$("#formChkTwitter").after(data.formChkTwitter);
-	$("#formChkOther").after(data.formChkOther);
-	$("#formChkNone").after(data.formChkNone);
-	$("#formChkTagFlickr").after(data.formChkTagFlickr);
-	$("#formChkTagDelicious").after(data.formChkTagDelicious);
-	$("#formChkTagFacebook").after(data.formChkTagFacebook);
-	$("#formChkTagOther").after(data.formChkTagOther);
-	$("#formChkTagNone").after(data.formChkTagNone);
-}
-
-function addFormEvents() {
-	$("#formChkOther").click(function() {
-		if(!socialFieldAdded) {
-			$("#formDivSocialNetwork").after(
-				$.el.div({'class':'form-group'},
-						$.el.label({'for':'addSocialSite',
-									'id':'frmSocialOpen',
-									'class':'col-sm-5 control-label'},
-									formLblSocialSiteOpen),
-						$.el.div({'class':'col-sm-5'},
-								 $.el.input({'type':'text',
-									 		 'id':'addSocialSite',
-									 		 'class':'form-control'}))));
-			socialFieldAdded = true;
-		}
-	});
-	$("#formChkTwitter").click(function() {
-		if(!twitterFieldAdded) {
-			$("#formDivSocialNetwork").after(
-				$.el.div({'class':'form-group'},
-						$.el.label({'for':'addTwitterId',
-									'id':'formLblTwitterId',
-									'class':'col-sm-5 control-label'},
-									formLblTwitterId),
-						$.el.div({'class':'col-sm-5'},
-								 $.el.input({'type':'text',
-									 		 'id':'addTwitterId',
-									 		 'class':'form-control'}))));
-			twitterFieldAdded = true;
-		}
-	});
-	$("#formChkTagOther").click(function() {
-		if(!tagsiteFieldAdded) {
-			$("#formDivTaggingSite").after(
-				$.el.div({'class':'form-group'},
-					$.el.label({'for':'addTagSite',
-							    'id':'formLblTagSite',
-								'class':'col-sm-5 control-label'},
-								formLblTagSiteOpen),
-					$.el.div({'class':'col-sm-5'},
-							 $.el.input({'type':'text',
-										 'id':'addTagSite',
-										 'class':'form-control'}))));
-			tagsiteFieldAdded = true;
-		}
-	});
-}
-
-function initCountriesSelector() {
+function initCountriesSelector(locale, ui, countries) {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"countries"})
-	.done(function(data){
+	.then(function(data) {
 		for (var key in data) {
-			countries[key] = {"name":data[key].name, "country_code":data[key].country_code};
+			countries[key] = {"name": data[key].name, "country_code": data[key].country_code};
 		}
-		countries.sort(function(a,b) { return a.name.localeCompare(b.name) });
+
+		countries.sort(function(a, b) {
+			return a.name.localeCompare(b.name)
+		});
 
 		$("#formSltCountry").append($.el.option(""));
-		for (var i=0; i<countries.length; i++) {
+
+		for (var i = 0; i < countries.length; i++) {
 			$("#formSltCountry").append($.el.option(countries[i].name));
 		}
-	})
-	.fail(function(data, textStatus){
-		$("#formSltLanguage").append($.el.option("No countries found on server"));
+	}, function(){
+		$("#formSltCountry").append($.el.option("No countries found on server"));
 	});
 }
 
-function initLanguagesSelector() {
+function initLanguagesSelector(locale, ui, languages) {
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"languages"})
-	.done(function(data){
+	.then(function(data) {
 		for (var key in data) {
 			languages[key] = {"iso_code":data[key].iso_code, "name":data[key].name};
 		}
-		languages.sort(function(a,b) { return a.name.localeCompare(b.name) });
+
+		languages.sort(function(a,b) {
+			return a.name.localeCompare(b.name)
+		});
 
 		$("#formSltLanguage").append($.el.option(""));
-		for (var i=0; i<languages.length; i++) {
+
+		for (var i = 0; i < languages.length; i++) {
 			$("#formSltLanguage").append($.el.option(languages[i].name));
 		}
-	})
-	.fail(function(data, textStatus){
+	}, function(){
 		$("#formSltLanguage").append($.el.option("No languages found on server"));
 	});
 }
 
-function initEducationSelector() {
+function initEducationSelector(labels) {
 	$("#formSltEducation").append($.el.option(""));
-	$("#formSltEducation").append($.el.option(formOptsEducation.formOptPrimarySchool.label));
-	$("#formSltEducation").append($.el.option(formOptsEducation.formOptHighSchool.label));
-	$("#formSltEducation").append($.el.option(formOptsEducation.formOptCollege.label));
-	$("#formSltEducation").append($.el.option(formOptsEducation.formOptBachelor.label));
-	$("#formSltEducation").append($.el.option(formOptsEducation.formOptMaster.label));
-	$("#formSltEducation").append($.el.option(formOptsEducation.formOptDoctorate.label));
-	$("#formSltEducation").append($.el.option(formOptsEducation.formOptUnkown.label));
+	$("#formSltEducation").append($.el.option(labels.formOptsEducation.formOptPrimarySchool.label));
+	$("#formSltEducation").append($.el.option(labels.formOptsEducation.formOptHighSchool.label));
+	$("#formSltEducation").append($.el.option(labels.formOptsEducation.formOptCollege.label));
+	$("#formSltEducation").append($.el.option(labels.formOptsEducation.formOptBachelor.label));
+	$("#formSltEducation").append($.el.option(labels.formOptsEducation.formOptMaster.label));
+	$("#formSltEducation").append($.el.option(labels.formOptsEducation.formOptDoctorate.label));
+	$("#formSltEducation").append($.el.option(labels.formOptsEducation.formOptUnkown.label));
 }
 
-function initInternetSelector(optionList) {
+function initInternetSelector(labels) {
 	$("#formSltInternet").append($.el.option(""));
-	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternetAlways.label));
-	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternetOnceADay.label));
-	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternet3to5.label));
-	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternet1to2.label));
-	$("#formSltInternet").append($.el.option(formOptsInternet.formOptInternetLessThan1.label));
+	$("#formSltInternet").append($.el.option(labels.formOptsInternet.formOptInternetAlways.label));
+	$("#formSltInternet").append($.el.option(labels.formOptsInternet.formOptInternetOnceADay.label));
+	$("#formSltInternet").append($.el.option(labels.formOptsInternet.formOptInternet3to5.label));
+	$("#formSltInternet").append($.el.option(labels.formOptsInternet.formOptInternet1to2.label));
+	$("#formSltInternet").append($.el.option(labels.formOptsInternet.formOptInternetLessThan1.label));
 }
 
-function processFormFields() {
-	getInput();
-	var onSuccess = nextPage();
+function addButtonEvents(info, labels, countries, languages) {
+	$("#formBtnAdd").click(function() {
+		processFormFields(info, labels, countries, languages);
+	});
+	$("#formBtnSkip").click(function() {
+		document.location.href = "domain.html";
+	});
+}
+
+function processFormFields(info, labels, countries, languages) {
+	getInput(info, labels, countries, languages);
+
+	var onSuccess = function () {
+		document.location.href = "domain.html";
+	};
+
 	save_user_info(info, onSuccess);
 }
 
-function getInput() {
-	getInputTextFields();
-	getInputRadioButtons();
-	getInputCheckboxes();
-	getInputDropdownMenus();
+function getInput(info, labels, countries, languages) {
+	getInputTextFields(info);
+	getInputRadioButtons(info);
+	getInputCheckboxes(info);
+	getInputDropdownMenus(info, labels, countries, languages);
 }
 
-function getInputTextFields() {
+function getInputTextFields(info) {
 	if (!($("#formInpAddAge").val() === ""))
 		info.age = $("#formInpAddAge").val();
 	if (!($("#formInpAddMail").val() === ""))
@@ -256,7 +223,7 @@ function getInputTextFields() {
 		info.museum_visits = $("#formInpAddMuseumVisits").val();
 }
 
-function getInputRadioButtons() {
+function getInputRadioButtons(info) {
 	if(!($("input[name='formRbtnsGender']:checked").val() === undefined))
 		info.gender = $("input[name='formRbtnsGender']:checked").val();
 	if(!($("input[name='communityRadio']:checked").val() === undefined))
@@ -265,13 +232,13 @@ function getInputRadioButtons() {
 		info.tagging_experience_level = $("input[name='formRbtnsTaggingExperience']:checked").val();
 }
 
-function getInputCheckboxes() {
-	getInputSocialNetwork();
-	getInputTaggingSite();
-	getInputEmailCheck();
+function getInputCheckboxes(info) {
+	getInputSocialNetwork(info);
+	getInputTaggingSite(info);
+	getInputEmailCheck(info);
 }
 
-function getInputSocialNetwork() {
+function getInputSocialNetwork(info) {
 	if($("#formChkNone").is(":checked")) {
 		info.facebook = false;
 		info.linked_in = false;
@@ -300,7 +267,7 @@ function getInputSocialNetwork() {
 	}
 }
 
-function getInputTaggingSite() {
+function getInputTaggingSite(info) {
 	if($("#formChkTagNone").is(":checked")) {
 		info.flickr = false;
 		info.delicious = false;
@@ -325,7 +292,7 @@ function getInputTaggingSite() {
 	}
 }
 
-function getInputEmailCheck() {
+function getInputEmailCheck(info) {
 	if($("#formChkEmail").is(":checked")) {
 		info.accurator_email = true;
 	} else {
@@ -333,28 +300,28 @@ function getInputEmailCheck() {
 	}
 }
 
-function getInputDropdownMenus() {
+function getInputDropdownMenus(info, labels, countries, languages) {
 	if (!($("#formSltCountry").val() === ""))
-		info.country = getCountryId($("#formSltCountry").val());
+		info.country = getCountryId(countries, $("#formSltCountry").val());
 	if (!($("#formSltLanguage").val() === ""))
-		info.language = getLanguageCode($("#formSltLanguage").val());
+		info.language = getLanguageCode(languages, $("#formSltLanguage").val());
 	if (!($("#formSltEducation").val() === ""))
-		info.education = getOptionId(formOptsEducation, $("#formSltEducation").val());
+		info.education = getOptionId(labels.formOptsEducation, $("#formSltEducation").val());
 	if (!($("#formSltInternet").val() === ""))
-		info.internet_use = getOptionId(formOptsInternet, $("#formSltInternet").val());
+		info.internet_use = getOptionId(labels.formOptsInternet, $("#formSltInternet").val());
 }
 
-function getCountryId(name) {
+function getCountryId(countries, name) {
 	// Find the geonames id corresponding to the selected name
-	for(var i=0; i<countries.length; i++) {
+	for(var i = 0; i < countries.length; i++) {
 		if (countries[i].name === name)
 			return countries[i].country_code;
 	}
 }
 
-function getLanguageCode(name) {
+function getLanguageCode(languages, name) {
 	// Find the iso code corresponding to the selected name
-	for(var i=0; i<languages.length; i++) {
+	for(var i = 0; i < languages.length; i++) {
 		if (languages[i].name === name)
 			return languages[i].iso_code;
 	}
@@ -366,4 +333,54 @@ function getOptionId(optionList, name) {
 		if(optionList[key].label === name)
 			return optionList[key].id;
 	}
+}
+
+function addFormEvents(labels) {
+	$("#formChkOther").click(function() {
+		if(!labels.socialFieldAdded) {
+			$("#formDivSocialNetwork").after(
+				$.el.div({'class':'form-group'},
+						$.el.label({'for':'addSocialSite',
+									'id':'frmSocialOpen',
+									'class':'col-sm-5 control-label'},
+									labels.formLblSocialSiteOpen),
+						$.el.div({'class':'col-sm-5'},
+								 $.el.input({'type':'text',
+									 		 'id':'addSocialSite',
+									 		 'class':'form-control'}))));
+			labels.socialFieldAdded = true;
+		}
+	});
+
+	$("#formChkTwitter").click(function() {
+		if(!labels.twitterFieldAdded) {
+			$("#formDivSocialNetwork").after(
+				$.el.div({'class':'form-group'},
+						$.el.label({'for':'addTwitterId',
+									'id':'formLblTwitterId',
+									'class':'col-sm-5 control-label'},
+									labels.formLblTwitterId),
+						$.el.div({'class':'col-sm-5'},
+								 $.el.input({'type':'text',
+									 		 'id':'addTwitterId',
+									 		 'class':'form-control'}))));
+			labels.twitterFieldAdded = true;
+		}
+	});
+
+	$("#formChkTagOther").click(function() {
+		if(!labels.tagsiteFieldAdded) {
+			$("#formDivTaggingSite").after(
+				$.el.div({'class':'form-group'},
+					$.el.label({'for':'addTagSite',
+							    'id':'formLblTagSite',
+								'class':'col-sm-5 control-label'},
+								labels.formLblTagSiteOpen),
+					$.el.div({'class':'col-sm-5'},
+							 $.el.input({'type':'text',
+										 'id':'addTagSite',
+										 'class':'form-control'}))));
+			labels.tagsiteFieldAdded = true;
+		}
+	});
 }

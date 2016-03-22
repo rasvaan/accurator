@@ -1,5 +1,6 @@
 /*******************************************************************************
 Accurator Intro
+
 Code for showing the welcome page, adapts to the domain and locale setting.
 *******************************************************************************/
 "use strict";
@@ -14,7 +15,7 @@ function introInit() {
 	userLoggedIn()
 	.then(function() {
 		// go to profile page if logged in
-		document.location.href="profile.html";
+		document.location.href = "profile.html";
 	}, function() {
 		// get domain settings
 		return domainSettings(domain);
@@ -45,16 +46,18 @@ function addButtonEvents(settings) {
 		var onDismissal = function() {
 			$("#registerDivRegister").modal('hide');
 		};
+		
 		registerModal(onDismissal, settings);
 	});
 	$("#introBtnLogin").click(function() {
 		// show login modal and on success go to profile
 		var onSuccess = function() {
-			document.location.href="profile.html";
+			document.location.href = "profile.html";
 		};
 		var onDismissal = function() {
 			$("#loginDivLogin").modal('hide');
 		};
+
 		login(onSuccess, onDismissal);
 	});
 }

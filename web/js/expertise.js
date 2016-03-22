@@ -53,14 +53,18 @@ function initLabels(data) {
 		sldALot: data.expertiseSldALot,
 		sldNothing: data.expertiseSldNothing,
 		txtChangeAll: data.expertiseTxtChangeAll
-	}
+	};
 
 	return labels;
 }
 
 function registerEvents(topics) {
-	$("#expertiseBtnSubmit").click(function() {processExpertiseValues(topics);});
-	$("#expertiseBtnSkip").click(function() {document.location.href="results.html"});
+	$("#expertiseBtnSubmit").click(function() {
+		processExpertiseValues(topics);
+	});
+	$("#expertiseBtnSkip").click(function() {
+		document.location.href = "results.html";
+	});
 }
 
 function initExpertiseTopics(domainData, locale, labels) {
@@ -78,7 +82,7 @@ function initExpertiseTopics(domainData, locale, labels) {
 
 		addMasterSlider(sliderIds, labels);
 
-		for(var i=0; i<halfTheTopics; i++) {
+		for(var i = 0; i < halfTheTopics; i++) {
 			$("#expertiseDivExpertiseLeft").append(
 				$.el.div({'class':'row'},
 					$.el.div({'class':'col-md-10 col-md-offset-1'},
@@ -94,7 +98,7 @@ function initExpertiseTopics(domainData, locale, labels) {
 			initSlider(topics[i].id);
 			sliderIds[i] = topics[i].id;
 		}
-		for(var i=halfTheTopics; i<topics.length; i++) {
+		for(var i = halfTheTopics; i < topics.length; i++) {
 			$("#expertiseDivExpertiseRight").append(
 				$.el.div({'class':'row'},
 					$.el.div({'class':'col-md-10 col-md-offset-1'},
@@ -117,15 +121,16 @@ function initExpertiseTopics(domainData, locale, labels) {
 }
 
 function generateIds(topics) {
-	for(var i=0; i<topics.length; i++) {
+	for(var i = 0; i < topics.length; i++) {
 		topics[i].id = generateIdFromUri(topics[i].uri);
 	}
+
 	return topics;
 }
 
 function expertiseSlider(id) {
 	return $.el.input({'id':id,
-						'data-slider-id':'sld'+id,
+						'data-slider-id':'sld' + id,
 						'type':'text',
 						'data-slider-min':'1',
 						'data-slider-max':'5',
@@ -134,7 +139,7 @@ function expertiseSlider(id) {
 }
 
 function initSlider(id) {
-	$("#"+id).slider();
+	$("#" + id).slider();
 }
 
 function processExpertiseValues(topics) {
@@ -142,8 +147,8 @@ function processExpertiseValues(topics) {
 	userExpertise.user = user;
 	userExpertise.expertise = {};
 
-	for (var i=0; i<topics.length; i++) {
-		var value = $("#"+topics[i].id).val();
+	for (var i = 0; i < topics.length; i++) {
+		var value = $("#" + topics[i].id).val();
 		var scaledValue = (value - 1) / 4;
 		var roundedValue = scaledValue.toFixed(2);
 		userExpertise.expertise[topics[i].uri] = roundedValue;
@@ -155,15 +160,17 @@ function processExpertiseValues(topics) {
 			data: JSON.stringify(userExpertise),
 	})
 	.then(function() {
-		document.location.href="results.html";
+		document.location.href = "results.html";
 	});
 }
 
 function printArray(labelArray) {
 	var arrayString = "";
-	for(var i=0; i<labelArray.length; i++) {
+
+	for(var i = 0; i < labelArray.length; i++) {
 		arrayString += " " + labelArray[i];
 	}
+
 	return arrayString;
 }
 
@@ -171,7 +178,8 @@ function setSliderValues() {
 	$.getJSON("expertise_values")
 	.then(function(expertValues){
 		var uris = Object.keys(expertValues);
-		for(var i=0; i<uris.length; i++){
+
+		for(var i = 0; i < uris.length; i++){
 			// Generate id based on uri
 			var uri = uris[i];
 			var id = generateIdFromUri(uri);
@@ -204,7 +212,7 @@ function addMasterSlider(sliderIds, labels) {
 
 	//Change all values on using master slider
 	$("#master").on("slide", function(slideEvt) {
-		for(var i=0; i<sliderIds.length; i++) {
+		for(var i = 0; i < sliderIds.length; i++) {
 			$("#" + sliderIds[i]).slider('setValue', slideEvt.value);
 		}
 	});

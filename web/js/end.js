@@ -1,5 +1,6 @@
 /*******************************************************************************
 Accurator End
+
 Code for showing the last page, adapts to the domain and locale setting.
 *******************************************************************************/
 var locale, domain, experiment, ui, domainSettings;
@@ -42,14 +43,15 @@ function setBackground(backgroundUrl, imageBrightness) {
 function populateUI() {
 	// Retrieve labels from server according to locale and ui
 	$.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"})
-		.done(function(labels){
-			  addButtonEvents();
-			  initLabels(labels);});
+	.done(function(labels){
+		addButtonEvents();
+		initLabels(labels);
+	});
 }
 
 function addButtonEvents() {
 	$("#endBtnContinue").click(function() {
-		window.location.href="http://annotate.accurator.nl";
+		window.location.href = "http://annotate.accurator.nl";
 	});
 }
 

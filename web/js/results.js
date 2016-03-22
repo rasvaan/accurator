@@ -28,7 +28,7 @@ Layout of the results:
 var clusters = [];
 var randoms = [];
 
-// Display options deciding how to results get displayed
+// Display options deciding how the results get displayed
 var display = {
 	layout: "cluster",
 	imageFilter: "onlyImages",
@@ -49,7 +49,10 @@ function resultsInit() {
 		drawPage(userData);
 	}, function() {
 		// user is not logged in, show modal
-		var onDismissal = function() {document.location.href="intro.html"};
+		var onDismissal = function() {
+			document.location.href = "intro.html";
+		};
+
 		login(drawPage, onDismissal);
 	});
 
@@ -68,12 +71,14 @@ function resultsInit() {
 		.then(function(domainData) {
 			ui = domainData.ui + "results";
 			target = domainData.target;
+
 			return getLabels(locale, ui);
 		})
 		.then(function(labelData) {
 			labels = initLabels(labelData);
 			labels.realName = realName; // Add realname to labels for rendering
 			addButtonEvents(user);
+
 			return events(user, labels);
 		})
 		.then(function() {
@@ -110,18 +115,20 @@ function initLabels(labelData) {
 // Add button events in the navbar
 function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
-		document.location.href="results.html" + "?user=" + user;
+		document.location.href = "results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
 	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
 			var query = encodeURIComponent($("#navbarInpSearch").val());
-			document.location.href="results.html?query=" + query;
+
+			document.location.href = "results.html?query=" + query;
 		}
 	});
 	$("#navbarBtnSearch").click(function() {
 		var query = encodeURIComponent($("#navbarInpSearch").val());
-		document.location.href="results.html?query=" + query;
+
+		document.location.href = "results.html?query=" + query;
 	});
 }
 

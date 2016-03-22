@@ -42,6 +42,6 @@ function initLabels(labels) {
 
 function addButtonEvents() {
 	$("#aboutBtnGoBackHome").click(function() {
-		document.location.href="intro.html";
+		document.location.href = "intro.html";
 	});
 }

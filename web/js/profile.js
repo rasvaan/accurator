@@ -18,8 +18,9 @@ function profileInit() {
 	}, function() {
 		// user is not logged in, show modal
 		var onDismissal = function() {
-			document.location.href="intro.html"
+			document.location.href = "intro.html";
 		};
+
 		login(drawPage, onDismissal);
 	});
 
@@ -83,7 +84,7 @@ function initDomains(locale, domain, labels) {
 	getAvailableDomains()
 	.then(function(domains) {
 		// set domain settings for all the domains
-		for(var i=0; i<domains.length; i++) {
+		for(var i = 0; i < domains.length; i++) {
 			var currentDomain = domains[i];
 
 			// already create function so currentdomain is not the last deu to asynchronisity
@@ -113,7 +114,7 @@ function addDomainTitle(domainData, locale, labels) {
 		$("#profileTxtDomain").append(
 			labels.profileTxtDomain,
 			$.el.span({'class':'text-info'},
-				data.domainLabel));}
+						data.domainLabel));}
 	);
 }
 
@@ -126,6 +127,7 @@ function domainHtml(domainData, locale) {
 				$.el.a({'href':'#',
 						'id':domainData.domain},
 						 data.domainLabel)));
+
 		addDomainEvent(domainData.domain);
 	});
 }
@@ -142,20 +144,22 @@ function addDomainEvent(domain) {
 
 function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
-		document.location.href="results.html" + "?user=" + user;
+		document.location.href = "results.html" + "?user=" + user;
 	});
 	// Search on pressing enter
 	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
 			var query = encodeURIComponent($("#navbarInpSearch").val());
-			document.location.href="results.html?query=" + query;
+
+			document.location.href = "results.html?query=" + query;
 		}
 	});
 	$("#navbarBtnSearch").click(function() {
 		var query = encodeURIComponent($("#navbarInpSearch").val());
-		document.location.href="results.html?query=" + query;
+
+		document.location.href = "results.html?query=" + query;
 	});
 	$("#profileBtnChangeExpertise").click(function() {
-		document.location.href="expertise.html";
+		document.location.href = "expertise.html";
 	});
 }

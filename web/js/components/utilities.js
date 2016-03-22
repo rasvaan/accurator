@@ -49,7 +49,7 @@ function getParameterByName(name) {
 	// retrieve information from url parameters (often settings)
 	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	results = regex.exec(location.search);
+		results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
@@ -296,10 +296,12 @@ function localizedPageName(linkList, labels, counter) {
 }
 
 function setLinkLogo(page) {
-	if(page === "profile")
+	if(page === "profile") {
 	   $(".navbar-brand").attr('href', "profile.html");
-	if(page === "intro")
+   }
+	if(page === "intro") {
 		$(".navbar-brand").attr('href', "intro.html");
+	}
 }
 
 function truncate(string, limit) {
@@ -308,8 +310,8 @@ function truncate(string, limit) {
 
 	chars = string.split('');
 	if (chars.length > limit) {
-		for (var i=chars.length - 1; i>-1; --i) {
-			if (i>limit) {
+		for (var i = chars.length - 1; i > -1; --i) {
+			if (i > limit) {
 				chars.length = i;
 			}
 			else if (' ' === chars[i]) {
@@ -330,8 +332,12 @@ function userLoggedIn() {
 	// see if user is logged in (random for unique request)
 	return $.getJSON("get_user?time=" + Math.random())
 	.then(function(user) {
-		if (user.login) return user;
-		if (!user.login) return jQuery.Deferred().reject(user).promise();
+		if (user.login) {
+			return user;
+		}
+		if (!user.login) {
+			return jQuery.Deferred().reject(user).promise();
+		}
 	});
 }
 
@@ -343,8 +349,10 @@ function login(onSuccess, onDismissal) {
 	.then(function(labels) {
 		// add labels and show modal
 		var labels = initModalLabels(labels);
+
 		$("#loginDivLogin").modal();
 		$("#loginInpUsername").focus();
+
 		loginButtonEvents(onSuccess, onDismissal, labels);
 	})
 }
@@ -357,8 +365,11 @@ function initModalLabels(data) {
 	$("body").on('shown.bs.modal', '.modal', function () {
 		$("#loginInpUsername").focus();
 	});
+
 	var labels = {loginTxtWarning:data.loginTxtWarning,
-		 		  loginTxtIncomplete:data.loginTxtIncomplete}
+		 		  loginTxtIncomplete:data.loginTxtIncomplete
+	};
+
 	return labels;
 }
 
@@ -369,10 +380,14 @@ function loginButtonEvents(onSuccess, onDismissal, labels) {
 	});
 	// login on pressing enter
 	$("#loginInpPassword").keypress(function(event) {
-		if (event.which == 13) processLogin(onSuccess, labels);
+		if (event.which == 13) {
+			processLogin(onSuccess, labels);
+		}
 	});
 	$("#loginInpUsername").keypress(function(event) {
-		if (event.which == 13) processLogin(onSuccess, labels);
+		if (event.which == 13) {
+			processLogin(onSuccess, labels);
+		}
 	});
 	// run onDismissal if modal is dismissed
 	$("#loginDivLogin").on('hidden.bs.modal', function () {
@@ -406,6 +421,7 @@ function processLogin(onSuccess, labels) {
 				.then(function() {
 					$("#loginDivLogin").off('hidden.bs.modal');
 					$("#loginDivLogin").modal('hide');
+
 					return userLoggedIn();
 				})
 				.then(function(userData) {
@@ -425,7 +441,7 @@ function loginServer(user, password) {
 function logout() {
 	$.ajax({url: "user/logout", type: "POST"})
 	.then(function() {
-		document.location.href="intro.html";
+		document.location.href = "intro.html";
 	});
 }
 
@@ -541,8 +557,9 @@ function registerServer(name, user, password, settings, labels) {
 		// login user upon succesful register
 		firstLogin(user, password, settings);
 	}, function(response, textStatus, errorThrown) {
-		if(errorThrown == "Not Found")
+		if(errorThrown == "Not Found") {
 			setRegisterFailureText("Server did not respond.");
+		}
 		if(response.responseText.indexOf("User already exists") > -1) {
 			setRegisterFailureText(labels.registerTxtUserTaken);
 		} else {
@@ -564,7 +581,7 @@ function firstLogin(user, password, settings) {
 		save_user_info(settings)
 		.then(function() {
 			// page that will be shown next
-			document.location.href="domain.html";
+			document.location.href = "domain.html";
 		 });
 	});
 }
@@ -591,5 +608,6 @@ function getUserUriBase() {
 function generateIdFromUri(uri) {
 	// create a html id from a uri (jquery doesn't play well with full uri's)
 	var pathArray = uri.split(/[/#]/);
+
 	return pathArray[pathArray.length - 1];
 }
