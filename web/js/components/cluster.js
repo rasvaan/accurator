@@ -7,6 +7,17 @@ function Cluster(uris, id) {
 	this.items = []; // enriched items
 	this.thumbnails = []; // thumbnails
 	this.pagination = null;
+	this.node = null;
+
+	this.init();
+}
+
+Cluster.prototype.init = function() {
+	this.node = this.html();
+}
+
+Cluster.prototype.html = function() {
+	return $.el.div({'class':'col-md-12', 'id':this.id});
 }
 
 Cluster.prototype.enrich = function() {
@@ -35,20 +46,16 @@ Cluster.prototype.enrich = function() {
 }
 
 Cluster.prototype.display = function(numberDisplayedItems) {
-	var _cluster = this;
-
 	// draw the pagination and thumbnails
+	//this.addPath();
 	this.addPagination(numberDisplayedItems);
 	this.addThumbnails(numberDisplayedItems);
-
-	// add event listener for change of page
-	$("#" + this.id).on("pagination", function(event) {
-		_cluster.changeThumbnails(event.currentPage, event.nextPage, numberDisplayedItems);
-	});
 }
 
 Cluster.prototype.addPagination = function(numberDisplayedItems) {
+	var _cluster = this;
 	var paginationId = this.id + "Pagination"
+
 	this.pagination = new Pagination(
 		paginationId,
 		this.items,
@@ -56,12 +63,17 @@ Cluster.prototype.addPagination = function(numberDisplayedItems) {
 		this.id
 	);
 
-	$("#" + this.id).append(
+	$(this.node).append(
 		// add pagination row
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-12'},
 				this.pagination.node))
 	);
+
+	// add event listener for change of page
+	$(this.node).on("pagination", function(event) {
+		_cluster.changeThumbnails(event.currentPage, event.nextPage, numberDisplayedItems);
+	});
 }
 
 
@@ -76,7 +88,7 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 	}
 
 	// add row
-	$("#" + this.id).append(
+	$(this.node).append(
 		$.el.div({'class':'row', 'id':'thumbnailRow' + this.id}));
 
 	for (var i=0; i<stop; i++) {
@@ -87,8 +99,9 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 			this.items[i].link,
 			numberDisplayedItems
 		);
-
-		$("#thumbnailRow" + this.id).append(thumbnail.node);
+		$(this.node).find("#thumbnailRow" + this.id).append(
+			thumbnail.node
+		);
 		thumbnail.setClickEvent(this.items[i].link, this.id);
 		this.thumbnails[i] = thumbnail;
 	}
