@@ -1,8 +1,8 @@
 /*******************************************************************************
 Path
 *******************************************************************************/
-function Path(uris, parentId) {
-    this.uris = uris; // uris of elements of the path
+function Path(path, parentId) {
+    this.path = path; // uris or title element of the path
     this.labels = null; // labels of elements of the path
     this.elements = []; // elements of the path
     this.node = null;
@@ -13,6 +13,9 @@ function Path(uris, parentId) {
 
 Path.prototype.init = function() {
     this.node = this.html();
+    if (typeof this.path === 'string' || this.path instanceof String) {
+        this.addTitle();
+    }
 }
 
 Path.prototype.html = function() {
@@ -30,19 +33,29 @@ Path.prototype.addSubject = function() {
     );
 }
 
+Path.prototype.addTitle = function() {
+    $(this.node).find("h4").append(
+        $.el.span({'class':'path-label path-resource'},
+                  this.path)
+    );
+}
+
 Path.prototype.enrich = function() {
     var _path = this;
+
+    // no need for enriching if we have a title
+    if (typeof this.path === 'string' || this.path instanceof String) return;
 
 	return $.ajax({type: "POST",
 		url: "metadata",
 		contentType: "application/json",
-		data: JSON.stringify({"uris":this.uris, "type":"label"})})
+		data: JSON.stringify({"uris":this.path, "type":"label"})})
 	.then(function(labels) {
         _path.labels = labels;
 
-		for (var i=0; i<_path.uris.length; i++) {
+		for (var i=0; i<_path.path.length; i++) {
 			_path.elements[i] = {
-                uri:_path.uris[i],
+                uri:_path.path[i],
                 label:truncate(_path.labels[i], 50)
             };
 		}

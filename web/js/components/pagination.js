@@ -110,11 +110,11 @@ Pagination.prototype.goToPage = function(page) {
 	// set new node to active
 	newNode.addClass("active");
 	// remove events
-	// newNode.off("click pagination");
+	newNode.off("click pagination");
 	this.page = page;
 
 	// remove event to not add duplicates
-	// leftArrow.off("click pagination");
+	leftArrow.off("click pagination");
 	if(page === 1) {
 		// disable left arrow because switching to page one
 		leftArrow.addClass("disabled");
@@ -125,7 +125,7 @@ Pagination.prototype.goToPage = function(page) {
 	}
 
 	// remove event to not add duplicates
-	// rightArrow.off("click pagination");
+	rightArrow.off("click pagination");
 	if(page === this.numberOfPages) {
 		// disable right arrow because switching to last page
 		rightArrow.addClass("disabled");

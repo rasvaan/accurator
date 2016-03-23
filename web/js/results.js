@@ -139,7 +139,7 @@ Search, Recommend or Random results
 function results(target, labels) {
 	var query = getParameterByName("query"); // get query from url when present
 	var userQuery = getParameterByName("user"); // get user from url when present
-	var recommendBoolean = true; // don't do random stuff
+	var recommendBoolean = false; // don't do random stuff
 
 	if(query) {
 		// results based on the user query
@@ -152,7 +152,7 @@ function results(target, labels) {
 	} else {
 		// random results
 		query = "random";
-		random(query, labels, target, 10);
+		random(query, labels, target, 30);
 	}
 	localStorage.setItem("query", query);
 }
@@ -209,46 +209,52 @@ function random(query, labels, target, noResults) {
 	$.getJSON("recommendation", {strategy:'random',
 								 number:noResults,
 								 target:target})
-	.then(function(uris){
-		// populate the page with random
-		randoms = uris;
-		// TODO add in local storage?!
-		// localStorage.setItem("randoms", JSON.stringify(randoms));
-
-		// enrich retrieved clusters if any
-		if(randoms.length == 0){
-			statusMessage(labels.resultsTxtNoResults, query);
-		} else {
-			statusMessage(labels.resultsHdrRandomResults);
-
-			if (query === "expertise"){
-				// set page title
-				$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-			}
-
-			var noRandomItems = randoms.length;
-
-			if (query === "expertise" && display.layout === "cluster") {
-				addRandomPath();
-			} else {
-				// add rows for random objects and display them as a list
-				addRandomRows(noRandomItems);
-			}
-
-			// enrich random objects
-			enrichRandoms(randoms)
-			.then(function(){
-				// TODO add pagination here for cluster items and add cluster items
-				if (query === "expertise" && display.layout === "cluster"){
-					$("#randoms").append(pagination(getNoOfPagesOrRows(noRandomItems),
-							randoms, "randoms"));
-					displayRandomCluster(0);
-				}
-				else {
-					displayRandomList();
-				}
-			});
-		}
+	.then(function(uris) {
+		// create cluster array with first entry a cluster with random items
+		var clusters = [];
+		clusters[0] = new Cluster("clusterRandom", uris, "random");
+		controls(clusters, labels);
+		drawResults(clusters);
+		
+		// // populate the page with random
+		// randoms = uris;
+		// // TODO add in local storage?!
+		// // localStorage.setItem("randoms", JSON.stringify(randoms));
+		//
+		// // enrich retrieved clusters if any
+		// if(randoms.length == 0){
+		// 	statusMessage(labels.resultsTxtNoResults, query);
+		// } else {
+		// 	statusMessage(labels.resultsHdrRandomResults);
+		//
+		// 	if (query === "expertise"){
+		// 		// set page title
+		// 		$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
+		// 	}
+		//
+		// 	var noRandomItems = randoms.length;
+		//
+		// 	if (query === "expertise" && display.layout === "cluster") {
+		// 		addRandomPath();
+		// 	} else {
+		// 		// add rows for random objects and display them as a list
+		// 		addRandomRows(noRandomItems);
+		// 	}
+		//
+		// 	// enrich random objects
+		// 	enrichRandoms(randoms)
+		// 	.then(function(){
+		// 		// TODO add pagination here for cluster items and add cluster items
+		// 		if (query === "expertise" && display.layout === "cluster"){
+		// 			$("#randoms").append(pagination(getNoOfPagesOrRows(noRandomItems),
+		// 					randoms, "randoms"));
+		// 			displayRandomCluster(0);
+		// 		}
+		// 		else {
+		// 			displayRandomList();
+		// 		}
+		// 	});
+		// }
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
 	});
