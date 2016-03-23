@@ -152,7 +152,7 @@ function results(target, labels) {
 	} else {
 		// random results
 		query = "random";
-		random(query, labels, target, 30);
+		random(query, labels, target, 20);
 	}
 	localStorage.setItem("query", query);
 }
@@ -205,56 +205,12 @@ function recommend(query, target, labels) {
 
 // Get random items
 function random(query, labels, target, noResults) {
-	// Get a list of random items
-	$.getJSON("recommendation", {strategy:'random',
-								 number:noResults,
-								 target:target})
-	.then(function(uris) {
-		// create cluster array with first entry a cluster with random items
+	randomCluster(target, noResults)
+	.then(function(cluster) {
 		var clusters = [];
-		clusters[0] = new Cluster("clusterRandom", uris, "random");
+		clusters[0] = cluster;
 		controls(clusters, labels);
 		drawResults(clusters);
-		
-		// // populate the page with random
-		// randoms = uris;
-		// // TODO add in local storage?!
-		// // localStorage.setItem("randoms", JSON.stringify(randoms));
-		//
-		// // enrich retrieved clusters if any
-		// if(randoms.length == 0){
-		// 	statusMessage(labels.resultsTxtNoResults, query);
-		// } else {
-		// 	statusMessage(labels.resultsHdrRandomResults);
-		//
-		// 	if (query === "expertise"){
-		// 		// set page title
-		// 		$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-		// 	}
-		//
-		// 	var noRandomItems = randoms.length;
-		//
-		// 	if (query === "expertise" && display.layout === "cluster") {
-		// 		addRandomPath();
-		// 	} else {
-		// 		// add rows for random objects and display them as a list
-		// 		addRandomRows(noRandomItems);
-		// 	}
-		//
-		// 	// enrich random objects
-		// 	enrichRandoms(randoms)
-		// 	.then(function(){
-		// 		// TODO add pagination here for cluster items and add cluster items
-		// 		if (query === "expertise" && display.layout === "cluster"){
-		// 			$("#randoms").append(pagination(getNoOfPagesOrRows(noRandomItems),
-		// 					randoms, "randoms"));
-		// 			displayRandomCluster(0);
-		// 		}
-		// 		else {
-		// 			displayRandomList();
-		// 		}
-		// 	});
-		// }
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
 	});
@@ -284,22 +240,35 @@ function processClusters(data) {
 	}
 }
 
-// Enrichment of one random object
-function enrichRandoms(uris) {
-	// clear results div and reset rows
-	// $("#resultsDiv").children().remove();
-
-	var json = {"uris":uris};
-
-	return $.ajax({type: "POST",
-		url: "metadata",
-		contentType: "application/json",
-		data: JSON.stringify(json)})
-	.then(function(data) {
-		// Replace cluster items with enriched ones
-		randoms = processEnrichment(data);
+function randomCluster(target, noResults) {
+	// Get a list of random items
+	return $.getJSON("recommendation", {
+		strategy:'random',
+		number:noResults,
+		target:target
+	})
+	.then(function(uris) {
+		// create a cluster with random items
+		return new Cluster("clusterRandom", uris, "random");
 	});
 }
+
+// Enrichment of one random object
+// function enrichRandoms(uris) {
+// 	// clear results div and reset rows
+// 	// $("#resultsDiv").children().remove();
+//
+// 	var json = {"uris":uris};
+//
+// 	return $.ajax({type: "POST",
+// 		url: "metadata",
+// 		contentType: "application/json",
+// 		data: JSON.stringify(json)})
+// 	.then(function(data) {
+// 		// Replace cluster items with enriched ones
+// 		randoms = processEnrichment(data);
+// 	});
+// }
 
 /*******************************************************************************
 Display of results and helper functions for the display
@@ -330,6 +299,17 @@ function drawRows(clusters) {
 			);
 		}
 	}
+}
+
+// Determine number of items up to a certain cluster
+function itemsInClusters(clusters, clusterIndex) {
+	var totalItems = 0;
+
+	for (var i=0; i<clusterIndex; i++){
+		// count uris since cluster might not be enriched
+		totalItems += clusters[i].uris.length;
+	}
+	return totalItems;
 }
 
 // Determine number of pages or rows based on the items to be shown
@@ -387,17 +367,6 @@ function displayClusterAsList(cluster, clusters) {
 	}
 }
 
-// Determine number of items up to a certain cluster
-function itemsInClusters(clusters, clusterIndex) {
-	var totalItems = 0;
-
-	for (var i=0; i<clusterIndex; i++){
-		// count uris since cluster might not be enriched
-		totalItems += clusters[i].uris.length;
-	}
-	return totalItems;
-}
-
 // Add thumbnail click event
 function addListClickEvent(id, link, rowId, index, clusterId) {
 	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
@@ -413,102 +382,102 @@ function addListClickEvent(id, link, rowId, index, clusterId) {
 }
 
 // Add rows for random items
-function addRandomRows(totItems){
-	var noRows = getNoOfPagesOrRows(totItems);
-
-	// add rows for thumbnails
-    for (var i = 0; i < noRows; i++){
-		// display as a list
-		$("#resultsDiv").append(
-			$.el.div({'class':'row',
-             		  'id':'thumbnailRandomRow' + i})
-		);
-    }
-}
+// function addRandomRows(totItems){
+// 	var noRows = getNoOfPagesOrRows(totItems);
+//
+// 	// add rows for thumbnails
+//     for (var i = 0; i < noRows; i++){
+// 		// display as a list
+// 		$("#resultsDiv").append(
+// 			$.el.div({'class':'row',
+//              		  'id':'thumbnailRandomRow' + i})
+// 		);
+//     }
+// }
 
 // Add path node for random objects
-function addRandomPath() {
-	// display path for random cluster only when cluster view is set and for
-	// user recommendations
-	$("#resultsDiv").append(
-		$.el.div({'class':'well well-sm',
-						 'id':'randoms'},
-			$.el.div({'class':'row path'},
-				$.el.div({'class':'col-md-12'},
-					$.el.h4(
-						$.el.span({'class':'path-label path-literal'},
-								 "random objects")))))
-	);
-}
+// function addRandomPath() {
+// 	// display path for random cluster only when cluster view is set and for
+// 	// user recommendations
+// 	$("#resultsDiv").append(
+// 		$.el.div({'class':'well well-sm',
+// 						 'id':'randoms'},
+// 			$.el.div({'class':'row path'},
+// 				$.el.div({'class':'col-md-12'},
+// 					$.el.h4(
+// 						$.el.span({'class':'path-label path-literal'},
+// 								 "random objects")))))
+// 	);
+// }
 
 // Add rows for random items that are displayed after recommended ones
-function addRandomNodes(totItems){
-	var noPagesOrRows = getNoOfPagesOrRows(totItems);
-
-	// add rows for thumbnails
-    for (var i = 0; i < noPagesOrRows; i++){
-		// display as a list
-		$("#randoms").append(
-			$.el.div({'class':'row',
-             		  'id':'thumbnailRandomRow' + i})
-		);
-    }
-}
-
-// Display the random list of items
-function displayRandomList(){
-	var noRows = getNoOfPagesOrRows(randoms.length);
-	var stop = display.numberDisplayedItems;
-	var itemsAdded = 0;
-
-	// populate rows of random
-	for (var rowId = 0; rowId < noRows; rowId++){
-		for (var index = 0; index < stop; index++){
-			if (itemsAdded < randoms.length){
-				var id = getId(randoms[itemsAdded].uri);
-
-				$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[itemsAdded]));
-				addRandomClickEvent(id, randoms[itemsAdded].link, rowId, index);
-				itemsAdded++;
-			}
-		}
-	}
-}
+// function addRandomNodes(totItems){
+// 	var noPagesOrRows = getNoOfPagesOrRows(totItems);
+//
+// 	// add rows for thumbnails
+//     for (var i = 0; i < noPagesOrRows; i++){
+// 		// display as a list
+// 		$("#randoms").append(
+// 			$.el.div({'class':'row',
+//              		  'id':'thumbnailRandomRow' + i})
+// 		);
+//     }
+// }
 
 // Display the random list of items
-function displayRandomCluster(rowId){
-	var noItems = getNoOfPagesOrRows(randoms.length);
-	var stop = display.numberDisplayedItems;
+// function displayRandomList(){
+// 	var noRows = getNoOfPagesOrRows(randoms.length);
+// 	var stop = display.numberDisplayedItems;
+// 	var itemsAdded = 0;
+//
+// 	// populate rows of random
+// 	for (var rowId = 0; rowId < noRows; rowId++){
+// 		for (var index = 0; index < stop; index++){
+// 			if (itemsAdded < randoms.length){
+// 				var id = getId(randoms[itemsAdded].uri);
+//
+// 				$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[itemsAdded]));
+// 				addRandomClickEvent(id, randoms[itemsAdded].link, rowId, index);
+// 				itemsAdded++;
+// 			}
+// 		}
+// 	}
+// }
 
-	if (randoms.length < stop) {
-		stop = randoms.length;
-	}
-
-	$("#randoms").append(
-		$.el.div({'class':'row',
-				  'id':'thumbnailRandomRow' + rowId})
-	);
-
-	// populate page of random
-	for (var index = 0; index < stop; index++){
-			var id = getId(randoms[index].uri);
-
-			$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[index]));
-			addRandomClickEvent(id, randoms[index].link, rowId, index);
-	}
-}
+// Display the random list of items
+// function displayRandomCluster(rowId){
+// 	var noItems = getNoOfPagesOrRows(randoms.length);
+// 	var stop = display.numberDisplayedItems;
+//
+// 	if (randoms.length < stop) {
+// 		stop = randoms.length;
+// 	}
+//
+// 	$("#randoms").append(
+// 		$.el.div({'class':'row',
+// 				  'id':'thumbnailRandomRow' + rowId})
+// 	);
+//
+// 	// populate page of random
+// 	for (var index = 0; index < stop; index++){
+// 			var id = getId(randoms[index].uri);
+//
+// 			$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[index]));
+// 			addRandomClickEvent(id, randoms[index].link, rowId, index);
+// 	}
+// }
 
 // Add click events for random thumbnail items
-function addRandomClickEvent(id, link, rowId, index) {
-	// Add thumbnail click event
-	$("#thumbnailRandomRow" + rowId  + " #" + id).click(function() {
-		//Add info to local storage to be able to save context
-		localStorage.setItem("itemIndex", index);
-		localStorage.setItem("row", rowId);
-		//localStorage.setItem("currentRandom", JSON.stringify(randoms[randomId]));
-		document.location.href = link;
-	});
-}
+// function addRandomClickEvent(id, link, rowId, index) {
+// 	// Add thumbnail click event
+// 	$("#thumbnailRandomRow" + rowId  + " #" + id).click(function() {
+// 		//Add info to local storage to be able to save context
+// 		localStorage.setItem("itemIndex", index);
+// 		localStorage.setItem("row", rowId);
+// 		//localStorage.setItem("currentRandom", JSON.stringify(randoms[randomId]));
+// 		document.location.href = link;
+// 	});
+// }
 
 // Add a title for the page and print a status message within the page that
 // gives more information on the progress of the search
@@ -589,68 +558,68 @@ Code for rendering either the cluster or the list view
 // populated before and just changes the way they are shown for user queries and
 // recommendations based on user expertise. The random objects only get displayed
 // as a list, so the button that selects the view (cluster or list) is not available
-function displayView(labels){
-	// TODO what if the result population or enrichment is not finished when
-	// the user clicks the button? Maybe show the button after all this is finished?!
-
-	// clear results div and display controls for changing the view again
-	$("#resultsDiv").children().remove(".well, .well-sm");
-
-	if(localStorage.query === "expertise") {
-		statusMessage(labels.resultsHdrRecommendedResults);
-	} else {
-		// set page title and text for results header
-		statusMessage(labels.resultsHdrResults + localStorage.query);
-	}
-
-	// display list view
-	if(display.layout === "list") {
-		// list view for user query
-		var itemsAdded = 0;
-		var totItems = totalItemsInClusters();
-
-		// add rows for every cluster item
-		addRows(totItems);
-
-		for(var clusterId = 0; clusterId < clusters.length; clusterId++) {
-			itemsAdded = displayList(clusterId, itemsAdded);
-		}
-
-		// list view for recommendation
-		if(localStorage.query === "expertise") {
-			statusMessage(labels.resultsHdrRandomResults);
-
-			$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-
-			var noRandomItems = randoms.length;
-
-			// add rows for random objects and display them as a list
-			addRandomRows(noRandomItems);
-
-			displayRandomList();
-		}
-	// display cluster view
-	} else if (display.layout === "cluster"){
-		// cluster view for user query and recommendation
-		for(var clusterId = 0; clusterId < clusters.length; clusterId++){
-			displayClusterHeader(clusterId);
-			displayClusterItems(clusterId);
-		}
-
-		// show random results for cluster view for recommendation
-		if(localStorage.query === "expertise") {
-			statusMessage(labels.resultsHdrRandomResults);
-
-			$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-
-			var noRandomItems = randoms.length;
-
-			addRandomPath();
-
-			//display items using pagination
-			$("#randoms").append(pagination(getNoOfPagesOrRows(noRandomItems),
-					randoms, "randoms"));
-			displayRandomCluster(0);
-		}
-	}
-}
+// function displayView(labels){
+// 	// TODO what if the result population or enrichment is not finished when
+// 	// the user clicks the button? Maybe show the button after all this is finished?!
+//
+// 	// clear results div and display controls for changing the view again
+// 	$("#resultsDiv").children().remove(".well, .well-sm");
+//
+// 	if(localStorage.query === "expertise") {
+// 		statusMessage(labels.resultsHdrRecommendedResults);
+// 	} else {
+// 		// set page title and text for results header
+// 		statusMessage(labels.resultsHdrResults + localStorage.query);
+// 	}
+//
+// 	// display list view
+// 	if(display.layout === "list") {
+// 		// list view for user query
+// 		var itemsAdded = 0;
+// 		var totItems = totalItemsInClusters();
+//
+// 		// add rows for every cluster item
+// 		addRows(totItems);
+//
+// 		for(var clusterId = 0; clusterId < clusters.length; clusterId++) {
+// 			itemsAdded = displayList(clusterId, itemsAdded);
+// 		}
+//
+// 		// list view for recommendation
+// 		if(localStorage.query === "expertise") {
+// 			statusMessage(labels.resultsHdrRandomResults);
+//
+// 			$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
+//
+// 			var noRandomItems = randoms.length;
+//
+// 			// add rows for random objects and display them as a list
+// 			addRandomRows(noRandomItems);
+//
+// 			displayRandomList();
+// 		}
+// 	// display cluster view
+// 	} else if (display.layout === "cluster"){
+// 		// cluster view for user query and recommendation
+// 		for(var clusterId = 0; clusterId < clusters.length; clusterId++){
+// 			displayClusterHeader(clusterId);
+// 			displayClusterItems(clusterId);
+// 		}
+//
+// 		// show random results for cluster view for recommendation
+// 		if(localStorage.query === "expertise") {
+// 			statusMessage(labels.resultsHdrRandomResults);
+//
+// 			$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
+//
+// 			var noRandomItems = randoms.length;
+//
+// 			addRandomPath();
+//
+// 			//display items using pagination
+// 			$("#randoms").append(pagination(getNoOfPagesOrRows(noRandomItems),
+// 					randoms, "randoms"));
+// 			displayRandomCluster(0);
+// 		}
+// 	}
+// }
