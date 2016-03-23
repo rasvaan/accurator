@@ -18,7 +18,7 @@ Cluster.prototype.init = function() {
 }
 
 Cluster.prototype.html = function() {
-	return $.el.div({'class':'col-md-12 well well-sm', 'id':this.id});
+	return $.el.div({'class':'well well-sm', 'id':this.id});
 }
 
 Cluster.prototype.enrich = function() {
@@ -73,7 +73,8 @@ Cluster.prototype.addPagination = function(numberDisplayedItems) {
 	);
 
 	// add event listener for change of page
-	$(this.node).on("pagination", function(event) {
+	console.log("adding listener to ", this.id);
+	$("#", this.id).on("pagination", function(event) {
 		_cluster.changeThumbnails(event.currentPage, event.nextPage, numberDisplayedItems);
 	});
 }

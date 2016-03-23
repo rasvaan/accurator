@@ -203,8 +203,7 @@ function drawRows(clusters) {
 	if (display.layout === "cluster") {
 		for (var i=0; i<clusters.length; i++) {
 			$("#resultsDiv").append(
-				$.el.div({'class':'row',
-					'id':clusters[i].id})
+				clusters[i].node
 			);
 		}
 	} else if (display.layout === "list") {

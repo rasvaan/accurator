@@ -64,9 +64,8 @@ Pagination.prototype.html = function() {
 
 Pagination.prototype.addClickEvent = function(pageNode, i) {
 	var _page = this;
-	console.log("add event to cluster ", _page.parentId, " go to ", i);
+
 	$(pageNode).on("click pagination", function() {
-		console.log("cluster ", _page.parentId, " go to ", i);
 		_page.goToPage(i);
 	});
 }
@@ -101,6 +100,7 @@ Pagination.prototype.goToPage = function(page) {
 	var event = jQuery.Event("pagination");
 	event.currentPage = this.page;
 	event.nextPage = page;
+	console.log("trigger event ", event);
 	$("#" + this.parentId).trigger(event);
 
 	// set active class to inactive
