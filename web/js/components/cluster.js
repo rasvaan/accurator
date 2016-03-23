@@ -139,7 +139,7 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 		stop = this.items.length;
 	}
 
-	console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
+	// console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
 	var thumbIndex = 0; // index of the thumbnail spots
 	for (var i=start; i<stop; i++) {
 		var thumbnail = this.thumbnails[thumbIndex];

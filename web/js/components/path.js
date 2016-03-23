@@ -49,37 +49,40 @@ Path.prototype.enrich = function() {
 
         _path.elements.reverse();
 		_path.addSubject();
-		// path.unfoldEvent("#cluster" + clusterId, query);
+		_path.unfoldEvent();
 	});
 }
 
-Path.prototype.unfoldEvent = function(id, query) {
+Path.prototype.unfoldEvent = function() {
+    var _path = this;
     var pathHtml = $.el.h4();
 
-    for(var i=0; i<elements.length; i++) {
-        // Label colouring
-        if(i==0){
+    for (var i=0; i<this.elements.length; i++) {
+        // label colouring
+        if (i==0) {
 			pathHtml.appendChild(
 				$.el.span({'class':'path-label path-literal'},
-				          query));
-		} else if(i%2==0){
+        //TODO: Get the query?
+                        //   query));
+                        "query"));
+		} else if (i%2==0) {
             pathHtml.appendChild(
                 $.el.span({'class':'path-label path-resource'},
-                          elements[i].label));
+                          this.elements[i].label));
         } else {
             pathHtml.appendChild(
                 $.el.span({'class':'path-label path-property'},
-                          elements[i].label));
+                          this.elements[i].label));
         }
-        // Add arrow if not end of path
-        if(!(elements.length == i+1)){
+        // add arrow if not end of path
+        if(!(this.elements.length == i+1)){
             pathHtml.appendChild(
                 $.el.span({'class':'glyphicon glyphicon-arrow-right'}));
         }
     }
-    // Add event
-    $(id + " .path-label").click(function() {
-        $(id + " .path").html(
+    // add event
+    $(this.node).find(".path-label").click(function() {
+        $(_path.node).html(
             $.el.div({'class':'col-md-12'},
                 pathHtml)
         );

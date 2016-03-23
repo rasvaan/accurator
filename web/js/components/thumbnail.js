@@ -57,12 +57,10 @@ Thumbnail.prototype.setId = function(id) {
 }
 
 Thumbnail.prototype.show = function() {
-	console.log("show", this.node);
 	$(this.node).show();
 }
 
 Thumbnail.prototype.hide = function() {
-	console.log("hide", this.node);
 	$(this.node).hide();
 }
 
