@@ -73,8 +73,7 @@ Cluster.prototype.addPagination = function(numberDisplayedItems) {
 	);
 
 	// add event listener for change of page
-	console.log("adding listener to ", this.id);
-	$("#", this.id).on("pagination", function(event) {
+	$("#" + this.id).on("pagination", function(event) {
 		_cluster.changeThumbnails(event.currentPage, event.nextPage, numberDisplayedItems);
 	});
 }
@@ -124,7 +123,7 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 		stop = this.items.length;
 	}
 
-	// console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
+	console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
 	var thumbIndex = 0; // index of the thumbnail spots
 	for (var i=start; i<stop; i++) {
 		var thumbnail = this.thumbnails[thumbIndex];

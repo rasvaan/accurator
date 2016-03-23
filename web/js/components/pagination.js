@@ -100,7 +100,6 @@ Pagination.prototype.goToPage = function(page) {
 	var event = jQuery.Event("pagination");
 	event.currentPage = this.page;
 	event.nextPage = page;
-	console.log("trigger event ", event);
 	$("#" + this.parentId).trigger(event);
 
 	// set active class to inactive
