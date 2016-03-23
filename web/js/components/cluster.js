@@ -5,33 +5,33 @@ function Cluster(id, uris, path) {
 	this.id = id; // id of the cluster
 	this.uris = uris; // list of uris of the items
 	this.items = []; // enriched items
-	this.thumbnails = []; // thumbnails
-	this.pagination = null;
-	this.path = null;
-	this.node = null;
-	this.enriched = false;
-
-	this.init(path);
-}
-
-Cluster.prototype.init = function(path) {
 	this.path = new Path(path, this.id);
-	this.node = this.html();
+	this.pagination = null;
+	this.thumbnails = []; // thumbnails
+	this.node = $.el.div({'class':'well well-sm', 'id':this.id});
+	this.initialized = false;
 }
 
-Cluster.prototype.html = function() {
-	return $.el.div({'class':'well well-sm', 'id':this.id});
+Cluster.prototype.init = function(numberDisplayedItems) {
+	var _cluster = this;
+
+	//  upon init enrich path and cluster items
+	return this.enrich()
+	.then(function() {
+		// add path, pagination and items to node
+		_cluster.addPath();
+		_cluster.addPagination(numberDisplayedItems);
+		_cluster.addThumbnails(numberDisplayedItems);
+
+		_cluster.initialized = true;
+	});
 }
 
 Cluster.prototype.enrich = function() {
-	var _cluster = this;
 	var enrichThumbnails = this.enrichItems();
 	var enrichPath = this.path.enrich();
 
 	return $.when(enrichThumbnails, enrichPath)
-	.then(function() {
-		_cluster.enriched = true;
-	});
 }
 
 Cluster.prototype.enrichItems = function() {
@@ -57,13 +57,6 @@ Cluster.prototype.enrichItems = function() {
 		}
 		_cluster.items = items;
 	 });
-}
-
-Cluster.prototype.display = function(numberDisplayedItems) {
-	// draw the pagination and thumbnails
-	this.addPath();
-	this.addPagination(numberDisplayedItems);
-	this.addThumbnails(numberDisplayedItems);
 }
 
 Cluster.prototype.addPath = function() {

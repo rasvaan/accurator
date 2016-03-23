@@ -342,16 +342,16 @@ function drawCluster(cluster, clusters) {
 	var draw = function() {
 		if (display.layout === "cluster") {
 			$("#resultsDiv #" + cluster.id).append(cluster.node);
-			cluster.display(display.numberDisplayedItems);
 		} else if (display.layout === "list") {
 			displayClusterAsList(cluster, clusters);
 		}
 	}
 
-	if (cluster.enriched) {
+	if (cluster.initialized) {
+		console.log("Drawing");
 		draw();
 	} else {
-		cluster.enrich()
+		cluster.init(display.numberDisplayedItems)
 		.then(function() {
 			draw();
 		});
