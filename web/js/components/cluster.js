@@ -1,19 +1,21 @@
 /*******************************************************************************
 Cluster
 *******************************************************************************/
-function Cluster(uris, id) {
+function Cluster(id, uris, path) {
 	this.id = id; // id of the cluster
 	this.uris = uris; // list of uris of the items
 	this.items = []; // enriched items
 	this.thumbnails = []; // thumbnails
 	this.pagination = null;
+	this.path = null;
 	this.node = null;
 	this.enriched = false;
 
-	this.init();
+	this.init(path);
 }
 
-Cluster.prototype.init = function() {
+Cluster.prototype.init = function(path) {
+	this.path = new Path(path, this.id);
 	this.node = this.html();
 }
 
@@ -22,6 +24,17 @@ Cluster.prototype.html = function() {
 }
 
 Cluster.prototype.enrich = function() {
+	var _cluster = this;
+	var enrichThumbnails = this.enrichItems();
+	var enrichPath = this.path.enrich();
+
+	return $.when(enrichThumbnails, enrichPath)
+	.then(function() {
+		_cluster.enriched = true;
+	});
+}
+
+Cluster.prototype.enrichItems = function() {
 	var _cluster = this; //make sure we can use this Cluster in $ scope
 
 	return $.ajax({
@@ -43,15 +56,18 @@ Cluster.prototype.enrich = function() {
 			items[i].title = truncate(data[i].title, 60);
 		}
 		_cluster.items = items;
-		_cluster.enriched = true;
 	 });
 }
 
 Cluster.prototype.display = function(numberDisplayedItems) {
 	// draw the pagination and thumbnails
-	//this.addPath();
+	this.addPath();
 	this.addPagination(numberDisplayedItems);
 	this.addThumbnails(numberDisplayedItems);
+}
+
+Cluster.prototype.addPath = function() {
+	$(this.node).append(this.path.node);
 }
 
 Cluster.prototype.addPagination = function(numberDisplayedItems) {

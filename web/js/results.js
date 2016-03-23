@@ -180,97 +180,16 @@ function processClusters(data) {
 		for(var i=0; i<data.clusters.length; i++) {
 			var uris = []; // uris of items in cluster
 			var id = "cluster" + i; // id of cluster
+			var path = data.clusters[i].path;
 
 			for(var j = 0; j < data.clusters[i].items.length; j++)
 				uris[j] = data.clusters[i].items[j].uri;
 
-			clusters[i] = new Cluster(uris, id);
+			clusters[i] = new Cluster(id, uris, path);
 		}
 
 		return clusters;
 	}
-}
-
-function drawResults(clusters) {
-	drawRows(clusters);
-
-	for (var i=0; i<clusters.length; i++)
-		drawCluster(clusters[i]);
-}
-
-// Add rows for cluster items for the list view
-function drawRows(clusters) {
-	if (display.layout === "cluster") {
-		for (var i=0; i<clusters.length; i++) {
-			$("#resultsDiv").append(
-				clusters[i].node
-			);
-		}
-	} else if (display.layout === "list") {
-		var totalItems = totalItemsInClusters(clusters);
-		var rows = getNumberOfRows(totalItems);
-
-		for (var i=0; i<rows; i++) {
-			$("#resultsDiv").append(
-				$.el.div({'class':'row',
-					'id':'thumbnailRow' + i})
-			);
-		}
-	}
-}
-
-// Determine the total number of items from clusters
-function totalItemsInClusters(clusters) {
-	var totalItems = 0;
-
-	for (var i=0; i<clusters.length; i++){
-		totalItems += clusters[i].items.length;
-	}
-	return totalItems;
-}
-
-// Determine number of pages or rows based on the items to be shown
-function getNumberOfRows(numberOfItems) {
-	var numberOfRows = 0;
-	var restRows = numberOfItems%display.numberDisplayedItems;
-
-	if (restRows === 0) {
-		return numberOfItems/display.numberDisplayedItems;
-	} else {
-		return (numberOfItems-restRows)/display.numberDisplayedItems+1;
-	}
-}
-
-function drawCluster(cluster) {
-	var draw = function() {
-		if (display.layout === "cluster") {
-			$("#resultsDiv #" + cluster.id).append(cluster.node);
-			cluster.display(display.numberDisplayedItems);
-			// clusters[index].display(display.numberDisplayedItems);
-		} else if (display.layout === "list") {
-			console.log("should be drawing lists");
-		}
-	}
-
-	if (cluster.enriched) {
-		draw();
-	} else {
-		cluster.enrich()
-		.then(function() {
-			draw();
-		});
-	}
-	// clusters[index].enrich()
-	// .then(function() {
-	// 	console.log(clusters[0]);
-	// 	// append cluster
-	// 	if (display.layout === "cluster") {
-	// 		displayClusterItems(clusterId);
-	// 	// add enriched clusters and rows
-	// 	} else if (display.layout === "list") {
-	// 		itemsAdded = displayList(clusterId, itemsAdded);
-	// 	}
-	// });
 }
 
 // Get results based on the expertise of the user and, afterwards, a number of
@@ -452,7 +371,87 @@ function enrichRandoms(uris) {
 /*******************************************************************************
 Display of results and helper functions for the display
 *******************************************************************************/
+function drawResults(clusters) {
+	drawRows(clusters);
 
+	for (var i=0; i<clusters.length; i++)
+		drawCluster(clusters[i]);
+}
+
+// Add rows for cluster items for the list view
+function drawRows(clusters) {
+	if (display.layout === "cluster") {
+		for (var i=0; i<clusters.length; i++) {
+			$("#resultsDiv").append(
+				clusters[i].node
+			);
+		}
+	} else if (display.layout === "list") {
+		var totalItems = totalItemsInClusters(clusters);
+		var rows = getNumberOfRows(totalItems);
+
+		for (var i=0; i<rows; i++) {
+			$("#resultsDiv").append(
+				$.el.div({'class':'row',
+					'id':'thumbnailRow' + i})
+			);
+		}
+	}
+}
+
+// Determine the total number of items from clusters
+function totalItemsInClusters(clusters) {
+	var totalItems = 0;
+
+	for (var i=0; i<clusters.length; i++){
+		totalItems += clusters[i].items.length;
+	}
+	return totalItems;
+}
+
+// Determine number of pages or rows based on the items to be shown
+function getNumberOfRows(numberOfItems) {
+	var numberOfRows = 0;
+	var restRows = numberOfItems%display.numberDisplayedItems;
+
+	if (restRows === 0) {
+		return numberOfItems/display.numberDisplayedItems;
+	} else {
+		return (numberOfItems-restRows)/display.numberDisplayedItems+1;
+	}
+}
+
+function drawCluster(cluster) {
+	var draw = function() {
+		if (display.layout === "cluster") {
+			$("#resultsDiv #" + cluster.id).append(cluster.node);
+			cluster.display(display.numberDisplayedItems);
+			// clusters[index].display(display.numberDisplayedItems);
+		} else if (display.layout === "list") {
+			console.log("should be drawing lists");
+		}
+	}
+
+	if (cluster.enriched) {
+		draw();
+	} else {
+		cluster.enrich()
+		.then(function() {
+			draw();
+		});
+	}
+	// clusters[index].enrich()
+	// .then(function() {
+	// 	console.log(clusters[0]);
+	// 	// append cluster
+	// 	if (display.layout === "cluster") {
+	// 		displayClusterItems(clusterId);
+	// 	// add enriched clusters and rows
+	// 	} else if (display.layout === "list") {
+	// 		itemsAdded = displayList(clusterId, itemsAdded);
+	// 	}
+	// });
+}
 
 
 
@@ -466,30 +465,6 @@ Display of results and helper functions for the display
 // 	);
 // 	addPath(clusterId, clusters[clusterId].path, localStorage.query);
 // }
-
-// Add the path elements for one cluster
-function addPath(clusterId, uris, query) {
-	// Get labels from server
-	var json = {"uris":uris, "type":"label"};
-
-	return $.ajax({type: "POST",
-		url: "metadata",
-		contentType: "application/json",
-		data: JSON.stringify(json)})
-	.then(function (labels) {
-		var pathElements = [];
-
-		for(var i = 0; i < uris.length; i++){
-			pathElements[i] = {uri:uris[i], label:truncate(labels[i], 50)};
-		}
-
-		pathElements.reverse();
-		var path = new Path(uris, labels, pathElements);
-
-		$("#cluster" + clusterId).prepend(path.htmlSimple);
-		path.unfoldEvent("#cluster" + clusterId, query);
-	});
-}
 
 // Display the items in one cluster with pagination (if necessary)
 // function displayClusterItems(clusterId){
