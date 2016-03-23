@@ -77,8 +77,7 @@ Thumbnail.prototype.thumbnailTitle = function() {
 Thumbnail.prototype.setClickEvent = function(link, parentId) {
 	var _thumbnail = this;
 	this.link = link; // update link
-	console.log("parentId ", parentId, " id ", this.id);
-	console.log("Adding event to ", $(this.node).find(".thumbnail"));
+
 	// remove possible old event
 	$(this.node).find(".thumbnail").off("click thumbnail");
 

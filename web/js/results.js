@@ -163,7 +163,7 @@ function search(query, labels) {
 	.then(function(data) {
 		$(document).prop('title', labels.resultsHdrResults + query);
 		var clusters = processClusters(data);
-		controls(labels); // add control buttons to change layout
+		controls(clusters, labels); // add control buttons to change layout
 		drawResults(clusters);
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
@@ -526,18 +526,18 @@ Code for adding buttons controlling the layout
 *******************************************************************************/
 
 // Add the container for the controls that change the display of the items
-function controls(labels) {
+function controls(results, labels) {
 	if(display.showControls) {
 		$("#resultsDiv").prepend(
 			$.el.div({'class':'row'},
 				$.el.div({'class':'col-md-12 resultsDivControls'}))
 		);
-		resultLayoutButtons(labels);
+		resultLayoutButtons(results, labels);
 	}
 }
 
 // Add the buttons and the click functionality for changing the display
-function resultLayoutButtons(labels) {
+function resultLayoutButtons(results, labels) {
 	$(".resultsDivControls").append(
 		$.el.div({'class':'btn-group'},
 			$.el.button({'class':'btn btn-default',
@@ -545,10 +545,10 @@ function resultLayoutButtons(labels) {
 	);
 	setLayoutButton(labels);
 	$("#resultsBtnLayout").click(function() {
-		$("#resultsDiv").children().remove(".row");
+		$("#resultsDiv").children().remove();
 		display.layout = (display.layout === "list") ? "cluster" : "list";
-		controls(labels);
-		displayView(labels);
+		controls(results, labels);
+		drawResults(results);
 	});
 }
 
