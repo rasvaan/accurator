@@ -79,7 +79,7 @@ Thumbnail.prototype.setClickEvent = function(link, parentId) {
 	this.link = link; // update link
 
 	// remove possible old event
-	$(this.node).find(".thumbnail").off("click thumbnail");
+	// $(this.node).find(".thumbnail").off("click thumbnail");
 
 	$(this.node).find(".thumbnail").on("click thumbnail", function() {
 		//TODO check what should be added to local storage

@@ -348,7 +348,6 @@ function drawCluster(cluster, clusters) {
 	}
 
 	if (cluster.initialized) {
-		console.log("Drawing");
 		draw();
 	} else {
 		cluster.init(display.numberDisplayedItems)
@@ -544,8 +543,15 @@ function resultLayoutButtons(results, labels) {
 						 'id':'resultsBtnLayout'}))
 	);
 	setLayoutButton(labels);
+
 	$("#resultsBtnLayout").click(function() {
-		$("#resultsDiv").children().remove();
+		var resultNodes = document.getElementById("resultsDiv");
+
+		// use pure javascript removal in order to not remove attached events
+		while (resultNodes.firstChild) {
+    		resultNodes.removeChild(resultNodes.firstChild);
+		}
+
 		display.layout = (display.layout === "list") ? "cluster" : "list";
 		controls(results, labels);
 		drawResults(results);
