@@ -77,12 +77,12 @@ Thumbnail.prototype.thumbnailTitle = function() {
 Thumbnail.prototype.setClickEvent = function(link, parentId) {
 	var _thumbnail = this;
 	this.link = link; // update link
-
+	console.log("parentId ", parentId, " id ", this.id);
+	console.log("Adding event to ", $(this.node).find(".thumbnail"));
 	// remove possible old event
-	$("#" + parentId + " #" + this.id).off("click thumbnail");
+	$(this.node).find(".thumbnail").off("click thumbnail");
 
-	$("#" + parentId  + " #" + this.id).on("click thumbnail", function() {
-		console.log(parentId);
+	$(this.node).find(".thumbnail").on("click thumbnail", function() {
 		//TODO check what should be added to local storage
 		//Add info to local storage to be able to save context
 		// localStorage.setItem("itemIndex", index);

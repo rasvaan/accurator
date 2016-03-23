@@ -163,33 +163,11 @@ function search(query, labels) {
 	.then(function(data) {
 		$(document).prop('title', labels.resultsHdrResults + query);
 		var clusters = processClusters(data);
+		controls(labels); // add control buttons to change layout
 		drawResults(clusters);
-		// add control buttons to change layout
-		controls(labels);
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
 	});
-}
-
-function processClusters(data) {
-	if (data.clusters.length === 0) {
-		statusMessage(labels.resultsTxtNoResults + query);
-	} else {
-		var clusters = []; // array containing cluster objects
-
-		for(var i=0; i<data.clusters.length; i++) {
-			var uris = []; // uris of items in cluster
-			var id = "cluster" + i; // id of cluster
-			var path = data.clusters[i].path;
-
-			for(var j = 0; j < data.clusters[i].items.length; j++)
-				uris[j] = data.clusters[i].items[j].uri;
-
-			clusters[i] = new Cluster(id, uris, path);
-		}
-
-		return clusters;
-	}
 }
 
 // Get results based on the expertise of the user and, afterwards, a number of
@@ -279,77 +257,26 @@ function random(query, labels, target, noResults) {
 /*******************************************************************************
 Result population and enrichment
 *******************************************************************************/
+function processClusters(data) {
+	if (data.clusters.length === 0) {
+		statusMessage(labels.resultsTxtNoResults + query);
+	} else {
+		var clusters = []; // array containing cluster objects
 
-// function enrichClusters(query, labels) {
-	// set page title
-	// $(document).prop('title', labels.resultsHdrResults + query);
+		for(var i=0; i<data.clusters.length; i++) {
+			var uris = []; // uris of items in cluster
+			var id = "cluster" + i; // id of cluster
+			var path = data.clusters[i].path;
 
-	// if the display is the list view, the rows that are needed can be first
-	// created and after the enrichment is done, these can be further populated
-	// if (display.layout === "list") {
-	// 	var totItems = totalItemsInClusters();
-	//
-	// 	// add rows for every cluster item
-	// 	addRows(totItems);
-	// }
-	// var itemsAdded = 0;
+			for(var j = 0; j < data.clusters[i].items.length; j++)
+				uris[j] = data.clusters[i].items[j].uri;
 
-	//for every cluster item
-// 	for(var i = 0; i < clusters.length; i++) {
-// 		if(display.layout === "cluster") {
-// 			displayClusterHeader(i);
-// 		}
-// 		var uris = [];
-//
-// 		// enrich every item in the cluster
-// 		for(var j = 0; j < clusters[i].items.length; j++) {
-// 			uris[j] = clusters[i].items[j].uri;
-// 		}
-//
-// 		//when a cluster item finished being enriched, display it
-// 		enrichCluster(uris, i)
-// 		.then(function (clusterId){
-//   		  	// add enriched clusters and pagination
-// 			if (display.layout === "cluster"){
-// 				displayClusterItems(clusterId);
-// 			// add enriched clusters and rows
-// 			} else if (display.layout === "list"){
-// 				itemsAdded = displayList(clusterId, itemsAdded);
-// 			}
-// 		});
-// 	}
-// }
+			clusters[i] = new Cluster(id, uris, path);
+		}
 
-// Enrichment of one cluster item
-// function enrichCluster(uris, clusterId){
-// 	var json = {"uris":uris};
-//
-// 	return $.ajax({type: "POST",
-// 			url: "metadata",
-// 			contentType: "application/json",
-// 			data: JSON.stringify(json)})
-// 	.then(function(data) {
-// 		   // replace cluster items array with enriched ones
-// 		   clusters[clusterId].items = processEnrichment(data);
-// 		   return clusterId;
-// 	 });
-// }
-
-// Enrich one image element in the cluster adding an image, a link where it can
-// be (further) annotated and a title
-// function processEnrichment(data) {
-// 	var enrichedItems = [];
-//
-// 	for(var i=0; i<data.length; i++) {
-// 		enrichedItems[i] = {};
-// 		var uri = data[i].uri;
-// 		enrichedItems[i].uri = uri;
-// 		enrichedItems[i].thumb = data[i].thumb;
-// 		enrichedItems[i].link = "item.html?uri=" + uri;
-// 		enrichedItems[i].title = truncate(data[i].title, 60);
-// 	}
-// 	return enrichedItems;
-// }
+		return clusters;
+	}
+}
 
 // Enrichment of one random object
 function enrichRandoms(uris) {
@@ -375,7 +302,7 @@ function drawResults(clusters) {
 	drawRows(clusters);
 
 	for (var i=0; i<clusters.length; i++)
-		drawCluster(clusters[i]);
+		drawCluster(clusters[i], clusters);
 }
 
 // Add rows for cluster items for the list view
@@ -387,26 +314,16 @@ function drawRows(clusters) {
 			);
 		}
 	} else if (display.layout === "list") {
-		var totalItems = totalItemsInClusters(clusters);
+		var totalItems = itemsInClusters(clusters, clusters.length);
 		var rows = getNumberOfRows(totalItems);
 
 		for (var i=0; i<rows; i++) {
 			$("#resultsDiv").append(
 				$.el.div({'class':'row',
-					'id':'thumbnailRow' + i})
+					'id':'resultsDivThumbnails' + i})
 			);
 		}
 	}
-}
-
-// Determine the total number of items from clusters
-function totalItemsInClusters(clusters) {
-	var totalItems = 0;
-
-	for (var i=0; i<clusters.length; i++){
-		totalItems += clusters[i].items.length;
-	}
-	return totalItems;
 }
 
 // Determine number of pages or rows based on the items to be shown
@@ -421,14 +338,13 @@ function getNumberOfRows(numberOfItems) {
 	}
 }
 
-function drawCluster(cluster) {
+function drawCluster(cluster, clusters) {
 	var draw = function() {
 		if (display.layout === "cluster") {
 			$("#resultsDiv #" + cluster.id).append(cluster.node);
 			cluster.display(display.numberDisplayedItems);
-			// clusters[index].display(display.numberDisplayedItems);
 		} else if (display.layout === "list") {
-			console.log("should be drawing lists");
+			displayClusterAsList(cluster, clusters);
 		}
 	}
 
@@ -440,65 +356,41 @@ function drawCluster(cluster) {
 			draw();
 		});
 	}
-	// clusters[index].enrich()
-	// .then(function() {
-	// 	console.log(clusters[0]);
-	// 	// append cluster
-	// 	if (display.layout === "cluster") {
-	// 		displayClusterItems(clusterId);
-	// 	// add enriched clusters and rows
-	// 	} else if (display.layout === "list") {
-	// 		itemsAdded = displayList(clusterId, itemsAdded);
-	// 	}
-	// });
 }
 
-
-
-
-// Display the cluster header: the html rows that contain one cluster and
-// the path of the cluster
-// function displayClusterHeader(clusterId) {
-// 	$("#resultsDiv").append(
-// 		$.el.div({'class':'well well-sm',
-// 				  'id':'cluster' + clusterId})
-// 	);
-// 	addPath(clusterId, clusters[clusterId].path, localStorage.query);
-// }
-
-// Display the items in one cluster with pagination (if necessary)
-// function displayClusterItems(clusterId){
-// 	var noPages = getNoOfPagesOrRows(clusters[clusterId].items.length);
-//
-// 	$("#cluster" + clusterId).append(pagination(noPages, clusters[clusterId].items, "cluster", clusterId));
-// 	thumbnails(clusterId);
-// }
-
-// Add rows for cluster items for the list view
-// function addRows(totItems){
-// 	var noRows = getNoOfPagesOrRows(totItems);
-//
-// 	for (var i = 0; i < noRows; i++){
-// 		$("#resultsDiv").append(
-// 				$.el.div({'class':'row',
-// 						 'id':'thumbnailRow' + i})
-// 		);
-// 	}
-// }
-
 // Display the items from one cluster and add them as items in a list
-function displayList(clusterId, itemsAdded){
-		//for every item in this cluster, add the thumbnail in the list view
-		for(var clusterItem = 0; clusterItem < clusters[clusterId].items.length; clusterItem++) {
-			var id = getId(clusters[clusterId].items[clusterItem].uri);
-			var rowId = parseInt(itemsAdded/display.numberDisplayedItems, 10);
-			var index = itemsAdded%display.numberDisplayedItems;
+function displayClusterAsList(cluster, clusters) {
+	// determine from where to start adding items based on the contents of the previous clusters
+	var itemsAdded = itemsInClusters(clusters, clusters.indexOf(cluster));
 
-			$("#thumbnailRow" + rowId).append(thumbnail(clusters[clusterId].items[clusterItem]));
-			addListClickEvent(id, clusters[clusterId].items[clusterItem].link, rowId, index, clusterId);
-			itemsAdded++;
-		}
-		return itemsAdded;
+	//for every item in this cluster, add the thumbnail in the list view
+	for (var itemIndex=0; itemIndex < cluster.uris.length; itemIndex++) {
+		var rowNumber = parseInt(itemsAdded/display.numberDisplayedItems, 10);
+		var rowId = "resultsDivThumbnails" + rowNumber;
+		var index = itemsAdded%display.numberDisplayedItems;
+		var thumbnail = new Thumbnail(
+			cluster.items[itemIndex].uri,
+			cluster.items[itemIndex].title,
+			cluster.items[itemIndex].thumb,
+			cluster.items[itemIndex].link,
+			display.numberDisplayedItems
+		);
+
+		thumbnail.setClickEvent(cluster.items[itemIndex].link, rowId);
+		$("#" + rowId).append(thumbnail.node);
+		itemsAdded++;
+	}
+}
+
+// Determine number of items up to a certain cluster
+function itemsInClusters(clusters, clusterIndex) {
+	var totalItems = 0;
+
+	for (var i=0; i<clusterIndex; i++){
+		// count uris since cluster might not be enriched
+		totalItems += clusters[i].uris.length;
+	}
+	return totalItems;
 }
 
 // Add thumbnail click event
