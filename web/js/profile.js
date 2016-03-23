@@ -51,7 +51,7 @@ function populateRecentlyAnnotated(user) {
 			//TODO: limit length of uris (faster if someone annotated a bunch)?
 			var cluster = new Cluster(uris, "profileDivCluster");
 
-			$("#profileDivLastCluster").append(cluster.node);
+			$("#profileDivLastAnnotated").append(cluster.node);
 
 			cluster.enrich()
 			.then(function() {
