@@ -24,13 +24,9 @@ Layout of the results:
 
 *******************************************************************************/
 "use strict";
-
-var randoms = [];
-
 // Display options deciding how to results get displayed
 var display = {
 	layout: "cluster",
-	imageFilter: "onlyImages",
 	numberDisplayedItems: 4,
 	showControls: true
 }
@@ -139,7 +135,7 @@ Search, Recommend or Random results
 function results(target, labels) {
 	var query = getParameterByName("query"); // get query from url when present
 	var userQuery = getParameterByName("user"); // get user from url when present
-	var recommendBoolean = false; // don't do random stuff
+	var recommendBoolean = true; // don't do random stuff
 
 	if(query) {
 		// results based on the user query
@@ -173,34 +169,23 @@ function search(query, labels) {
 // Get results based on the expertise of the user and, afterwards, a number of
 // random items that have not yet been annotated
 function recommend(query, target, labels) {
-	$.getJSON("recommendation", {strategy:query,
-								 target:target})
-	.then(function(data){
-		// retrieve clusters
-		clusters = data.clusters;
-		//localStorage.setItem("clusters", JSON.stringify(clusters));
-
-		// enrich retrieved clusters if any
-		if(clusters.length == 0){
-			statusMessage(labels.resultsTxtNoResults, labels.realName);
-		} else {
-			statusMessage(labels.resultsHdrRecommendedResults);
-
-			// enrich the retrieved clusters
-			enrichClusters(query);
-		}
-
-		// populate random elements in the previously added random cluster
-		random(query, target, 10);
-
-		// set page title
-		$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-
-		// Add control buttons to change layout
-		controls(labels);
-	}, function(data) {
-		statusMessage(labels.resultsTxtError, data.responseText);
+	var recommendation = $.getJSON("recommendation", {
+		strategy:query,
+		target:target
 	})
+	.then(function(data){
+		$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
+		return processClusters(data, query, labels);
+	});
+
+	var random = randomCluster(target, 10);
+
+	$.when(recommendation, random)
+	.then(function(clusters, randomCluster) {
+		clusters.push(randomCluster);
+		controls(clusters, labels); // add control buttons to change layout
+		drawResults(clusters);
+	});
 }
 
 // Get random items
@@ -219,13 +204,14 @@ function random(query, labels, target, noResults) {
 /*******************************************************************************
 Result population and enrichment
 *******************************************************************************/
-function processClusters(data) {
+function processClusters(data, query, labels) {
+	var clusters = []; // array containing cluster objects
+
 	if (data.clusters.length === 0) {
 		statusMessage(labels.resultsTxtNoResults + query);
+		return clusters;
 	} else {
-		var clusters = []; // array containing cluster objects
-
-		for(var i=0; i<data.clusters.length; i++) {
+		for (var i=0; i<data.clusters.length; i++) {
 			var uris = []; // uris of items in cluster
 			var id = "cluster" + i; // id of cluster
 			var path = data.clusters[i].path;
@@ -235,7 +221,6 @@ function processClusters(data) {
 
 			clusters[i] = new Cluster(id, uris, path);
 		}
-
 		return clusters;
 	}
 }
@@ -252,23 +237,6 @@ function randomCluster(target, noResults) {
 		return new Cluster("clusterRandom", uris, "random");
 	});
 }
-
-// Enrichment of one random object
-// function enrichRandoms(uris) {
-// 	// clear results div and reset rows
-// 	// $("#resultsDiv").children().remove();
-//
-// 	var json = {"uris":uris};
-//
-// 	return $.ajax({type: "POST",
-// 		url: "metadata",
-// 		contentType: "application/json",
-// 		data: JSON.stringify(json)})
-// 	.then(function(data) {
-// 		// Replace cluster items with enriched ones
-// 		randoms = processEnrichment(data);
-// 	});
-// }
 
 /*******************************************************************************
 Display of results and helper functions for the display
@@ -381,104 +349,6 @@ function addListClickEvent(id, link, rowId, index, clusterId) {
 	});
 }
 
-// Add rows for random items
-// function addRandomRows(totItems){
-// 	var noRows = getNoOfPagesOrRows(totItems);
-//
-// 	// add rows for thumbnails
-//     for (var i = 0; i < noRows; i++){
-// 		// display as a list
-// 		$("#resultsDiv").append(
-// 			$.el.div({'class':'row',
-//              		  'id':'thumbnailRandomRow' + i})
-// 		);
-//     }
-// }
-
-// Add path node for random objects
-// function addRandomPath() {
-// 	// display path for random cluster only when cluster view is set and for
-// 	// user recommendations
-// 	$("#resultsDiv").append(
-// 		$.el.div({'class':'well well-sm',
-// 						 'id':'randoms'},
-// 			$.el.div({'class':'row path'},
-// 				$.el.div({'class':'col-md-12'},
-// 					$.el.h4(
-// 						$.el.span({'class':'path-label path-literal'},
-// 								 "random objects")))))
-// 	);
-// }
-
-// Add rows for random items that are displayed after recommended ones
-// function addRandomNodes(totItems){
-// 	var noPagesOrRows = getNoOfPagesOrRows(totItems);
-//
-// 	// add rows for thumbnails
-//     for (var i = 0; i < noPagesOrRows; i++){
-// 		// display as a list
-// 		$("#randoms").append(
-// 			$.el.div({'class':'row',
-//              		  'id':'thumbnailRandomRow' + i})
-// 		);
-//     }
-// }
-
-// Display the random list of items
-// function displayRandomList(){
-// 	var noRows = getNoOfPagesOrRows(randoms.length);
-// 	var stop = display.numberDisplayedItems;
-// 	var itemsAdded = 0;
-//
-// 	// populate rows of random
-// 	for (var rowId = 0; rowId < noRows; rowId++){
-// 		for (var index = 0; index < stop; index++){
-// 			if (itemsAdded < randoms.length){
-// 				var id = getId(randoms[itemsAdded].uri);
-//
-// 				$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[itemsAdded]));
-// 				addRandomClickEvent(id, randoms[itemsAdded].link, rowId, index);
-// 				itemsAdded++;
-// 			}
-// 		}
-// 	}
-// }
-
-// Display the random list of items
-// function displayRandomCluster(rowId){
-// 	var noItems = getNoOfPagesOrRows(randoms.length);
-// 	var stop = display.numberDisplayedItems;
-//
-// 	if (randoms.length < stop) {
-// 		stop = randoms.length;
-// 	}
-//
-// 	$("#randoms").append(
-// 		$.el.div({'class':'row',
-// 				  'id':'thumbnailRandomRow' + rowId})
-// 	);
-//
-// 	// populate page of random
-// 	for (var index = 0; index < stop; index++){
-// 			var id = getId(randoms[index].uri);
-//
-// 			$("#thumbnailRandomRow" + rowId).append(thumbnail(randoms[index]));
-// 			addRandomClickEvent(id, randoms[index].link, rowId, index);
-// 	}
-// }
-
-// Add click events for random thumbnail items
-// function addRandomClickEvent(id, link, rowId, index) {
-// 	// Add thumbnail click event
-// 	$("#thumbnailRandomRow" + rowId  + " #" + id).click(function() {
-// 		//Add info to local storage to be able to save context
-// 		localStorage.setItem("itemIndex", index);
-// 		localStorage.setItem("row", rowId);
-// 		//localStorage.setItem("currentRandom", JSON.stringify(randoms[randomId]));
-// 		document.location.href = link;
-// 	});
-// }
-
 // Add a title for the page and print a status message within the page that
 // gives more information on the progress of the search
 function statusMessage(header, text){
@@ -547,79 +417,3 @@ function setLayoutButton(labels) {
 		);
 	}
 }
-
-/*******************************************************************************
-View
-Code for rendering either the cluster or the list view
-*******************************************************************************/
-
-// Displaying of the results based on the view chosen
-// This function uses the data structures (clusters and randoms) that were
-// populated before and just changes the way they are shown for user queries and
-// recommendations based on user expertise. The random objects only get displayed
-// as a list, so the button that selects the view (cluster or list) is not available
-// function displayView(labels){
-// 	// TODO what if the result population or enrichment is not finished when
-// 	// the user clicks the button? Maybe show the button after all this is finished?!
-//
-// 	// clear results div and display controls for changing the view again
-// 	$("#resultsDiv").children().remove(".well, .well-sm");
-//
-// 	if(localStorage.query === "expertise") {
-// 		statusMessage(labels.resultsHdrRecommendedResults);
-// 	} else {
-// 		// set page title and text for results header
-// 		statusMessage(labels.resultsHdrResults + localStorage.query);
-// 	}
-//
-// 	// display list view
-// 	if(display.layout === "list") {
-// 		// list view for user query
-// 		var itemsAdded = 0;
-// 		var totItems = totalItemsInClusters();
-//
-// 		// add rows for every cluster item
-// 		addRows(totItems);
-//
-// 		for(var clusterId = 0; clusterId < clusters.length; clusterId++) {
-// 			itemsAdded = displayList(clusterId, itemsAdded);
-// 		}
-//
-// 		// list view for recommendation
-// 		if(localStorage.query === "expertise") {
-// 			statusMessage(labels.resultsHdrRandomResults);
-//
-// 			$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-//
-// 			var noRandomItems = randoms.length;
-//
-// 			// add rows for random objects and display them as a list
-// 			addRandomRows(noRandomItems);
-//
-// 			displayRandomList();
-// 		}
-// 	// display cluster view
-// 	} else if (display.layout === "cluster"){
-// 		// cluster view for user query and recommendation
-// 		for(var clusterId = 0; clusterId < clusters.length; clusterId++){
-// 			displayClusterHeader(clusterId);
-// 			displayClusterItems(clusterId);
-// 		}
-//
-// 		// show random results for cluster view for recommendation
-// 		if(localStorage.query === "expertise") {
-// 			statusMessage(labels.resultsHdrRandomResults);
-//
-// 			$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-//
-// 			var noRandomItems = randoms.length;
-//
-// 			addRandomPath();
-//
-// 			//display items using pagination
-// 			$("#randoms").append(pagination(getNoOfPagesOrRows(noRandomItems),
-// 					randoms, "randoms"));
-// 			displayRandomCluster(0);
-// 		}
-// 	}
-// }

@@ -31,7 +31,7 @@ Cluster.prototype.enrich = function() {
 	var enrichThumbnails = this.enrichItems();
 	var enrichPath = this.path.enrich();
 
-	return $.when(enrichThumbnails, enrichPath)
+	return $.when(enrichThumbnails, enrichPath);
 }
 
 Cluster.prototype.enrichItems = function() {
