@@ -336,24 +336,11 @@ function displayClusterAsList(cluster, clusters) {
 			display.numberDisplayedItems
 		);
 
+		// TODO: create artificial cluster of list
 		thumbnail.setClickEvent(cluster.items[itemIndex].link, rowId);
 		$("#" + rowId).append(thumbnail.node);
 		itemsAdded++;
 	}
-}
-
-// Add thumbnail click event
-function addListClickEvent(id, link, rowId, index, clusterId) {
-	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
-		//Add info to local storage to be able to save context
-		localStorage.setItem("itemIndex", index);
-		localStorage.setItem("rowId", rowId);
-		localStorage.setItem("currentCluster", JSON.stringify(clusters[clusterId]));
-		//TODO check here + this is already done for the cluster, right?
-		// if((clusterId+1) == clusters.length)
-		// 	localStorage.setItem("query", "random");
-		document.location.href = link;
-	});
 }
 
 // Add a title for the page and print a status message within the page that

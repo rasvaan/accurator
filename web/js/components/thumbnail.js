@@ -74,7 +74,7 @@ Thumbnail.prototype.thumbnailTitle = function() {
 }
 
 // Add thumbnail click event
-Thumbnail.prototype.setClickEvent = function(link, parentId) {
+Thumbnail.prototype.setClickEvent = function(link, cluster) {
 	var _thumbnail = this;
 	this.link = link; // update link
 
@@ -82,13 +82,8 @@ Thumbnail.prototype.setClickEvent = function(link, parentId) {
 	$(this.node).find(".thumbnail").off("click thumbnail");
 
 	$(this.node).find(".thumbnail").on("click thumbnail", function() {
-		//TODO check what should be added to local storage
-		//Add info to local storage to be able to save context
-		// localStorage.setItem("itemIndex", index);
-		// localStorage.setItem("clusterId", parentId);
-		// localStorage.setItem("currentCluster", JSON.stringify(clusters[clusterId]));
-		// if((clusterId+1) == clusters.length)
-		// 	localStorage.setItem("query", "random");
+		// add info to local storage to be able to save context
+		localStorage.setItem("cluster", JSON.stringify(cluster));
 		document.location.href = _thumbnail.link;
 	});
 }
