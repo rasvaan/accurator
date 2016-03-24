@@ -114,7 +114,7 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 		$(this.node).find("#thumbnailRow" + this.id).append(
 			thumbnail.node
 		);
-		thumbnail.setClickEvent(this.items[i].link, this);
+		thumbnail.setClickEvent(this.items[i].link, this.uris, this.path.path);
 		this.thumbnails[i] = thumbnail;
 	}
 }
@@ -141,7 +141,7 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 		thumbnail.setImage(this.items[i].thumb);
 		thumbnail.setTitle(this.items[i].title);
 		thumbnail.setId(thumbnail.getId(this.items[i].uri));
-		thumbnail.setClickEvent(this.items[i].link, this);
+		thumbnail.setClickEvent(this.items[i].link, this.uris, this.path.path);
 
 		thumbIndex++;
 	}

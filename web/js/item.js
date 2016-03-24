@@ -78,9 +78,9 @@ function itemInit() {
 			var labelArray = initLabels(labels);
 
 			// Only show path when cluster is available TODO: remove ugly check for undefined
-			if((localStorage.getItem("currentCluster") !== null) &&
-					(localStorage.getItem("currentCluster") !== "undefined")) {
-				addPath();
+			if((localStorage.getItem("uris") !== null) &&
+				(localStorage.getItem("uris") !== "undefined")) {
+				addNavigation();
 			}
 
 			addButtonEvents(user);
@@ -124,7 +124,11 @@ function events(user, labels) {
 	});
 }
 
-function addPath() {
+function addNavigation() {
+	var uris =  JSON.parse(localStorage.getItem("uris"));
+	var path =  JSON.parse(localStorage.getItem("path"));
+
+	console.log(uris, path);
 	//TODO: restore path functionallity after making it an object
 	// query = localStorage.getItem("query");
 	// var cluster = JSON.parse(localStorage.getItem("currentCluster"));

@@ -7,13 +7,14 @@ function Path(path, parentId, query) {
     this.elements = []; // elements of the path
     this.node = null;
     this.parentId = parentId; // id of the parent element (probably cluster)
-    this.query = query; // the query which is the start of the path
+    this.query = null; // the query which is the start of the path
 
-    this.init();
+    this.init(query);
 }
 
-Path.prototype.init = function() {
+Path.prototype.init = function(query) {
     this.node = this.html();
+    if (query) ? this.query = query : this.query = "query";
     if (typeof this.path === 'string' || this.path instanceof String) {
         this.addTitle();
     }

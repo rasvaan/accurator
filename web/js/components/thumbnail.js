@@ -74,7 +74,7 @@ Thumbnail.prototype.thumbnailTitle = function() {
 }
 
 // Add thumbnail click event
-Thumbnail.prototype.setClickEvent = function(link, cluster) {
+Thumbnail.prototype.setClickEvent = function(link, uris, path) {
 	var _thumbnail = this;
 	this.link = link; // update link
 
@@ -83,7 +83,8 @@ Thumbnail.prototype.setClickEvent = function(link, cluster) {
 
 	$(this.node).find(".thumbnail").on("click thumbnail", function() {
 		// add info to local storage to be able to save context
-		localStorage.setItem("cluster", JSON.stringify(cluster));
+		localStorage.setItem("uris", JSON.stringify(uris));
+		localStorage.setItem("path", JSON.stringify(path));
 		document.location.href = _thumbnail.link;
 	});
 }
