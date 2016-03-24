@@ -24,11 +24,12 @@ function expertiseInit() {
 	function drawPage(userData) {
 		setLinkLogo("profile");
 		var domainData;
+		var user;
 
 		domainSettings(domain)
 		.then(function(data) {
 			domainData = data;
-			var user = userData.user;
+			user = userData.user;
 			var userName = getUserName(user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
 			return getLabels(locale, domainData.ui + "expertise");
@@ -38,7 +39,7 @@ function expertiseInit() {
 			return initExpertiseTopics(domainData, locale, labelArray)
 		})
 		.then(function(topics) {
-			registerEvents(topics);
+			registerEvents(topics, user);
 		});
 	}
 }
@@ -58,9 +59,9 @@ function initLabels(data) {
 	return labels;
 }
 
-function registerEvents(topics) {
+function registerEvents(topics, user) {
 	$("#expertiseBtnSubmit").click(function() {
-		processExpertiseValues(topics);
+		processExpertiseValues(topics, user);
 	});
 	$("#expertiseBtnSkip").click(function() {
 		document.location.href = "results.html";
@@ -129,20 +130,22 @@ function generateIds(topics) {
 }
 
 function expertiseSlider(id) {
-	return $.el.input({'id':id,
-						'data-slider-id':'sld' + id,
-						'type':'text',
-						'data-slider-min':'1',
-						'data-slider-max':'5',
-						'data-slider-step':'0.1',
-						'data-slider-value':'3'});
+	return $.el.input({
+		'id':id,
+		'data-slider-id':'sld' + id,
+		'type':'text',
+		'data-slider-min':'1',
+		'data-slider-max':'5',
+		'data-slider-step':'0.1',
+		'data-slider-value':'3'
+	});
 }
 
 function initSlider(id) {
 	$("#" + id).slider();
 }
 
-function processExpertiseValues(topics) {
+function processExpertiseValues(topics, user) {
 	var userExpertise = {};
 	userExpertise.user = user;
 	userExpertise.expertise = {};
@@ -154,10 +157,11 @@ function processExpertiseValues(topics) {
 		userExpertise.expertise[topics[i].uri] = roundedValue;
 	}
 
-	$.ajax({type: "POST",
-		    url: "expertise_values",
-			contentType: "application/json",
-			data: JSON.stringify(userExpertise),
+	$.ajax({
+		type: "POST",
+		url: "expertise_values",
+		contentType: "application/json",
+		data: JSON.stringify(userExpertise),
 	})
 	.then(function() {
 		document.location.href = "results.html";
