@@ -1,126 +1,137 @@
-/* Pagination
-*  Code for initializing bootstrap pagination and handling interactions
-*/
-var items, labelItems;
+/******************************************************************************
+Pagination
+*******************************************************************************/
+function Pagination(id, items, numberDisplayedItems, parentId) {
+	this.numberOfPages = null; // number of pages
+	this.numberOfItems = items.length; // number of items
+	this.numberDisplayedItems = numberDisplayedItems; // the number of items shown
+	this.page = null; // the current page
+	this.node = null; // html representation of pagination row
+	this.parentId = parentId; // id of the parent element (probably cluster)
 
-function pagination(numberOfPages, itemsForPagination, labelForPaginationItems, clusterId) {
-	// Don't use pagination if there are not enough items
-	if(numberOfPages==1) return "";
+	this.init();
+}
 
-	items = itemsForPagination;
+Pagination.prototype.init = function() {
+	this.numberOfPages = this.getNumberOfPages();
+	this.page = 1;
+	this.node = this.html();
+}
 
-	// If the list of items to be displayed is random, then clusterId is undefined
-	if (clusterId === undefined) {
-		clusterId = 0;
-		labelItems = labelForPaginationItems + "";
+Pagination.prototype.getNumberOfPages = function() {
+	var numberOfPages = 0;
+	var restPages = this.numberOfItems%this.numberDisplayedItems;
+
+	if(restPages == 0) {
+		numberOfPages = this.numberOfItems/this.numberDisplayedItems;
+	} else {
+		numberOfPages = (this.numberOfItems-restPages)/this.numberDisplayedItems+1;
 	}
-	else {
-		labelItems = labelForPaginationItems + clusterId;
-	}
+	return numberOfPages;
+}
 
-	// Init HTML pagination string, starting with a disabled left arrow and an active first page
-	var html = $.el.ul({'class':'pagination pagination-sm'},
-					   $.el.li({'class':'disabled'},
-							   $.el.span('\u00ab')),
-					   $.el.li({'class':'active'},
-							   $.el.span(1)));
+Pagination.prototype.html = function() {
+	// don't use pagination if there are not enough items
+	if (this.numberOfPages == 1) return "";
 
-	// Add additional pages
-	for(var i = 2; i <= numberOfPages;i++){
-		html.appendChild(
-			$.el.li($.el.a({'href':'javascript:goToPage(' + i + ', ' + clusterId + ')'},
-						   i)));
+	// init HTML pagination, starting with a disabled left arrow and an active first page
+	var html =
+	$.el.ul({'class':'pagination pagination-sm'},
+		$.el.li({'class':'disabled left-arrow'},
+			$.el.span('\u00ab')),
+		$.el.li({'class':'active'},
+			$.el.span(1))
+	);
+
+	// add additional pages
+	for (var i=2; i<=this.numberOfPages; i++) {
+		// create html for page number
+		var pageNode = $.el.li($.el.span(i));
+		this.addClickEvent(pageNode, i);
+		html.appendChild(pageNode);
 	};
 
-	// Add right arrow to pagination
-	html.appendChild(
-		$.el.li($.el.a({'href':'javascript:nextPage(1' + ', ' + clusterId + ')'},
-					   '\u00bb')));
+	// add right arrow to pagination
+	var rightArrow =
+	$.el.li({'class':'right-arrow'},
+		$.el.span('\u00bb')
+	);
+	this.addClickNext(rightArrow);
+	html.appendChild(rightArrow);
 
-	return $.el.div({'class':'row'},
-					$.el.div({'class':'col-md-12'},
-							 html));
+	return html;
 }
 
-function newPagination(numberOfPages){
-	// Don't use pagination if there are not enough items
-	if(numberOfPages==1) return "";
+Pagination.prototype.addClickEvent = function(pageNode, i) {
+	var _page = this;
 
-	// Init HTML pagination string, starting with a disabled left arrow and an active first page
-	var html = $.el.ul({'class':'pagination pagination-sm'},
-					   $.el.li({'class':'disabled'},
-							   $.el.span('\u00ab')),
-					   $.el.li({'class':'active'},
-							   $.el.span(1)));
-
-
+	$(pageNode).on("click pagination", function() {
+		_page.goToPage(i);
+	});
 }
 
-function changePagination(pageNumber, activePage, numberOfPages, clusterId) {
-	console.log("labeItems=", labelItems);
-	//Often replacing html, this is because often <a> has to be replaced by <span> and vice versa
-	//Replace span active class with a link
-	// $("#" + labelItems + clusterId + " .pagination li").eq(activePage).replaceWith(
-	$("#" + labelItems + " .pagination li").eq(activePage).replaceWith(
-		$.el.li($.el.a({'href':'javascript:goToPage(' + activePage + ', ' + clusterId + ')'},
-					   activePage)));
+Pagination.prototype.addClickNext = function(pageNode) {
+	var _page = this;
 
-	//Replace a link with span active class
-	// $("#" + labelItems + clusterId + " .pagination li").eq(pageNumber).replaceWith(
-	$("#" + labelItems + " .pagination li").eq(pageNumber).replaceWith(
-		$.el.li({'class':'active'},
-				$.el.span(pageNumber)));
+	$(pageNode).on("click pagination", function() {_page.next();});
+}
 
-	//Replace left arrow
-	if(pageNumber == 1) {
-		// Disable left because switching to page one
-		// $("#" + labelItems + clusterId + " .pagination li").eq(0).replaceWith(
-		$("#" + labelItems + " .pagination li").eq(0).replaceWith(
-			$.el.li({'class':'disabled'},
-					$.el.span('\u00ab')));
+Pagination.prototype.addClickPrevious = function(pageNode) {
+	var _page = this;
+
+	$(pageNode).on("click pagination", function() {_page.previous();});
+}
+
+Pagination.prototype.next = function() {
+	this.goToPage(this.page + 1);
+}
+
+Pagination.prototype.previous = function() {
+	this.goToPage(this.page - 1);
+}
+
+Pagination.prototype.goToPage = function(page) {
+	var currentNode = $("#" + this.parentId + " .pagination .active");
+	var newNode = $("#" + this.parentId + " .pagination li").eq(page);
+	var leftArrow = $("#" + this.parentId + " .pagination .left-arrow");
+	var rightArrow = $("#" + this.parentId + " .pagination .right-arrow");
+
+	// trigger page turning event linked to this parent
+	var event = jQuery.Event("pagination");
+	event.currentPage = this.page;
+	event.nextPage = page;
+	$("#" + this.parentId).trigger(event);
+
+	// set active class to inactive
+	currentNode.removeClass("active");
+	// add link to currently active page
+	this.addClickEvent(currentNode, this.page);
+
+	// set new node to active
+	newNode.addClass("active");
+	// remove events
+	newNode.off("click pagination");
+	this.page = page;
+
+	// remove event to not add duplicates
+	leftArrow.off("click pagination");
+	if(page === 1) {
+		// disable left arrow because switching to page one
+		leftArrow.addClass("disabled");
 	} else {
-		// Enable left with pageNumber as a link
-		// $("#" + labelItems + clusterId + " .pagination li").eq(0).replaceWith(
-		$("#" + labelItems + " .pagination li").eq(0).replaceWith(
-			$.el.li($.el.a({'href':'javascript:previousPage(' + pageNumber + ', ' + clusterId + ')'},
-						   '\u00ab')));
+		// enable left arrow
+		leftArrow.removeClass("disabled");
+		this.addClickPrevious(leftArrow);
 	}
 
-	//Replace right arrow
-	if(pageNumber == numberOfPages) {
-		// Disable left because switching to page one
-		// $("#" + labelItems + clusterId + " .pagination li").eq(numberOfPages+1).replaceWith(
-		$("#" + labelItems + " .pagination li").eq(numberOfPages+1).replaceWith(
-			$.el.li({'class':'disabled'},
-					$.el.span('\u00bb')));
+	// remove event to not add duplicates
+	rightArrow.off("click pagination");
+	if(page === this.numberOfPages) {
+		// disable right arrow because switching to last page
+		rightArrow.addClass("disabled");
 	} else {
-		// Enable left with pageNumber as a link
-		// $("#" + labelItems + clusterId + " .pagination li").eq(numberOfPages+1).replaceWith(
-		 $("#" + labelItems + " .pagination li").eq(numberOfPages+1).replaceWith(
-			$.el.li($.el.a({'href':'javascript:nextPage(' + pageNumber + ', ' + clusterId + ')'},
-						   '\u00bb')));
+		// enable right arrow
+		rightArrow.removeClass("disabled");
+		this.addClickNext(rightArrow);
 	}
-}
-
-function nextPage(pageNumber, clusterId) {
-	var toGoToPage = pageNumber + 1;
-	//	console.log("Should be going to " + toGoToPage + " page now...");
-	goToPage(toGoToPage, clusterId);
-}
-
-function previousPage(pageNumber, clusterId) {
-	var toGoToPage = pageNumber - 1;
-	//	console.log("Should be going to " + toGoToPage + " page now...");
-	goToPage(toGoToPage, clusterId);
-}
-
-function goToPage(pageNumber, clusterId) {
-	// Get the number of list items of the pagination (translation: the number of pages)
-	// var numberOfPages = $("#" + labelItems + clusterId + " .pagination li").length - 2;
-	// var activePage = $("#" + labelItems + clusterId + " .pagination .active").text();
-	var numberOfPages = $("#" + labelItems + " .pagination li").length - 2;
-	var activePage = $("#" + labelItems + " .pagination .active").text();
-	// console.log("Number of pages: " + numberOfPages + " Should be going to the " + pageNumber + " page now,  current activePAge: " + activePage);
-	changePagination(pageNumber, activePage, numberOfPages, clusterId);
-	changeThumbnails(pageNumber, activePage, numberOfPages, items, labelItems, clusterId);
 }

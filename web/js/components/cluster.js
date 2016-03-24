@@ -1,13 +1,40 @@
 /*******************************************************************************
 Cluster
 *******************************************************************************/
-function Cluster(uris, id) {
-	this.uris = uris;
-	this.id = id;
-	this.items = [];
+function Cluster(id, uris, path) {
+	this.id = id; // id of the cluster
+	this.uris = uris; // list of uris of the items
+	this.items = []; // enriched items
+	this.path = new Path(path, this.id);
+	this.pagination = null;
+	this.thumbnails = []; // thumbnails
+	this.node = $.el.div({'class':'well well-sm', 'id':this.id});
+	this.initialized = false;
+}
+
+Cluster.prototype.init = function(numberDisplayedItems) {
+	var _cluster = this;
+
+	//  upon init enrich path and cluster items
+	return this.enrich()
+	.then(function() {
+		// add path, pagination and items to node
+		_cluster.addPath();
+		_cluster.addPagination(numberDisplayedItems);
+		_cluster.addThumbnails(numberDisplayedItems);
+
+		_cluster.initialized = true;
+	});
 }
 
 Cluster.prototype.enrich = function() {
+	var enrichThumbnails = this.enrichItems();
+	var enrichPath = this.path.enrich();
+
+	return $.when(enrichThumbnails, enrichPath);
+}
+
+Cluster.prototype.enrichItems = function() {
 	var _cluster = this; //make sure we can use this Cluster in $ scope
 
 	return $.ajax({
@@ -32,23 +59,104 @@ Cluster.prototype.enrich = function() {
 	 });
 }
 
-Cluster.prototype.display = function() {
-	var numberOfPages = this.getNumberOfPages(this.items.length);
-
-	$("#" + this.id).append(
-		pagination(numberOfPages, this.items, "cluster", this.id)
-	);
-	thumbnails(this.id);
+Cluster.prototype.addPath = function() {
+	$(this.node).append(this.path.node);
 }
 
-Cluster.prototype.getNumberOfPages = function(numberOfItems) {
-	var numberOfPages = 0;
-	var restPages = numberOfItems%display.numberDisplayedItems;
+Cluster.prototype.addPagination = function(numberDisplayedItems) {
+	var _cluster = this;
+	var paginationId = this.id + "Pagination"
 
-	if(restPages == 0) {
-		numberOfPages = numberOfItems/display.numberDisplayedItems;
-	} else {
-		numberOfPages = (numberOfItems-restPages)/display.numberDisplayedItems+1;
+	this.pagination = new Pagination(
+		paginationId,
+		this.items,
+		numberDisplayedItems,
+		this.id
+	);
+
+	$(this.node).append(
+		// add pagination row
+		$.el.div({'class':'row'},
+			$.el.div({'class':'col-md-12'},
+				this.pagination.node))
+	);
+
+	// add event listener for change of page
+	$("#" + this.id).on("pagination", function(event) {
+		_cluster.changeThumbnails(event.currentPage, event.nextPage, numberDisplayedItems);
+	});
+}
+
+
+// Add thumbnails for a cluster
+Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
+	var stop = numberDisplayedItems;
+	var bootstrapWidth = parseInt(12/numberDisplayedItems, 10);
+
+	// check if less results available then there are to be displayed
+	if(this.items.length < stop){
+		stop = this.items.length;
 	}
-	return numberOfPages;
+
+	// add row
+	$(this.node).append(
+		$.el.div({'class':'row', 'id':'thumbnailRow' + this.id}));
+
+	for (var i=0; i<stop; i++) {
+		var thumbnail = new Thumbnail(
+			this.items[i].uri,
+			this.items[i].title,
+			this.items[i].thumb,
+			this.items[i].link,
+			numberDisplayedItems
+		);
+		$(this.node).find("#thumbnailRow" + this.id).append(
+			thumbnail.node
+		);
+		thumbnail.setClickEvent(this.items[i].link, this.id);
+		this.thumbnails[i] = thumbnail;
+	}
+}
+
+Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDisplayedItems) {
+	var bootstrapWidth = parseInt(12/numberDisplayedItems, 10); // width of thumbnail
+	var numberOfPages = this.pagination.numberOfPages;
+	var start = (nextPage - 1) * numberDisplayedItems; // start index of items shown
+	var stop = start + numberDisplayedItems; // stop index of items shown
+	var remove = 0; // number of thumbnails spaces not shown
+	var headerType; // size of the header
+
+	// Check if there are more spaces then items, if so, make those spaces invisible
+	if(stop > this.items.length) {
+		remove = stop - this.items.length;
+		stop = this.items.length;
+	}
+
+	// console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
+	var thumbIndex = 0; // index of the thumbnail spots
+	for (var i=start; i<stop; i++) {
+		var thumbnail = this.thumbnails[thumbIndex];
+
+		thumbnail.setImage(this.items[i].thumb);
+		thumbnail.setTitle(this.items[i].title);
+		thumbnail.setId(thumbnail.getId(this.items[i].uri));
+		thumbnail.setClickEvent(this.items[i].link, this.id);
+
+		thumbIndex++;
+	}
+
+	// if returning from a possible invisible situation, make everything visible again
+	if(currentPage === numberOfPages) {
+		var removed = numberOfPages * numberDisplayedItems - this.items.length;
+		var start = numberDisplayedItems - removed;
+
+		for(var i = start; i < numberDisplayedItems; i++) {
+			this.thumbnails[i].show();
+		}
+	}
+
+	// don't display unused thumbspace
+	for (var i = thumbIndex; i < thumbIndex+remove; i++) {
+		this.thumbnails[i].hide();
+	}
 }
