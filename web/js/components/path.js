@@ -14,7 +14,7 @@ function Path(path, parentId, query) {
 
 Path.prototype.init = function(query) {
     this.node = this.html();
-    if (query) ? this.query = query : this.query = "query";
+    query ? this.query = query : this.query = "query";
     if (typeof this.path === 'string' || this.path instanceof String) {
         this.addTitle();
     }
@@ -46,7 +46,9 @@ Path.prototype.enrich = function() {
     var _path = this;
 
     // no need for enriching if we have a title
-    if (typeof this.path === 'string' || this.path instanceof String) return;
+    if (typeof this.path === 'string' || this.path instanceof String) {
+        return $.Deferred().resolve().promise();
+    }
 
 	return $.ajax({type: "POST",
 		url: "metadata",

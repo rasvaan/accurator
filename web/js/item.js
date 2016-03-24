@@ -80,7 +80,7 @@ function itemInit() {
 			// Only show path when cluster is available TODO: remove ugly check for undefined
 			if((localStorage.getItem("uris") !== null) &&
 				(localStorage.getItem("uris") !== "undefined")) {
-				addNavigation();
+				addNavigation(uri);
 			}
 
 			addButtonEvents(user);
@@ -124,18 +124,16 @@ function events(user, labels) {
 	});
 }
 
-function addNavigation() {
+function addNavigation(uri) {
 	var uris =  JSON.parse(localStorage.getItem("uris"));
-	var path =  JSON.parse(localStorage.getItem("path"));
+	var pathArray =  JSON.parse(localStorage.getItem("path"));
+	var path = new Path(pathArray, itemDivPath);
 
-	console.log(uris, path);
-	//TODO: restore path functionallity after making it an object
-	// query = localStorage.getItem("query");
-	// var cluster = JSON.parse(localStorage.getItem("currentCluster"));
-	// console.log("cluster", cluster);
-	// $("#path").append(pathHtmlElements(cluster.path));
-	// unfoldPathEvent("#path", cluster.path);
-	// addNavigationButtonEvents();
+	path.enrich()
+	.then(function() {
+		$("#itemDivPath").append(path.node);
+		addNavigationButtonEvents(uris, uri);
+	});
 }
 
 function addButtonEvents(user) {
@@ -155,26 +153,22 @@ function addButtonEvents(user) {
 	});
 }
 
-function addNavigationButtonEvents() {
-	var index = parseInt(localStorage.getItem("itemIndex"));
-	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
-	var items = cluster.items;
+function addNavigationButtonEvents(uris, uri) {
+	var index = uris.indexOf(uri);
 
-	if(index === 0) {
+	if (index === 0) {
 		$("#itemBtnPrevious").attr("disabled", "disabled");
 	} else {
 		$("#itemBtnPrevious").click(function() {
-			localStorage.setItem("itemIndex", index - 1);
-			document.location.href = "annotate.html?uri=" + items[index -1].uri;
+			document.location.href = "item.html?uri=" + uris[index -1];
 		});
 	}
 
-	if(index === items.length-1) {
+	if(index === uris.length-1) {
 		$("#itemBtnNext").attr("disabled", "disabled");
 	} else {
 		$("#itemBtnNext").click(function() {
-			localStorage.setItem("itemIndex", index + 1);
-			document.location.href = "annotate.html?uri=" + items[index + 1].uri;
+			document.location.href = "item.html?uri=" + uris[index + 1];
 		});
 	}
 }
