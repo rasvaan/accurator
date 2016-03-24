@@ -27,6 +27,7 @@ Pagination.prototype.getNumberOfPages = function() {
 	} else {
 		numberOfPages = (this.numberOfItems-restPages)/this.numberDisplayedItems+1;
 	}
+
 	return numberOfPages;
 }
 
@@ -35,27 +36,27 @@ Pagination.prototype.html = function() {
 	if (this.numberOfPages == 1) return "";
 
 	// init HTML pagination, starting with a disabled left arrow and an active first page
-	var html =
-	$.el.ul({'class':'pagination pagination-sm'},
-		$.el.li({'class':'disabled left-arrow'},
-			$.el.span('\u00ab')),
-		$.el.li({'class':'active'},
-			$.el.span(1))
+	var html = $.el.ul({'class':'pagination pagination-sm'},
+			   		$.el.li({'class':'disabled left-arrow'},
+			   			$.el.span('\u00ab')),
+			   		$.el.li({'class':'active'},
+			   			$.el.span(1))
 	);
 
 	// add additional pages
-	for (var i=2; i<=this.numberOfPages; i++) {
+	for (var i = 2; i <= this.numberOfPages; i++) {
 		// create html for page number
 		var pageNode = $.el.li($.el.span(i));
+
 		this.addClickEvent(pageNode, i);
 		html.appendChild(pageNode);
 	};
 
 	// add right arrow to pagination
-	var rightArrow =
-	$.el.li({'class':'right-arrow'},
-		$.el.span('\u00bb')
+	var rightArrow = $.el.li({'class':'right-arrow'},
+						$.el.span('\u00bb')
 	);
+
 	this.addClickNext(rightArrow);
 	html.appendChild(rightArrow);
 
@@ -73,13 +74,17 @@ Pagination.prototype.addClickEvent = function(pageNode, i) {
 Pagination.prototype.addClickNext = function(pageNode) {
 	var _page = this;
 
-	$(pageNode).on("click pagination", function() {_page.next();});
+	$(pageNode).on("click pagination", function() {
+		_page.next();
+	});
 }
 
 Pagination.prototype.addClickPrevious = function(pageNode) {
 	var _page = this;
 
-	$(pageNode).on("click pagination", function() {_page.previous();});
+	$(pageNode).on("click pagination", function() {
+		_page.previous();
+	});
 }
 
 Pagination.prototype.next = function() {

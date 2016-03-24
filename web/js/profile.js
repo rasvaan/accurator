@@ -68,6 +68,7 @@ function populateRecentlyAnnotated(user) {
 function initLabels(labels) {
 	// add retrieved labels to html elements
 	document.title = labels.profilePageTitle;
+	
 	// check if real name is available
 	if (typeof realName !== 'undefined') {
 		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan + " " + realName + " ");
