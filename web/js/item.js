@@ -83,7 +83,7 @@ function itemInit() {
 				addPath();
 			}
 
-			addButtonEvents();
+			addButtonEvents(user);
 			return events(user, labelArray);
 		})
 	}
@@ -134,9 +134,9 @@ function addPath() {
 	// addNavigationButtonEvents();
 }
 
-function addButtonEvents() {
+function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
-		document.location.href = "results.html" + "?user=" + user;
+		document.location.href = "results.html?user=" + user;
 	});
 	// Search on pressing enter
 	$("#navbarInpSearch").keypress(function(event) {
