@@ -226,7 +226,7 @@ function processClusters(data, query, labels) {
 			for(var j = 0; j < data.clusters[i].items.length; j++)
 				uris[j] = data.clusters[i].items[j].uri;
 
-			clusters[i] = new Cluster(id, uris, path);
+			clusters[i] = new Cluster(id, uris, path, query);
 		}
 		return clusters;
 	}
