@@ -322,6 +322,7 @@ function drawCluster(cluster, clusters) {
 function displayClusterAsList(cluster, clusters) {
 	// determine from where to start adding items based on the contents of the previous clusters
 	var itemsAdded = itemsInClusters(clusters, clusters.indexOf(cluster));
+	var listCluster = mergeClusters(clusters, "list");
 
 	//for every item in this cluster, add the thumbnail in the list view
 	for (var itemIndex=0; itemIndex < cluster.uris.length; itemIndex++) {
@@ -336,11 +337,21 @@ function displayClusterAsList(cluster, clusters) {
 			display.numberDisplayedItems
 		);
 
-		// TODO: create artificial cluster of list
-		thumbnail.setClickEvent(cluster.items[itemIndex].link, rowId);
+		thumbnail.setClickEvent(cluster.items[itemIndex].link, listCluster);
 		$("#" + rowId).append(thumbnail.node);
 		itemsAdded++;
 	}
+}
+
+// Function merging multiple clusters into one adding a new title
+function mergeClusters(clusters, title) {
+	var uris = [];
+
+	// retrieve all uris
+	for (var i=0; i<clusters.length; i++)
+		uris = uris.concat(clusters[i].uris);
+
+	return new Cluster("cluster", uris, title);
 }
 
 // Add a title for the page and print a status message within the page that
