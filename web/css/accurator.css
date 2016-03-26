@@ -228,7 +228,7 @@ Search results
 .path-label {
 	color: rgb(255, 255, 255);
     display: inline;
-    padding: 0.2em 0.6em 0.3em;
+    padding: 0.3em 0.6em 0.3em;
 	font-size: 75%;
 	font-weight: bold;
 	line-height: 2;
@@ -251,7 +251,7 @@ Search results
 
 .path-resource {
 	background-color: rgb(20, 65, 115);
-	padding: 0.3em 0.6em 0.4em;
+	padding: 0.4em 0.6em 0.4em;
 	font-size: 80%;
 }
 
