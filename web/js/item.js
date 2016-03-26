@@ -62,6 +62,19 @@ function itemInit() {
 		.then(function(domainData) {
 			ui = domainData.ui + "item";
 			annotation_ui = domainData.annotation_ui;
+			return getLabels(locale, ui);
+		})
+		.then(function(labelData){
+			var labels = initLabels(labelData);
+
+			// Only show path when cluster is available
+			if ((localStorage.getItem("uris") !== null) &&
+				(localStorage.getItem("uris") !== "undefined")) {
+				addNavigation(uri);
+			}
+
+			addButtonEvents(user);
+			return events(user, labels);
 		})
 		.then(function() {
 			return setImage(uri);
@@ -70,22 +83,7 @@ function itemInit() {
 			displayMetadata(uri);
 			displayAnnotations(uri);
 			return addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui);
-		})
-		.then(function() {
-			return getLabels(locale, ui);
-		})
-		.then(function(labels) {
-			var labelArray = initLabels(labels);
-
-			// Only show path when cluster is available TODO: remove ugly check for undefined
-			if((localStorage.getItem("uris") !== null) &&
-				(localStorage.getItem("uris") !== "undefined")) {
-				addNavigation(uri);
-			}
-
-			addButtonEvents(user);
-			return events(user, labelArray);
-		})
+		});
 	}
 }
 
@@ -100,26 +98,27 @@ function setImage(uri) {
 	});
 }
 
-function initLabels(labels) {
-	document.title = labels.title;
-	$("#itemBtnPrevious").append(labels.itemBtnPrevious);
-	$("#itemBtnNext").prepend(labels.itemBtnNext);
-	$("#navbarBtnRecommend").append(labels.navbarBtnRecommend);
-	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
+function initLabels(labelData) {
+	console.log(labelData);
+	document.title = labelData.title;
+	$("#itemBtnPrevious").append(labelData.itemBtnPrevious);
+	$("#itemBtnNext").prepend(labelData.itemBtnNext);
+	$("#navbarBtnRecommend").append(labelData.navbarBtnRecommend);
+	$("#navbarBtnSearch").append(labelData.navbarBtnSearch);
 
-	var labelArray = {
-		vntFirstTitle: labels.vntFirstTitle,
-		vntFirstText: labels.vntFirstText
+	var labels = {
+		itemHdrFirst: labelData.itemHdrFirst,
+		itemTxtFirst: labelData.itemTxtFirst
 	};
 
-	return labelArray;
+	return labels;
 }
 
 function events(user, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
 		if(annotations.length === 0) {
-			alertMessage(labels.vntFirstTitle, labels.vntFirstText, 'success');
+			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
 	});
 }
