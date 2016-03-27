@@ -58,20 +58,20 @@ aui:domainTxtTitle rdfs:subPropertyOf auis:uiLabel .
 aui:item a auis:UI ;
 	dcterms:title "Accurator tag UI"@en ;
 	aui:title "Tag image"@en ;
-	aui:annotateBtnPrevious "Previous"@en ;
-	aui:annotateBtnNext "Next"@en ;
+	aui:itemBtnPrevious "Previous"@en ;
+	aui:itemBtnNext "Next"@en ;
 	aui:navbarBtnRecommend "Recommended works"@en ;
 	aui:navbarBtnSearch "Search"@en ;
-	aui:annotateHdrFirst "Your first tag!"@en ;
-	aui:annotateTxtFirst "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en .
+	aui:itemHdrFirst "Your first tag!"@en ;
+	aui:itemTxtFirst "Start dragging a bounding box around the object you want to describe. Multiple fields can be filled in, try to be as precise as possible. To proceed to a next object, either click on next image, get new recommendations or search for specific topics."@en .
 
 aui:title rdfs:subPropertyOf auis:uiLabel .
-aui:annotateBtnPrevious rdfs:subPropertyOf auis:uiLabel .
-aui:annotateBtnNext rdfs:subPropertyOf auis:uiLabel .
+aui:itemBtnPrevious rdfs:subPropertyOf auis:uiLabel .
+aui:itemBtnNext rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnRecommend rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
-aui:annotateHdrFirst rdfs:subPropertyOf auis:uiLabel .
-aui:annotateTxtFirst rdfs:subPropertyOf auis:uiLabel .
+aui:itemHdrFirst rdfs:subPropertyOf auis:uiLabel .
+aui:itemTxtFirst rdfs:subPropertyOf auis:uiLabel .
 
 ##### Expertise Screen #####
 

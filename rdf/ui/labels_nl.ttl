@@ -36,12 +36,12 @@ aui:domain a auis:UI ;
 
 aui:item a auis:UI ;
 	aui:title "Voeg informatie toe aan object"@nl ;
-	aui:annotateBtnPrevious "Vorige"@nl ;
-	aui:annotateBtnNext "Volgende"@nl ;
+	aui:itemBtnPrevious "Vorige"@nl ;
+	aui:itemBtnNext "Volgende"@nl ;
 	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
 	aui:navbarBtnSearch "Zoek"@nl ;
-	aui:annotateHdrFirst "De eerste keer informatie toevoegen!"@nl ;
-	aui:annotateTxtFirst "Begin met het tekenen van een  kader om informatie toe te voegen. U krijgt hierop verschillende velden om in te vullen, probeer hierbij zo precies mogelijk te zijn. Om naar een volgende afbeeldingen te gaan kunt u op volgende klikken, zoeken of nieuwe aanbevelingen bekijken."@nl .
+	aui:itemHdrFirst "De eerste keer informatie toevoegen!"@nl ;
+	aui:itemTxtFirst "Begin met het tekenen van een  kader om informatie toe te voegen. U krijgt hierop verschillende velden om in te vullen, probeer hierbij zo precies mogelijk te zijn. Om naar een volgende afbeeldingen te gaan kunt u op volgende klikken, zoeken of nieuwe aanbevelingen bekijken."@nl .
 
 ##### Expertise Screen #####
 
