@@ -334,16 +334,11 @@ function addExperimentNavigation() {
 
 		// Add click event to navigation button
 		$("#itemBtnExperimentNext").click(function() {
-			// Go to thank you page after 20 annotations else results
-			if(numberAnnotated == 500) {
-				document.location.href = "end.html";
-			} else {
-				var items = JSON.parse(localStorage.getItem("currentCluster"));
-				var index = items.indexOf(uri);
-				var next = index + 1;
+			var items = JSON.parse(localStorage.getItem("currentCluster"));
+			var index = items.indexOf(uri);
+			var next = index + 1;
 
-				document.location.href = "annotate.html" + "?uri=" + items[next];
-			}
+			document.location.href = "annotate.html" + "?uri=" + items[next];
 		});
 	});
 }

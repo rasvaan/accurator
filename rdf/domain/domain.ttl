@@ -17,7 +17,6 @@ agen:domain a accu:Domain ;
 	accu:hasUI aui: ;
 	accu:hasAnnotationUI agen:genericUI ;
 	accu:hasDescriptiveImage agen:mountain ;
-	accu:hasLastImage agen:mountain ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2" .
 
