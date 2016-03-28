@@ -470,6 +470,7 @@ html({|html(ImageUrl)||
 <script type="text/javascript" src="js/lib/bloodhound.js"></script>
 <script type="text/javascript" src="js/lib/typeahead.js"></script>
 <script type="text/javascript" src="js/lib/annotorious.min.js"></script>
+<script type="text/javascript" src="js/components/path.js"></script>
 <script type="text/javascript" src="js/components/deniche-plugin.js"></script>
 <script type="text/javascript" src="js/components/utilities.js"></script>
 <script type="text/javascript" src="js/components/annotations.js"></script>

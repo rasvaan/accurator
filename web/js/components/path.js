@@ -1,19 +1,20 @@
 /*******************************************************************************
 Path
 *******************************************************************************/
-function Path(path, parentId) {
+function Path(path, parentId, query) {
     this.path = path; // uris or title element of the path
     this.labels = null; // labels of elements of the path
     this.elements = []; // elements of the path
     this.node = null;
     this.parentId = parentId; // id of the parent element (probably cluster)
+    this.query = null; // the query which is the start of the path
 
-    this.init();
+    this.init(query);
 }
 
-Path.prototype.init = function() {
+Path.prototype.init = function(query) {
     this.node = this.html();
-
+    query ? this.query = query : this.query = "query";
     if (typeof this.path === 'string' || this.path instanceof String) {
         this.addTitle();
     }
@@ -45,7 +46,9 @@ Path.prototype.enrich = function() {
     var _path = this;
 
     // no need for enriching if we have a title, e.g. "random" for random objects
-    if (typeof this.path === 'string' || this.path instanceof String) return;
+    if (typeof this.path === 'string' || this.path instanceof String) {
+        return $.Deferred().resolve().promise();
+    }
 
 	return $.ajax({type: "POST",
 		url: "metadata",
@@ -76,9 +79,7 @@ Path.prototype.unfoldEvent = function() {
         if (i == 0) {
 			pathHtml.appendChild(
 				$.el.span({'class':'path-label path-literal'},
-        //TODO: Get the query?
-                        //   query));
-                        "query"));
+                    this.query));
 		} else if (i%2 == 0) {
             pathHtml.appendChild(
                 $.el.span({'class':'path-label path-resource'},

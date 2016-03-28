@@ -78,12 +78,12 @@ function itemInit() {
 			var labelArray = initLabels(labels);
 
 			// Only show path when cluster is available TODO: remove ugly check for undefined
-			if((localStorage.getItem("currentCluster") !== null) &&
-					(localStorage.getItem("currentCluster") !== "undefined")) {
-				addPath();
+			if((localStorage.getItem("uris") !== null) &&
+				(localStorage.getItem("uris") !== "undefined")) {
+				addNavigation(uri);
 			}
 
-			addButtonEvents();
+			addButtonEvents(user);
 			return events(user, labelArray);
 		})
 	}
@@ -124,19 +124,21 @@ function events(user, labels) {
 	});
 }
 
-function addPath() {
-	//TODO: restore path functionallity after making it an object
-	// query = localStorage.getItem("query");
-	// var cluster = JSON.parse(localStorage.getItem("currentCluster"));
-	// console.log("cluster", cluster);
-	// $("#path").append(pathHtmlElements(cluster.path));
-	// unfoldPathEvent("#path", cluster.path);
-	// addNavigationButtonEvents();
+function addNavigation(uri) {
+	var uris =  JSON.parse(localStorage.getItem("uris"));
+	var pathArray =  JSON.parse(localStorage.getItem("path"));
+	var path = new Path(pathArray, itemDivPath);
+
+	path.enrich()
+	.then(function() {
+		$("#itemDivPath").append(path.node);
+		addNavigationButtonEvents(uris, uri);
+	});
 }
 
-function addButtonEvents() {
+function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
-		document.location.href = "results.html" + "?user=" + user;
+		document.location.href = "results.html?user=" + user;
 	});
 	// Search on pressing enter
 	$("#navbarInpSearch").keypress(function(event) {
@@ -151,26 +153,22 @@ function addButtonEvents() {
 	});
 }
 
-function addNavigationButtonEvents() {
-	var index = parseInt(localStorage.getItem("itemIndex"));
-	var cluster = JSON.parse(localStorage.getItem("currentCluster"));
-	var items = cluster.items;
+function addNavigationButtonEvents(uris, uri) {
+	var index = uris.indexOf(uri);
 
-	if(index === 0) {
+	if (index === 0) {
 		$("#itemBtnPrevious").attr("disabled", "disabled");
 	} else {
 		$("#itemBtnPrevious").click(function() {
-			localStorage.setItem("itemIndex", index - 1);
-			document.location.href = "annotate.html?uri=" + items[index -1].uri;
+			document.location.href = "item.html?uri=" + uris[index -1];
 		});
 	}
 
-	if(index === items.length-1) {
+	if(index === uris.length-1) {
 		$("#itemBtnNext").attr("disabled", "disabled");
 	} else {
 		$("#itemBtnNext").click(function() {
-			localStorage.setItem("itemIndex", index + 1);
-			document.location.href = "annotate.html?uri=" + items[index + 1].uri;
+			document.location.href = "item.html?uri=" + uris[index + 1];
 		});
 	}
 }

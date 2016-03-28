@@ -39,6 +39,8 @@ function resultsInit() {
 	var domain = getDomain();
 
 	populateFlags(locale);
+	clearLocalStorage("uris"); // will be generating new clusters
+	clearLocalStorage("path");
 
 	userLoggedIn()
 	.then(function(userData) {
@@ -159,8 +161,6 @@ function results(target, labels) {
 		query = "random";
 		random(query, labels, target, 20);
 	}
-
-	localStorage.setItem("query", query);
 }
 
 // Get results based on the user query
@@ -229,7 +229,7 @@ function processClusters(data, query, labels) {
 			for(var j = 0; j < data.clusters[i].items.length; j++)
 				uris[j] = data.clusters[i].items[j].uri;
 
-			clusters[i] = new Cluster(id, uris, path);
+			clusters[i] = new Cluster(id, uris, path, query);
 		}
 
 		return clusters;
@@ -327,6 +327,7 @@ function drawCluster(cluster, clusters) {
 function displayClusterAsList(cluster, clusters) {
 	// determine from where to start adding items based on the contents of the previous clusters
 	var itemsAdded = itemsInClusters(clusters, clusters.indexOf(cluster));
+	var allUris = mergeUrisClusters(clusters, "list");
 
 	//for every item in this cluster, add the thumbnail in the list view
 	for (var itemIndex = 0; itemIndex < cluster.uris.length; itemIndex++) {
@@ -341,24 +342,21 @@ function displayClusterAsList(cluster, clusters) {
 			display.numberDisplayedItems
 		);
 
-		thumbnail.setClickEvent(cluster.items[itemIndex].link, rowId);
+		thumbnail.setClickEvent(cluster.items[itemIndex].link, uris, "path");
 		$("#" + rowId).append(thumbnail.node);
 		itemsAdded++;
 	}
 }
 
-// Add thumbnail click event
-function addListClickEvent(id, link, rowId, index, clusterId) {
-	$("#thumbnailRow" + rowId  + " #" + id).click(function() {
-		//Add info to local storage to be able to save context
-		localStorage.setItem("itemIndex", index);
-		localStorage.setItem("rowId", rowId);
-		localStorage.setItem("currentCluster", JSON.stringify(clusters[clusterId]));
-		//TODO check here + this is already done for the cluster, right?
-		// if((clusterId+1) == clusters.length)
-		// 	localStorage.setItem("query", "random");
-		document.location.href = link;
-	});
+// Function merging multiple clusters into one adding a new title
+function mergeUrisClusters(clusters) {
+	var uris = [];
+
+	// retrieve all uris
+	for (var i=0; i<clusters.length; i++)
+		uris = uris.concat(clusters[i].uris);
+
+	return uris;
 }
 
 // Add a title for the page and print a status message within the page that

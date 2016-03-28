@@ -1,11 +1,12 @@
 /*******************************************************************************
 Cluster
 *******************************************************************************/
-function Cluster(id, uris, path) {
+function Cluster(id, uris, path, query) {
 	this.id = id; // id of the cluster
 	this.uris = uris; // list of uris of the items
 	this.items = []; // enriched items
-	this.path = new Path(path, this.id);
+	this.path = new Path(path, this.id, query); // path describing how items are reached
+	this.query = query; // the query that caused this cluster to be
 	this.pagination = null;
 	this.thumbnails = []; // thumbnails
 	this.node = $.el.div({'class':'well well-sm', 'id':this.id});
@@ -113,7 +114,7 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 		$(this.node).find("#thumbnailRow" + this.id).append(
 			thumbnail.node
 		);
-		thumbnail.setClickEvent(this.items[i].link, this.id);
+		thumbnail.setClickEvent(this.items[i].link, this.uris, this.path.path);
 		this.thumbnails[i] = thumbnail;
 	}
 }
@@ -141,7 +142,7 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 		thumbnail.setImage(this.items[i].thumb);
 		thumbnail.setTitle(this.items[i].title);
 		thumbnail.setId(thumbnail.getId(this.items[i].uri));
-		thumbnail.setClickEvent(this.items[i].link, this.id);
+		thumbnail.setClickEvent(this.items[i].link, this.uris, this.path.path);
 
 		thumbIndex++;
 	}
