@@ -131,7 +131,10 @@ function addButtonEvents(user) {
 
 
 function events(user, labels) {
-	return $.getJSON("annotations", {uri:user, type:"user"})
+	return $.getJSON("annotations", {
+		uri:user,
+		type:"user"
+	})
 	.then(function(annotations) {
 		// message displayed before the first annotation is made by a user
 		if (annotations.length === 0) {

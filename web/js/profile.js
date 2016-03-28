@@ -46,15 +46,17 @@ function profileInit() {
 }
 
 function populateRecentlyAnnotated(user) {
-	$.getJSON("annotations", {uri:user, type:"user"})
+	$.getJSON("annotations", {
+		uri:user,
+		type:"user"
+	})
 	.then(function(uris){
 		if (uris.length === 0) {
 			$("#profileDivLastAnnotated").hide();
-			console.log("No recently annotated!");
 		} else {
-			console.log("uris:", uris);
 			//TODO: limit length of uris (faster if someone annotated a bunch)?
-			var cluster = new Cluster(uris, "profileDivCluster", "Recently tagged");
+			// var cluster = new Cluster(uris, "profileDivCluster", "Recently tagged");
+			var cluster = new Cluster("profileDivCluster", uris, "Recently tagged");
 
 			$("#profileDivLastAnnotated").append(cluster.node);
 
