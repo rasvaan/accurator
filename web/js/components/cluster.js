@@ -42,7 +42,7 @@ Cluster.prototype.enrichItems = function() {
 		type: "POST",
 		url: "metadata",
 		contentType: "application/json",
-		data: JSON.stringify({"uris":this.uris})})
+		data: JSON.stringify({"uris": this.uris})})
 	.then(function(data) {
 		// Enrich one image element in the cluster adding an image,
 		// a link where it can be (further) annotated and a title
@@ -135,7 +135,7 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 
 	// console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
 	var thumbIndex = 0; // index of the thumbnail spots
-	
+
 	for (var i = start; i < stop; i++) {
 		var thumbnail = this.thumbnails[thumbIndex];
 

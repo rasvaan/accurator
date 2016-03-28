@@ -58,12 +58,17 @@ function populateRecentlyAnnotated(user) {
 			// var cluster = new Cluster(uris, "profileDivCluster", "Recently tagged");
 			var cluster = new Cluster("profileDivCluster", uris, "Recently tagged");
 
-			$("#profileDivLastAnnotated").append(cluster.node);
+			// 	cluster.enrich()
+			// 	.then(function() {
+			// 		// display 6 elements in cluster
+			// 		cluster.display(6);
+			// 	});
+			// }
+			var noRecentlyAnnotatedItems = 6;
 
-			cluster.enrich()
+			cluster.init(noRecentlyAnnotatedItems)
 			.then(function() {
-				// display 6 elements in cluster
-				cluster.display(6);
+				$("#profileDivLastAnnotated").append(cluster.node);
 			});
 		}
 	});

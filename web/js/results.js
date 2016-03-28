@@ -265,7 +265,7 @@ function drawResults(clusters) {
 		drawCluster(clusters[i], clusters);
 }
 
-// Add rows for cluster items for the list view
+// Add rows for cluster items
 function drawRows(clusters) {
 	if (display.layout === "cluster") {
 		for (var i = 0; i < clusters.length; i++) {
@@ -359,7 +359,7 @@ function mergeUrisClusters(clusters) {
 	var uris = [];
 
 	// retrieve all uris
-	for (var i=0; i<clusters.length; i++)
+	for (var i = 0; i < clusters.length; i++)
 		uris = uris.concat(clusters[i].uris);
 
 	return uris;
