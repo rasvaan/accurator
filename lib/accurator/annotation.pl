@@ -114,7 +114,8 @@ get_source(Uri, _Locale, Source) :-
 
 extract_literal(Locale, literal(lang(Locale, Literal)), Literal) :- !.
 extract_literal(_Locale, literal(lang(en, Literal)), Literal) :- !.
-extract_literal(_Locale, literal(Literal), Literal) :- !.
+extract_literal(_Locale, literal(Literal), Literal) :-
+	atom(Literal), !. % check if not lang(Literal)
 
 %%	annotations(+Type, +Uri, -Metadata)
 %
