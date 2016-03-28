@@ -59,22 +59,20 @@ Field.prototype.initDropdown = function() {
 		_field.addDropdownListeners();
 	}
 
-	var sourceGet = "all"; //TODO: find good swithc
-
 	// three sitations for obtaining and adding alternatives array
 	if(this.source instanceof Array) {
 		// 1.  source is an array containing alternatives for dropdown
 		console.log("alternatives array ", this.source);
 		addDropdown(this.source);
-	} else if (sourceGet === "all") {
-		console.log("promised all alternatives");
-		// 2. all alternatives should be obtained
-		this.getAllAlternatives(this.source)
-		.then(function(alternativesArray){
-			addDropdown(alternativesArray);
-		});
-	} else if (souceGet === "prefix") {
-		console.log("promised all alternatives");
+	} else if (this.source.api === "/api/autocomple/all") {
+		// console.log("promised all alternatives");
+		// // 2. all alternatives should be obtained
+		// this.getAllAlternatives(this.source)
+		// .then(function(alternativesArray){
+		// 	addDropdown(alternativesArray);
+		// });
+	} else if (this.source.api === "/api/autocomple") {
+		// console.log("promised all alternatives");
 		// 3. event listener should be placed and alternatives are obtained on trigger
 	}
 }
@@ -238,37 +236,48 @@ Field.prototype.getAllAlternatives = function() {
 Field.prototype.addTypeAhead = function(alternatives) {
 	this.alternatives = alternatives;
 	var array = [];
+	var suggestionTemplate;
 
-	// Prep the data for adding it to the suggestion engine
-	for(var i=0; i<alternatives.results.length; i++) {
-		array[i] = {
-			value:alternatives.results[i].label,
-			uri:alternatives.results[i].uri
-		};
+	if (alternatives instanceof Array) {
+		// simple layout for array source
+		for(var i=0; i<alternatives.length; i++)
+			array[i] = {value: alternatives[i]};
+
+		suggestionTemplate = function(data) {
+			return '<div>' + data.value + '</div>';
+		}
+	} else {
+		// prep the data for adding it to the suggestion engine
+		for(var i=0; i<alternatives.results.length; i++) {
+			array[i] = {
+				value:alternatives.results[i].label,
+				uri:alternatives.results[i].uri
+			};
+		}
+		suggestionTemplate = function(data) {
+			return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
+		}
 	}
 
-	// Constructs the suggestion engine
+	// constructs the suggestion engine
 	var bloodHoundAlternatives = new Bloodhound({
 		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 		queryTokenizer: Bloodhound.tokenizers.whitespace,
 		local: array
 	});
 
-	// Create the suggestion template
-	var suggestionTemplate = function(data) {
-		return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
-	}
-
-	// Select the input field and add typeahead
-	$("#" + this.inputId).typeahead({hint: true,
-						 highlight: true,
-						 minLength: 1},
-			   			{name:'alternatives',
-						 display:'value',
-						 source: bloodHoundAlternatives,
-						 templates: {
-							 suggestion:suggestionTemplate
-						 }
+	// add typeahead
+	$(this.node).find("#" + this.inputId).typeahead({
+		hint: true,
+		highlight: true,
+		minLength: 1
+	}, {
+		name:'alternatives',
+		display:'value',
+		source: bloodHoundAlternatives,
+		templates: {
+			suggestion: suggestionTemplate
+		}
 	});
 }
 
