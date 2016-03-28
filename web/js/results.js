@@ -155,7 +155,7 @@ function results(target, labels) {
 		// recommendations based on the expertise of the user
 		// first recommended results are shown, then random results
 		query = "expertise";
-		recommend(query, target, labels);
+		recommend(query, labels, target);
 	} else {
 		// random results
 		query = "random";
@@ -168,9 +168,12 @@ function search(query, labels) {
 	$.getJSON("cluster_search_api", {query:query})
 	.then(function(data) {
 		$(document).prop('title', labels.resultsHdrResults + query);
-		var clusters = processClusters(data);
-		controls(clusters, labels); // add control buttons to change layout
-		drawResults(clusters);
+		var clusters = processClusters(data, labels, query);
+		// if there are any clusters retrieved, then draw results
+		if (clusters.length > 0) {
+			controls(clusters, labels); // add control buttons to change layout
+			drawResults(clusters);
+		}
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
 	});
@@ -178,14 +181,14 @@ function search(query, labels) {
 
 // Get results based on the expertise of the user and, afterwards, a number of
 // random items that have not yet been annotated
-function recommend(query, target, labels) {
+function recommend(query, labels, target) {
 	var recommendation = $.getJSON("recommendation", {
 		strategy:query,
 		target:target
 	})
-	.then(function(data){
+	.then(function(data) {
 		$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-		return processClusters(data, query, labels);
+		return processClusters(data, labels, query);
 	});
 
 	var random = randomCluster(target, 10);
@@ -214,7 +217,7 @@ function random(query, labels, target, noResults) {
 /*******************************************************************************
 Result population and enrichment
 *******************************************************************************/
-function processClusters(data, query, labels) {
+function processClusters(data, labels, query) {
 	var clusters = []; // array containing cluster objects
 
 	if (data.clusters.length === 0) {

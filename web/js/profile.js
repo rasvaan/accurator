@@ -50,7 +50,9 @@ function populateRecentlyAnnotated(user) {
 	.then(function(uris){
 		if (uris.length === 0) {
 			$("#profileDivLastAnnotated").hide();
+			console.log("No recently annotated!");
 		} else {
+			console.log("uris:", uris);
 			//TODO: limit length of uris (faster if someone annotated a bunch)?
 			var cluster = new Cluster(uris, "profileDivCluster", "Recently tagged");
 
@@ -68,7 +70,7 @@ function populateRecentlyAnnotated(user) {
 function initLabels(labels) {
 	// add retrieved labels to html elements
 	document.title = labels.profilePageTitle;
-	
+
 	// check if real name is available
 	if (typeof realName !== 'undefined') {
 		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan + " " + realName + " ");
