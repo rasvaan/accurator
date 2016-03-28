@@ -1,36 +1,46 @@
-@prefix abirui: <http://accurator.nl/ui/annotation/bird#> .
+@prefix aabir: <http://accurator.nl/ui/annotation/bird#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-abirui:smallBirdDemoUi a auis:AnnotationUI ;
+aabir:birdAnnotationUi a auis:AnnotationUI ;
     dcterms:title "Bird annotation UI"@en;
 	auis:fragmentFields (
-	     abirui:IOCCommonNameAnnotation
-		 abirui:IOCScientificNameAnnotation
-		 abirui:Gender
-		 abirui:StageOfLife
-		 abirui:RealOrNotAnnotation
-		 abirui:SymbolicField
+	     aabir:IOCCommonNameAnnotation
+		 aabir:IOCScientificNameAnnotation
+		 aabir:Gender
+		 aabir:StageOfLife
+		 aabir:RealOrNotAnnotation
+		 aabir:SymbolicField
 	 ) .
 
-abirui:IOCCommonNameAnnotation a auis:DropdownField ;
+aabir:IOCCommonNameAnnotation a auis:DropdownField ;
 	rdfs:label "Species"@en ;
 	rdfs:label "Soortnaam"@nl ;
 	dcterms:comment "add common name of the species"@en ;
 	dcterms:comment "voeg de in Nederland gebruikelijke naam van soort toe"@nl ;
-	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://purl.org/collections/birds/IOCConceptScheme\"}&labelrank=['http://lod.taxonconcept.org/ontology/txn.owl%23commonName'-1]" .
+	auis:source aabir:IOCCommonNameSource .
 
-abirui:IOCScientificNameAnnotation a auis:DropdownField ;
+aabir:IOCCommonNameSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete" ;
+    auis:filterScheme "http://purl.org/collections/birds/IOCConceptScheme" ;
+    auis:labelRank "['http://lod.taxonconcept.org/ontology/txn.owl%23commonName'-1]" .
+
+aabir:IOCScientificNameAnnotation a auis:DropdownField ;
 	rdfs:label "Scientific name"@en ;
 	rdfs:label "Wetenschappelijke naam"@nl ;
 	dcterms:comment "add scientificly accepted species or genus name"@en ;
 	dcterms:comment "voeg de wetenschappelijke soortnaam toe"@nl ;
-	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://purl.org/collections/birds/IOCConceptScheme\"}&labelrank=['http://lod.taxonconcept.org/ontology/txn.owl%23scientificName'-1]" .
+	auis:source aabir:IOCScientificNameSource .
 
-abirui:Gender a auis:RadioButtonField ;
+aabir:IOCScientificNameSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete" ;
+    auis:filterScheme "http://purl.org/collections/birds/IOCConceptScheme" ;
+    auis:labelRank "['http://lod.taxonconcept.org/ontology/txn.owl%23scientificName'-1]" .
+
+aabir:Gender a auis:RadioButtonField ;
 	rdfs:label "Geslacht"@nl ;
 	rdfs:label "Gender"@en ;
 	dcterms:comment "add gender of the species"@en ;
@@ -38,7 +48,7 @@ abirui:Gender a auis:RadioButtonField ;
 	auis:source ( "male"@en "female"@en ) ;
 	auis:source ( "man"@nl "vrouw"@nl ) .
 
-abirui:StageOfLife a auis:RadioButtonField ;
+aabir:StageOfLife a auis:RadioButtonField ;
 	rdfs:label "Levensfase"@nl ;
 	rdfs:label "Stage of life"@en ;
 	dcterms:comment "add the stage of life the species is in"@en ;
@@ -46,7 +56,7 @@ abirui:StageOfLife a auis:RadioButtonField ;
 	auis:source ( "adult"@en "juvenile"@en "chick"@en) ;
 	auis:source ( "adult"@nl "juveniel"@nl "pul"@nl ) .
 
-abirui:Realism a auis:RadioButtonField ;
+aabir:Realism a auis:RadioButtonField ;
 	rdfs:label "Realisme"@nl ;
 	rdfs:label "Realism"@en ;
 	dcterms:comment "is the depiction of the subject realistic"@en ;
@@ -54,7 +64,7 @@ abirui:Realism a auis:RadioButtonField ;
 	auis:source ( "realistisch"@nl "enigzins realtisch"@nl "enigzins abstract"@nl "abstract"@nl ) ;
 	auis:source ( "realistic"@en "somewhat realistic"@en "somewhat abstract"@en "abstract"@en ) .
 
-abirui:RealOrNotAnnotation a auis:RadioButtonField ;
+aabir:RealOrNotAnnotation a auis:RadioButtonField ;
 	rdfs:label "Fantasie soort"@nl ;
 	rdfs:label "Imaginary"@en ;
 	dcterms:comment "use when species only occurs in fiction (e.g. a dragon or unicorn)"@en ;
@@ -62,7 +72,7 @@ abirui:RealOrNotAnnotation a auis:RadioButtonField ;
 	auis:source ( "fantasie"@nl "echt"@nl ) ;
 	auis:source ( "imaginairy"@en "real"@en ) .
 
-abirui:SymbolicField a auis:TextField ;
+aabir:SymbolicField a auis:TextField ;
 	rdfs:label "Iconologie"@nl ;
 	rdfs:label "Iconology"@en ;
 	dcterms:comment "(symbolische) interpretatie, optioneel"@nl ;
