@@ -54,11 +54,29 @@ Field.prototype.initDropdown = function() {
 		$(this.node).append(this.annotationList.node);
 	}
 
-	this.getAllAlternatives()
-	.then(function(alternatives){
-		_field.addTypeAhead(alternatives);
+	var addDropdown = function(alternativesArray) {
+		_field.addTypeAhead(alternativesArray);
 		_field.addDropdownListeners();
-	});
+	}
+
+	var sourceGet = "all"; //TODO: find good swithc
+
+	// three sitations for obtaining and adding alternatives array
+	if(this.source instanceof Array) {
+		// 1.  source is an array containing alternatives for dropdown
+		console.log("alternatives array ", this.source);
+		addDropdown(this.source);
+	} else if (sourceGet === "all") {
+		console.log("promised all alternatives");
+		// 2. all alternatives should be obtained
+		this.getAllAlternatives(this.source)
+		.then(function(alternativesArray){
+			addDropdown(alternativesArray);
+		});
+	} else if (souceGet === "prefix") {
+		console.log("promised all alternatives");
+		// 3. event listener should be placed and alternatives are obtained on trigger
+	}
 }
 
 Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
@@ -189,6 +207,20 @@ Field.prototype.addDropdownListeners = function() {
 	});
 }
 
+Field.prototype.getAlternatives = function(defenition) {
+	// Get autocomplete alternatives
+	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
+	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
+
+	// Return promise
+	return $.getJSON("api/autocomplete",
+		{q:string,
+		 filter:filter,
+		 labelrank:labelRank,
+		//  method:"all",
+		 locale:this.locale});
+}
+
 Field.prototype.getAllAlternatives = function() {
 	// Get autocomplete alternatives
 	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
@@ -200,20 +232,6 @@ Field.prototype.getAllAlternatives = function() {
 		 filter:filter,
 		 labelrank:labelRank,
 		 method:"all",
-		 locale:this.locale});
-}
-
-Field.prototype.getAlternatives = function(string) {
-	// Get autocomplete alternatives
-	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
-	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
-
-	// Return promise
-	return $.getJSON("api/autocomplete",
-		{q:string,
-		 filter:filter,
-		 labelrank:labelRank,
-		//  method:"all",
 		 locale:this.locale});
 }
 
