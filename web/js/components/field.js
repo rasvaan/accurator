@@ -62,15 +62,13 @@ Field.prototype.initDropdown = function() {
 	// three sitations for obtaining and adding alternatives array
 	if(this.source instanceof Array) {
 		// 1.  source is an array containing alternatives for dropdown
-		console.log("alternatives array ", this.source);
 		addDropdown(this.source);
-	} else if (this.source.api === "/api/autocomple/all") {
-		// console.log("promised all alternatives");
+	} else if (this.source.api === "/api/autocomplete/all") {
 		// // 2. all alternatives should be obtained
-		// this.getAllAlternatives(this.source)
-		// .then(function(alternativesArray){
-		// 	addDropdown(alternativesArray);
-		// });
+		this.getAllAlternatives(this.source)
+		.then(function(alternativesArray){
+			addDropdown(alternativesArray);
+		});
 	} else if (this.source.api === "/api/autocomple") {
 		// console.log("promised all alternatives");
 		// 3. event listener should be placed and alternatives are obtained on trigger
