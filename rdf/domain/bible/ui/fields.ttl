@@ -30,8 +30,8 @@ abibui:ICBibleTheme a auis:DropdownField ;
 	auis:source abibui:ICBibleThemeSource .
 
 abibui:ICBibleThemeSource a auis:AlternativesSource ;
-    auis:api "/api/autocomplete" ;
-    auis:filterScheme "http://accurator.nl/bible%23BiblicalThemeConceptScheme" .
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://accurator.nl/bible#BiblicalThemeConceptScheme" .
 
 abibui:BibleCharacter a auis:DropdownField ;
 	rdfs:label "Biblical person"@en ;
@@ -42,7 +42,7 @@ abibui:BibleCharacter a auis:DropdownField ;
 
 abibui:BibleCharacterSource a auis:AlternativesSource ;
     auis:api "/api/autocomplete/all" ;
-    auis:filterScheme "http://accurator.nl/bible%23BiblicalFigureConceptScheme" .
+    auis:filterScheme "http://accurator.nl/bible#BiblicalFigureConceptScheme" .
 
 abibui:Emotion a auis:SelectField ;
 	rdfs:label "Emotie"@nl ;

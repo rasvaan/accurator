@@ -62,7 +62,7 @@ Field.prototype.initDropdown = function() {
 		this.addDropdownListeners();
 	} else if (this.source.api === "/api/autocomplete/all") {
 		// 2. all alternatives should be obtained
-		this.getAllAlternatives(this.source)
+		this.getAllAlternatives()
 		.then(function(alternativesArray){
 			_field.alternatives = alternativesArray;
 			_field.addTypeAhead();
@@ -203,30 +203,16 @@ Field.prototype.addDropdownListeners = function() {
 	});
 }
 
-// Field.prototype.getAlternatives = function(defenition) {
-// 	// Get autocomplete alternatives
-// 	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
-// 	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
-//
-// 	// Return promise
-// 	return $.getJSON("api/autocomplete", {
-// 		q:string,
-// 		filter:filter,
-// 		labelrank:labelRank,
-// 		 locale:this.locale
-// 	 });
-// }
-
 Field.prototype.getAllAlternatives = function() {
 	// Get autocomplete alternatives
-	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
-	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
+	var filter = JSON.stringify({scheme: this.source.filterScheme});
+	// var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
 
 	// Return promise
 	return $.getJSON("api/autocomplete", {
 		q:"stub",
 		filter:filter,
-		labelrank:labelRank,
+		// labelrank:labelRank,
 		method:"all",
 		locale:this.locale
 	});
@@ -260,7 +246,7 @@ Field.prototype.createBloodhound = function() {
 	} else if (this.source instanceof Array) {
 		// list of labels from source (different array, since we have no uri)
 		for(var i=0; i<this.alternatives.length; i++)
-			array[i] = {value: alternatives[i]};
+			array[i] = {value: this.alternatives[i]};
 
 		return new Bloodhound({
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
