@@ -5,6 +5,13 @@
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
+aabir:smallBirdAnnotationUi a auis:AnnotationUI ;
+    dcterms:title "Bird annotation UI"@en;
+	auis:fragmentFields (
+	     aabir:IOCCommonNameAnnotation
+		 aabir:IOCScientificNameAnnotation
+	 ) .
+
 aabir:birdAnnotationUi a auis:AnnotationUI ;
     dcterms:title "Bird annotation UI"@en;
 	auis:fragmentFields (
