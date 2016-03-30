@@ -54,25 +54,23 @@ Field.prototype.initDropdown = function() {
 		$(this.node).append(this.annotationList.node);
 	}
 
-	var addDropdown = function(alternativesArray) {
-		_field.addTypeAhead(alternativesArray);
-		_field.addDropdownListeners();
-	}
-
 	// three sitations for obtaining and adding alternatives array
 	if(this.source instanceof Array) {
 		// 1.  source is an array containing alternatives for dropdown
-		this.addDropdown(this.source);
+		this.alternatives = this.source;
+		this.addTypeAhead();
+		this.addDropdownListeners();
 	} else if (this.source.api === "/api/autocomplete/all") {
 		// 2. all alternatives should be obtained
 		this.getAllAlternatives(this.source)
 		.then(function(alternativesArray){
-			_field.addDropdown(alternativesArray);
+			_field.alternatives = alternativesArray;
+			_field.addTypeAhead();
+			_field.addDropdownListeners();
 		});
 	} else if (this.source.api === "/api/autocomplete") {
-		// console.log("promised all alternatives");
 		// 3. event listener should be placed and alternatives are obtained on trigger
-		// TODO: now temporally only adding listeners, no dropdown
+		// this.addTypeAhead();
 		this.addDropdownListeners();
 	}
 }
@@ -205,20 +203,19 @@ Field.prototype.addDropdownListeners = function() {
 	});
 }
 
-Field.prototype.getAlternatives = function(defenition) {
-	// Get autocomplete alternatives
-	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
-	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
-
-	// Return promise
-	return $.getJSON("api/autocomplete", {
-		q:string,
-		filter:filter,
-		labelrank:labelRank,
-		//  method:"all",
-		 locale:this.locale
-	 });
-}
+// Field.prototype.getAlternatives = function(defenition) {
+// 	// Get autocomplete alternatives
+// 	var filter = JSON.stringify({scheme:"http://accurator.nl/bible#BiblicalFigureConceptScheme"});
+// 	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
+//
+// 	// Return promise
+// 	return $.getJSON("api/autocomplete", {
+// 		q:string,
+// 		filter:filter,
+// 		labelrank:labelRank,
+// 		 locale:this.locale
+// 	 });
+// }
 
 Field.prototype.getAllAlternatives = function() {
 	// Get autocomplete alternatives
@@ -235,38 +232,9 @@ Field.prototype.getAllAlternatives = function() {
 	});
 }
 
-Field.prototype.addTypeAhead = function(alternatives) {
-	this.alternatives = alternatives;
-	var array = [];
-	var suggestionTemplate;
-
-	if (alternatives instanceof Array) {
-		// simple layout for array source
-		for(var i=0; i<alternatives.length; i++)
-			array[i] = {value: alternatives[i]};
-
-		suggestionTemplate = function(data) {
-			return '<div>' + data.value + '</div>';
-		}
-	} else {
-		// prep the data for adding it to the suggestion engine
-		for(var i=0; i<alternatives.results.length; i++) {
-			array[i] = {
-				value:alternatives.results[i].label,
-				uri:alternatives.results[i].uri
-			};
-		}
-		suggestionTemplate = function(data) {
-			return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
-		}
-	}
-
-	// constructs the suggestion engine
-	var bloodHoundAlternatives = new Bloodhound({
-		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-		queryTokenizer: Bloodhound.tokenizers.whitespace,
-		local: array
-	});
+Field.prototype.addTypeAhead = function() {
+	var bloodHound = this.createBloodhound(); // constructs the suggestion engine
+	var suggestionTemplate = this.createSuggestionTemplate();
 
 	// add typeahead
 	$(this.node).find("#" + this.inputId).typeahead({
@@ -276,11 +244,58 @@ Field.prototype.addTypeAhead = function(alternatives) {
 	}, {
 		name:'alternatives',
 		display:'value',
-		source: bloodHoundAlternatives,
+		source: bloodHound,
 		templates: {
 			suggestion: suggestionTemplate
 		}
 	});
+}
+
+Field.prototype.createBloodhound = function() {
+	var array = [];
+
+	if (this.alternatives == null) {
+		// did not obtain alternatives from source or all, so should get them on the fly
+		return null;
+	} else if (this.source instanceof Array) {
+		// list of labels from source (different array, since we have no uri)
+		for(var i=0; i<this.alternatives.length; i++)
+			array[i] = {value: alternatives[i]};
+
+		return new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			local: array // add data
+		});
+	} else if (this.source.api === "/api/autocomplete/all"){
+		// prep the data for adding it to the suggestion engine
+		for(var i=0; i<this.alternatives.results.length; i++) {
+			array[i] = {
+				value:this.alternatives.results[i].label,
+				uri:this.alternatives.results[i].uri
+			};
+		}
+
+		return new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			local: array // add data
+		});
+	}
+}
+
+Field.prototype.createSuggestionTemplate = function() {
+	if (this.source instanceof Array) {
+		// simple layout for array source
+		return suggestionTemplate = function(data) {
+			return '<div>' + data.value + '</div>';
+		}
+	} else {
+		// otherwise we should have the uri available
+		return suggestionTemplate = function(data) {
+			return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
+		}
+	}
 }
 
 Field.prototype.dropdownField = function() {
@@ -288,7 +303,7 @@ Field.prototype.dropdownField = function() {
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
 							'for':this.inputId},
-						   this.label),
+						  	this.label),
 				$.el.input({'type':'text',
 							'class':'form-control typeahead',
 							'id':this.inputId,
