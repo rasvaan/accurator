@@ -62,16 +62,18 @@ Field.prototype.initDropdown = function() {
 	// three sitations for obtaining and adding alternatives array
 	if(this.source instanceof Array) {
 		// 1.  source is an array containing alternatives for dropdown
-		addDropdown(this.source);
+		this.addDropdown(this.source);
 	} else if (this.source.api === "/api/autocomplete/all") {
-		// // 2. all alternatives should be obtained
+		// 2. all alternatives should be obtained
 		this.getAllAlternatives(this.source)
 		.then(function(alternativesArray){
-			addDropdown(alternativesArray);
+			_field.addDropdown(alternativesArray);
 		});
-	} else if (this.source.api === "/api/autocomple") {
+	} else if (this.source.api === "/api/autocomplete") {
 		// console.log("promised all alternatives");
 		// 3. event listener should be placed and alternatives are obtained on trigger
+		// TODO: now temporally only adding listeners, no dropdown
+		this.addDropdownListeners();
 	}
 }
 
@@ -162,11 +164,11 @@ Field.prototype.addAnnotationFragment = function(annotation, update) {
 
 Field.prototype.addDropdownListeners = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	var selector = "#" + this.inputId;
+	var inputField = $(this.node).find("#" + this.inputId); // reach the input
 
-	// Eventlistener for selecting typeahead alternative
-	$(selector).on('typeahead:select', function(event, annotation) {
-		$(selector).typeahead('val', ''); // Clear query
+	// eventlistener for selecting typeahead alternative
+	inputField.on('typeahead:select', function(event, annotation) {
+		inputField.typeahead('val', ''); // Clear query
 
 		// console.log("SAVE: resource EVENT: typeahead:select ANNOTATION: ", annotation);
 		_field.submitAnnotation(
@@ -178,10 +180,10 @@ Field.prototype.addDropdownListeners = function() {
 	});
 
 	// Action upon pressing enter
-	$(selector).on('keyup', function(event) {
+	inputField.on('keyup', function(event) {
 		// Check to see if typeahead cleared the field (so autocomplete was used)
-		if ($(selector).val() && event.which == 13) {
-			var annotation = $(selector).val();
+		if (inputField.val() && event.which == 13) {
+			var annotation = inputField.val();
 
 			// console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
 			_field.submitAnnotation(
@@ -191,12 +193,12 @@ Field.prototype.addDropdownListeners = function() {
 				annotation
 			);
 			// Clear input
-			$(selector).typeahead('val', '');
+			inputField.typeahead('val', '');
 		}
 	});
 
 	// Action on pressing esc
-	$(selector).on('keyup', function(event) {
+	inputField.on('keyup', function(event) {
 		if (_field.fragmentField && event.which == 27) {
 			_field._anno._deniche.onFragmentCancel(event);
 		}
@@ -209,12 +211,13 @@ Field.prototype.getAlternatives = function(defenition) {
 	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
 
 	// Return promise
-	return $.getJSON("api/autocomplete",
-		{q:string,
-		 filter:filter,
-		 labelrank:labelRank,
+	return $.getJSON("api/autocomplete", {
+		q:string,
+		filter:filter,
+		labelrank:labelRank,
 		//  method:"all",
-		 locale:this.locale});
+		 locale:this.locale
+	 });
 }
 
 Field.prototype.getAllAlternatives = function() {
@@ -223,12 +226,13 @@ Field.prototype.getAllAlternatives = function() {
 	var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
 
 	// Return promise
-	return $.getJSON("api/autocomplete",
-		{q:"stub",
-		 filter:filter,
-		 labelrank:labelRank,
-		 method:"all",
-		 locale:this.locale});
+	return $.getJSON("api/autocomplete", {
+		q:"stub",
+		filter:filter,
+		labelrank:labelRank,
+		method:"all",
+		locale:this.locale
+	});
 }
 
 Field.prototype.addTypeAhead = function(alternatives) {

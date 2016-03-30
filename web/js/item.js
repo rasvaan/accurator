@@ -179,6 +179,7 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 		annotation_ui:annotation_ui
 	})
 	.then(function(fields) {
+		console.log(fields);
 		// Add fields whole image
 		for (var i = 0; i < fields.whole_fields.length; i++) {
 			// Create new field object
@@ -206,7 +207,6 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 
 		// Add fields to hidden dom elements for annotorious
 		for (var i = 0; i < fields.fragment_fields.length; i++) {
-			console.log(fields.fragment_fields[0]);
 			// Create new field object
 			var fragmentField = new Field(
 				fields.fragment_fields[i],
