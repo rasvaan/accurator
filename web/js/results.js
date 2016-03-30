@@ -2,7 +2,8 @@
 Accurator Results
 
 Page showing overview of recommender/search results. Uses a lot of code from
-pagination.js and thumbnail.js (in web/js/components) .
+cluster.js, which in turn uses path.js, pagination.js and thumbnail.js
+(in web/js/components).
 
 Options:
 
@@ -24,7 +25,8 @@ Layout of the results:
 
 *******************************************************************************/
 "use strict";
-// Display options deciding how to results get displayed
+
+// Display options deciding how the results get displayed
 var display = {
 	layout: "cluster",
 	numberDisplayedItems: 4,
@@ -129,7 +131,10 @@ function addButtonEvents(user) {
 
 
 function events(user, labels) {
-	return $.getJSON("annotations", {uri:user, type:"user"})
+	return $.getJSON("annotations", {
+		uri:user,
+		type:"user"
+	})
 	.then(function(annotations) {
 		// message displayed before the first annotation is made by a user
 		if (annotations.length === 0) {
@@ -153,7 +158,7 @@ function results(target, labels) {
 		// recommendations based on the expertise of the user
 		// first recommended results are shown, then random results
 		query = "expertise";
-		recommend(query, target, labels);
+		recommend(query, labels, target);
 	} else {
 		// random results
 		query = "random";
@@ -166,9 +171,12 @@ function search(query, labels) {
 	$.getJSON("cluster_search_api", {query:query})
 	.then(function(data) {
 		$(document).prop('title', labels.resultsHdrResults + query);
-		var clusters = processClusters(data);
-		controls(clusters, labels); // add control buttons to change layout
-		drawResults(clusters);
+		var clusters = processClusters(data, labels, query);
+		// if there are any clusters retrieved, then draw results
+		if (clusters.length > 0) {
+			controls(clusters, labels); // add control buttons to change layout
+			drawResults(clusters);
+		}
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
 	});
@@ -176,14 +184,14 @@ function search(query, labels) {
 
 // Get results based on the expertise of the user and, afterwards, a number of
 // random items that have not yet been annotated
-function recommend(query, target, labels) {
+function recommend(query, labels, target) {
 	var recommendation = $.getJSON("recommendation", {
 		strategy:query,
 		target:target
 	})
-	.then(function(data){
+	.then(function(data) {
 		$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
-		return processClusters(data, query, labels);
+		return processClusters(data, labels, query);
 	});
 
 	var random = randomCluster(target, 10);
@@ -212,14 +220,14 @@ function random(query, labels, target, noResults) {
 /*******************************************************************************
 Result population and enrichment
 *******************************************************************************/
-function processClusters(data, query, labels) {
+function processClusters(data, labels, query) {
 	var clusters = []; // array containing cluster objects
 
 	if (data.clusters.length === 0) {
 		statusMessage(labels.resultsTxtNoResults + query);
 		return clusters;
 	} else {
-		for (var i=0; i<data.clusters.length; i++) {
+		for (var i = 0; i < data.clusters.length; i++) {
 			var uris = []; // uris of items in cluster
 			var id = "cluster" + i; // id of cluster
 			var path = data.clusters[i].path;
@@ -229,6 +237,7 @@ function processClusters(data, query, labels) {
 
 			clusters[i] = new Cluster(id, uris, path, query);
 		}
+
 		return clusters;
 	}
 }
@@ -252,14 +261,14 @@ Display of results and helper functions for the display
 function drawResults(clusters) {
 	drawRows(clusters);
 
-	for (var i=0; i<clusters.length; i++)
+	for (var i = 0; i < clusters.length; i++)
 		drawCluster(clusters[i], clusters);
 }
 
-// Add rows for cluster items for the list view
+// Add rows for cluster items
 function drawRows(clusters) {
 	if (display.layout === "cluster") {
-		for (var i=0; i<clusters.length; i++) {
+		for (var i = 0; i < clusters.length; i++) {
 			$("#resultsDiv").append(
 				clusters[i].node
 			);
@@ -268,7 +277,7 @@ function drawRows(clusters) {
 		var totalItems = itemsInClusters(clusters, clusters.length);
 		var rows = getNumberOfRows(totalItems);
 
-		for (var i=0; i<rows; i++) {
+		for (var i = 0; i < rows; i++) {
 			$("#resultsDiv").append(
 				$.el.div({'class':'row',
 					'id':'resultsDivThumbnails' + i})
@@ -281,10 +290,11 @@ function drawRows(clusters) {
 function itemsInClusters(clusters, clusterIndex) {
 	var totalItems = 0;
 
-	for (var i=0; i<clusterIndex; i++){
+	for (var i = 0; i < clusterIndex; i++){
 		// count uris since cluster might not be enriched
 		totalItems += clusters[i].uris.length;
 	}
+
 	return totalItems;
 }
 
@@ -326,7 +336,7 @@ function displayClusterAsList(cluster, clusters) {
 	var allUris = mergeUrisClusters(clusters, "list");
 
 	//for every item in this cluster, add the thumbnail in the list view
-	for (var itemIndex=0; itemIndex < cluster.uris.length; itemIndex++) {
+	for (var itemIndex = 0; itemIndex < cluster.uris.length; itemIndex++) {
 		var rowNumber = parseInt(itemsAdded/display.numberDisplayedItems, 10);
 		var rowId = "resultsDivThumbnails" + rowNumber;
 		var index = itemsAdded%display.numberDisplayedItems;
@@ -349,7 +359,7 @@ function mergeUrisClusters(clusters) {
 	var uris = [];
 
 	// retrieve all uris
-	for (var i=0; i<clusters.length; i++)
+	for (var i = 0; i < clusters.length; i++)
 		uris = uris.concat(clusters[i].uris);
 
 	return uris;
@@ -399,7 +409,7 @@ function resultLayoutButtons(results, labels) {
 		var resultNodes = document.getElementById("resultsDiv");
 
 		// use pure javascript removal in order to not remove attached events
-		while (resultNodes.firstChild) {
+		while(resultNodes.firstChild) {
     		resultNodes.removeChild(resultNodes.firstChild);
 		}
 

@@ -45,7 +45,7 @@ Path.prototype.addTitle = function() {
 Path.prototype.enrich = function() {
     var _path = this;
 
-    // no need for enriching if we have a title
+    // no need for enriching if we have a title, e.g. "random" for random objects
     if (typeof this.path === 'string' || this.path instanceof String) {
         return $.Deferred().resolve().promise();
     }
@@ -53,14 +53,14 @@ Path.prototype.enrich = function() {
 	return $.ajax({type: "POST",
 		url: "metadata",
 		contentType: "application/json",
-		data: JSON.stringify({"uris":this.path, "type":"label"})})
+		data: JSON.stringify({"uris": this.path, "type": "label"})})
 	.then(function(labels) {
         _path.labels = labels;
 
-		for (var i=0; i<_path.path.length; i++) {
+		for (var i = 0; i < _path.path.length; i++) {
 			_path.elements[i] = {
-                uri:_path.path[i],
-                label:truncate(_path.labels[i], 50)
+                uri: _path.path[i],
+                label: truncate(_path.labels[i], 50)
             };
 		}
 
@@ -74,13 +74,13 @@ Path.prototype.unfoldEvent = function() {
     var _path = this;
     var pathHtml = $.el.h4();
 
-    for (var i=0; i<this.elements.length; i++) {
+    for (var i = 0; i < this.elements.length; i++) {
         // label colouring
-        if (i==0) {
+        if (i == 0) {
 			pathHtml.appendChild(
 				$.el.span({'class':'path-label path-literal'},
                     this.query));
-		} else if (i%2==0) {
+		} else if (i%2 == 0) {
             pathHtml.appendChild(
                 $.el.span({'class':'path-label path-resource'},
                           this.elements[i].label));
@@ -102,4 +102,10 @@ Path.prototype.unfoldEvent = function() {
                 pathHtml)
         );
     });
+}
+
+// TODO fold path in case the user clicks on the unfolded path;
+// the path after this function looks the same as the initial one
+Path.prototype.foldEvent = function() {
+
 }

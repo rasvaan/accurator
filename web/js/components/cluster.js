@@ -42,13 +42,13 @@ Cluster.prototype.enrichItems = function() {
 		type: "POST",
 		url: "metadata",
 		contentType: "application/json",
-		data: JSON.stringify({"uris":this.uris})})
+		data: JSON.stringify({"uris": this.uris})})
 	.then(function(data) {
 		// Enrich one image element in the cluster adding an image,
 		// a link where it can be (further) annotated and a title
 		var items = [];
 
-		for(var i=0; i<data.length; i++) {
+		for(var i = 0; i < data.length; i++) {
 			items[i] = {};
 			var uri = data[i].uri;
 			items[i].uri = uri;
@@ -66,7 +66,7 @@ Cluster.prototype.addPath = function() {
 
 Cluster.prototype.addPagination = function(numberDisplayedItems) {
 	var _cluster = this;
-	var paginationId = this.id + "Pagination"
+	var paginationId = this.id + "Pagination";
 
 	this.pagination = new Pagination(
 		paginationId,
@@ -103,7 +103,7 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 	$(this.node).append(
 		$.el.div({'class':'row', 'id':'thumbnailRow' + this.id}));
 
-	for (var i=0; i<stop; i++) {
+	for (var i = 0; i < stop; i++) {
 		var thumbnail = new Thumbnail(
 			this.items[i].uri,
 			this.items[i].title,
@@ -135,7 +135,8 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 
 	// console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
 	var thumbIndex = 0; // index of the thumbnail spots
-	for (var i=start; i<stop; i++) {
+
+	for (var i = start; i < stop; i++) {
 		var thumbnail = this.thumbnails[thumbIndex];
 
 		thumbnail.setImage(this.items[i].thumb);

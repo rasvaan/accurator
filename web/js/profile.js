@@ -46,20 +46,29 @@ function profileInit() {
 }
 
 function populateRecentlyAnnotated(user) {
-	$.getJSON("annotations", {uri:user, type:"user"})
+	$.getJSON("annotations", {
+		uri:user,
+		type:"user"
+	})
 	.then(function(uris){
 		if (uris.length === 0) {
 			$("#profileDivLastAnnotated").hide();
 		} else {
 			//TODO: limit length of uris (faster if someone annotated a bunch)?
-			var cluster = new Cluster(uris, "profileDivCluster", "Recently tagged");
+			// var cluster = new Cluster(uris, "profileDivCluster", "Recently tagged");
+			var cluster = new Cluster("profileDivCluster", uris, "Recently tagged");
 
-			$("#profileDivLastAnnotated").append(cluster.node);
+			// 	cluster.enrich()
+			// 	.then(function() {
+			// 		// display 6 elements in cluster
+			// 		cluster.display(6);
+			// 	});
+			// }
+			var noRecentlyAnnotatedItems = 6;
 
-			cluster.enrich()
+			cluster.init(noRecentlyAnnotatedItems)
 			.then(function() {
-				// display 6 elements in cluster
-				cluster.display(6);
+				$("#profileDivLastAnnotated").append(cluster.node);
 			});
 		}
 	});
@@ -68,6 +77,7 @@ function populateRecentlyAnnotated(user) {
 function initLabels(labels) {
 	// add retrieved labels to html elements
 	document.title = labels.profilePageTitle;
+
 	// check if real name is available
 	if (typeof realName !== 'undefined') {
 		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan + " " + realName + " ");
