@@ -493,6 +493,21 @@ function registerButtonEvent(onDismissal, settings, labels) {
 		register(settings, labels);
 	});
 	// register on pressing enter
+	$("#registerInpFullName").keypress(function(event) {
+		if (event.which == 13) {
+			register(settings, labels);
+		}
+	});
+	$("#registerInpUsername").keypress(function(event) {
+		if (event.which == 13) {
+			register(settings, labels);
+		}
+	});
+	$("#registerInpPassword").keypress(function(event) {
+		if (event.which == 13) {
+			register(settings, labels);
+		}
+	});
 	$("#registerInpPasswordRepeat").keypress(function(event) {
 		if (event.which == 13) {
 			register(settings, labels);
