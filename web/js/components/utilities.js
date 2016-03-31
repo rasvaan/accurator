@@ -32,17 +32,22 @@ function setUserSettingsLocal() {
 function save_user_info(info) {
 	// save user settings to user.db of Cliopatria
 	return $.getJSON("get_user")
-	.then(function(data){
+	.then(function(user){
 		// get the user id and post information
-		info.user = data.user;
+		if (user.login) {
+			info.user = user.user;
 
-		return $.ajax({
-			type: "POST",
-			url: "save_user_info",
-			contentType: "application/json",
-			data: JSON.stringify(info)
-		});
-	})
+			return $.ajax({
+				type: "POST",
+				url: "save_user_info",
+				contentType: "application/json",
+				data: JSON.stringify(info)
+			});
+		}
+		else {
+			return jQuery.Deferred().reject(user).promise();
+		}
+	});
 }
 
 function getParameterByName(name) {
@@ -279,7 +284,7 @@ function addLinks(linkList, labels) {
 	var links = [];
 
 	// Populate the list of additional links in the navbar dropdown
-	for(var i=0; i<linkList.length; i++){
+	for(var i = 0; i < linkList.length; i++){
 		links[i] = $.el.li($.el.a({'href':linkList[i].link},
 			localizedPageName(linkList, labels, i)
 		));
