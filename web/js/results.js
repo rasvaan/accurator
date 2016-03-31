@@ -348,7 +348,7 @@ function displayClusterAsList(cluster, clusters) {
 			display.numberDisplayedItems
 		);
 
-		thumbnail.setClickEvent(cluster.items[itemIndex].link, uris, "path");
+		thumbnail.setClickEvent(cluster.items[itemIndex].link, cluster.uris, "path");
 		$("#" + rowId).append(thumbnail.node);
 		itemsAdded++;
 	}
