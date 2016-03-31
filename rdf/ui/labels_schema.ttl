@@ -79,6 +79,10 @@ auis:hasSelectOption a rdf:Property ;
 	rdfs:label "Has select option" ;
 	rdfs:comment "Property linking a selectfield and its options."@en .
 
+auis:AlternativesSource a rdfs:Class ;
+	rdfs:label "Source of annotation alternatives" ;
+	rdfs:comment "Source of annotation alternatives, e.g. dropdown alternatives."@en .
+	
 auis:source a rdf:Property ;
 	rdfs:label "Has source" ;
 	rdfs:comment "The source of data for an input field."@en .

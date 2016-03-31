@@ -16,7 +16,7 @@ abir:domain a accu:Domain ;
 	accu:hasTarget <http://accurator.nl/bird#Target> ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
-	accu:hasAnnotationUI aabir:smallBirdDemoUi ;
+	accu:hasAnnotationUI aabir:smallBirdAnnotationUi ;
 	accu:hasDescriptiveImage abir:bird ;
 	accu:hasLastImage abir:bird_end ;
 	accu:hasMaximumExpertiseTopics "50" ;
