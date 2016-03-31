@@ -18,7 +18,6 @@ apag:domain_cristina a accu:Domain ;
 	accu:hasUI apaguicr: ;
 	accu:hasAnnotationUI aapage:singleField ;
 	accu:hasDesciptiveImage apag:jeremia ;
-	accu:hasLastImage apag:jeremia ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "0" .
 

@@ -40,9 +40,6 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 	rdf(DomainUri, accu:hasDescriptiveImage, Image),
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
 	rdf(Image, accu:brightness, literal(Brightness)),
-	rdf(DomainUri, accu:hasLastImage, Image2),
-	rdf(Image2, accu:hasFilePath, literal(ImagePath2)),
-	rdf(Image2, accu:brightness, literal(Brightness2)),
 	Dic = domain{domain:Domain,
 				 target:Target,
 				 taxonomy:Taxonomy,
@@ -52,6 +49,4 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 				 ui:UI,
 				 annotation_ui:AnnotationUI,
 				 image:ImagePath,
-				 image_brightness:Brightness,
-				 last_image:ImagePath2,
-				 last_image_brightness:Brightness2}.
+				 image_brightness:Brightness}.

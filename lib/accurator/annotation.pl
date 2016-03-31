@@ -104,10 +104,18 @@ get_source(Uri, Locale, Source) :-
 	rdfs_list_to_prolog_list(RdfList, SourceList),
 	maplist(extract_literal(Locale), SourceList, Source), !.
 get_source(Uri, _Locale, Source) :-
-	rdf_has(Uri, auis:source, literal(Source)), !.
+	rdf_has(Uri, auis:source, SourceUri),
+	rdf_is_resource(SourceUri), !,
+	findall(PredicateLabel-Literal,
+			(	rdf(SourceUri, Predicate, literal(Literal)),
+				iri_xml_namespace(Predicate, _, PredicateLabel)),
+			Properties),
+	dict_pairs(Source, elements, Properties).
 
 extract_literal(Locale, literal(lang(Locale, Literal)), Literal) :- !.
 extract_literal(_Locale, literal(lang(en, Literal)), Literal) :- !.
+extract_literal(_Locale, literal(Literal), Literal) :-
+	atom(Literal), !. % check if not lang(Literal)
 
 %%	annotations(+Type, +Uri, -Metadata)
 %

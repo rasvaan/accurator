@@ -99,7 +99,6 @@ function setImage(uri) {
 }
 
 function initLabels(labelData) {
-	console.log(labelData);
 	document.title = labelData.title;
 	$("#itemBtnPrevious").append(labelData.itemBtnPrevious);
 	$("#itemBtnNext").prepend(labelData.itemBtnNext);
@@ -174,11 +173,13 @@ function addNavigationButtonEvents(uris, uri) {
 
 function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui) {
 	// Retrieve the fields that should be added (based on save_user_info)
-	return $.getJSON("annotation_fields",
-			  {locale:locale,
-			   domain:domain,
-		   	   annotation_ui:annotation_ui})
+	return $.getJSON("annotation_fields", {
+		locale:locale,
+		domain:domain,
+		annotation_ui:annotation_ui
+	})
 	.then(function(fields) {
+		console.log(fields);
 		// Add fields whole image
 		for (var i = 0; i < fields.whole_fields.length; i++) {
 			// Create new field object
