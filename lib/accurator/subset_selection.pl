@@ -2,6 +2,7 @@
 							 target_prefix/3,
 							 text_contains_label/5,
 							 target_graph/3,
+							 target_annotation/3,
 							 target_description_scanner/0,
 							 target_title_scanner/0,
 							 target_bible_pages/0]).
@@ -173,6 +174,24 @@ scan_description(Work, Options0, Label) :-
 	campaign_nomination(Options, Work),
 	debug(scan_text, '~p present in: ~p', [LabelLower, DescriptionLower]).
 scan_description(_, _, _).
+
+%%	target_annotation(+Annotation, +TargetType, +Campaign)
+%
+%	Targets edm works which have the specified annotation
+% target_annotation('http://purl.org/vocab/nl/ubvu/MultipleIllustrationsPage','http://accurator.nl/bible#Target','http://accurator.nl/bible#Campaign').
+target_annotation(Annotation, TargetType, Campaign) :-
+	Options = [target_type(TargetType), campaign(Campaign),
+			  targetter('http://accurator.nl/user#AnnotationScanner')],
+	%find all works with class or sublcass of specified class
+	findall(Object,
+			(	rdf(AnnotationUri, oa:hasBody, Annotation),
+				rdf(AnnotationUri, oa:hasTarget, Object),
+				rdf(Object, rdf:type, edm:'ProvidedCHO')),
+			Objects),
+	length(Objects, NumberObjects),
+	debug(tag_works, 'Number of works with ~p annotation: ~p',
+		  [Annotation, NumberObjects]),
+	maplist(campaign_nomination(Options), Objects).
 
 %%	campaign_nomination(+Options, +Work)
 %
