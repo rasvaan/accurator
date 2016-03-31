@@ -18,7 +18,6 @@ afas:domain a accu:Domain ;
 	accu:hasUI afasui: ;
 	accu:hasAnnotationUI aafas:fashionUI ;
 	accu:hasDescriptiveImage afas:dress ;
-	accu:hasLastImage afas:dress ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2" .
 

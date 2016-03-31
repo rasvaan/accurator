@@ -18,7 +18,6 @@ abib:domain a accu:Domain ;
 	accu:hasUI abibui: ;
 	accu:hasAnnotationUI aabib:smallBibleUI ;
 	accu:hasDescriptiveImage abib:jeremia ;
-	accu:hasLastImage abib:jeremia ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "0" .
 

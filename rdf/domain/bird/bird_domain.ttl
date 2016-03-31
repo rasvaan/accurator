@@ -18,7 +18,6 @@ abir:domain a accu:Domain ;
 	accu:hasUI abirui: ;
 	accu:hasAnnotationUI aabir:smallBirdAnnotationUi ;
 	accu:hasDescriptiveImage abir:bird ;
-	accu:hasLastImage abir:bird_end ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2" .
 
@@ -44,10 +43,6 @@ abir:hondecoeterQuery a accu:QueryExample ;
 
 abir:bird a dctypes:StillImage ;
 	accu:hasFilePath "img/background/bird.jpg" ;
-	accu:brightness "light" .
-
-abir:bird_end a dctypes:StillImage ;
-	accu:hasFilePath "img/background/bird-end.jpg" ;
 	accu:brightness "light" .
 
 abir:snipeImage a dctypes:StillImage ;
