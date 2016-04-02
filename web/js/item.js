@@ -215,6 +215,7 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 					target: uri,
 				 	targetImage: metadata.image_uri,
 					user: user,
+					locale: locale,
 			 	 	imageId: page.imageId,
 					fieldsId: page.fragmentFieldsId
 			 	}
