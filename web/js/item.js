@@ -74,7 +74,7 @@ function itemInit() {
 			}
 
 			addButtonEvents(user);
-			return events(user, labels);
+			return events(user, locale, labels);
 		})
 		.then(function() {
 			return setImage(uri);
@@ -113,19 +113,23 @@ function initLabels(labelData) {
 	return labels;
 }
 
-function events(user, labels) {
+function events(user, locale, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
 		if(annotations.length === 0) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
 		if(annotations.length === 25) {
-			var form = new Form(["country"]);
-			$("#eventsDiv").prepend(form.node);
+			var form = new Form("formPersonal", ["country"], locale);
+			form.addText().then(function() {
+				$("#eventsDiv").prepend(form.node);
+			});
 		}
 		if(annotations.length === 20) {
-			var form = new Form(["age"]);
-			$("#eventsDiv").prepend(form.node);
+			var form = new Form("formInternet", ["age"], locale);
+			form.addText().then(function() {
+				$("#eventsDiv").prepend(form.node);
+			});
 		}
 	});
 }
