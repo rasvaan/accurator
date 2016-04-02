@@ -347,7 +347,7 @@ function displayClusterAsList(cluster, clusters) {
 			cluster.items[itemIndex].link,
 			display.numberDisplayedItems
 		);
-		
+
 		thumbnail.setClickEvent(
 			cluster.items[itemIndex].link,
 			cluster.uris,

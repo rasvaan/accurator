@@ -67,10 +67,11 @@ number_of_annotations_pair(Uri, Number-Uri) :-
 %	Get results by picking uris from bins sorted by the number of
 %	annotatoins (inverse would be interesting for reviewing!). When a
 %	bin has multiple uris, pick one at random from that bin.
-results_from_bins(_Bins, MaxN, MaxN, []).
-results_from_bins(Bins, N0, MaxN, [Expertise|List]) :-
+results_from_bins([], _, _, []) :- !.
+results_from_bins(_Bins, MaxN, MaxN, []) :- !.
+results_from_bins(Bins, N0, MaxN, [Result|List]) :-
 	N is N0 + 1,
-	random_from_bin(Bins, NewBins, Expertise),
+	random_from_bin(Bins, NewBins, Result),
 	results_from_bins(NewBins, N, MaxN, List).
 
 %%	random_from_bin(+Bins, +NewBins, -Expertise)
