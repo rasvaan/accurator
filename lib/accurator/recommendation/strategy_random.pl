@@ -1,4 +1,5 @@
-:- module(strategy_random, [strategy_random/2]).
+:- module(strategy_random, [strategy_random/2,
+							strategy_ranked_random/2]).
 
 :- use_module(library(accurator/accurator_user)).
 :- use_module(library(semweb/rdf_db)).
@@ -32,3 +33,16 @@ assign_random(Number, SourceList, [Uri|List]) :-
     delete(SourceList, Uri, NewSourceList),
     NewNumber is Number-1,
     assign_random(NewNumber, NewSourceList, List).
+
+%%      strategy_ranked_random(-Result, +Options)
+%
+%		Assign a number of objects in a random fassion, prioritysing
+%		items with low numbers of annotations.
+strategy_ranked_random(Result, Options) :-
+	option(target(Target), Options),
+	option(number(Number), Options),
+	option(filter(Filter), Options),
+	% Get list of all targets
+    findall(Uri, rdf(Uri, rdf:type, Target), SourceList),
+	filter(Filter, SourceList, FilteredList, Options),
+    assign_random(Number, FilteredList, Result).

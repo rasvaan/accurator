@@ -149,7 +149,7 @@ Search, Recommend or Random results
 function results(target, labels) {
 	var query = getParameterByName("query"); // get query from url when present
 	var userQuery = getParameterByName("user"); // get user from url when present
-	var recommendBoolean = true; // don't do random stuff
+	var recommendBoolean = false; // do random stuff
 
 	if(query) {
 		// results based on the user query
@@ -243,9 +243,9 @@ function processClusters(data, labels, query) {
 }
 
 function randomCluster(target, noResults) {
-	// Get a list of random items
+	// Get a list of ranked random items
 	return $.getJSON("recommendation", {
-		strategy:'random',
+		strategy:'ranked_random',
 		number:noResults,
 		target:target
 	})

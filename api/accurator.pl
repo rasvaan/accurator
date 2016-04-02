@@ -294,7 +294,7 @@ get_recommendation_parameters(Request, Options) :-
     http_parameters(Request,
         [strategy(Strategy,
 		    [default(random),
-			 oneof([random, expertise])]),
+			 oneof([random, ranked_random, expertise])]),
 		 target(Target,
 			[default('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
 		 number(Number,
@@ -315,6 +315,10 @@ get_recommendation_parameters(Request, Options) :-
 %   Selects objects according to the specified strategy.
 strategy(random, Options) :-
     strategy_random(Result, Options),
+	reply_json_dict(Result).
+
+strategy(ranked_random, Options) :-
+    strategy_ranked_random(Result, Options),
 	reply_json_dict(Result).
 
 strategy(expertise, Options) :-
