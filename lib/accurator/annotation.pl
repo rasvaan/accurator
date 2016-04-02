@@ -1,7 +1,8 @@
 :- module(annotation, [
 			  annotation_fields/2,
 			  annotations/3,
-			  annotations/4
+			  annotations/4,
+			  number_of_annotations/2
 		  ]).
 
 :- use_module(library(accurator/ui_elements)).
@@ -165,3 +166,13 @@ get_annotation(Uri, AnnotationBody, AnnotationHash) :-
 process_annotation(literal(Annotation), Annotation) :- !.
 process_annotation(Annotation, Label) :-
 	rdf_display_label(Annotation, _, Label).
+
+%%	number_of_annotations(+Uri, -NumberOfAnnotations)
+%
+%	Get the number of annotations for a given uri
+number_of_annotations(Uri, NumberOfAnnotations) :-
+	setof(Annotation,
+		  rdf(Annotation, oa:hasTarget, Uri),
+		  Annotations), !,
+	length(Annotations, NumberOfAnnotations).
+number_of_annotations(_Uri, 0) :- !.

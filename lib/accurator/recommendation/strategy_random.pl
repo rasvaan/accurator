@@ -3,6 +3,7 @@
 							random_from_bin/3]).
 
 :- use_module(library(accurator/accurator_user)).
+:- use_module(library(accurator/annotation)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(random)).
 :- use_module(library(pairs)).
@@ -51,15 +52,15 @@ strategy_ranked_random(Result, Options) :-
 	% get list of all targets
     findall(Uri, rdf(Uri, rdf:type, Target), SourceList),
 	filter(Filter, SourceList, FilteredList, Options),
-	maplist(number_of_annotations, FilteredList, PairList),
+	maplist(number_of_annotations_pair, FilteredList, PairList),
 	% sort to create proper bins
 	keysort(PairList, SortedList),
 	group_pairs_by_key(SortedList, Bins),
 	results_from_bins(Bins, 0, Number, Result).
 
+number_of_annotations_pair(Uri, Number-Uri) :-
+	number_of_annotations(Uri, Number).
 
-number_of_annotations(Uri, Annotations-Uri) :-
-	random_between(0, 10, Annotations).
 
 %%	results_from_bins(+Bins, +Counter, +MaxN, -Agenda)
 %
