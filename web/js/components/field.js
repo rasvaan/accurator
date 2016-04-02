@@ -279,7 +279,8 @@ Field.prototype.createSuggestionTemplate = function() {
 	} else {
 		// otherwise we should have the uri available
 		return suggestionTemplate = function(data) {
-			return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
+			return '<div>' + data.value + '</div>';
+			//return '<div>' + data.value + ' - <small>' + data.uri + '</small></div>';
 		}
 	}
 }
