@@ -4,6 +4,11 @@
 
 :- use_module(library(accurator/accurator_user)).
 :- use_module(library(semweb/rdf_db)).
+:- use_module(library(random)).
+:- use_module(library(pairs)).
+:- use_module(library(apply)).
+:- use_module(library(lists)).
+:- use_module(library(option)).
 
 %%      strategy_random(-Result, +Options)
 %
