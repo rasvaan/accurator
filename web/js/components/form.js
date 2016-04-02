@@ -13,8 +13,7 @@ Form.prototype.init = function() {
 }
 
 Form.prototype.html = function() {
-    return
-    $.el.div({'class':'panel panel-default'}, [
+    return $.el.div({'class':'panel panel-default'}, [
         $.el.div({'class':'panel-heading'}),
         $.el.div({'class':'panel-body'})
     ]);

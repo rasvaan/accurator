@@ -479,6 +479,7 @@ html({|html(ImageUrl)||
 <script type="text/javascript" src="js/components/utilities.js"></script>
 <script type="text/javascript" src="js/components/annotations.js"></script>
 <script type="text/javascript" src="js/components/field.js"></script>
+<script type="text/javascript" src="js/components/form.js"></script>
 <script type="text/javascript" src="js/item.js"></script>
 <script>itemInit()</script>
 |}).

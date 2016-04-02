@@ -116,8 +116,17 @@ function initLabels(labelData) {
 function events(user, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
+		console.log(annotations.length);
 		if(annotations.length === 0) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
+		}
+		if(annotations.length === 25) {
+			var form = new Form();
+			console.log(form.node);
+		}
+		if(annotations.length === 20) {
+			var form = new Form();
+			console.log(form.node);
 		}
 	});
 }
