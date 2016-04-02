@@ -13,7 +13,7 @@
 abib:domain a accu:Domain ;
 	rdfs:label "bible" ;
 	dcterms:requires <file:///Users/rasvaan/git/iconclass/iconclass.20121019.structure.ttl> ;
-	accu:hasTarget <http://accurator.nl/bible#Target> ;
+	accu:hasTarget <http://accurator.nl/ubvu#Target> ;
 	skos:hasTopConcept ic:7 ;
 	accu:hasUI abibui: ;
 	accu:hasAnnotationUI aabib:smallBibleUI ;
