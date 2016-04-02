@@ -125,7 +125,7 @@ function events(user, labels) {
 function addNavigation(uri) {
 	var uris =  JSON.parse(localStorage.getItem("uris"));
 	var pathArray =  JSON.parse(localStorage.getItem("path"));
-	var path = new Path(pathArray, itemDivPath);
+	var path = new Path(pathArray, "itemDivPath");
 
 	path.enrich()
 	.then(function() {
