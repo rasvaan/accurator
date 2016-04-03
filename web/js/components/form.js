@@ -183,6 +183,7 @@ Form.prototype.addFormQuestions = function(labelData) {
             this.formGroups[i].node
         );
     }
+    this.addFormEvents(labelData);
 }
 
 Form.prototype.addButtons = function(labelData) {
@@ -272,6 +273,59 @@ Form.prototype.processFormFields = function() {
     }
     console.log("info result ", info);
 	return save_user_info(info);
+}
+
+Form.prototype.addFormEvents = function(labels) {
+    var _form = this;
+
+	$(this.node).find("#formDivsocialNetwork #formChknone").click(function() {
+		if(!labels.socialFieldAdded) {
+			$("#formDivSocialNetwork").after(
+				$.el.div({'class':'form-group'},
+						$.el.label({'for':'addSocialSite',
+									'id':'frmSocialOpen',
+									'class':'col-sm-5 control-label'},
+									labels.formLblSocialSiteOpen),
+						$.el.div({'class':'col-sm-5'},
+								 $.el.input({'type':'text',
+									 		 'id':'addSocialSite',
+									 		 'class':'form-control'}))));
+			_form.socialFieldAdded = true;
+		}
+	});
+
+	$(this.node).find("#formDivsocialNetwork #formChktwitter").click(function() {
+        console.log("click!");
+		if(!labels.twitterFieldAdded) {
+			$("#formDivsocialNetwork").after(
+				$.el.div({'class':'form-group'},
+						$.el.label({'for':'addTwitterId',
+									'id':'formLblTwitterId',
+									'class':'col-sm-5 control-label'},
+									labels.formLblTwitterId),
+						$.el.div({'class':'col-sm-5'},
+								 $.el.input({'type':'text',
+									 		 'id':'addTwitterId',
+									 		 'class':'form-control'}))));
+			_form.twitterFieldAdded = true;
+		}
+	});
+
+	$(this.node).find("#formDivtaggingSites #formChkother").click(function() {
+		if(!labels.tagsiteFieldAdded) {
+			$("#formDivTaggingSite").after(
+				$.el.div({'class':'form-group'},
+					$.el.label({'for':'addTagSite',
+							    'id':'formLblTagSite',
+								'class':'col-sm-5 control-label'},
+								labels.formLblTagSiteOpen),
+					$.el.div({'class':'col-sm-5'},
+							 $.el.input({'type':'text',
+										 'id':'addTagSite',
+										 'class':'form-control'}))));
+			_form.tagsiteFieldAdded = true;
+		}
+	});
 }
 
 /*******************************************************************************
