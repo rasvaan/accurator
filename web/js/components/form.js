@@ -274,7 +274,7 @@ Form.prototype.processFormFields = function() {
             info[id] = value; // add single value to info
         }
     }
-    console.log("info result ", info);
+
 	return save_user_info(info);
 }
 
@@ -282,7 +282,7 @@ Form.prototype.addFormEvents = function(labels) {
     var _form = this;
 
 	$(this.node).find("#formDivsocialNetwork #formChknone").click(function() {
-		if(!labels.socialFieldAdded) {
+		if(!_form.socialFieldAdded) {
 			$("#formDivSocialNetwork").after(
 				$.el.div({'class':'form-group'},
 						$.el.label({'for':'addSocialSite',
@@ -298,8 +298,7 @@ Form.prototype.addFormEvents = function(labels) {
 	});
 
 	$(this.node).find("#formDivsocialNetwork #formChktwitter").click(function() {
-        console.log("click!");
-		if(!labels.twitterFieldAdded) {
+		if(!_form.twitterFieldAdded) {
 			$("#formDivsocialNetwork").after(
 				$.el.div({'class':'form-group'},
 						$.el.label({'for':'addTwitterId',
@@ -315,7 +314,7 @@ Form.prototype.addFormEvents = function(labels) {
 	});
 
 	$(this.node).find("#formDivtaggingSites #formChkother").click(function() {
-		if(!labels.tagsiteFieldAdded) {
+		if(!_form.tagsiteFieldAdded) {
 			$("#formDivTaggingSite").after(
 				$.el.div({'class':'form-group'},
 					$.el.label({'for':'addTagSite',

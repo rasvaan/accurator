@@ -132,7 +132,7 @@ function events(user, locale, labels) {
 			});
 		}
 
-		if(annotations.length === 25) {
+		if(annotations.length === 10) {
 			var formInternet = new Form(
 				"formInternet",
 				["socialNetwork", "taggingSites", "taggingExperience", "mail", "mailCheck"],
