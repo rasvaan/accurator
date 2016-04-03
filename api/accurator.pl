@@ -404,6 +404,11 @@ html({|html(ImageUrl)||
 		<img class="itemImg annotatable" src="ImageUrl" alt="" />
 	</div>
 
+	<!-- Annotation field(s) -->
+	<div class="row" id="itemDivAnnotationFields">
+		<div class="col-md-6" id="itemDivFields"></div>
+	</div>
+
 	<!-- Navigation -->
 	<div class="row" id="itemDivClusterNavigation">
 		<div class="itemDivNavigationButton col-md-2 col-xs-6">
@@ -418,11 +423,6 @@ html({|html(ImageUrl)||
 		</div>
 		<div class="col-md-8 col-md-pull-2" id="itemDivPath">
 		</div>
-	</div>
-
-	<!-- Annotation field(s) -->
-	<div class="row">
-		<div class="col-md-6" id="itemDivFields"></div>
 	</div>
 
 	<!-- Metadata -->
