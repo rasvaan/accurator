@@ -2,25 +2,20 @@
 Form
 Javascript for adding form elements to pages.
 *******************************************************************************/
-function Form(id, questions, locale) {
+function Form(id, groupIds, locale) {
     this.id = id;
-    this.questions = questions; // array of questions to ask
+    this.groupIds = groupIds; // array of questions to ask
     this.locale = locale;
     this.ui = "http://accurator.nl/ui/generic#form";
+    this.formGroups = [];
     this.countries = null; // list of country objects
     this.node = null;
 
-
-    this.init(questions);
+    this.init();
 }
 
 Form.prototype.init = function() {
     this.node = this.html();
-
-    for (var i=0; i<this.questions.length; i++) {
-        console.log("adding question", i, " with label ", this.questions[i]);
-        if (this.questions[i] == "country") this.addCountrySelector();
-    }
 }
 
 Form.prototype.html = function() {
@@ -75,9 +70,30 @@ Form.prototype.addHeader = function(labelData) {
 }
 
 Form.prototype.addFormQuestions = function(labelData) {
+    // create from group objects based on labels and ids
+    for (var i=0; i<this.groupIds.length; i++) {
+        if (this.groupIds[i] == "country") {
+            this.formGroups[i] = new SelectFormGroup(
+                this.groupIds[i],
+                labelData.formLblCountry
+            );
+            this.formGroups[i].addAlternatives("countries", this.locale, this.ui);
+            console.log("adding question", i, " with object ", this.formGroups[i]);
+        }
+    }
+
+    // add form groups to html node
+    for (var i=0; i<this.formGroups.length; i++) {
+        $(this.node).find(".form-horizontal").append(
+            this.formGroups[i].node
+        );
+    }
+    // $(this.node).find("#formLblCountry").append(labelData.formLblCountry);
+
+
 	$(this.node).find("#formLblBirthDate").append(labelData.formLblBirthDate);
 	$(this.node).find("#formLblGender").append(labelData.formLblGender);
-	$(this.node).find("#formLblCountry").append(labelData.formLblCountry);
+
 	$(this.node).find("#formLblCommunity").append(labelData.formLblCommunity);
 	$(this.node).find("#formLblLanguage").append(labelData.formLblLanguage);
 	$(this.node).find("#formLblEducation").append(labelData.formLblEducation);
@@ -159,5 +175,68 @@ Form.prototype.addCountries = function() {
         }
     }, function(){
         $("#formSltCountry").append($.el.option("No countries found on server"));
+    });
+}
+
+function FormGroup(id, label) {
+    this.id = id;
+    this.label = label;
+    this.node = null;
+
+    this.init();
+}
+
+FormGroup.prototype.init = function() {
+    this.node = $.el.div({'class':'form-group', 'id':'formDiv' + this.id}, [
+        $.el.label({'class':'col-sm-5 control-label', 'id':'formLbl' + this.id},
+            this.label),
+        $.el.div({'class':'col-sm-5'})
+    ]);
+}
+
+function SelectFormGroup(id, label) {
+    FormGroup.call(this, id, label);
+    this.alternatives = null;
+
+    this.addSelect();
+}
+
+SelectFormGroup.prototype = Object.create(FormGroup.prototype); // inherit
+
+SelectFormGroup.prototype.addSelect = function() {
+    $(this.node).find("label").attr("for", "formSlt" + this.id);
+
+    $(this.node).find("div").append(
+        $.el.select({'class':'form-control', 'id':'formSlt' + this.id})
+    );
+}
+
+SelectFormGroup.prototype.addAlternatives = function(type, locale, ui) {
+    var _group = this;
+
+    $.getJSON("ui_elements", {
+        locale: locale,
+        ui: ui,
+        type: type
+    })
+    .then(function(alternativeData) {
+        _group.alternatives = alternativeData;
+        _group.alternatives.sort(function(a, b) {
+            return a.name.localeCompare(b.name)
+        });
+
+        // add first empty element
+        $(_group.node).find("#formSlt" + _group.id).append($.el.option(""));
+
+        // add countries to selector
+        for (var i = 0; i < _group.alternatives.length; i++) {
+            $(_group.node).find("#formSlt" + _group.id).append(
+                $.el.option(_group.alternatives[i].name)
+            );
+        }
+    }, function(){
+        $(_group.node).find("#formSlt" + _group.id).append(
+            $.el.option("No values found on server")
+        );
     });
 }
