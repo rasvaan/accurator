@@ -20,6 +20,7 @@ function Form(id, groupIds, locale) {
 Form.prototype.init = function() {
     this.node = this.html();
     this.removeFormEvents();
+    $(this.node).css("margin-top", "20px");
 }
 
 Form.prototype.html = function() {
@@ -198,12 +199,14 @@ Form.prototype.addButtonEvents = function() {
     $(this.node).find("#formBtnAdd").click(function() {
         _form.processFormFields()
         .then(function() {
-            // $(_form.node).hide();
+            $(_form.node).hide();
+            $(_form.node).css("margin-top", "0px");
         });
     });
 
     $(this.node).find("#formBtnSkip").click(function() {
         $(_form.node).hide();
+        $(_form.node).css("margin-top", "0px");
     });
 }
 
