@@ -19,6 +19,7 @@ function Form(id, groupIds, locale) {
 
 Form.prototype.init = function() {
     this.node = this.html();
+    this.removeFormEvents();
 }
 
 Form.prototype.html = function() {
@@ -32,6 +33,18 @@ Form.prototype.html = function() {
             $.el.button({'class':'btn btn-link', 'id':'formBtnSkip'})
         ])
     ]);
+}
+
+Form.prototype.removeFormEvents = function() {
+    // make sure no weird form events are triggered on keypress
+    $(this.node).on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 }
 
 Form.prototype.addText = function() {
@@ -112,7 +125,6 @@ Form.prototype.addFormQuestions = function(labelData) {
         );
     }
 
-	$(this.node).find("#formLblBirthDate").append(labelData.formLblBirthDate);
 	$(this.node).find("#formLblGender").append(labelData.formLblGender);
 	$(this.node).find("#formLblMail").append(labelData.formLblMail);
 	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
