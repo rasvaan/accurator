@@ -288,7 +288,6 @@ aui:form a auis:UI ;
 
 aui:formPageTitle rdfs:subPropertyOf auis:uiLabel .
 aui:formHdrInternetUsage rdfs:subPropertyOf auis:uiLabel .
-aui:formHdrInternetUsage a auis:UILabel .
 aui:formHdrPersonalInfo rdfs:subPropertyOf auis:uiLabel .
 aui:formHdrSlogan rdfs:subPropertyOf auis:uiLabel .
 aui:formHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .

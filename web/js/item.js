@@ -116,7 +116,6 @@ function initLabels(labelData) {
 function events(user, locale, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
-		console.log(annotations.length);
 		if(annotations.length === 0) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
@@ -124,7 +123,7 @@ function events(user, locale, labels) {
 		if(annotations.length === 25) {
 			var form = new Form(
 				"formPersonal",
-				["country", "language", "education"],
+				["country", "language", "education", "birthDate"],
 				locale
 			);
 

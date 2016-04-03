@@ -96,6 +96,13 @@ Form.prototype.addFormQuestions = function(labelData) {
             this.formGroups[i].alternatives = this.educationAlternatives(labelData);
             this.formGroups[i].addAlternatives();
         }
+
+        if (this.groupIds[i] == "birthDate") {
+            this.formGroups[i] = new TextFormGroup(
+                this.groupIds[i],
+                labelData.formLblBirthDate
+            );
+        }
     }
 
     // add form groups to html node
@@ -181,6 +188,40 @@ FormGroup.prototype.init = function() {
     ]);
 }
 
+function TextFormGroup(id, label) {
+    FormGroup.call(this, id, label);
+
+    this.addTextField();
+}
+
+TextFormGroup.prototype = Object.create(FormGroup.prototype); // inherit
+
+TextFormGroup.prototype.addTextField = function() {
+    // change the class
+    $(this.node).find("div").addClass('col-sm-2');
+    $(this.node).find("div").removeClass('col-sm-5');
+
+    $(this.node).find("label").attr("for", "formInp" + this.id);
+
+    $(this.node).find("div").append(
+        $.el.input({
+            'class':'form-control',
+            'id':'formInp' + this.id,
+            'type':'date'
+        })
+    );
+}
+
+TextFormGroup.prototype.getValue = function() {
+    var input = $(this.node).find("#formInp" + this.id).val();
+
+    if (!(input === "")) {
+        return input;
+    } else {
+        return null;
+    }
+}
+
 function SelectFormGroup(id, label) {
     FormGroup.call(this, id, label);
     this.alternatives = null;
@@ -233,7 +274,7 @@ SelectFormGroup.prototype.addAlternatives = function(alternatives) {
 }
 
 SelectFormGroup.prototype.getValue = function() {
-    var input = $("#formSlt" + this.id).val();
+    var input = $(this.node).find("#formSlt" + this.id).val();
 
     // Find the id corresponding to the selected name
     for (var key in this.alternatives) {
