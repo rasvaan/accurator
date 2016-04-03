@@ -120,7 +120,7 @@ function events(user, locale, labels) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
 
-		if(annotations.length === 25) {
+		if(annotations.length === 5) {
 			var form = new Form(
 				"formPersonal",
 				["country", "language", "education", "gender", "birthDate"],
@@ -132,8 +132,13 @@ function events(user, locale, labels) {
 			});
 		}
 
-		if(annotations.length === 20) {
-			var form = new Form("formInternet", ["age"], locale);
+		if(annotations.length === 25) {
+			var form = new Form(
+				"formInternet",
+				["socialNetwork"],
+				locale
+			);
+
 			form.addText().then(function() {
 				$("#eventsDiv").prepend(form.node);
 			});

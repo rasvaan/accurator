@@ -126,6 +126,16 @@ Form.prototype.addFormQuestions = function(labelData) {
                 buttons
             );
         }
+
+        if (this.groupIds[i] == "socialNetwork") {
+            var boxes = this.socialBoxes(labelData);
+
+            this.formGroups[i] = new SocialCheckBoxFormGroup(
+                this.groupIds[i],
+                labelData.formLblSocialNetwork,
+                boxes
+            );
+        }
     }
 
     // add form groups to html node
@@ -135,37 +145,13 @@ Form.prototype.addFormQuestions = function(labelData) {
         );
     }
 
-	// $(this.node).find("#formLblGender").append(labelData.formLblGender);
 	$(this.node).find("#formLblMail").append(labelData.formLblMail);
 	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
-	$(this.node).find("#formLblSocialNetwork").append(labelData.formLblSocialNetwork);
+	// $(this.node).find("#formLblSocialNetwork").append(labelData.formLblSocialNetwork);
 	$(this.node).find("#formLblInternetUsage").append(labelData.formLblInternetUsage);
 	$(this.node).find("#formLblMuseumVisits").append(labelData.formLblMuseumVisits);
 	$(this.node).find("#formLblTaggingExperience").append(labelData.formLblTaggingExperience);
 	$(this.node).find("#formLblTagSite").append(labelData.formLblTagSite);
-}
-
-Form.prototype.educationAlternatives = function(labels) {
-    var array = [
-        labels.formOptsEducation.formOptPrimarySchool,
-        labels.formOptsEducation.formOptHighSchool,
-        labels.formOptsEducation.formOptCollege,
-        labels.formOptsEducation.formOptBachelor,
-        labels.formOptsEducation.formOptMaster,
-        labels.formOptsEducation.formOptDoctorate,
-        labels.formOptsEducation.formOptUnkown
-    ];
-
-    return array;
-}
-
-Form.prototype.genderButtons = function(labels) {
-    var buttons = [
-        {'id':'male', 'label':labels.formRbtnMale},
-        {'id':'female', 'label':labels.formRbtnFemale}
-    ];
-
-    return buttons;
 }
 
 Form.prototype.addButtons = function(labelData) {
@@ -189,6 +175,37 @@ Form.prototype.addButtonEvents = function() {
     });
 }
 
+Form.prototype.educationAlternatives = function(labels) {
+    var array = [
+        labels.formOptsEducation.formOptPrimarySchool,
+        labels.formOptsEducation.formOptHighSchool,
+        labels.formOptsEducation.formOptCollege,
+        labels.formOptsEducation.formOptBachelor,
+        labels.formOptsEducation.formOptMaster,
+        labels.formOptsEducation.formOptDoctorate,
+        labels.formOptsEducation.formOptUnkown
+    ];
+
+    return array;
+}
+
+Form.prototype.genderButtons = function(labels) {
+    return buttons = [
+        {'id':'male', 'label':labels.formRbtnMale},
+        {'id':'female', 'label':labels.formRbtnFemale}
+    ];
+}
+
+Form.prototype.socialBoxes = function(labels) {
+    return boxes = [
+        {'id':'facebook', 'label':labels.formChkFacebook},
+        {'id':'linkedIn', 'label':labels.formChkLinkedIn},
+        {'id':'twitter', 'label':labels.formChkTwitter},
+        {'id':'none', 'label':labels.formChkOther},
+        {'id':'none', 'label':labels.formChkNone}
+    ];
+}
+
 Form.prototype.processFormFields = function() {
     var info = {};
 
@@ -196,9 +213,13 @@ Form.prototype.processFormFields = function() {
         var id = this.formGroups[i].id;
         var value = this.formGroups[i].getValue();
 
-        if (!(value == null)) info[id] = value;
+        if (value instanceof Object) {
+            $.extend(info, value); // add object values to info
+        } else if (!(value == null)) {
+            info[id] = value; // add single value to info
+        }
     }
-    console.log("info ", info);
+    console.log("info result ", info);
 	return save_user_info(info);
 }
 
@@ -304,6 +325,87 @@ RadioFormGroup.prototype.getValue = function() {
     } else {
 		return value;
     }
+}
+
+/*******************************************************************************
+CheckBoxFormGroup
+*******************************************************************************/
+
+function CheckBoxFormGroup(id, label, boxes) {
+    FormGroup.call(this, id, label);
+    this.boxes = boxes; // array with objects with labels and ids for buttons
+    this.addCheckBoxes();
+}
+
+CheckBoxFormGroup.prototype = Object.create(FormGroup.prototype); // inherit
+
+CheckBoxFormGroup.prototype.addCheckBoxes = function() {
+    $(this.node).find("div").append(
+        this.boxNodes()
+    );
+}
+
+CheckBoxFormGroup.prototype.boxNodes  = function() {
+    var boxNodes = [];
+
+    for (var i=0; i<this.boxes.length; i++) {
+        boxNodes[i] = $.el.label({'class':'checkbox-inline'}, [
+            $.el.input({
+                'type':'checkbox',
+                'id':'formChk' + this.boxes[i].id,
+                'value':this.boxes[i].id
+            }),
+            $.el.span(this.boxes[i].label)
+        ])
+    }
+
+    return boxNodes;
+}
+
+function SocialCheckBoxFormGroup(id, label, boxes) {
+    CheckBoxFormGroup.call(this, id, label, boxes);
+}
+
+SocialCheckBoxFormGroup.prototype = Object.create(CheckBoxFormGroup.prototype);
+
+SocialCheckBoxFormGroup.prototype.getValue = function() {
+    var info = {};
+
+    if($("#formChknone").is(":checked")) {
+        info.facebook = false;
+        info.linked_in = false;
+        info.twitter = false;
+    } else {
+        if ($("#formChkfacebook").is(":checked"))
+            info.facebook = true;
+        if ($("#formChklinkedIn").is(":checked"))
+            info.linked_in = true;
+        //Set twitter to true when no id is given but box is checked
+        if ($("#formChktwitter").is(":checked")) {
+            if (!($("#addTwitterId").val() === undefined) && !($("#addTwitterId").val() === "")) {
+                info.twitter = $("#addTwitterId").val();
+            } else {
+                info.twitter = true;
+            }
+        }
+        //Set social to true
+        if ($("#formChkother").is(":checked")) {
+            if (!($("#addSocialSite").val() === undefined) && !($("#addSocialSite").val() === "")) {
+                info.other_social_site = $("#addSocialSite").val();
+            } else {
+                info.other_social_site = true;
+            }
+        }
+    }
+    console.log("info in getValue ", info)
+    return info;
+    // var value = $("input[name='formRbtns" + this.id + "']:checked").val();
+    //
+    // if (value === undefined) {
+    //     return null;
+    // } else {
+	// 	return value;
+    // }
 }
 
 /*******************************************************************************
