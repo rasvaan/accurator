@@ -121,26 +121,26 @@ function events(user, locale, labels) {
 		}
 
 		if(annotations.length === 5) {
-			var form = new Form(
+			var formPersonal = new Form(
 				"formPersonal",
 				["country", "language", "education", "gender", "birthDate"],
 				locale
 			);
 
-			form.addText().then(function() {
-				$("#eventsDiv").prepend(form.node);
+			formPersonal.addText().then(function() {
+				$("#eventsDiv").prepend(formPersonal.node);
 			});
 		}
 
 		if(annotations.length === 25) {
-			var form = new Form(
+			var formInternet = new Form(
 				"formInternet",
-				["socialNetwork", "taggingSites", "taggingExperience"],
+				["socialNetwork", "taggingSites", "taggingExperience", "mail", "mailCheck"],
 				locale
 			);
 
-			form.addText().then(function() {
-				$("#eventsDiv").prepend(form.node);
+			formInternet.addText().then(function() {
+				$("#eventsDiv").prepend(formInternet.node);
 			});
 		}
 	});

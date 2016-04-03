@@ -113,7 +113,8 @@ Form.prototype.addFormQuestions = function(labelData) {
         if (this.groupIds[i] == "birthDate") {
             this.formGroups[i] = new TextFormGroup(
                 this.groupIds[i],
-                labelData.formLblBirthDate
+                labelData.formLblBirthDate,
+                2
             );
         }
 
@@ -140,7 +141,7 @@ Form.prototype.addFormQuestions = function(labelData) {
         if (this.groupIds[i] == "taggingSites") {
             var boxes = this.tagBoxes(labelData);
 
-            this.formGroups[i] = new CheckBoxFormGroup(
+            this.formGroups[i] = new TagCheckBoxFormGroup(
                 this.groupIds[i],
                 labelData.formLblTagSite,
                 boxes
@@ -156,6 +157,24 @@ Form.prototype.addFormQuestions = function(labelData) {
                 buttons
             );
         }
+
+        if (this.groupIds[i] == "mail") {
+            this.formGroups[i] = new TextFormGroup(
+                this.groupIds[i],
+                labelData.formLblMail,
+                5
+            );
+        }
+
+        if (this.groupIds[i] == "mailCheck") {
+            var box = {'id':'mailCheck'};
+
+            this.formGroups[i] = new MailBoxFormGroup(
+                this.groupIds[i],
+                labelData.formLblEmailCheck,
+                box
+            );
+        }
     }
 
     // add form groups to html node
@@ -164,9 +183,6 @@ Form.prototype.addFormQuestions = function(labelData) {
             this.formGroups[i].node
         );
     }
-
-	$(this.node).find("#formLblMail").append(labelData.formLblMail);
-	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
 }
 
 Form.prototype.addButtons = function(labelData) {
@@ -244,6 +260,7 @@ Form.prototype.processFormFields = function() {
     var info = {};
 
     for (var i=0; i<this.formGroups.length; i++) {
+        console.log(this.formGroups[i]);
         var id = this.formGroups[i].id;
         var value = this.formGroups[i].getValue();
 
@@ -281,19 +298,20 @@ FormGroup.prototype.init = function() {
 TextFormGroup
 *******************************************************************************/
 
-function TextFormGroup(id, label) {
+function TextFormGroup(id, label, size) {
     FormGroup.call(this, id, label);
-
+    this.size = size;
     this.addTextField();
 }
 
 TextFormGroup.prototype = Object.create(FormGroup.prototype); // inherit
 
 TextFormGroup.prototype.addTextField = function() {
-    // change the class
-    $(this.node).find("div").addClass('col-sm-2');
-    $(this.node).find("div").removeClass('col-sm-5');
-
+    // change the size of the field
+    if (this.size !== 5) {
+        $(this.node).find("div").addClass('col-sm-' + this.size);
+        $(this.node).find("div").removeClass('col-sm-5');
+    }
     $(this.node).find("label").attr("for", "formInp" + this.id);
 
     $(this.node).find("div").append(
@@ -468,6 +486,30 @@ TagCheckBoxFormGroup.prototype.getValue = function() {
     }
 
     return info;
+}
+
+function MailBoxFormGroup(id, label, boxes) {
+    CheckBoxFormGroup.call(this, id, label, boxes);
+}
+
+MailBoxFormGroup.prototype = Object.create(CheckBoxFormGroup.prototype);
+
+MailBoxFormGroup.prototype.getValue = function() {
+    if($("#formChk" + this.id).is(":checked")) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+MailBoxFormGroup.prototype.addCheckBoxes = function() {
+    $(this.node).find("div").append(
+        $.el.input({
+            'type':'checkbox',
+            'id':'formChk' + this.boxes.id,
+            'value':this.boxes.id
+        })
+    );
 }
 
 /*******************************************************************************
