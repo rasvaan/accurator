@@ -136,6 +136,26 @@ Form.prototype.addFormQuestions = function(labelData) {
                 boxes
             );
         }
+
+        if (this.groupIds[i] == "taggingSites") {
+            var boxes = this.tagBoxes(labelData);
+
+            this.formGroups[i] = new CheckBoxFormGroup(
+                this.groupIds[i],
+                labelData.formLblTagSite,
+                boxes
+            );
+        }
+
+        if (this.groupIds[i] == "taggingExperience") {
+            var buttons = this.taggingButtons(labelData);
+
+            this.formGroups[i] = new RadioFormGroup(
+                this.groupIds[i],
+                labelData.formLblTaggingExperience,
+                buttons
+            );
+        }
     }
 
     // add form groups to html node
@@ -147,8 +167,6 @@ Form.prototype.addFormQuestions = function(labelData) {
 
 	$(this.node).find("#formLblMail").append(labelData.formLblMail);
 	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
-	$(this.node).find("#formLblTaggingExperience").append(labelData.formLblTaggingExperience);
-	$(this.node).find("#formLblTagSite").append(labelData.formLblTagSite);
 }
 
 Form.prototype.addButtons = function(labelData) {
@@ -193,6 +211,15 @@ Form.prototype.genderButtons = function(labels) {
     ];
 }
 
+Form.prototype.taggingButtons = function(labels) {
+    return buttons = [
+        {'id':'none', 'label':labels.formRbtnNone},
+        {'id':'novice', 'label':labels.formRbtnNovice},
+        {'id':'intermediate', 'label':labels.formRbtnIntermediate},
+        {'id':'expert', 'label':labels.formRbtnExpert}
+    ];
+}
+
 Form.prototype.socialBoxes = function(labels) {
     return boxes = [
         {'id':'facebook', 'label':labels.formChkFacebook},
@@ -200,6 +227,16 @@ Form.prototype.socialBoxes = function(labels) {
         {'id':'twitter', 'label':labels.formChkTwitter},
         {'id':'none', 'label':labels.formChkOther},
         {'id':'none', 'label':labels.formChkNone}
+    ];
+}
+
+Form.prototype.tagBoxes = function(labels) {
+    return boxes = [
+        {'id':'flickr', 'label':labels.formChkTagFlickr},
+        {'id':'delicious', 'label':labels.formChkTagDelicious},
+        {'id':'facebook', 'label':labels.formChkTagFacebook},
+        {'id':'other', 'label':labels.formChkTagOther},
+        {'id':'none', 'label':labels.formChkTagNone}
     ];
 }
 
@@ -394,15 +431,43 @@ SocialCheckBoxFormGroup.prototype.getValue = function() {
             }
         }
     }
-    console.log("info in getValue ", info)
+
     return info;
-    // var value = $("input[name='formRbtns" + this.id + "']:checked").val();
-    //
-    // if (value === undefined) {
-    //     return null;
-    // } else {
-	// 	return value;
-    // }
+}
+
+function TagCheckBoxFormGroup(id, label, boxes) {
+    CheckBoxFormGroup.call(this, id, label, boxes);
+}
+
+TagCheckBoxFormGroup.prototype = Object.create(CheckBoxFormGroup.prototype);
+
+TagCheckBoxFormGroup.prototype.getValue = function() {
+    var info = {};
+
+    if($("#formChkTagNone").is(":checked")) {
+        info.flickr = false;
+        info.delicious = false;
+        info.tag_facebook = false;
+        info.other = false;
+    } else {
+        if ($("#formChkTagFlickr").is(":checked"))
+            info.flickr = true;
+        if ($("#formChkTagDelicious").is(":checked"))
+            info.delicious = true;
+        if ($("#formChkTagFacebook").is(":checked"))
+            info.tag_facebook = true;
+
+        //Set tagsite to true
+        if ($("#formChkTagOther").is(":checked")) {
+            if (!($("#addTagSite").val() === undefined) && !($("#addTagSite").val() === "")) {
+                info.other_tag_site = $("#addTagSite").val();
+            } else {
+                info.other_tag_site = true;
+            }
+        }
+    }
+
+    return info;
 }
 
 /*******************************************************************************

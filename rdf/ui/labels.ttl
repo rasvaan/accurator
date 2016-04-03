@@ -268,7 +268,6 @@ aui:form a auis:UI ;
 	aui:formChkNone "None of these"@en ;
 	aui:formLblSocialSiteOpen "Which other social network site(s)?"@en ;
 	aui:formLblTwitterId "What is your Twitter id?"@en  ;
-	aui:formLblMuseumVisits "How many times a year do you visit a museum on average?"@en ;
 	aui:formLblTaggingExperience "How would you describe your level of tagging experience?"@en ;
 	aui:formRbtnNone "No experience"@en ;
 	aui:formRbtnNovice "Novice"@en ;
@@ -309,7 +308,6 @@ aui:formChkOther rdfs:subPropertyOf auis:uiLabel .
 aui:formLblSocialSiteOpen rdfs:subPropertyOf auis:uiLabel .
 aui:formLblTagSiteOpen rdfs:subPropertyOf auis:uiLabel .
 aui:formLblTwitterId rdfs:subPropertyOf auis:uiLabel .
-aui:formLblMuseumVisits rdfs:subPropertyOf auis:uiLabel .
 aui:formRbtnNone rdfs:subPropertyOf auis:uiLabel .
 aui:formRbtnNovice rdfs:subPropertyOf auis:uiLabel .
 aui:formRbtnIntermediate rdfs:subPropertyOf auis:uiLabel .

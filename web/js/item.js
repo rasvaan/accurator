@@ -135,7 +135,7 @@ function events(user, locale, labels) {
 		if(annotations.length === 25) {
 			var form = new Form(
 				"formInternet",
-				["socialNetwork"],
+				["socialNetwork", "taggingSites", "taggingExperience"],
 				locale
 			);
 
