@@ -24,11 +24,15 @@ Form.prototype.init = function() {
 }
 
 Form.prototype.html = function() {
-    return $.el.div({'class':'panel panel-default', 'id':this.id}, [
+    return $.el.div({'class':'panel panel-primary', 'id':this.id}, [
         $.el.div({'class':'panel-heading', 'id':'formHdr'}),
         $.el.div({'class':'panel-body'},
             $.el.form({'class':'form-horizontal'})
-        )
+        ),
+        $.el.div({'class':'panel-footer'}, [
+            $.el.button({'class':'btn btn-primary', 'id':'formBtnAdd'}),
+            $.el.button({'class':'btn btn-link', 'id':'formBtnSkip'})
+        ])
     ]);
 }
 
@@ -52,8 +56,7 @@ Form.prototype.addText = function() {
 
         _form.addHeader(labelData);
         _form.addFormQuestions(labelData);
-        $("#formBtnAdd").append(labelData.formBtnAdd);
-        $("#formBtnSkip").append(labelData.formBtnSkip);
+        _form.addButtons(labelData)
     });
 }
 
@@ -85,6 +88,35 @@ Form.prototype.addFormQuestions = function(labelData) {
 	$(this.node).find("#formLblMuseumVisits").append(labelData.formLblMuseumVisits);
 	$(this.node).find("#formLblTaggingExperience").append(labelData.formLblTaggingExperience);
 	$(this.node).find("#formLblTagSite").append(labelData.formLblTagSite);
+}
+
+Form.prototype.addButtons = function(labelData) {
+    $(this.node).find("#formBtnAdd").append(labelData.formBtnAdd);
+    $(this.node).find("#formBtnSkip").append(labelData.formBtnSkip);
+    this.addButtonEvents();
+}
+
+Form.prototype.addButtonEvents = function() {
+    var _form = this;
+
+    $(this.node).find("#formBtnAdd").click(function() {
+        _form.processFormFields()
+        .then(function() {
+            $(_form.node).hide();
+        });
+    });
+
+    $(this.node).find("#formBtnSkip").click(function() {
+        $(_form.node).hide();
+    });
+}
+
+Form.prototype.processFormFields = function() {
+    var info = {};
+    console.log("process form fields");
+    // this.getInputDropdownMenus();
+
+	return save_user_info(info);
 }
 
 Form.prototype.addCountrySelector = function() {
