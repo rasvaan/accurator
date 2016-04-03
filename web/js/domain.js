@@ -94,13 +94,13 @@ function addDomainEvent(domain) {
 	$("#domainImg" + domain).click(function() {
 		setDomain(domain)
 		.then(function() {
-			document.location.href = "expertise.html";
+			document.location.href = "results.html";
 		});
 	});
 	$("#domainTxt" + domain).click(function() {
 		setDomain(domain)
 		.then(function() {
-			document.location.href = "expertise.html";
+			document.location.href = "results.html";
 		});
 	});
 }
