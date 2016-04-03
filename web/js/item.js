@@ -179,7 +179,7 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 		annotation_ui:annotation_ui
 	})
 	.then(function(fields) {
-		console.log(fields);
+		// console.log(fields);
 		// Add fields whole image
 		for (var i = 0; i < fields.whole_fields.length; i++) {
 			// Create new field object
