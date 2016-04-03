@@ -79,6 +79,14 @@ Form.prototype.addFormQuestions = function(labelData) {
             );
             this.formGroups[i].addAlternatives("countries", this.locale, this.ui);
         }
+
+        if (this.groupIds[i] == "language") {
+            this.formGroups[i] = new SelectFormGroup(
+                this.groupIds[i],
+                labelData.formLblLanguage
+            );
+            this.formGroups[i].addAlternatives("languages", this.locale, this.ui);
+        }
     }
 
     // add form groups to html node
@@ -92,7 +100,7 @@ Form.prototype.addFormQuestions = function(labelData) {
 	$(this.node).find("#formLblGender").append(labelData.formLblGender);
 
 	$(this.node).find("#formLblCommunity").append(labelData.formLblCommunity);
-	$(this.node).find("#formLblLanguage").append(labelData.formLblLanguage);
+	// $(this.node).find("#formLblLanguage").append(labelData.formLblLanguage);
 	$(this.node).find("#formLblEducation").append(labelData.formLblEducation);
 	$(this.node).find("#formLblMail").append(labelData.formLblMail);
 	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
@@ -126,11 +134,12 @@ Form.prototype.addButtonEvents = function() {
 
 Form.prototype.processFormFields = function() {
     var info = {};
-    console.log("process form fields");
+
     for (var i=0; i<this.formGroups.length; i++) {
         var id = this.formGroups[i].id;
         var value = this.formGroups[i].getValue();
-        info[id] = value;
+
+        if (!(value == null)) info[id] = value;
     }
     console.log("info ", info);
 	return save_user_info(info);
@@ -186,7 +195,7 @@ SelectFormGroup.prototype.addAlternatives = function(type, locale, ui) {
         // add first empty element
         $(_group.node).find("#formSlt" + _group.id).append($.el.option(""));
 
-        // add countries to selector
+        // add alternatives to selector
         for (var i = 0; i < _group.alternatives.length; i++) {
             $(_group.node).find("#formSlt" + _group.id).append(
                 $.el.option(_group.alternatives[i].label)
@@ -208,4 +217,5 @@ SelectFormGroup.prototype.getValue = function() {
             return this.alternatives[key].id;
         }
     }
+    return null;
 }

@@ -120,7 +120,12 @@ function events(user, locale, labels) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
 		if(annotations.length === 25) {
-			var form = new Form("formPersonal", ["country"], locale);
+			var form = new Form(
+				"formPersonal",
+				["country", "language"],
+				locale
+			);
+
 			form.addText().then(function() {
 				$("#eventsDiv").prepend(form.node);
 			});
