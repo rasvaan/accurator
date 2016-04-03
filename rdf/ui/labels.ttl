@@ -268,8 +268,6 @@ aui:form a auis:UI ;
 	aui:formChkNone "None of these"@en ;
 	aui:formLblSocialSiteOpen "Which other social network site(s)?"@en ;
 	aui:formLblTwitterId "What is your Twitter id?"@en  ;
-	aui:formLblInternetUsage "How often do you make use of the internet?"@en ;
-	auis:hasSelect aui:formOptsInternet ;
 	aui:formLblMuseumVisits "How many times a year do you visit a museum on average?"@en ;
 	aui:formLblTaggingExperience "How would you describe your level of tagging experience?"@en ;
 	aui:formRbtnNone "No experience"@en ;
@@ -311,7 +309,6 @@ aui:formChkOther rdfs:subPropertyOf auis:uiLabel .
 aui:formLblSocialSiteOpen rdfs:subPropertyOf auis:uiLabel .
 aui:formLblTagSiteOpen rdfs:subPropertyOf auis:uiLabel .
 aui:formLblTwitterId rdfs:subPropertyOf auis:uiLabel .
-aui:formLblInternetUsage rdfs:subPropertyOf auis:uiLabel .
 aui:formLblMuseumVisits rdfs:subPropertyOf auis:uiLabel .
 aui:formRbtnNone rdfs:subPropertyOf auis:uiLabel .
 aui:formRbtnNovice rdfs:subPropertyOf auis:uiLabel .
@@ -364,30 +361,3 @@ aui:formOptDoctorate a auis:SelectOption ;
 aui:formOptUnkown a auis:SelectOption ;
 	skos:notation "unknown" ;
 	skos:prefLabel "Unknown"@en .
-
-aui:formOptsInternet a auis:SelectField ;
-	auis:hasSelectOption aui:formOptInternetAlways ;
-	auis:hasSelectOption aui:formOptInternetOnceADay ;
-	auis:hasSelectOption aui:formOptInternet3to5 ;
-	auis:hasSelectOption aui:formOptInternet1to2 ;
-	auis:hasSelectOption aui:formOptInternetLessThan1 .
-
-aui:formOptInternetAlways a auis:SelectOption ;
-	skos:notation "internet_always" ;
-	skos:prefLabel "Always online"@en .
-
-aui:formOptInternetOnceADay a auis:SelectOption ;
-	skos:notation "internet_once_a_day" ;
-	skos:prefLabel "Once a day"@en .
-
-aui:formOptInternet3to5 a auis:SelectOption ;
-	skos:notation "internet_3_to_5_a_week" ;
-	skos:prefLabel "3-5 days per week"@en .
-
-aui:formOptInternet1to2 a auis:SelectOption ;
-	skos:notation "internet_1_to_2_a_week" ;
-	skos:prefLabel "1-2 days per week"@en .
-
-aui:formOptInternetLessThan1 a auis:SelectOption ;
-	skos:notation "internet_less_than_1_a_week" ;
-	skos:prefLabel "Less than 1 day per week"@en .

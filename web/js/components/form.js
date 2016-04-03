@@ -147,9 +147,6 @@ Form.prototype.addFormQuestions = function(labelData) {
 
 	$(this.node).find("#formLblMail").append(labelData.formLblMail);
 	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
-	// $(this.node).find("#formLblSocialNetwork").append(labelData.formLblSocialNetwork);
-	$(this.node).find("#formLblInternetUsage").append(labelData.formLblInternetUsage);
-	$(this.node).find("#formLblMuseumVisits").append(labelData.formLblMuseumVisits);
 	$(this.node).find("#formLblTaggingExperience").append(labelData.formLblTaggingExperience);
 	$(this.node).find("#formLblTagSite").append(labelData.formLblTagSite);
 }
