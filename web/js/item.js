@@ -116,13 +116,15 @@ function initLabels(labelData) {
 function events(user, locale, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
+		console.log(annotations.length);
 		if(annotations.length === 0) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
+
 		if(annotations.length === 25) {
 			var form = new Form(
 				"formPersonal",
-				["country", "language"],
+				["country", "language", "education"],
 				locale
 			);
 
@@ -130,6 +132,7 @@ function events(user, locale, labels) {
 				$("#eventsDiv").prepend(form.node);
 			});
 		}
+
 		if(annotations.length === 20) {
 			var form = new Form("formInternet", ["age"], locale);
 			form.addText().then(function() {

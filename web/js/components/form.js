@@ -10,6 +10,9 @@ function Form(id, groupIds, locale) {
     this.formGroups = [];
     this.countries = null; // list of country objects
     this.node = null;
+    this.twitterFieldAdded = false;
+    this.tagsiteFieldAdded = false;
+    this.socialFieldAdded = false;
 
     this.init();
 }
@@ -37,9 +40,6 @@ Form.prototype.addText = function() {
 
     return getLabels(this.locale, this.ui).then(function(labelData) {
         var labels = {
-    		twitterFieldAdded: false,
-    		tagsiteFieldAdded: false,
-    		socialFieldAdded: false,
     		formLblTwitterId: labelData.formLblTwitterId,
     		formLblTagSiteOpen: labelData.formLblTagSiteOpen,
     		formLblSocialSiteOpen: labelData.formLblSocialSiteOpen,
@@ -77,7 +77,7 @@ Form.prototype.addFormQuestions = function(labelData) {
                 this.groupIds[i],
                 labelData.formLblCountry
             );
-            this.formGroups[i].addAlternatives("countries", this.locale, this.ui);
+            this.formGroups[i].getAlternatives("countries", this.locale, this.ui);
         }
 
         if (this.groupIds[i] == "language") {
@@ -85,7 +85,16 @@ Form.prototype.addFormQuestions = function(labelData) {
                 this.groupIds[i],
                 labelData.formLblLanguage
             );
-            this.formGroups[i].addAlternatives("languages", this.locale, this.ui);
+            this.formGroups[i].getAlternatives("languages", this.locale, this.ui);
+        }
+
+        if (this.groupIds[i] == "education") {
+            this.formGroups[i] = new SelectFormGroup(
+                this.groupIds[i],
+                labelData.formLblEducation
+            );
+            this.formGroups[i].alternatives = this.educationAlternatives(labelData);
+            this.formGroups[i].addAlternatives();
         }
     }
 
@@ -101,7 +110,7 @@ Form.prototype.addFormQuestions = function(labelData) {
 
 	$(this.node).find("#formLblCommunity").append(labelData.formLblCommunity);
 	// $(this.node).find("#formLblLanguage").append(labelData.formLblLanguage);
-	$(this.node).find("#formLblEducation").append(labelData.formLblEducation);
+	// $(this.node).find("#formLblEducation").append(labelData.formLblEducation);
 	$(this.node).find("#formLblMail").append(labelData.formLblMail);
 	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
 	$(this.node).find("#formLblSocialNetwork").append(labelData.formLblSocialNetwork);
@@ -109,6 +118,21 @@ Form.prototype.addFormQuestions = function(labelData) {
 	$(this.node).find("#formLblMuseumVisits").append(labelData.formLblMuseumVisits);
 	$(this.node).find("#formLblTaggingExperience").append(labelData.formLblTaggingExperience);
 	$(this.node).find("#formLblTagSite").append(labelData.formLblTagSite);
+}
+
+Form.prototype.educationAlternatives = function(labels) {
+    var array = [
+        labels.formOptsEducation.formOptPrimarySchool,
+        labels.formOptsEducation.formOptHighSchool,
+        labels.formOptsEducation.formOptCollege,
+        labels.formOptsEducation.formOptBachelor,
+        labels.formOptsEducation.formOptMaster,
+        labels.formOptsEducation.formOptDoctorate,
+        labels.formOptsEducation.formOptUnkown
+    ];
+
+    console.log(array);
+    return array;
 }
 
 Form.prototype.addButtons = function(labelData) {
@@ -178,7 +202,7 @@ SelectFormGroup.prototype.addSelect = function() {
     );
 }
 
-SelectFormGroup.prototype.addAlternatives = function(type, locale, ui) {
+SelectFormGroup.prototype.getAlternatives = function(type, locale, ui) {
     var _group = this;
 
     $.getJSON("ui_elements", {
@@ -192,20 +216,24 @@ SelectFormGroup.prototype.addAlternatives = function(type, locale, ui) {
             return a.label.localeCompare(b.label)
         });
 
-        // add first empty element
-        $(_group.node).find("#formSlt" + _group.id).append($.el.option(""));
-
-        // add alternatives to selector
-        for (var i = 0; i < _group.alternatives.length; i++) {
-            $(_group.node).find("#formSlt" + _group.id).append(
-                $.el.option(_group.alternatives[i].label)
-            );
-        }
+        _group.addAlternatives();
     }, function(){
         $(_group.node).find("#formSlt" + _group.id).append(
             $.el.option("No values found on server")
         );
     });
+}
+
+SelectFormGroup.prototype.addAlternatives = function(alternatives) {
+    // add first empty element
+    $(this.node).find("#formSlt" + this.id).append($.el.option(""));
+
+    // add alternatives to selector
+    for (var i = 0; i < this.alternatives.length; i++) {
+        $(this.node).find("#formSlt" + this.id).append(
+            $.el.option(this.alternatives[i].label)
+        );
+    }
 }
 
 SelectFormGroup.prototype.getValue = function() {
