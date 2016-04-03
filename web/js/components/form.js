@@ -107,10 +107,6 @@ Form.prototype.addFormQuestions = function(labelData) {
 
 	$(this.node).find("#formLblBirthDate").append(labelData.formLblBirthDate);
 	$(this.node).find("#formLblGender").append(labelData.formLblGender);
-
-	$(this.node).find("#formLblCommunity").append(labelData.formLblCommunity);
-	// $(this.node).find("#formLblLanguage").append(labelData.formLblLanguage);
-	// $(this.node).find("#formLblEducation").append(labelData.formLblEducation);
 	$(this.node).find("#formLblMail").append(labelData.formLblMail);
 	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
 	$(this.node).find("#formLblSocialNetwork").append(labelData.formLblSocialNetwork);

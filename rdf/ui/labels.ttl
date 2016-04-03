@@ -255,10 +255,6 @@ aui:form a auis:UI ;
 	aui:formRbtnMale "Male"@en ;
 	aui:formRbtnFemale "Female"@en ;
 	aui:formLblCountry "What is your country of residence?"@en ;
-	aui:formLblCommunity "What resembles most closely the community you reside in?"@en ;
-	aui:formRbtnUrban "Urban"@en ;
-	aui:formRbtnSubUrban "Suburban"@en ;
-	aui:formRbtnRural "Rural"@en ;
 	aui:formLblLanguage "What is your primary language?"@en ;
 	aui:formLblEducation "What is the highest level of education you have recieved?"@en ;
 	auis:hasSelect aui:formOptsEducation ;
@@ -301,12 +297,8 @@ aui:formBtnSkip rdfs:subPropertyOf auis:uiLabel .
 aui:formLblBirthDate rdfs:subPropertyOf auis:uiLabel .
 aui:formLblGender rdfs:subPropertyOf auis:uiLabel .
 aui:formLblCountry rdfs:subPropertyOf auis:uiLabel .
-aui:formLblCommunity rdfs:subPropertyOf auis:uiLabel .
 aui:formRbtnMale rdfs:subPropertyOf auis:uiLabel .
 aui:formRbtnFemale rdfs:subPropertyOf auis:uiLabel .
-aui:formRbtnUrban rdfs:subPropertyOf auis:uiLabel .
-aui:formRbtnSubUrban rdfs:subPropertyOf auis:uiLabel .
-aui:formRbtnRural rdfs:subPropertyOf auis:uiLabel .
 aui:formLblLanguage rdfs:subPropertyOf auis:uiLabel .
 aui:formLblEducation rdfs:subPropertyOf auis:uiLabel .
 aui:formLblMail rdfs:subPropertyOf auis:uiLabel .
