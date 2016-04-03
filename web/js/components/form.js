@@ -78,7 +78,6 @@ Form.prototype.addFormQuestions = function(labelData) {
                 labelData.formLblCountry
             );
             this.formGroups[i].addAlternatives("countries", this.locale, this.ui);
-            console.log("adding question", i, " with object ", this.formGroups[i]);
         }
     }
 
@@ -88,8 +87,6 @@ Form.prototype.addFormQuestions = function(labelData) {
             this.formGroups[i].node
         );
     }
-    // $(this.node).find("#formLblCountry").append(labelData.formLblCountry);
-
 
 	$(this.node).find("#formLblBirthDate").append(labelData.formLblBirthDate);
 	$(this.node).find("#formLblGender").append(labelData.formLblGender);
@@ -118,7 +115,7 @@ Form.prototype.addButtonEvents = function() {
     $(this.node).find("#formBtnAdd").click(function() {
         _form.processFormFields()
         .then(function() {
-            $(_form.node).hide();
+            // $(_form.node).hide();
         });
     });
 
@@ -130,52 +127,13 @@ Form.prototype.addButtonEvents = function() {
 Form.prototype.processFormFields = function() {
     var info = {};
     console.log("process form fields");
-    // this.getInputDropdownMenus();
-
+    for (var i=0; i<this.formGroups.length; i++) {
+        var id = this.formGroups[i].id;
+        var value = this.formGroups[i].getValue();
+        info[id] = value;
+    }
+    console.log("info ", info);
 	return save_user_info(info);
-}
-
-Form.prototype.addCountrySelector = function() {
-    $(this.node).find("form").append(
-        $.el.div({'class':'form-group'}, [
-            $.el.label({
-                'class':'col-sm-5 control-label',
-                'for':'formSltCountry',
-                'id':'formLblCountry'
-            }),
-            $.el.div({'class':'col-sm-5'},
-                $.el.select({
-                    'class':'form-control',
-                    'id':'formSltCountry'
-                })
-            )
-        ])
-    );
-    this.addCountries();
-}
-
-Form.prototype.addCountries = function() {
-    $.getJSON("ui_elements", {
-        locale: this.locale,
-        ui: this.ui,
-        type:"countries"
-    })
-    .then(function(countryData) {
-        this.countries = countryData;
-        this.countries.sort(function(a, b) {
-            return a.name.localeCompare(b.name)
-        });
-
-        // add first empty element
-        $("#formSltCountry").append($.el.option(""));
-
-        // add countries to selector
-        for (var i = 0; i < this.countries.length; i++) {
-            $("#formSltCountry").append($.el.option(this.countries[i].name));
-        }
-    }, function(){
-        $("#formSltCountry").append($.el.option("No countries found on server"));
-    });
 }
 
 function FormGroup(id, label) {
@@ -222,7 +180,7 @@ SelectFormGroup.prototype.addAlternatives = function(type, locale, ui) {
     .then(function(alternativeData) {
         _group.alternatives = alternativeData;
         _group.alternatives.sort(function(a, b) {
-            return a.name.localeCompare(b.name)
+            return a.label.localeCompare(b.label)
         });
 
         // add first empty element
@@ -231,7 +189,7 @@ SelectFormGroup.prototype.addAlternatives = function(type, locale, ui) {
         // add countries to selector
         for (var i = 0; i < _group.alternatives.length; i++) {
             $(_group.node).find("#formSlt" + _group.id).append(
-                $.el.option(_group.alternatives[i].name)
+                $.el.option(_group.alternatives[i].label)
             );
         }
     }, function(){
@@ -239,4 +197,15 @@ SelectFormGroup.prototype.addAlternatives = function(type, locale, ui) {
             $.el.option("No values found on server")
         );
     });
+}
+
+SelectFormGroup.prototype.getValue = function() {
+    var input = $("#formSlt" + this.id).val();
+
+    // Find the id corresponding to the selected name
+    for (var key in this.alternatives) {
+        if (this.alternatives[key].label === input) {
+            return this.alternatives[key].id;
+        }
+    }
 }
