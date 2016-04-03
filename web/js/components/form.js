@@ -116,6 +116,16 @@ Form.prototype.addFormQuestions = function(labelData) {
                 labelData.formLblBirthDate
             );
         }
+
+        if (this.groupIds[i] == "gender") {
+            var buttons = this.genderButtons(labelData);
+
+            this.formGroups[i] = new RadioFormGroup(
+                this.groupIds[i],
+                labelData.formLblGender,
+                buttons
+            );
+        }
     }
 
     // add form groups to html node
@@ -125,7 +135,7 @@ Form.prototype.addFormQuestions = function(labelData) {
         );
     }
 
-	$(this.node).find("#formLblGender").append(labelData.formLblGender);
+	// $(this.node).find("#formLblGender").append(labelData.formLblGender);
 	$(this.node).find("#formLblMail").append(labelData.formLblMail);
 	$(this.node).find("#formLblEmailCheck").append(labelData.formLblEmailCheck);
 	$(this.node).find("#formLblSocialNetwork").append(labelData.formLblSocialNetwork);
@@ -146,8 +156,16 @@ Form.prototype.educationAlternatives = function(labels) {
         labels.formOptsEducation.formOptUnkown
     ];
 
-    console.log(array);
     return array;
+}
+
+Form.prototype.genderButtons = function(labels) {
+    var buttons = [
+        {'id':'male', 'label':labels.formRbtnMale},
+        {'id':'female', 'label':labels.formRbtnFemale}
+    ];
+
+    return buttons;
 }
 
 Form.prototype.addButtons = function(labelData) {
@@ -184,6 +202,10 @@ Form.prototype.processFormFields = function() {
 	return save_user_info(info);
 }
 
+/*******************************************************************************
+FormGroup
+*******************************************************************************/
+
 function FormGroup(id, label) {
     this.id = id;
     this.label = label;
@@ -199,6 +221,10 @@ FormGroup.prototype.init = function() {
         $.el.div({'class':'col-sm-5'})
     ]);
 }
+
+/*******************************************************************************
+TextFormGroup
+*******************************************************************************/
 
 function TextFormGroup(id, label) {
     FormGroup.call(this, id, label);
@@ -233,6 +259,56 @@ TextFormGroup.prototype.getValue = function() {
         return null;
     }
 }
+
+/*******************************************************************************
+RadioFormGroup
+*******************************************************************************/
+
+function RadioFormGroup(id, label, buttons) {
+    FormGroup.call(this, id, label);
+    this.buttons = buttons; // array with objects with labels and ids for buttons
+    this.addRadioButtons();
+}
+
+RadioFormGroup.prototype = Object.create(FormGroup.prototype); // inherit
+
+RadioFormGroup.prototype.addRadioButtons = function() {
+    $(this.node).find("div").append(
+        this.buttonNodes()
+    );
+}
+
+RadioFormGroup.prototype.buttonNodes  = function() {
+    var buttonNodes = [];
+
+    for (var i=0; i<this.buttons.length; i++) {
+        buttonNodes[i] = $.el.label({'class':'radio-inline'}, [
+            $.el.input({
+                'type':'radio',
+                'name':'formRbtns' + this.id,
+                'id':'formRbtn' + this.buttons[i].id,
+                'value':this.buttons[i].id
+            }),
+            $.el.span(this.buttons[i].label)
+        ])
+    }
+
+    return buttonNodes;
+}
+
+RadioFormGroup.prototype.getValue = function() {
+    var value = $("input[name='formRbtns" + this.id + "']:checked").val();
+
+    if (value === undefined) {
+        return null;
+    } else {
+		return value;
+    }
+}
+
+/*******************************************************************************
+SelectFormGroup
+*******************************************************************************/
 
 function SelectFormGroup(id, label) {
     FormGroup.call(this, id, label);

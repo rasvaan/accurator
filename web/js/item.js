@@ -123,7 +123,7 @@ function events(user, locale, labels) {
 		if(annotations.length === 25) {
 			var form = new Form(
 				"formPersonal",
-				["country", "language", "education", "birthDate"],
+				["country", "language", "education", "gender", "birthDate"],
 				locale
 			);
 
