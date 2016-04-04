@@ -121,7 +121,7 @@ function events(user, locale, labels) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
 
-		if(annotations.length === 5) {
+		if(annotations.length === 1) {
 			var formPersonal = new Form(
 				"formPersonal",
 				["country", "language", "education", "gender", "birthDate"],
@@ -133,7 +133,7 @@ function events(user, locale, labels) {
 			});
 		}
 
-		if(annotations.length === 1) {
+		if(annotations.length === 10) {
 			var formInternet = new Form(
 				"formInternet",
 				["socialNetwork", "taggingSites", "taggingExperience", "mail", "mailCheck"],

@@ -115,6 +115,7 @@ Form.prototype.addFormQuestions = function(labelData) {
             this.formGroups[i] = new TextFormGroup(
                 this.groupIds[i],
                 labelData.formLblBirthDate,
+                'date',
                 2
             );
         }
@@ -163,6 +164,7 @@ Form.prototype.addFormQuestions = function(labelData) {
             this.formGroups[i] = new TextFormGroup(
                 this.groupIds[i],
                 labelData.formLblMail,
+                'text',
                 5
             );
         }
@@ -353,9 +355,10 @@ FormGroup.prototype.init = function() {
 TextFormGroup
 *******************************************************************************/
 
-function TextFormGroup(id, label, size) {
+function TextFormGroup(id, label, type, size) {
     FormGroup.call(this, id, label);
     this.size = size;
+    this.type = type;
     this.addTextField();
 }
 
@@ -367,13 +370,14 @@ TextFormGroup.prototype.addTextField = function() {
         $(this.node).find("div").addClass('col-sm-' + this.size);
         $(this.node).find("div").removeClass('col-sm-5');
     }
+
     $(this.node).find("label").attr("for", "formInp" + this.id);
 
     $(this.node).find("div").append(
         $.el.input({
             'class':'form-control',
             'id':'formInp' + this.id,
-            'type':'date'
+            'type':this.type
         })
     );
 }
