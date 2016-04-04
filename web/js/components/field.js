@@ -204,11 +204,9 @@ Field.prototype.addDropdownListeners = function() {
 }
 
 Field.prototype.getAllAlternatives = function() {
-	console.log(this.source.filterScheme);
 	//HACK for getting EN resources Iconclass
 	var locale = this.locale;
 	if (this.source.filterScheme === "http://accurator.nl/bible#BiblicalThemeConceptScheme") {
-		console.log("locale ", locale, "should change locale to en");
 		locale = "en";
 	}
 
