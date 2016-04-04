@@ -245,18 +245,18 @@ Form.prototype.socialBoxes = function(labels) {
         {'id':'facebook', 'label':labels.formChkFacebook},
         {'id':'linkedIn', 'label':labels.formChkLinkedIn},
         {'id':'twitter', 'label':labels.formChkTwitter},
-        {'id':'none', 'label':labels.formChkOther},
+        {'id':'other', 'label':labels.formChkOther},
         {'id':'none', 'label':labels.formChkNone}
     ];
 }
 
 Form.prototype.tagBoxes = function(labels) {
     return boxes = [
-        {'id':'flickr', 'label':labels.formChkTagFlickr},
-        {'id':'delicious', 'label':labels.formChkTagDelicious},
-        {'id':'facebook', 'label':labels.formChkTagFacebook},
-        {'id':'other', 'label':labels.formChkTagOther},
-        {'id':'none', 'label':labels.formChkTagNone}
+        {'id':'tagFlickr', 'label':labels.formChkTagFlickr},
+        {'id':'tagDelicious', 'label':labels.formChkTagDelicious},
+        {'id':'tagFacebook', 'label':labels.formChkTagFacebook},
+        {'id':'tagOther', 'label':labels.formChkTagOther},
+        {'id':'tagNone', 'label':labels.formChkTagNone}
     ];
 }
 
@@ -264,7 +264,6 @@ Form.prototype.processFormFields = function() {
     var info = {};
 
     for (var i=0; i<this.formGroups.length; i++) {
-        console.log(this.formGroups[i]);
         var id = this.formGroups[i].id;
         var value = this.formGroups[i].getValue();
 
@@ -281,9 +280,9 @@ Form.prototype.processFormFields = function() {
 Form.prototype.addFormEvents = function(labels) {
     var _form = this;
 
-	$(this.node).find("#formDivsocialNetwork #formChknone").click(function() {
-		if(!_form.socialFieldAdded) {
-			$("#formDivSocialNetwork").after(
+	$(this.node).find("#formDivsocialNetwork #formChkother").click(function() {
+        if (!_form.socialFieldAdded) {
+            $(_form.node).find("#formDivsocialNetwork").after(
 				$.el.div({'class':'form-group'},
 						$.el.label({'for':'addSocialSite',
 									'id':'frmSocialOpen',
@@ -299,7 +298,7 @@ Form.prototype.addFormEvents = function(labels) {
 
 	$(this.node).find("#formDivsocialNetwork #formChktwitter").click(function() {
 		if(!_form.twitterFieldAdded) {
-			$("#formDivsocialNetwork").after(
+			$(_form.node).find("#formDivsocialNetwork").after(
 				$.el.div({'class':'form-group'},
 						$.el.label({'for':'addTwitterId',
 									'id':'formLblTwitterId',
@@ -313,9 +312,9 @@ Form.prototype.addFormEvents = function(labels) {
 		}
 	});
 
-	$(this.node).find("#formDivtaggingSites #formChkother").click(function() {
-		if(!_form.tagsiteFieldAdded) {
-			$("#formDivTaggingSite").after(
+	$(this.node).find("#formDivtaggingSites #formChktagOther").click(function() {
+        if(!_form.tagsiteFieldAdded) {
+			$(_form.node).find("#formDivtaggingSites").after(
 				$.el.div({'class':'form-group'},
 					$.el.label({'for':'addTagSite',
 							    'id':'formLblTagSite',
@@ -479,26 +478,28 @@ SocialCheckBoxFormGroup.prototype = Object.create(CheckBoxFormGroup.prototype);
 SocialCheckBoxFormGroup.prototype.getValue = function() {
     var info = {};
 
-    if($("#formChknone").is(":checked")) {
+    if($(this.node).find("#formChknone").is(":checked")) {
         info.facebook = false;
         info.linked_in = false;
         info.twitter = false;
     } else {
-        if ($("#formChkfacebook").is(":checked"))
+        if ($(this.node).find("#formChkfacebook").is(":checked"))
             info.facebook = true;
-        if ($("#formChklinkedIn").is(":checked"))
+        if ($(this.node).find("#formChklinkedIn").is(":checked"))
             info.linked_in = true;
-        //Set twitter to true when no id is given but box is checked
-        if ($("#formChktwitter").is(":checked")) {
-            if (!($("#addTwitterId").val() === undefined) && !($("#addTwitterId").val() === "")) {
+        // set twitter to true when no id is given but box is checked
+        if ($(this.node).find("#formChktwitter").is(":checked")) {
+            if (!($("#addTwitterId").val() === undefined) &&
+                !($("#addTwitterId").val() === "")) {
                 info.twitter = $("#addTwitterId").val();
             } else {
                 info.twitter = true;
             }
         }
-        //Set social to true
-        if ($("#formChkother").is(":checked")) {
-            if (!($("#addSocialSite").val() === undefined) && !($("#addSocialSite").val() === "")) {
+        // set social to true
+        if ($(this.node).find("#formChkother").is(":checked")) {
+            if (!($("#addSocialSite").val() === undefined) &&
+                !($("#addSocialSite").val() === "")) {
                 info.other_social_site = $("#addSocialSite").val();
             } else {
                 info.other_social_site = true;
@@ -518,22 +519,23 @@ TagCheckBoxFormGroup.prototype = Object.create(CheckBoxFormGroup.prototype);
 TagCheckBoxFormGroup.prototype.getValue = function() {
     var info = {};
 
-    if($("#formChkTagNone").is(":checked")) {
+    if($(this.node).find("#formChktagNone").is(":checked")) {
         info.flickr = false;
         info.delicious = false;
         info.tag_facebook = false;
         info.other = false;
     } else {
-        if ($("#formChkTagFlickr").is(":checked"))
+        if ($(this.node).find("#formChktagFlickr").is(":checked"))
             info.flickr = true;
-        if ($("#formChkTagDelicious").is(":checked"))
+        if ($(this.node).find("#formChktagDelicious").is(":checked"))
             info.delicious = true;
-        if ($("#formChkTagFacebook").is(":checked"))
+        if ($(this.node).find("#formChktagFacebook").is(":checked"))
             info.tag_facebook = true;
 
-        //Set tagsite to true
-        if ($("#formChkTagOther").is(":checked")) {
-            if (!($("#addTagSite").val() === undefined) && !($("#addTagSite").val() === "")) {
+        // set tagsite to true
+        if ($(this.node).find("#formChktagOther").is(":checked")) {
+            if (!($("#addTagSite").val() === undefined) &&
+                !($("#addTagSite").val() === "")) {
                 info.other_tag_site = $("#addTagSite").val();
             } else {
                 info.other_tag_site = true;
@@ -551,7 +553,7 @@ function MailBoxFormGroup(id, label, boxes) {
 MailBoxFormGroup.prototype = Object.create(CheckBoxFormGroup.prototype);
 
 MailBoxFormGroup.prototype.getValue = function() {
-    if($("#formChk" + this.id).is(":checked")) {
+    if($(this.node).find("#formChk" + this.id).is(":checked")) {
 		return true;
 	} else {
 		return false;

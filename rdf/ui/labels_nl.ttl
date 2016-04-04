@@ -41,7 +41,7 @@ aui:item a auis:UI ;
 	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
 	aui:navbarBtnSearch "Zoek"@nl ;
 	aui:itemHdrFirst "De eerste keer informatie toevoegen!"@nl ;
-	aui:itemTxtFirst "Begin met het tekenen van een  kader om informatie toe te voegen. U krijgt hierop verschillende velden om in te vullen, probeer hierbij zo precies mogelijk te zijn. Om naar een volgende afbeeldingen te gaan kunt u op volgende klikken, zoeken of nieuwe aanbevelingen bekijken."@nl .
+	aui:itemTxtFirst "Begin met het tekenen van een  kader om informatie toe te voegen. U krijgt hierop verschillende velden om in te vullen, probeer hierbij zo precies mogelijk te zijn. Om naar een volgende afbeeldingen te gaan kunt u op volgende klikken, zoeken of aanbevolen werken bekijken."@nl .
 
 ##### Expertise Screen #####
 
@@ -141,10 +141,8 @@ aui:userDropdown a auis:UI ;
 
 aui:form a auis:UI ;
 	aui:formPageTitle "Informatie"@nl ;
-	aui:formHdrInternetUsage "Internet gebruik"@nl ;
-	aui:formHdrPersonalInfo "Persoonlijke informatie"@nl ;
-	aui:formHdrSlogan "Vertel iets over uzelf"@nl ;
-	aui:formHdrSubSlogan "het zou ons veel helpen als u de volgende informatie verstrekt"@nl ;
+	aui:formHdrInternetUsage "Help ons onderzoek door het invullen van onderstaande informatie over uw internet gebruik"@nl ;
+	aui:formHdrPersonalInfo "Help ons onderzoek door het invullen van onderstaande informatie"@nl ;
 	aui:formBtnAdd "Bevestig"@nl ;
 	aui:formBtnSkip "of sla deze stap over"@nl ;
 	aui:formLblBirthDate "Geboortedatum"@nl ;
