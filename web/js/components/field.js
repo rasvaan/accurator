@@ -204,6 +204,14 @@ Field.prototype.addDropdownListeners = function() {
 }
 
 Field.prototype.getAllAlternatives = function() {
+	console.log(this.source.filterScheme);
+	//HACK for getting EN resources Iconclass
+	var locale = this.locale;
+	if (this.source.filterScheme === "http://accurator.nl/bible#BiblicalThemeConceptScheme") {
+		console.log("locale ", locale, "should change locale to en");
+		locale = "en";
+	}
+
 	// Get autocomplete alternatives
 	var filter = JSON.stringify({scheme: this.source.filterScheme});
 	// var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
@@ -214,7 +222,7 @@ Field.prototype.getAllAlternatives = function() {
 		filter:filter,
 		// labelrank:labelRank,
 		method:"all",
-		locale:this.locale
+		locale:locale //HACK: should be this.locale
 	});
 }
 
