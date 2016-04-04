@@ -51,10 +51,10 @@ get_countries(DictArray, _Options) :-
 				%only english for now
 				rdf(GeonamesCountry, gn:name, literal(lang(en, CountryName))),
 				CountryDict0 = country{},
-				CountryDict1 = CountryDict0.put(name, CountryName),
+				CountryDict1 = CountryDict0.put(label, CountryName),
 				rdf(GeonamesCountry, gn:countryCode, literal(CountryCode)),
 				downcase_atom(CountryCode, CountryCodeLower),
-				CountryDict = CountryDict1.put(country_code, CountryCodeLower)),
+				CountryDict = CountryDict1.put(id, CountryCodeLower)),
 			DictArray).
 
 %%	get_languages(-DictArray, _Options)
@@ -64,10 +64,10 @@ get_languages(DictArray, _Options) :-
 	findall(LanguageDict,
 			(	rdf(GeonamesCountry, acl:isoCode, literal(IsoCode)),
 				LanguageDict0 = language{},
-				LanguageDict1 = LanguageDict0.put(iso_code, IsoCode),
+				LanguageDict1 = LanguageDict0.put(id, IsoCode),
 				%only english for now
 				rdf(GeonamesCountry, rdfs:label, literal(lang(en, LanguageName))),
-				LanguageDict = LanguageDict1.put(name, LanguageName)),
+				LanguageDict = LanguageDict1.put(label, LanguageName)),
 			DictArray).
 
 %%	get_labels(-TextDic, +Options)

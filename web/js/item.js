@@ -74,7 +74,7 @@ function itemInit() {
 			}
 
 			addButtonEvents(user);
-			return events(user, labels);
+			return events(user, locale, labels);
 		})
 		.then(function() {
 			return setImage(uri);
@@ -113,11 +113,36 @@ function initLabels(labelData) {
 	return labels;
 }
 
-function events(user, labels) {
+function events(user, locale, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
+		console.log(annotations.length);
 		if(annotations.length === 0) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
+		}
+
+		if(annotations.length === 5) {
+			var formPersonal = new Form(
+				"formPersonal",
+				["country", "language", "education", "gender", "birthDate"],
+				locale
+			);
+
+			formPersonal.addText().then(function() {
+				$("#eventsDiv").prepend(formPersonal.node);
+			});
+		}
+
+		if(annotations.length === 1) {
+			var formInternet = new Form(
+				"formInternet",
+				["socialNetwork", "taggingSites", "taggingExperience", "mail", "mailCheck"],
+				locale
+			);
+
+			formInternet.addText().then(function() {
+				$("#eventsDiv").prepend(formInternet.node);
+			});
 		}
 	});
 }
