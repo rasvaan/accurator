@@ -335,7 +335,7 @@ User management code.
 *******************************************************************************/
 function userLoggedIn() {
 	// see if user is logged in (random for unique request)
-	return $.getJSON("get_user?time=" + Math.random())
+	return $.getJSON("get_user")
 	.then(function(user) {
 		if (user.login) {
 			return user;

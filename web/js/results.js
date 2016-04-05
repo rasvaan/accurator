@@ -187,8 +187,7 @@ function search(query, labels) {
 function recommend(query, labels, target) {
 	var recommendation = $.getJSON("recommendation", {
 		strategy:query,
-		target:target,
-		time:Math.random()
+		target:target
 	})
 	.then(function(data) {
 		$(document).prop('title', labels.resultsTxtRecommendationsFor + labels.realName);
