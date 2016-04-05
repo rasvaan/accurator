@@ -10,7 +10,7 @@ Functions used by multiple javascript files. Topics include:
 - User management
 - Uri
 *******************************************************************************/
-
+$.ajaxSetup({cache: false}); // make sure ajax calls are not cached (make things ie proof)
 /*******************************************************************************
 Settings
 General setting management.
