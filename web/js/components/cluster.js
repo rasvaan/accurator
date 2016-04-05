@@ -83,7 +83,7 @@ Cluster.prototype.addPagination = function(numberDisplayedItems) {
 	);
 
 	// add event listener for change of page
-	$("#" + this.id).on("pagination", function(event) {
+	$(this.node).on("pagination", function(event) {
 		_cluster.changeThumbnails(event.currentPage, event.nextPage, numberDisplayedItems);
 	});
 }
