@@ -39,7 +39,7 @@ function profileInit() {
 		})
 		.then(function(labelData) {
 			addButtonEvents(user);
-			var labels = initLabels(labelData);
+			var labels = initLabels(labelData, realName);
 			initDomains(locale, domain, labels);
 			populateRecentlyAnnotated(user, labels);
 		});
@@ -72,11 +72,14 @@ function populateRecentlyAnnotated(user, labels) {
 	});
 }
 
-function initLabels(labelData) {
+function initLabels(labelData, realName) {
 	// add retrieved labels to html elements
 	document.title = labelData.profilePageTitle;
 
-	var labels = {profileLblLastAnnotated: labelData.profileLblLastAnnotated};
+	var labels = {
+		profileLblLastAnnotated: labelData.profileLblLastAnnotated,
+		profileTxtDomain: labelData.profileTxtDomain
+	};
 
 	// check if real name is available
 	if (typeof realName !== 'undefined') {
@@ -118,6 +121,11 @@ function initDomains(locale, domain, labels) {
 				.then(processDomain(currentDomain, labels));
 			}
 		}
+
+		// hide button if length is 2 (current domain and generic)
+		if (domain !== "generic" && domains.length === 2) {
+			$("#profileBtnDomain").parent().hide();
+		}
 	});
 }
 
@@ -135,7 +143,7 @@ function addDomainTitle(domainData, locale, labels) {
 function domainHtml(domainData, locale) {
 	// add the different domains to a dropdown list
 	getLabels(locale, domainData.ui + "domain")
-	.then(function(data){
+	.then(function(data) {
 		$("#profileLstDomainItems").append(
 			$.el.li(
 				$.el.a({'href':'#',
