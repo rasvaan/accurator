@@ -101,7 +101,8 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 
 	// add row
 	$(this.node).append(
-		$.el.div({'class':'row', 'id':'thumbnailRow' + this.id}));
+		$.el.div({'class':'row', 'id':'thumbnailRow' + this.id})
+	);
 
 	for (var i = 0; i < stop; i++) {
 		var thumbnail = new Thumbnail(
@@ -127,10 +128,19 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 	var remove = 0; // number of thumbnails spaces not shown
 	var headerType; // size of the header
 
-	// Check if there are more spaces then items, if so, make those spaces invisible
+	// check if there are more spaces then items, if so, make those spaces invisible
 	if(stop > this.items.length) {
 		remove = stop - this.items.length;
 		stop = this.items.length;
+	}
+
+	// update thumbnails directly on click
+	for (var i = 0; i < numberDisplayedItems; i++) {
+		if (i < (numberDisplayedItems - remove)) {
+			this.thumbnails[i].setStub();
+		} else {
+			this.thumbnails[i].hide();
+		}
 	}
 
 	// console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
@@ -155,10 +165,5 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 		for(var i = start; i < numberDisplayedItems; i++) {
 			this.thumbnails[i].show();
 		}
-	}
-
-	// don't display unused thumbspace
-	for (var i = thumbIndex; i < thumbIndex+remove; i++) {
-		this.thumbnails[i].hide();
 	}
 }

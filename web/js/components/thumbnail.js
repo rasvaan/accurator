@@ -17,7 +17,27 @@ function Thumbnail(uri, title, thumb, link, numberDisplayedItems) {
 
 Thumbnail.prototype.init = function() {
 	this.id = this.getId(this.uri);
-	this.node = this.html(this.id, this.thumb, this.bootstrapWidth);
+	this.node = $.el.div({'class':'col-md-' + this.bootstrapWidth},
+		$.el.div({
+			'class':'thumbnail',
+			'id':this.id
+		},
+			$.el.canvas({
+				'class':'img-responsive',
+				'width':'350px',
+				'height':'300px',
+				'style':'solid #d3d3d3'
+			}),
+			$.el.img({
+				'src':'',
+				'class':'img-responsive',
+				'alt':''
+			}),
+			$.el.div({'class':'caption'},
+				this.thumbnailTitle()
+	)));
+
+	this.setImage(this.thumb);
 }
 
 // Retrieves the item id from the uri string
@@ -30,20 +50,26 @@ Thumbnail.prototype.getId = function(uri) {
 
 // Generate HTML for adding a thumbnail for an item
 Thumbnail.prototype.html = function(id, thumb, bootstrapWidth) {
-	return $.el.div({'class':'col-md-' + bootstrapWidth},
-				$.el.div({'class':'thumbnail',
-						  'id':id},
-					$.el.img({'src':thumb,
-							  'class':'img-responsive',
-							  'alt':''}),
-						$.el.div({'class':'caption'},
-							 this.thumbnailTitle())));
+
+}
+
+Thumbnail.prototype.setStub = function() {
+	$(this.node).find("img").hide();
+	$(this.node).find("canvas").show();
 }
 
 Thumbnail.prototype.setImage = function(url) {
+	// show canvas
+	var _thumb = this;
+	$(this.node).find("img").attr("src", url);
+
+	$(this.node).find("img").on('load', function() {
+		// hide the canvas
+		$(_thumb.node).find("canvas").hide();
+		$(_thumb.node).find("img").show();
+	});
 	// replace image url
 	this.thumb = url;
-	$(this.node).find("img").attr("src", url);
 }
 
 Thumbnail.prototype.setTitle = function(title) {
