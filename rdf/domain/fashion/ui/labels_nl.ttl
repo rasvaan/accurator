@@ -4,7 +4,7 @@
 
 ###### Fashion Domain #####
 afasui:domain a auis:UI ;
-	aui:domainLabel "Mode domein"@nl .
+	aui:domainLabel "Domein mode"@nl .
 
 ###### Fashion Intro Screen #####
 

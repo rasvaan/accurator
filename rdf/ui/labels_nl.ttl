@@ -8,7 +8,7 @@
 ###### Intro Screen #####
 
 aui:intro a auis:UI ;
-	aui:introHdrSlogan "Accurate Kunst Beschrijvingen"@nl ;
+	aui:introHdrSlogan "Accurate Kunstbeschrijvingen"@nl ;
 	aui:introHdrSubSlogan "Help ons met het toevoegen van informatie aan kunstwerken"@nl ;
 	aui:introBtnRegister "Registreer"@nl ;
 	aui:introBtnLogin "of Log in"@nl ;
