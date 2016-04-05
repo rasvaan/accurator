@@ -31,21 +31,22 @@ function profileInit() {
 
 		setLinkLogo("profile");
 		populateNavbar(userName, [], locale);
-		populateRecentlyAnnotated(user);
+
 
 		domainSettings(domain)
 		.then(function(domainData) {
 			return getLabels(locale, domainData.ui + "profile");
 		})
-		.then(function(labels) {
+		.then(function(labelData) {
 			addButtonEvents(user);
-			initLabels(labels);
+			var labels = initLabels(labelData);
 			initDomains(locale, domain, labels);
+			populateRecentlyAnnotated(user, labels);
 		});
 	}
 }
 
-function populateRecentlyAnnotated(user) {
+function populateRecentlyAnnotated(user, labels) {
 	$.getJSON("annotations", {
 		uri:user,
 		type:"user"
@@ -56,7 +57,12 @@ function populateRecentlyAnnotated(user) {
 		} else {
 			//TODO: limit length of uris (faster if someone annotated a bunch)?
 			var noRecentlyAnnotatedItems = 6;
-			var cluster = new Cluster("profileDivCluster", uris, "Recently tagged");
+
+			var cluster = new Cluster(
+				"profileDivCluster",
+				uris,
+				labels.profileLblLastAnnotated
+			);
 
 			cluster.init(noRecentlyAnnotatedItems)
 			.then(function() {
@@ -66,23 +72,26 @@ function populateRecentlyAnnotated(user) {
 	});
 }
 
-function initLabels(labels) {
+function initLabels(labelData) {
 	// add retrieved labels to html elements
-	document.title = labels.profilePageTitle;
+	document.title = labelData.profilePageTitle;
+
+	var labels = {profileLblLastAnnotated: labelData.profileLblLastAnnotated};
 
 	// check if real name is available
 	if (typeof realName !== 'undefined') {
-		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan + " " + realName + " ");
+		$("#profileHdrSlogan").prepend(labelData.profileHdrSlogan + " " + realName + " ");
 	} else {
-		$("#profileHdrSlogan").prepend(labels.profileHdrSlogan);
+		$("#profileHdrSlogan").prepend(labelData.profileHdrSlogan);
 	}
-	$("#profileTxtSubSlogan").prepend(labels.profileTxtSubSlogan);
-	$("#profileTxtStartAnnotating").append(labels.profileTxtStartAnnotating);
-	$("#navbarBtnRecommend").append(labels.navbarBtnRecommend);
-	$("#profileBtnChangeExpertise").append(labels.profileBtnChangeExpertise);
-	$("#navbarBtnSearch").append(labels.navbarBtnSearch);
-	$("#profileBtnDomain").prepend(labels.profileBtnDomain);
-	$("#profileLblLastAnnotated").append(labels.profileLblLastAnnotated);
+	$("#profileTxtSubSlogan").prepend(labelData.profileTxtSubSlogan);
+	$("#profileTxtStartAnnotating").append(labelData.profileTxtStartAnnotating);
+	$("#navbarBtnRecommend").append(labelData.navbarBtnRecommend);
+	$("#profileBtnChangeExpertise").append(labelData.profileBtnChangeExpertise);
+	$("#navbarBtnSearch").append(labelData.navbarBtnSearch);
+	$("#profileBtnDomain").prepend(labelData.profileBtnDomain);
+
+	return labels;
 }
 
 function initDomains(locale, domain, labels) {
