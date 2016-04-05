@@ -19,25 +19,41 @@ afasui:Garment a auis:DropdownField ;
 	rdfs:label "Kledingstuk"@nl ;
 	dcterms:comment "add the type of garment"@en ;
 	dcterms:comment "voeg het type kledingstuk toe"@nl ;
-	auis:source "" .
+	auis:source afasui:GarmentSource .
+
+afasui:GarmentSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://accurator.nl/fashion#GarmentConceptScheme" .
 
 afasui:Material a auis:DropdownField ;
 	rdfs:label "Material"@en ;
 	rdfs:label "Materiaal"@nl ;
 	dcterms:comment "add the material"@en ;
 	dcterms:comment "voeg het materiaal toe"@nl ;
-	auis:source "" .
+	auis:source afasui:MaterialSource .
+
+afasui:MaterialSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://accurator.nl/fashion#MaterialConceptScheme" .
 
 afasui:Technique a auis:DropdownField ;
 	rdfs:label "Technique"@en ;
     rdfs:label "Techniek"@nl ;
 	dcterms:comment "add technique"@en ;
 	dcterms:comment "voeg de techniek toe"@nl ;
-	auis:source "" .
+	auis:source afasui:TechniqueSource .
+
+afasui:TechniqueSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://accurator.nl/fashion#TechniqueConceptScheme" .
 
 afasui:Color a auis:DropdownField ;
-	rdfs:label "Color"@nl ;
-	rdfs:label "Kleur"@en ;
+	rdfs:label "Color"@en ;
+	rdfs:label "Kleur"@nl ;
 	dcterms:comment "add the color"@en ;
 	dcterms:comment "voeg de kleur toe"@nl ;
-	auis:source "" .
+	auis:source afasui:ColorSource .
+
+afasui:ColorSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://accurator.nl/fashion#TechniqueConceptScheme" .
