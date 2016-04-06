@@ -298,6 +298,18 @@ Form.prototype.addFormEvents = function(labels) {
 		}
 	});
 
+    $(this.node).find("#formDivsocialNetwork #formChknone").click(function() {
+        // get all checkboxes except the none and uncheck them
+        $(_form.node).find("#formDivsocialNetwork :checkbox")
+        .not("#formChknone").prop("checked", false);
+	});
+
+    $(this.node).find("#formDivtaggingSites #formChktagNone").click(function() {
+        // get all checkboxes except the none and uncheck them
+        $(_form.node).find("#formDivtaggingSites :checkbox")
+        .not("#formChktagNone").prop("checked", false);
+    });
+
 	$(this.node).find("#formDivsocialNetwork #formChktwitter").click(function() {
 		if(!_form.twitterFieldAdded) {
 			$(_form.node).find("#formDivsocialNetwork").after(

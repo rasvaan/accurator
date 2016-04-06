@@ -116,6 +116,7 @@ function initLabels(labelData) {
 function events(user, locale, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
+		console.log(annotations.length);
 		if(annotations.length === 0) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
@@ -132,7 +133,7 @@ function events(user, locale, labels) {
 			});
 		}
 
-		if(annotations.length === 10) {
+		if(annotations.length === 26) {
 			var formInternet = new Form(
 				"formInternet",
 				["socialNetwork", "taggingSites", "taggingExperience", "mail", "mailCheck"],
