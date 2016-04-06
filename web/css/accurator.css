@@ -255,9 +255,17 @@ Search results
 	font-size: 80%;
 }
 
-.path-literal {background-color: rgb(100, 100, 100);}
-.path-property {background-color: rgb(66, 139, 202);}
+.path-literal {
+	background-color: rgb(100, 100, 100);
+}
 
+.path-property {
+	background-color: rgb(66, 139, 202);
+}
+
+.pagination > li {
+	cursor: pointer;
+}
 /*******************************************************************************
 Item page
 *******************************************************************************/
