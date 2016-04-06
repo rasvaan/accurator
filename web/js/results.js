@@ -39,8 +39,6 @@ function resultsInit() {
 	var domain = getDomain();
 
 	populateFlags(locale);
-	clearLocalStorage("uris"); // will be generating new clusters
-	clearLocalStorage("path");
 
 	userLoggedIn()
 	.then(function(userData) {
@@ -74,7 +72,7 @@ function resultsInit() {
 		.then(function(labelData) {
 			labels = initLabels(labelData);
 			labels.realName = realName; // Add realname to labels for rendering
-			addButtonEvents(user);
+			addButtonEvents(user, target, labels);
 
 			return events(user, labels);
 		})
@@ -110,9 +108,16 @@ function initLabels(labelData) {
 }
 
 // Add button events in the navbar
-function addButtonEvents(user) {
+function addButtonEvents(user, target, labels) {
 	$("#navbarBtnRecommend").click(function() {
-		document.location.href = "results.html?user=" + user;
+		// check if not already there
+		if (!(document.location.href.indexOf("results.html?user=" + user)  > -1)) {
+			document.location.href = "results.html?user=" + user;
+		} else {
+			// clear current and get new results
+			$("#resultsDiv").empty();
+			results(target, labels);
+		}
 	});
 	// search on pressing enter
 	$("#navbarInpSearch").keypress(function(event) {
@@ -150,6 +155,9 @@ function results(target, labels) {
 	var query = getParameterByName("query"); // get query from url when present
 	var userQuery = getParameterByName("user"); // get user from url when present
 	var recommendBoolean = false; // do random stuff
+
+	clearLocalStorage("uris"); // will be generating new clusters
+	clearLocalStorage("path");
 
 	if(query) {
 		// results based on the user query
