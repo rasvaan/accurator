@@ -238,6 +238,26 @@ function alertMessage(title, text, type) {
 					$.el.p(text)))));
 }
 
+function showForm(type, questions, locale) {
+	var formShown = type + "_shown";
+
+	get_user_info(formShown)
+	.then(function(info) {
+		// show form if not shown before
+		if (!info[formShown]) {
+			var form = new Form(type, questions, locale);
+
+			form.addText().then(function() {
+				var setInfo = {};
+
+				$("#eventsDiv").prepend(form.node);
+				setInfo[formShown] = true;
+				save_user_info(setInfo);
+			});
+		}
+	});
+}
+
 function populateNavbar(userName, linkList, locale) {
 	// only popluate navbar when no experiment is running
 	if(typeof experiment === "undefined" || experiment === "none") {

@@ -116,44 +116,32 @@ function initLabels(labelData) {
 function events(user, locale, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
-		console.log(annotations.length);
 		if (annotations.length === 0) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
 
-		if (annotations.length === 26) {
-			console.log("get info");
-			get_user_info("form_peronal_shown")
-			.then(function(info) {
-				console.log("check whether to show form", info.form_peronal_shown);
-				if (!info.form_peronal_shown) {
-					console.log("should show form");
-				}
-			});
-
-			var formPersonal = new Form(
-				"formPersonal",
-				["country", "language", "education", "gender", "birthDate"],
+		if (annotations.length === 5) {
+			showForm(
+				"form_peronal",
+				["country",
+				"language",
+				"education",
+				"gender",
+				"birthDate"],
 				locale
 			);
-
-			formPersonal.addText().then(function() {
-				$("#eventsDiv").prepend(formPersonal.node);
-				save_user_info({"form_peronal_shown": true});
-			});
 		}
 
 		if (annotations.length === 10) {
-			var formInternet = new Form(
-				"formInternet",
-				["socialNetwork", "taggingSites", "taggingExperience", "mail", "mailCheck"],
+			showForm(
+				"form_internet",
+				["socialNetwork",
+				"taggingSites",
+				"taggingExperience",
+				"mail",
+				"mailCheck"],
 				locale
 			);
-
-			formInternet.addText().then(function() {
-				$("#eventsDiv").prepend(formInternet.node);
-				save_user_info({"form_internet_shown": true});
-			});
 		}
 	});
 }
