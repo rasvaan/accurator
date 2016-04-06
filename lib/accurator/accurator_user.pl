@@ -1,11 +1,11 @@
 :- module(accurator_user, [get_annotated/2,
 						   get_annotated_user/2,
-						   get_domain/2,
-						   get_locale/2,
+						   get_attribute/3,
 						   register_user/1,
 						   get_user/1,
 						   get_user_settings/1,
-						   save_user_info/1]).
+						   save_user_info/1,
+						   get_user_info/1]).
 
 /** <module> Domain
 */
@@ -71,17 +71,29 @@ get_user(_Request) :-
 %	Return saved domain and locale of user.
 get_user_settings(_Request) :-
 	logged_on(User),
-	get_domain(User, Domain),
-	get_locale(User, Locale),
+	get_attribute(User, domain, Domain),
+	get_attribute(User, locale, Locale),
 	reply_json_dict(settings{locale:Locale, domain:Domain}).
 
-get_domain(User, Domain) :-
-	user_property(User, domain(Domain)), !.
-get_domain(_User, "").
+%%	get_user_info(-Dic, +Options)
+%
+%	get the value of the user profile for the given attribute
+get_user_info(Options) :-
+	option(attribute(Attribute), Options),
+	option(user(User), Options),
+	get_attribute(User, Attribute, Value),
+	reply_user_info(Attribute, Value).
 
-get_locale(User, Locale) :-
-	user_property(User, locale(Locale)), !.
-get_locale(_User, "").
+reply_user_info(_Attribute, "") :-
+	reply_json_dict(settings{}), !.
+
+reply_user_info(Attribute, Value) :-
+	reply_json_dict(settings{}.put(Attribute, Value)).
+
+get_attribute(User, Attribute, Value) :-
+	Atom =.. [Attribute, Value],
+	user_property(User, Atom), !.
+get_attribute(_User, _Attribute, "").
 
 %%	save_additional_info(+Request)
 %

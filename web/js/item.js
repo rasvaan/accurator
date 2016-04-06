@@ -122,6 +122,15 @@ function events(user, locale, labels) {
 		}
 
 		if (annotations.length === 26) {
+			console.log("get info");
+			get_user_info("form_peronal_shown")
+			.then(function(info) {
+				console.log("check whether to show form", info.form_peronal_shown);
+				if (!info.form_peronal_shown) {
+					console.log("should show form");
+				}
+			});
+
 			var formPersonal = new Form(
 				"formPersonal",
 				["country", "language", "education", "gender", "birthDate"],

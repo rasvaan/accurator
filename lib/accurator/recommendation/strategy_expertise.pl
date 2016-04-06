@@ -22,7 +22,7 @@
 strategy_expertise(Result, Options0) :-
 	option(output_format(OutputFormat), Options0),
 	option(user(User), Options0),
-	get_domain(User, Domain),
+	get_attribute(User, domain, Domain),
 	Options1 = [domain(Domain) | Options0],
 	%set initial max agenda
 	Options = [max_agenda(100) | Options1],

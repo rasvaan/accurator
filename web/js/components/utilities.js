@@ -50,6 +50,11 @@ function save_user_info(info) {
 	});
 }
 
+function get_user_info(attribute) {
+	// get user setting from cliopatria
+	return $.getJSON("get_user_info", {"attribute":attribute});
+}
+
 function getParameterByName(name) {
 	// retrieve information from url parameters (often settings)
 	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

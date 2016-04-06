@@ -59,6 +59,7 @@ user:file_search_path(fonts, web(fonts)).
 :- http_handler(cliopatria(get_user), get_user, []).
 :- http_handler(cliopatria(get_user_settings), get_user_settings, []).
 :- http_handler(cliopatria(save_user_info), save_user_info, []).
+:- http_handler(cliopatria(get_user_info), user_info_api, []).
 :- http_handler(cliopatria(recommendation), recommendation_api, []).
 
 :- set_setting_default(thumbnail:thumbnail_size, size(350,300)).
@@ -221,7 +222,7 @@ expertise_topics_api(Request) :-
     get_parameters_expertise(Request, Options0),
 	logged_on(User),
 	Options1 = [user(User) | Options0],
-	get_domain(User, Domain),
+	get_attribute(User, domain, Domain),
 	Options = [domain(Domain) | Options1],
 	get_expertise_topics(Dic, Options),
 	reply_json_dict(Dic).
@@ -262,7 +263,7 @@ get_parameters_expertise(Request, Options) :-
 expertise_values_api(Request) :-
 	member(method(get), Request),
 	logged_on(User),
-	get_domain(User, Domain),
+	get_attribute(User, domain, Domain),
 	get_user_expertise_domain(User, Domain, ExpertiseValues),
 	dict_pairs(ExpertiseDict, elements, ExpertiseValues),
 	reply_json_dict(ExpertiseDict).
@@ -331,6 +332,27 @@ reply_expertise_results(cluster, Clusters) :-
 
 reply_expertise_results(list, List) :-
 	reply_json_dict(List).
+
+%%	user_info_api(+Request)
+%
+%	Retrieves the value in the user profile for specified attribute
+user_info_api(Request) :-
+    get_parameters_user_info(Request, Options),
+    get_user_info(Options).
+
+%%	get_parameters_user_info(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_user_info(Request, Options) :-
+	logged_on(LoggedinUser),
+    http_parameters(Request,
+        [attribute(Attribute,
+			[description('Attribute for which values are retrieved'),
+			 optional(false)]),
+		 user(User,
+			[description('User for which values are retrieved'),
+			 default(LoggedinUser)])]),
+    Options = [attribute(Attribute), user(User)].
 
 %%	page_item(+Request)
 %
