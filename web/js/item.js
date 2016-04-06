@@ -117,11 +117,11 @@ function events(user, locale, labels) {
 	return $.getJSON("annotations", {uri:user, type:"user"})
 	.then(function(annotations) {
 		console.log(annotations.length);
-		if(annotations.length === 0) {
+		if (annotations.length === 0) {
 			alertMessage(labels.itemHdrFirst, labels.itemTxtFirst, 'success');
 		}
 
-		if(annotations.length === 5) {
+		if (annotations.length === 26) {
 			var formPersonal = new Form(
 				"formPersonal",
 				["country", "language", "education", "gender", "birthDate"],
@@ -130,10 +130,11 @@ function events(user, locale, labels) {
 
 			formPersonal.addText().then(function() {
 				$("#eventsDiv").prepend(formPersonal.node);
+				save_user_info({"form_peronal_shown": true});
 			});
 		}
 
-		if(annotations.length === 26) {
+		if (annotations.length === 10) {
 			var formInternet = new Form(
 				"formInternet",
 				["socialNetwork", "taggingSites", "taggingExperience", "mail", "mailCheck"],
@@ -142,6 +143,7 @@ function events(user, locale, labels) {
 
 			formInternet.addText().then(function() {
 				$("#eventsDiv").prepend(formInternet.node);
+				save_user_info({"form_internet_shown": true});
 			});
 		}
 	});
