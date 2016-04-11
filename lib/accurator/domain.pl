@@ -5,6 +5,9 @@
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdfs)).
 
+:- rdf_meta
+	rdf_value(r, -, -).
+
 %%	get_domain_settings(-Dic, +Options)
 %
 %	If no domain is provided, return available domains. If domain is
@@ -31,26 +34,39 @@ get_domain_settings(Dic, _Options) :-
 %
 %	Create a dictionary filled with information about the domain.
 get_domain_dic(DomainUri, Domain, Dic) :-
-	rdf(DomainUri, dcterms:requires, Taxonomy),
-	rdf(DomainUri, accu:hasTarget, Target),
-	rdf(DomainUri, skos:hasTopConcept, TopConcept),
-	rdf(DomainUri, accu:hasMaximumExpertiseTopics, literal(MaxTopics)),
-	rdf(DomainUri, accu:hasMaximumChildren, literal(MaxChildren)),
-	rdf(DomainUri, accu:hasUI, UI),
-	rdf(DomainUri, accu:hasAnnotationUI, AnnotationUI),
-	rdf(DomainUri, accu:hasDescriptiveImage, Image),
+	findall(Property-Value,
+			rdf_value(DomainUri, Property, Value),
+			PropertyPairs),
+	domain_image(DomainUri, ImagePairs),
+	sub_domains(DomainUri, SubDomains),
+	append([[domain-Domain], PropertyPairs, ImagePairs, [subDomain-SubDomains]], Pairs),
+	dict_pairs(Dic, elements, Pairs).
+
+%%	rdf_value(+Uri, -Property, Value)
+%
+%	Get the label of an RDF property and either the literal or the
+%	resource value.
+rdf_value(DomainUri, Property, Value) :-
+	rdf(DomainUri, PropertyUri, literal(Value)),
+	iri_xml_namespace(PropertyUri, _, Property).
+rdf_value(DomainUri, Property, Value) :-
+	rdf(DomainUri, PropertyUri, Value),
+	rdf_resource(Value),
+	iri_xml_namespace(PropertyUri, _, Property).
+
+%%	domain_image(+DomainUri, -ImageList)
+%
+%	Get info about an image in the form of a list of pairs
+domain_image(DomainUri, [image-ImagePath, imageBrightness-Brightness]) :-
+	rdf(DomainUri, accu:hasDescriptiveImage, Image), !,
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
-	rdf(Image, accu:brightness, literal(Brightness)),
+	rdf(Image, accu:brightness, literal(Brightness)).
+domain_image(_DomainUri, []).
+
+%%	sub_domains(+DomainUri, -SubdomainList)
+%
+%	Return a list of sub domains
+sub_domains(DomainUri, SubDomains) :-
 	rdf_has(DomainUri, accu:subDomains, RdfList), !,
-	rdfs_list_to_prolog_list(RdfList, Domains),
-	Dic = domain{domain:Domain,
-				 target:Target,
-				 taxonomy:Taxonomy,
-				 top_concept:TopConcept,
-				 number_of_topics:MaxTopics,
-				 number_of_children_shown:MaxChildren,
-				 ui:UI,
-				 annotation_ui:AnnotationUI,
-				 image:ImagePath,
-				 image_brightness:Brightness,
-				 sub_domains:Domains}.
+	rdfs_list_to_prolog_list(RdfList, SubDomains).
+sub_domains(_DomainUri, []).
