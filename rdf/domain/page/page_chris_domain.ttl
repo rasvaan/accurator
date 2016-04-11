@@ -20,7 +20,7 @@ apag:domain_chris a accu:Domain ;
 	accu:hasDesciptiveImage apag:jeremia ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "0" ;
-	accu:topics () .
+	accu:subDomains () .
 
 apag:jeremia a dctypes:StillImage ;
 	accu:hasFilePath "img/background/bible.jpg" ;

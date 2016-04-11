@@ -20,7 +20,7 @@ afas:domain a accu:Domain ;
 	accu:hasDescriptiveImage afas:dress ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2" ;
-	accu:topics (
+	accu:subDomains (
 		afas:jewelry
 		afas:shoes
 		# afas:fans
@@ -30,14 +30,14 @@ afas:domain a accu:Domain ;
 
 <http://iconclass.org/> a skos:ConceptScheme .
 
-afas:jewelry a accu:Topic ;
+afas:jewelry a accu:Domain ;
 	rdfs:label "jewelry" ;
 	accu:hasDescriptiveImage afas:dress ;
 	accu:hasAnnotationUI aafas:fashionUI .
 
 
-afas:shoes
-	rdfs:label "jewelry" ;
+afas:shoes a accu:Domain ;
+	rdfs:label "shoes" ;
 	accu:hasDescriptiveImage afas:dress ;
 	accu:hasAnnotationUI aafas:fashionUI .
 

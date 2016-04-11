@@ -20,7 +20,7 @@ abir:domain a accu:Domain ;
 	accu:hasDescriptiveImage abir:bird ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2" ;
-	accu:topics () .
+	accu:subDomains () .
 
 <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
 

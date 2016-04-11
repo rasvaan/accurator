@@ -1,5 +1,4 @@
-:- module(domain, [get_domain_settings/2,
-				   get_topic_settings/2]).
+:- module(domain, [get_domain_settings/2]).
 
 /** <module> Domain
 */
@@ -42,8 +41,8 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 	rdf(DomainUri, accu:hasDescriptiveImage, Image),
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
 	rdf(Image, accu:brightness, literal(Brightness)),
-	rdf_has(DomainUri, accu:topics, RdfList), !,
-	rdfs_list_to_prolog_list(RdfList, Topics),
+	rdf_has(DomainUri, accu:subDomains, RdfList), !,
+	rdfs_list_to_prolog_list(RdfList, Domains),
 	Dic = domain{domain:Domain,
 				 target:Target,
 				 taxonomy:Taxonomy,
@@ -54,20 +53,4 @@ get_domain_dic(DomainUri, Domain, Dic) :-
 				 annotation_ui:AnnotationUI,
 				 image:ImagePath,
 				 image_brightness:Brightness,
-				 topics:Topics}.
-
-
-%%	get_topic_settings(-Dic, +Options)
-%
-%	If no topic is provided, return available topics for . If domain is
-%	the given option and it exists, get dict with values,
-%	otherwise return dic with the generic settings
-get_topic_settings(Dic, Options) :-
-	option(domain(Domain), Options),
-	var(Domain), !,
-	rdf(DomainUri, rdf:type, accu:'Domain'),
-	rdf(DomainUri, rdfs:label, literal(Domain)),
-	findall(Topic,
-			rdf(DomainUri, accu:topics, Topic),
-			Topics),
-	Dic = Topics.
+				 sub_domains:Domains}.

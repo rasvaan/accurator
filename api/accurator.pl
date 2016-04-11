@@ -50,7 +50,6 @@ user:file_search_path(fonts, web(fonts)).
 :- http_handler(cliopatria('item.html'), page_item, []).
 :- http_handler(cliopatria(ui_elements), ui_elements_api, []).
 :- http_handler(cliopatria(domains), domains_api, []).
-:- http_handler(cliopatria(topics), topics_api, []).
 :- http_handler(cliopatria(metadata), metadata_api, []).
 :- http_handler(cliopatria(annotation_fields), annotation_fields_api, []).
 :- http_handler(cliopatria(annotations), annotations_api, []).
@@ -131,28 +130,6 @@ get_parameters_domain(Request, Options) :-
 		    [description('The domain'),
 			 optional(true)])]),
     Options = [domain(Domain)].
-
-%%     topics_api(+Request)
-%
-%	Retrieves the settings specific to a topic.
-topics_api(Request) :-
-    get_parameters_topic(Request, Options),
-	get_topic_settings(Dic, Options),
-	reply_json_dict(Dic).
-
-%%	get_parameters_topic(+Request, -Options)
-%
-%	Retrieves an option list of parameters from the url.
-get_parameters_topic(Request, Options) :-
-    http_parameters(Request,
-        [topic(Topic,
-		    [description('The topic'),
-			 optional(true)]),
-		domain(Domain,
-		    [description('The domain'),
-			 optional(true)])]),
-    Options = [topic(Topic), domain(Domain)].
-
 
 %%	metadata_api(+Request)
 %
