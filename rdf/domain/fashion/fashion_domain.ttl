@@ -11,7 +11,7 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 afas:domain a accu:Domain ;
-	rdfs:label "fashion";
+	rdfs:label "fashion" ;
 	dcterms:requires <http://iconclass.org/iconclass.20121019.structure.ttl.gz> ;
 	accu:hasTarget <http://accurator.nl/fashion#Target> ;
 	skos:hasTopConcept ic:41D ;
@@ -19,9 +19,27 @@ afas:domain a accu:Domain ;
 	accu:hasAnnotationUI aafas:fashionUI ;
 	accu:hasDescriptiveImage afas:dress ;
 	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "2" .
+	accu:hasMaximumChildren "2" ;
+	accu:topics (
+		afas:jewelry
+		afas:shoes
+		# afas:fans
+		# afas:accessories
+		# afas:uniforms
+	) .
 
 <http://iconclass.org/> a skos:ConceptScheme .
+
+afas:jewelry a accu:Topic ;
+	rdfs:label "jewelry" ;
+	accu:hasDescriptiveImage afas:dress ;
+	accu:hasAnnotationUI aafas:fashionUI .
+
+
+afas:shoes
+	rdfs:label "jewelry" ;
+	accu:hasDescriptiveImage afas:dress ;
+	accu:hasAnnotationUI aafas:fashionUI .
 
 afas:dress a dctypes:StillImage ;
 	accu:hasFilePath "img/background/dress.jpg" ;
