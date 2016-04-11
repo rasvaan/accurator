@@ -65,6 +65,8 @@ user:file_search_path(fonts, web(fonts)).
 :- set_setting_default(thumbnail:thumbnail_size, size(350,300)).
 :- set_setting_default(thumbnail:medium_size, size(1280,1024)).
 
+locale([en,nl]). % loaded locales
+
 %%	ui_elements_api(+Request)
 %
 %	Redirect to the intro page.
@@ -98,7 +100,18 @@ get_parameters_elements(Request, Options) :-
 			[description('Type of elements to retrieve'),
 			 optional(type)])
 	]),
-    Options = [ui(UI), locale(Locale), type(Type)].
+	check_locale(Locale, CheckedLocale),
+    Options = [ui(UI), locale(CheckedLocale), type(Type)].
+
+%%	check_locale(+Locale, -CheckedLocale)
+%
+%	Checks whether locale is part of the loaded locales, otherwise sets
+%	it to en.
+check_locale(Locale, Locale) :-
+	locale(LocaleList),
+	member(Locale, LocaleList), !.
+check_locale(_Locale, en).
+
 
 %%     domains_api(+Request)
 %
@@ -212,7 +225,8 @@ get_parameters_annotation_fields(Request, Options) :-
 		 domain(Domain,
 				[description('Domain of field descriptions to retrieve'),
 				 optional(false)])]),
-    Options = [annotation_ui(UI), locale(Locale), domain(Domain)].
+	check_locale(Locale, CheckedLocale),
+    Options = [annotation_ui(UI), locale(CheckedLocale), domain(Domain)].
 
 
 %%	expertise_topics_api(+Request)
@@ -252,7 +266,8 @@ get_parameters_expertise(Request, Options) :-
 			 default(3)])]),
     atom_number(NumberOfTopicsString, NumberOfTopics),
 	atom_number(NumberOfChildrenString, NumberOfChildren),
-	Options = [locale(Locale), target(Target), taxonomy(Taxonomy),
+	check_locale(Locale, CheckedLocale),
+	Options = [locale(CheckedLocale), target(Target), taxonomy(Taxonomy),
 			   topConcept(TopConcept), numberOfTopics(NumberOfTopics),
 			   numberOfChildren(NumberOfChildren)].
 
