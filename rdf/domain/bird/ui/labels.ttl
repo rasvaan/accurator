@@ -12,6 +12,11 @@ abirui:domain a auis:UI ;
 
 aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
 
+###### Bird Topic #####
+
+abirui:topic a auis:UI ;
+	rdfs:subClassOf aui:topic .
+
 ###### Bird Intro Screen #####
 
 abirui:intro a auis:UI ;

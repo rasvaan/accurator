@@ -7,10 +7,16 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 ###### Bible Domain #####
+
 abibui:domain a auis:UI;
 	aui:domainLabel "Bible domain"@en .
 
 aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
+
+###### Bible Topic #####
+
+abibui:topic a auis:UI ;
+	rdfs:subClassOf aui:topic .
 
 ###### Bible Intro Screen #####
 

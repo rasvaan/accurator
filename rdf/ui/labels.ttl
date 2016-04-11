@@ -53,6 +53,16 @@ aui:domain a auis:UI ;
 aui:domainPageTitle rdfs:subPropertyOf auis:uiLabel .
 aui:domainTxtTitle rdfs:subPropertyOf auis:uiLabel .
 
+##### Topic Screen #####
+
+aui:topic a auis:UI ;
+	dcterms:title "Accurator topic UI"@en ;
+	aui:topicPageTitle "Select the topic"@en ;
+	aui:topicTxtTitle "Choose the topic of the artworks you want to tag."@en .
+
+aui:topicPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:topicTxtTitle rdfs:subPropertyOf auis:uiLabel .
+
 ##### Item Screen #####
 
 aui:item a auis:UI ;

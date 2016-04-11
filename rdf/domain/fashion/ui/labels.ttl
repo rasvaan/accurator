@@ -7,10 +7,16 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 ###### Fashion Domain #####
+
 afasui:domain a auis:UI ;
 	aui:domainLabel "Fashion domain"@en .
 
 aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
+
+###### Fashion Topic Screen #####
+
+afasui:topic a auis:UI ;
+	rdfs:subClassOf aui:topic .
 
 ###### Fashion Intro Screen #####
 
