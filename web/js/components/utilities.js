@@ -115,7 +115,7 @@ Locale and language flags
 Functionallity to adapt to the desired locale.
 *******************************************************************************/
 function getLabels(locale, ui) {
-	// Retrieve labels from server according to locale and ui
+	// retrieve labels from server according to locale and ui
 	return $.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"});
 }
 
@@ -128,10 +128,11 @@ function getLocale() {
 		setLocale(paramLocale);
 	}
 	// if there is no locale in local storage, set according to browser language
-	if(localStorage.getItem("locale") === null ||
-	   localStorage.getItem("locale") === ""){
+	if (localStorage.getItem("locale") === null ||
+	   localStorage.getItem("locale") === "") {
 		setLocaleToBrowserLanguage();
 	}
+
 	return localStorage.getItem("locale");
 }
 
@@ -140,22 +141,21 @@ function setLocaleToBrowserLanguage() {
 	var language = window.navigator.userLanguage || window.navigator.language;
 	var languageCode = language.substr(0,2);
 
-	// Save locale to localStorage and user.db
+	// save locale to localStorage and user.db
 	localStorage.setItem("locale", languageCode);
 	save_user_info({"locale":languageCode});
 }
 
 function setLocale(languageCode) {
 	var deferred = jQuery.Deferred();
+	localStorage.setItem("locale", languageCode);
 
-	// Action should depend on whether user is logged in
+	// action should depend on whether user is logged in
 	userLoggedIn()
 	.then(function() {
-		localStorage.setItem("locale", languageCode);
 		save_user_info({"locale":languageCode});
 		deferred.resolve();
 	}, function() {
-		localStorage.setItem("locale", languageCode);
 		deferred.resolve();
 	});
 
