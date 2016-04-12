@@ -13,13 +13,10 @@
 get_domain_settings(Dic, Options) :-
 	option(domain(Domain), Options),
 	var(Domain), !,
-	findall(Domain,
-			(	rdf(DomainUri, rdf:type, accu:'Domain'),
-				rdf(DomainUri, rdfs:label, literal(Domain)), %TODO FIX THIS SO THAT ONLY ROOT
-				rdf(SuperDomain, accu:subDomains, DomainUri),
-				var(SuperDomain)
-			),
-			Domains),
+	findall(DomainUri,
+			rdf(DomainUri, rdf:type, accu:'Domain'),
+			DomainUris),
+	get_root_domains(DomainUris, Domains),
 	Dic = Domains.
 
 get_domain_settings(Dic, Options) :-
@@ -29,6 +26,15 @@ get_domain_settings(Dic, Options) :-
 	get_domain_dic(DomainUri, Domain, Dic).
 get_domain_settings(Dic, _Options) :-
 	get_domain_dic('http://accurator.nl/generic#domain', 'generic', Dic).
+
+get_root_domains([], []) :- !.
+get_root_domains([Domain | DomainUris], Filtered) :-
+	% skip domain if it has superdomain
+	rdf(_SuperDomain, accu:subDomains, Domain), !,
+	get_root_domains(DomainUris, Filtered).
+get_root_domains([Domain | DomainUris],  [DomainLabel | Filtered]) :- !,
+	rdf(Domain, rdfs:label, literal(DomainLabel)),
+	get_root_domains(DomainUris, Filtered).
 
 %%	get_domain_dic(+DomainUri, +Domain, -Dic)
 %
