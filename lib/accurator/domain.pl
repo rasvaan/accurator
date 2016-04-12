@@ -5,9 +5,6 @@
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdfs)).
 
-:- rdf_meta
-	rdf_value(r, -, -).
-
 %%	get_domain_settings(-Dic, +Options)
 %
 %	If no domain is provided, return available domains. If domain is
@@ -18,7 +15,10 @@ get_domain_settings(Dic, Options) :-
 	var(Domain), !,
 	findall(Domain,
 			(	rdf(DomainUri, rdf:type, accu:'Domain'),
-				rdf(DomainUri, rdfs:label, literal(Domain))),
+				rdf(DomainUri, rdfs:label, literal(Domain)), %TODO FIX THIS SO THAT ONLY ROOT
+				rdf(SuperDomain, accu:subDomains, DomainUri),
+				var(SuperDomain)
+			),
 			Domains),
 	Dic = Domains.
 

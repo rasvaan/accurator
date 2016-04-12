@@ -35,7 +35,7 @@ function profileInit() {
 
 		domainSettings(domain)
 		.then(function(domainData) {
-			return getLabels(locale, domainData.ui + "profile");
+			return getLabels(locale, domainData.hasUI + "profile");
 		})
 		.then(function(labelData) {
 			addButtonEvents(user);
@@ -131,7 +131,7 @@ function initDomains(locale, domain, labels) {
 
 function addDomainTitle(domainData, locale, labels) {
 	// add the title of the current domain to the profile page
-	getLabels(locale, domainData.ui + "domain")
+	getLabels(locale, domainData.hasUI + "domain")
 	.then(function(data){
 		$("#profileTxtDomain").append(
 			labels.profileTxtDomain,
@@ -142,7 +142,7 @@ function addDomainTitle(domainData, locale, labels) {
 
 function domainHtml(domainData, locale) {
 	// add the different domains to a dropdown list
-	getLabels(locale, domainData.ui + "domain")
+	getLabels(locale, domainData.hasUI + "domain")
 	.then(function(data) {
 		$("#profileLstDomainItems").append(
 			$.el.li(

@@ -66,7 +66,7 @@ function topicHtml(topicData, row, locale) {
 	console.log("Adding topic for ", topicData);
 // var domain = domainData.domain;
 //
-// 	getLabels(locale, domainData.ui + "domain")
+// 	getLabels(locale, domainData.hasUI + "domain")
 // 	.then(function(labels) {
 // 		$("#domain" + row).append(
 // 			$.el.div({'class':'noPadding col-md-6'},
@@ -75,9 +75,9 @@ function topicHtml(topicData, row, locale) {
 // 						 labels.domainLabel),
 // 				$.el.img({'class':'domainImg',
 // 						  'id':'domainImg' + domain,
-// 						  'src':domainData.image})));
+// 						  'src':domainData.hasDescriptiveImage})));
 //
-// 		if(domainData.image_brightness === "dark")
+// 		if(domainData.imageBrightness === "dark")
 // 			$("#domainTxt" + domainData.domain).css('color', '#fff');
 //
 // 		addDomainEvent(domain);

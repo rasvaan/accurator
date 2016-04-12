@@ -64,8 +64,8 @@ function resultsInit() {
 
 		domainSettings(domain)
 		.then(function(domainData) {
-			ui = domainData.ui + "results";
-			target = domainData.target;
+			ui = domainData.hasUI + "results";
+			target = domainData.hasTarget;
 
 			return getLabels(locale, ui);
 		})

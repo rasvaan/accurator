@@ -215,7 +215,7 @@ Functionallity making the ui adapt
 *******************************************************************************/
 function getUI(domainSettings, page) {
 	if(typeof domainSettings != 'undefined') {
-		return domainSettings.ui + page
+		return domainSettings.hasUI + page
 	} else {
 		return "http://accurator.nl/ui/generic#" + page;
 	}
