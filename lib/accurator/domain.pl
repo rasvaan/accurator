@@ -40,25 +40,41 @@ get_root_domains([Domain | DomainUris],  [DomainLabel | Filtered]) :- !,
 %
 %	Create a dictionary filled with information about the domain.
 get_domain_dic(DomainUri, Domain, Dic) :-
-	findall(Property-Value,
-			rdf_value(DomainUri, Property, Value),
-			PropertyPairs),
+	setof(Property, Value^rdf(DomainUri, Property, Value), Properties),
+	get_values(DomainUri, Properties, PropertyPairs),
 	domain_image(DomainUri, ImagePairs),
-	sub_domains(DomainUri, SubDomains),
-	append([[domain-Domain], PropertyPairs, ImagePairs, [subDomain-SubDomains]], Pairs),
+	append([[domain-Domain], PropertyPairs, ImagePairs], Pairs),
 	dict_pairs(Dic, elements, Pairs).
+
+%%	get_values(+DomainUri, +Properties, -Pairs)
+%
+%	Generate a list of pairs. The value of the pair is either a list or
+%	an atom. The PropertyLabel is abstracted from the property.
+get_values(_DomainUri, [], []) :- !.
+get_values(DomainUri, [Property|Properties], [PropertyLabel-Values|Pairs]) :-
+	findall(Value,
+			rdf_value(DomainUri, Property, _Label, Value),
+			Values),
+	length(Values, Length),
+	Length > 1, !,
+	iri_xml_namespace(Property, _, PropertyLabel),
+	get_values(DomainUri, Properties, Pairs).
+get_values(DomainUri, [Property|Properties], [PropertyLabel-Value|Pairs]) :-
+	rdf_value(DomainUri, Property, PropertyLabel, Value),
+	get_values(DomainUri, Properties, Pairs).
+
 
 %%	rdf_value(+Uri, -Property, Value)
 %
 %	Get the label of an RDF property and either the literal or the
 %	resource value.
-rdf_value(DomainUri, Property, Value) :-
+rdf_value(DomainUri, PropertyUri, PropertyLabel, Value) :-
 	rdf(DomainUri, PropertyUri, literal(Value)),
-	iri_xml_namespace(PropertyUri, _, Property).
-rdf_value(DomainUri, Property, Value) :-
+	iri_xml_namespace(PropertyUri, _, PropertyLabel).
+rdf_value(DomainUri, PropertyUri, PropertyLabel, Value) :-
 	rdf(DomainUri, PropertyUri, Value),
 	rdf_resource(Value),
-	iri_xml_namespace(PropertyUri, _, Property).
+	iri_xml_namespace(PropertyUri, _, PropertyLabel).
 
 %%	domain_image(+DomainUri, -ImageList)
 %
@@ -68,11 +84,3 @@ domain_image(DomainUri, [image-ImagePath, imageBrightness-Brightness]) :-
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
 	rdf(Image, accu:brightness, literal(Brightness)).
 domain_image(_DomainUri, []).
-
-%%	sub_domains(+DomainUri, -SubdomainList)
-%
-%	Return a list of sub domains
-sub_domains(DomainUri, SubDomains) :-
-	rdf_has(DomainUri, accu:subDomains, RdfList), !,
-	rdfs_list_to_prolog_list(RdfList, SubDomains).
-sub_domains(_DomainUri, []).
