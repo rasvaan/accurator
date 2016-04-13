@@ -66,7 +66,15 @@ function populateDomains(locale, domainLabels) {
 		// define function to keep stable track of row
 		var addDomain = function (row, locale) {
 			return function(domainData) {
-				domainHtml(domainData, row, locale);
+				console.log(domainData);
+				var domain = new Domain (
+					domainData.domain,
+					"title", // should retrieve using labels
+					domainData.image,
+					domainData.imageBrightness
+				);
+
+				$("#domainDiv" + row).append(domain.node);
 			}
 		}
 
@@ -80,14 +88,7 @@ function domainHtml(domainData, row, locale) {
 
 	getLabels(locale, domainData.hasUI + "domain")
 	.then(function(labels) {
-		$("#domainDiv" + row).append(
-			$.el.div({'class':'noPadding col-md-6'},
-				$.el.h3({'class':'domainHdr',
-						 'id':'domainTxt' + domain},
-						 labels.domainLabel),
-				$.el.img({'class':'domainImg',
-						  'id':'domainImg' + domain,
-						  'src':domainData.image})));
+		$("#domainDiv" + row).append();
 
 		if(domainData.imageBrightness === "dark")
 			$("#domainTxt" + domainData.domain).css('color', '#fff');
