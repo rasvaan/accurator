@@ -67,7 +67,6 @@ function populateDomains(locale, domainLabels) {
 		var addDomain = function (row, locale) {
 			return function(domainData) {
 				domainHtml(domainData, row, locale);
-				// console.log("arguments", arguments, "row", row, "locale", locale);
 			}
 		}
 

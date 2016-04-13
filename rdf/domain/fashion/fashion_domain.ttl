@@ -14,14 +14,11 @@ afas:domain a accu:Domain ;
 	rdfs:label "fashion" ;
 	dcterms:requires <http://iconclass.org/iconclass.20121019.structure.ttl.gz> ;
 	accu:hasTarget <http://accurator.nl/fashion#Target> ;
-	skos:hasTopConcept ic:41D ;
 	accu:hasUI afasui: ;
 	accu:hasAnnotationUI aafas:fashionUI ;
 	accu:hasDescriptiveImage afas:dress ;
-	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "2" ;
 	accu:subDomains afas:jewelry ,
-		afas:shoes .
+					afas:shoes .
 		# afas:fans ,
 		# afas:accessories ,
 		# afas:uniforms .

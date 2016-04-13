@@ -3,7 +3,6 @@
 /** <module> Domain
 */
 :- use_module(library(semweb/rdf_db)).
-:- use_module(library(semweb/rdfs)).
 
 %%	get_domain_settings(-Dic, +Options)
 %
@@ -18,7 +17,6 @@ get_domain_settings(Dic, Options) :-
 			DomainUris),
 	get_root_domains(DomainUris, Domains),
 	Dic = Domains.
-
 get_domain_settings(Dic, Options) :-
 	option(domain(Domain), Options),
 	rdf(DomainUri, rdf:type, accu:'Domain'),
@@ -27,12 +25,15 @@ get_domain_settings(Dic, Options) :-
 get_domain_settings(Dic, _Options) :-
 	get_domain_dic('http://accurator.nl/generic#domain', 'generic', Dic).
 
+%%	get_root_domains(+Domain, -RootDomains)
+%
+%	Return a list of domains that do not have a super domain.
 get_root_domains([], []) :- !.
 get_root_domains([Domain | DomainUris], Filtered) :-
 	% skip domain if it has superdomain
 	rdf(_SuperDomain, accu:subDomains, Domain), !,
 	get_root_domains(DomainUris, Filtered).
-get_root_domains([Domain | DomainUris],  [DomainLabel | Filtered]) :- !,
+get_root_domains([Domain | DomainUris],  [DomainLabel | Filtered]) :-
 	rdf(Domain, rdfs:label, literal(DomainLabel)),
 	get_root_domains(DomainUris, Filtered).
 
