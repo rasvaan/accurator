@@ -49,23 +49,30 @@ function domainInit() {
 function populateDomains(locale, domainLabels) {
 	var row;
 
+	// remove generic from the domains (does not work on ie 7 and 8..)
+	domainLabels.splice(domainLabels.indexOf("generic"), 1);
+
 	// get domain settings for all the domains
-	for(var i = 0; i < domainLabels.length; i++) {
-		if(!(i%2 === 0)) {
-			row = parseInt((i/2) + 0.5);
-			// Add a new row for every two domains
+	for (var i = 0; i < domainLabels.length; i++) {
+		// add a new row for every two domains
+		if (i%2 === 0) {
+			row = parseInt(i/2);
 			$(".domainDiv").append(
 				$.el.div({'class':'row',
-						  'id':'domain' + row}));
+						  'id':'domainDiv' + row})
+			);
 		}
 
-		// add domain specific html to rows
-		$.getJSON("domains", {domain:domainLabels[i]})
-		.then(function(domainData) {
-			if(!(domainData.domain === "generic")) {
+		// define function to keep stable track of row
+		var addDomain = function (row, locale) {
+			return function(domainData) {
 				domainHtml(domainData, row, locale);
+				// console.log("arguments", arguments, "row", row, "locale", locale);
 			}
-		});
+		}
+
+		$.getJSON("domains", {domain:domainLabels[i]})
+		.then(addDomain(row, locale));
 	}
 }
 
@@ -74,14 +81,14 @@ function domainHtml(domainData, row, locale) {
 
 	getLabels(locale, domainData.hasUI + "domain")
 	.then(function(labels) {
-		$("#domain" + row).append(
+		$("#domainDiv" + row).append(
 			$.el.div({'class':'noPadding col-md-6'},
 				$.el.h3({'class':'domainHdr',
 						 'id':'domainTxt' + domain},
 						 labels.domainLabel),
 				$.el.img({'class':'domainImg',
 						  'id':'domainImg' + domain,
-						  'src':domainData.hasDescriptiveImage})));
+						  'src':domainData.image})));
 
 		if(domainData.imageBrightness === "dark")
 			$("#domainTxt" + domainData.domain).css('color', '#fff');
