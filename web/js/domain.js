@@ -63,31 +63,44 @@ function populateDomains(locale, domainLabels) {
 			);
 		}
 
-		// define function to keep stable track of row
-		var addDomain = function (row, locale) {
-			return function(domainData) {
-				getLabels(locale, domainData.hasUI + "domain")
-				.then(function(labels) {
-					var subDomains;
-
-					domainData.subDomains ?
-						subDomains = domainData.subDomains
-						: subDomains = [];
-
-					var domain = new Domain (
-						domainData.domain,
-						labels.domainLabel,
-						domainData.image,
-						domainData.imageBrightness,
-						subDomains
-					);
-
-					$("#domainDiv" + row).append(domain.node);
-				});
-			}
-		}
-
 		$.getJSON("domains", {domain:domainLabels[i]})
 		.then(addDomain(row, locale));
+	}
+}
+
+function addDomain(row, locale) {
+	return function(domainData) {
+		return getLabels(locale, domainData.hasUI + "domain")
+		.then(function(labels) {
+			var topics = null;
+			var subDomains;
+
+			// see if there are subdomains
+			domainData.subDomains ?
+				subDomains = domainData.subDomains
+				: subDomains = [];
+
+			// see if there is info about expertise topics
+			if (domainData.requires) {
+				topics = new ExpertiseTopics (
+					domainData.requires,
+					domainData.hasTopConcept,
+					domainData.hasMaximumExpertiseTopics,
+					domainData.hasMaximumChildren
+				);
+			}
+
+			// domainData
+			var domain = new Domain (
+				domainData.domain,
+				labels.domainLabel,
+				domainData.image,
+				domainData.imageBrightness,
+				subDomains,
+				topics
+			);
+
+			$("#domainDiv" + row).append(domain.node);
+		});
 	}
 }

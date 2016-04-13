@@ -12,7 +12,6 @@
 
 afas:domain a accu:Domain ;
 	rdfs:label "fashion" ;
-	dcterms:requires <http://iconclass.org/iconclass.20121019.structure.ttl.gz> ;
 	accu:hasTarget <http://accurator.nl/fashion#Target> ;
 	accu:hasUI afasui: ;
 	accu:hasAnnotationUI aafas:fashionUI ;
