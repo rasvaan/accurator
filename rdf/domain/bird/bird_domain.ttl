@@ -17,10 +17,9 @@ abir:domain a accu:Domain ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
 	accu:hasAnnotationUI aabir:smallBirdAnnotationUi ;
-	accu:hasDescriptiveImage abir:bird ;
+	accu:hasDescriptiveImage abir:hondecoeterImage ;
 	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "2" ;
-	accu:subDomains () .
+	accu:hasMaximumChildren "2"  .
 
 <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
 
@@ -56,4 +55,4 @@ abir:songbirdImage a dctypes:StillImage ;
 
 abir:hondecoeterImage a dctypes:StillImage ;
 	accu:hasFilePath "img/background/hondecoeter.jpg" ;
-	accu:brightness "light" .
+	accu:brightness "dark" .
