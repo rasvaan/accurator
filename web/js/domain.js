@@ -66,48 +66,28 @@ function populateDomains(locale, domainLabels) {
 		// define function to keep stable track of row
 		var addDomain = function (row, locale) {
 			return function(domainData) {
-				console.log(domainData);
-				var domain = new Domain (
-					domainData.domain,
-					"title", // should retrieve using labels
-					domainData.image,
-					domainData.imageBrightness
-				);
+				getLabels(locale, domainData.hasUI + "domain")
+				.then(function(labels) {
+					var subDomains;
 
-				$("#domainDiv" + row).append(domain.node);
+					domainData.subDomains ?
+						subDomains = domainData.subDomains
+						: subDomains = [];
+
+					var domain = new Domain (
+						domainData.domain,
+						labels.domainLabel,
+						domainData.image,
+						domainData.imageBrightness,
+						subDomains
+					);
+
+					$("#domainDiv" + row).append(domain.node);
+				});
 			}
 		}
 
 		$.getJSON("domains", {domain:domainLabels[i]})
 		.then(addDomain(row, locale));
 	}
-}
-
-function domainHtml(domainData, row, locale) {
-	var domain = domainData.domain;
-
-	getLabels(locale, domainData.hasUI + "domain")
-	.then(function(labels) {
-		$("#domainDiv" + row).append();
-
-		if(domainData.imageBrightness === "dark")
-			$("#domainTxt" + domainData.domain).css('color', '#fff');
-
-		addDomainEvent(domain);
-	});
-}
-
-function addDomainEvent(domain) {
-	$("#domainImg" + domain).click(function() {
-		setDomain(domain)
-		.then(function() {
-			document.location.href = "results.html";
-		});
-	});
-	$("#domainTxt" + domain).click(function() {
-		setDomain(domain)
-		.then(function() {
-			document.location.href = "results.html";
-		});
-	});
 }

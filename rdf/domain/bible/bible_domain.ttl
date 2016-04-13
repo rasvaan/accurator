@@ -19,8 +19,7 @@ abib:domain a accu:Domain ;
 	accu:hasAnnotationUI aabib:smallBibleUI ;
 	accu:hasDescriptiveImage abib:jeremia ;
 	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "0" ;
-	accu:subDomains () .
+	accu:hasMaximumChildren "0" .
 
 <http://iconclass.org/> a skos:ConceptScheme .
 

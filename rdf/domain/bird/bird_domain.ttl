@@ -17,7 +17,7 @@ abir:domain a accu:Domain ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
 	accu:hasAnnotationUI aabir:smallBirdAnnotationUi ;
-	accu:hasDescriptiveImage abir:hondecoeterImage ;
+	accu:hasDescriptiveImage abir:bird ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2"  .
 
