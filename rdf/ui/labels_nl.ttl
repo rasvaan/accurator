@@ -38,6 +38,8 @@ aui:item a auis:UI ;
 	aui:title "Voeg informatie toe aan object"@nl ;
 	aui:itemBtnPrevious "Vorige"@nl ;
 	aui:itemBtnNext "Volgende"@nl ;
+	aui:annoBtnDone "Klaar"@nl ;
+	aui:annoBtnCancel "Annuleren"@nl ;
 	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
 	aui:navbarBtnSearch "Zoek"@nl ;
 	aui:itemHdrFirst "De eerste keer informatie toevoegen!"@nl ;

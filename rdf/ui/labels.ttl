@@ -60,6 +60,8 @@ aui:item a auis:UI ;
 	aui:title "Tag image"@en ;
 	aui:itemBtnPrevious "Previous"@en ;
 	aui:itemBtnNext "Next"@en ;
+	aui:annoBtnDone "Done"@en ;
+	aui:annoBtnCancel "Cancel"@en ;
 	aui:navbarBtnRecommend "Recommended works"@en ;
 	aui:navbarBtnSearch "Search"@en ;
 	aui:itemHdrFirst "Your first tag!"@en ;
@@ -68,6 +70,8 @@ aui:item a auis:UI ;
 aui:title rdfs:subPropertyOf auis:uiLabel .
 aui:itemBtnPrevious rdfs:subPropertyOf auis:uiLabel .
 aui:itemBtnNext rdfs:subPropertyOf auis:uiLabel .
+aui:annoBtnDone rdfs:subPropertyOf auis:uiLabel .
+aui:annoBtnCancel rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnRecommend rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
 aui:itemHdrFirst rdfs:subPropertyOf auis:uiLabel .

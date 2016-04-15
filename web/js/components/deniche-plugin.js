@@ -34,8 +34,8 @@
  *
  * */
 
-annotorious.plugin.DenichePlugin = function() {
-    /** @public **/
+annotorious.plugin.DenichePlugin = function(labels) {
+	/** @public **/
 	this.currentShape = null; // Should be accessible by cpack objects
 
 	/** @private **/
@@ -43,6 +43,7 @@ annotorious.plugin.DenichePlugin = function() {
 	this._dirtytag = null; // tag annotorious doesn't know yet
 	this._saveButtons = {}; // we have multiple buttons if we have multiple images per page
 	this._cancelButtons = {};
+	this._labels = labels; // labels for buttons
 }
 
 annotorious.plugin.DenichePlugin.states = {EMPTY:'empty', SOME:'some'};
@@ -137,7 +138,7 @@ annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation,
 	} else {
 		annotation.compound_text = [ annotation.text ];
 	}
-	
+
 	if (update) {
 		this._cleantags[annotation.targetId] = annotation;
 		this._anno.addAnnotation(annotation, old);
@@ -176,11 +177,13 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 		// get the annotorious save and cancel button so we can manipulate them:
 		var node = oSelf.annotator.element;
 
+		// store buttons, change labels and change styling
 		oSelf._saveButtons[annotation.fieldsId] = $(".annotorious-editor-button-save").get(0);
+		oSelf._saveButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnDone;
 		oSelf._cancelButtons[annotation.fieldsId] = $(".annotorious-editor-button-cancel").get(0);
-		oSelf._saveButtons[annotation.fieldsId].innerHTML = "Done";
+		oSelf._cancelButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnCancel;
 
-		// Set focus on first field (exlude hint input field introduced by twitter typeahead)
+		// set focus on first field (exlude hint input field introduced by twitter typeahead)
 		$(".annotorious-editor input").not(".tt-hint")[0].focus();
 
 		oSelf._dirtytag = null;

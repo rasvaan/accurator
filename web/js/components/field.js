@@ -177,7 +177,7 @@ Field.prototype.addDropdownListeners = function() {
 		);
 	});
 
-	// Action upon pressing enter
+	// action upon pressing enter
 	inputField.on('keyup', function(event) {
 		// Check to see if typeahead cleared the field (so autocomplete was used)
 		if (inputField.val() && event.which == 13) {
@@ -195,7 +195,7 @@ Field.prototype.addDropdownListeners = function() {
 		}
 	});
 
-	// Action on pressing esc
+	// action on pressing esc
 	inputField.on('keyup', function(event) {
 		if (_field.fragmentField && event.which == 27) {
 			_field._anno._deniche.onFragmentCancel(event);

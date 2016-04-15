@@ -51,7 +51,7 @@ function itemInit() {
 	});
 
 	function drawPage(userData) {
-		var ui, annotation_ui;
+		var ui, annotation_ui, labels;
 		var user = userData.user;
 		var userName = getUserName(userData.user);
 
@@ -65,7 +65,7 @@ function itemInit() {
 			return getLabels(locale, ui);
 		})
 		.then(function(labelData){
-			var labels = initLabels(labelData);
+			labels = initLabels(labelData);
 
 			// only show path and navigation when cluster is available
 			if ((localStorage.getItem("uris") !== null) &&
@@ -82,7 +82,7 @@ function itemInit() {
 		.then(function(metadata) {
 			displayMetadata(uri);
 			displayAnnotations(uri);
-			return addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui);
+			return addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui, labels);
 		});
 	}
 }
@@ -107,7 +107,9 @@ function initLabels(labelData) {
 
 	var labels = {
 		itemHdrFirst: labelData.itemHdrFirst,
-		itemTxtFirst: labelData.itemTxtFirst
+		itemTxtFirst: labelData.itemTxtFirst,
+		annoBtnCancel: labelData.annoBtnCancel,
+		annoBtnDone: labelData.annoBtnDone
 	};
 
 	return labels;
@@ -199,7 +201,7 @@ function addNavigationButtonEvents(uris, uri) {
 	}
 }
 
-function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui) {
+function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui, labels) {
 	// Retrieve the fields that should be added (based on save_user_info)
 	return $.getJSON("annotation_fields", {
 		locale:locale,
@@ -256,7 +258,7 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 			$("#" + fragmentField.fieldsId).append(fragmentField.node);
 		}
 		// add the deniche plugin, which embeds the fields in annotorious
-		anno.addPlugin("DenichePlugin", {});
+		anno.addPlugin("DenichePlugin", labels);
 	});
 }
 

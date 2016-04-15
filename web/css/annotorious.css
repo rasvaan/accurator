@@ -203,13 +203,13 @@
   padding-top:2px;
 }
 
-.annotorious-editor-button {
+/*.annotorious-editor-button {
   float:right;
   line-height: normal;
   display:inline-block;
   text-align:center;
   text-decoration:none;
-  /*font-family:Verdana, Arial;*/
+  font-family:Verdana, Arial;
   font-size:10px;
   border:1px solid #777;
   color:#ddd;
@@ -229,6 +229,7 @@
 .annotorious-editor-button:hover {
   background:#999;
 }
+*/
 
 .annotorious-editor-field {
   border-bottom:1px solid #ccc;
