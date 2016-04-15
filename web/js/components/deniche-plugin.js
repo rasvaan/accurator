@@ -180,8 +180,10 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 		// store buttons, change labels and change styling
 		oSelf._saveButtons[annotation.fieldsId] = $(".annotorious-editor-button-save").get(0);
 		oSelf._saveButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnDone;
+		oSelf._saveButtons[annotation.fieldsId].className += " btn btn-primary btn-sm";
 		oSelf._cancelButtons[annotation.fieldsId] = $(".annotorious-editor-button-cancel").get(0);
 		oSelf._cancelButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnCancel;
+		oSelf._cancelButtons[annotation.fieldsId].className += " btn btn-default btn-sm";
 
 		// set focus on first field (exlude hint input field introduced by twitter typeahead)
 		$(".annotorious-editor input").not(".tt-hint")[0].focus();
