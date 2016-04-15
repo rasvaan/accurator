@@ -207,10 +207,9 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 		annotation_ui:annotation_ui
 	})
 	.then(function(fields) {
-		// console.log(fields);
-		// Add fields whole image
+		// add fields whole image
 		for (var i = 0; i < fields.whole_fields.length; i++) {
-			// Create new field object
+			// create new field object
 			var wholeField = new Field(
 				fields.whole_fields[i],
 				{	id: "whole" + generateIdFromUri(fields.whole_fields[i].uri),
@@ -223,19 +222,24 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 					fieldsId: page.wholeFieldsId
 			 	}
 			);
+
+			// add the field to div
 			$("#" + wholeField.fieldsId).append(wholeField.node);
+
+			// show existing annotations
+			if (wholeField.showAnnotations) wholeField.getAnnotations();
 		}
 
-		// Add hidden container for fields if there are fragment fields
+		// add hidden container for fields if there are fragment fields
 		if (fields.fragment_fields.length > 0) {
 			$(".itemDivHidden").append($.el.div({'id':page.fragmentFieldsId}));
-			// Set fields attribute image for annotorious deniche
+			// set fields attribute image for annotorious deniche
 			$("#" + page.imageId).attr("fields", page.fragmentFieldsId);
 		}
 
-		// Add fields to hidden dom elements for annotorious
+		// add fields to hidden dom elements for annotorious
 		for (var i = 0; i < fields.fragment_fields.length; i++) {
-			// Create new field object
+			// create new field object
 			var fragmentField = new Field(
 				fields.fragment_fields[i],
 				{	id: "fragment" + generateIdFromUri(fields.fragment_fields[i].uri),
@@ -248,10 +252,10 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui)
 					fieldsId: page.fragmentFieldsId
 			 	}
 			);
-			// Append the field to div which will be embedded in annotorious
+			// append the field to div which will be embedded in annotorious
 			$("#" + fragmentField.fieldsId).append(fragmentField.node);
 		}
-		// Add the deniche plugin, which embeds the fields in annotorious
+		// add the deniche plugin, which embeds the fields in annotorious
 		anno.addPlugin("DenichePlugin", {});
 	});
 }
