@@ -67,7 +67,7 @@ function itemInit() {
 		.then(function(labelData){
 			var labels = initLabels(labelData);
 
-			// Only show path when cluster is available
+			// only show path and navigation when cluster is available
 			if ((localStorage.getItem("uris") !== null) &&
 				(localStorage.getItem("uris") !== "undefined")) {
 				addNavigation(uri);
@@ -149,13 +149,17 @@ function events(user, locale, labels) {
 function addNavigation(uri) {
 	var uris =  JSON.parse(localStorage.getItem("uris"));
 	var pathArray =  JSON.parse(localStorage.getItem("path"));
-	var path = new Path(pathArray, "itemDivPath");
 
-	path.enrich()
-	.then(function() {
-		$("#itemDivPath").append(path.node);
-		addNavigationButtonEvents(uris, uri);
-	});
+	// show path if not random
+	if (!(pathArray == "random")) {
+		var path = new Path(pathArray, "itemDivPath");
+
+		path.enrich()
+		.then(function() {
+			$("#itemDivPath").append(path.node);
+		});
+	}
+	addNavigationButtonEvents(uris, uri);
 }
 
 function addButtonEvents(user) {
