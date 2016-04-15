@@ -41,60 +41,60 @@ function topicInit() {
 }
 
 function populateTopics(locale, domainSettings) {
-	var row;
-	console.log("got the following topics ", domainSettings.sub_domains);
+	// var row;
+	console.log("got the following topics ", domainSettings.subDomains);
 
-	// get topic settings for all the topics
-	for(var i = 0; i < domainSettings.sub_domains.length; i++) {
-		if(!(i%2 === 0)) {
-			row = parseInt((i/2) + 0.5);
-			// Add a new row for every two domains
-			$(".topicDiv").append(
-				$.el.div({'class':'row',
-						  'id':'topic' + row}));
-		}
+	// // get topic settings for all the topics
+	// for(var i = 0; i < domainSettings.sub_domains.length; i++) {
+	// 	if(!(i%2 === 0)) {
+	// 		row = parseInt((i/2) + 0.5);
+	// 		// Add a new row for every two domains
+	// 		$(".topicDiv").append(
+	// 			$.el.div({'class':'row',
+	// 					  'id':'topic' + row}));
+	// 	}
+	//
+	// 	// add domain specific html to rows
+	// 	$.getJSON("domains", {domain:domainSettings.sub_domains[i]})
+	// 	.then(function(topicData) {
+	// 		topicHtml(topicData, row, locale);
+	// 	});
+	// }
+}
 
-		// add domain specific html to rows
-		$.getJSON("domains", {domain:domainSettings.sub_domains[i]})
-		.then(function(topicData) {
-			topicHtml(topicData, row, locale);
+function addDomain(row, locale) {
+	return function(domainData) {
+		return getLabels(locale, domainData.hasUI + "domain")
+		.then(function(labels) {
+			var topics = null;
+			var subDomains;
+
+			// see if there are subdomains
+			domainData.subDomains ?
+				subDomains = domainData.subDomains
+				: subDomains = [];
+
+			// see if there is info about expertise topics
+			if (domainData.requires) {
+				topics = new ExpertiseTopics (
+					domainData.requires,
+					domainData.hasTopConcept,
+					domainData.hasMaximumExpertiseTopics,
+					domainData.hasMaximumChildren
+				);
+			}
+
+			// domainData
+			var domain = new Domain (
+				domainData.domain,
+				labels.domainLabel,
+				domainData.image,
+				domainData.imageBrightness,
+				subDomains,
+				topics
+			);
+
+			$("#domainDiv" + row).append(domain.node);
 		});
 	}
 }
-
-function topicHtml(topicData, row, locale) {
-	console.log("Adding topic for ", topicData);
-// var domain = domainData.domain;
-//
-// 	getLabels(locale, domainData.hasUI + "domain")
-// 	.then(function(labels) {
-// 		$("#domain" + row).append(
-// 			$.el.div({'class':'noPadding col-md-6'},
-// 				$.el.h3({'class':'domainHdr',
-// 						 'id':'domainTxt' + domain},
-// 						 labels.domainLabel),
-// 				$.el.img({'class':'domainImg',
-// 						  'id':'domainImg' + domain,
-// 						  'src':domainData.hasDescriptiveImage})));
-//
-// 		if(domainData.imageBrightness === "dark")
-// 			$("#domainTxt" + domainData.domain).css('color', '#fff');
-//
-// 		addDomainEvent(domain);
-// 	});
-}
-//
-// function addDomainEvent(domain) {
-// 	$("#domainImg" + domain).click(function() {
-// 		setDomain(domain)
-// 		.then(function() {
-// 			document.location.href = "results.html";
-// 		});
-// 	});
-// 	$("#domainTxt" + domain).click(function() {
-// 		setDomain(domain)
-// 		.then(function() {
-// 			document.location.href = "results.html";
-// 		});
-// 	});
-// }

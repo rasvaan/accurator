@@ -16,10 +16,7 @@ function domainInit() {
 	.then(function(userData) {
 		drawPage(userData);
 	}, function() {
-		// user is not logged in, show modal
-		var onDismissal = function() {
-			document.location.href = "intro.html";
-		};
+		var onDismissal = function() {document.location.href = "intro.html";};
 
 		login(drawPage, onDismissal);
 	});
