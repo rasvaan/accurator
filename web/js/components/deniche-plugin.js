@@ -175,18 +175,18 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 
 	this._anno.addHandler('onEditorShown', function(annotation) {
 		// get the annotorious save and cancel button so we can manipulate them:
-		var node = oSelf.annotator.element;
+		var node = $(oSelf.annotator.element);
 
 		// store buttons, change labels and change styling
-		oSelf._saveButtons[annotation.fieldsId] = $(".annotorious-editor-button-save").get(0);
+		oSelf._saveButtons[annotation.fieldsId] = node.find(".annotorious-editor-button-save").get(0);
 		oSelf._saveButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnDone;
 		oSelf._saveButtons[annotation.fieldsId].className += " btn btn-primary btn-sm";
-		oSelf._cancelButtons[annotation.fieldsId] = $(".annotorious-editor-button-cancel").get(0);
+		oSelf._cancelButtons[annotation.fieldsId] = node.find(".annotorious-editor-button-cancel").get(0);
 		oSelf._cancelButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnCancel;
 		oSelf._cancelButtons[annotation.fieldsId].className += " btn btn-default btn-sm";
 
 		// set focus on first field (exlude hint input field introduced by twitter typeahead)
-		$(".annotorious-editor input").not(".tt-hint")[0].focus();
+		node.find(".annotorious-editor input").not(".tt-hint")[0].focus();
 
 		oSelf._dirtytag = null;
 		if (annotation && annotation.shapes) {
@@ -205,4 +205,6 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 	this._anno.addHandler('onAnnotationUpdated', function(original) {
 		oSelf.flushDirtyAnnotation(original);
 	});
+
+	// $(".annotorious-editor-button-save").get(0)
 }
