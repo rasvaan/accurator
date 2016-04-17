@@ -33,7 +33,7 @@ Domain.prototype.init = function() {
 
 Domain.prototype.setLink = function() {
 	if (this.subDomains.length > 0) {
-		this.link = "topic.html";
+		this.link = "domain.html?domain=" + this.id;
 	} else if (this.expertiseTopics != null) {
 		this.link = "expertise.html";
 	} else {
@@ -59,7 +59,7 @@ Domain.prototype.setClickEvent = function() {
 	$(this.node).find("#domainTxt" + this.id).click(function() {
 		setDomain(_domain.id)
 		.then(function() {
-			document.location.href = "results.html";
+			document.location.href = _domain.link;
 		});
 	});
 }

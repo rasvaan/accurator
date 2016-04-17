@@ -6,8 +6,8 @@ domains loaded in the triple store.
 *******************************************************************************/
 function domainInit() {
 	var locale = getLocale();
-	// be domain agnostic on domain selection screen
-	var domain = "generic";
+	var domain = getParameterByName("domain");
+	if (domain === "") domain = "generic"; // be domain agnostic
 
 	// add language switch to navbar
 	populateFlags(locale);
@@ -24,11 +24,10 @@ function domainInit() {
 	function drawPage(userData) {
 		setLinkLogo("profile");
 
-		getAvailableDomains()
+		getDomains(domain)
 		.then(function(domains) {
-			// draw all domains
-			populateDomains(locale, domains);
-			return domainSettings(domain);
+			populateDomains(locale, domains); // draw all domains
+			return domainSettings("generic"); // get generic settings for labels
 		})
 		.then(function(domainSettings) {
 			var ui = getUI(domainSettings, "domain");
@@ -43,14 +42,34 @@ function domainInit() {
 	}
 }
 
+function getDomains(domain) {
+	if (domain === "generic") {
+		return getAvailableDomains();
+	} else {
+		return domainSettings(domain).then(function(data) {
+			var domains = [];
+
+			for (var i=0; i<data.subDomains.length; i++) {
+				domains[i] = generateIdFromUri(data.subDomains[i]);// HACK, assumes the domain uri ends at the label
+			}
+			console.log(domains);
+			return domains;
+		});
+	}
+}
+
 function populateDomains(locale, domainLabels) {
 	var row;
 
 	// remove generic from the domains (does not work on ie 7 and 8..)
-	domainLabels.splice(domainLabels.indexOf("generic"), 1);
+	if (domainLabels.indexOf("generic") >= 0) {
+		domainLabels.splice(domainLabels.indexOf("generic"), 1);
+	}
+
+	console.log("labels ", domainLabels);
 
 	// get domain settings for all the domains
-	for (var i = 0; i < domainLabels.length; i++) {
+	for (var i=0; i<domainLabels.length; i++) {
 		// add a new row for every two domains
 		if (i%2 === 0) {
 			row = parseInt(i/2);
