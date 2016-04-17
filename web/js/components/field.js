@@ -89,21 +89,19 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 		var targetImage = this.targetImage;
 
 		if (targetImage && target != targetImage) {
-			// Another annotation on selector with existing id (target id is the selector, not the image)
+			// another annotation on selector with existing id (target id is the selector, not the image)
 			targetObject = [{hasSource:targetImage, hasSelector:{value:shape}}, {'@id':target}];
 		} else {
-			// Annotation on new selector, id will be generated server-side
+			// annotation on new selector, id will be generated server-side
 			targetObject = [{hasSource:target, hasSelector:{value:shape}}];
 		}
 	} else {
-		// Annotation without fragment, on entire target image
+		// annotation without fragment, on entire target image
 		targetObject = [{'@id':target}];
 	}
 
 	var targetString = JSON.stringify(targetObject);
 	var bodyString = JSON.stringify(body);
-
-	// console.log("Saving the following ", "field: ", this.field, "hasTarget: ", targetString, "hasBody: ", bodyString, "label: ", label, "motivatedBy: ", motiv, "graph: ", graph);
 
 	$.ajax({type: "POST",
 			url: "api/annotation/add",
@@ -116,7 +114,7 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 				graph: graph
 			}})
 	.then(function(data) {
-		//Add annotation to list of annotations
+		// add annotation to list of annotations
 		_field.annotationList.add(data.annotation);
 		_field.addAnnotationFragment(data.annotation, false); // add but do not update open editor
 	});

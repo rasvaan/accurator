@@ -68,8 +68,10 @@ annotorious.plugin.DenichePlugin.prototype.onInitAnnotator = function(annotator)
 	// get existing annotations on init annotorious
     if (this._anno.fields) {
 		var fields = this._anno.fields[imageId][fieldsId];
+
 		for (var i in fields) {
 			var field = fields[i];
+
 			if (field.showAnnotations) field.getAnnotations();
 		}
     }
@@ -127,6 +129,7 @@ annotorious.plugin.DenichePlugin.prototype.onFragmentCancel = function(ev) {
 }
 
 annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation, update) {
+	// possibly get old tag
 	var old = this._dirtytag;
 	if (!old) old = this._cleantags[ annotation.targetId ];
 
@@ -139,6 +142,7 @@ annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation,
 		annotation.compound_text = [ annotation.text ];
 	}
 
+	// if update is true or instantiated add to the rendered tags
 	if (update) {
 		this._cleantags[annotation.targetId] = annotation;
 		this._anno.addAnnotation(annotation, old);
@@ -152,7 +156,8 @@ annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation,
 
 annotorious.plugin.DenichePlugin.prototype.flushDirtyAnnotation = function(original) {
 	var dirty = this._dirtytag;
-	this._dirtytag = null;
+	this._dirtytag = null; // set to null since it will be processed
+
 	if (dirty) {
 		if (dirty.text) {
 			this._anno.addAnnotation(dirty,original);
@@ -166,6 +171,30 @@ annotorious.plugin.DenichePlugin.prototype.flushDirtyAnnotation = function(origi
 
 annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 	var oSelf = this;
+	var node = $(oSelf.annotator.element);
+	var fieldsId = this.annotator.element.getElementsByTagName('img')[0].getAttribute('fields');
+	var imageId  = this.annotator.element.getElementsByTagName('img')[0].getAttribute('id');
+	var fields = this._anno.fields[imageId][fieldsId];
+
+	node.find(".annotorious-editor-button-save").on("click", function() {
+		// itterate through fields, saving values
+		for (var i=0; i<fields.length; i++) {
+			var inputField = $(fields[i].node).find("#" + fields[i].inputId);
+
+			if (inputField.val()) {
+				var annotation = inputField.val();
+
+				fields[i].submitAnnotation(
+					fields[i].MOTIVATION.tagging,
+					fields[i].target,
+					{'@value':annotation},
+					annotation
+				);
+
+				inputField.typeahead('val', ''); // clear input
+			}
+		}
+	});
 
 	this._anno.addHandler('onSelectionCompleted', function(event) {
 		oSelf.currentShape = event.shape;
@@ -174,10 +203,7 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 	});
 
 	this._anno.addHandler('onEditorShown', function(annotation) {
-		// get the annotorious save and cancel button so we can manipulate them:
-		var node = $(oSelf.annotator.element);
-
-		// store buttons, change labels and change styling
+		// get the annotorious save and cancel button so we can manipulate them, change labels and change styling
 		oSelf._saveButtons[annotation.fieldsId] = node.find(".annotorious-editor-button-save").get(0);
 		oSelf._saveButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnDone;
 		oSelf._saveButtons[annotation.fieldsId].className += " btn btn-primary btn-sm";
@@ -205,6 +231,4 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 	this._anno.addHandler('onAnnotationUpdated', function(original) {
 		oSelf.flushDirtyAnnotation(original);
 	});
-
-	// $(".annotorious-editor-button-save").get(0)
 }
