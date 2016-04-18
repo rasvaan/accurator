@@ -1,5 +1,7 @@
 @prefix accu:   <http://accurator.nl/schema#> .
 @prefix afas:   <http://accurator.nl/fashion#> .
+@prefix afasj:   <http://accurator.nl/fashion/jewelry#> .
+@prefix afass:   <http://accurator.nl/fashion/shoes#> .
 @prefix afasui: <http://accurator.nl/ui/fashion#> .
 @prefix aafas:  <http://accurator.nl/ui/annotation/fashion#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
@@ -16,22 +18,25 @@ afas:domain a accu:Domain ;
 	accu:hasUI afasui: ;
 	accu:hasAnnotationUI aafas:fashionUI ;
 	accu:hasDescriptiveImage afas:dress ;
-	accu:subDomains afas:jewelry ,
-					afas:shoes .
+	accu:subDomains afasj:domain ,
+					afass:domain .
 		# afas:fans ,
 		# afas:accessories ,
 		# afas:uniforms .
 
 <http://iconclass.org/> a skos:ConceptScheme .
 
-afas:jewelry a accu:Domain ;
+afasj:domain a accu:Domain ;
 	rdfs:label "jewelry" ;
+	accu:hasTarget <http://accurator.nl/fashion/jewelry#Target> ;
+	accu:hasUI afasui: ;
 	accu:hasDescriptiveImage afas:dress ;
 	accu:hasAnnotationUI aafas:fashionUI .
 
-
-afas:shoes a accu:Domain ;
+afass:domain a accu:Domain ;
 	rdfs:label "shoes" ;
+	accu:hasTarget <http://accurator.nl/fashion/shoes#Target> ;
+	accu:hasUI afasui: ;
 	accu:hasDescriptiveImage afas:dress ;
 	accu:hasAnnotationUI aafas:fashionUI .
 

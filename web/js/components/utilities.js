@@ -656,3 +656,10 @@ function generateIdFromUri(uri) {
 	// remove troublesome characters
 	return pathArray[pathArray.length - 1].replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g,'');
 }
+
+function generateDomainFromUri(uri) {
+	// create a domain label from a uri
+	var pathArray = uri.split(/[/#]/);
+	// get the thing bofore #
+	return pathArray[pathArray.length - 2];
+}

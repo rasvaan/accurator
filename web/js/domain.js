@@ -50,9 +50,9 @@ function getDomains(domain) {
 			var domains = [];
 
 			for (var i=0; i<data.subDomains.length; i++) {
-				domains[i] = generateIdFromUri(data.subDomains[i]);// HACK, assumes the domain uri ends at the label
+				domains[i] = generateDomainFromUri(data.subDomains[i]);
 			}
-			console.log(domains);
+
 			return domains;
 		});
 	}
