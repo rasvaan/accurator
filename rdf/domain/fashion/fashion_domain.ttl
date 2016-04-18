@@ -1,11 +1,12 @@
 @prefix accu:   <http://accurator.nl/schema#> .
 @prefix afas:   <http://accurator.nl/fashion#> .
-@prefix afasj:   <http://accurator.nl/fashion/jewelry#> .
-@prefix afass:   <http://accurator.nl/fashion/shoes#> .
+@prefix afasj:  <http://accurator.nl/fashion/jewelry#> .
+@prefix afasa:  <http://accurator.nl/fashion/accessories#> .
 @prefix afasui: <http://accurator.nl/ui/fashion#> .
+@prefix afasjui:<http://accurator.nl/ui/fashion/jewelry#> .
+@prefix afasaui:<http://accurator.nl/ui/fashion/accessories#> .
 @prefix aafas:  <http://accurator.nl/ui/annotation/fashion#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
-@prefix ic:     <http://iconclass.org/> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms:<http://purl.org/dc/terms/> .
@@ -14,32 +15,39 @@
 
 afas:domain a accu:Domain ;
 	rdfs:label "fashion" ;
+	accu:hasLabel afasui:label ;
 	accu:hasTarget <http://accurator.nl/fashion#Target> ;
 	accu:hasUI afasui: ;
 	accu:hasAnnotationUI aafas:fashionUI ;
-	accu:hasDescriptiveImage afas:dress ;
-	accu:subDomains afasj:domain ,
-					afass:domain .
-		# afas:fans ,
-		# afas:accessories ,
-		# afas:uniforms .
+	accu:hasDescriptiveImage afasui:dress ;
+	accu:subDomains afasa:domain ,
+					afasj:domain .
 
-<http://iconclass.org/> a skos:ConceptScheme .
+afasui:label auis:textLabel "Fashion domain"@en ,
+				 			"Domein mode"@nl .
+
+afasui:dress a dctypes:StillImage ;
+	accu:hasFilePath "img/background/dress.jpg" ;
+	accu:brightness "light" .
 
 afasj:domain a accu:Domain ;
 	rdfs:label "jewelry" ;
+	accu:hasLabel afasjui:label ;
 	accu:hasTarget <http://accurator.nl/fashion/jewelry#Target> ;
 	accu:hasUI afasui: ;
-	accu:hasDescriptiveImage afas:dress ;
+	accu:hasDescriptiveImage afasui:dress ;
 	accu:hasAnnotationUI aafas:fashionUI .
 
-afass:domain a accu:Domain ;
-	rdfs:label "shoes" ;
+afasjui:label auis:textLabel "Jewelry domain"@en ,
+							 "Domein juwelen"@nl .
+
+afasa:domain a accu:Domain ;
+	rdfs:label "accessories" ;
+	accu:hasLabel afasaui:label ;
 	accu:hasTarget <http://accurator.nl/fashion/shoes#Target> ;
 	accu:hasUI afasui: ;
-	accu:hasDescriptiveImage afas:dress ;
+	accu:hasDescriptiveImage afasui:dress ;
 	accu:hasAnnotationUI aafas:fashionUI .
 
-afas:dress a dctypes:StillImage ;
-	accu:hasFilePath "img/background/dress.jpg" ;
-	accu:brightness "light" .
+afasaui:label auis:textLabel "Accessories domain"@en ,
+							 "Domein accessoires"@nl .

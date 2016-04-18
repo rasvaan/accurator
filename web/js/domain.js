@@ -86,8 +86,10 @@ function populateDomains(locale, domainLabels) {
 
 function addDomain(row, locale) {
 	return function(domainData) {
-		return getLabels(locale, domainData.hasUI + "domain")
+		console.log("row ", row, " data ", domainData);
+		return getLabels(locale, domainData.hasLabel)
 		.then(function(labels) {
+			console.log("label ", labels);
 			var topics = null;
 			var subDomains;
 
@@ -109,7 +111,7 @@ function addDomain(row, locale) {
 			// domainData
 			var domain = new Domain (
 				domainData.domain,
-				labels.domainLabel,
+				labels.textLabel,
 				domainData.image,
 				domainData.imageBrightness,
 				subDomains,

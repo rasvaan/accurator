@@ -6,13 +6,6 @@
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-###### Bible Domain #####
-
-abibui:domain a auis:UI;
-	aui:domainLabel "Bible domain"@en .
-
-aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
-
 ###### Bible Topic #####
 
 abibui:topic a auis:UI ;
@@ -30,11 +23,6 @@ abibui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
 
 abibui:about a auis:UI ;
 	rdfs:subClassOf aui:about .
-
-##### Bible Register Screen #####
-
-abibui:register a aui:UI ;
-	rdfs:subClassOf aui:register .
 
 ##### Bible Expertise Screen #####
 
@@ -58,13 +46,3 @@ abibui:results a aui:UI ;
 
 abibui:item a aui:UI ;
 	rdfs:subClassOf aui:item .
-
-##### Bible Form Screen #####
-
-abibui:form a auis:UI ;
-	rdfs:subClassOf aui:form .
-
-##### Bible Login Modal #####
-
-abibui:loginModal a auis:UI ;
-	rdfs:subClassOf aui:loginModal .

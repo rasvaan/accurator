@@ -30,6 +30,10 @@ accu:hasUI a rdf:Property ;
 	rdfs:range auis:UI ;
 	rdfs:domain accu:Domain .
 
+accu:hasLabel a rdf:Property ;
+	rdfs:label "Has domain label"@en ;
+	rdfs:comment "Property linking a domain to a label."@en .
+
 accu:hasAnnotationUI a rdf:Property ;
 	rdfs:label "Has annotation interface specification"@en ;
 	rdfs:comment "Property linking a domain to an annotation interface specification."@en .

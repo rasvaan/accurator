@@ -6,12 +6,6 @@
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-###### Bird Domain #####
-abirui:domain a auis:UI ;
-	aui:domainLabel "Bird domain"@en .
-
-aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
-
 ###### Bird Topic #####
 
 abirui:topic a auis:UI ;
@@ -29,11 +23,6 @@ aui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
 
 abirui:about a auis:UI ;
 	rdfs:subClassOf aui:about .
-
-##### Bird Register Screen #####
-
-abirui:register a aui:UI ;
-	rdfs:subClassOf aui:register .
 
 ##### Bird Expertise Screen #####
 
@@ -57,18 +46,3 @@ abirui:results a aui:UI ;
 
 abirui:item a aui:UI ;
 	rdfs:subClassOf aui:item .
-
-###### Bird End Screen #####
-
-abirui:end a auis:UI ;
-	rdfs:subClassOf aui:end .
-
-##### Bird Form Screen #####
-
-abirui:form a auis:UI ;
-	rdfs:subClassOf aui:form .
-
-##### Bird Login Modal #####
-
-abirui:loginModal a auis:UI ;
-	rdfs:subClassOf aui:loginModal .
