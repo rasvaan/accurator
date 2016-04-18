@@ -35,19 +35,27 @@ afasj:domain a accu:Domain ;
 	accu:hasLabel afasjui:label ;
 	accu:hasTarget <http://accurator.nl/fashion/jewelry#Target> ;
 	accu:hasUI afasui: ;
-	accu:hasDescriptiveImage afasui:dress ;
+	accu:hasDescriptiveImage afasjui:jewelry ;
 	accu:hasAnnotationUI aafas:fashionUI .
 
 afasjui:label auis:textLabel "Jewelry domain"@en ,
 							 "Domein juwelen"@nl .
 
+afasjui:jewelry a dctypes:StillImage ;
+ 	accu:hasFilePath "img/background/jewelry.jpg" ;
+ 	accu:brightness "light" .
+
 afasa:domain a accu:Domain ;
 	rdfs:label "accessories" ;
 	accu:hasLabel afasaui:label ;
-	accu:hasTarget <http://accurator.nl/fashion/shoes#Target> ;
+	accu:hasTarget <http://accurator.nl/fashion/accessories#Target> ;
 	accu:hasUI afasui: ;
-	accu:hasDescriptiveImage afasui:dress ;
+	accu:hasDescriptiveImage afasaui:accessories ;
 	accu:hasAnnotationUI aafas:fashionUI .
 
 afasaui:label auis:textLabel "Accessories domain"@en ,
 							 "Domein accessoires"@nl .
+
+afasaui:accessories a dctypes:StillImage ;
+	accu:hasFilePath "img/background/accessories.jpg" ;
+	accu:brightness "light" .
