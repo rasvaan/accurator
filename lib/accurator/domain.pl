@@ -22,8 +22,6 @@ get_domain_settings(Dic, Options) :-
 	rdf(DomainUri, rdf:type, accu:'Domain'),
 	rdf(DomainUri, rdfs:label, literal(Domain)),
 	get_domain_dic(DomainUri, Domain, Dic).
-get_domain_settings(Dic, _Options) :-
-	get_domain_dic('http://accurator.nl/generic#domain', 'generic', Dic).
 
 %%	get_root_domains(+Domain, -RootDomains)
 %
