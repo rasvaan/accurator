@@ -22,22 +22,20 @@ function domainInit() {
 	});
 
 	function drawPage(userData) {
+		var labels;
 		var userName = getUserName(userData.user);
+		var ui = "http://accurator.nl/ui/generic#domain"; // get generic settings for labels
 
 		setLinkLogo("profile");
 		populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
 
-		getDomains(domain)
-		.then(function(domains) {
-			populateDomains(locale, domains); // draw all domains
-			return domainSettings("generic"); // get generic settings for labels
-		})
-		.then(function(domainSettings) {
-			var ui = getUI(domainSettings, "domain");
-			return getLabels(locale, ui);
-		})
+		getLabels(locale, ui)
 		.then(function(labels) {
-			initLabels(labels, domain)
+			labels = initLabels(labels, domain)
+			return getDomains(domain);
+		})
+		.then(function(domains) {
+			populateDomains(domains, domain, labels, locale); // draw all domains
 		});
 	}
 }
@@ -52,15 +50,19 @@ function initLabels(labels, domain) {
 		// show text for subdomains
 		$("#domainTxtTitle").append(labels.domainHdrSub);
 	}
+
+	return {'domainTxtAllObjects':labels.domainTxtAllObjects}
 }
 
 function getDomains(domain) {
+	// provide a promise that either gives all root domains or the subdomains
 	if (domain === "generic") {
 		return getAvailableDomains();
 	} else {
 		return domainSettings(domain).then(function(data) {
 			var domains = [];
 
+			// process the retrieved subdomain uris to get domain label
 			for (var i=0; i<data.subDomains.length; i++) {
 				domains[i] = generateDomainFromUri(data.subDomains[i]);
 			}
@@ -70,7 +72,7 @@ function getDomains(domain) {
 	}
 }
 
-function populateDomains(locale, domainLabels) {
+function populateDomains(domainLabels, rootDomainLabel, labels, locale) {
 	var row;
 
 	// remove generic from the domains (does not work on ie 7 and 8..)
@@ -90,7 +92,7 @@ function populateDomains(locale, domainLabels) {
 		}
 
 		$.getJSON("domains", {domain:domainLabels[i]})
-		.then(addDomain(row, locale));
+		.then(addDomain(row, locale)); //TODO: Check if this can be coded cleaner
 	}
 }
 
