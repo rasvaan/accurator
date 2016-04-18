@@ -32,7 +32,6 @@ function profileInit() {
 		setLinkLogo("profile");
 		populateNavbar(userName, [], locale);
 
-
 		domainSettings(domain)
 		.then(function(domainData) {
 			return getLabels(locale, domainData.hasUI + "profile");

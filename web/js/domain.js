@@ -22,7 +22,10 @@ function domainInit() {
 	});
 
 	function drawPage(userData) {
+		var userName = getUserName(userData.user);
+
 		setLinkLogo("profile");
+		populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
 
 		getDomains(domain)
 		.then(function(domains) {
@@ -34,11 +37,20 @@ function domainInit() {
 			return getLabels(locale, ui);
 		})
 		.then(function(labels) {
-			document.title = labels.domainPageTitle;
-			$("#domainTxtTitle").append(labels.domainTxtTitle);
-			var userName = getUserName(userData.user);
-			populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
+			initLabels(labels, domain)
 		});
+	}
+}
+
+function initLabels(labels, domain) {
+	document.title = labels.domainPageTitle;
+
+	if (domain === "generic") {
+		// show initial text
+		$("#domainTxtTitle").append(labels.domainHdr);
+	} else {
+		// show text for subdomains
+		$("#domainTxtTitle").append(labels.domainHdrSub);
 	}
 }
 
@@ -66,8 +78,6 @@ function populateDomains(locale, domainLabels) {
 		domainLabels.splice(domainLabels.indexOf("generic"), 1);
 	}
 
-	console.log("labels ", domainLabels);
-
 	// get domain settings for all the domains
 	for (var i=0; i<domainLabels.length; i++) {
 		// add a new row for every two domains
@@ -86,10 +96,8 @@ function populateDomains(locale, domainLabels) {
 
 function addDomain(row, locale) {
 	return function(domainData) {
-		console.log("row ", row, " data ", domainData);
 		return getLabels(locale, domainData.hasLabel)
 		.then(function(labels) {
-			console.log("label ", labels);
 			var topics = null;
 			var subDomains;
 

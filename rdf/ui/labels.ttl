@@ -48,10 +48,14 @@ aui:aboutBtnGoBackHome rdfs:subPropertyOf auis:uiLabel .
 aui:domain a auis:UI ;
 	dcterms:title "Accurator domain UI"@en ;
 	aui:domainPageTitle "Select the domain"@en ;
-	aui:domainTxtTitle "In which domain do you want to start tagging?"@en .
+	aui:domainHdr "In which domain do you want to start tagging?"@en ;
+	aui:domainHdrSub "Is there a subdomain in which you want to tag?"@en ;
+	aui:domainTxtAllObjects "All artworks in "@en .
 
 aui:domainPageTitle rdfs:subPropertyOf auis:uiLabel .
-aui:domainTxtTitle rdfs:subPropertyOf auis:uiLabel .
+aui:domainHdr rdfs:subPropertyOf auis:uiLabel .
+aui:domainHdrSub rdfs:subPropertyOf auis:uiLabel .
+aui:domainTxtAllObjects rdfs:subPropertyOf auis:uiLabel .
 
 ##### Topic Screen #####
 

@@ -30,7 +30,9 @@ aui:about a auis:UI ;
 
 aui:domain a auis:UI ;
 	aui:domainPageTitle "Selecteer Domein"@nl ;
-	aui:domainTxtTitle "Aan welk domein wilt u informatie bijdragen?"@nl .
+	aui:domainTxtTitle "Aan welk domein wilt u informatie bijdragen?"@nl ;
+	aui:domainHdrSub "Is er een specifiek subdomein waaraan u informatie wilt bijdragen?"@nl ;
+	aui:domainTxtAllObjects "Alle kunstwerken in het "@nl .
 
 ##### Topic Screen #####
 
