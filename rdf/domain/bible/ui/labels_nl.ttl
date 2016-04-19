@@ -2,10 +2,6 @@
 @prefix aui:    <http://accurator.nl/ui/generic#> .
 @prefix abibui: <http://accurator.nl/ui/bible#> .
 
-###### Bible Domain #####
-abibui:domain a auis:UI;
-	aui:domainLabel "Bijbel domein"@nl .
-
 ###### Bible Intro Screen #####
 
 abibui:intro a auis:UI ;

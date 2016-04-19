@@ -12,16 +12,20 @@
 
 abir:domain a accu:Domain ;
 	rdfs:label "bird";
+	accu:hasLabel abirui:label ;
 	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
 	accu:hasTarget <http://accurator.nl/bird#Target> ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
 	accu:hasAnnotationUI aabir:smallBirdAnnotationUi ;
-	accu:hasDescriptiveImage abir:bird ;
+	accu:hasDescriptiveImage abirui:bird ;
 	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "2" .
+	accu:hasMaximumChildren "2"  .
 
 <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
+
+abirui:label auis:textLabel "Bird domain"@en ,
+				 			"Vogel domein"@nl .
 
 abir:snipeQuery a accu:QueryExample ;
 	dcterms:title "Search for Snipe"@en ,
@@ -41,7 +45,7 @@ abir:hondecoeterQuery a accu:QueryExample ;
 	accu:hasDescriptiveImage abir:hondecoeterImage ;
 	accu:action "results?query=hondecoeter" .
 
-abir:bird a dctypes:StillImage ;
+abirui:bird a dctypes:StillImage ;
 	accu:hasFilePath "img/background/bird.jpg" ;
 	accu:brightness "light" .
 
@@ -55,4 +59,4 @@ abir:songbirdImage a dctypes:StillImage ;
 
 abir:hondecoeterImage a dctypes:StillImage ;
 	accu:hasFilePath "img/background/hondecoeter.jpg" ;
-	accu:brightness "light" .
+	accu:brightness "dark" .

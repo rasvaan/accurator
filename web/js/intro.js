@@ -22,7 +22,7 @@ function introInit() {
 	})
 	.then(function(domainSettings) {
 		var ui = getUI(domainSettings, "intro");
-		setBackground(domainSettings.image, domainSettings.image_brightness);
+		setBackground(domainSettings.image, domainSettings.imageBrightness);
 		return getLabels(locale, ui);
 	})
 	.then(function(labels) {
@@ -46,7 +46,7 @@ function addButtonEvents(settings) {
 		var onDismissal = function() {
 			$("#registerDivRegister").modal('hide');
 		};
-		
+
 		registerModal(onDismissal, settings);
 	});
 	$("#introBtnLogin").click(function() {

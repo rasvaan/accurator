@@ -6,8 +6,8 @@ domains loaded in the triple store.
 *******************************************************************************/
 function domainInit() {
 	var locale = getLocale();
-	// be domain agnostic on domain selection screen
-	var domain = "generic";
+	var domain = getParameterByName("domain");
+	if (domain === "") domain = "generic"; // be domain agnostic
 
 	// add language switch to navbar
 	populateFlags(locale);
@@ -16,91 +16,138 @@ function domainInit() {
 	.then(function(userData) {
 		drawPage(userData);
 	}, function() {
-		// user is not logged in, show modal
-		var onDismissal = function() {
-			document.location.href = "intro.html";
-		};
+		var onDismissal = function() {document.location.href = "intro.html";};
 
 		login(drawPage, onDismissal);
 	});
 
 	function drawPage(userData) {
-		setLinkLogo("profile");
+		var labels;
+		var userName = getUserName(userData.user);
+		var ui = "http://accurator.nl/ui/generic#domain"; // get generic settings for labels
 
-		getAvailableDomains()
+		setLinkLogo("profile");
+		populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
+
+		getLabels(locale, ui)
+		.then(function(labelData) {
+			labels = initLabels(labelData, domain)
+			return getDomains(domain);
+		})
 		.then(function(domains) {
-			// draw all domains
-			populateDomains(locale, domains);
-			return domainSettings(domain);
-		})
-		.then(function(domainSettings) {
-			var ui = getUI(domainSettings, "domain");
-			return getLabels(locale, ui);
-		})
-		.then(function(labels) {
-			document.title = labels.domainPageTitle;
-			$("#domainTxtTitle").append(labels.domainTxtTitle);
-			var userName = getUserName(userData.user);
-			populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
+			populateDomains(domains, domain, labels, locale); // draw all domains
 		});
 	}
 }
 
-function populateDomains(locale, domainLabels) {
+function initLabels(labels, domain) {
+	document.title = labels.domainPageTitle;
+
+	if (domain === "generic") {
+		// show initial text
+		$("#domainTxtTitle").append(labels.domainHdr);
+	} else {
+		// show text for subdomains
+		$("#domainTxtTitle").append(labels.domainHdrSub);
+	}
+
+	return {'domainTxtAllObjects':labels.domainTxtAllObjects};
+}
+
+function getDomains(domain) {
+	// provide a promise that either gives all root domains or the subdomains
+	if (domain === "generic") {
+		return getAvailableDomains();
+	} else {
+		return domainSettings(domain).then(function(data) {
+			var domains = [];
+
+			// process the retrieved subdomain uris to get domain label
+			for (var i=0; i<data.subDomains.length; i++) {
+				domains[i] = generateDomainFromUri(data.subDomains[i]);
+			}
+
+			return domains;
+		});
+	}
+}
+
+function populateDomains(domains, domain, labels, locale) {
 	var row;
 
+	// remove generic from the domains if showing top domains (does not work on ie 7 and 8..)
+	if (domain === "generic") {
+		domains.splice(domains.indexOf("generic"), 1);
+	} else {
+		// add root domain as option to select in list of subdomains
+		domains.push(domain);
+	}
+
 	// get domain settings for all the domains
-	for(var i = 0; i < domainLabels.length; i++) {
-		if(!(i%2 === 0)) {
-			row = parseInt((i/2) + 0.5);
-			// Add a new row for every two domains
+	for (var i=0; i<domains.length; i++) {
+		// add a new row for every two domains
+		if (i%2 === 0) {
+			row = parseInt(i/2);
 			$(".domainDiv").append(
 				$.el.div({'class':'row',
-						  'id':'domain' + row}));
+						  'id':'domainDiv' + row})
+			);
 		}
 
-		// add domain specific html to rows
-		$.getJSON("domains", {domain:domainLabels[i]})
-		.then(function(domainData) {
-			if(!(domainData.domain === "generic")) {
-				domainHtml(domainData, row, locale);
-			}
-		});
+		$.getJSON("domains", {domain:domains[i]})
+		.then(addDomain(row, locale, labels, domain));
 	}
 }
 
-function domainHtml(domainData, row, locale) {
-	var domain = domainData.domain;
+function addDomain(row, locale, pageLabels, rootDomain) {
+	return function(domainData) {
+		return getLabels(locale, domainData.hasLabel)
+		.then(function(domainLabel) {
+			var topics = null;
+			var subDomains, domainLabel;
+			var link = "results.html"; // go to results page by default
 
-	getLabels(locale, domainData.ui + "domain")
-	.then(function(labels) {
-		$("#domain" + row).append(
-			$.el.div({'class':'noPadding col-md-6'},
-				$.el.h3({'class':'domainHdr',
-						 'id':'domainTxt' + domain},
-						 labels.domainLabel),
-				$.el.img({'class':'domainImg',
-						  'id':'domainImg' + domain,
-						  'src':domainData.image})));
+			// see if there are subdomains
+			domainData.subDomains ?
+				subDomains = domainData.subDomains
+				: subDomains = [];
 
-		if(domainData.image_brightness === "dark")
-			$("#domainTxt" + domainData.domain).css('color', '#fff');
+			// see if there is info about expertise topics
+			if (domainData.requires) {
+				topics = new ExpertiseTopics (
+					domainData.requires,
+					domainData.hasTopConcept,
+					domainData.hasMaximumExpertiseTopics,
+					domainData.hasMaximumChildren
+				);
+			}
 
-		addDomainEvent(domain);
-	});
-}
+			if (rootDomain === domainData.domain) {
+				// set domain label for root domain if matched
+				domainLabel = pageLabels.domainTxtAllObjects + domainLabel.textLabel;
+			} else {
+				// set domain label and link for subdomain
+				domainLabel = domainLabel.textLabel;
 
-function addDomainEvent(domain) {
-	$("#domainImg" + domain).click(function() {
-		setDomain(domain)
-		.then(function() {
-			document.location.href = "results.html";
+				if (subDomains.length > 0) {
+					link = "domain.html?domain=" + domainData.domain;
+				} else if (topics != null) {
+					link = "expertise.html";
+				}
+			}
+
+			// create domain object
+			var domain = new Domain (
+				domainData.domain,
+				domainLabel,
+				link,
+				domainData.image,
+				domainData.imageBrightness,
+				subDomains,
+				topics
+			);
+
+			$("#domainDiv" + row).append(domain.node);
 		});
-	});
-	$("#domainTxt" + domain).click(function() {
-		setDomain(domain)
-		.then(function() {
-			document.location.href = "results.html";
-		});
-	});
+	}
 }

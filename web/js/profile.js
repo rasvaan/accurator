@@ -25,6 +25,7 @@ function profileInit() {
 	});
 
 	function drawPage(userData) {
+		var domainData;
 		var user = userData.user;
 		var userName = getUserName(user);
 		var realName = userData.real_name;
@@ -32,15 +33,16 @@ function profileInit() {
 		setLinkLogo("profile");
 		populateNavbar(userName, [], locale);
 
-
 		domainSettings(domain)
-		.then(function(domainData) {
-			return getLabels(locale, domainData.ui + "profile");
+		.then(function(data) {
+			domainData = data;
+			return getLabels(locale, domainData.hasUI + "profile");
 		})
 		.then(function(labelData) {
-			addButtonEvents(user);
 			var labels = initLabels(labelData, realName);
-			initDomains(locale, domain, labels);
+
+			addDomainTitle(domainData, locale, labels);
+			addButtonEvents(user);
 			populateRecentlyAnnotated(user, labels);
 		});
 	}
@@ -90,84 +92,33 @@ function initLabels(labelData, realName) {
 	$("#profileTxtSubSlogan").prepend(labelData.profileTxtSubSlogan);
 	$("#profileTxtStartAnnotating").append(labelData.profileTxtStartAnnotating);
 	$("#navbarBtnRecommend").append(labelData.navbarBtnRecommend);
-	$("#profileBtnChangeExpertise").append(labelData.profileBtnChangeExpertise);
 	$("#navbarBtnSearch").append(labelData.navbarBtnSearch);
 	$("#profileBtnDomain").prepend(labelData.profileBtnDomain);
 
 	return labels;
 }
 
-function initDomains(locale, domain, labels) {
-	getAvailableDomains()
-	.then(function(domains) {
-		// set domain settings for all the domains
-		for(var i = 0; i < domains.length; i++) {
-			var currentDomain = domains[i];
-
-			// already create function so currentdomain is not the last deu to asynchronisity
-			var processDomain = function(currentDomain, labels) {
-				return function(domainData) {
-					if (domain === currentDomain) {
-						addDomainTitle(domainData, locale, labels);
-					} else {
-						domainHtml(domainData, locale);
-					}
-				}
-			}
-
-			// add info about all domains except generic
-			if(currentDomain !== "generic") {
-				$.getJSON("domains", {domain:currentDomain})
-				.then(processDomain(currentDomain, labels));
-			}
-		}
-
-		// hide button if length is 2 (current domain and generic)
-		if (domain !== "generic" && domains.length === 2) {
-			$("#profileBtnDomain").parent().hide();
-		}
-	});
-}
-
 function addDomainTitle(domainData, locale, labels) {
+	console.log(labels);
 	// add the title of the current domain to the profile page
-	getLabels(locale, domainData.ui + "domain")
+	getLabels(locale, domainData.hasLabel)
 	.then(function(data){
 		$("#profileTxtDomain").append(
 			labels.profileTxtDomain,
-			$.el.span({'class':'text-info'},
-						data.domainLabel));}
-	);
-}
-
-function domainHtml(domainData, locale) {
-	// add the different domains to a dropdown list
-	getLabels(locale, domainData.ui + "domain")
-	.then(function(data) {
-		$("#profileLstDomainItems").append(
-			$.el.li(
-				$.el.a({'href':'#',
-						'id':domainData.domain},
-						 data.domainLabel)));
-
-		addDomainEvent(domainData.domain);
-	});
-}
-
-function addDomainEvent(domain) {
-	// add event reloading page on domain selection, saving choice
-	$("#" + domain).click(function() {
-		setDomain(domain)
-		.then(function() {
-			location.reload();
-		});
+			$.el.span({'class':'text-info'}, data.textLabel)
+		);
 	});
 }
 
 function addButtonEvents(user) {
 	$("#navbarBtnRecommend").click(function() {
-		document.location.href = "results.html" + "?user=" + user;
+		document.location.href = "results.html?user=" + user;
 	});
+
+	$("#profileBtnDomain").click(function() {
+		document.location.href = "domain.html";
+	});
+
 	// Search on pressing enter
 	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {

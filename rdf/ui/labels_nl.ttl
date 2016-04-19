@@ -30,7 +30,15 @@ aui:about a auis:UI ;
 
 aui:domain a auis:UI ;
 	aui:domainPageTitle "Selecteer Domein"@nl ;
-	aui:domainTxtTitle "Aan welk domein wilt u informatie bijdragen?"@nl .
+	aui:domainHdr "Aan welk domein wilt u informatie bijdragen?"@nl ;
+	aui:domainHdrSub "Is er een specifiek subdomein waaraan u informatie wilt bijdragen?"@nl ;
+	aui:domainTxtAllObjects "Alle werken in  "@nl .
+
+##### Topic Screen #####
+
+aui:topic a auis:UI ;
+	aui:topicPageTitle "Selecteer Onderwerp"@nl ;
+	aui:topicTxtTitle "Kies het onderwerp van de kunstwerken waaraan u informatie wilt bijdragen."@nl .
 
 ##### Item Screen #####
 
@@ -69,7 +77,6 @@ aui:profile a auis:UI ;
 	aui:profileBtnDomain "Verander domein"@nl ;
 	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
 	aui:navbarBtnSearch "Zoek"@nl ;
-	aui:profileBtnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:profileLblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl .
 
 ##### Search Screen #####
@@ -96,6 +103,9 @@ aui:results a auis:UI ;
 	aui:resultsHdrRandomResults "Willekeurige resultaten"@nl ;
 	aui:resultsTxtNoResults "Geen resultaten gevonden voor "@nl ;
 	aui:resultsTxtError "Helaas, er is iets fout gegaan"@nl ;
+	aui:resultsBtnChooseSubDomain "Kies subdomein"@en ;
+	aui:resultsBtnChangeSubDomain "Verander subdomein"@nl ;
+	aui:resultsBtnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:resultsLblCluster "Cluster weergave"@nl ;
 	aui:resultsLblList "Lijst weergave"@nl .
 

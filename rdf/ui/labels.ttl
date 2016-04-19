@@ -48,10 +48,24 @@ aui:aboutBtnGoBackHome rdfs:subPropertyOf auis:uiLabel .
 aui:domain a auis:UI ;
 	dcterms:title "Accurator domain UI"@en ;
 	aui:domainPageTitle "Select the domain"@en ;
-	aui:domainTxtTitle "In which domain do you want to start tagging?"@en .
+	aui:domainHdr "In which domain do you want to start tagging?"@en ;
+	aui:domainHdrSub "Is there a subdomain in which you want to tag?"@en ;
+	aui:domainTxtAllObjects "All works in "@en .
 
 aui:domainPageTitle rdfs:subPropertyOf auis:uiLabel .
-aui:domainTxtTitle rdfs:subPropertyOf auis:uiLabel .
+aui:domainHdr rdfs:subPropertyOf auis:uiLabel .
+aui:domainHdrSub rdfs:subPropertyOf auis:uiLabel .
+aui:domainTxtAllObjects rdfs:subPropertyOf auis:uiLabel .
+
+##### Topic Screen #####
+
+aui:topic a auis:UI ;
+	dcterms:title "Accurator topic UI"@en ;
+	aui:topicPageTitle "Select the topic"@en ;
+	aui:topicTxtTitle "Choose the topic of the artworks you want to tag."@en .
+
+aui:topicPageTitle rdfs:subPropertyOf auis:uiLabel .
+aui:topicTxtTitle rdfs:subPropertyOf auis:uiLabel .
 
 ##### Item Screen #####
 
@@ -113,7 +127,6 @@ aui:profile a auis:UI ;
 	aui:profileBtnDomain "Change domain"@en ;
 	aui:navbarBtnRecommend "Recommended works"@en ;
 	aui:navbarBtnSearch "Search"@en ;
-	aui:profileBtnChangeExpertise "Change expertise levels"@en ;
 	aui:profileLblLastAnnotated "Artworks you recently tagged"@en .
 
 aui:profilePageTitle rdfs:subPropertyOf auis:uiLabel .
@@ -124,7 +137,6 @@ aui:profileTxtDomain rdfs:subPropertyOf auis:uiLabel .
 aui:profileBtnDomain rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnRecommend rdfs:subPropertyOf auis:uiLabel .
 aui:navbarBtnSearch rdfs:subPropertyOf auis:uiLabel .
-aui:profileBtnChangeExpertise rdfs:subPropertyOf auis:uiLabel .
 aui:profileLblLastAnnotated rdfs:subPropertyOf auis:uiLabel .
 
 ##### Search Screen #####
@@ -155,6 +167,9 @@ aui:results a auis:UI ;
 	aui:resultsHdrRandomResults "Random results"@en ;
 	aui:resultsTxtNoResults "No results found for "@en ;
 	aui:resultsTxtError "Unfortunately an error has occured"@en ;
+	aui:resultsBtnChooseSubDomain "Choose subdomain"@en ;
+	aui:resultsBtnChangeSubDomain "Change subdomain"@en ;
+	aui:resultsBtnChangeExpertise "Change expertise levels"@en ;
 	aui:resultsLblCluster "Cluster view"@en ;
 	aui:resultsLblList "List view"@en .
 
@@ -170,6 +185,9 @@ aui:resultsHdrRecommendedResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsHdrRandomResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtNoResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtError rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnChooseSubDomain rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnChangeSubDomain rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnChangeExpertise rdfs:subPropertyOf auis:uiLabel .
 aui:resultsLblCluster rdfs:subPropertyOf auis:uiLabel .
 aui:resultsLblList rdfs:subPropertyOf auis:uiLabel .
 

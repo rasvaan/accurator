@@ -215,7 +215,7 @@ Functionallity making the ui adapt
 *******************************************************************************/
 function getUI(domainSettings, page) {
 	if(typeof domainSettings != 'undefined') {
-		return domainSettings.ui + page
+		return domainSettings.hasUI + page
 	} else {
 		return "http://accurator.nl/ui/generic#" + page;
 	}
@@ -655,4 +655,11 @@ function generateIdFromUri(uri) {
 	var pathArray = uri.split(/[/#]/);
 	// remove troublesome characters
 	return pathArray[pathArray.length - 1].replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g,'');
+}
+
+function generateDomainFromUri(uri) {
+	// create a domain label from a uri
+	var pathArray = uri.split(/[/#]/);
+	// get the thing bofore #
+	return pathArray[pathArray.length - 2];
 }

@@ -30,7 +30,6 @@ Layout of the results:
 var display = {
 	layout: "cluster",
 	numberDisplayedItems: 4,
-	showControls: true
 }
 
 // Initialize page
@@ -54,7 +53,7 @@ function resultsInit() {
 	});
 
 	function drawPage(userData) {
-		var ui, target, labels;
+		var ui, target, labels, domainData;
 		var user = userData.user;
 		var userName = getUserName(user);
 		var realName = userData.real_name;
@@ -63,15 +62,17 @@ function resultsInit() {
 		populateNavbar(userName, [{link:"profile.html",	name:"Profile"}], locale);
 
 		domainSettings(domain)
-		.then(function(domainData) {
-			ui = domainData.ui + "results";
-			target = domainData.target;
+		.then(function(data) {
+			domainData = data; // enable reuse in next function
+			ui = domainData.hasUI + "results";
+			target = domainData.hasTarget;
 
 			return getLabels(locale, ui);
 		})
 		.then(function(labelData) {
 			labels = initLabels(labelData);
-			labels.realName = realName; // Add realname to labels for rendering
+			labels.realName = realName; // add realname to labels for rendering
+			domainButton(domainData, labels);
 			addButtonEvents(user, target, labels);
 
 			return events(user, labels);
@@ -100,40 +101,15 @@ function initLabels(labelData) {
 		resultsTxtFirst: labelData.resultsTxtFirst,
 		resultsTxtNoResults: labelData.resultsTxtNoResults,
 		resultsTxtError: labelData.resultsTxtError,
+		resultsBtnChooseSubDomain: labelData.resultsBtnChooseSubDomain,
+		resultsBtnChangeSubDomain: labelData.resultsBtnChangeSubDomain,
+		resultsBtnChangeExpertise: labelData.resultsBtnChangeExpertise,
 		resultsLblCluster: labelData.resultsLblCluster,
 		resultsLblList: labelData.resultsLblList
 	};
 
 	return labels;
 }
-
-// Add button events in the navbar
-function addButtonEvents(user, target, labels) {
-	$("#navbarBtnRecommend").click(function() {
-		// check if not already there
-		if (!(document.location.href.indexOf("results.html?user=" + user)  > -1)) {
-			document.location.href = "results.html?user=" + user;
-		} else {
-			// clear current and get new results
-			$("#resultsDiv").empty();
-			results(target, labels);
-		}
-	});
-	// search on pressing enter
-	$("#navbarInpSearch").keypress(function(event) {
-		if (event.which == 13) {
-			var query = encodeURIComponent($("#navbarInpSearch").val());
-
-			document.location.href = "results.html?query=" + query;
-		}
-	});
-	$("#navbarBtnSearch").click(function() {
-		var query = encodeURIComponent($("#navbarInpSearch").val());
-
-		document.location.href = "results.html?query=" + query;
-	});
-}
-
 
 function events(user, labels) {
 	return $.getJSON("annotations", {
@@ -182,7 +158,7 @@ function search(query, labels) {
 		var clusters = processClusters(data, labels, query);
 		// if there are any clusters retrieved, then draw results
 		if (clusters.length > 0) {
-			controls(clusters, labels); // add control buttons to change layout
+			resultLayoutButtons(clusters, labels); // add control buttons to change layout
 			drawResults(clusters);
 		}
 	}, function(data) {
@@ -207,7 +183,7 @@ function recommend(query, labels, target) {
 	$.when(recommendation, random)
 	.then(function(clusters, randomCluster) {
 		clusters.push(randomCluster);
-		controls(clusters, labels); // add control buttons to change layout
+		resultLayoutButtons(clusters, labels); // add control buttons to change layout
 		drawResults(clusters);
 	});
 }
@@ -218,7 +194,7 @@ function random(query, labels, target, noResults) {
 	.then(function(cluster) {
 		var clusters = [];
 		clusters[0] = cluster;
-		controls(clusters, labels);
+		resultLayoutButtons(clusters, labels);
 		drawResults(clusters);
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
@@ -394,30 +370,17 @@ function statusMessage(header, text){
 }
 
 /*******************************************************************************
-Controls
+Buttons
 Code for adding buttons controlling the layout
 *******************************************************************************/
-
-// Add the container for the controls that change the display of the items
-function controls(results, labels) {
-	if(display.showControls) {
-		$("#resultsDiv").prepend(
-			$.el.div({'class':'row'},
-				$.el.div({'class':'col-md-12 resultsDivControls'}))
-		);
-		resultLayoutButtons(results, labels);
-	}
-}
-
-// Add the buttons and the click functionality for changing the display
 function resultLayoutButtons(results, labels) {
-	$(".resultsDivControls").append(
-		$.el.div({'class':'btn-group'},
-			$.el.button({'class':'btn btn-default',
-						 'id':'resultsBtnLayout'}))
+	// add button
+	$(".resultsDivControls").prepend(
+		$.el.button({'class':'btn btn-default',
+					 'id':'resultsBtnLayout'})
 	);
-	setLayoutButton(labels);
 
+	// add click event
 	$("#resultsBtnLayout").click(function() {
 		var resultNodes = document.getElementById("resultsDiv");
 
@@ -427,22 +390,89 @@ function resultLayoutButtons(results, labels) {
 		}
 
 		display.layout = (display.layout === "list") ? "cluster" : "list";
-		controls(results, labels);
+		setLayoutButtons(results, labels); // wow, semi recursion in js...
 		drawResults(results);
 	});
+
+	// add text
+	setLayoutButtons(results, labels)
 }
 
-// Set the text of the display button depending on the view that is rendered
-function setLayoutButton(labels) {
+
+function setLayoutButtons(results, labels) {
+	// set the text
 	if(display.layout === "list") {
 		$("#resultsBtnLayout").html(
-			$.el.span(labels.resultsLblCluster + ' ',
-			$.el.span({'class':'glyphicon glyphicon-th-large'}))
+			[$.el.span(labels.resultsLblCluster + ' '),
+			$.el.span({'class':'glyphicon glyphicon-th-list'})]
 		);
 	} else {
 		$("#resultsBtnLayout").html(
-			$.el.span(labels.resultsLblList + ' ',
-			$.el.span({'class':'glyphicon glyphicon-th-large'}))
+			[$.el.span(labels.resultsLblList + ' '),
+			$.el.span({'class':'glyphicon glyphicon-th'})]
 		);
 	}
+}
+
+// Add the buttons and the click functionality for changing the display
+function domainButton(domainData, labels) {
+	console.log(arguments);
+	if (domainData.subDomains) {
+		// show option to select more specific subdomain
+		addDomainButton(labels.resultsBtnChooseSubDomain);
+		$("#resultsBtnSubDomains").click(function() {
+			document.location.href = "domain.html?domain=" + domainData.domain;
+		});
+	} else if (domainData.requires) {
+		// show button for providing expertise values
+		addDomainButton(labels.resultsBtnChangeExpertise);
+		$("#resultsBtnSubDomains").click(function() {
+			document.location.href = "expertise.html";
+		});
+	} else if (domainData.superDomain) {
+		// show option to select other subdomain
+		addDomainButton(labels.resultsBtnChangeSubDomain);
+		$("#resultsBtnSubDomains").click(function() {
+			document.location.href =
+				"domain.html?domain=" +
+				generateDomainFromUri(domainData.superDomain);
+		});
+	}
+}
+
+function addDomainButton(label) {
+	$(".resultsDivControls").append(
+		$.el.button({
+			'class':'btn btn-primary',
+			'id':'resultsBtnSubDomains'},
+			label
+		)
+	);
+}
+
+function addButtonEvents(user, target, labels) {
+	// add button events in the navbar
+	$("#navbarBtnRecommend").click(function() {
+		// check if not already there
+		if (!(document.location.href.indexOf("results.html?user=" + user)  > -1)) {
+			document.location.href = "results.html?user=" + user;
+		} else {
+			// clear current and get new results
+			$("#resultsDiv").empty();
+			results(target, labels);
+		}
+	});
+	// search on pressing enter
+	$("#navbarInpSearch").keypress(function(event) {
+		if (event.which == 13) {
+			var query = encodeURIComponent($("#navbarInpSearch").val());
+
+			document.location.href = "results.html?query=" + query;
+		}
+	});
+	$("#navbarBtnSearch").click(function() {
+		var query = encodeURIComponent($("#navbarInpSearch").val());
+
+		document.location.href = "results.html?query=" + query;
+	});
 }

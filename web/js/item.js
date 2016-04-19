@@ -60,8 +60,8 @@ function itemInit() {
 
 		domainSettings(domain)
 		.then(function(domainData) {
-			ui = domainData.ui + "item";
-			annotation_ui = domainData.annotation_ui;
+			ui = domainData.hasUI + "item";
+			annotation_ui = domainData.hasAnnotationUI;
 			return getLabels(locale, ui);
 		})
 		.then(function(labelData){

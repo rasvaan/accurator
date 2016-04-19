@@ -137,6 +137,32 @@ Domain page
 }
 
 /*******************************************************************************
+Topic page
+*******************************************************************************/
+.topic {
+	background-color: #333;
+}
+
+.topicImg {
+	max-width: 100%;
+	cursor: pointer;
+}
+
+#topicTxtTitle {
+	text-align: center;
+	color: #fff;
+	padding-bottom: 10px;
+}
+
+.topicHdr {
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	width: 100%;
+	cursor: pointer;
+}
+
+/*******************************************************************************
 Profile page
 *******************************************************************************/
 #profileDivStartChange {
@@ -222,7 +248,7 @@ Search results
 }
 
 .resultsDivControls {
-	padding-bottom: 10px;
+	padding-top: 10px;
 }
 
 .path-label {
