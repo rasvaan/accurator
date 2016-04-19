@@ -163,6 +163,8 @@ aui:results a auis:UI ;
 	aui:resultsHdrRandomResults "Random results"@en ;
 	aui:resultsTxtNoResults "No results found for "@en ;
 	aui:resultsTxtError "Unfortunately an error has occured"@en ;
+	aui:resultsBtnChooseSubDomain "Choose subdomain"@en ;
+	aui:resultsBtnChangeSubDomain "Change subdomain"@en ;
 	aui:resultsBtnChangeExpertise "Change expertise levels"@en ;
 	aui:resultsLblCluster "Cluster view"@en ;
 	aui:resultsLblList "List view"@en .
@@ -179,6 +181,8 @@ aui:resultsHdrRecommendedResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsHdrRandomResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtNoResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtError rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnChooseSubDomain rdfs:subPropertyOf auis:uiLabel .
+aui:resultsBtnChangeSubDomain rdfs:subPropertyOf auis:uiLabel .
 aui:resultsBtnChangeExpertise rdfs:subPropertyOf auis:uiLabel .
 aui:resultsLblCluster rdfs:subPropertyOf auis:uiLabel .
 aui:resultsLblList rdfs:subPropertyOf auis:uiLabel .
