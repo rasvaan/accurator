@@ -40,8 +40,9 @@ get_root_domains([Domain | DomainUris],  [DomainLabel | Filtered]) :-
 %	Create a dictionary filled with information about the domain.
 get_domain_dic(DomainUri, Domain, Dic) :-
 	setof(Property, Value^rdf(DomainUri, Property, Value), Properties),
-	get_values(DomainUri, Properties, PropertyPairs),
+	get_values(DomainUri, Properties, PropertyPairs0),
 	domain_image(DomainUri, ImagePairs),
+	super_domain(DomainUri, PropertyPairs0, PropertyPairs),
 	append([[domain-Domain], PropertyPairs, ImagePairs], Pairs),
 	dict_pairs(Dic, elements, Pairs).
 
@@ -83,3 +84,13 @@ domain_image(DomainUri, [image-ImagePath, imageBrightness-Brightness]) :-
 	rdf(Image, accu:hasFilePath, literal(ImagePath)),
 	rdf(Image, accu:brightness, literal(Brightness)).
 domain_image(_DomainUri, []).
+
+%%	super_domain(+Domain, +Pairs0, -Pairs1)
+%
+%	Retrieve the super domain of a domain and when possible add to list
+%	of pairs.
+super_domain(Domain, Pairs, [superDomain-SuperDomain | Pairs]) :-
+	rdf(SuperDomain, accu:subDomains, Domain), !.
+super_domain(_Domain, Pairs, Pairs).
+
+

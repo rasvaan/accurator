@@ -433,7 +433,9 @@ function domainButton(domainData, labels) {
 		// show option to select other subdomain
 		addDomainButton(labels.resultsBtnChangeSubDomain);
 		$("#resultsBtnSubDomains").click(function() {
-			document.location.href = "domain.html?domain=" + domainData.superDomain;
+			document.location.href =
+				"domain.html?domain=" +
+				generateDomainFromUri(domainData.superDomain);
 		});
 	}
 }
@@ -441,7 +443,7 @@ function domainButton(domainData, labels) {
 function addDomainButton(label) {
 	$(".resultsDivControls").append(
 		$.el.button({
-			'class':'btn btn-default',
+			'class':'btn btn-primary',
 			'id':'resultsBtnSubDomains'},
 			label
 		)
