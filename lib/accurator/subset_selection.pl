@@ -1,4 +1,6 @@
-:- module(subset_selection, [target_iconclass_code/3,
+:- module(subset_selection, [partOfLiterals/1,
+							 target_literal/4,
+							 target_iconclass_code/3,
 							 target_prefix/3,
 							 text_contains_label/5,
 							 target_graph/3,
@@ -19,6 +21,36 @@
 :- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
 :- rdf_register_prefix(accu, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
+
+%%	target_literal(+Predicate, +Literal, +TargetType, +Campaign)
+%
+%	Targets edm works which have the specified literal connected to the
+%	predicate.
+%
+%	target_literal('http://purl.org/dc/terms/isPartOf', 'collectie: sieraden','http://accurator.nl/fashion/jewelry#Target','http://accurator.nl/fashion/jewelry#Campaign').
+
+
+target_literal(Predicate, Literal, TargetType, Campaign) :-
+	Options = [target_type(TargetType), campaign(Campaign),
+			  targetter('http://accurator.nl/user#LiteralScanner')],
+	findall(Work,
+			work_with_literal(Predicate, Literal, Work),
+			LiteralWorks),
+	length(LiteralWorks, NumberLiteralWorks),
+	format('Number of works with ~p: ~p', [Literal, NumberLiteralWorks]),
+	maplist(campaign_nomination(Options), LiteralWorks).
+
+work_with_literal(Predicate, Literal, Work) :-
+	rdf(Work, Predicate, literal(Literal)),
+	has_image(Work).
+
+% see which literals are used for partof
+partOfLiterals(Literals) :-
+	setof(Literal,
+		  Work^rdf(Work, 'http://purl.org/dc/terms/isPartOf',
+				   literal(Literal),
+				   'http://purl.org/collections/nl/rma/rma-edm-fashion-selection.ttl'),
+		  Literals).
 
 %%	target_iconclass_code(+Code, +TargetType, +Campaign)
 %
