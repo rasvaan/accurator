@@ -57,16 +57,6 @@ aui:domainHdr rdfs:subPropertyOf auis:uiLabel .
 aui:domainHdrSub rdfs:subPropertyOf auis:uiLabel .
 aui:domainTxtAllObjects rdfs:subPropertyOf auis:uiLabel .
 
-##### Topic Screen #####
-
-aui:topic a auis:UI ;
-	dcterms:title "Accurator topic UI"@en ;
-	aui:topicPageTitle "Select the topic"@en ;
-	aui:topicTxtTitle "Choose the topic of the artworks you want to tag."@en .
-
-aui:topicPageTitle rdfs:subPropertyOf auis:uiLabel .
-aui:topicTxtTitle rdfs:subPropertyOf auis:uiLabel .
-
 ##### Item Screen #####
 
 aui:item a auis:UI ;
@@ -191,20 +181,6 @@ aui:resultsBtnChangeExpertise rdfs:subPropertyOf auis:uiLabel .
 aui:resultsLblCluster rdfs:subPropertyOf auis:uiLabel .
 aui:resultsLblList rdfs:subPropertyOf auis:uiLabel .
 
-###### End Screen #####
-
-aui:end a auis:UI ;
-	dcterms:title "Accurator end UI"@en ;
-	aui:endTxtSlogan "Thank you for participating!"@en ;
-	aui:endTxtSubSlogan "You can now start adding information to the Rijksmuseum collection"@en ;
-	aui:endBtnContinue "Continue"@en ;
-	aui:endLnkAbout "About Accurator"@en .
-
-aui:endTxtSlogan rdfs:subPropertyOf auis:uiLabel .
-aui:endTxtSubSlogan rdfs:subPropertyOf auis:uiLabel .
-aui:endBtnContinue rdfs:subPropertyOf auis:uiLabel .
-aui:endLnkAbout rdfs:subPropertyOf auis:uiLabel .
-
 ##### Register Modal #####
 
 aui:registerModal a auis:UI ;
@@ -261,7 +237,7 @@ aui:navbarLnkLogout rdfs:subPropertyOf auis:uiLabel .
 aui:navbarLnkAbout rdfs:subPropertyOf auis:uiLabel .
 aui:navbarLblProfile rdfs:subPropertyOf auis:uiLabel .
 
-##### Form Screen #####
+##### Form #####
 
 aui:form a auis:UI ;
 	dcterms:title "Accurator additional info UI"@en  ;

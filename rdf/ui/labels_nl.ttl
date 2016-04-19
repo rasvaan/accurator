@@ -34,12 +34,6 @@ aui:domain a auis:UI ;
 	aui:domainHdrSub "Is er een specifiek subdomein waaraan u informatie wilt bijdragen?"@nl ;
 	aui:domainTxtAllObjects "Alle werken in  "@nl .
 
-##### Topic Screen #####
-
-aui:topic a auis:UI ;
-	aui:topicPageTitle "Selecteer Onderwerp"@nl ;
-	aui:topicTxtTitle "Kies het onderwerp van de kunstwerken waaraan u informatie wilt bijdragen."@nl .
-
 ##### Item Screen #####
 
 aui:item a auis:UI ;
@@ -109,14 +103,6 @@ aui:results a auis:UI ;
 	aui:resultsLblCluster "Cluster weergave"@nl ;
 	aui:resultsLblList "Lijst weergave"@nl .
 
-###### End Screen #####
-
-aui:end a auis:UI ;
-	aui:endTxtSlogan "Bedankt voor uw deelname!"@nl ;
-	aui:endTxtSubSlogan "U kunt doorgaan met het toevoegen van informatie aan de Rijksmuesum collectie"@nl ;
-	aui:endBtnContinue "Ga verder"@nl ;
-	aui:endLnkAbout "Informatie over Accurator"@nl .
-
 ##### Register Modal #####
 
 aui:registerModal a auis:UI ;
@@ -149,7 +135,7 @@ aui:userDropdown a auis:UI ;
 	aui:navbarLnkAbout "Over Accurator"@nl ;
 	aui:navbarLblProfile "Profiel"@nl .
 
-##### Form Screen #####
+##### Form #####
 
 aui:form a auis:UI ;
 	aui:formPageTitle "Informatie"@nl ;
