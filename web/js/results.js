@@ -416,7 +416,6 @@ function setLayoutButtons(results, labels) {
 
 // Add the buttons and the click functionality for changing the display
 function domainButton(domainData, labels) {
-	console.log(arguments);
 	if (domainData.subDomains) {
 		// show option to select more specific subdomain
 		addDomainButton(labels.resultsBtnChooseSubDomain);

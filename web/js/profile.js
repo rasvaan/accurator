@@ -99,7 +99,6 @@ function initLabels(labelData, realName) {
 }
 
 function addDomainTitle(domainData, locale, labels) {
-	console.log(labels);
 	// add the title of the current domain to the profile page
 	getLabels(locale, domainData.hasLabel)
 	.then(function(data){

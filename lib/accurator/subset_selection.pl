@@ -7,8 +7,7 @@
 							 target_annotation/3,
 							 target_ubvu_pages/2,
 							 target_description_scanner/0,
-							 target_title_scanner/0,
-							 target_bible_pages/0]).
+							 target_title_scanner/0]).
 
 /** <module> Subset selection for annotation
 */

@@ -97,7 +97,7 @@ aui:results a auis:UI ;
 	aui:resultsHdrRandomResults "Willekeurige resultaten"@nl ;
 	aui:resultsTxtNoResults "Geen resultaten gevonden voor "@nl ;
 	aui:resultsTxtError "Helaas, er is iets fout gegaan"@nl ;
-	aui:resultsBtnChooseSubDomain "Kies subdomein"@en ;
+	aui:resultsBtnChooseSubDomain "Kies subdomein"@nl ;
 	aui:resultsBtnChangeSubDomain "Verander subdomein"@nl ;
 	aui:resultsBtnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:resultsLblCluster "Cluster weergave"@nl ;
