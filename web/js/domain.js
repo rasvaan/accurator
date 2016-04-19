@@ -30,8 +30,8 @@ function domainInit() {
 		populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
 
 		getLabels(locale, ui)
-		.then(function(labels) {
-			labels = initLabels(labels, domain)
+		.then(function(labelData) {
+			labels = initLabels(labelData, domain)
 			return getDomains(domain);
 		})
 		.then(function(domains) {
@@ -51,7 +51,7 @@ function initLabels(labels, domain) {
 		$("#domainTxtTitle").append(labels.domainHdrSub);
 	}
 
-	return {'domainTxtAllObjects':labels.domainTxtAllObjects}
+	return {'domainTxtAllObjects':labels.domainTxtAllObjects};
 }
 
 function getDomains(domain) {
@@ -72,16 +72,19 @@ function getDomains(domain) {
 	}
 }
 
-function populateDomains(domainLabels, rootDomainLabel, labels, locale) {
+function populateDomains(domains, domain, labels, locale) {
 	var row;
 
-	// remove generic from the domains (does not work on ie 7 and 8..)
-	if (domainLabels.indexOf("generic") >= 0) {
-		domainLabels.splice(domainLabels.indexOf("generic"), 1);
+	// remove generic from the domains if showing top domains (does not work on ie 7 and 8..)
+	if (domain === "generic") {
+		domains.splice(domains.indexOf("generic"), 1);
+	} else {
+		// add root domain as option to select in list of subdomains
+		domains.push(domain);
 	}
 
 	// get domain settings for all the domains
-	for (var i=0; i<domainLabels.length; i++) {
+	for (var i=0; i<domains.length; i++) {
 		// add a new row for every two domains
 		if (i%2 === 0) {
 			row = parseInt(i/2);
@@ -91,17 +94,24 @@ function populateDomains(domainLabels, rootDomainLabel, labels, locale) {
 			);
 		}
 
-		$.getJSON("domains", {domain:domainLabels[i]})
-		.then(addDomain(row, locale)); //TODO: Check if this can be coded cleaner
+		$.getJSON("domains", {domain:domains[i]})
+		.then(addDomain(row, locale, labels, domain));
 	}
 }
 
-function addDomain(row, locale) {
+function addDomain(row, locale, pageLabels, rootDomain) {
 	return function(domainData) {
 		return getLabels(locale, domainData.hasLabel)
-		.then(function(labels) {
+		.then(function(domainLabel) {
 			var topics = null;
-			var subDomains;
+			var subDomains, domainLabel;
+
+			// set domain label for root domain if matched
+			if (rootDomain === domainData.domain) {
+				domainLabel = pageLabels.domainTxtAllObjects + domainLabel.textLabel;
+			} else {
+				domainLabel = domainLabel.textLabel;
+			}
 
 			// see if there are subdomains
 			domainData.subDomains ?
@@ -121,7 +131,7 @@ function addDomain(row, locale) {
 			// domainData
 			var domain = new Domain (
 				domainData.domain,
-				labels.textLabel,
+				domainLabel,
 				domainData.image,
 				domainData.imageBrightness,
 				subDomains,
