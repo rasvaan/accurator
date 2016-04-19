@@ -105,13 +105,7 @@ function addDomain(row, locale, pageLabels, rootDomain) {
 		.then(function(domainLabel) {
 			var topics = null;
 			var subDomains, domainLabel;
-
-			// set domain label for root domain if matched
-			if (rootDomain === domainData.domain) {
-				domainLabel = pageLabels.domainTxtAllObjects + domainLabel.textLabel;
-			} else {
-				domainLabel = domainLabel.textLabel;
-			}
+			var link = "results.html"; // go to results page by default
 
 			// see if there are subdomains
 			domainData.subDomains ?
@@ -128,10 +122,25 @@ function addDomain(row, locale, pageLabels, rootDomain) {
 				);
 			}
 
-			// domainData
+			if (rootDomain === domainData.domain) {
+				// set domain label for root domain if matched
+				domainLabel = pageLabels.domainTxtAllObjects + domainLabel.textLabel;
+			} else {
+				// set domain label and link for subdomain
+				domainLabel = domainLabel.textLabel;
+
+				if (subDomains.length > 0) {
+					link = "domain.html?domain=" + domainData.domain;
+				} else if (topics != null) {
+					link = "expertise.html";
+				}
+			}
+
+			// create domain object
 			var domain = new Domain (
 				domainData.domain,
 				domainLabel,
+				link,
 				domainData.image,
 				domainData.imageBrightness,
 				subDomains,

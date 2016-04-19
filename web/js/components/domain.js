@@ -3,12 +3,12 @@ Domain
 
 Code for representing domains
 *******************************************************************************/
-function Domain(id, title, image, imageBrightness, subDomains, topics) {
+function Domain(id, title, link, image, imageBrightness, subDomains, topics) {
 	this.id = id; // id of domain
 	this.title = title; // title of domain
+	this.link = link; // URL of location where someone can show expertise of domain
 	this.image = image; // image illustrating domain
 	this.imageBrightness = imageBrightness; // is the descriptive image dark or light
-	this.link = null; // URL of location where someone can show expertise of domain
 	this.subDomains = subDomains;
 	this.expertiseTopics = topics;
 	this.node = null;  // html of thumbnail
@@ -26,19 +26,8 @@ Domain.prototype.init = function() {
 				  'src':this.image})
 	);
 
-	this.setLink();
 	this.setTitleColor();
 	this.setClickEvent();
-}
-
-Domain.prototype.setLink = function() {
-	if (this.subDomains.length > 0) {
-		this.link = "domain.html?domain=" + this.id;
-	} else if (this.expertiseTopics != null) {
-		this.link = "expertise.html";
-	} else {
-		this.link = "results.html";
-	}
 }
 
 Domain.prototype.setTitleColor = function() {
