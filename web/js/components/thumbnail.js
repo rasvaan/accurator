@@ -1,7 +1,7 @@
 /******************************************************************************
 Thumbnail
 
-Code for initializing bootstrap thumbnails
+Thumbnail object
 *******************************************************************************/
 function Thumbnail(uri, title, thumb, link, numberDisplayedItems) {
 	this.id = null; // id of thumbnail
@@ -48,26 +48,17 @@ Thumbnail.prototype.getId = function(uri) {
 	return id;
 }
 
-// Generate HTML for adding a thumbnail for an item
-Thumbnail.prototype.html = function(id, thumb, bootstrapWidth) {
-
-}
-
-Thumbnail.prototype.setStub = function() {
-	$(this.node).find("img").hide();
-	$(this.node).find("canvas").show();
-}
-
 Thumbnail.prototype.setImage = function(url) {
 	// show canvas
 	var _thumb = this;
 	$(this.node).find("img").attr("src", url);
 
+	// wait for the image to load, remove canvas and show
 	$(this.node).find("img").on('load', function() {
-		// hide the canvas
-		$(_thumb.node).find("canvas").hide();
+		$(_thumb.node).find("canvas").remove();
 		$(_thumb.node).find("img").show();
 	});
+
 	// replace image url
 	this.thumb = url;
 }
