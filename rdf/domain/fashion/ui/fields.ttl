@@ -6,13 +6,27 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 afasui:fashionUI a auis:AnnotationUI ;
-    dcterms:title "Fashion annotation UI"@en;
+    dcterms:title "Fashion annotation UI"@en ;
+    auis:wholeFields (
+        afasui:Period
+    ) ;
 	auis:fragmentFields (
 	     afasui:Garment
 		 afasui:Material
 		 afasui:Technique
 		 afasui:Color
 	 ) .
+
+ afasui:Period a auis:DropdownField ;
+ 	rdfs:label "Style period"@en ;
+ 	rdfs:label "Stijlperiode"@nl ;
+ 	dcterms:comment "add the related style period"@en ;
+ 	dcterms:comment "voeg de stijlperiode toe"@nl ;
+ 	auis:source afasui:PeriodSource .
+
+ afasui:PeriodSource a auis:AlternativesSource ;
+     auis:api "/api/autocomplete/all" ;
+     auis:filterScheme "http://aat.org/Period" .
 
 afasui:Garment a auis:DropdownField ;
 	rdfs:label "Garment"@en ;
