@@ -77,14 +77,15 @@ Navbar
 Intro
 *******************************************************************************/
 .intro {
-	overflow-x: hidden;
-	overflow-y: hidden;
+	overflow: hidden;
 	background-color: #333;
 }
 
 .introImgBackground {
-	min-width: 125%;
-	max-width: 125%;
+	position: absolute;
+	left: -10%;
+	min-width: 120%;
+	max-width: 120%;
 }
 
 .introDivContainer {
