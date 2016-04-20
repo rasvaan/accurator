@@ -458,6 +458,7 @@ function addButtonEvents(user, target, labels) {
 		} else {
 			// clear current and get new results
 			$("#resultsDiv").empty();
+			$("#resultsBtnLayout").remove();
 			results(target, labels);
 		}
 	});
