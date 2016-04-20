@@ -137,32 +137,6 @@ Domain page
 }
 
 /*******************************************************************************
-Topic page
-*******************************************************************************/
-.topic {
-	background-color: #333;
-}
-
-.topicImg {
-	max-width: 100%;
-	cursor: pointer;
-}
-
-#topicTxtTitle {
-	text-align: center;
-	color: #fff;
-	padding-bottom: 10px;
-}
-
-.topicHdr {
-	position: absolute;
-	top: 50px;
-	left: 50px;
-	width: 100%;
-	cursor: pointer;
-}
-
-/*******************************************************************************
 Profile page
 *******************************************************************************/
 #profileDivStartChange {
@@ -355,6 +329,12 @@ Item page
 
 #itemLblPageType {
   vertical-align: bottom;
+}
+
+.lblAnnotation {
+	padding: 2px 5px;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 
 /* Item page: Typeahead functionality */
