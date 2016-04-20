@@ -23,7 +23,7 @@ afasui:Garment a auis:DropdownField ;
 
 afasui:GarmentSource a auis:AlternativesSource ;
     auis:api "/api/autocomplete/all" ;
-    auis:filterScheme "http://accurator.nl/fashion#GarmentConceptScheme" .
+    auis:filterScheme "http://thesaurus.europeanafashion.eu/thesaurus/Type" .
 
 afasui:Material a auis:DropdownField ;
 	rdfs:label "Material"@en ;
@@ -34,7 +34,7 @@ afasui:Material a auis:DropdownField ;
 
 afasui:MaterialSource a auis:AlternativesSource ;
     auis:api "/api/autocomplete/all" ;
-    auis:filterScheme "http://accurator.nl/fashion#MaterialConceptScheme" .
+    auis:filterScheme "http://thesaurus.europeanafashion.eu/thesaurus/Materials" .
 
 afasui:Technique a auis:DropdownField ;
 	rdfs:label "Technique"@en ;
@@ -45,7 +45,7 @@ afasui:Technique a auis:DropdownField ;
 
 afasui:TechniqueSource a auis:AlternativesSource ;
     auis:api "/api/autocomplete/all" ;
-    auis:filterScheme "http://accurator.nl/fashion#TechniqueConceptScheme" .
+    auis:filterScheme "http://thesaurus.europeanafashion.eu/thesaurus/Techniques" .
 
 afasui:Color a auis:DropdownField ;
 	rdfs:label "Color"@en ;
@@ -56,4 +56,4 @@ afasui:Color a auis:DropdownField ;
 
 afasui:ColorSource a auis:AlternativesSource ;
     auis:api "/api/autocomplete/all" ;
-    auis:filterScheme "http://accurator.nl/fashion#TechniqueConceptScheme" .
+    auis:filterScheme "http://thesaurus.europeanafashion.eu/thesaurus/Colours" .
