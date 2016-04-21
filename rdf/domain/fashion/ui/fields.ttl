@@ -11,7 +11,7 @@ afasui:fashionUI a auis:AnnotationUI ;
         afasui:Period
     ) ;
 	auis:fragmentFields (
-	     afasui:Garment
+	     afasui:Type
 		 afasui:Material
 		 afasui:Technique
 		 afasui:Color
@@ -28,11 +28,11 @@ afasui:fashionUI a auis:AnnotationUI ;
      auis:api "/api/autocomplete/all" ;
      auis:filterScheme "http://aat.org/Period" .
 
-afasui:Garment a auis:DropdownField ;
-	rdfs:label "Garment"@en ;
-	rdfs:label "Kledingstuk"@nl ;
-	dcterms:comment "add the type of garment"@en ;
-	dcterms:comment "voeg het type kledingstuk toe"@nl ;
+afasui:Type a auis:DropdownField ;
+	rdfs:label "Object type"@en ;
+	rdfs:label "Type object"@nl ;
+	dcterms:comment "add the type of object"@en ;
+	dcterms:comment "voeg het object type toe"@nl ;
 	auis:source afasui:GarmentSource .
 
 afasui:GarmentSource a auis:AlternativesSource ;
