@@ -41,12 +41,8 @@ annotorious.plugin.DenichePlugin = function(labels) {
 	/** @private **/
 	this._cleantags = []; // tags annotorious already knows about
 	this._dirtytag = null; // tag annotorious doesn't know yet
-	this._saveButtons = {}; // we have multiple buttons if we have multiple images per page
-	this._cancelButtons = {};
 	this._labels = labels; // labels for buttons
 }
-
-annotorious.plugin.DenichePlugin.states = {EMPTY:'empty', SOME:'some'};
 
 annotorious.plugin.DenichePlugin.prototype.onInitAnnotator = function(annotator) {
     this.annotator = annotator;
@@ -61,6 +57,16 @@ annotorious.plugin.DenichePlugin.prototype.onInitAnnotator = function(annotator)
     var imageId  = el.getElementsByTagName('img')[0].getAttribute('id');
     var fieldsEl = document.getElementById(fieldsId);
     annotator.editor.addField(fieldsEl);
+
+	// get the annotorious save and cancel button so we can manipulate them:
+	var node = $(this.annotator.element);
+	var saveButton = node.find(".annotorious-editor-button-save");
+	var cancelButton = node.find(".annotorious-editor-button-cancel");
+	// change labels and change styling
+	saveButton.html(this._labels.annoBtnDone);
+	cancelButton.html(this._labels.annoBtnCancel);
+	saveButton.addClass("btn btn-primary btn-sm");
+	cancelButton.addClass("btn btn-default btn-sm");
 
     // install all handlers on events created by annotorious:
     this.installHandlers();
@@ -82,27 +88,15 @@ annotorious.plugin.DenichePlugin.prototype.initPlugin = function(anno) {
 	this._anno._deniche = this; // and annotorious knows us
 }
 
-annotorious.plugin.DenichePlugin.prototype.toggleButtons = function(state, fieldsId) {
-	if (!this._cancelButtons[fieldsId]) return;
-	if (!state) state = annotorious.plugin.DenichePlugin.states.SOME;
-	if (state == annotorious.plugin.DenichePlugin.states.SOME) {
-		this._cancelButtons[fieldsId].style.display="none";
-		this._saveButtons[fieldsId].style.display="inline-block";
-	} else if (state == annotorious.plugin.DenichePlugin.states.EMPTY) {
-		this._saveButtons[fieldsId].style.display="none";
-		this._cancelButtons[fieldsId].style.display="inline-block";
-	}
-}
-
 annotorious.plugin.DenichePlugin.prototype.filterTags = function(targetId, fieldsId) {
-	// Filter tags to show only the ones with the same selector
+	// filter tags to show only the ones with the same selector
 	var oSelf = this;
 	var editor = $(".annotorious-editor")[0];
 	var selector = '#'+ fieldsId + ' .lblAnnotation';
 	if (!fieldsId) selector = '.lblAnnotation';
 
 	$(editor).find(selector).each(function(index, annotation) {
-		// See if id matches the (current?) target
+		// see if id matches the (current?) target
 		if (targetId == $(annotation).attr("targetId")) {
 			$(annotation).show();
 		} else {
@@ -150,7 +144,6 @@ annotorious.plugin.DenichePlugin.prototype.addAnnotation = function (annotation,
 		this._dirtytag = annotation;
 	}
 
-	this.toggleButtons(annotorious.plugin.DenichePlugin.states.SOME, annotation.fieldsId);
 	this.filterTags(annotation.targetId, annotation.fieldsId); // only show tags for this shape
 }
 
@@ -178,26 +171,17 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 
 	this._anno.addHandler('onSelectionCompleted', function(event) {
 		oSelf.currentShape = event.shape;
-		var currentFieldsId = event.mouseEvent.target.parentNode.getElementsByTagName('img')[0].getAttribute('fields');
-		oSelf.toggleButtons(annotorious.plugin.DenichePlugin.states.EMPTY, currentFieldsId);
-	});
+ 	});
 
 	this._anno.addHandler('onEditorShown', function(annotation) {
-		// get the annotorious save and cancel button so we can manipulate them, change labels and change styling
-		oSelf._saveButtons[annotation.fieldsId] = node.find(".annotorious-editor-button-save").get(0);
-		oSelf._saveButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnDone;
-		oSelf._saveButtons[annotation.fieldsId].className += " btn btn-primary btn-sm";
-		oSelf._cancelButtons[annotation.fieldsId] = node.find(".annotorious-editor-button-cancel").get(0);
-		oSelf._cancelButtons[annotation.fieldsId].innerHTML = oSelf._labels.annoBtnCancel;
-		oSelf._cancelButtons[annotation.fieldsId].className += " btn btn-default btn-sm";
+		var node = $(oSelf.annotator.element);
 
 		// set focus on first field (exlude hint input field introduced by twitter typeahead)
 		node.find(".annotorious-editor input").not(".tt-hint")[0].focus();
 
 		oSelf._dirtytag = null;
-		if (annotation && annotation.shapes) {
+		if (annotation.text && annotation.shapes) {
 			oSelf.currentShape = annotation.shapes[0];
-			oSelf.toggleButtons(annotorious.plugin.DenichePlugin.states.SOME, annotation.fieldsId);
 			oSelf.filterTags(annotation.targetId, annotation.fieldsId); // only show tags for this shape
 		} else {
 			oSelf.filterTags(null, null);	// hide all tags
@@ -205,16 +189,18 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 	});
 
 	this._anno.addHandler('onAnnotationCreated', function(original) {
+		// triggered when done is clicked
 		var counter = 0;
 		var promises =[];
 
-		// itterate through fields, saving values
+		// itterate through fields, saving not entered values
 		for (var i=0; i<fields.length; i++) {
 			var inputField = $(fields[i].node).find("#" + fields[i].inputId);
 
 			if (inputField.val()) {
 				var annotation = inputField.val();
 
+				// if there is a value, create promise to enable waiting for it to be saved
 				promises[counter] = fields[i].submitAnnotation(
 					fields[i].MOTIVATION.tagging,
 					fields[i].target,
