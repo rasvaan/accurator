@@ -127,8 +127,8 @@ Domain page
 }
 
 .noGutter {
-  margin-left: 0;
-  margin-right: 0;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .noPadding {
@@ -159,10 +159,6 @@ Profile page
 
 #frmChangeLocale {
 	padding-left: 0px;
-}
-
-.thumbnail {
-	cursor: pointer;
 }
 
 /*******************************************************************************

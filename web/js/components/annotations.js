@@ -26,8 +26,10 @@ AnnotationList.prototype.remove = function(annotation) {
 }
 
 AnnotationList.prototype.render = function() {
-	// Empty the field before showing all annotations
-	$("#" + this.divId).empty();
+	var node = $(this.node).find("#" + this.divId);
+
+	// empty the field before showing all annotations
+	node.empty();
 
 	// Render the annotations related to this field
 	for (var key in this.annotations) {
@@ -37,7 +39,7 @@ AnnotationList.prototype.render = function() {
 		var target = this.findTarget(annotation);
 
 		// Add annotation in div below field
-		$('#' + this.divId).append(
+		node.append(
 			$.el.span({
 				'id':'lbl' + id,
 				'class':'label label-primary lblAnnotation',
