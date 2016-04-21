@@ -72,7 +72,6 @@ function resultsInit() {
 		.then(function(labelData) {
 			labels = initLabels(labelData);
 			labels.realName = realName; // add realname to labels for rendering
-			domainButton(domainData, labels);
 			addButtonEvents(user, target, labels);
 
 			return events(user, labels);
@@ -81,7 +80,7 @@ function resultsInit() {
 			// Provide results based on query, recommend something based on
 			// the expertise of the retrieved user or, if none of these, show
 			// just random results
-			results(target, labels);
+			results(target, labels, domainData);
 		})
 	}
 }
@@ -127,7 +126,7 @@ function events(user, labels) {
 /*******************************************************************************
 Search, Recommend or Random results
 *******************************************************************************/
-function results(target, labels) {
+function results(target, labels, domainData) {
 	var query = getParameterByName("query"); // get query from url when present
 	var userQuery = getParameterByName("user"); // get user from url when present
 	var recommendBoolean = false; // do random stuff
@@ -142,24 +141,31 @@ function results(target, labels) {
 		// recommendations based on the expertise of the user
 		// first recommended results are shown, then random results
 		query = "expertise";
-		recommend(query, labels, target);
+		recommend(query, labels, target, domainData);
 	} else {
 		// random results
 		query = "random";
-		random(query, labels, target, 20);
+		random(query, labels, target, 20, domainData);
 	}
 }
 
 // Get results based on the user query
 function search(query, labels) {
+	statusMessage(labels.resultsTxtSearching + query);
+
 	$.getJSON("cluster_search_api", {query:query})
 	.then(function(data) {
+		$(".resultsDivStatus").remove();
 		$(document).prop('title', labels.resultsHdrResults + query);
 		var clusters = processClusters(data, labels, query);
+
 		// if there are any clusters retrieved, then draw results
 		if (clusters.length > 0) {
 			resultLayoutButtons(clusters, labels); // add control buttons to change layout
 			drawResults(clusters);
+		} else {
+			// tell the people nothing is found
+			statusMessage(labels.resultsTxtNoResults + query);
 		}
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
@@ -168,7 +174,7 @@ function search(query, labels) {
 
 // Get results based on the expertise of the user and, afterwards, a number of
 // random items that have not yet been annotated
-function recommend(query, labels, target) {
+function recommend(query, labels, target, domainData) {
 	var recommendation = $.getJSON("recommendation", {
 		strategy:query,
 		target:target
@@ -184,17 +190,19 @@ function recommend(query, labels, target) {
 	.then(function(clusters, randomCluster) {
 		clusters.push(randomCluster);
 		resultLayoutButtons(clusters, labels); // add control buttons to change layout
+		domainButton(domainData, labels);
 		drawResults(clusters);
 	});
 }
 
 // Get random items
-function random(query, labels, target, noResults) {
+function random(query, labels, target, noResults, domainData) {
 	randomCluster(target, noResults)
 	.then(function(cluster) {
 		var clusters = [];
 		clusters[0] = cluster;
 		resultLayoutButtons(clusters, labels);
+		domainButton(domainData, labels);
 		drawResults(clusters);
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
@@ -208,7 +216,6 @@ function processClusters(data, labels, query) {
 	var clusters = []; // array containing cluster objects
 
 	if (data.clusters.length === 0) {
-		statusMessage(labels.resultsTxtNoResults + query);
 		return clusters;
 	} else {
 		for (var i = 0; i < data.clusters.length; i++) {
@@ -360,7 +367,7 @@ function statusMessage(header, text){
 	$(document).prop('title', header);
 
 	$("#resultsDiv").html(
-		$.el.div({'class':'row'},
+		$.el.div({'class':'row resultsDivStatus'},
 			$.el.div({'class':'col-lg-10 col-md-offset-1'},
 				$.el.h3(header)),
 			$.el.div({'class':'row'},
