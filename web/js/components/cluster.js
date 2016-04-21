@@ -113,7 +113,6 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 			this.items[i].link,
 			numberDisplayedItems
 		);
-		thumbnail.hide(); // hide until image is loaded
 		thumbnail.setClickEvent(this.items[i].link, this.uris, this.path.path);
 		this.thumbnails[i] = thumbnail;
 	}

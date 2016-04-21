@@ -23,15 +23,13 @@ Thumbnail.prototype.init = function() {
 			'id':this.id
 		},
 			$.el.img({
-				'src':'',
+				'src':this.thumb,
 				'class':'img-responsive',
 				'alt':''
 			}),
 			$.el.div({'class':'caption'},
 				this.thumbnailTitle()
 	)));
-
-	this.setImage(this.thumb);
 }
 
 // Retrieves the item id from the uri string
@@ -45,11 +43,6 @@ Thumbnail.prototype.getId = function(uri) {
 Thumbnail.prototype.setImage = function(url) {
 	var _thumb = this;
 	$(this.node).find("img").attr("src", url);
-
-	// wait for the image to load, then show thumb
-	$(this.node).find("img").on('load', function() {
-		_thumb.show();
-	});
 
 	// replace image url
 	this.thumb = url;
