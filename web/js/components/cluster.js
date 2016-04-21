@@ -113,7 +113,7 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 			this.items[i].link,
 			numberDisplayedItems
 		);
-
+		thumbnail.hide(); // hide until image is loaded
 		thumbnail.setClickEvent(this.items[i].link, this.uris, this.path.path);
 		this.thumbnails[i] = thumbnail;
 	}
@@ -145,6 +145,12 @@ Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDispl
 
 		// make sure the thumbnail shown (maybe returning from hidden state)
 		_cluster.thumbnails[i].show();
+		// reattach click (might be removed while element was replaced)
+		_cluster.thumbnails[i].setClickEvent(
+			_cluster.items[i].link,
+			_cluster.uris,
+			_cluster.path.path
+		);
 		thumbIndex++;
 	}
 
