@@ -124,7 +124,7 @@ function events(user, locale, labels) {
 
 		if (annotations.length === 5) {
 			showForm(
-				"form_peronal",
+				"formPersonal",
 				["country",
 				"language",
 				"education",
@@ -136,7 +136,7 @@ function events(user, locale, labels) {
 
 		if (annotations.length === 10) {
 			showForm(
-				"form_internet",
+				"formInternet",
 				["socialNetwork",
 				"taggingSites",
 				"taggingExperience",
