@@ -122,13 +122,11 @@ function addButtonEvents(user) {
 	$("#navbarInpSearch").keypress(function(event) {
 		if (event.which == 13) {
 			var query = encodeURIComponent($("#navbarInpSearch").val());
-
 			document.location.href = "results.html?query=" + query;
 		}
 	});
 	$("#navbarBtnSearch").click(function() {
 		var query = encodeURIComponent($("#navbarInpSearch").val());
-
 		document.location.href = "results.html?query=" + query;
 	});
 	$("#profileBtnChangeExpertise").click(function() {

@@ -176,7 +176,7 @@ function addButtonEvents(user) {
 		}
 	});
 	$("#navbarBtnSearch").click(function() {
-		var query = encodeURIComponent($("#frmSearch").val());
+		var query = encodeURIComponent($("#navbarInpSearch").val());
 		document.location.href = "results.html?query=" + query;
 	});
 }
