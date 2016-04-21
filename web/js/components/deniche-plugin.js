@@ -165,17 +165,12 @@ annotorious.plugin.DenichePlugin.prototype.flushDirtyAnnotation = function(origi
 annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 	var oSelf = this;
 	var node = $(oSelf.annotator.element);
-	var fieldsId = this.annotator.element.getElementsByTagName('img')[0].getAttribute('fields');
-	var imageId  = this.annotator.element.getElementsByTagName('img')[0].getAttribute('id');
-	var fields = this._anno.fields[imageId][fieldsId];
 
 	this._anno.addHandler('onSelectionCompleted', function(event) {
 		oSelf.currentShape = event.shape;
  	});
 
 	this._anno.addHandler('onEditorShown', function(annotation) {
-		var node = $(oSelf.annotator.element);
-
 		// set focus on first field (exlude hint input field introduced by twitter typeahead)
 		node.find(".annotorious-editor input").not(".tt-hint")[0].focus();
 
@@ -190,42 +185,52 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 
 	this._anno.addHandler('onAnnotationCreated', function(original) {
 		// triggered when done is clicked
-		var counter = 0;
-		var promises =[];
-
-		// itterate through fields, saving not entered values
-		for (var i=0; i<fields.length; i++) {
-			var inputField = $(fields[i].node).find("#" + fields[i].inputId);
-
-			if (inputField.val()) {
-				var annotation = inputField.val();
-
-				// if there is a value, create promise to enable waiting for it to be saved
-				promises[counter] = fields[i].submitAnnotation(
-					fields[i].MOTIVATION.tagging,
-					fields[i].target,
-					{'@value':annotation},
-					annotation
-				);
-
-				inputField.typeahead('val', ''); // clear input
-				counter++;
-			}
-		}
-
-		if (promises.length > 0) {
-			// wait for all the annotatoins to be added before flushing
-			$.when.apply($, promises)
-			.then(function() {
-				oSelf.flushDirtyAnnotation(original);
-			});
-		} else {
-			// no promises to wait for
-			oSelf.flushDirtyAnnotation(original);
-		}
+		oSelf.flushFields(original);
 	});
 
 	this._anno.addHandler('onAnnotationUpdated', function(original) {
-		oSelf.flushDirtyAnnotation(original);
+		// triggered when done is clicked and there already was an annotation
+		oSelf.flushFields(original);
 	});
+}
+
+annotorious.plugin.DenichePlugin.prototype.flushFields = function(original) {
+	var oSelf = this;
+	var node = $(oSelf.annotator.element);
+	var fieldsId = this.annotator.element.getElementsByTagName('img')[0].getAttribute('fields');
+	var imageId  = this.annotator.element.getElementsByTagName('img')[0].getAttribute('id');
+	var fields = this._anno.fields[imageId][fieldsId];
+	var counter = 0;
+	var promises =[];
+
+	// itterate through fields, saving not entered values
+	for (var i=0; i<fields.length; i++) {
+		var inputField = $(fields[i].node).find("#" + fields[i].inputId);
+
+		if (inputField.val()) {
+			var annotation = inputField.val();
+
+			// if there is a value, create promise to enable waiting for it to be saved
+			promises[counter] = fields[i].submitAnnotation(
+				fields[i].MOTIVATION.tagging,
+				fields[i].target,
+				{'@value':annotation},
+				annotation
+			);
+
+			inputField.typeahead('val', ''); // clear input
+			counter++;
+		}
+	}
+
+	if (promises.length > 0) {
+		// wait for all the annotatoins to be added before flushing
+		$.when.apply($, promises)
+		.then(function() {
+			oSelf.flushDirtyAnnotation(original);
+		});
+	} else {
+		// no promises to wait for
+		oSelf.flushDirtyAnnotation(original);
+	}
 }
