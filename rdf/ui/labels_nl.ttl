@@ -30,7 +30,9 @@ aui:about a auis:UI ;
 
 aui:domain a auis:UI ;
 	aui:domainPageTitle "Selecteer Domein"@nl ;
-	aui:domainTxtTitle "Aan welk domein wilt u informatie bijdragen?"@nl .
+	aui:domainHdr "Aan welk domein wilt u informatie bijdragen?"@nl ;
+	aui:domainHdrSub "Is er een specifiek subdomein waaraan u informatie wilt bijdragen?"@nl ;
+	aui:domainTxtAllObjects "Alle werken in  "@nl .
 
 ##### Item Screen #####
 
@@ -69,7 +71,6 @@ aui:profile a auis:UI ;
 	aui:profileBtnDomain "Verander domein"@nl ;
 	aui:navbarBtnRecommend "Aanbevolen werken"@nl ;
 	aui:navbarBtnSearch "Zoek"@nl ;
-	aui:profileBtnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:profileLblLastAnnotated "Kunstwerken waaraan u recent informatie heeft toegevoegd"@nl .
 
 ##### Search Screen #####
@@ -96,16 +97,11 @@ aui:results a auis:UI ;
 	aui:resultsHdrRandomResults "Willekeurige resultaten"@nl ;
 	aui:resultsTxtNoResults "Geen resultaten gevonden voor "@nl ;
 	aui:resultsTxtError "Helaas, er is iets fout gegaan"@nl ;
+	aui:resultsBtnChooseSubDomain "Kies subdomein"@nl ;
+	aui:resultsBtnChangeSubDomain "Verander subdomein"@nl ;
+	aui:resultsBtnChangeExpertise "Verander expertise niveaus"@nl ;
 	aui:resultsLblCluster "Cluster weergave"@nl ;
 	aui:resultsLblList "Lijst weergave"@nl .
-
-###### End Screen #####
-
-aui:end a auis:UI ;
-	aui:endTxtSlogan "Bedankt voor uw deelname!"@nl ;
-	aui:endTxtSubSlogan "U kunt doorgaan met het toevoegen van informatie aan de Rijksmuesum collectie"@nl ;
-	aui:endBtnContinue "Ga verder"@nl ;
-	aui:endLnkAbout "Informatie over Accurator"@nl .
 
 ##### Register Modal #####
 
@@ -139,7 +135,7 @@ aui:userDropdown a auis:UI ;
 	aui:navbarLnkAbout "Over Accurator"@nl ;
 	aui:navbarLblProfile "Profiel"@nl .
 
-##### Form Screen #####
+##### Form #####
 
 aui:form a auis:UI ;
 	aui:formPageTitle "Informatie"@nl ;

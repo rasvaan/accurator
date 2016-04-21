@@ -32,7 +32,7 @@ function expertiseInit() {
 			user = userData.user;
 			var userName = getUserName(user);
 			populateNavbar(userName, [{link:"profile.html", name:"Profile"}], locale);
-			return getLabels(locale, domainData.ui + "expertise");
+			return getLabels(locale, domainData.hasUI + "expertise");
 		})
 		.then(function(labels) {
 			var labelArray = initLabels(labels);
@@ -71,10 +71,10 @@ function registerEvents(topics, user) {
 function initExpertiseTopics(domainData, locale, labels) {
 	return $.getJSON("expertise_topics", {
 		locale:locale,
-		taxonomy:domainData.taxonomy,
-		top_concept:domainData.top_concept,
-		number_of_topics:domainData.number_of_topics,
-		number_of_children_shown:domainData.number_of_children_shown
+		taxonomy:domainData.requires,
+		top_concept:domainData.hasTopConcept,
+		number_of_topics:domainData.hasMaximumExpertiseTopics,
+		number_of_children_shown:domainData.hasMaximumChildren
 	})
 	.then(function(data){
 		var topics = generateIds(data.topics);

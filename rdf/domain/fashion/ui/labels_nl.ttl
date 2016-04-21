@@ -2,10 +2,6 @@
 @prefix aui:    <http://accurator.nl/ui/generic#> .
 @prefix afasui: <http://accurator.nl/ui/fashion#> .
 
-###### Fashion Domain #####
-afasui:domain a auis:UI ;
-	aui:domainLabel "Domein mode"@nl .
-
 ###### Fashion Intro Screen #####
 
 afasui:intro a auis:UI ;

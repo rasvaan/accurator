@@ -32,7 +32,7 @@ AnnotationList.prototype.render = function() {
 	// Render the annotations related to this field
 	for (var key in this.annotations) {
 		var annotation = this.annotations[key];
-		var label = truncate(annotation.title, 7);
+		var label = truncate(annotation.title, 10);
 		var id = generateIdFromUri(annotation['@id']);
 		var target = this.findTarget(annotation);
 
@@ -40,7 +40,7 @@ AnnotationList.prototype.render = function() {
 		$('#' + this.divId).append(
 			$.el.span({
 				'id':'lbl' + id,
-				'class':'label label-default lblAnnotation',
+				'class':'label label-primary lblAnnotation',
 				'targetId':target['@id']},
 				label
 			)

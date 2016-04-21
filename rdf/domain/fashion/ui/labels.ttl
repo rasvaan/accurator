@@ -6,11 +6,10 @@
 @prefix dcterms:<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-###### Fashion Domain #####
-afasui:domain a auis:UI ;
-	aui:domainLabel "Fashion domain"@en .
+###### Fashion Topic Screen #####
 
-aui:domainLabel rdfs:subPropertyOf auis:uiLabel .
+afasui:topic a auis:UI ;
+	rdfs:subClassOf aui:topic .
 
 ###### Fashion Intro Screen #####
 
@@ -25,10 +24,6 @@ aui:introHdrSubSlogan rdfs:subPropertyOf auis:uiLabel .
 afasui:about a auis:UI ;
 	rdfs:subClassOf aui:about .
 
-##### Fashion Register Screen #####
-
-afasui:register a aui:UI ;
-	rdfs:subClassOf aui:register .
 
 ##### Fashion Expertise Screen #####
 
@@ -52,18 +47,3 @@ afasui:results a aui:UI ;
 
 afasui:item a aui:UI ;
 	rdfs:subClassOf aui:item .
-
-###### Fashion End Screen #####
-
-afasui:end a auis:UI ;
-	rdfs:subClassOf aui:end .
-
-##### Fashion Form Screen #####
-
-afasui:form a auis:UI ;
-	rdfs:subClassOf aui:form .
-
-##### Fashion Login Modal #####
-
-afasui:loginModal a auis:UI ;
-	rdfs:subClassOf aui:loginModal .

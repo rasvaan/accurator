@@ -6,7 +6,7 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 abibui:smallBibleUI a auis:AnnotationUI ;
-    dcterms:title "Bible annotation UI"@en;
+    dcterms:title "Bible annotation UI"@en ;
     auis:wholeFields (
         abibui:ICBibleTheme
 	);

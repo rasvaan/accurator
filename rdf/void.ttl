@@ -93,19 +93,6 @@
 				  <domain/fashion/ui/labels_nl.ttl> ,
 				  <domain/fashion/ui/fields.ttl> .
 
-<accurator-page>
-	a void:Dataset ;
-	dcterms:title "Page type tasks" ;
-	lib:source <http://accurator.nl/page/> ;
-	void:dataDump <domain/page/ui/labels_leon.ttl> ,
-				  <domain/page/ui/labels_cristina.ttl> ,
-				  <domain/page/ui/labels_sebastien.ttl> ,
-				  <domain/page/ui/labels_chris.ttl> ,
-	              <domain/page/page_leon_domain.ttl> ,
-				  <domain/page/page_cristina_domain.ttl> ,
-				  <domain/page/page_sebastien_domain.ttl> ,
-	              <domain/page/page_chris_domain.ttl> .
-
 [ vann:preferredNamespacePrefix "accu" ;
 vann:preferredNamespaceUri "http://accurator.nl/schema#"
 ] .

@@ -104,7 +104,8 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 		$.el.div({'class':'row', 'id':'thumbnailRow' + this.id})
 	);
 
-	for (var i = 0; i < stop; i++) {
+	// create all thumbnails
+	for (var i = 0; i < this.items.length; i++) {
 		var thumbnail = new Thumbnail(
 			this.items[i].uri,
 			this.items[i].title,
@@ -112,58 +113,43 @@ Cluster.prototype.addThumbnails = function(numberDisplayedItems) {
 			this.items[i].link,
 			numberDisplayedItems
 		);
-		$(this.node).find("#thumbnailRow" + this.id).append(
-			thumbnail.node
-		);
+
 		thumbnail.setClickEvent(this.items[i].link, this.uris, this.path.path);
 		this.thumbnails[i] = thumbnail;
+	}
+
+	// show initial thumbnails
+	for (var i = 0; i < stop; i++) {
+		$(this.node).find("#thumbnailRow" + this.id).append(
+			this.thumbnails[i].node
+		);
 	}
 }
 
 Cluster.prototype.changeThumbnails = function(currentPage, nextPage, numberDisplayedItems) {
-	var bootstrapWidth = parseInt(12/numberDisplayedItems, 10); // width of thumbnail
-	var numberOfPages = this.pagination.numberOfPages;
+	var thumbnails = $(this.node).find("#thumbnailRow" + this.id).children(); // html node
 	var start = (nextPage - 1) * numberDisplayedItems; // start index of items shown
 	var stop = start + numberDisplayedItems; // stop index of items shown
-	var remove = 0; // number of thumbnails spaces not shown
-	var headerType; // size of the header
-
-	// check if there are more spaces then items, if so, make those spaces invisible
-	if(stop > this.items.length) {
-		remove = stop - this.items.length;
-		stop = this.items.length;
-	}
-
-	// update thumbnails directly on click
-	for (var i = 0; i < numberDisplayedItems; i++) {
-		if (i < (numberDisplayedItems - remove)) {
-			this.thumbnails[i].setStub();
-		} else {
-			this.thumbnails[i].hide();
-		}
-	}
-
-	// console.log("start: " + start + " stop: " + stop + " page number: " + nextPage + " current page: " + currentPage + " cluster id: " + this.id + " displayed: " + numberDisplayedItems + " remove: " + remove);
 	var thumbIndex = 0; // index of the thumbnail spots
 
-	for (var i = start; i < stop; i++) {
-		var thumbnail = this.thumbnails[thumbIndex];
 
-		thumbnail.setImage(this.items[i].thumb);
-		thumbnail.setTitle(this.items[i].title);
-		thumbnail.setId(thumbnail.getId(this.items[i].uri));
-		thumbnail.setClickEvent(this.items[i].link, this.uris, this.path.path);
+	// check if there are more spaces then items, if so, make those spaces invisible
+	if(stop > this.items.length) stop = this.items.length;
 
+	for (var i=start; i<stop; i++) {
+		var _cluster = this;
+
+		thumbnails.eq(thumbIndex).replaceWith(
+			_cluster.thumbnails[i].node
+		);
+
+		// make sure the thumbnail shown (maybe returning from hidden state)
+		_cluster.thumbnails[i].show();
 		thumbIndex++;
 	}
 
-	// if returning from a possible invisible situation, make everything visible again
-	if(currentPage === numberOfPages) {
-		var removed = numberOfPages * numberDisplayedItems - this.items.length;
-		var start = numberDisplayedItems - removed;
-
-		for(var i = start; i < numberDisplayedItems; i++) {
-			this.thumbnails[i].show();
-		}
+	// hide thumbnails when they are not used
+	for (var i=thumbIndex; i<numberDisplayedItems; i++) {
+		thumbnails.eq(i).hide();
 	}
 }

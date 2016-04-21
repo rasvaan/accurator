@@ -77,14 +77,15 @@ Navbar
 Intro
 *******************************************************************************/
 .intro {
-	overflow-x: hidden;
-	overflow-y: hidden;
+	overflow: hidden;
 	background-color: #333;
 }
 
 .introImgBackground {
-	min-width: 125%;
-	max-width: 125%;
+	position: absolute;
+	left: -10%;
+	min-width: 120%;
+	max-width: 120%;
 }
 
 .introDivContainer {
@@ -222,7 +223,7 @@ Search results
 }
 
 .resultsDivControls {
-	padding-bottom: 10px;
+	padding-top: 10px;
 }
 
 .path-label {
@@ -265,7 +266,15 @@ Search results
 
 .pagination > li {
 	cursor: pointer;
+	/* make sure the text elements can't be selected */
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none;   /* Chrome/Safari/Opera */
+	-khtml-user-select: none;    /* Konqueror */
+	-moz-user-select: none;      /* Firefox */
+	-ms-user-select: none;       /* Internet Explorer/Edge */
+	user-select: none;           /* Non-prefixed version */
 }
+
 /*******************************************************************************
 Item page
 *******************************************************************************/
@@ -329,6 +338,12 @@ Item page
 
 #itemLblPageType {
   vertical-align: bottom;
+}
+
+.lblAnnotation {
+	padding: 2px 5px;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 
 /* Item page: Typeahead functionality */

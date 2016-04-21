@@ -76,7 +76,7 @@ function populateUI() {
 // 	var domain = domainData.domain;
 // 	$.getJSON("ui_elements",
 // 			  {locale:locale,
-// 			   ui:domainData.ui + "domain",
+// 			   ui:domainData.hasUI + "domain",
 // 			   type:"labels"})
 // 		.done(function(data){
 // 			$("#domain" + row).append(
@@ -87,7 +87,7 @@ function populateUI() {
 // 					$.el.img({'class':'domainImg',
 // 							  'id':'domainImg' + domain,
 // 							  'src':domainData.image})));
-// 			if(domainData.image_brightness === "dark")
+// 			if(domainData.imageBrightness === "dark")
 // 				$("#domainTxt" + domainData.domain).css('color', '#fff');
 // 			addDomainEvent(domain);
 // 		});
