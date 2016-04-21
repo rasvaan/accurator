@@ -72,7 +72,7 @@ function resultsInit() {
 		.then(function(labelData) {
 			labels = initLabels(labelData);
 			labels.realName = realName; // add realname to labels for rendering
-			addButtonEvents(user, target, labels);
+			addButtonEvents(user, target, labels, domainData);
 
 			return events(user, labels);
 		})
@@ -456,7 +456,7 @@ function addDomainButton(label) {
 	);
 }
 
-function addButtonEvents(user, target, labels) {
+function addButtonEvents(user, target, labels, domainData) {
 	// add button events in the navbar
 	$("#navbarBtnRecommend").click(function() {
 		// check if not already there
@@ -466,7 +466,8 @@ function addButtonEvents(user, target, labels) {
 			// clear current and get new results
 			$("#resultsDiv").empty();
 			$("#resultsBtnLayout").remove();
-			results(target, labels);
+			$("#resultsBtnSubDomains").remove();
+			results(target, labels, domainData);
 		}
 	});
 	// search on pressing enter
