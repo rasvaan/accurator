@@ -103,7 +103,7 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 	var targetString = JSON.stringify(targetObject);
 	var bodyString = JSON.stringify(body);
 
-	$.ajax({type: "POST",
+	return $.ajax({type: "POST",
 			url: "api/annotation/add",
 			data: {
 				field: this.field,
@@ -112,7 +112,7 @@ Field.prototype.submitAnnotation = function(motiv, target, body, label, graph) {
 				label: label,
 			   	motivatedBy: motiv,
 				graph: graph
-			}})
+	}})
 	.then(function(data) {
 		// add annotation to list of annotations
 		_field.annotationList.add(data.annotation);

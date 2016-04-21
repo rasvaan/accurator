@@ -26,8 +26,8 @@ AnnotationList.prototype.remove = function(annotation) {
 }
 
 AnnotationList.prototype.render = function() {
-	var node = $(this.node).find("#" + this.divId);
-
+	var node = $(this.node);
+	console.log(node);
 	// empty the field before showing all annotations
 	node.empty();
 

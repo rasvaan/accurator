@@ -176,26 +176,6 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 	var imageId  = this.annotator.element.getElementsByTagName('img')[0].getAttribute('id');
 	var fields = this._anno.fields[imageId][fieldsId];
 
-	node.find(".annotorious-editor-button-save").on("click", function() {
-		// itterate through fields, saving values
-		for (var i=0; i<fields.length; i++) {
-			var inputField = $(fields[i].node).find("#" + fields[i].inputId);
-
-			if (inputField.val()) {
-				var annotation = inputField.val();
-
-				fields[i].submitAnnotation(
-					fields[i].MOTIVATION.tagging,
-					fields[i].target,
-					{'@value':annotation},
-					annotation
-				);
-
-				inputField.typeahead('val', ''); // clear input
-			}
-		}
-	});
-
 	this._anno.addHandler('onSelectionCompleted', function(event) {
 		oSelf.currentShape = event.shape;
 		var currentFieldsId = event.mouseEvent.target.parentNode.getElementsByTagName('img')[0].getAttribute('fields');
@@ -225,7 +205,38 @@ annotorious.plugin.DenichePlugin.prototype.installHandlers = function() {
 	});
 
 	this._anno.addHandler('onAnnotationCreated', function(original) {
-		oSelf.flushDirtyAnnotation(original);
+		var counter = 0;
+		var promises =[];
+
+		// itterate through fields, saving values
+		for (var i=0; i<fields.length; i++) {
+			var inputField = $(fields[i].node).find("#" + fields[i].inputId);
+
+			if (inputField.val()) {
+				var annotation = inputField.val();
+
+				promises[counter] = fields[i].submitAnnotation(
+					fields[i].MOTIVATION.tagging,
+					fields[i].target,
+					{'@value':annotation},
+					annotation
+				);
+
+				inputField.typeahead('val', ''); // clear input
+				counter++;
+			}
+		}
+
+		if (promises.length > 0) {
+			// wait for all the annotatoins to be added before flushing
+			$.when.apply($, promises)
+			.then(function() {
+				oSelf.flushDirtyAnnotation(original);
+			});
+		} else {
+			// no promises to wait for
+			oSelf.flushDirtyAnnotation(original);
+		}
 	});
 
 	this._anno.addHandler('onAnnotationUpdated', function(original) {
