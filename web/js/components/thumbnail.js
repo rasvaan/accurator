@@ -22,12 +22,6 @@ Thumbnail.prototype.init = function() {
 			'class':'thumbnail',
 			'id':this.id
 		},
-			$.el.canvas({
-				'class':'img-responsive',
-				'width':'350px',
-				'height':'300px',
-				'style':'solid #d3d3d3'
-			}),
 			$.el.img({
 				'src':'',
 				'class':'img-responsive',
@@ -49,14 +43,12 @@ Thumbnail.prototype.getId = function(uri) {
 }
 
 Thumbnail.prototype.setImage = function(url) {
-	// show canvas
 	var _thumb = this;
 	$(this.node).find("img").attr("src", url);
 
-	// wait for the image to load, remove canvas and show
+	// wait for the image to load, then show thumb
 	$(this.node).find("img").on('load', function() {
-		$(_thumb.node).find("canvas").remove();
-		$(_thumb.node).find("img").show();
+		_thumb.show();
 	});
 
 	// replace image url
