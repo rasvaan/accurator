@@ -3,12 +3,14 @@
 @prefix afasj:  <http://accurator.nl/fashion/jewelry#> .
 @prefix afasa:  <http://accurator.nl/fashion/accessories#> .
 @prefix afasp:  <http://accurator.nl/fashion/prints#> .
+@prefix afaspa:  <http://accurator.nl/fashion/paintings#> .
 @prefix afasc:  <http://accurator.nl/fashion/costumes#> .
 @prefix afasl:  <http://accurator.nl/fashion/lace#> .
 @prefix afasui: <http://accurator.nl/ui/fashion#> .
 @prefix afasjui:<http://accurator.nl/ui/fashion/jewelry#> .
 @prefix afasaui:<http://accurator.nl/ui/fashion/accessories#> .
 @prefix afaspui:<http://accurator.nl/ui/fashion/prints#> .
+@prefix afaspaui:<http://accurator.nl/ui/fashion/paintings#> .
 @prefix afascui:<http://accurator.nl/ui/fashion/costumes#> .
 @prefix afaslui:<http://accurator.nl/ui/fashion/lace#> .
 @prefix aafas:  <http://accurator.nl/ui/annotation/fashion#> .
@@ -28,6 +30,7 @@ afas:domain a accu:Domain ;
 	accu:hasDescriptiveImage afasui:dress ;
 	accu:subDomains afasj:domain ,
 					afasp:domain ,
+					afaspa:domain ,
 					afasc:domain ,
 					afasl:domain ,
 					afasa:domain .
@@ -84,16 +87,31 @@ afaspui:print a dctypes:StillImage ;
 	accu:hasFilePath "img/background/fashion-print.jpg" ;
 	accu:brightness "light" .
 
+afaspa:domain a accu:Domain ;
+	rdfs:label "paintings" ;
+	accu:hasLabel afaspaui:label ;
+	accu:hasTarget <http://accurator.nl/fashion/paintings#Target> ;
+	accu:hasUI afasui: ;
+	accu:hasDescriptiveImage afaspaui:painting ;
+	accu:hasAnnotationUI aafas:fashionUI .
+
+afaspaui:label auis:textLabel "Paintings domain"@en ,
+							 "Domein schilderijen"@nl .
+
+afaspaui:painting a dctypes:StillImage ;
+	accu:hasFilePath "img/background/averkamp.jpg" ;
+	accu:brightness "light" .
+
 afasc:domain a accu:Domain ;
 	rdfs:label "costumes" ;
 	accu:hasLabel afascui:label ;
-	accu:hasTarget <http://accurator.nl/fashion/costume#Target> ;
+	accu:hasTarget <http://accurator.nl/fashion/costumes#Target> ;
 	accu:hasUI afasui: ;
 	accu:hasDescriptiveImage afascui:costume ;
 	accu:hasAnnotationUI aafas:fashionUI .
 
-afascui:label auis:textLabel "Costumes domain"@en ,
-							 "Domein kostuums"@nl .
+afascui:label auis:textLabel "Costumes and accessories domain"@en ,
+							 "Domein kostuums en accessoires"@nl .
 
 afascui:costume a dctypes:StillImage ;
 	accu:hasFilePath "img/background/costume.jpg" ;
