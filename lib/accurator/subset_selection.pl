@@ -7,7 +7,8 @@
 							 target_annotation/3,
 							 target_ubvu_pages/2,
 							 target_description_scanner/0,
-							 target_title_scanner/0]).
+							 target_title_scanner/0,
+							 remove_targets/2]).
 
 /** <module> Subset selection for annotation
 */
@@ -337,3 +338,17 @@ target_description_scanner :-
 	debug(tag_works, 'Number scanned: ~p',
 		  [NumberClassWorks]),
 	maplist(campaign_nomination(Options), ClassWorks).
+
+%%	remove_target(+Work, +TargetType)
+%
+%	For a list of works, remove the target.
+% remove_targets(['http://purl.org/collections/nl/ubvu/print-218010001015'], 'http://accurator.nl/ubvu#Target')
+remove_targets(Works, TargetType) :-
+	maplist(remove_target(TargetType), Works).
+
+%%	remove_target(+Work, +TargetType)
+%
+%	Remove a target of a work
+remove_target(TargetType, Work) :-
+	rdf_retractall(Work, rdf:type, TargetType),
+	rdf_retractall(Work, accu:targetedBy, _Targetter).
