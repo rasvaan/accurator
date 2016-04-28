@@ -334,7 +334,7 @@ strategy(random, Options) :-
 	reply_json_dict(Result).
 
 strategy(ranked_random, Options) :-
-    strategy_ranked_random(Result, Options),
+    strategy_user_ranked_random(Result, Options),
 	reply_json_dict(Result).
 
 strategy(expertise, Options) :-

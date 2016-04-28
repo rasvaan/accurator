@@ -2,7 +2,8 @@
 			  annotation_fields/2,
 			  annotations/3,
 			  annotations/4,
-			  number_of_annotations/2
+			  number_of_annotations/2,
+			  number_of_users/2
 		  ]).
 
 :- use_module(library(accurator/ui_elements)).
@@ -176,3 +177,14 @@ number_of_annotations(Uri, NumberOfAnnotations) :-
 		  Annotations), !,
 	length(Annotations, NumberOfAnnotations).
 number_of_annotations(_Uri, 0) :- !.
+
+%%	number_of_users(+Uri, -NumberOfUsers)
+%
+%	Get the number of users who annotated the object of the given uri.
+number_of_users(Uri, NumberOfUsers) :-
+	setof(User,
+		  (	    rdf(Annotation, oa:hasTarget, Uri),
+				rdf(Annotation, oa:annotatedBy, User)),
+		  Users), !,
+	length(Users, NumberOfUsers).
+number_of_users(_Uri, 0) :- !.

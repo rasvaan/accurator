@@ -1,5 +1,6 @@
 :- module(strategy_random, [strategy_random/2,
 							strategy_ranked_random/2,
+							strategy_user_ranked_random/2,
 							random_from_bin/3]).
 
 :- use_module(library(accurator/accurator_user)).
@@ -40,6 +41,28 @@ assign_random(Number, SourceList, [Uri|List]) :-
     delete(SourceList, Uri, NewSourceList),
     NewNumber is Number-1,
     assign_random(NewNumber, NewSourceList, List).
+
+
+%%      strategy_user_ranked_random(-Result, +Options)
+%
+%		Assign a number of objects in a random fassion, prioritysing
+%		items with low numbers of users that annotated them.
+strategy_user_ranked_random(Result, Options) :-
+	option(target(Target), Options),
+	option(number(Number), Options),
+	option(filter(Filter), Options),
+	% get list of all targets
+    findall(Uri, rdf(Uri, rdf:type, Target), SourceList),
+	filter(Filter, SourceList, FilteredList, Options),
+	maplist(number_of_users_pair, FilteredList, PairList),
+	% sort to create proper bins
+	keysort(PairList, SortedList),
+	group_pairs_by_key(SortedList, Bins),
+	results_from_bins(Bins, 0, Number, Result).
+
+number_of_users_pair(Uri, Number-Uri) :-
+	number_of_users(Uri, Number).
+
 
 %%      strategy_ranked_random(-Result, +Options)
 %
