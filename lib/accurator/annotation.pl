@@ -123,7 +123,10 @@ extract_literal(_Locale, literal(Literal), Literal) :-
 %
 %	Get all annotations and subjects attached to a Uri, get all
 %	annotations a user made, or get all annotations of which the body
-%	are of in specified concept scheme.
+%	are of in specified concept scheme or domain.
+% annotations(domain,'http://accurator.nl/fashion/jewelry#domain', Annotations). annotations(concept_scheme,
+% 'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme', Annotations).
+
 annotations(object, Uri, Annotations) :-
 	findall(annotation{
 				field:FieldLabel,
@@ -137,6 +140,7 @@ annotations(object, Uri, Annotations) :-
 	    FoundAnnotations),
 	get_title(Uri, DisplayTitle),
 	Annotations = annotations{title:DisplayTitle, annotations:FoundAnnotations}.
+
 annotations(user, UserUri, ObjectUris) :-
     setof(Object, AnnotationHash^
 	    (	rdf_has(AnnotationHash, oa:annotatedBy, UserUri),
@@ -145,7 +149,13 @@ annotations(user, UserUri, ObjectUris) :-
 	    ObjectUris), !.
 annotations(user, _UserUri, []).
 
-% annotations(concept_scheme, 'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme', Annotations).
+annotations(domain, Domain, Annotations) :-
+	findall(AnnotationHash,
+			(	rdf(AnnotationHash, oa:hasTarget, Work),
+				rdf(Work, rdf:type, Target),
+				rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target)),
+			Annotations).
+
 annotations(concept_scheme, ConceptScheme, Annotations) :-
 	findall(AnnotationHash,
 			(	rdf(AnnotationHash, oa:hasBody, AnnotationBody),
@@ -158,7 +168,6 @@ annotations(concept_scheme, ConceptScheme, Annotations, Graph) :-
 				rdf(Uri, _P, _O, Graph),
 				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
 			Annotations).
-
 
 get_annotation(Uri, AnnotationBody, AnnotationHash) :-
 	rdf(AnnotationHash, oa:hasTarget, Uri),
