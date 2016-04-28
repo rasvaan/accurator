@@ -98,14 +98,53 @@ export_annotations(Graph, Annotations) :-
 	maplist(add_annotation(Graph), Annotations),
 	rdf_save_turtle(Graph, [graph(Graph)]).
 
+%%	add_annotation(Graph, Annotation)
+%
+%	Assert triples in Graph describing Annotation
+add_annotation(Graph, Annotation) :-
+	rdf(Annotation, oa:hasBody, TextNode),
+	rdf_is_bnode(TextNode), !,
+	% get all triples related to text annotation
+	findall(triple(TextNode, Predicate, Object),
+			rdf(TextNode, Predicate, Object),
+			TextTriples),
+	findall(triple(Annotation, Predicate, Object),
+			rdf(Annotation, Predicate, Object),
+			AnnotationTriples),
+	get_target(Annotation, TargetTriples),
+	append([AnnotationTriples, TextTriples, TargetTriples], Triples),
+	maplist(assert_tiple(Graph), Triples),
+	length(AnnotationTriples, NumberTriples),
+	format('Added ~p triples to ~p~n', [NumberTriples, Graph]).
+
 add_annotation(Graph, Annotation) :-
 	% get all triples related to annotation
 	findall(triple(Annotation, Predicate, Object),
 			rdf(Annotation, Predicate, Object),
 			AnnotationTriples),
-	maplist(assert_tiple(Graph), AnnotationTriples),
+	get_target(Annotation, TargetTriples),
+	append([AnnotationTriples, TargetTriples], Triples),
+	maplist(assert_tiple(Graph), Triples),
 	length(AnnotationTriples, NumberTriples),
 	format('Added ~p triples to ~p~n', [NumberTriples, Graph]).
+
+%%	get_target(+Annotation, -SelectorTriples)
+%
+%	For a given annotation get a list of triples describing the
+%	selector.
+get_target(Annotation, Triples) :-
+	rdf(Annotation, oa:hasTarget, Target),
+	rdf(Target, rdf:type, oa:'SpecificResource'), !,
+	findall(triple(Target, Predicate, Object),
+			rdf(Target, Predicate, Object),
+			TargetTriples),
+	% get selector triples
+	rdf(Target, oa:hasSelector, Selector),
+	findall(triple(Selector, Predicate, Object),
+			rdf(Selector, Predicate, Object),
+			SelectorTriples),
+	append(TargetTriples, SelectorTriples, Triples).
+get_target(_Annotation, []).
 
 assert_tiple(Graph, triple(Subject, Predicate, Object)) :-
 	rdf_assert(Subject, Predicate, Object, Graph).
