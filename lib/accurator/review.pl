@@ -94,9 +94,9 @@ select_annotations(domain, Domain, User, Annotations) :-
 %
 %	Export a list of annotations.
 export_annotations(Graph, Annotations) :-
-	rdf_unload_graph(Graph),
 	maplist(add_annotation(Graph), Annotations),
-	rdf_save_turtle(Graph, [graph(Graph)]).
+	rdf_save_turtle(Graph, [graph(Graph)]),
+	rdf_unload_graph(Graph).
 
 %%	add_annotation(Graph, Annotation)
 %
