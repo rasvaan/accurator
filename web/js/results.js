@@ -99,6 +99,7 @@ function initLabels(labelData) {
 		resultsHdrFirst: labelData.resultsHdrFirst,
 		resultsTxtFirst: labelData.resultsTxtFirst,
 		resultsTxtNoResults: labelData.resultsTxtNoResults,
+		resultsTxtNoRecommendations: labelData.resultsTxtNoRecommendations,
 		resultsTxtError: labelData.resultsTxtError,
 		resultsBtnChooseSubDomain: labelData.resultsBtnChooseSubDomain,
 		resultsBtnChangeSubDomain: labelData.resultsBtnChangeSubDomain,
@@ -199,11 +200,19 @@ function recommend(query, labels, target, domainData) {
 function random(query, labels, target, noResults, domainData) {
 	randomCluster(target, noResults)
 	.then(function(cluster) {
-		var clusters = [];
-		clusters[0] = cluster;
-		resultLayoutButtons(clusters, labels);
-		domainButton(domainData, labels);
-		drawResults(clusters);
+		// if there are any results retrieved, then draw them
+		if (cluster.length > 0) {
+			var clusters = [];
+			clusters[0] = cluster;
+
+			resultLayoutButtons(clusters, labels);
+			domainButton(domainData, labels);
+			drawResults(clusters);
+		} else {
+			// tell the people nothing is found and show domain button to allow changing
+			domainButton(domainData, labels);
+			statusMessage(labels.resultsTxtNoRecommendations);
+		}
 	}, function(data) {
 		statusMessage(labels.resultsTxtError, data.responseText);
 	});

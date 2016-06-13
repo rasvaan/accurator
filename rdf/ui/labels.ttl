@@ -156,6 +156,7 @@ aui:results a auis:UI ;
 	aui:resultsHdrRecommendedResults "Recommended results based on your expertise"@en ;
 	aui:resultsHdrRandomResults "Random results"@en ;
 	aui:resultsTxtNoResults "No results found for "@en ;
+	aui:resultsTxtNoRecommendations "Nothing left to annotate in this domain."@en ;
 	aui:resultsTxtError "Unfortunately an error has occured"@en ;
 	aui:resultsBtnChooseSubDomain "Choose subdomain"@en ;
 	aui:resultsBtnChangeSubDomain "Change subdomain"@en ;
@@ -174,6 +175,7 @@ aui:resultsHdrResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsHdrRecommendedResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsHdrRandomResults rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtNoResults rdfs:subPropertyOf auis:uiLabel .
+aui:resultsTxtNoRecommendations rdfs:subPropertyOf auis:uiLabel .
 aui:resultsTxtError rdfs:subPropertyOf auis:uiLabel .
 aui:resultsBtnChooseSubDomain rdfs:subPropertyOf auis:uiLabel .
 aui:resultsBtnChangeSubDomain rdfs:subPropertyOf auis:uiLabel .

@@ -96,6 +96,7 @@ aui:results a auis:UI ;
 	aui:resultsHdrRecommendedResults "Aanbevolen resultaten op basis van uw expertise"@nl ;
 	aui:resultsHdrRandomResults "Willekeurige resultaten"@nl ;
 	aui:resultsTxtNoResults "Geen resultaten gevonden voor "@nl ;
+	aui:resultsTxtNoRecommendations "In dit domein is er niks meer om informatie aan toe te voegen."@nl ;
 	aui:resultsTxtError "Helaas, er is iets fout gegaan"@nl ;
 	aui:resultsBtnChooseSubDomain "Kies subdomein"@nl ;
 	aui:resultsBtnChangeSubDomain "Verander subdomein"@nl ;
