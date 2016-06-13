@@ -23,9 +23,6 @@
 	      cpack:gitURL <https://github.com//rasvaan/accurator.git>
 	    ] ;
 	cpack:requires [ cpack:name "cluster_search" ] ;
-	cpack:requires [ cpack:name "cluster_search_ui" ] ;
-	cpack:description
-
-"Frontend of the Accurator annotation system." .
+	cpack:description "Frontend of the Accurator annotation system." .
 
 
