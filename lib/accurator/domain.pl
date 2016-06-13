@@ -20,8 +20,12 @@ get_domain_settings(Dic, Options) :-
 get_domain_settings(Dic, Options) :-
 	option(domain(Domain), Options),
 	rdf(DomainUri, rdf:type, accu:'Domain'),
-	rdf(DomainUri, rdfs:label, literal(Domain)),
+	rdf(DomainUri, rdfs:label, literal(Domain)), !,
 	get_domain_dic(DomainUri, Domain, Dic).
+get_domain_settings(Dic, _Options) :-
+	rdf(DomainUri, rdf:type, accu:'Domain'),
+	rdf(DomainUri, rdfs:label, literal(generic)), !,
+	get_domain_dic(DomainUri, generic, Dic).
 
 %%	get_root_domains(+Domain, -RootDomains)
 %

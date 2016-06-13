@@ -21,6 +21,9 @@ function introInit() {
 		return domainSettings(domain);
 	})
 	.then(function(domainSettings) {
+		// fall back to returned (generic) domain if current domain setting is not present on server
+		if (domainSettings.domain != domain) setDomain(domainSettings.domain);
+
 		var ui = getUI(domainSettings, "intro");
 		setBackground(domainSettings.image, domainSettings.imageBrightness);
 		return getLabels(locale, ui);
