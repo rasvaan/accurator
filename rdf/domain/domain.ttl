@@ -11,16 +11,14 @@
 
 agen:domain a accu:Domain ;
 	rdfs:label "generic" ;
-	dcterms:requires <http://iconclass.org/> ;
-	accu:hasTarget <http://www.europeana.eu/schemas/edm/ProvidedCHO> ;
-	skos:hasTopConcept ic:2 ;
+	accu:hasLabel aui:label ;
+	accu:hasTarget <http://accurator.nl/generic#Target> ;
 	accu:hasUI aui: ;
 	accu:hasAnnotationUI agen:genericUI ;
-	accu:hasDescriptiveImage agen:mountain ;
-	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "2" .
+	accu:hasDescriptiveImage agen:mountain .
 
-<http://iconclass.org/> a skos:ConceptScheme .
+aui:label auis:textLabel "Generic domain"@en ,
+					 	 "Generiek domein"@nl .
 
 agen:mountain a dctypes:StillImage ;
 	accu:hasFilePath "img/background/generic.jpg" ;

@@ -75,9 +75,11 @@ function getDomains(domain) {
 function populateDomains(domains, domain, labels, locale) {
 	var row;
 
-	// remove generic from the domains if showing top domains (does not work on ie 7 and 8..)
+	// remove generic from the domains if showing top domains
 	if (domain === "generic") {
-		domains.splice(domains.indexOf("generic"), 1);
+		// only remove when there are other domains available
+		if (domains.length > 1)
+			domains.splice(domains.indexOf("generic"), 1);
 	} else {
 		// add root domain as option to select in list of subdomains
 		domains.push(domain);
