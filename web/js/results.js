@@ -201,7 +201,7 @@ function random(query, labels, target, noResults, domainData) {
 	randomCluster(target, noResults)
 	.then(function(cluster) {
 		// if there are any results retrieved, then draw them
-		if (cluster.length > 0) {
+		if (cluster.uris.length > 0) {
 			var clusters = [];
 			clusters[0] = cluster;
 
@@ -378,7 +378,8 @@ function statusMessage(header, text){
 	$("#resultsDiv").html(
 		$.el.div({'class':'row resultsDivStatus'},
 			$.el.div({'class':'col-lg-10 col-md-offset-1'},
-				$.el.h3(header)),
+				$.el.h3({'class':'text-center'},
+					header)),
 			$.el.div({'class':'row'},
 				$.el.div({'class':'col-md-10 col-md-offset-1'},
 					text)))
