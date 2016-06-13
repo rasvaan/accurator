@@ -54,8 +54,11 @@ Field.prototype.initDropdown = function() {
 		$(this.node).append(this.annotationList.node);
 	}
 
-	// three sitations for obtaining and adding alternatives array
-	if(this.source instanceof Array) {
+	// four sitations for obtaining and adding alternatives array
+	if (!this.souce) {
+		// 0. only add listerens in case no source is specified
+		this.addDropdownListeners();
+	} else if (this.source instanceof Array) {
 		// 1.  source is an array containing alternatives for dropdown
 		this.alternatives = this.source;
 		this.addTypeAhead();

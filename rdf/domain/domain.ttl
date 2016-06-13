@@ -1,6 +1,7 @@
 @prefix accu:   <http://accurator.nl/schema#> .
 @prefix agen:   <http://accurator.nl/generic#> .
 @prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix aagen:  <http://accurator.nl/ui/annotation/generic#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
 @prefix ic:     <http://iconclass.org/> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -14,7 +15,7 @@ agen:domain a accu:Domain ;
 	accu:hasLabel aui:label ;
 	accu:hasTarget <http://accurator.nl/generic#Target> ;
 	accu:hasUI aui: ;
-	accu:hasAnnotationUI agen:genericUI ;
+	accu:hasAnnotationUI aagen:genericUI ;
 	accu:hasDescriptiveImage agen:mountain .
 
 aui:label auis:textLabel "Generic domain"@en ,

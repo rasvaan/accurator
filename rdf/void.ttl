@@ -21,7 +21,8 @@
 	dcterms:title "Locale and domain agnostic Accurator UI instance" ;
 	lib:source <http://accurator.nl/> ;
 	void:dataDump <ui/labels.ttl> ,
-	 			  <ui/labels_nl.ttl> .
+	 			  <ui/labels_nl.ttl> ,
+				  <ui/fields.ttl> .
 
 <accurator-ui-countries>
 	a void:Dataset ;
