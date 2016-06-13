@@ -46,6 +46,12 @@
 				<accurator-ui-languages> ;
 	void:dataDump <domain/domain.ttl> .
 
+<accurator-example-object>
+	a void:Dataset ;
+	dcterms:title "Example of object with minimal metadata" ;
+	lib:source <http://accurator.nl/> ;
+	void:dataDump <object.ttl> .
+
 <accurator-bird-domain>
 	a void:Dataset ;
 	dcterms:title "Accurator configuration for bird domain" ;

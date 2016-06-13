@@ -1,0 +1,17 @@
+@prefix agen:   <http://accurator.nl/generic#> .
+@prefix rma:    <http://purl.org/collections/nl/rma/> .
+@prefix edm:    <http://www.europeana.eu/schemas/edm/> .
+@prefix hdl:    <http://hdl.handle.net/10934/> .
+@prefix ore:	<http://www.openarchives.org/ore/terms/> .
+@prefix dc:     <http://purl.org/dc/elements/1.1/> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# Minimal example object
+
+rma:RP-P-1994-2 a edm:ProvidedCHO ;
+	rdf:type <http://accurator.nl/generic#Target> ;
+	dc:title "Het meer Kawaguchi"@nl .
+
+hdl:RM0001.COLLECT.282224%3Aaggregation a ore:Aggregation ;
+	edm:aggregatedCHO rma:RP-P-1994-2 ;
+	edm:isShownBy <http://lh4.ggpht.com/tClRkdXlR5cKdaE94TKHqcDxZE3CPRCftnDLKeJ9NnN3IVrv8Q8Drgxf-b58tCbqANZMi6BlOWG2_n-5HJJ4T9WXt1aG=s0> .
