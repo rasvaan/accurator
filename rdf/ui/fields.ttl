@@ -16,13 +16,13 @@ aagen:genericUI a auis:AnnotationUI ;
 		aagen:textFragment
 	 ) .
 
-aagen:textWhole a auis:DropdownField ;
+aagen:textWhole a auis:TextField ;
 	rdfs:label "Description"@en ;
 	rdfs:label "Beschrijving"@nl ;
 	dcterms:comment "add description of artwork"@en ;
 	dcterms:comment "beschrijf het kunstwerk"@nl .
 
-aagen:textFragment a auis:DropdownField ;
+aagen:textFragment a auis:TextField ;
     rdfs:label "Description"@en ;
     rdfs:label "Beschrijving"@nl ;
     dcterms:comment "add description of artwork fragment"@en ;

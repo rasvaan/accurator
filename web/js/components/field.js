@@ -28,6 +28,12 @@ function Field(defenition, context) {
 		moderating: 'http://www.w3.org/ns/oa#moderating',
 	};
 
+	if (this.showAnnotations) {
+		// Add div for annotations, existing annotations are retrieved upon init deniche
+		this.annotationList = new AnnotationList(this.id + "DivAnnotations");
+		$(this.node).append(this.annotationList.node);
+	}
+
 	if (this.fragmentField) {
 		this._anno = anno; // reference to annotatorious
 
@@ -40,41 +46,6 @@ function Field(defenition, context) {
 		} else {
 			anno.fields[this.imageId][this.fieldsId] = [this];
 		}
-	}
-	this.initDropdown();
-}
-
-Field.prototype.initDropdown = function() {
-	var _field = this; //make sure we can use this Field in $ scope
-	this.node = this.dropdownField();
-
-	if (this.showAnnotations) {
-		// Add div for annotations, existing annotations are retrieved upon init deniche
-		this.annotationList = new AnnotationList(this.id + "DivAnnotations");
-		$(this.node).append(this.annotationList.node);
-	}
-
-	// four sitations for obtaining and adding alternatives array
-	if (!this.souce) {
-		// 0. only add listerens in case no source is specified
-		this.addDropdownListeners();
-	} else if (this.source instanceof Array) {
-		// 1.  source is an array containing alternatives for dropdown
-		this.alternatives = this.source;
-		this.addTypeAhead();
-		this.addDropdownListeners();
-	} else if (this.source.api === "/api/autocomplete/all") {
-		// 2. all alternatives should be obtained
-		this.getAllAlternatives()
-		.then(function(alternativesArray){
-			_field.alternatives = alternativesArray;
-			_field.addTypeAhead();
-			_field.addDropdownListeners();
-		});
-	} else if (this.source.api === "/api/autocomplete") {
-		// 3. event listener should be placed and alternatives are obtained on trigger
-		// this.addTypeAhead();
-		this.addDropdownListeners();
 	}
 }
 
@@ -160,6 +131,118 @@ Field.prototype.addAnnotationFragment = function(annotation, update) {
 	};
 	this._anno._deniche.addAnnotation(torious, update);
 }
+
+/*******************************************************************************
+TextField
+*******************************************************************************/
+function TextField (field, context) {
+	Field.call(this, field, context);
+	this.node = this.html();
+
+	this.addEventListeners();
+}
+
+TextField.prototype = Object.create(Field.prototype); // inherit
+
+TextField.prototype.html = function() {
+	return	$.el.div({'class':'form-group'},
+				$.el.label({'class':'itemLbl',
+							'for':this.inputId},
+						   this.label),
+				$.el.input({'type':'text',
+							'class':'form-control',
+							'id':this.inputId,
+							'placeholder':this.comment,
+							'autocomplete':'off'})
+	);
+}
+
+TextField.prototype.addEventListeners = function() {
+	var _field = this; //make sure we can use this Field in $ scope
+	var inputField = $(this.node).find("#" + this.inputId); // reach the input
+
+	// prevent standard form submit
+	inputField.keydown(function(event){
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
+
+	// action upon pressing enter
+	inputField.on('keyup', function(event) {
+		// check to see if there is a value on pressing enter
+		if (inputField.val() && event.which == 13) {
+			var annotation = inputField.val();
+
+			// console.log("SAVE: literal EVENT: keyup ANNOTATION: ", annotation);
+			_field.submitAnnotation(
+				_field.MOTIVATION.tagging,
+				_field.target,
+				{'@value':annotation},
+				annotation
+			);
+
+			// clear input
+			inputField.val('');
+		}
+	});
+
+	// action on pressing esc
+	inputField.on('keyup', function(event) {
+		if (_field.fragmentField && event.which == 27) {
+			_field._anno._deniche.onFragmentCancel(event);
+		}
+	});
+}
+
+/*******************************************************************************
+DropdownField
+*******************************************************************************/
+function DropdownField (field, context) {
+	Field.call(this, field, context);
+	this.initDropdown();
+}
+
+DropdownField.prototype = Object.create(Field.prototype); // inherit
+
+Field.prototype.dropdownField = function() {
+	// Return the form group
+	return	$.el.div({'class':'form-group'},
+				$.el.label({'class':'itemLbl',
+							'for':this.inputId},
+						  	this.label),
+				$.el.input({'type':'text',
+							'class':'form-control typeahead',
+							'id':this.inputId,
+							'placeholder':this.comment}));
+}
+
+Field.prototype.initDropdown = function() {
+	var _field = this; //make sure we can use this Field in $ scope
+	this.node = this.dropdownField();
+
+	// three sitations for obtaining and adding alternatives array
+	if (this.source instanceof Array) {
+		// 1.  source is an array containing alternatives for dropdown
+		this.alternatives = this.source;
+		this.addTypeAhead();
+		this.addDropdownListeners();
+	} else if (this.source.api === "/api/autocomplete/all") {
+		// 2. all alternatives should be obtained
+		this.getAllAlternatives()
+		.then(function(alternativesArray){
+			_field.alternatives = alternativesArray;
+			_field.addTypeAhead();
+			_field.addDropdownListeners();
+		});
+	} else if (this.source.api === "/api/autocomplete") {
+		// 3. event listener should be placed and alternatives are obtained on trigger
+		// this.addTypeAhead();
+		this.addDropdownListeners();
+	}
+}
+
 
 Field.prototype.addDropdownListeners = function() {
 	var _field = this; //make sure we can use this Field in $ scope
@@ -291,133 +374,3 @@ Field.prototype.createSuggestionTemplate = function() {
 		}
 	}
 }
-
-Field.prototype.dropdownField = function() {
-	// Return the form group
-	return	$.el.div({'class':'form-group'},
-				$.el.label({'class':'itemLbl',
-							'for':this.inputId},
-						  	this.label),
-				$.el.input({'type':'text',
-							'class':'form-control typeahead',
-							'id':this.inputId,
-							'placeholder':this.comment}));
-}
-
-/*******************************************************************************
-TypeAheadField
-*******************************************************************************/
-function DropdownField (field, context) {
-	Field.call(this, field, context);
-}
-
-DropdownField.prototype = Object.create(Field.prototype); // inherit
-
-/*******************************************************************************
-TextField
-*******************************************************************************/
-function TextField (field, context) {
-	Field.call(this, field, context);
-}
-
-TextField.prototype = Object.create(Field.prototype); // inherit
-
-// function dropdownField(id, label, comment) {
-// 	return	$.el.div({'class':'form-group'},
-// 				$.el.label({'class':'itemLbl',
-// 							'for':'itemInp' + id,
-// 							'id':'itemLbl' + id},
-// 						   label),
-// 				$.el.input({'type':'text',
-// 							'class':'form-control typeahead',
-// 							'id':'itemInp' + id,
-// 							'placeholder':comment})
-// 	);
-// }
-
-// function selectField(id, label, comment, source) {
-// 	return	$.el.div({'class':'form-group'},
-// 				$.el.label({'class':'itemLbl',
-// 							'for':'itemInp' + id,
-// 							'id':'itemLbl' + id},
-// 						   label),
-// 				$.el.select({'class':'form-control',
-// 							 'id':'itemSlt' + id,
-// 							 'placeholder':comment},
-// 						 	 options(source, id))
-// 	);
-// }
-//
-// function options(source, fieldId) {
-// 	var options = [];
-// 	var id = "itemOpt" + fieldId;
-//
-// 	for(var i=0; i<source.length; i++)
-// 		options[i] = $.el.option(source[i]);
-// 	return options;
-// }
-//
-//
-//
-//
-//
-// function textField(id, label, comment) {
-// 	return	$.el.div({'class':'form-group'},
-// 				$.el.label({'class':'itemLbl',
-// 							'for':'itemInp' + id,
-// 							'id':'itemLbl' + id},
-// 						   label),
-// 				$.el.textarea({'type':'text',
-// 							   'class':'form-control',
-// 							   'id':'itemInp' + id,
-// 							   'rows':'2',
-// 							   'placeholder':comment})
-// 	);
-// }
-//
-// function radioButtonField(id, label, comment, source) {
-// 	return	$.el.div({'class':'form-group'},
-// 				$.el.label({'class':'itemLbl',
-// 							'for':'itemInp' + id,
-// 							'id':'itemLbl' + id},
-// 						   label),
-// 				buttons(source, id, "radio")
-// 	);
-// }
-//
-// function checkBoxField(id, label, comment, source) {
-// 	return	$.el.div({'class':'form-group'},
-// 				$.el.label({'class':'itemLbl',
-// 							'for':'itemInp' + id,
-// 							'id':'itemLbl' + id},
-// 						   label),
-// 				buttons(source, id, "checkbox")
-// 	);
-// }
-//
-// function buttons(source, fieldId, type) {
-// 	var buttons = [];
-// 	var id = "";
-//
-// 	if(type === "radio") {
-// 		id = "itemRbtn" + fieldId;
-// 	} else if(type === "checkbox") {
-// 		id = "itemChk" + fieldId;
-// 	}
-// 	var name = id + "options";
-//
-// 	for(var i=0; i<source.length; i++){
-// 		buttons[i] =
-// 		$.el.label({'class':type + '-inline'},
-// 			$.el.input({'type':type,
-// 						'id':id + i,
-// 						'value':source[i]}
-// 			),
-// 			source[i]
-// 		);
-// 		// Add name attribute if type radio
-// 		if(type === "radio")
-// 			$(buttons[i]).find("input").attr("name", name);
-// 	}
-// 	return buttons;
-// }
