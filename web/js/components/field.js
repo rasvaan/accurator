@@ -12,8 +12,6 @@ function Field(defenition, context) {
 	this.label = defenition.label; // name of the field
 	this.comment = defenition.comment; // short description of the field
 	this.node = null; // html node representing the field
-	this.source = defenition.source; // source of the alternatives shown
-	this.alternatives = null; // list of alternatives for dropdown
 	this.showAnnotations = true; // boolean indicating whether previous annotations should be shown
 	this.annotationList = null; // array of annotations related to this target and field
 	this.field = defenition.uri; // URI identifying annotation field
@@ -27,12 +25,6 @@ function Field(defenition, context) {
 		commenting: 'http://www.w3.org/ns/oa#commenting',
 		moderating: 'http://www.w3.org/ns/oa#moderating',
 	};
-
-	if (this.showAnnotations) {
-		// Add div for annotations, existing annotations are retrieved upon init deniche
-		this.annotationList = new AnnotationList(this.id + "DivAnnotations");
-		$(this.node).append(this.annotationList.node);
-	}
 
 	if (this.fragmentField) {
 		this._anno = anno; // reference to annotatorious
@@ -139,6 +131,12 @@ function TextField (field, context) {
 	Field.call(this, field, context);
 	this.node = this.html();
 
+	if (this.showAnnotations) {
+		// add div for annotations, existing annotations are retrieved upon init deniche
+		this.annotationList = new AnnotationList(this.id + "DivAnnotations");
+		$(this.node).append(this.annotationList.node);
+	}
+
 	this.addEventListeners();
 }
 
@@ -201,12 +199,22 @@ DropdownField
 *******************************************************************************/
 function DropdownField (field, context) {
 	Field.call(this, field, context);
-	this.initDropdown();
+	this.source = field.source; // source of the alternatives shown
+	this.alternatives = null; // list of alternatives for dropdown
+	this.node = this.html();
+
+	if (this.showAnnotations) {
+		// add div for annotations, existing annotations are retrieved upon init deniche
+		this.annotationList = new AnnotationList(this.id + "DivAnnotations");
+		$(this.node).append(this.annotationList.node);
+	}
+
+	this.initAlternatives();
 }
 
 DropdownField.prototype = Object.create(Field.prototype); // inherit
 
-Field.prototype.dropdownField = function() {
+DropdownField.prototype.html = function() {
 	// Return the form group
 	return	$.el.div({'class':'form-group'},
 				$.el.label({'class':'itemLbl',
@@ -218,9 +226,8 @@ Field.prototype.dropdownField = function() {
 							'placeholder':this.comment}));
 }
 
-Field.prototype.initDropdown = function() {
+DropdownField.prototype.initAlternatives = function() {
 	var _field = this; //make sure we can use this Field in $ scope
-	this.node = this.dropdownField();
 
 	// three sitations for obtaining and adding alternatives array
 	if (this.source instanceof Array) {
@@ -244,7 +251,7 @@ Field.prototype.initDropdown = function() {
 }
 
 
-Field.prototype.addDropdownListeners = function() {
+DropdownField.prototype.addDropdownListeners = function() {
 	var _field = this; //make sure we can use this Field in $ scope
 	var inputField = $(this.node).find("#" + this.inputId); // reach the input
 
@@ -287,7 +294,7 @@ Field.prototype.addDropdownListeners = function() {
 	});
 }
 
-Field.prototype.getAllAlternatives = function() {
+DropdownField.prototype.getAllAlternatives = function() {
 	//HACK for getting EN resources Iconclass
 	var locale = this.locale;
 	if (this.source.filterScheme === "http://accurator.nl/bible#BiblicalThemeConceptScheme") {
@@ -308,7 +315,7 @@ Field.prototype.getAllAlternatives = function() {
 	});
 }
 
-Field.prototype.addTypeAhead = function() {
+DropdownField.prototype.addTypeAhead = function() {
 	var bloodHound = this.createBloodhound(); // constructs the suggestion engine
 	var suggestionTemplate = this.createSuggestionTemplate();
 
@@ -327,7 +334,7 @@ Field.prototype.addTypeAhead = function() {
 	});
 }
 
-Field.prototype.createBloodhound = function() {
+DropdownField.prototype.createBloodhound = function() {
 	var array = [];
 
 	if (this.alternatives == null) {
@@ -360,7 +367,7 @@ Field.prototype.createBloodhound = function() {
 	}
 }
 
-Field.prototype.createSuggestionTemplate = function() {
+DropdownField.prototype.createSuggestionTemplate = function() {
 	if (this.source instanceof Array) {
 		// simple layout for array source
 		return suggestionTemplate = function(data) {
