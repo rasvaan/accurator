@@ -209,19 +209,20 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui,
 		annotation_ui:annotation_ui
 	})
 	.then(function(fields) {
+		// context object for field
+		var context = {
+			target: uri,
+			targetImage: metadata.image_uri,
+			user: user,
+			locale: locale,
+			imageId: page.imageId,
+		};
+
 		// add fields whole image
 		for (var i = 0; i < fields.whole_fields.length; i++) {
-			// context object for field
-			var context = {
-				id: "whole" + generateIdFromUri(fields.whole_fields[i].uri),
-				fragment: false,
-				target: uri,
-				targetImage: metadata.image_uri,
-				user: user,
-				locale: locale,
-				imageId: page.imageId,
-				fieldsId: page.wholeFieldsId
-			};
+			context.id = "whole" + generateIdFromUri(fields.whole_fields[i].uri);
+			context.fragment = false;
+			context.fieldsId = page.wholeFieldsId;
 
 			// create new field object
 			var wholeField = new Field(
@@ -245,17 +246,9 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui,
 
 		// add fields to hidden dom elements for annotorious
 		for (var i = 0; i < fields.fragment_fields.length; i++) {
-			// context object for fragment field
-			var context = {
-				id: "fragment" + generateIdFromUri(fields.fragment_fields[i].uri),
-				fragment: true,
-				target: uri,
-				targetImage: metadata.image_uri,
-				user: user,
-				locale: locale,
-				imageId: page.imageId,
-				fieldsId: page.fragmentFieldsId
-			};
+			context.id = "fragment" + generateIdFromUri(fields.fragment_fields[i].uri);
+			context.fragment = true;
+			context.fieldsId = page.fragmentFieldsId;
 
 			// create new field object
 			var fragmentField = new Field(
@@ -268,6 +261,15 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui,
 		// add the deniche plugin, which embeds the fields in annotorious
 		anno.addPlugin("DenichePlugin", labels);
 	});
+}
+
+function createField(field, context) {
+	switch (field.type) {
+		case "DropdownField":
+			return new DropdownField(field, context);
+		case "TextField":
+			return new TextField(field, context);
+	}
 }
 
 function displayMetadata(uri) {
