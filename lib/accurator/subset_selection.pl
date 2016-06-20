@@ -1,10 +1,14 @@
-:- module(subset_selection, [target_iconclass_code/3,
+:- module(subset_selection, [partOfLiterals/1,
+							 target_literal/4,
+							 target_iconclass_code/3,
 							 target_prefix/3,
 							 text_contains_label/5,
 							 target_graph/3,
+							 target_annotation/3,
+							 target_ubvu_pages/2,
 							 target_description_scanner/0,
 							 target_title_scanner/0,
-							 target_bible_pages/0]).
+							 remove_targets/2]).
 
 /** <module> Subset selection for annotation
 */
@@ -17,6 +21,36 @@
 :- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
 :- rdf_register_prefix(accu, 'http://accurator.nl/schema#').
 :- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
+
+%%	target_literal(+Predicate, +Literal, +TargetType, +Campaign)
+%
+%	Targets edm works which have the specified literal connected to the
+%	predicate.
+%
+%	target_literal('http://purl.org/dc/terms/isPartOf', 'collectie: sieraden','http://accurator.nl/fashion/jewelry#Target','http://accurator.nl/fashion/jewelry#Campaign').
+
+
+target_literal(Predicate, Literal, TargetType, Campaign) :-
+	Options = [target_type(TargetType), campaign(Campaign),
+			  targetter('http://accurator.nl/user#LiteralScanner')],
+	findall(Work,
+			work_with_literal(Predicate, Literal, Work),
+			LiteralWorks),
+	length(LiteralWorks, NumberLiteralWorks),
+	format('Number of works with ~p: ~p', [Literal, NumberLiteralWorks]),
+	maplist(campaign_nomination(Options), LiteralWorks).
+
+work_with_literal(Predicate, Literal, Work) :-
+	rdf(Work, Predicate, literal(Literal)),
+	has_image(Work).
+
+% see which literals are used for partof
+partOfLiterals(Literals) :-
+	setof(Literal,
+		  Work^rdf(Work, 'http://purl.org/dc/terms/isPartOf',
+				   literal(Literal),
+				   'http://purl.org/collections/nl/rma/rma-edm-fashion-selection.ttl'),
+		  Literals).
 
 %%	target_iconclass_code(+Code, +TargetType, +Campaign)
 %
@@ -174,6 +208,42 @@ scan_description(Work, Options0, Label) :-
 	debug(scan_text, '~p present in: ~p', [LabelLower, DescriptionLower]).
 scan_description(_, _, _).
 
+
+
+%%	target_annotation(+Annotation, +TargetType, +Campaign)
+%
+%	Targets edm works which have the specified annotation
+% target_ubvu_pages('http://accurator.nl/ubvu#Target','http://accurator.nl/ubvu#Campaign').
+target_ubvu_pages(TargetType, Campaign) :-
+	illustrated_pages(PageAnnotations),
+	maplist(target_annotation(TargetType, Campaign), PageAnnotations).
+
+illustrated_pages([
+	   'http://purl.org/vocab/nl/ubvu/FullPageIllustration',
+	   'http://purl.org/vocab/nl/ubvu/IllustratedPage',
+	   'http://purl.org/vocab/nl/ubvu/MultipleIllustrationsPage',
+	   'http://purl.org/vocab/nl/ubvu/PartialIllustrationPage',
+	   'http://purl.org/vocab/nl/ubvu/TextAndIllustrationPage'
+]).
+
+%%	target_annotation(+Annotation, +TargetType, +Campaign)
+%
+%	Targets edm works which have the specified annotation
+% target_annotation('http://accurator.nl/bible#Target','http://accurator.nl/bible#Campaign','http://purl.org/vocab/nl/ubvu/MultipleIllustrationsPage').
+target_annotation(TargetType, Campaign, Annotation) :-
+	Options = [target_type(TargetType), campaign(Campaign),
+			  targetter('http://accurator.nl/user#AnnotationScanner')],
+	%find all works with annotatoin
+	findall(Object,
+			(	rdf(AnnotationUri, oa:hasBody, Annotation),
+				rdf(AnnotationUri, oa:hasTarget, Object),
+				rdf(Object, rdf:type, edm:'ProvidedCHO')),
+			Objects),
+	length(Objects, NumberObjects),
+	debug(tag_works, 'Number of works with ~p annotation: ~p',
+		  [Annotation, NumberObjects]),
+	maplist(campaign_nomination(Options), Objects).
+
 %%	campaign_nomination(+Options, +Work)
 %
 %	Nominate a work to be in a campaign and record who targetted this
@@ -269,30 +339,16 @@ target_description_scanner :-
 		  [NumberClassWorks]),
 	maplist(campaign_nomination(Options), ClassWorks).
 
-target_bible_pages :-
-	Graph = 'http://purl.org/collections/nl/ubvu/ubvu_bibles.ttl',
-	TargetLeon = 'http://accurator.nl/page#TargetLeon',
-	TargetCristina = 'http://accurator.nl/page#TargetCristina',
-	TargetSebastien = 'http://accurator.nl/page#TargetSebastien',
-	TargetChris = 'http://accurator.nl/page#TargetChris',
-	findall(Page,
-			rdf(Page, rdf:type, edm:'ProvidedCHO', Graph),
-			Pages),
-	length(Pages, NumberPages),
-	forall(between(0,250,X1),
-		   (     nth0(X1, Pages, Target),
-				 rdf_assert(Target, rdf:type, TargetLeon, 'pageTargets'),
-				 debug(pages, 'Targetting ~p', [Target]))),
-	forall(between(251,500,X2),
-		   (     nth0(X2, Pages, Target),
-				 rdf_assert(Target, rdf:type, TargetCristina, 'pageTargets'),
-				 debug(pages, 'Targetting ~p', [Target]))),
-	forall(between(501,750,X3),
-		   (     nth0(X3, Pages, Target),
-				 rdf_assert(Target, rdf:type, TargetSebastien, 'pageTargets'),
-				 debug(pages, 'Targetting ~p', [Target]))),
-	forall(between(750,1002,X4),
-		   (     nth0(X4, Pages, Target),
-				 rdf_assert(Target, rdf:type, TargetChris, 'pageTargets'),
-				 debug(pages, 'Targetting ~p', [Target]))),
-	debug(pages, 'number pages: ~p', [NumberPages]).
+%%	remove_target(+Work, +TargetType)
+%
+%	For a list of works, remove the target.
+% remove_targets(['http://purl.org/collections/nl/ubvu/print-218010001015'], 'http://accurator.nl/ubvu#Target')
+remove_targets(Works, TargetType) :-
+	maplist(remove_target(TargetType), Works).
+
+%%	remove_target(+Work, +TargetType)
+%
+%	Remove a target of a work
+remove_target(TargetType, Work) :-
+	rdf_retractall(Work, rdf:type, TargetType),
+	rdf_retractall(Work, accu:targetedBy, _Targetter).

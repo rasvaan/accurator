@@ -1,0 +1,13 @@
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix afasui: <http://accurator.nl/ui/fashion#> .
+
+###### Fashion Intro Screen #####
+
+afasui:intro a auis:UI ;
+	aui:introHdrSubSlogan "Help ons met het toevoegen van informatie aan mode"@nl .
+
+##### Fashion Expertise Screen #####
+
+afasui:expertise a auis:UI ;
+	aui:expertiseTxtSubHeader "vertel ons over welke mode onderwerpen u veel weet, dan baseren wij de werken die we aanraden hierop"@nl .

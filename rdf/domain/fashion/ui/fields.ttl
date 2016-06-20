@@ -1,0 +1,73 @@
+@prefix afasui: <http://accurator.nl/ui/annotation/fashion#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+afasui:fashionUI a auis:AnnotationUI ;
+    dcterms:title "Fashion annotation UI"@en ;
+    auis:wholeFields (
+        afasui:Period
+    ) ;
+	auis:fragmentFields (
+	     afasui:Type
+		 afasui:Material
+		 afasui:Technique
+		 afasui:Color
+	 ) .
+
+ afasui:Period a auis:DropdownField ;
+ 	rdfs:label "Style period"@en ;
+ 	rdfs:label "Stijlperiode"@nl ;
+ 	dcterms:comment "add the related style period"@en ;
+ 	dcterms:comment "voeg de stijlperiode toe"@nl ;
+ 	auis:source afasui:PeriodSource .
+
+ afasui:PeriodSource a auis:AlternativesSource ;
+     auis:api "/api/autocomplete/all" ;
+     auis:filterScheme "http://aat.org/Period" .
+
+afasui:Type a auis:DropdownField ;
+	rdfs:label "Object type"@en ;
+	rdfs:label "Type object"@nl ;
+	dcterms:comment "add the type of object"@en ;
+	dcterms:comment "voeg het object type toe"@nl ;
+	auis:source afasui:GarmentSource .
+
+afasui:GarmentSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://thesaurus.europeanafashion.eu/thesaurus/Type" .
+
+afasui:Material a auis:DropdownField ;
+	rdfs:label "Material"@en ;
+	rdfs:label "Materiaal"@nl ;
+	dcterms:comment "add the material"@en ;
+	dcterms:comment "voeg het materiaal toe"@nl ;
+	auis:source afasui:MaterialSource .
+
+afasui:MaterialSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://thesaurus.europeanafashion.eu/thesaurus/Materials" .
+
+afasui:Technique a auis:DropdownField ;
+	rdfs:label "Technique"@en ;
+    rdfs:label "Techniek"@nl ;
+	dcterms:comment "add technique"@en ;
+	dcterms:comment "voeg de techniek toe"@nl ;
+	auis:source afasui:TechniqueSource .
+
+afasui:TechniqueSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://thesaurus.europeanafashion.eu/thesaurus/Techniques" .
+
+afasui:Color a auis:DropdownField ;
+	rdfs:label "Color"@en ;
+	rdfs:label "Kleur"@nl ;
+	dcterms:comment "add the color"@en ;
+	dcterms:comment "voeg de kleur toe"@nl ;
+	auis:source afasui:ColorSource .
+
+afasui:ColorSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://thesaurus.europeanafashion.eu/thesaurus/Colours" .

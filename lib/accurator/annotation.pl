@@ -1,6 +1,9 @@
 :- module(annotation, [
 			  annotation_fields/2,
-			  annotations/3
+			  annotations/3,
+			  annotations/4,
+			  number_of_annotations/2,
+			  number_of_users/2
 		  ]).
 
 :- use_module(library(accurator/ui_elements)).
@@ -103,19 +106,31 @@ get_source(Uri, Locale, Source) :-
 	rdfs_list_to_prolog_list(RdfList, SourceList),
 	maplist(extract_literal(Locale), SourceList, Source), !.
 get_source(Uri, _Locale, Source) :-
-	rdf_has(Uri, auis:source, literal(Source)), !.
+	rdf_has(Uri, auis:source, SourceUri),
+	rdf_is_resource(SourceUri), !,
+	findall(PredicateLabel-Literal,
+			(	rdf(SourceUri, Predicate, literal(Literal)),
+				iri_xml_namespace(Predicate, _, PredicateLabel)),
+			Properties),
+	dict_pairs(Source, elements, Properties).
 
 extract_literal(Locale, literal(lang(Locale, Literal)), Literal) :- !.
 extract_literal(_Locale, literal(lang(en, Literal)), Literal) :- !.
+extract_literal(_Locale, literal(Literal), Literal) :-
+	atom(Literal), !. % check if not lang(Literal)
 
 %%	annotations(+Type, +Uri, -Metadata)
 %
-%	Get all annotations and subjects attached to a Uri, or get all
-%	annotations a user made.
+%	Get all annotations and subjects attached to a Uri, get all
+%	annotations a user made, or get all annotations of which the body
+%	are of in specified concept scheme or domain.
+% annotations(domain,'http://accurator.nl/fashion/jewelry#domain', Annotations). annotations(concept_scheme,
+% 'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme', Annotations).
+
 annotations(object, Uri, Annotations) :-
-    findall(annotation{
-		     field:FieldLabel,
-		     body:NiceBody},
+	findall(annotation{
+				field:FieldLabel,
+				body:NiceBody},
 	    (	get_annotation(Uri, AnnotationBody, AnnotationHash),
 			process_annotation(AnnotationBody, NiceBody),
 			% use rdf_has to also include fragment and whole fields
@@ -125,6 +140,7 @@ annotations(object, Uri, Annotations) :-
 	    FoundAnnotations),
 	get_title(Uri, DisplayTitle),
 	Annotations = annotations{title:DisplayTitle, annotations:FoundAnnotations}.
+
 annotations(user, UserUri, ObjectUris) :-
     setof(Object, AnnotationHash^
 	    (	rdf_has(AnnotationHash, oa:annotatedBy, UserUri),
@@ -133,6 +149,26 @@ annotations(user, UserUri, ObjectUris) :-
 	    ObjectUris), !.
 annotations(user, _UserUri, []).
 
+annotations(domain, Domain, Annotations) :-
+	findall(AnnotationHash,
+			(	rdf(AnnotationHash, oa:hasTarget, Work),
+				rdf(Work, rdf:type, Target),
+				rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target)),
+			Annotations).
+
+annotations(concept_scheme, ConceptScheme, Annotations) :-
+	findall(AnnotationHash,
+			(	rdf(AnnotationHash, oa:hasBody, AnnotationBody),
+				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
+			Annotations).
+annotations(concept_scheme, ConceptScheme, Annotations, Graph) :-
+	findall(AnnotationHash,
+			(	rdf(AnnotationHash, oa:hasBody, AnnotationBody),
+				rdf(AnnotationHash, oa:hasTarget, Uri),
+				rdf(Uri, _P, _O, Graph),
+				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
+			Annotations).
+
 get_annotation(Uri, AnnotationBody, AnnotationHash) :-
 	rdf(AnnotationHash, oa:hasTarget, Uri),
 	rdf(AnnotationHash, oa:hasBody, AnnotationBody).
@@ -140,3 +176,24 @@ get_annotation(Uri, AnnotationBody, AnnotationHash) :-
 process_annotation(literal(Annotation), Annotation) :- !.
 process_annotation(Annotation, Label) :-
 	rdf_display_label(Annotation, _, Label).
+
+%%	number_of_annotations(+Uri, -NumberOfAnnotations)
+%
+%	Get the number of annotations for a given uri
+number_of_annotations(Uri, NumberOfAnnotations) :-
+	setof(Annotation,
+		  rdf(Annotation, oa:hasTarget, Uri),
+		  Annotations), !,
+	length(Annotations, NumberOfAnnotations).
+number_of_annotations(_Uri, 0) :- !.
+
+%%	number_of_users(+Uri, -NumberOfUsers)
+%
+%	Get the number of users who annotated the object of the given uri.
+number_of_users(Uri, NumberOfUsers) :-
+	setof(User,
+		  (	    rdf(Annotation, oa:hasTarget, Uri),
+				rdf(Annotation, oa:annotatedBy, User)),
+		  Users), !,
+	length(Users, NumberOfUsers).
+number_of_users(_Uri, 0) :- !.

@@ -1,0 +1,29 @@
+@prefix aagen:  <http://accurator.nl/ui/annotation/generic#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+# Minimal example ui for generic domain
+
+aagen:genericUI a auis:AnnotationUI ;
+    dcterms:title "Minimal generic domain"@en ;
+    auis:wholeFields (
+        aagen:textWhole
+	);
+	auis:fragmentFields (
+		aagen:textFragment
+	 ) .
+
+aagen:textWhole a auis:DropdownField ;
+	rdfs:label "Description"@en ;
+	rdfs:label "Beschrijving"@nl ;
+	dcterms:comment "add description of artwork"@en ;
+	dcterms:comment "beschrijf het kunstwerk"@nl .
+
+aagen:textFragment a auis:DropdownField ;
+    rdfs:label "Description"@en ;
+    rdfs:label "Beschrijving"@nl ;
+    dcterms:comment "add description of artwork fragment"@en ;
+	dcterms:comment "beschrijf het kunstwerk gedeelte"@nl .

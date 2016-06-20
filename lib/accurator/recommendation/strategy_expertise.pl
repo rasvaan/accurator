@@ -2,6 +2,7 @@
 
 :- use_module(library(accurator/accurator_user)).
 :- use_module(library(accurator/expertise)).
+:- use_module(library(accurator/recommendation/strategy_random)).
 :- use_module(library(cluster_search/cs_filter)).
 :- use_module(library(cluster_search/rdf_search)).
 :- use_module(library(cluster_search/owl_ultra_lite)).
@@ -21,7 +22,7 @@
 strategy_expertise(Result, Options0) :-
 	option(output_format(OutputFormat), Options0),
 	option(user(User), Options0),
-	get_domain(User, Domain),
+	get_attribute(User, domain, Domain),
 	Options1 = [domain(Domain) | Options0],
 	%set initial max agenda
 	Options = [max_agenda(100) | Options1],
@@ -108,7 +109,7 @@ set_expertise_agenda(MaxNumber, Agenda, [max_agenda(_)|Options0], Options) :-
 	reverse(ReverseGroupedValues, GroupedValues),
 	expertise_from_bins(GroupedValues, 0, NumberItems, Agenda).
 
-%%	expertise_from_bins(+Bins, +Counter,+ MaxN, -Agenda)
+%%	expertise_from_bins(+Bins, +Counter, +MaxN, -Agenda)
 %
 %	Determine the agenda by picking expertise values from bins. When a
 %	bin has multiple expertise areas, pick one at random from that bin.
@@ -117,22 +118,6 @@ expertise_from_bins(Bins, N0, MaxN, [Expertise|List]) :-
 	N is N0 + 1,
 	random_from_bin(Bins, NewBins, Expertise),
 	expertise_from_bins(NewBins, N, MaxN, List).
-
-%%	random_from_bin(+Bins, +NewBins, -Expertise)
-%
-%	Get a random value from the bin. If the bin is empty aftwerwards,
-%	remove from bins, otherwise only remove the value from the bin.
-random_from_bin([Value-Bin|Bins], NewBins, Expertise) :-
-	%EXPERIMENT: not so random for now..
-	%length(Bin, Number0),
-	%Number is Number0-1,
-	%random_between(0, Number, Index),
-	Index = 0,
-	nth0(Index, Bin, Expertise, Rest),
-	(  Rest == []
-	-> NewBins = Bins
-	;  NewBins = [Value-Rest|Bins]
-	).
 
 %%	number_of_items(+NumberExpertise, +Number0, -NumberExpertise)
 %

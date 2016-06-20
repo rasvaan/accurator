@@ -1,6 +1,7 @@
 @prefix accu:   <http://accurator.nl/schema#> .
 @prefix agen:   <http://accurator.nl/generic#> .
 @prefix aui:    <http://accurator.nl/ui/generic#> .
+@prefix aagen:  <http://accurator.nl/ui/annotation/generic#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
 @prefix ic:     <http://iconclass.org/> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -11,16 +12,14 @@
 
 agen:domain a accu:Domain ;
 	rdfs:label "generic" ;
-	dcterms:requires <http://iconclass.org/> ;
-	accu:hasTarget <http://www.europeana.eu/schemas/edm/ProvidedCHO> ;
-	skos:hasTopConcept ic:2 ;
+	accu:hasLabel aui:label ;
+	accu:hasTarget <http://accurator.nl/generic#Target> ;
 	accu:hasUI aui: ;
-	accu:hasDesciptiveImage agen:mountain ;
-	accu:hasLastImage agen:mountain ;
-	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "2" .
+	accu:hasAnnotationUI aagen:genericUI ;
+	accu:hasDescriptiveImage agen:mountain .
 
-<http://iconclass.org/> a skos:ConceptScheme .
+aui:label auis:textLabel "Generic domain"@en ,
+					 	 "Generiek domein"@nl .
 
 agen:mountain a dctypes:StillImage ;
 	accu:hasFilePath "img/background/generic.jpg" ;

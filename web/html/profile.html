@@ -4,7 +4,7 @@
 	<title>Profile</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" href="img/favicon.ico">
-	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap.min.css" />
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 </head>
 
@@ -68,14 +68,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div class="btn-group">
-							<button type="button" class="btn btn-primary dropdown-toggle" id="profileBtnDomain" data-toggle="dropdown" aria-expanded="false">
-								<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" id="profileLstDomainItems" role="menu">
-							</ul>
-						</div>
-						<button class="btn btn-default" id="profileBtnChangeExpertise">
+						<button class="btn btn-primary" id="profileBtnDomain">
 						</button>
 					</div>
 				</div>
@@ -84,52 +77,6 @@
 
 		<!-- Already annotated -->
 		<div class="row" id="profileDivLastAnnotated">
-			<div class="col-md-12" id="profileDivHdrLastAnnotated">
-				<h4 id="profileLblLastAnnotated">
-				</h4>
-			</div>
-			<div class="col-md-12" id="profileDivCluster0">
-			</div>
-		</div>
-	</div>
-
-	<!-- Logos -->
-	<div class="footerDiv container">
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://commit-nl.nl/">
-				<img src="img/logos/commit.png" class="footerImgLogo" id="footerImgCommitLogo" alt="Logo of ">
-				</img>
-			</a>
-		</div>
-      	<div class="logo col-md-2 col-xs-4">
-			<a href="http://www.cwi.nl">
-				<img src="img/logos/cwi.png" class="footerImgLogo" alt="Logo of CWI">
-				</img>
-			</a>
-		</div>
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://www.tudelft.nl">
-				<img src="img/logos/tud.png" class="footerImgLogo" alt="Logo of TU Delft">
-				</img>
-			</a>
-		</div>
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://vu.nl/">
-				<img src="img/logos/vu.png" class="footerImgLogo" alt="Logo of VU University Amsterdam">
-				</img>
-			</a>
-		</div>
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://rijksmuseum.nl">
-				<img src="img/logos/rma.png" class="footerImgLogo" id="footerImgRijksmuseumLogo" alt="Logo of Rijksmuseum">
-				</img>
-			</a>
-		</div>
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://www.naturalis.nl/">
-				<img src="img/logos/naturalis.png" class="footerImgLogo" alt="Logo of Naturalis">
-				</img>
-			</a>
 		</div>
 	</div>
 
@@ -168,15 +115,15 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
-	<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/accurator.laconic.js"></script>
-	<script type="text/javascript" src="js/search.js"></script>
-	<script type="text/javascript" src="js/pagination.js"></script>
-	<script type="text/javascript" src="js/thumbnail.js"></script>
-	<script type="text/javascript" src="js/pengines.js"></script>
-	<script type="text/javascript" src="js/accurator_utilities.js"></script>
-	<script type="text/javascript" src="js/accurator_profile.js"></script>
+	<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/lib/laconic.js"></script>
+	<script type="text/javascript" src="js/components/pagination.js"></script>
+	<script type="text/javascript" src="js/components/thumbnail.js"></script>
+	<script type="text/javascript" src="js/components/path.js"></script>
+	<script type="text/javascript" src="js/components/cluster.js"></script>
+	<script type="text/javascript" src="js/components/utilities.js"></script>
+	<script type="text/javascript" src="js/profile.js"></script>
 	<script>profileInit();</script>
 </body>
 </html>

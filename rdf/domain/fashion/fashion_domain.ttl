@@ -1,0 +1,133 @@
+@prefix accu:   <http://accurator.nl/schema#> .
+@prefix afas:   <http://accurator.nl/fashion#> .
+@prefix afasj:  <http://accurator.nl/fashion/jewelry#> .
+@prefix afasa:  <http://accurator.nl/fashion/accessories#> .
+@prefix afasp:  <http://accurator.nl/fashion/prints#> .
+@prefix afaspa:  <http://accurator.nl/fashion/paintings#> .
+@prefix afasc:  <http://accurator.nl/fashion/costumes#> .
+@prefix afasl:  <http://accurator.nl/fashion/lace#> .
+@prefix afasui: <http://accurator.nl/ui/fashion#> .
+@prefix afasjui:<http://accurator.nl/ui/fashion/jewelry#> .
+@prefix afasaui:<http://accurator.nl/ui/fashion/accessories#> .
+@prefix afaspui:<http://accurator.nl/ui/fashion/prints#> .
+@prefix afaspaui:<http://accurator.nl/ui/fashion/paintings#> .
+@prefix afascui:<http://accurator.nl/ui/fashion/costumes#> .
+@prefix afaslui:<http://accurator.nl/ui/fashion/lace#> .
+@prefix aafas:  <http://accurator.nl/ui/annotation/fashion#> .
+@prefix auis:   <http://accurator.nl/ui/schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix dctypes:<http://purl.org/dc/dcmitype/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+afas:domain a accu:Domain ;
+	rdfs:label "fashion" ;
+	accu:hasLabel afasui:label ;
+	accu:hasTarget <http://accurator.nl/fashion#Target> ;
+	accu:hasUI afasui: ;
+	accu:hasAnnotationUI aafas:fashionUI ;
+	accu:hasDescriptiveImage afasui:dress ;
+	accu:subDomains afasj:domain ,
+					afasp:domain ,
+					afaspa:domain ,
+					afasc:domain ,
+					afasl:domain ,
+					afasa:domain .
+
+afasui:label auis:textLabel "Fashion domain"@en ,
+				 			"Domein mode"@nl .
+
+afasui:dress a dctypes:StillImage ;
+	accu:hasFilePath "img/background/dress.jpg" ;
+	accu:brightness "light" .
+
+afasj:domain a accu:Domain ;
+	rdfs:label "jewelry" ;
+	accu:hasLabel afasjui:label ;
+	accu:hasTarget <http://accurator.nl/fashion/jewelry#Target> ;
+	accu:hasUI afasui: ;
+	accu:hasDescriptiveImage afasjui:jewelry ;
+	accu:hasAnnotationUI aafas:fashionUI .
+
+afasjui:label auis:textLabel "Jewelry domain"@en ,
+							 "Domein juwelen"@nl .
+
+afasjui:jewelry a dctypes:StillImage ;
+ 	accu:hasFilePath "img/background/jewelry.jpg" ;
+ 	accu:brightness "light" .
+
+afasa:domain a accu:Domain ;
+	rdfs:label "accessories" ;
+	accu:hasLabel afasaui:label ;
+	accu:hasTarget <http://accurator.nl/fashion/accessories#Target> ;
+	accu:hasUI afasui: ;
+	accu:hasDescriptiveImage afasaui:accessories ;
+	accu:hasAnnotationUI aafas:fashionUI .
+
+afasaui:label auis:textLabel "Accessories domain"@en ,
+							 "Domein accessoires"@nl .
+
+afasaui:accessories a dctypes:StillImage ;
+	accu:hasFilePath "img/background/accessories.jpg" ;
+	accu:brightness "light" .
+
+afasp:domain a accu:Domain ;
+	rdfs:label "prints" ;
+	accu:hasLabel afaspui:label ;
+	accu:hasTarget <http://accurator.nl/fashion/prints#Target> ;
+	accu:hasUI afasui: ;
+	accu:hasDescriptiveImage afaspui:print ;
+	accu:hasAnnotationUI aafas:fashionUI .
+
+afaspui:label auis:textLabel "Fashion prints domain"@en ,
+							 "Domein modeprenten"@nl .
+
+afaspui:print a dctypes:StillImage ;
+	accu:hasFilePath "img/background/fashion-print.jpg" ;
+	accu:brightness "light" .
+
+afaspa:domain a accu:Domain ;
+	rdfs:label "paintings" ;
+	accu:hasLabel afaspaui:label ;
+	accu:hasTarget <http://accurator.nl/fashion/paintings#Target> ;
+	accu:hasUI afasui: ;
+	accu:hasDescriptiveImage afaspaui:painting ;
+	accu:hasAnnotationUI aafas:fashionUI .
+
+afaspaui:label auis:textLabel "Paintings domain"@en ,
+							 "Domein schilderijen"@nl .
+
+afaspaui:painting a dctypes:StillImage ;
+	accu:hasFilePath "img/background/averkamp.jpg" ;
+	accu:brightness "light" .
+
+afasc:domain a accu:Domain ;
+	rdfs:label "costumes" ;
+	accu:hasLabel afascui:label ;
+	accu:hasTarget <http://accurator.nl/fashion/costumes#Target> ;
+	accu:hasUI afasui: ;
+	accu:hasDescriptiveImage afascui:costume ;
+	accu:hasAnnotationUI aafas:fashionUI .
+
+afascui:label auis:textLabel "Costumes and accessories domain"@en ,
+							 "Domein kostuums en accessoires"@nl .
+
+afascui:costume a dctypes:StillImage ;
+	accu:hasFilePath "img/background/costume.jpg" ;
+	accu:brightness "light" .
+
+afasl:domain a accu:Domain ;
+	rdfs:label "lace" ;
+	accu:hasLabel afaslui:label ;
+	accu:hasTarget <http://accurator.nl/fashion/lace#Target> ;
+	accu:hasUI afasui: ;
+	accu:hasDescriptiveImage afaslui:lace ;
+	accu:hasAnnotationUI aafas:fashionUI .
+
+afaslui:label auis:textLabel "Lace domain"@en ,
+							 "Domein kant"@nl .
+
+afaslui:lace a dctypes:StillImage ;
+	accu:hasFilePath "img/background/lace.jpg" ;
+	accu:brightness "dark" .

@@ -12,42 +12,41 @@
 
 abir:domain a accu:Domain ;
 	rdfs:label "bird";
+	accu:hasLabel abirui:label ;
 	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
 	accu:hasTarget <http://accurator.nl/bird#Target> ;
 	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
-	accu:hasAnnotationUI aabir:smallBirdDemoUi ;
-	accu:hasDesciptiveImage abir:bird ;
-	accu:hasLastImage abir:bird_end ;
+	accu:hasAnnotationUI aabir:smallBirdAnnotationUi ;
+	accu:hasDescriptiveImage abirui:bird ;
 	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "2" .
+	accu:hasMaximumChildren "2"  .
 
 <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
+
+abirui:label auis:textLabel "Bird domain"@en ,
+				 			"Vogel domein"@nl .
 
 abir:snipeQuery a accu:QueryExample ;
 	dcterms:title "Search for Snipe"@en ,
                   "Zoek naar snip"@nl ;
-	accu:hasDesciptiveImage abir:snipeImage ;
+	accu:hasDescriptiveImage abir:snipeImage ;
 	accu:action "results?query=snipe" .
 
 abir:songbirdQuery a accu:QueryExample ;
 	dcterms:title "Search for song birds"@en ,
                   "Zoek naar zangvogels"@nl ;
-	accu:hasDesciptiveImage abir:songbirdImage ;
+	accu:hasDescriptiveImage abir:songbirdImage ;
 	accu:action "results?query=song-birds" .
 
 abir:hondecoeterQuery a accu:QueryExample ;
 	dcterms:title "Search for Hondecoeter"@en ,
                   "Zoek naar Hondecoeter"@nl ;
-	accu:hasDesciptiveImage abir:hondecoeterImage ;
+	accu:hasDescriptiveImage abir:hondecoeterImage ;
 	accu:action "results?query=hondecoeter" .
 
-abir:bird a dctypes:StillImage ;
+abirui:bird a dctypes:StillImage ;
 	accu:hasFilePath "img/background/bird.jpg" ;
-	accu:brightness "light" .
-
-abir:bird_end a dctypes:StillImage ;
-	accu:hasFilePath "img/background/bird-end.jpg" ;
 	accu:brightness "light" .
 
 abir:snipeImage a dctypes:StillImage ;
@@ -60,4 +59,4 @@ abir:songbirdImage a dctypes:StillImage ;
 
 abir:hondecoeterImage a dctypes:StillImage ;
 	accu:hasFilePath "img/background/hondecoeter.jpg" ;
-	accu:brightness "light" .
+	accu:brightness "dark" .

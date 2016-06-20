@@ -4,7 +4,7 @@
 	<title>Select Domain</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="img/favicon.ico">
-	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap.min.css" />
 	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 </head>
 
@@ -22,14 +22,13 @@
 				 </a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbarDivMenu">
+				<ul class="nav navbar-nav navbar-right navbarLstFlag">
+				</ul>
 				<ul class="nav navbar-nav navbar-right navbarLstUser">
 				</ul>
-				<ul class="nav navbar-nav navbar-right navbarLstFlag">
-	          	</ul>
 			</div>
 		</div>
 	</nav>
-
 
 	<!-- Domains -->
 	<div class="container-fluid noGutter domainDiv">
@@ -38,46 +37,6 @@
 				<h2 id="domainTxtTitle">
 				</h2>
 			</div>
-		</div>
-	</div>
-
-	<!-- Logos -->
-	<div class="footerDiv container">
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://commit-nl.nl/">
-				<img src="img/logos/commit.png" class="footerImgLogo" id="footerImgCommitLogo" alt="Logo of ">
-				</img>
-			</a>
-		</div>
-      	<div class="logo col-md-2 col-xs-4">
-			<a href="http://www.cwi.nl">
-				<img src="img/logos/cwi.png" class="footerImgLogo" alt="Logo of CWI">
-				</img>
-			</a>
-		</div>
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://www.tudelft.nl">
-				<img src="img/logos/tud.png" class="footerImgLogo" alt="Logo of TU Delft">
-				</img>
-			</a>
-		</div>
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://vu.nl/">
-				<img src="img/logos/vu.png" class="footerImgLogo" alt="Logo of VU University Amsterdam">
-				</img>
-			</a>
-		</div>
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://rijksmuseum.nl">
-				<img src="img/logos/rma.png" class="footerImgLogo" id="footerImgRijksmuseumLogo" alt="Logo of Rijksmuseum">
-				</img>
-			</a>
-		</div>
-		<div class="logo col-md-2 col-xs-4">
-			<a href="http://www.naturalis.nl/">
-				<img src="img/logos/naturalis.png" class="footerImgLogo" alt="Logo of Naturalis">
-				</img>
-			</a>
 		</div>
 	</div>
 
@@ -114,11 +73,12 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
-	<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/accurator.laconic.js"></script>
-	<script type="text/javascript" src="js/accurator_utilities.js"></script>
-	<script type="text/javascript" src="js/accurator_domain.js"></script>
+	<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/lib/laconic.js"></script>
+	<script type="text/javascript" src="js/components/utilities.js"></script>
+	<script type="text/javascript" src="js/components/domain.js"></script>
+	<script type="text/javascript" src="js/domain.js"></script>
 	<script>domainInit()</script>
 </body>
 </html>

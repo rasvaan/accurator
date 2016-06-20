@@ -6,12 +6,12 @@
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
 abibui:smallBibleUI a auis:AnnotationUI ;
-    dcterms:title "Bible annotation UI"@en;
+    dcterms:title "Bible annotation UI"@en ;
     auis:wholeFields (
-	     abibui:ICBibleTheme
+        abibui:ICBibleTheme
 	);
 	auis:fragmentFields (
-		 abibui:BibleCharacter
+		abibui:BibleCharacter
 	 ) .
 
  abibui:emotionUI a auis:AnnotationUI ;
@@ -27,14 +27,22 @@ abibui:ICBibleTheme a auis:DropdownField ;
 	rdfs:label "Thema"@nl ;
 	dcterms:comment "add the Biblical theme"@en ;
 	dcterms:comment "voeg het bijbelse thema toe"@nl ;
-	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://accurator.nl/bible%23BiblicalThemeConceptScheme\"}" .
+	auis:source abibui:ICBibleThemeSource .
+
+abibui:ICBibleThemeSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://accurator.nl/bible#BiblicalThemeConceptScheme" .
 
 abibui:BibleCharacter a auis:DropdownField ;
 	rdfs:label "Biblical person"@en ;
 	rdfs:label "Bijbels persoon"@nl ;
 	dcterms:comment "add the biblical person"@en ;
 	dcterms:comment "voeg de bijbelse persoon toe"@nl ;
-	auis:source "/api/autocomplete?q={query}&filter={\"scheme\":\"http://accurator.nl/bible%23BiblicalFigureConceptScheme\"}&labelrank=['http://www.w3.org/2000/01/rdf-schema%23label'-1]" .
+	auis:source abibui:BibleCharacterSource .
+
+abibui:BibleCharacterSource a auis:AlternativesSource ;
+    auis:api "/api/autocomplete/all" ;
+    auis:filterScheme "http://accurator.nl/bible#BiblicalFigureConceptScheme" .
 
 abibui:Emotion a auis:SelectField ;
 	rdfs:label "Emotie"@nl ;

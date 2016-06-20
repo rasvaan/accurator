@@ -22,6 +22,7 @@
 :- use_module(library(accurator/annotation)).
 :- use_module(library(accurator/subset_selection)).
 :- use_module(library(accurator/concept_scheme_selection)).
+:- use_module(library(accurator/review)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
 :- use_module(library(http/http_json)).
@@ -58,10 +59,13 @@ user:file_search_path(fonts, web(fonts)).
 :- http_handler(cliopatria(get_user), get_user, []).
 :- http_handler(cliopatria(get_user_settings), get_user_settings, []).
 :- http_handler(cliopatria(save_user_info), save_user_info, []).
+:- http_handler(cliopatria(get_user_info), user_info_api, []).
 :- http_handler(cliopatria(recommendation), recommendation_api, []).
 
 :- set_setting_default(thumbnail:thumbnail_size, size(350,300)).
 :- set_setting_default(thumbnail:medium_size, size(1280,1024)).
+
+locale([en,nl]). % loaded locales
 
 %%	ui_elements_api(+Request)
 %
@@ -96,7 +100,18 @@ get_parameters_elements(Request, Options) :-
 			[description('Type of elements to retrieve'),
 			 optional(type)])
 	]),
-    Options = [ui(UI), locale(Locale), type(Type)].
+	check_locale(Locale, CheckedLocale),
+    Options = [ui(UI), locale(CheckedLocale), type(Type)].
+
+%%	check_locale(+Locale, -CheckedLocale)
+%
+%	Checks whether locale is part of the loaded locales, otherwise sets
+%	it to en.
+check_locale(Locale, Locale) :-
+	locale(LocaleList),
+	member(Locale, LocaleList), !.
+check_locale(_Locale, en).
+
 
 %%     domains_api(+Request)
 %
@@ -210,7 +225,8 @@ get_parameters_annotation_fields(Request, Options) :-
 		 domain(Domain,
 				[description('Domain of field descriptions to retrieve'),
 				 optional(false)])]),
-    Options = [annotation_ui(UI), locale(Locale), domain(Domain)].
+	check_locale(Locale, CheckedLocale),
+    Options = [annotation_ui(UI), locale(CheckedLocale), domain(Domain)].
 
 
 %%	expertise_topics_api(+Request)
@@ -220,7 +236,7 @@ expertise_topics_api(Request) :-
     get_parameters_expertise(Request, Options0),
 	logged_on(User),
 	Options1 = [user(User) | Options0],
-	get_domain(User, Domain),
+	get_attribute(User, domain, Domain),
 	Options = [domain(Domain) | Options1],
 	get_expertise_topics(Dic, Options),
 	reply_json_dict(Dic).
@@ -250,7 +266,8 @@ get_parameters_expertise(Request, Options) :-
 			 default(3)])]),
     atom_number(NumberOfTopicsString, NumberOfTopics),
 	atom_number(NumberOfChildrenString, NumberOfChildren),
-	Options = [locale(Locale), target(Target), taxonomy(Taxonomy),
+	check_locale(Locale, CheckedLocale),
+	Options = [locale(CheckedLocale), target(Target), taxonomy(Taxonomy),
 			   topConcept(TopConcept), numberOfTopics(NumberOfTopics),
 			   numberOfChildren(NumberOfChildren)].
 
@@ -261,7 +278,7 @@ get_parameters_expertise(Request, Options) :-
 expertise_values_api(Request) :-
 	member(method(get), Request),
 	logged_on(User),
-	get_domain(User, Domain),
+	get_attribute(User, domain, Domain),
 	get_user_expertise_domain(User, Domain, ExpertiseValues),
 	dict_pairs(ExpertiseDict, elements, ExpertiseValues),
 	reply_json_dict(ExpertiseDict).
@@ -293,7 +310,7 @@ get_recommendation_parameters(Request, Options) :-
     http_parameters(Request,
         [strategy(Strategy,
 		    [default(random),
-			 oneof([random, expertise])]),
+			 oneof([random, ranked_random, expertise])]),
 		 target(Target,
 			[default('http://www.europeana.eu/schemas/edm/ProvidedCHO')]),
 		 number(Number,
@@ -316,6 +333,10 @@ strategy(random, Options) :-
     strategy_random(Result, Options),
 	reply_json_dict(Result).
 
+strategy(ranked_random, Options) :-
+    strategy_user_ranked_random(Result, Options),
+	reply_json_dict(Result).
+
 strategy(expertise, Options) :-
     strategy_expertise(Results, Options),
 	option(output_format(OutputFormat), Options),
@@ -326,6 +347,28 @@ reply_expertise_results(cluster, Clusters) :-
 
 reply_expertise_results(list, List) :-
 	reply_json_dict(List).
+
+%%	user_info_api(+Request)
+%
+%	Retrieves the value in the user profile for specified attribute
+user_info_api(Request) :-
+    get_parameters_user_info(Request, Options),
+    get_user_info(Options).
+
+%%	get_parameters_user_info(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_user_info(Request, Options) :-
+	logged_on(LoggedinUser),
+    http_parameters(Request,
+        [attribute(Attribute,
+			[description('Attribute for which values are retrieved'),
+			 optional(false),
+			 oneof(form_personal_shown, form_internet_shown)]),
+		 user(User,
+			[description('User for which values are retrieved'),
+			 default(LoggedinUser)])]),
+    Options = [attribute(Attribute), user(User)].
 
 %%	page_item(+Request)
 %
@@ -351,7 +394,7 @@ html({|html||
 <title>Item</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="img/favicon.ico">
-<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.bootstrap.min.css" />
+<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="css/annotorious.css" />
 <link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
 |}).
@@ -399,6 +442,11 @@ html({|html(ImageUrl)||
 		<img class="itemImg annotatable" src="ImageUrl" alt="" />
 	</div>
 
+	<!-- Annotation field(s) -->
+	<div class="row" id="itemDivAnnotationFields">
+		<div class="col-md-6" id="itemDivFields"></div>
+	</div>
+
 	<!-- Navigation -->
 	<div class="row" id="itemDivClusterNavigation">
 		<div class="itemDivNavigationButton col-md-2 col-xs-6">
@@ -413,11 +461,6 @@ html({|html(ImageUrl)||
 		</div>
 		<div class="col-md-8 col-md-pull-2" id="itemDivPath">
 		</div>
-	</div>
-
-	<!-- Annotation field(s) -->
-	<div class="row">
-		<div class="col-md-6" id="itemDivFields"></div>
 	</div>
 
 	<!-- Metadata -->
@@ -463,17 +506,18 @@ html({|html(ImageUrl)||
 <div class="itemDivHidden"></div>
 
 <!-- Added Script -->
-<script type="text/javascript" src="js/accurator.jquery.min.js"></script>
-<script type="text/javascript" src="js/accurator.bootstrap.min.js"></script>
-<script type="text/javascript" src="js/accurator.laconic.js"></script>
-<script type="text/javascript" src="js/bloodhound.js"></script>
-<script type="text/javascript" src="js/typeahead.js"></script>
-<script type="text/javascript" src="js/annotorious.min.js"></script>
-<script type="text/javascript" src="js/deniche-plugin.js"></script>
-<script type="text/javascript" src="js/search.js"></script>
-<script type="text/javascript" src="js/accurator_utilities.js"></script>
-<script type="text/javascript" src="js/annotations.js"></script>
-<script type="text/javascript" src="js/field.js"></script>
-<script type="text/javascript" src="js/accurator_item.js"></script>
+<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/laconic.js"></script>
+<script type="text/javascript" src="js/lib/bloodhound.js"></script>
+<script type="text/javascript" src="js/lib/typeahead.js"></script>
+<script type="text/javascript" src="js/lib/annotorious.min.js"></script>
+<script type="text/javascript" src="js/components/path.js"></script>
+<script type="text/javascript" src="js/components/deniche-plugin.js"></script>
+<script type="text/javascript" src="js/components/utilities.js"></script>
+<script type="text/javascript" src="js/components/annotations.js"></script>
+<script type="text/javascript" src="js/components/field.js"></script>
+<script type="text/javascript" src="js/components/form.js"></script>
+<script type="text/javascript" src="js/item.js"></script>
 <script>itemInit()</script>
 |}).

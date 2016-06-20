@@ -12,18 +12,17 @@
 
 abib:domain a accu:Domain ;
 	rdfs:label "bible" ;
-	dcterms:requires <file:///Users/rasvaan/git/iconclass/iconclass.20121019.structure.ttl> ;
-	accu:hasTarget <http://accurator.nl/bible#Target> ;
-	skos:hasTopConcept ic:7 ;
+	accu:hasLabel abibui:label ;
+	accu:hasTarget <http://accurator.nl/ubvu#Target> ;
 	accu:hasUI abibui: ;
 	accu:hasAnnotationUI aabib:smallBibleUI ;
-	accu:hasDesciptiveImage abib:jeremia ;
-	accu:hasLastImage abib:jeremia ;
-	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "0" .
+	accu:hasDescriptiveImage abibui:jeremia .
 
-<http://iconclass.org/> a skos:ConceptScheme .
+abibui:label auis:textLabel "Bible domain"@en ,
+							"Bijbel domein"@nl .
 
-abib:jeremia a dctypes:StillImage ;
+abibui:jeremia a dctypes:StillImage ;
 	accu:hasFilePath "img/background/bible.jpg" ;
 	accu:brightness "dark" .
+
+<http://iconclass.org/> a skos:ConceptScheme .

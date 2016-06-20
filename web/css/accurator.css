@@ -77,14 +77,15 @@ Navbar
 Intro
 *******************************************************************************/
 .intro {
-	overflow-x: hidden;
-	overflow-y: hidden;
+	overflow: hidden;
 	background-color: #333;
 }
 
 .introImgBackground {
-	min-width: 125%;
-	max-width: 125%;
+	position: absolute;
+	left: -10%;
+	min-width: 120%;
+	max-width: 120%;
 }
 
 .introDivContainer {
@@ -126,8 +127,8 @@ Domain page
 }
 
 .noGutter {
-  margin-left: 0;
-  margin-right: 0;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .noPadding {
@@ -158,10 +159,6 @@ Profile page
 
 #frmChangeLocale {
 	padding-left: 0px;
-}
-
-.thumbnail {
-	cursor: pointer;
 }
 
 /*******************************************************************************
@@ -207,7 +204,7 @@ Search results
 	margin: auto;
 }
 
-#results {
+#resultsDiv {
 	padding-top: 10px;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -221,10 +218,14 @@ Search results
 	cursor: pointer;
 }
 
+.resultsDivControls {
+	padding-top: 10px;
+}
+
 .path-label {
 	color: rgb(255, 255, 255);
     display: inline;
-    padding: 0.2em 0.6em 0.3em;
+    padding: 0.3em 0.6em 0.3em;
 	font-size: 75%;
 	font-weight: bold;
 	line-height: 2;
@@ -247,12 +248,28 @@ Search results
 
 .path-resource {
 	background-color: rgb(20, 65, 115);
-	padding: 0.3em 0.6em 0.4em;
+	padding: 0.4em 0.6em 0.4em;
 	font-size: 80%;
 }
 
-.path-literal {background-color: rgb(100, 100, 100);}
-.path-property {background-color: rgb(66, 139, 202);}
+.path-literal {
+	background-color: rgb(100, 100, 100);
+}
+
+.path-property {
+	background-color: rgb(66, 139, 202);
+}
+
+.pagination > li {
+	cursor: pointer;
+	/* make sure the text elements can't be selected */
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none;   /* Chrome/Safari/Opera */
+	-khtml-user-select: none;    /* Konqueror */
+	-moz-user-select: none;      /* Firefox */
+	-ms-user-select: none;       /* Internet Explorer/Edge */
+	user-select: none;           /* Non-prefixed version */
+}
 
 /*******************************************************************************
 Item page
@@ -299,7 +316,7 @@ Item page
 }
 
 #itemDivAnnotationFields {
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
 .itemLbl {
@@ -309,8 +326,6 @@ Item page
 .itemDivHidden {
 	display: none;
 }
-/* Item page: Typeahead functionality */
-/* source: http://twitter.github.io/typeahead.js/examples/ */
 
 #itemFrmAnnotationFields {
 	text-align: center;
@@ -321,55 +336,121 @@ Item page
   vertical-align: bottom;
 }
 
-#itemInpPageType,
-.tt-menu {
-  width: 396px;
+.lblAnnotation {
+	padding: 2px 5px;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 
-.tt-menu {
-  text-align: left;
-  margin: 4px 0;
-  padding: 4px 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
-  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-          box-shadow: 0 5px 10px rgba(0,0,0,.2);
-}
-
-.tt-suggestion {
-  padding: 1px 20px;
-  font-size: 13px;
-  line-height: 18px;
-}
-
-.tt-suggestion:hover {
-  cursor: pointer;
-  color: #fff;
-  background-color: #0097cf;
-}
-
-.tt-suggestion.tt-cursor {
-  color: #fff;
-  background-color: #0097cf;
-}
-
-/*******************************************************************************
-End page
-*******************************************************************************/
-.endScreen {
-	overflow-x: hidden;
-	overflow-y: hidden;
-	background-color: #333;
-}
-
-.endDiv {
+/* Item page: Typeahead functionality */
+/* source: https://github.com/bassjobsen/typeahead.js-bootstrap-css */
+span.twitter-typeahead .tt-menu,
+span.twitter-typeahead .tt-dropdown-menu {
 	position: absolute;
-	top: 75px;
+	top: 100%;
+	left: 0;
+	z-index: 1000;
+	display: none;
+	float: left;
+	min-width: 160px;
+	padding: 5px 0;
+	margin: 2px 0 0;
+	list-style: none;
+	font-size: 14px;
+	text-align: left;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	background-clip: padding-box;
+}
+
+span.twitter-typeahead .tt-suggestion {
+	display: block;
+	padding: 3px 20px;
+	clear: both;
+	font-weight: normal;
+	line-height: 1.42857143;
+	color: #333333;
+	white-space: nowrap;
+}
+
+span.twitter-typeahead .tt-suggestion.tt-cursor,
+span.twitter-typeahead .tt-suggestion:hover,
+span.twitter-typeahead .tt-suggestion:focus {
+	color: #ffffff;
+	text-decoration: none;
+	outline: 0;
+	background-color: #337ab7;
+	cursor: pointer;
+}
+
+.input-group.input-group-lg span.twitter-typeahead .form-control {
+	height: 46px;
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.3333333;
+	border-radius: 6px;
+}
+
+.input-group.input-group-sm span.twitter-typeahead .form-control {
+	height: 30px;
+	padding: 5px 10px;
+	font-size: 12px;
+	line-height: 1.5;
+	border-radius: 3px;
+}
+
+span.twitter-typeahead {
+	width: 100%;
+}
+
+.input-group span.twitter-typeahead {
+	display: block !important;
+	height: 34px;
+}
+
+.input-group span.twitter-typeahead .tt-menu,
+.input-group span.twitter-typeahead .tt-dropdown-menu {
+	top: 32px !important;
+}
+
+.input-group span.twitter-typeahead:not(:first-child):not(:last-child) .form-control {
+	border-radius: 0;
+}
+
+.input-group span.twitter-typeahead:first-child .form-control {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.input-group span.twitter-typeahead:last-child .form-control {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.input-group.input-group-sm span.twitter-typeahead {
+	height: 30px;
+}
+
+.input-group.input-group-sm span.twitter-typeahead .tt-menu,
+.input-group.input-group-sm span.twitter-typeahead .tt-dropdown-menu {
+	top: 30px !important;
+}
+
+.input-group.input-group-lg span.twitter-typeahead {
+	height: 46px;
+}
+
+.input-group.input-group-lg span.twitter-typeahead .tt-menu,
+.input-group.input-group-lg span.twitter-typeahead .tt-dropdown-menu {
+	top: 46px !important;
 }
 
 /*******************************************************************************
