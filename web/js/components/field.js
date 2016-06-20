@@ -304,22 +304,23 @@ Field.prototype.dropdownField = function() {
 							'placeholder':this.comment}));
 }
 
-// function annotationField(field) {
-// 	switch (field.type) {
-// 		case "DropdownField":
-// 			var field = dropdownField(id, label, comment);
-// 			addAutocompleteDropdown(id, field);
-// 			return field;
-// 		case "TextField":
-// 			return textField(id, label, comment);
-// 		case "RadioButtonField":
-// 			return radioButtonField(id, label, comment, field.source);
-// 		case "CheckboxField":
-// 			return checkBoxField(id, label, comment, field.source);
-// 		case "SelectField":
-// 			return selectField(id, label, comment, field.source);
-// 	}
-// }
+/*******************************************************************************
+TypeAheadField
+*******************************************************************************/
+function DropdownField (field, context) {
+	Field.call(this, field, context);
+}
+
+DropdownField.prototype = Object.create(Field.prototype); // inherit
+
+/*******************************************************************************
+TextField
+*******************************************************************************/
+function TextField (field, context) {
+	Field.call(this, field, context);
+}
+
+TextField.prototype = Object.create(Field.prototype); // inherit
 
 // function dropdownField(id, label, comment) {
 // 	return	$.el.div({'class':'form-group'},

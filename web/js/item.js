@@ -225,10 +225,7 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui,
 			context.fieldsId = page.wholeFieldsId;
 
 			// create new field object
-			var wholeField = new Field(
-				fields.whole_fields[i],
-				context
-			);
+			var wholeField = createField(fields.whole_fields[i], context);
 
 			// add the field to div
 			$("#" + wholeField.fieldsId).append(wholeField.node);
@@ -251,10 +248,8 @@ function addAnnotationFields(metadata, user, uri, locale, domain, annotation_ui,
 			context.fieldsId = page.fragmentFieldsId;
 
 			// create new field object
-			var fragmentField = new Field(
-				fields.fragment_fields[i],
-				context
-			);
+			var fragmentField = createField(fields.fragment_fields[i], context);
+
 			// append the field to div which will be embedded in annotorious
 			$("#" + fragmentField.fieldsId).append(fragmentField.node);
 		}
