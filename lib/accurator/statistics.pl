@@ -20,7 +20,7 @@ domain_statistics(Domain, Statistics) :-
 	annotations(domain, DomainUri, Annotations),
 	length(Annotations, NumberAnnotations),
 	objects_annotated(Annotations, NumberObjects),
-	reviewed_annotations(Annotations, NumberReviewed),
+	number_reviewed_annotations(Annotations, NumberReviewed),
 	active_annotators(Annotations, NumberAnnotators),
 	Statistics = _{number_annotations:NumberAnnotations,
 				   objects_annotated:NumberObjects,
@@ -40,10 +40,26 @@ annotation_object(AnnotationHash, Object) :-
 	rdf(AnnotationHash, oa:hasTarget, Object),
 	rdf(Object, rdf:type, edm:'ProvidedCHO').
 
-%%	reviewed_annotations(+Annotations, -NumberReviewed)
+%%	number_reviewed_annotations(+Annotations, -NumberReviewed)
 %
 %	Number of annotations which have been reviewed.
-reviewed_annotations(_Annotations, 0).
+number_reviewed_annotations(Annotations, NumberReviewed) :-
+	reviewed_annotations(Annotations, ReviewedAnnotations),
+	length(ReviewedAnnotations, NumberReviewed).
+
+%%	reviewed_annotations(+Annotations, -ReviewedAnnotations)
+%
+%	Scans a list of annotations and returns the annotations which have
+%	been reviewed.
+reviewed_annotations([], []) :- !.
+reviewed_annotations([AnnotationHash|Annotations], [AnnotationHash | Reviewed]) :-
+	rdf(Review, oa:hasTarget, AnnotationHash),
+	rdf(Review, oa:motivatedBy, oa:moderating), !,
+	reviewed_annotations(Annotations, Reviewed).
+reviewed_annotations([_AnnotationHash|Annotations], Reviewed) :-
+	reviewed_annotations(Annotations, Reviewed).
+
+
 
 %%	active_annotators(+Annotations, -NumberAnnotators)
 %

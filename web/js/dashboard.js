@@ -20,10 +20,9 @@ function dashboardInit() {
 	function drawPage() {
 		getAvailableDomains()
 		.then(function(data) {
-			addRow(data[1]);
-			// for (var i=0; i<data.length; i++) {
-			// 	addRow(data[i]);
-			// }
+			for (var i=0; i<data.length; i++) {
+				addRow(data[i]);
+			}
 		});
 	}
 }
