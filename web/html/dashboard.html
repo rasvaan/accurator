@@ -20,12 +20,70 @@
 		</div>
 	</nav>
 
-	<table class="table table-hover dashboardTblDomains">
-		<tr>
-			<th>Domain</th>
-			<th>Annotations</th>
-		</tr>
-	</table>
+
+	<div class="container">
+		<!-- Header -->
+		<div class="row">
+			<div class="col-md-12">
+				<h2 id="dashboardHdrSlogan">
+					Domains
+					<small id="dashboardTxtSubSlogan">
+						click to review
+					</small>
+				</h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table dashboardTblDomains">
+					<thead>
+						<tr>
+							<th>Review domain</th>
+							<th>Annotations</th>
+							<th>Reviewed annotations</th>
+							<th>Download reviewed</th>
+						</tr>
+					</thead
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- Login modal -->
+	<div class="modal fade" id="loginDivLogin">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" id="loginBtnClose">&times;</button>
+					<h4 id="loginHdrTitle">
+					</h4>
+				</div>
+ 				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<label id="loginLblUsername" for="loginInpUsername">
+							</label>
+							<input type="text" class="form-control" id="loginInpUsername">
+						</div>
+						<div class="form-group">
+							<label id="loginLblPassword" for="password">
+							</label>
+							<input type="password" class="form-control" id="loginInpPassword">
+						</div>
+						<p class="text-warning" id="loginTxtWarning">
+						</p>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="loginBtnLogin">
+					</button>
+					<button class="btn btn-link" id="mdlBtnIntro">
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script type="text/javascript" src="js/lib/jquery.min.js"></script>
 	<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
