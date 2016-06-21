@@ -21,37 +21,43 @@ function dashboardInit() {
 		getAvailableDomains()
 		.then(function(data) {
 			for (var i=0; i<data.length; i++) {
-				addRow(data[i], "a lot", "not many");
+				addRow(data[i]);
 			}
 		});
 	}
 }
 
-function addRow(domain, annotations, reviewed) {
+function addRow(domain) {
 	var buttonId = "dashboardBtn" + domain;
 
-	$(".dashboardTblDomains").append(
-		$.el.tr(
-			$.el.td(
-				$.el.a(
-					{'href': "list.html?domain=" + domain},
-					domain
-			)),
-			$.el.td(annotations),
-			$.el.td(reviewed),
-			$.el.td(
-				$.el.button(
-					{'class':'btn btn-primary btn-xs dashboardBtnDownload',
-					 'id':buttonId + "Csv"},
-					"csv"),
-				$.el.button(
-					{'class':'btn btn-success btn-xs dashboardBtnDownload',
-					 'id':buttonId + "Rdf"},
-					"rdf")
+	// add request for statistics
+	getDomainStatistics(domain)
+	.then(function() {
+		$(".dashboardTblDomains").append(
+			$.el.tr(
+				$.el.td(
+					$.el.a(
+						{'href': "list.html?domain=" + domain},
+						domain
+				)),
+				$.el.td(annotations),
+				$.el.td(reviewed),
+				$.el.td(
+					$.el.button(
+						{'class':'btn btn-primary btn-xs dashboardBtnDownload',
+						 'id':buttonId + "Csv"},
+						"csv"),
+					$.el.button(
+						{'class':'btn btn-success btn-xs dashboardBtnDownload',
+						 'id':buttonId + "Rdf"},
+						"rdf")
+				)
 			)
-		)
-	);
-	addButtonEvents(buttonId, domain);
+		);
+		addButtonEvents(buttonId, domain);
+	}, function() {
+		console.log("no statistics");
+	});
 }
 
 function addButtonEvents(buttonId, domain) {

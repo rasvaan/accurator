@@ -632,6 +632,14 @@ function firstLogin(user, password, settings) {
 }
 
 /*******************************************************************************
+Statistics
+Code for registering a new user
+*******************************************************************************/
+function getDomainStatistics(domain) {
+	return $.getJSON("statistics", {"domain": domain});
+}
+
+/*******************************************************************************
 Uri
 Code for working with Uris
 *******************************************************************************/
