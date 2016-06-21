@@ -16,32 +16,39 @@ annotation_statistics(Statistics, Options) :-
 %
 %	Agree on an agreeable set of annotations
 domain_statistics(Domain, Statistics) :-
-	number_annotations(Domain, NumberAnnotations),
-	reviewed_annotations(Domain, NumberReviewed),
-	active_annotators(Domain, NumberAnnotators),
+	domain_uri(Domain, DomainUri),
+	annotations(domain, DomainUri, Annotations),
+	length(Annotations, NumberAnnotations),
+	objects_annotated(Annotations, NumberObjects),
+	reviewed_annotations(Annotations, NumberReviewed),
+	active_annotators(Annotations, NumberAnnotators),
 	Statistics = _{number_annotations:NumberAnnotations,
+				   objects_annotated:NumberObjects,
 				   reviewed_annotations:NumberReviewed,
 				   annotators:NumberAnnotators}.
 
-%%	number_annotations(+Domain, -NumberAnnotations)
+%%	objects_annotated(+Annotations, -NumberObjects)
 %
-%	Retrieve the number of annotations made in the domain.
-number_annotations(Domain, NumberAnnotations) :-
-	domain_uri(Domain, DomainUri),
-	annotations(domain, DomainUri, Annotations),
-	length(Annotations, NumberAnnotations).
+%	The number of objects that are annotated in this domain.
+objects_annotated(Annotations, NumberObjects) :-
+	maplist(annotation_object, Annotations, ObjectList),
+	list_to_set(ObjectList, Objects),
+	length(Objects, NumberObjects).
 
-%%	reviewed_annotations(+Domain, -NumberReviewed)
+% helper function for retrieving object uris
+annotation_object(AnnotationHash, Object) :-
+	rdf(AnnotationHash, oa:hasTarget, Object),
+	rdf(Object, rdf:type, edm:'ProvidedCHO').
+
+%%	reviewed_annotations(+Annotations, -NumberReviewed)
 %
 %	Number of annotations which have been reviewed.
-reviewed_annotations(_Domain, 0).
+reviewed_annotations(_Annotations, 0).
 
-%%	active_annotators(+Domain, -NumberAnnotators)
+%%	active_annotators(+Annotations, -NumberAnnotators)
 %
 %	The number of annotators in active in this domain.
-active_annotators(Domain, NumberAnnotators) :-
-	domain_uri(Domain, DomainUri),
-	annotations(domain, DomainUri, Annotations),
+active_annotators(Annotations, NumberAnnotators) :-
 	maplist(annotation_created_by, Annotations, Users),
 	list_to_set(Users, UserSet),
 	length(UserSet, NumberAnnotators).

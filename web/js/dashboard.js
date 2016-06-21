@@ -42,6 +42,7 @@ function addRow(domain) {
 						domain
 				)),
 				$.el.td(statistics.annotators),
+				$.el.td(statistics.objects_annotated),
 				$.el.td(statistics.number_annotations),
 				$.el.td(statistics.reviewed_annotations),
 				$.el.td(
