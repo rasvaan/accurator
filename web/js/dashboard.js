@@ -20,9 +20,10 @@ function dashboardInit() {
 	function drawPage() {
 		getAvailableDomains()
 		.then(function(data) {
-			for (var i=0; i<data.length; i++) {
-				addRow(data[i]);
-			}
+			addRow(data[1]);
+			// for (var i=0; i<data.length; i++) {
+			// 	addRow(data[i]);
+			// }
 		});
 	}
 }
@@ -40,8 +41,9 @@ function addRow(domain) {
 						{'href': "list.html?domain=" + domain},
 						domain
 				)),
-				$.el.td(statistics.annotations),
-				$.el.td(statistics.reviewed),
+				$.el.td(statistics.annotators),
+				$.el.td(statistics.number_annotations),
+				$.el.td(statistics.reviewed_annotations),
 				$.el.td(
 					$.el.button(
 						{'class':'btn btn-primary btn-xs dashboardBtnDownload',

@@ -1,4 +1,5 @@
-:- module(domain, [get_domain_settings/2]).
+:- module(domain, [get_domain_settings/2,
+				   domain_uri/2]).
 
 /** <module> Domain
 */
@@ -19,13 +20,18 @@ get_domain_settings(Dic, Options) :-
 	Dic = Domains.
 get_domain_settings(Dic, Options) :-
 	option(domain(Domain), Options),
-	rdf(DomainUri, rdf:type, accu:'Domain'),
-	rdf(DomainUri, rdfs:label, literal(Domain)), !,
+	domain_uri(DomainUri, Domain), !,
 	get_domain_dic(DomainUri, Domain, Dic).
 get_domain_settings(Dic, _Options) :-
-	rdf(DomainUri, rdf:type, accu:'Domain'),
-	rdf(DomainUri, rdfs:label, literal(generic)), !,
+	domain_uri(DomainUri, generic), !,
 	get_domain_dic(DomainUri, generic, Dic).
+
+%%	domain_uri(+DomainLabel, -DomainUri)
+%
+%	Get the uri corresponding with the domain label.
+domain_uri(DomainLabel, DomainUri) :-
+	rdf(DomainUri, rdf:type, accu:'Domain'),
+	rdf(DomainUri, rdfs:label, literal(DomainLabel)).
 
 %%	get_root_domains(+Domain, -RootDomains)
 %
