@@ -32,7 +32,7 @@ function addRow(domain) {
 
 	// add request for statistics
 	getDomainStatistics(domain)
-	.then(function() {
+	.then(function(statistics) {
 		$(".dashboardTblDomains").append(
 			$.el.tr(
 				$.el.td(
@@ -40,8 +40,8 @@ function addRow(domain) {
 						{'href': "list.html?domain=" + domain},
 						domain
 				)),
-				$.el.td(annotations),
-				$.el.td(reviewed),
+				$.el.td(statistics.annotations),
+				$.el.td(statistics.reviewed),
 				$.el.td(
 					$.el.button(
 						{'class':'btn btn-primary btn-xs dashboardBtnDownload',

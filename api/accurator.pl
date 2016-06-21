@@ -23,6 +23,7 @@
 :- use_module(library(accurator/subset_selection)).
 :- use_module(library(accurator/concept_scheme_selection)).
 :- use_module(library(accurator/review)).
+:- use_module(library(accurator/statistics)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_server_files)).
 :- use_module(library(http/http_json)).
@@ -50,6 +51,7 @@ user:file_search_path(fonts, web(fonts)).
 :- http_handler(cliopatria('item.html'), page_item, []).
 :- http_handler(cliopatria(ui_elements), ui_elements_api, []).
 :- http_handler(cliopatria(domains), domains_api, []).
+:- http_handler(cliopatria(statistics), statistics_api, []).
 :- http_handler(cliopatria(metadata), metadata_api, []).
 :- http_handler(cliopatria(annotation_fields), annotation_fields_api, []).
 :- http_handler(cliopatria(annotations), annotations_api, []).
@@ -125,6 +127,24 @@ domains_api(Request) :-
 %
 %	Retrieves an option list of parameters from the url.
 get_parameters_domain(Request, Options) :-
+    http_parameters(Request,
+        [domain(Domain,
+		    [description('The domain'),
+			 optional(true)])]),
+    Options = [domain(Domain)].
+
+%%     statistics_api(+Request)
+%
+%	Retrieves annotation statistics.
+statistics_api(Request) :-
+    get_parameters_statistics(Request, Options),
+	annotation_statistics(Dic, Options),
+	reply_json_dict(Dic).
+
+%%	get_parameters_statistics(+Request, -Options)
+%
+%	Retrieves an option list of parameters from the url.
+get_parameters_statistics(Request, Options) :-
     http_parameters(Request,
         [domain(Domain,
 		    [description('The domain'),
