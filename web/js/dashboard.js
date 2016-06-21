@@ -37,7 +37,7 @@ function addRow(domain) {
 			$.el.tr(
 				$.el.td(
 					$.el.a(
-						{'href': "list.html?domain=" + domain},
+						{'href': "annotations.html?domain=" + domain},
 						domain
 				)),
 				$.el.td(statistics.annotators),

@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+	<title>Review List</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="img/favicon.ico">
+	<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
+</head>
+
+<body>
+	<!-- Navbar -->
+	<nav class="navbar navbar-inverse navbar-fixed-top navbarReview" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="dashboard.html">
+					<img id="navbarImgLogo" src="img/accurator.png" alt="Accurator">
+				</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<!-- Header -->
+		<div class="row">
+			<div class="col-md-12">
+				<h2 id="annotationsHdrSlogan">
+					<small id="annotationsTxtSubSlogan">
+						select row to review
+					</small>
+				</h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table annotationsTblObjects">
+					<thead>
+						<tr>
+							<th>Identifier</th>
+							<th>Title</th>
+							<th>Annotations</th>
+							<th>Reviewed</th>
+						</tr>
+					</thead
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Login modal -->
+	<div class="modal fade" id="loginDivLogin">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" id="loginBtnClose">&times;</button>
+					<h4 id="loginHdrTitle">
+					</h4>
+				</div>
+ 				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<label id="loginLblUsername" for="loginInpUsername">
+							</label>
+							<input type="text" class="form-control" id="loginInpUsername">
+						</div>
+						<div class="form-group">
+							<label id="loginLblPassword" for="password">
+							</label>
+							<input type="password" class="form-control" id="loginInpPassword">
+						</div>
+						<p class="text-warning" id="loginTxtWarning">
+						</p>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="loginBtnLogin">
+					</button>
+					<button class="btn btn-link" id="mdlBtnIntro">
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/lib/laconic.js"></script>
+	<script type="text/javascript" src="js/components/utilities.js"></script>
+	<script type="text/javascript" src="js/annotations.js"></script>
+	<script>annotationsInit()</script>
+</body>
+</html>
