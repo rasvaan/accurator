@@ -20,10 +20,10 @@ get_domain_settings(Dic, Options) :-
 	Dic = Domains.
 get_domain_settings(Dic, Options) :-
 	option(domain(Domain), Options),
-	domain_uri(DomainUri, Domain), !,
+	domain_uri(Domain, DomainUri), !,
 	get_domain_dic(DomainUri, Domain, Dic).
 get_domain_settings(Dic, _Options) :-
-	domain_uri(DomainUri, generic), !,
+	domain_uri(generic, DomainUri), !,
 	get_domain_dic(DomainUri, generic, Dic).
 
 %%	domain_uri(+DomainLabel, -DomainUri)
