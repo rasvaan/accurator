@@ -12,6 +12,7 @@
 :- rdf_register_prefix(txn, 'http://lod.taxonconcept.org/ontology/txn.owl#').
 :- rdf_register_prefix(oa, 'http://www.w3.org/ns/oa#').
 :- rdf_register_prefix(hoonoh, 'http://hoonoh.com/ontology#').
+:- rdf_register_prefix(cnt, 'http://www.w3.org/2011/content#').
 
 :- use_module(library(accurator/accurator_user)).
 :- use_module(library(accurator/domain)).

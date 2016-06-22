@@ -202,6 +202,47 @@ number_of_users(_Uri, 0) :- !.
 %%	enrich_annotatoins(+Enrich, +Annotations, +EnrichedAnnotations)
 %
 %	Enrich the annotations with additional information.
-enrich_annotations(true, Annotations, Annotations) :-
+enrich_annotations(false, Annotations, Annotations).
+enrich_annotations(true, Annotations, EnrichedAnnotations) :-
+	maplist(enrich_annotation, Annotations, EnrichedAnnotations).
+
+
+%%	enrich_annotation(+AnnotationUri, -EnrichedAnnotation)
+%
+%	Based on the annotation uri, retrieve additional information.
+enrich_annotation(AnnotationUri, EnrichedAnnotation) :-
+	annotation_label(AnnotationUri, Label),
+	annotated_object(AnnotationUri, ObjectUri, ObjectTitle),
+	type_annotation(AnnotationUri, Type),
+	EnrichedAnnotation = _{uri:AnnotationUri,
+						   label:Label,
+						   type:Type,
+						   object:_{uri:ObjectUri, title:ObjectTitle}}.
+
+annotation_label(AnnotationUri, Label) :-
+	rdf(AnnotationUri, dcterms:title, literal(Label)),
+	atom(Label), !.
+annotation_label(_AnnotationUri, no_title).
+
+annotated_object(AnnotationUri, ObjectUri, ObjectTitle) :-
+	rdf(AnnotationUri, oa:hasTarget, ObjectUri),
+	rdf(ObjectUri, rdf:type, edm:'ProvidedCHO'),
+	get_literal(ObjectUri, dc:title, en, ObjectTitle), !.
+
+annotated_object(AnnotationUri, ObjectUri, no_title) :-
+	rdf(AnnotationUri, oa:hasTarget, ObjectUri),
+	rdf(ObjectUri, rdf:type, edm:'ProvidedCHO'), !.
+
+annotated_object(_AnnotationUri, no_uri, no_title).
+
+
+type_annotation(AnnotationUri, text) :-
+	rdf(AnnotationUri, oa:hasBody, BlancNode),
+	rdf(BlancNode, rdf:type, cnt:'ContentAsText'), !.
+
+type_annotation(AnnotationUri, concept) :-
+	rdf(AnnotationUri, oa:hasBody, Annotation),
+	rdf_is_resource(Annotation), !.
+
+type_annotation(_AnnotationUri, unknown) :-
 	!.
-enrich_annotations(_, Annotations, Annotations).

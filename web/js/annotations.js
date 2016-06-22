@@ -25,9 +25,28 @@ function annotationsInit() {
 
 		getAnnotations(domain)
 		.then(function(annotations) {
-			console.log(annotations);
+			for (var i=0; i<annotations.length; i++) {
+				addRow(annotations[i]);
+			}
 		});
 	}
+}
+
+function addRow(annotation) {
+	$(".annotationsTblAnnotations").append(
+		$.el.tr(
+			$.el.td(
+				$.el.a(
+					{'href': "review.html?uri=" + annotation.uri},
+					annotation.label
+			)),
+			$.el.td(
+				$.el.a(
+					{'href': "review.html?uri=" + annotation.object.uri},
+					annotation.object.title
+			)),
+			$.el.td("false")
+	));
 }
 
 function getAnnotations(domain) {
