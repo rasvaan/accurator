@@ -47,7 +47,6 @@ user:file_search_path(fonts, web(fonts)).
 :- http_handler(cliopatria('.'), serve_files_in_directory(html), [prefix]).
 :- http_handler(img('.'), serve_files_in_directory(img), [prefix]).
 :- http_handler(fonts('.'), serve_files_in_directory(fonts), [prefix]).
-% :- http_handler(cliopatria('annotate_image.html'), http_image_annotation, []).
 :- http_handler(cliopatria('item.html'), page_item, []).
 :- http_handler(cliopatria(ui_elements), ui_elements_api, []).
 :- http_handler(cliopatria(domains), domains_api, []).
@@ -206,8 +205,10 @@ annotations_api(Request) :-
     get_parameters_annotations(Request, Options),
     option(uri(Uri), Options),
 	option(type(Type), Options),
-    annotations(Type, Uri, Metadata),
-    reply_json_dict(Metadata).
+	option(enrich(Enrich), Options),
+    annotations(Type, Uri, Annotations),
+	enrich_annotations(Enrich, Annotations, EnrichedAnnotations),
+    reply_json_dict(EnrichedAnnotations).
 
 %%	get_parameters_annotations(+Request, -Options)
 %
@@ -217,11 +218,15 @@ get_parameters_annotations(Request, Options) :-
         [uri(Uri,
 		    [description('The URI of the object of user'),
 			 optional(false)]),
+		 enrich(Enrich,
+		    [description('Boolean indicating whether annotations should be enriched'),
+			 optional(true),
+			 default(false)]),
 		 type(Type,
 			[description('Type of elements to retrieve'),
 			 default(full),
 			 optional(type)])]),
-    Options = [uri(Uri), type(Type)].
+    Options = [uri(Uri), type(Type), enrich(Enrich)].
 
 %%	annotation_fields_api(+Request)
 %

@@ -3,7 +3,8 @@
 			  annotations/3,
 			  annotations/4,
 			  number_of_annotations/2,
-			  number_of_users/2
+			  number_of_users/2,
+			  enrich_annotations/3
 		  ]).
 
 :- use_module(library(accurator/ui_elements)).
@@ -197,3 +198,10 @@ number_of_users(Uri, NumberOfUsers) :-
 		  Users), !,
 	length(Users, NumberOfUsers).
 number_of_users(_Uri, 0) :- !.
+
+%%	enrich_annotatoins(+Enrich, +Annotations, +EnrichedAnnotations)
+%
+%	Enrich the annotations with additional information.
+enrich_annotations(true, Annotations, Annotations) :-
+	!.
+enrich_annotations(_, Annotations, Annotations).
