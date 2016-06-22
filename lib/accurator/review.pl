@@ -2,7 +2,8 @@
 			  review/4,
 			  reviews/4,
 			  process_annotations/3,
-			  agreeable_annotations/2
+			  agreeable_annotations/2,
+			  annotation_reviews/2
 		  ]).
 
 :- use_module(library(oa_annotation)).
@@ -12,6 +13,16 @@
 
 :- rdf_meta
 	review(r, -, r, -).
+
+%%	annotation_reviews(+AnnotationUri, -Reviews)
+%
+%	Retrieve the uris of the reviews of an annotation
+annotation_reviews(AnnotationUri, Reviews) :-
+	setof(Review,
+		  (	  rdf(Review, oa:hasTarget, AnnotationUri),
+			  rdf(Review, oa:motivatedBy, oa:moderating)),
+		  Reviews), !.
+annotation_reviews(_AnnotationUri, []).
 
 %%	reviews(+Uris, +User, +Uris, +Graph)
 %

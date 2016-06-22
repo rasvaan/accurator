@@ -33,6 +33,7 @@ function annotationsInit() {
 }
 
 function addRow(annotation) {
+
 	$(".annotationsTblAnnotations").append(
 		$.el.tr(
 			$.el.td(
@@ -45,7 +46,11 @@ function addRow(annotation) {
 					{'href': "review.html?uri=" + annotation.object.uri},
 					annotation.object.title
 			)),
-			$.el.td("false")
+			$.el.td(
+				$.el.a(
+					{'href': "review.html?uri=" + annotation.annotator},
+					getUserName(annotation.annotator)
+			))
 	));
 }
 

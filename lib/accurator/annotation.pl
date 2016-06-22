@@ -7,10 +7,12 @@
 			  enrich_annotations/3
 		  ]).
 
+:- use_module(library(accurator/review)).
 :- use_module(library(accurator/ui_elements)).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_label)).
 :- use_module(library(semweb/rdfs)).
+
 
 :- rdf_meta
 	fields(r,-,-,-),
@@ -214,10 +216,24 @@ enrich_annotation(AnnotationUri, EnrichedAnnotation) :-
 	annotation_label(AnnotationUri, Label),
 	annotated_object(AnnotationUri, ObjectUri, ObjectTitle),
 	type_annotation(AnnotationUri, Type),
+	annotator(AnnotationUri, Annotator),
+	reviews(AnnotationUri, Reviews),
 	EnrichedAnnotation = _{uri:AnnotationUri,
 						   label:Label,
 						   type:Type,
+						   annotator:Annotator,
+						   reviews:Reviews,
 						   object:_{uri:ObjectUri, title:ObjectTitle}}.
+
+reviews(AnnotationUri, ReviewObjects) :-
+	annotation_reviews(AnnotationUri, Reviews),
+	maplist(info_review, Reviews, ReviewObjects).
+
+info_review(Review, ReviewObject) :-
+	rdf(Review, oa:hasBody, Body),
+	rdf(Body, cnt:chars, literal(Judgement)),
+	rdf(Review, oa:annotatedAt, literal(type(xsd:dateTime, Time))),
+	ReviewObject = _{uri:Review, judgement:Judgement, time:Time}.
 
 annotation_label(AnnotationUri, Label) :-
 	rdf(AnnotationUri, dcterms:title, literal(Label)),
@@ -246,3 +262,10 @@ type_annotation(AnnotationUri, concept) :-
 
 type_annotation(_AnnotationUri, unknown) :-
 	!.
+
+annotator(AnnotationUri, User) :-
+	rdf(AnnotationUri, oa:annotatedBy, User).
+
+
+
+
