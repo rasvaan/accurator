@@ -2,6 +2,7 @@
 
 :- use_module(library(accurator/annotation)).
 :- use_module(library(accurator/domain)).
+:- use_module(library(semweb/rdf_db)).
 
 
 %%	annotation_statics(-Statistics, +Options)
