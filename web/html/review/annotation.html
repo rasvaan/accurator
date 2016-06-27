@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
 <head>
-	<title>Review Item</title>
+	<title>Review Annotation</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="img/favicon.ico">
-	<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap.min.css" />
-	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
+	<link rel="shortcut icon" href="/img/favicon.ico">
+	<link type="text/css" rel="stylesheet" media="screen" href="/css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" media="screen" href="/css/accurator.css" />
 </head>
 
 <body>
@@ -13,12 +13,28 @@
 	<nav class="navbar navbar-inverse navbar-fixed-top navbarReview" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="dashboard.html">
-					<img id="navbarImgLogo" src="img/accurator.png" alt="Accurator">
+				<a class="navbar-brand" href="/dashboard.html">
+					<img id="navbarImgLogo" src="/img/accurator.png" alt="Accurator">
 				</a>
 			</div>
 		</div>
 	</nav>
+
+	<div class="container">
+		<!-- Navigation -->
+		<div class="row">
+			<div class="col-md-2 col-xs-6">
+				<button class="btn btn-default annotationBtnNavigation" id="annotationBtnPrevious">
+					<span class="glyphicon glyphicon-chevron-left"></span> Previous
+				</button>
+			</div>
+			<div class="col-md-2 col-xs-6 col-md-push-8" id="annotationDivAlignButton">
+				<button class="btn btn-default annotationBtnNavigation" id="annotationBtnNext">
+					Next <span class="glyphicon glyphicon-chevron-right"></span>
+				</button>
+			</div>
+		</div>
+	</div>
 
 	<!-- Login modal -->
 	<div class="modal fade" id="loginDivLogin">
@@ -55,11 +71,11 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="js/lib/jquery.min.js"></script>
-	<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/lib/laconic.js"></script>
-	<script type="text/javascript" src="js/components/utilities.js"></script>
-	<script type="text/javascript" src="js/review.js"></script>
-	<script>reviewInit()</script>
+	<script type="text/javascript" src="/js/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/lib/laconic.js"></script>
+	<script type="text/javascript" src="/js/components/utilities.js"></script>
+	<script type="text/javascript" src="/js/review/annotation.js"></script>
+	<script>annotationInit()</script>
 </body>
 </html>

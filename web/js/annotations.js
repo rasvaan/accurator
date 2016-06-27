@@ -28,7 +28,7 @@ function annotationsInit() {
 		.then(function(annotations) {
 			// add annotations to local storage
 			localStorage.setItem("annotations", JSON.stringify(annotations));
-			
+
 			// add annotations to the interface
 			for (var i=0; i<annotations.length; i++) {
 				addRow(annotations[i]);
@@ -45,19 +45,23 @@ function addRow(annotation) {
 			{'id':rowId},
 			$.el.td(
 				$.el.a(
-					{'href': "review.html?uri=" + annotation.uri},
+					{'href': "review/annotation.html?uri=" + annotation.uri},
 					annotation.label
 			)),
 			$.el.td(
-				$.el.a(
-					{'href': "review.html?uri=" + annotation.object.uri},
-					annotation.object.title
-			)),
+				annotation.object.title
+			),
+			// 	$.el.a(
+			// 		{'href': "review.html?uri=" + annotation.object.uri},
+			// 		annotation.object.title
+			// )),
 			$.el.td(
-				$.el.a(
-					{'href': "review.html?uri=" + annotation.annotator},
-					getUserName(annotation.annotator)
-			))
+				getUserName(annotation.annotator)
+			)
+			// 	$.el.a(
+			// 		{'href': "review.html?uri=" + annotation.annotator},
+			// 		getUserName(annotation.annotator)
+			// ))
 	));
 
 	colorRow(rowId, annotation);
