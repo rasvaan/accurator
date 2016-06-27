@@ -22,7 +22,7 @@ function clearLocalStorage(setting) {
 
 function setUserSettingsLocal() {
 	// set user settings upon loggin in (called by loginServer)
-	return $.getJSON("get_user_settings")
+	return $.getJSON("/get_user_settings")
 	.then(function(data){
 		localStorage.setItem("locale", data.locale);
 		localStorage.setItem("domain", data.domain);
@@ -31,7 +31,7 @@ function setUserSettingsLocal() {
 
 function save_user_info(info) {
 	// save user settings to user.db of Cliopatria
-	return $.getJSON("get_user")
+	return $.getJSON("/get_user")
 	.then(function(user){
 		// get the user id and post information
 		if (user.login) {
@@ -39,7 +39,7 @@ function save_user_info(info) {
 
 			return $.ajax({
 				type: "POST",
-				url: "save_user_info",
+				url: "/save_user_info",
 				contentType: "application/json",
 				data: JSON.stringify(info)
 			});
@@ -52,7 +52,7 @@ function save_user_info(info) {
 
 function get_user_info(attribute) {
 	// get user setting from cliopatria
-	return $.getJSON("get_user_info", {"attribute":attribute});
+	return $.getJSON("/get_user_info", {"attribute":attribute});
 }
 
 function getParameterByName(name) {
@@ -101,13 +101,13 @@ function setDomain(domain) {
 
 function domainSettings(domain) {
 	// retrieve domain settings
-	return $.getJSON("domains", {domain:domain});
+	return $.getJSON("/domains", {domain:domain});
 }
 
 
 function getAvailableDomains() {
 	// promise of all domains
-	return $.getJSON("domains");
+	return $.getJSON("/domains");
 }
 
 /*******************************************************************************
@@ -116,7 +116,7 @@ Functionallity to adapt to the desired locale.
 *******************************************************************************/
 function getLabels(locale, ui) {
 	// retrieve labels from server according to locale and ui
-	return $.getJSON("ui_elements", {locale:locale, ui:ui, type:"labels"});
+	return $.getJSON("/ui_elements", {locale:locale, ui:ui, type:"labels"});
 }
 
 function getLocale() {
@@ -360,7 +360,7 @@ User management code.
 *******************************************************************************/
 function userLoggedIn() {
 	// see if user is logged in (random for unique request)
-	return $.getJSON("get_user")
+	return $.getJSON("/get_user")
 	.then(function(user) {
 		if (user.login) {
 			return user;
@@ -465,11 +465,11 @@ function processLogin(onSuccess, labels) {
 function loginServer(user, password) {
 	var dataLogin = {"user": user, "password": password};
 
-	return $.ajax({type: "POST", url: "user/login", data: dataLogin});
+	return $.ajax({type: "POST", url: "/user/login", data: dataLogin});
 }
 
 function logout() {
-	$.ajax({url: "user/logout", type: "POST"})
+	$.ajax({url: "/user/logout", type: "POST"})
 	.then(function() {
 		document.location.href = "intro.html";
 	});
@@ -595,7 +595,7 @@ function registerServer(name, user, password, settings, labels) {
 
 	$.ajax({
 		type: "POST",
-		url: "register_user",
+		url: "/register_user",
 		contentType: "application/json",
 		data: JSON.stringify(json),
 	}).then(function() {
@@ -618,7 +618,7 @@ function firstLogin(user, password, settings) {
 	// retrieving non existent settings from user.db (hence, firstLogin)
 	$.ajax({
 		type: "POST",
-		url: "user/login",
+		url: "/user/login",
 		data: {"user":user, "password":password},
 	})
 	.then(function() {
@@ -636,7 +636,7 @@ Statistics
 Code for registering a new user
 *******************************************************************************/
 function getDomainStatistics(domain) {
-	return $.getJSON("statistics", {"domain": domain});
+	return $.getJSON("/statistics", {"domain": domain});
 }
 
 /*******************************************************************************
