@@ -7,6 +7,7 @@ Code for showing the annotations.
 
 function annotationsInit() {
 	var domain = getParameterByName("domain");
+	clearLocalStorage("annotations"); // will be generating new list of annotations
 
 	// TODO: change to check admin priviliges
 	userLoggedIn()
@@ -25,6 +26,10 @@ function annotationsInit() {
 
 		getAnnotations(domain)
 		.then(function(annotations) {
+			// add annotations to local storage
+			localStorage.setItem("annotations", JSON.stringify(annotations));
+			
+			// add annotations to the interface
 			for (var i=0; i<annotations.length; i++) {
 				addRow(annotations[i]);
 			}
