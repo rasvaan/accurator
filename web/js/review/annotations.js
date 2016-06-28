@@ -39,6 +39,7 @@ function annotationsInit() {
 
 function addRow(annotation) {
 	var rowId = 'annotationsTr' + generateIdFromUri(annotation.uri);
+	var buttons = new ReviewButtons(annotation.uri, "sm");
 
 	$(".annotationsTblAnnotations").append(
 		$.el.tr(
@@ -57,6 +58,9 @@ function addRow(annotation) {
 			// )),
 			$.el.td(
 				getUserName(annotation.annotator)
+			),
+			$.el.td(
+				buttons.node
 			)
 			// 	$.el.a(
 			// 		{'href': "review.html?uri=" + annotation.annotator},
