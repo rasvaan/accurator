@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
 <head>
-	<title>Annotations</title>
+	<title>Review Dashboard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="img/favicon.ico">
-	<link type="text/css" rel="stylesheet" media="screen" href="css/bootstrap.min.css" />
-	<link type="text/css" rel="stylesheet" media="screen" href="css/accurator.css" />
+	<link rel="shortcut icon" href="/img/favicon.ico">
+	<link type="text/css" rel="stylesheet" media="screen" href="/css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" media="screen" href="/css/accurator.css" />
 </head>
 
 <body>
@@ -13,20 +13,22 @@
 	<nav class="navbar navbar-inverse navbar-fixed-top navbarReview" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="dashboard.html">
-					<img id="navbarImgLogo" src="img/accurator.png" alt="Accurator">
+				<a class="navbar-brand" href="/dashboard.html">
+					<img id="navbarImgLogo" src="/img/accurator.png" alt="Accurator">
 				</a>
 			</div>
 		</div>
 	</nav>
 
+
 	<div class="container">
 		<!-- Header -->
 		<div class="row">
 			<div class="col-md-12">
-				<h2 id="annotationsHdrSlogan">
-					<small id="annotationsTxtSubSlogan">
-						select row to review
+				<h2 id="dashboardHdrSlogan">
+					Domains
+					<small id="dashboardTxtSubSlogan">
+						click to review
 					</small>
 				</h2>
 			</div>
@@ -34,19 +36,21 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<table class="table annotationsTblAnnotations">
+				<table class="table dashboardTblDomains">
 					<thead>
 						<tr>
-							<th>Annotation</th>
-							<th>Object</th>
-							<th>User</th>
+							<th>Review domain</th>
+							<th>Active annotators</th>
+							<th>Objects annotated</th>
+							<th>Annotations</th>
+							<th>Reviewed annotations</th>
+							<th>Download reviewed</th>
 						</tr>
 					</thead
 				</table>
 			</div>
 		</div>
 	</div>
-
 
 	<!-- Login modal -->
 	<div class="modal fade" id="loginDivLogin">
@@ -83,11 +87,11 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="js/lib/jquery.min.js"></script>
-	<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/lib/laconic.js"></script>
-	<script type="text/javascript" src="js/components/utilities.js"></script>
-	<script type="text/javascript" src="js/annotations.js"></script>
-	<script>annotationsInit()</script>
+	<script type="text/javascript" src="/js/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/lib/laconic.js"></script>
+	<script type="text/javascript" src="/js/components/utilities.js"></script>
+	<script type="text/javascript" src="/js/review/dashboard.js"></script>
+	<script>dashboardInit()</script>
 </body>
 </html>

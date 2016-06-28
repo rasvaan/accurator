@@ -94,5 +94,5 @@ function colorRow(rowId, annotation) {
 function getAnnotations(domain) {
 	// TODO: get domain name instead
 	var domainUri = "http://accurator.nl/" + domain + "#domain";
-	return $.getJSON("annotations", {uri:domainUri, type:"domain", enrich:"true"});
+	return $.getJSON("/annotations", {uri:domainUri, type:"domain", enrich:"true"});
 }

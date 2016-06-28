@@ -9,7 +9,6 @@ function annotationInit() {
 	var uri = getParameterByName("uri");
 	var annotations = JSON.parse(localStorage.getItem("annotations"));
 	var filteredAnnotations = filterAnnotations(annotations);
-	console.log("annotations: ", annotations);
 
 	// TODO: change to check admin priviliges
 	userLoggedIn()
@@ -29,12 +28,14 @@ function annotationInit() {
 
 function filterAnnotations(annotationObjects) {
 	var annotationArray = [];
+
 	for (var i=0; i<annotationObjects.length; i++) {
 		annotationArray[i] = annotationObjects[i].uri;
 	}
-	console.log("array", annotationArray);
+
 	return annotationArray;
 }
+
 function addNavigationButtonEvents(annotations, uri) {
 	var index = annotations.indexOf(uri);
 
