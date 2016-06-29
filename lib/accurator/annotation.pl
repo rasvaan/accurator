@@ -202,12 +202,18 @@ enrich_annotation(AnnotationUri, EnrichedAnnotation) :-
 	type_annotation(AnnotationUri, Type),
 	annotator(AnnotationUri, Annotator),
 	reviews(AnnotationUri, Reviews),
+	field(AnnotationUri, Field),
 	EnrichedAnnotation = _{uri:AnnotationUri,
 						   label:Label,
 						   type:Type,
 						   annotator:Annotator,
 						   reviews:Reviews,
+						   field:Field,
 						   object:_{uri:ObjectUri, title:ObjectTitle}}.
+
+field(AnnotationUri, Field) :-
+	rdf(AnnotationUri, 'http://semanticweb.cs.vu.nl/annotate/ui/annotationField', Field), !.
+field(_AnnotationUri, no_field).
 
 reviews(AnnotationUri, ReviewObjects) :-
 	annotation_reviews(AnnotationUri, Reviews),

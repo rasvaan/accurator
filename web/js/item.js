@@ -302,9 +302,9 @@ function appendMetadataWell(metadata) {
 function displayAnnotations(uri) {
 	// Get annotations from server for projecting in well
 	if(page.showAnnotations){
-		$.getJSON("annotations", {uri:uri, type:"object"})
+		$.getJSON("annotations", {uri:uri, type:"object", enrich:"true"})
 		.done(function(annotations){
-			if(annotations.annotations.length > 0){
+			if(annotations.length > 0){
 				$("#itemDivMetadata").append(annotationWell(annotations));
 			}
 		});
@@ -316,20 +316,22 @@ function annotationWell(annotations) {
 		$.el.div({'class':'row'},
 			$.el.div({'class':'col-md-10 col-md-offset-1'},
 				$.el.div({'class':'well well-sm'},
-				  $.el.h4('Annotations for ' + annotations.title),
+				  $.el.h4('Annotations'),
 					$.el.dl({'class':'dl-horizontal',
 							 'id':'itemLstAnnotations'})))));
 
 
-	for(var i = 0; i < annotations.annotations.length; i++) {
-		var encodedQuery = encodeURIComponent(annotations.annotations[i].body);
+	for(var i = 0; i < annotations.length; i++) {
+		console.log(annotations[i]);
+		var encodedQuery = encodeURIComponent(annotations.label);
+		var field = generateIdFromUri(annotations[i].field);
 
 		$("#itemLstAnnotations").append(
-			$.el.dt(annotations.annotations[i].field));
+			$.el.dt(field));
 		$("#itemLstAnnotations").append(
 			$.el.dd(
 				$.el.a({'class':'r_undef',
 					    'href':'results.html?query=' + encodedQuery},
-						annotations.annotations[i].body)));
+						annotations[i].label)));
 	}
 }
