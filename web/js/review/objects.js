@@ -5,13 +5,9 @@ Code for showing the annotations.
 *******************************************************************************/
 "use strict";
 
-function annotationsInit() {
-	var objects, annotations;
+function objectsInit() {
 	var domain = getParameterByName("domain");
-	var show = getParameterByName("show");
-	if (!show) show = "annotations";
-
-	clearLocalStorage("annotations"); // will be generating new list of annotations
+	clearLocalStorage("annotated_objects"); // will be generating new list of annotations
 
 	adminLoggedIn()
 	.then(function() {
@@ -25,19 +21,18 @@ function annotationsInit() {
 
 	function drawPage() {
 		// add title
-		$("#annotationsHdrSlogan").prepend("Annotations " + domain + " domain");
+		$("#objectsHdrSlogan").prepend("Annotated objects in " + domain + " domain");
 
 		getAnnotations(domain)
-		.then(function(annotationData) {
-			annotations = annotationData;
-			objects = objectAnnotations(annotations);
+		.then(function(annotations) {
+			var objects = objectAnnotations(annotations);
 
-			// add annotations to local storage
-			localStorage.setItem("annotations", JSON.stringify(annotations));
+			// add annotated objects to local storage
+			localStorage.setItem("annotated_objects", JSON.stringify(objects));
 
-			// add annotations to the interface
-			for (var i=0; i<annotations.length; i++) {
-				addRow(annotations[i]);
+			// add objects to the interface
+			for (var i=0; i<objects.length; i++) {
+				addRow(objects[i]);
 			}
 		});
 	}
@@ -77,62 +72,52 @@ function objectAnnotations(annotations) {
 	return objects;
 }
 
-function addRow(annotation) {
-	var rowId = 'annotationsTr' + generateIdFromUri(annotation.uri);
-	var buttons = new ReviewButtons(annotation.uri, rowId, "sm");
+function addRow(object) {
+	var rowId = 'objectsTr' + generateIdFromUri(object.uri);
+	var title = normalizeTitle(object);
+	var reviewed = countReviewed(object);
 
-	$(".annotationsTblAnnotations").append(
+	$(".objectsTblObjects").append(
 		$.el.tr(
 			{'id':rowId},
 			$.el.td(
 				$.el.a(
-					{'href': "review/annotation.html?uri=" + annotation.uri},
-					annotation.label
+					{'href': "/review/object.html?uri=" + object.uri},
+					title
 			)),
 			$.el.td(
-				annotation.object.title
-			),
-			// 	$.el.a(
-			// 		{'href': "review.html?uri=" + annotation.object.uri},
-			// 		annotation.object.title
-			// )),
-			$.el.td(
-				getUserName(annotation.annotator)
+				object.annotations.length
 			),
 			$.el.td(
-				buttons.node
+				reviewed
 			)
-			// 	$.el.a(
-			// 		{'href': "review.html?uri=" + annotation.annotator},
-			// 		getUserName(annotation.annotator)
-			// ))
 	));
 
-	colorRow(rowId, annotation);
+	if (reviewed === object.annotations.length)
+		$("#" + rowId).addClass('success');
 }
 
-function colorRow(rowId, annotation) {
-	// color the row according to the review made
-	if (annotation.reviews.length > 0) {
-		// sort reviews to base color on latest
-		annotation.reviews.sort(function(a, b){
-		    var keyA = new Date(a.time);
-		    var keyB = new Date(b.time);
+function normalizeTitle(object) {
+	var normalized = object.title;
 
-		    // compare the 2 dates
-		    if(keyA < keyB) return -1;
-		    if(keyA > keyB) return 1;
-		    return 0;
-		});
-
-		if (annotation.reviews[0].judgement === "agree") {
-			$("#" + rowId).addClass('success');
-		} else if (annotation.reviews[0].judgement === "unsure") {
-			$("#" + rowId).addClass('warning');
-		} else if (annotation.reviews[0].judgement === "disagree") {
-			$("#" + rowId).addClass('danger');
-		}
+	if (object.title === "no_title") {
+		// create title from id
+		normalized = generateIdFromUri(object.uri);
 	}
+
+	return truncate(normalized, 60);
+}
+
+function countReviewed(object) {
+	var reviewed = 0;
+
+	for(var i=0; i<object.annotations.length; i++) {
+		// count the number of annotations with one or more reviews
+		if (object.annotations[i].reviews.length > 0)
+			reviewed++;
+	}
+
+	return reviewed;
 }
 
 function getAnnotations(domain) {
