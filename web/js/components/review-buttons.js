@@ -49,7 +49,12 @@ ReviewButtons.prototype.buttonEvents = function() {
         });
     });
     $(this.node).find(".btn-danger").on("click", function() {
-        alert("you successfully clicked a dangerous button");
+        _buttons.deleteAnnotation(_buttons.annotationUri, "Removed from dashboard application")
+        .then(function(){
+            _buttons.paintParent("red");
+        }, function() {
+            alert("Could not delete annotation");
+        });
     });
 }
 
@@ -83,4 +88,16 @@ ReviewButtons.prototype.submitReview = function(target, body, label, graph) {
 			motivatedBy: 'http://www.w3.org/ns/oa#moderating',
 			graph: graph
 	}});
+}
+
+ReviewButtons.prototype.deleteAnnotation = function(annotationUri, comment) {
+	if (!annotationUri) return; // annotation to be deleted is required
+	if (!comment) comment = "Removed in during review process";
+
+    return $.ajax({
+        type: "DELETE",
+        url: "/api/annotation/remove?" +
+            "annotation=" + encodeURIComponent(annotationUri) +
+            "&comment=" + encodeURIComponent(comment)
+	});
 }
