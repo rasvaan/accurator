@@ -14,14 +14,14 @@ function annotationsInit() {
 	clearLocalStorage("annotations"); // will be generating new list of annotations
 
 	// TODO: change to check admin priviliges
-	userLoggedIn()
+	adminLoggedIn()
 	.then(function() {
 		// user is logged in as admin, so draw page
 		drawPage();
 	}, function() {
 		// user is not logged in as admin, show modal
-		var onDismissal = function() {document.location.href = "intro.html";};
-		login(drawPage, onDismissal);
+		var onDismissal = function() {document.location.href = "/intro.html";};
+		login(drawPage, onDismissal, "admin");
 	});
 
 	function drawPage() {
@@ -61,7 +61,6 @@ function objectAnnotations(annotations) {
 		delete objectAnnotation.object;
 
 		if (objectIndex >= 0) {
-			console.log("Addding another to ", objectIndex);
 			// add annotation to existing object
 			var annotationIndex = objects[objectIndex].annotations.length;
 			objects[objectIndex].annotations[annotationIndex] = objectAnnotation;

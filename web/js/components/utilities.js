@@ -371,7 +371,7 @@ function userLoggedIn() {
 	});
 }
 
-function login(onSuccess, onDismissal) {
+function login(onSuccess, onDismissal, permission) {
 	var ui = "http://accurator.nl/ui/generic#loginModal";
 	var locale = getLocale();
 
@@ -383,7 +383,7 @@ function login(onSuccess, onDismissal) {
 		$("#loginDivLogin").modal();
 		$("#loginInpUsername").focus();
 
-		loginButtonEvents(onSuccess, onDismissal, labels);
+		loginButtonEvents(onSuccess, onDismissal, labels, permission);
 	})
 }
 
@@ -403,7 +403,7 @@ function initModalLabels(data) {
 	return labels;
 }
 
-function loginButtonEvents(onSuccess, onDismissal, labels) {
+function loginButtonEvents(onSuccess, onDismissal, labels, permission) {
 	// add events to login modal
 	$("#loginBtnLogin").click(function() {
 		processLogin(onSuccess, labels);
@@ -411,12 +411,12 @@ function loginButtonEvents(onSuccess, onDismissal, labels) {
 	// login on pressing enter
 	$("#loginInpPassword").keypress(function(event) {
 		if (event.which == 13) {
-			processLogin(onSuccess, labels);
+			processLogin(onSuccess, labels, permission);
 		}
 	});
 	$("#loginInpUsername").keypress(function(event) {
 		if (event.which == 13) {
-			processLogin(onSuccess, labels);
+			processLogin(onSuccess, labels, permission);
 		}
 	});
 	// run onDismissal if modal is dismissed
@@ -428,10 +428,11 @@ function loginButtonEvents(onSuccess, onDismissal, labels) {
 	});
 }
 
-function processLogin(onSuccess, labels) {
+function processLogin(onSuccess, labels, permission) {
 	// login based upon values provided in modal
 	var user = getUserUri($("#loginInpUsername").val());
 	var password = $("#loginInpPassword").val();
+	if (!permission) permission = "normal"; // set the needed permission
 
 	if(user == "" || password == "") {
 		$("#loginTxtWarning").html(
@@ -439,39 +440,61 @@ function processLogin(onSuccess, labels) {
 		);
 	} else {
 		loginServer(user, password)
-		.then(function(data) {
-			if(data.indexOf("Login failed") != -1) {
+		.then(function(user) {
+			if (!user.login) {
 				// show warning login failed
 				$("#loginTxtWarning").html(
 					$.el.p({'class':'text-danger'}, labels.loginTxtWarning)
 				);
-			} else if (data.indexOf("Login ok") != -1) {
-				// set user settings, hide modal and execute onSuccess
-				setUserSettingsLocal()
-				.then(function() {
-					$("#loginDivLogin").off('hidden.bs.modal');
-					$("#loginDivLogin").modal('hide');
+			} else if (user.login) {
+				// login succesful, check needed privileges
+				if ((permission === "admin" && user.admin) || permission === "normal") {
+					// set user settings, hide modal and execute onSuccess
+					setUserSettingsLocal()
+					.then(function() {
+						$("#loginDivLogin").off('hidden.bs.modal');
+						$("#loginDivLogin").modal('hide');
 
-					return userLoggedIn();
-				})
-				.then(function(userData) {
-					onSuccess(userData);
-				});
+						return userLoggedIn();
+					})
+					.then(function(userData) {
+						onSuccess(userData);
+					});
+				} else {
+					// show permission warning
+					$("#loginTxtWarning").html(
+						// TODO: add label for warning
+						$.el.p({'class':'text-danger'}, "You don't have the required permissions to access this page.")
+					);
+				}
 			}
 		});
 	}
 }
 
 function loginServer(user, password) {
-	var dataLogin = {"user": user, "password": password};
+	var dataLogin = {"user":user, "password":password};
 
-	return $.ajax({type: "POST", url: "/user/login", data: dataLogin});
+	return $.ajax({type: "POST", url: "/login_user", data:dataLogin});
 }
 
 function logout() {
 	$.ajax({url: "/user/logout", type: "POST"})
 	.then(function() {
 		document.location.href = "intro.html";
+	});
+}
+
+function adminLoggedIn() {
+	// see if user is logged in with admin priviliges
+	return $.getJSON("/get_user")
+	.then(function(user) {
+		if (user.login && user.admin) {
+			return user;
+		}
+		if (!user.login || !user.admin) {
+			return jQuery.Deferred().reject(user).promise();
+		}
 	});
 }
 

@@ -5,13 +5,15 @@
 						   get_user/1,
 						   get_user_settings/1,
 						   save_user_info/1,
-						   get_user_info/1]).
+						   get_user_info/1,
+						   login_user/1]).
 
 /** <module> Domain
 */
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/html_write)).
+:- use_module(library(http/http_parameters)).
 :- use_module(user(user_db)).
 
 :- rdf_register_prefix(edm, 'http://www.europeana.eu/schemas/edm/').
@@ -56,15 +58,39 @@ register_user(Request) :-
 						h1('Successfully registered user'))
 	).
 
+%%	login_user(+Request)
+%
+%	Log user in and return something sensible.
+login_user(Request) :-
+	 http_parameters(Request,
+        [user(User,
+		    [description('User id'), optional(false)]),
+		 password(Password,
+			[description('Password'), optional(false)])
+		]),
+	validate_password(User, Password),
+	login(User), !,
+	user_property(User, realname(RealName)),
+	admin(User, Admin),
+	reply_json_dict(user{login:true, user:User, real_name:RealName, admin:Admin}).
+login_user(_Request) :-
+	reply_json_dict(user{login:false}).
+
 %%	get_user(+Request)
 %
 %	Get the id of a user.
 get_user(_Request) :-
 	logged_on(User), !,
 	user_property(User, realname(RealName)),
-	reply_json_dict(user{login:true, user:User, real_name:RealName}).
+	admin(User, Admin),
+	reply_json_dict(user{login:true, user:User, real_name:RealName, admin:Admin}).
 get_user(_Request) :-
 	reply_json_dict(user{login:false}).
+
+admin(User, true) :-
+	user_property(User, allow(Permissions)),
+	member(admin(_), Permissions), !.
+admin(_User, false).
 
 %%	get_user_settings(+Request)
 %

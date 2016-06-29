@@ -57,6 +57,7 @@ user:file_search_path(fonts, web(fonts)).
 :- http_handler(cliopatria(annotations), annotations_api, []).
 :- http_handler(cliopatria(expertise_topics), expertise_topics_api, []).
 :- http_handler(cliopatria(expertise_values), expertise_values_api, []).
+:- http_handler(cliopatria(login_user), login_user, []).
 :- http_handler(cliopatria(register_user), register_user, []).
 :- http_handler(cliopatria(get_user), get_user, []).
 :- http_handler(cliopatria(get_user_settings), get_user_settings, []).
