@@ -6,10 +6,8 @@ Code for showing the annotations.
 "use strict";
 
 function annotationsInit() {
-	var objects, annotations;
+	var annotations;
 	var domain = getParameterByName("domain");
-	var show = getParameterByName("show");
-	if (!show) show = "annotations";
 
 	clearLocalStorage("annotations"); // will be generating new list of annotations
 
@@ -28,10 +26,7 @@ function annotationsInit() {
 		$("#annotationsHdrSlogan").prepend("Annotations " + domain + " domain");
 
 		getAnnotations(domain)
-		.then(function(annotationData) {
-			annotations = annotationData;
-			objects = objectAnnotations(annotations);
-
+		.then(function(annotations) {
 			// add annotations to local storage
 			localStorage.setItem("annotations", JSON.stringify(annotations));
 
@@ -43,72 +38,46 @@ function annotationsInit() {
 	}
 }
 
-function objectAnnotations(annotations) {
-	var objects = [];
-
-	for (var i=0; i<annotations.length; i++) {
-		var objectIndex = -1;
-
-		for (var j=0; j<objects.length; j++) {
-			// check if already present and record index
-			if (objects[j].uri === annotations[i].object.uri) {
-				objectIndex = j;
-			}
-		}
-
-		var objectAnnotation = JSON.parse(JSON.stringify(annotations[i])); //clone
-		delete objectAnnotation.object;
-
-		if (objectIndex >= 0) {
-			// add annotation to existing object
-			var annotationIndex = objects[objectIndex].annotations.length;
-			objects[objectIndex].annotations[annotationIndex] = objectAnnotation;
-		} else {
-			// create new object
-			var object = {
-				'title': annotations[i].object.title,
-				'uri': annotations[i].object.uri,
-				'annotations': [objectAnnotation]
-			}
-			objects[objects.length] = object;
-		}
-	}
-
-	return objects;
-}
-
 function addRow(annotation) {
 	var rowId = 'annotationsTr' + generateIdFromUri(annotation.uri);
 	var buttons = new ReviewButtons(annotation.uri, rowId, "sm");
+	var objectTitle = normalizeTitle(annotation.object);
 
 	$(".annotationsTblAnnotations").append(
 		$.el.tr(
 			{'id':rowId},
 			$.el.td(
-				$.el.a(
-					{'href': "review/annotation.html?uri=" + annotation.uri},
-					annotation.label
-			)),
-			$.el.td(
-				annotation.object.title
+				annotation.label
 			),
-			// 	$.el.a(
-			// 		{'href': "review.html?uri=" + annotation.object.uri},
-			// 		annotation.object.title
-			// )),
+			$.el.td(
+				annotation.type
+			),
+			$.el.td(
+				$.el.a(
+					{'href': "/review/object.html?uri=" + annotation.object.uri},
+					objectTitle
+				)
+			),
 			$.el.td(
 				getUserName(annotation.annotator)
 			),
 			$.el.td(
 				buttons.node
 			)
-			// 	$.el.a(
-			// 		{'href': "review.html?uri=" + annotation.annotator},
-			// 		getUserName(annotation.annotator)
-			// ))
 	));
 
 	colorRow(rowId, annotation);
+}
+
+function normalizeTitle(object) {
+	var normalized = object.title;
+
+	if (object.title === "no_title") {
+		// create title from id
+		normalized = generateIdFromUri(object.uri);
+	}
+
+	return truncate(normalized, 60);
 }
 
 function colorRow(rowId, annotation) {
