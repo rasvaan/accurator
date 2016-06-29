@@ -474,6 +474,11 @@ Annotation
 #objectDivNavigation {
 	margin-top: 20px;
 }
+
+#objectDivAnnotations {
+	margin-top: 20px;
+}
+
 #objectDivAlignButton {
 	text-align: right;
 }
