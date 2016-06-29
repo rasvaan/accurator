@@ -7,8 +7,8 @@ Code for page allowing the review of annotations.
 
 function objectInit() {
 	var uri = getParameterByName("uri");
-	var annotations = JSON.parse(localStorage.getItem("annotations"));
-	var filteredAnnotations = filterAnnotations(annotations);
+	var objects = JSON.parse(localStorage.getItem("annotated_objects"));
+	var filteredObjects = filterObjects(objects);
 
 	adminLoggedIn()
 	.then(function() {
@@ -21,36 +21,47 @@ function objectInit() {
 	});
 
 	function drawPage() {
-		addNavigationButtonEvents(filteredAnnotations, uri);
+		metadata(uri);
+		addNavigationButtonEvents(filteredObjects, uri);
 	}
 }
 
-function filterAnnotations(annotationObjects) {
-	var annotationArray = [];
+function metadata(uri) {
+	return $.getJSON("/metadata", {uri:uri})
+	.then(function(metadata){
+		// set src img
+		$(".objectImg").attr("src", metadata.image);
+
+		return metadata;
+	});
+}
+
+function filterObjects(annotationObjects) {
+	var objectArray = [];
 
 	for (var i=0; i<annotationObjects.length; i++) {
-		annotationArray[i] = annotationObjects[i].uri;
+		objectArray[i] = annotationObjects[i].uri;
 	}
 
-	return annotationArray;
+	return objectArray;
 }
 
-function addNavigationButtonEvents(annotations, uri) {
-	var index = annotations.indexOf(uri);
+function addNavigationButtonEvents(objects, uri) {
+	var index = objects.indexOf(uri);
 
 	if (index === 0) {
-		$("#annotationBtnPrevious").attr("disabled", "disabled");
+		$("#objectBtnPrevious").attr("disabled", "disabled");
 	} else {
-		$("#annotationBtnPrevious").click(function() {
-			document.location.href = "/review/annotation.html?uri=" + annotations[index -1];
+		$("#objectBtnPrevious").on("click", function() {
+			document.location.href = "/review/object.html?uri=" + objects[index -1];
 		});
 	}
 
-	if(index === annotations.length-1) {
-		$("#annotationBtnNext").attr("disabled", "disabled");
+	if(index === objects.length-1) {
+		$("#objectBtnNext").attr("disabled", "disabled");
 	} else {
-		$("#annotationBtnNext").click(function() {
-			document.location.href = "/review/annotation.html?uri=" + annotations[index + 1];
+		$("#objectBtnNext").on("click", function() {
+			document.location.href = "/review/object.html?uri=" + objects[index + 1];
 		});
 	}
 }

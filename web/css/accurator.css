@@ -467,11 +467,14 @@ table .dashboardBtnDownload {
 /*******************************************************************************
 Annotation
 *******************************************************************************/
-.annotationBtnNavigation {
+.objectBtnNavigation {
 	width: 100px;
 }
 
-#annotationDivAlignButton {
+#objectDivNavigation {
+	margin-top: 20px;
+}
+#objectDivAlignButton {
 	text-align: right;
 }
 
