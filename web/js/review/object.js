@@ -1,16 +1,15 @@
 /*******************************************************************************
-Accurator Annotation Review
+Accurator Object Review
 
 Code for page allowing the review of annotations.
 *******************************************************************************/
 "use strict";
 
-function annotationInit() {
+function objectInit() {
 	var uri = getParameterByName("uri");
 	var annotations = JSON.parse(localStorage.getItem("annotations"));
 	var filteredAnnotations = filterAnnotations(annotations);
 
-	// TODO: change to check admin priviliges
 	adminLoggedIn()
 	.then(function() {
 		// user is logged in as admin, so draw page

@@ -5,8 +5,7 @@ Code for showing the dashboard page.
 *******************************************************************************/
 "use strict";
 
-function dashboardInit() {
-	// TODO: change to check admin priviliges
+function domainsInit() {
 	adminLoggedIn()
 	.then(function() {
 		// user is logged in as admin, so draw page
@@ -34,16 +33,21 @@ function addRow(domain) {
 	// add request for statistics
 	getDomainStatistics(domain)
 	.then(function(statistics) {
+		console.log(statistics);
 		$(".dashboardTblDomains").append(
 			$.el.tr(
+				$.el.td(domain),
+				$.el.td(statistics.annotators),
+				$.el.td(
+					$.el.a(
+						{'href': "/review/objects.html?domain=" + domain},
+						statistics.objects_annotated
+				)),
 				$.el.td(
 					$.el.a(
 						{'href': "/review/annotations.html?domain=" + domain},
-						domain
+						statistics.number_annotations
 				)),
-				$.el.td(statistics.annotators),
-				$.el.td(statistics.objects_annotated),
-				$.el.td(statistics.number_annotations),
 				$.el.td(statistics.reviewed_annotations),
 				$.el.td(
 					$.el.button(

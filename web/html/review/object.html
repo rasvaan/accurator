@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<title>Annotations</title>
+	<title>Review Object</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="/img/favicon.ico">
 	<link type="text/css" rel="stylesheet" media="screen" href="/css/bootstrap.min.css" />
@@ -21,33 +21,20 @@
 	</nav>
 
 	<div class="container">
-		<!-- Header -->
+		<!-- Navigation -->
 		<div class="row">
-			<div class="col-md-12">
-				<h2 id="annotationsHdrSlogan">
-					<small id="annotationsTxtSubSlogan">
-						select row to review
-					</small>
-				</h2>
+			<div class="col-md-2 col-xs-6">
+				<button class="btn btn-default annotationBtnNavigation" id="annotationBtnPrevious">
+					<span class="glyphicon glyphicon-chevron-left"></span> Previous
+				</button>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<table class="table annotationsTblAnnotations">
-					<thead>
-						<tr>
-							<th>Annotation</th>
-							<th>Object</th>
-							<th>User</th>
-							<th>Review</th>
-						</tr>
-					</thead
-				</table>
+			<div class="col-md-2 col-xs-6 col-md-push-8" id="annotationDivAlignButton">
+				<button class="btn btn-default annotationBtnNavigation" id="annotationBtnNext">
+					Next <span class="glyphicon glyphicon-chevron-right"></span>
+				</button>
 			</div>
 		</div>
 	</div>
-
 
 	<!-- Login modal -->
 	<div class="modal fade" id="loginDivLogin">
@@ -88,8 +75,7 @@
 	<script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/js/lib/laconic.js"></script>
 	<script type="text/javascript" src="/js/components/utilities.js"></script>
-	<script type="text/javascript" src="/js/components/review-buttons.js"></script>
-	<script type="text/javascript" src="/js/review/annotations.js"></script>
-	<script>annotationsInit()</script>
+	<script type="text/javascript" src="/js/review/object.js"></script>
+	<script>objectInit()</script>
 </body>
 </html>
