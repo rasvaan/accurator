@@ -6,7 +6,11 @@ Code for showing the annotations.
 "use strict";
 
 function annotationsInit() {
+	var objects, annotations;
 	var domain = getParameterByName("domain");
+	var show = getParameterByName("show");
+	if (!show) show = "annotations";
+
 	clearLocalStorage("annotations"); // will be generating new list of annotations
 
 	// TODO: change to check admin priviliges
@@ -25,7 +29,10 @@ function annotationsInit() {
 		$("#annotationsHdrSlogan").prepend("Annotations " + domain + " domain");
 
 		getAnnotations(domain)
-		.then(function(annotations) {
+		.then(function(annotationData) {
+			annotations = annotationData;
+			objects = objectAnnotations(annotations);
+
 			// add annotations to local storage
 			localStorage.setItem("annotations", JSON.stringify(annotations));
 
@@ -35,6 +42,41 @@ function annotationsInit() {
 			}
 		});
 	}
+}
+
+function objectAnnotations(annotations) {
+	var objects = [];
+
+	for (var i=0; i<annotations.length; i++) {
+		var objectIndex = -1;
+
+		for (var j=0; j<objects.length; j++) {
+			// check if already present and record index
+			if (objects[j].uri === annotations[i].object.uri) {
+				objectIndex = j;
+			}
+		}
+
+		var objectAnnotation = JSON.parse(JSON.stringify(annotations[i])); //clone
+		delete objectAnnotation.object;
+
+		if (objectIndex >= 0) {
+			console.log("Addding another to ", objectIndex);
+			// add annotation to existing object
+			var annotationIndex = objects[objectIndex].annotations.length;
+			objects[objectIndex].annotations[annotationIndex] = objectAnnotation;
+		} else {
+			// create new object
+			var object = {
+				'title': annotations[i].object.title,
+				'uri': annotations[i].object.uri,
+				'annotations': [objectAnnotation]
+			}
+			objects[objects.length] = object;
+		}
+	}
+
+	return objects;
 }
 
 function addRow(annotation) {
