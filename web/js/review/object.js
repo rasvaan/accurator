@@ -8,7 +8,6 @@ Code for page allowing the review of annotations.
 function objectInit() {
 	var uri = getParameterByName("uri");
 	var objects = JSON.parse(localStorage.getItem("annotated_objects"));
-	var object = getObject(objects, uri);
 	var filteredObjects = filterObjects(objects);
 
 	adminLoggedIn()
@@ -24,18 +23,7 @@ function objectInit() {
 	function drawPage() {
 		metadata(uri);
 		addNavigationButtonEvents(filteredObjects, uri);
-
-		// add annotations to the interface
-		for (var i=0; i<object.annotations.length; i++) {
-			addRow(object.annotations[i]);
-		}
-	}
-}
-
-function getObject(objects, uri) {
-	for (var i=0; i<objects.length; i++) {
-		if (objects[i].uri === uri)
-			return objects[i];
+		annotations(uri);
 	}
 }
 
@@ -44,8 +32,16 @@ function metadata(uri) {
 	.then(function(metadata){
 		// set src img
 		$(".objectImg").attr("src", metadata.image);
+	});
+}
 
-		return metadata;
+function annotations(uri) {
+	$.getJSON("/annotations", {uri:uri, type:"object", enrich:"true"})
+	.then(function(annotations) {
+		// add annotations to the interface
+		for (var i=0; i<annotations.length; i++) {
+			addRow(annotations[i]);
+		}
 	});
 }
 

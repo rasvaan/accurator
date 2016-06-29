@@ -130,19 +130,11 @@ extract_literal(_Locale, literal(Literal), Literal) :-
 % annotations(domain,'http://accurator.nl/fashion/jewelry#domain', Annotations). annotations(concept_scheme,
 % 'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme', Annotations).
 
-annotations(object, Uri, Annotations) :-
-	findall(annotation{
-				field:FieldLabel,
-				body:NiceBody},
-	    (	get_annotation(Uri, AnnotationBody, AnnotationHash),
-			process_annotation(AnnotationBody, NiceBody),
-			% use rdf_has to also include fragment and whole fields
-			rdf_has(AnnotationHash, auis:fields, FieldUri),
-			rdf_display_label(FieldUri, _, FieldLabel)
-	    ),
-	    FoundAnnotations),
-	get_title(Uri, DisplayTitle),
-	Annotations = annotations{title:DisplayTitle, annotations:FoundAnnotations}.
+annotations(object, Object, Annotations) :-
+	 setof(Annotation,
+	    rdf(Annotation, oa:hasTarget, Object),
+	    Annotations), !.
+annotations(object, _Object, []).
 
 annotations(user, UserUri, ObjectUris) :-
     setof(Object, AnnotationHash^
@@ -171,14 +163,6 @@ annotations(concept_scheme, ConceptScheme, Annotations, Graph) :-
 				rdf(Uri, _P, _O, Graph),
 				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
 			Annotations).
-
-get_annotation(Uri, AnnotationBody, AnnotationHash) :-
-	rdf(AnnotationHash, oa:hasTarget, Uri),
-	rdf(AnnotationHash, oa:hasBody, AnnotationBody).
-
-process_annotation(literal(Annotation), Annotation) :- !.
-process_annotation(Annotation, Label) :-
-	rdf_display_label(Annotation, _, Label).
 
 %%	number_of_annotations(+Uri, -NumberOfAnnotations)
 %
