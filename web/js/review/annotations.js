@@ -39,7 +39,7 @@ function annotationsInit() {
 
 function addRow(annotation) {
 	var rowId = 'annotationsTr' + generateIdFromUri(annotation.uri);
-	var buttons = new ReviewButtons(annotation.uri, "sm");
+	var buttons = new ReviewButtons(annotation.uri, rowId, "sm");
 
 	$(".annotationsTblAnnotations").append(
 		$.el.tr(
@@ -86,11 +86,11 @@ function colorRow(rowId, annotation) {
 		});
 
 		if (annotation.reviews[0].judgement === "agree") {
-			$("#" + rowId).attr('class', 'success');
+			$("#" + rowId).addClass('success');
 		} else if (annotation.reviews[0].judgement === "unsure") {
-			$("#" + rowId).attr('class', 'warning');
+			$("#" + rowId).addClass('warning');
 		} else if (annotation.reviews[0].judgement === "disagree") {
-			$("#" + rowId).attr('class', 'danger');
+			$("#" + rowId).addClass('danger');
 		}
 	}
 }

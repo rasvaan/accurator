@@ -1,9 +1,11 @@
 /*******************************************************************************
 Review buttons
 *******************************************************************************/
-function ReviewButtons(annotationUri, size) {
+function ReviewButtons(annotationUri, parentId, size) {
     this.annotationUri = annotationUri; // annotation to be reviewed
+    this.fieldName = "http://accurator.nl/ui/annotation/review#Buttons";
     this.size = size ? "btn-" + size : "";
+    this.parentId = parentId;
     this.node = null;
 
     this.init();
@@ -31,12 +33,54 @@ ReviewButtons.prototype.init = function() {
 ReviewButtons.prototype.buttonEvents = function() {
     var _buttons = this;
     $(this.node).find(".btn-success").on("click", function() {
-        alert("you successfully clicked a button for " + _buttons.annotationUri);
+        _buttons.submitReview(_buttons.annotationUri, {'@value':"agree"})
+        .then(function(){
+            _buttons.paintParent("green");
+        }, function() {
+            alert("Could not save review");
+        });
     });
     $(this.node).find(".btn-warning").on("click", function() {
-        alert("you successfully clicked an orange button");
+        _buttons.submitReview(_buttons.annotationUri, {'@value':"disagree"})
+        .then(function(){
+            _buttons.paintParent("orange");
+        }, function() {
+            alert("Could not save review");
+        });
     });
     $(this.node).find(".btn-danger").on("click", function() {
         alert("you successfully clicked a dangerous button");
     });
+}
+
+ReviewButtons.prototype.paintParent = function(color) {
+    // remove other colors
+    $("#" + this.parentId).removeClass("success warning danger");
+
+	if (color === "green") {
+        $("#" + this.parentId).addClass('success');
+	} else if (color === "orange") {
+		$("#" + this.parentId).addClass('warning');
+	} else if (color === "red") {
+		$("#" + this.parentId).addClass('danger');
+	}
+}
+
+ReviewButtons.prototype.submitReview = function(target, body, label, graph) {
+	if (!target) return; // review target is required
+	if (!body) return; // review in the form of text or resource is required
+    if (!label && body['@value']) label = body['@value']; // set label to value in body if not sepperately defined
+	if (!graph)	graph = target;
+
+	return $.ajax({
+        type: "POST",
+        url: "/api/annotation/add",
+		data: {
+		    field: this.fieldName,
+			hasTarget: JSON.stringify([{'@id':target}]),
+			hasBody: JSON.stringify(body),
+			label: label,
+			motivatedBy: 'http://www.w3.org/ns/oa#moderating',
+			graph: graph
+	}});
 }
