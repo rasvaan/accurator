@@ -15,6 +15,7 @@
 
 
 :- rdf_meta
+	get_literal(r, r, -, -),
 	fields(r,-,-,-),
 	label_property_pair(-, r, -, -),
 	annotations(-,r,-).
