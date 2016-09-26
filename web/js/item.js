@@ -322,7 +322,6 @@ function annotationWell(annotations) {
 
 
 	for(var i = 0; i < annotations.length; i++) {
-		console.log(annotations[i]);
 		var encodedQuery = encodeURIComponent(annotations.label);
 		var field = generateIdFromUri(annotations[i].field);
 
