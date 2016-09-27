@@ -297,20 +297,24 @@ DropdownField.prototype.addDropdownListeners = function() {
 DropdownField.prototype.getAllAlternatives = function() {
 	//HACK for getting EN resources Iconclass
 	var locale = this.locale;
+  var filter = {};
+
 	if (this.source.filterScheme === "http://accurator.nl/bible#BiblicalThemeConceptScheme") {
 		locale = "en";
 	}
 
-	// Get autocomplete alternatives
-	var filter = JSON.stringify({scheme: this.source.filterScheme});
-	// var labelRank = "['http://www.w3.org/2004/02/skos/core#prefLabel'-1]";
+  // Create filter with eiter class or scheme, scheme has precedence
+  if (this.source.filterScheme) {
+    filter.scheme = this.source.filterScheme;
+  } else if (this.source.filterClass) {
+    filter.class = this.source.filterClass;
+  }
 
-	// Return promise
+	// Get autocomplete alternatives
 	return $.getJSON("api/autocomplete", {
 		q:"stub",
-		filter:filter,
-		// labelrank:labelRank,
-		method:"all",
+		filter:JSON.stringify(filter),
+    method:"all",
 		locale:locale //HACK: should be this.locale
 	});
 }
