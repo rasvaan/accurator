@@ -13,7 +13,7 @@
 abir:domain a accu:Domain ;
 	rdfs:label "bird";
 	accu:hasLabel abirui:label ;
-	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
+	dcterms:requires <http://purl.org/vocab/ioc/ioc_birdlist_en_nl.ttl> ;
 	accu:hasTarget <http://accurator.nl/bird#Target> ;
 	skos:hasTopConcept ioc:class-aves ;
 	accu:hasUI abirui: ;
@@ -22,7 +22,7 @@ abir:domain a accu:Domain ;
 	accu:hasMaximumExpertiseTopics "50" ;
 	accu:hasMaximumChildren "2"  .
 
-<http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
+<http://purl.org/vocab/ioc/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
 
 abirui:label auis:textLabel "Bird domain"@en ,
 				 			"Vogel domein"@nl .
