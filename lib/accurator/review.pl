@@ -3,8 +3,8 @@
 			  reviews/4,
 			  select_annotations/3,
 			  select_annotations/4,
-			  process_annotations/2,
 			  process_annotations/3,
+			  process_annotations/4,
 			  agreeable_annotations/2,
 			  annotation_reviews/2
 		  ]).
@@ -13,6 +13,7 @@
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(accurator/annotation)).
 :- use_module(library(semweb/rdf_turtle_write)).
+:- use_module(library(csv)).
 
 :- rdf_meta
 	review(r, -, r, -).
@@ -56,26 +57,26 @@ review(Judgement, User, Graph, Uri) :-
 	debug(review, 'Add review: ~p', [Options]),
     rdf_add_annotation(Options, _Annotation).
 
-%%	process_annotations(+Type, +Uri, +Reviewer)
+%%	process_annotations(+Type, +Uri, +Content)
 %
 %	Retrieves and saves selection of annotations based on the given
 %	concept scheme or domain.
-%	process_annotations(domain, 'http://accurator.nl/bible#domain').
-process_annotations(Type, Uri) :-
+%	process_annotations(domain, 'http://accurator.nl/bible#domain',	csv).
+process_annotations(Type, Uri, Content) :-
 	select_annotations(Type, Uri, Annotations),
 	generate_graph_name(Annotations, Graph),
-	export_annotations(Graph, Annotations).
+	export_annotations(Content, Graph, Annotations).
 
-%%	process_annotations(+Type, +Uri, +Reviewer)
+%%	process_annotations(+Type, +Uri, +Reviewer, +Content)
 %
 %	Retrieves and saves selection of annotations based on the given
 %	concept scheme or domain.
 %	process_annotations(domain, 'http://accurator.nl/fashion/jewelry#domain','http://accurator.nl/user#rasvaan').
 %	process_annotations(domain, 'http://accurator.nl/bible#domain','http://accurator.nl/user#rasvaan').
-process_annotations(Type, Uri, Reviewer) :-
+process_annotations(Type, Uri, Reviewer, Content) :-
 	select_annotations(Type, Uri, Reviewer, Annotations),
 	generate_graph_name(Annotations, Graph),
-	export_annotations(Graph, Annotations).
+	export_annotations(Content, Graph, Annotations).
 
 %%	generate_graph_name(UriList, Hash)
 %
@@ -104,6 +105,9 @@ select_annotations(domain, Domain, Annotations) :-
 	length(Annotations, Number),
 	format('Selected ~p annotations.', [Number]).
 
+%%	verified_annotation(+Type, +TypeUri, -Annotation)
+%
+%	Retrieve a annotation which has been verified.
 verified_annotation(concept_scheme, ConceptScheme, Annotation) :-
 	rdf(Review, oa:hasBody, BlankReviewNode),
 	rdf(BlankReviewNode, cnt:chars, literal('agree')),
@@ -138,6 +142,9 @@ select_annotations(domain, Domain, User, Annotations) :-
 	length(Annotations, Number),
 	format('Selected ~p annotations.', [Number]).
 
+%%	verified_annotation(+Type, +TypeUri, -Annotation)
+%
+%	Retrieve a annotation which has been verified by the specified user.
 user_verified_annotation(concept_scheme, ConceptScheme, User, Annotation) :-
 	rdf(Review, oa:annotatedBy, User),
 	rdf(Review, oa:hasBody, BlankReviewNode),
@@ -155,10 +162,19 @@ user_verified_annotation(domain, Domain, User, Annotation) :-
 	rdf(Work, rdf:type, Target),
 	rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target).
 
-%%	export_annotations(Annotations)
+%%	export_annotations(+Content, +FileName, +Annotations)
 %
-%	Export a list of annotations.
-export_annotations(Graph, Annotations) :-
+%	Export a list of annotations to a csv file.
+export_annotations(csv, FileName, _Annotations) :-
+	setup_call_cleanup(
+		open(FileName, write, Out),
+		csv_write_stream(Out, [row('a','b')], []),
+		close(Out)).
+
+%%	export_annotations(+ContentType, Annotations)
+%
+%	Export a list of annotations to a turtle graph.
+export_annotations(rdf, Graph, Annotations) :-
 	maplist(add_annotation(Graph), Annotations),
 	rdf_save_turtle(Graph, [graph(Graph)]),
 	rdf_unload_graph(Graph).
