@@ -1,6 +1,9 @@
 :- module(review, [
 			  review/4,
 			  reviews/4,
+			  select_annotations/3,
+			  select_annotations/4,
+			  process_annotations/2,
 			  process_annotations/3,
 			  agreeable_annotations/2,
 			  annotation_reviews/2
@@ -53,11 +56,22 @@ review(Judgement, User, Graph, Uri) :-
 	debug(review, 'Add review: ~p', [Options]),
     rdf_add_annotation(Options, _Annotation).
 
-%%	process_annotations(+ConceptScheme, +Reviewer)
+%%	process_annotations(+Type, +Uri, +Reviewer)
 %
 %	Retrieves and saves selection of annotations based on the given
-%	concept scheme and reviewer
+%	concept scheme or domain.
+%	process_annotations(domain, 'http://accurator.nl/bible#domain').
+process_annotations(Type, Uri) :-
+	select_annotations(Type, Uri, Annotations),
+	generate_graph_name(Annotations, Graph),
+	export_annotations(Graph, Annotations).
+
+%%	process_annotations(+Type, +Uri, +Reviewer)
+%
+%	Retrieves and saves selection of annotations based on the given
+%	concept scheme or domain.
 %	process_annotations(domain, 'http://accurator.nl/fashion/jewelry#domain','http://accurator.nl/user#rasvaan').
+%	process_annotations(domain, 'http://accurator.nl/bible#domain','http://accurator.nl/user#rasvaan').
 process_annotations(Type, Uri, Reviewer) :-
 	select_annotations(Type, Uri, Reviewer, Annotations),
 	generate_graph_name(Annotations, Graph),
@@ -71,35 +85,75 @@ generate_graph_name(UriList, Hash) :-
 	sort(UriList, SortedUris),
 	variant_sha1(SortedUris, Hash).
 
+%%	select_annotations(+Type, +TypeUri, -Annotations)
+%
+%	Select a list of annotations based upon ConceptScheme or domain
+%	select_annotations(conceptScheme,'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme',Annotations).
+%	select_annotations(domain,'http://accurator.nl/bible#domain',Annotations).
+select_annotations(conceptScheme, ConceptScheme, Annotations) :-
+	setof(Annotation,
+		  verified_annotation(concept_scheme, ConceptScheme, Annotation),
+		  Annotations),
+	length(Annotations, Number),
+	format('Selected ~p annotations.', [Number]).
+
+select_annotations(domain, Domain, Annotations) :-
+	setof(Annotation,
+		  verified_annotation(domain, Domain, Annotation),
+		  Annotations),
+	length(Annotations, Number),
+	format('Selected ~p annotations.', [Number]).
+
+verified_annotation(concept_scheme, ConceptScheme, Annotation) :-
+	rdf(Review, oa:hasBody, BlankReviewNode),
+	rdf(BlankReviewNode, cnt:chars, literal('agree')),
+	rdf(Review, oa:hasTarget, Annotation),
+	rdf(Annotation, oa:hasBody, AnnotationBody),
+	rdf(AnnotationBody, skos:inScheme, ConceptScheme).
+
+verified_annotation(domain, Domain, Annotation) :-
+	rdf(Review, oa:hasBody, BlankReviewNode),
+	rdf(BlankReviewNode, cnt:chars, literal('agree')),
+	rdf(Review, oa:hasTarget, Annotation),
+	rdf(Annotation, oa:hasTarget, Work),
+	rdf(Work, rdf:type, Target),
+	rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target).
+
 %%	select_annotations(+Type, +ConceptScheme, +User, -Annotations)
 %
 %	Select a list of annotations based upon given User and
 %	ConceptScheme.
 %	select_annotations(conceptScheme,'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme','http://accurator.nl/user#rasvaan',Annotations).
 select_annotations(conceptScheme, ConceptScheme, User, Annotations) :-
-	setof(Annotation, Review^BlankReviewNode^AnnotationBody^
-			(	rdf(Review, oa:annotatedBy, User),
-				rdf(Review, oa:hasBody, BlankReviewNode),
-				rdf(BlankReviewNode, cnt:chars, literal('agree')),
-				rdf(Review, oa:hasTarget, Annotation),
-				rdf(Annotation, oa:hasBody, AnnotationBody),
-				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
-			Annotations),
+	setof(Annotation,
+		  user_verified_annotation(concept_scheme, ConceptScheme, User, Annotation),
+		  Annotations),
 	length(Annotations, Number),
 	format('Selected ~p annotations.', [Number]).
 
 select_annotations(domain, Domain, User, Annotations) :-
-	setof(Annotation, Review^BlankReviewNode^Work^Target^
-			(	rdf(Review, oa:annotatedBy, User),
-				rdf(Review, oa:hasBody, BlankReviewNode),
-				rdf(BlankReviewNode, cnt:chars, literal('agree')),
-				rdf(Review, oa:hasTarget, Annotation),
-				rdf(Annotation, oa:hasTarget, Work),
-				rdf(Work, rdf:type, Target),
-				rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target)),
-			Annotations),
+	setof(Annotation,
+		  user_verified_annotation(domain, Domain, User, Annotation),
+		  Annotations),
 	length(Annotations, Number),
 	format('Selected ~p annotations.', [Number]).
+
+user_verified_annotation(concept_scheme, ConceptScheme, User, Annotation) :-
+	rdf(Review, oa:annotatedBy, User),
+	rdf(Review, oa:hasBody, BlankReviewNode),
+	rdf(BlankReviewNode, cnt:chars, literal('agree')),
+	rdf(Review, oa:hasTarget, Annotation),
+	rdf(Annotation, oa:hasBody, AnnotationBody),
+	rdf(AnnotationBody, skos:inScheme, ConceptScheme).
+
+user_verified_annotation(domain, Domain, User, Annotation) :-
+	rdf(Review, oa:annotatedBy, User),
+	rdf(Review, oa:hasBody, BlankReviewNode),
+	rdf(BlankReviewNode, cnt:chars, literal('agree')),
+	rdf(Review, oa:hasTarget, Annotation),
+	rdf(Annotation, oa:hasTarget, Work),
+	rdf(Work, rdf:type, Target),
+	rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target).
 
 %%	export_annotations(Annotations)
 %
