@@ -167,11 +167,12 @@ user_verified_annotation(domain, Domain, User, Annotation) :-
 %
 %	Export a list of annotations to a csv file or turtle graph.
 export_annotations(csv, FileName, Annotations) :-
-	Columns = row('object_id', 'annotation_type', 'annotation_text', 'annotation_uri'),
+	Header = row('object_id', 'annotation_type', 'annotation_text', 'annotation_uri'),
+	atomic_list_concat([FileName, '.csv'], FilePath),
 	setup_call_cleanup(
-		open(FileName, write, Out),
+		open(FilePath, write, Out),
 		(
-			csv_write_stream(Out, [Columns], []),
+			csv_write_stream(Out, [Header], []),
 			maplist(write_annotation_csv(Out), Annotations)
 		),
 		close(Out)
@@ -182,26 +183,41 @@ export_annotations(rdf, Graph, Annotations) :-
 	rdf_save_turtle(Graph, [graph(Graph)]),
 	rdf_unload_graph(Graph).
 
+%%	write_annotation_csv(+Out, +Annotation)
+%
+%	Write data to csv stream.
 write_annotation_csv(Out, Annotation)  :-
 	get_data_annotation(Annotation, Object, Type, Text, Uri),
 	csv_write_stream(Out, [row(Object, Type, Text, Uri)], []).
 
-get_data_annotation(Annotation, Object, Type, Text, null) :-
+%%	get_data_annotation(+Annotation, -Object, -Type, -Text, -Concept)
+%
+%	Retrieve the data for exporting the annotation.
+get_data_annotation(Annotation, ObjectId, Type, Text, null) :-
 	rdf(Annotation, oa:hasTarget, Object),
 	rdf(Object, rdf:type, edm:'ProvidedCHO'),
+	object_id(Object, ObjectId),
 	rdf(Annotation, oa:hasBody, TextNode),
 	rdf_is_bnode(TextNode), !,
 	rdf(TextNode, cnt:chars, literal(Text)),
 	rdf(Annotation, 'http://semanticweb.cs.vu.nl/annotate/ui/annotationField', Field),
 	rdf(Field, rdfs:label, literal(lang(en, Type))).
 
-get_data_annotation(Annotation, Object, Type, Text, Concept) :-
+get_data_annotation(Annotation, ObjectId, Type, Text, Concept) :-
 	rdf(Annotation, oa:hasTarget, Object),
 	rdf(Object, rdf:type, edm:'ProvidedCHO'),
+	object_id(Object, ObjectId),
 	rdf(Annotation, oa:hasBody, Concept),
 	rdf_display_label(Concept, _, Text), !,
 	rdf(Annotation, 'http://semanticweb.cs.vu.nl/annotate/ui/annotationField', Field),
 	rdf(Field, rdfs:label, literal(lang(en, Type))).
+
+%%	objectid(+Object, -ObjectId)
+%
+%	Shorten Id ubvu, otherwise return Uri.
+object_id(Object, ObjectId) :-
+	string_concat('http://purl.org/collections/nl/ubvu/print-', ObjectId, Object), !.
+object_id(Object, Object).
 
 %%	add_annotation(Graph, Annotation)
 %
