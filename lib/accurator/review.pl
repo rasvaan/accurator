@@ -11,6 +11,7 @@
 
 :- use_module(library(oa_annotation)).
 :- use_module(library(semweb/rdf_db)).
+:- use_module(library(semweb/rdf_label)).
 :- use_module(library(accurator/annotation)).
 :- use_module(library(semweb/rdf_turtle_write)).
 :- use_module(library(csv)).
@@ -164,20 +165,43 @@ user_verified_annotation(domain, Domain, User, Annotation) :-
 
 %%	export_annotations(+Content, +FileName, +Annotations)
 %
-%	Export a list of annotations to a csv file.
-export_annotations(csv, FileName, _Annotations) :-
+%	Export a list of annotations to a csv file or turtle graph.
+export_annotations(csv, FileName, Annotations) :-
+	Columns = row('object_id', 'annotation_type', 'annotation_text', 'annotation_uri'),
 	setup_call_cleanup(
 		open(FileName, write, Out),
-		csv_write_stream(Out, [row('a','b')], []),
-		close(Out)).
+		(
+			csv_write_stream(Out, [Columns], []),
+			maplist(write_annotation_csv(Out), Annotations)
+		),
+		close(Out)
+	).
 
-%%	export_annotations(+ContentType, Annotations)
-%
-%	Export a list of annotations to a turtle graph.
 export_annotations(rdf, Graph, Annotations) :-
 	maplist(add_annotation(Graph), Annotations),
 	rdf_save_turtle(Graph, [graph(Graph)]),
 	rdf_unload_graph(Graph).
+
+write_annotation_csv(Out, Annotation)  :-
+	get_data_annotation(Annotation, Object, Type, Text, Uri),
+	csv_write_stream(Out, [row(Object, Type, Text, Uri)], []).
+
+get_data_annotation(Annotation, Object, Type, Text, null) :-
+	rdf(Annotation, oa:hasTarget, Object),
+	rdf(Object, rdf:type, edm:'ProvidedCHO'),
+	rdf(Annotation, oa:hasBody, TextNode),
+	rdf_is_bnode(TextNode), !,
+	rdf(TextNode, cnt:chars, literal(Text)),
+	rdf(Annotation, 'http://semanticweb.cs.vu.nl/annotate/ui/annotationField', Field),
+	rdf(Field, rdfs:label, literal(lang(en, Type))).
+
+get_data_annotation(Annotation, Object, Type, Text, Concept) :-
+	rdf(Annotation, oa:hasTarget, Object),
+	rdf(Object, rdf:type, edm:'ProvidedCHO'),
+	rdf(Annotation, oa:hasBody, Concept),
+	rdf_display_label(Concept, _, Text), !,
+	rdf(Annotation, 'http://semanticweb.cs.vu.nl/annotate/ui/annotationField', Field),
+	rdf(Field, rdfs:label, literal(lang(en, Type))).
 
 %%	add_annotation(Graph, Annotation)
 %
