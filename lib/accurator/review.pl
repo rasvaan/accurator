@@ -1,15 +1,20 @@
 :- module(review, [
 			  review/4,
 			  reviews/4,
+			  select_annotations/3,
+			  select_annotations/4,
 			  process_annotations/3,
+			  process_annotations/4,
 			  agreeable_annotations/2,
 			  annotation_reviews/2
 		  ]).
 
 :- use_module(library(oa_annotation)).
 :- use_module(library(semweb/rdf_db)).
+:- use_module(library(semweb/rdf_label)).
 :- use_module(library(accurator/annotation)).
 :- use_module(library(semweb/rdf_turtle_write)).
+:- use_module(library(csv)).
 
 :- rdf_meta
 	review(r, -, r, -).
@@ -53,15 +58,26 @@ review(Judgement, User, Graph, Uri) :-
 	debug(review, 'Add review: ~p', [Options]),
     rdf_add_annotation(Options, _Annotation).
 
-%%	process_annotations(+ConceptScheme, +Reviewer)
+%%	process_annotations(+Type, +Uri, +Content)
 %
 %	Retrieves and saves selection of annotations based on the given
-%	concept scheme and reviewer
+%	concept scheme or domain.
+%	process_annotations(domain, 'http://accurator.nl/bible#domain',	csv).
+process_annotations(Type, Uri, Content) :-
+	select_annotations(Type, Uri, Annotations),
+	generate_graph_name(Annotations, Graph),
+	export_annotations(Content, Graph, Annotations).
+
+%%	process_annotations(+Type, +Uri, +Reviewer, +Content)
+%
+%	Retrieves and saves selection of annotations based on the given
+%	concept scheme or domain.
 %	process_annotations(domain, 'http://accurator.nl/fashion/jewelry#domain','http://accurator.nl/user#rasvaan').
-process_annotations(Type, Uri, Reviewer) :-
+%	process_annotations(domain, 'http://accurator.nl/bible#domain','http://accurator.nl/user#rasvaan').
+process_annotations(Type, Uri, Reviewer, Content) :-
 	select_annotations(Type, Uri, Reviewer, Annotations),
 	generate_graph_name(Annotations, Graph),
-	export_annotations(Graph, Annotations).
+	export_annotations(Content, Graph, Annotations).
 
 %%	generate_graph_name(UriList, Hash)
 %
@@ -71,43 +87,137 @@ generate_graph_name(UriList, Hash) :-
 	sort(UriList, SortedUris),
 	variant_sha1(SortedUris, Hash).
 
+%%	select_annotations(+Type, +TypeUri, -Annotations)
+%
+%	Select a list of annotations based upon ConceptScheme or domain
+%	select_annotations(conceptScheme,'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme',Annotations).
+%	select_annotations(domain,'http://accurator.nl/bible#domain',Annotations).
+select_annotations(conceptScheme, ConceptScheme, Annotations) :-
+	setof(Annotation,
+		  verified_annotation(concept_scheme, ConceptScheme, Annotation),
+		  Annotations),
+	length(Annotations, Number),
+	format('Selected ~p annotations.', [Number]).
+
+select_annotations(domain, Domain, Annotations) :-
+	setof(Annotation,
+		  verified_annotation(domain, Domain, Annotation),
+		  Annotations),
+	length(Annotations, Number),
+	format('Selected ~p annotations.', [Number]).
+
+%%	verified_annotation(+Type, +TypeUri, -Annotation)
+%
+%	Retrieve a annotation which has been verified.
+verified_annotation(concept_scheme, ConceptScheme, Annotation) :-
+	rdf(Review, oa:hasBody, BlankReviewNode),
+	rdf(BlankReviewNode, cnt:chars, literal('agree')),
+	rdf(Review, oa:hasTarget, Annotation),
+	rdf(Annotation, oa:hasBody, AnnotationBody),
+	rdf(AnnotationBody, skos:inScheme, ConceptScheme).
+
+verified_annotation(domain, Domain, Annotation) :-
+	rdf(Review, oa:hasBody, BlankReviewNode),
+	rdf(BlankReviewNode, cnt:chars, literal('agree')),
+	rdf(Review, oa:hasTarget, Annotation),
+	rdf(Annotation, oa:hasTarget, Work),
+	rdf(Work, rdf:type, Target),
+	rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target).
+
 %%	select_annotations(+Type, +ConceptScheme, +User, -Annotations)
 %
 %	Select a list of annotations based upon given User and
 %	ConceptScheme.
 %	select_annotations(conceptScheme,'http://purl.org/vocab/nl/ubvu/BiblePageConceptScheme','http://accurator.nl/user#rasvaan',Annotations).
 select_annotations(conceptScheme, ConceptScheme, User, Annotations) :-
-	setof(Annotation, Review^BlankReviewNode^AnnotationBody^
-			(	rdf(Review, oa:annotatedBy, User),
-				rdf(Review, oa:hasBody, BlankReviewNode),
-				rdf(BlankReviewNode, cnt:chars, literal('agree')),
-				rdf(Review, oa:hasTarget, Annotation),
-				rdf(Annotation, oa:hasBody, AnnotationBody),
-				rdf(AnnotationBody, skos:inScheme, ConceptScheme)),
-			Annotations),
+	setof(Annotation,
+		  user_verified_annotation(concept_scheme, ConceptScheme, User, Annotation),
+		  Annotations),
 	length(Annotations, Number),
 	format('Selected ~p annotations.', [Number]).
 
 select_annotations(domain, Domain, User, Annotations) :-
-	setof(Annotation, Review^BlankReviewNode^Work^Target^
-			(	rdf(Review, oa:annotatedBy, User),
-				rdf(Review, oa:hasBody, BlankReviewNode),
-				rdf(BlankReviewNode, cnt:chars, literal('agree')),
-				rdf(Review, oa:hasTarget, Annotation),
-				rdf(Annotation, oa:hasTarget, Work),
-				rdf(Work, rdf:type, Target),
-				rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target)),
-			Annotations),
+	setof(Annotation,
+		  user_verified_annotation(domain, Domain, User, Annotation),
+		  Annotations),
 	length(Annotations, Number),
 	format('Selected ~p annotations.', [Number]).
 
-%%	export_annotations(Annotations)
+%%	verified_annotation(+Type, +TypeUri, -Annotation)
 %
-%	Export a list of annotations.
-export_annotations(Graph, Annotations) :-
+%	Retrieve a annotation which has been verified by the specified user.
+user_verified_annotation(concept_scheme, ConceptScheme, User, Annotation) :-
+	rdf(Review, oa:annotatedBy, User),
+	rdf(Review, oa:hasBody, BlankReviewNode),
+	rdf(BlankReviewNode, cnt:chars, literal('agree')),
+	rdf(Review, oa:hasTarget, Annotation),
+	rdf(Annotation, oa:hasBody, AnnotationBody),
+	rdf(AnnotationBody, skos:inScheme, ConceptScheme).
+
+user_verified_annotation(domain, Domain, User, Annotation) :-
+	rdf(Review, oa:annotatedBy, User),
+	rdf(Review, oa:hasBody, BlankReviewNode),
+	rdf(BlankReviewNode, cnt:chars, literal('agree')),
+	rdf(Review, oa:hasTarget, Annotation),
+	rdf(Annotation, oa:hasTarget, Work),
+	rdf(Work, rdf:type, Target),
+	rdf(Domain, 'http://accurator.nl/schema#hasTarget', Target).
+
+%%	export_annotations(+Content, +FileName, +Annotations)
+%
+%	Export a list of annotations to a csv file or turtle graph.
+export_annotations(csv, FileName, Annotations) :-
+	Header = row('object_id', 'annotation_type', 'annotation_text', 'annotation_uri'),
+	atomic_list_concat([FileName, '.csv'], FilePath),
+	setup_call_cleanup(
+		open(FilePath, write, Out),
+		(
+			csv_write_stream(Out, [Header], []),
+			maplist(write_annotation_csv(Out), Annotations)
+		),
+		close(Out)
+	).
+
+export_annotations(rdf, Graph, Annotations) :-
 	maplist(add_annotation(Graph), Annotations),
 	rdf_save_turtle(Graph, [graph(Graph)]),
 	rdf_unload_graph(Graph).
+
+%%	write_annotation_csv(+Out, +Annotation)
+%
+%	Write data to csv stream.
+write_annotation_csv(Out, Annotation)  :-
+	get_data_annotation(Annotation, Object, Type, Text, Uri),
+	csv_write_stream(Out, [row(Object, Type, Text, Uri)], []).
+
+%%	get_data_annotation(+Annotation, -Object, -Type, -Text, -Concept)
+%
+%	Retrieve the data for exporting the annotation.
+get_data_annotation(Annotation, ObjectId, Type, Text, null) :-
+	rdf(Annotation, oa:hasTarget, Object),
+	rdf(Object, rdf:type, edm:'ProvidedCHO'),
+	object_id(Object, ObjectId),
+	rdf(Annotation, oa:hasBody, TextNode),
+	rdf_is_bnode(TextNode), !,
+	rdf(TextNode, cnt:chars, literal(Text)),
+	rdf(Annotation, 'http://semanticweb.cs.vu.nl/annotate/ui/annotationField', Field),
+	rdf(Field, rdfs:label, literal(lang(en, Type))).
+
+get_data_annotation(Annotation, ObjectId, Type, Text, Concept) :-
+	rdf(Annotation, oa:hasTarget, Object),
+	rdf(Object, rdf:type, edm:'ProvidedCHO'),
+	object_id(Object, ObjectId),
+	rdf(Annotation, oa:hasBody, Concept),
+	rdf_display_label(Concept, _, Text), !,
+	rdf(Annotation, 'http://semanticweb.cs.vu.nl/annotate/ui/annotationField', Field),
+	rdf(Field, rdfs:label, literal(lang(en, Type))).
+
+%%	objectid(+Object, -ObjectId)
+%
+%	Shorten Id ubvu, otherwise return Uri.
+object_id(Object, ObjectId) :-
+	string_concat('http://purl.org/collections/nl/ubvu/print-', ObjectId, Object), !.
+object_id(Object, Object).
 
 %%	add_annotation(Graph, Annotation)
 %
