@@ -3,7 +3,7 @@
 @prefix abirui: <http://accurator.nl/ui/bird#> .
 @prefix aabir:  <http://accurator.nl/ui/annotation/bird#> .
 @prefix auis:   <http://accurator.nl/ui/schema#> .
-@prefix birds:	<http://purl.org/collections/birds/> .
+@prefix ioc:    <http://purl.org/vocab/ioc/> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms:<http://purl.org/dc/terms/> .
@@ -13,16 +13,12 @@
 abir:domain a accu:Domain ;
 	rdfs:label "bird";
 	accu:hasLabel abirui:label ;
-	dcterms:requires <http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> ;
 	accu:hasTarget <http://accurator.nl/bird#Target> ;
-	skos:hasTopConcept birds:class-aves ;
 	accu:hasUI abirui: ;
 	accu:hasAnnotationUI aabir:smallBirdAnnotationUi ;
-	accu:hasDescriptiveImage abirui:bird ;
-	accu:hasMaximumExpertiseTopics "50" ;
-	accu:hasMaximumChildren "2"  .
+	accu:hasDescriptiveImage abirui:bird .
 
-<http://purl.org/collections/nl/naturalis/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
+<http://purl.org/vocab/ioc/ioc_birdlist_en_nl.ttl> a skos:ConceptScheme .
 
 abirui:label auis:textLabel "Bird domain"@en ,
 				 			"Vogel domein"@nl .

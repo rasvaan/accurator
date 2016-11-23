@@ -1,15 +1,15 @@
-@prefix aabir: <http://accurator.nl/ui/annotation/bird#> .
-@prefix auis:   <http://accurator.nl/ui/schema#> .
-@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix dcterms:<http://purl.org/dc/terms/> .
-@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix aabir:   <http://accurator.nl/ui/annotation/bird#> .
+@prefix auis:    <http://accurator.nl/ui/schema#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
 
 aabir:smallBirdAnnotationUi a auis:AnnotationUI ;
-    dcterms:title "Bird annotation UI"@en;
+  dcterms:title "Bird annotation UI"@en;
 	auis:fragmentFields (
-	     aabir:IOCCommonNameAnnotation
-		 aabir:IOCScientificNameAnnotation
+	  aabir:IOCCommonNameAnnotation
+		aabir:IOCScientificNameAnnotation
 	 ) .
 
 aabir:birdAnnotationUi a auis:AnnotationUI ;
@@ -31,9 +31,9 @@ aabir:IOCCommonNameAnnotation a auis:DropdownField ;
 	auis:source aabir:IOCCommonNameSource .
 
 aabir:IOCCommonNameSource a auis:AlternativesSource ;
-    auis:api "/api/autocomplete" ;
-    auis:filterScheme "http://purl.org/collections/birds/IOCConceptScheme" ;
-    auis:labelRank "['http://lod.taxonconcept.org/ontology/txn.owl%23commonName'-1]" .
+  auis:api "/api/autocomplete/all" ;
+  auis:filterScheme "http://purl.org/vocab/ioc/IOCConceptScheme" ;
+  auis:labelRank "['http://lod.taxonconcept.org/ontology/txn.owl#commonName'-1]" .
 
 aabir:IOCScientificNameAnnotation a auis:DropdownField ;
 	rdfs:label "Scientific name"@en ;
@@ -43,11 +43,11 @@ aabir:IOCScientificNameAnnotation a auis:DropdownField ;
 	auis:source aabir:IOCScientificNameSource .
 
 aabir:IOCScientificNameSource a auis:AlternativesSource ;
-    auis:api "/api/autocomplete" ;
-    auis:filterScheme "http://purl.org/collections/birds/IOCConceptScheme" ;
-    auis:labelRank "['http://lod.taxonconcept.org/ontology/txn.owl%23scientificName'-1]" .
+  auis:api "/api/autocomplete/all" ;
+  auis:filterScheme "http://purl.org/vocab/ioc/IOCConceptScheme" ;
+  auis:labelRank "['http://lod.taxonconcept.org/ontology/txn.owl#scientificName'-1]" .
 
-aabir:Gender a auis:RadioButtonField ;
+aabir:Gender a auis:DropdownField ;
 	rdfs:label "Geslacht"@nl ;
 	rdfs:label "Gender"@en ;
 	dcterms:comment "add gender of the species"@en ;
