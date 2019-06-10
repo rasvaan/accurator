@@ -1,4 +1,5 @@
 # Accurator #
+*Note:* this framework is no longer in active development and the repository has been archived. Results obtained with the framework have been documented in the paper: [Accurator: Nichesourcing for Cultural Heritage](http://dx.doi.org/10.15346/hc.v6i1.2).
 
 Accurator is a crowdsourcing framework developed in the context of the [SEALINCMedia project](https://sealincmedia.wordpress.com), allowing users to contribute their expert knowledge to cultural heritage collections. Accurator runs on top of the [Cliopatria triple store](https://github.com/ClioPatria/ClioPatria). Having all data modelled according to the [Linked Data principles](http://www.w3.org/DesignIssues/LinkedData.html) and making the system localisable are key design choices in the development of the system.
 
